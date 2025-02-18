@@ -2,7 +2,8 @@ import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {FaCircleExclamation} from 'react-icons/fa6';
-import {InvoiceAccountProfileInManual} from '^models/InvoiceAccount/components/InvoiceAccountProfileInManual';
+import {InvoiceAccountProfileCompactInManual, InvoiceAccountProfileInManual} from './InvoiceAccountProfileInManual';
+import Tippy from '@tippyjs/react';
 
 interface InvoiceAccountProfileProps {
     invoiceAccount: InvoiceAccountDto;
@@ -39,3 +40,39 @@ export const InvoiceAccountProfile = memo((props: InvoiceAccountProfileProps) =>
     );
 });
 InvoiceAccountProfile.displayName = 'InvoiceAccountProfile';
+
+export const InvoiceAccountProfileCompact = memo((props: InvoiceAccountProfileProps) => {
+    const {invoiceAccount} = props;
+
+    if (invoiceAccount.isManuallyCreated) {
+        return <InvoiceAccountProfileCompactInManual invoiceAccount={invoiceAccount} />;
+    }
+
+    return (
+        <div data-id={invoiceAccount.id} className="!w-auto gap-2 flex items-center">
+            <Avatar
+                src={invoiceAccount.image || ''}
+                className="w-[20px] h-[20px] outline outline-offset-1 outline-slate-100"
+            />
+            <div className="flex-1">
+                <div
+                    className={`leading-none text-14 ${
+                        invoiceAccount.googleTokenDataId ? '' : 'text-orange-400 font-medium'
+                    }`}
+                >
+                    {!invoiceAccount.googleTokenDataId ? (
+                        <Tippy className="text-13" content={<span>재연동이 필요합니다</span>}>
+                            <div className="flex items-center gap-1 cursor-pointer">
+                                <span>{invoiceAccount.email}</span>
+                                <FaCircleExclamation fontSize={11} />
+                            </div>
+                        </Tippy>
+                    ) : (
+                        <span>{invoiceAccount.email}</span>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+});
+InvoiceAccountProfileCompact.displayName = 'InvoiceAccountProfileCompact';

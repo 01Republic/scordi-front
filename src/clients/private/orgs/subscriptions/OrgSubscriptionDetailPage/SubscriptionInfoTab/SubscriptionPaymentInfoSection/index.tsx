@@ -1,37 +1,40 @@
 'use client';
 
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import Datepicker from 'react-tailwindcss-datepicker';
-import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {t_SubscriptionBillingCycleTiny} from '^models/Subscription/types/BillingCycleOptions';
+import {dateIsBeforeThen, intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
 import {
     PayingTypeSelect,
     PayingTypeTag,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
-import {intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
-import {subscriptionApi} from '^models/Subscription/api';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {IsFreeTierTagUI, PayMethodSelect} from '^models/Subscription/components';
-import {toast} from 'react-hot-toast';
 import {
     CurrencySelect,
     InputSection,
     RecurringAmount,
 } from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
-import {CreditCardProfileCompact} from '^models/CreditCard/components';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
-import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
+import {t_SubscriptionBillingCycleTiny} from '^models/Subscription/types/BillingCycleOptions';
+import {subscriptionApi} from '^models/Subscription/api';
+import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {IsFreeTierTagUI} from '^models/Subscription/components';
+import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
+import {InvoiceAccountProfileCompact, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
 import {CurrencyCode} from '^models/Money';
-import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/FreeTireSelect';
-import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/BillingCycleTypeSelect';
 import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
+import {useCurrentSubscription} from '../../atom';
+import {FreeTierSelect} from './FreeTireSelect';
+import {BillingCycleSelect} from './BillingCycleTypeSelect';
+import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
+import Tippy from '@tippyjs/react';
+import {currencyFormat} from '^utils/number';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
     const [prevSeats, setPrevSeats] = useState<UpdateSubscriptionSeatRequestDto[]>([]);
     const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
@@ -43,14 +46,17 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {
+            setIsSaving(true);
             await onUpdateSeats();
-            await subscriptionApi.update(subscription?.id, dto);
+            await subscriptionApi.update(subscription.id, dto);
+            await reload();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
-            reload();
         } catch (error) {
             console.error('Error during submission:', error);
             toast.error('변경사항 저장 중 오류가 발생했어요.');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -79,11 +85,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     };
 
     const createSeats = async (count: number) => {
+        const {id, organizationId} = subscription;
         await Promise.allSettled(
             Array.from({length: count}).map(() =>
-                subscriptionApi.seatsApi.create(subscription.organizationId, subscription.id, {
-                    subscriptionId: subscription.id,
-                }),
+                subscriptionApi.seatsApi.create(organizationId, id, {subscriptionId: id}),
             ),
         );
     };
@@ -100,6 +105,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     useEffect(() => {
         form.setValue('currentBillingAmount.amount', subscription?.currentBillingAmount?.amount || 0);
         form.setValue('currentBillingAmount.currency', subscription?.currentBillingAmount?.code || CurrencyCode.KRW);
+        if (subscription) {
+            form.setValue('startAt', subscription.startAt);
+            form.setValue('finishAt', subscription.finishAt);
+        }
 
         const seats: UpdateSubscriptionSeatRequestDto[] =
             subscription.subscriptionSeats?.map((seat) => ({
@@ -121,7 +130,9 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             {isEditMode ? '취소' : '수정'}
                         </a>
 
-                        {isEditMode && <button className="btn btn-sm btn-scordi">저장</button>}
+                        {isEditMode && (
+                            <button className={`btn btn-sm btn-scordi ${isSaving ? 'loading' : ''}`}>저장</button>
+                        )}
                     </div>
 
                     <div className="px-8 py-8 border-b">
@@ -155,17 +166,27 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         asSingle={true}
                                         useRange={false}
                                         value={{
-                                            startDate: form.watch('startAt') || subscription.startAt || null,
-                                            endDate: form.watch('startAt') || subscription.startAt || null,
+                                            startDate: form.watch('startAt') || null,
+                                            endDate: form.watch('startAt') || null,
                                         }}
                                         onChange={(newValue) => {
-                                            newValue?.startDate &&
-                                                form.setValue('startAt', new Date(yyyy_mm_dd(newValue?.startDate)));
+                                            const startAt = newValue?.startDate;
+                                            if (startAt) {
+                                                const finishAt = form.watch('finishAt');
+                                                if (finishAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                    toast('종료일보다는 작아야 합니다.');
+                                                    form.setValue('startAt', form.watch('startAt'));
+                                                } else {
+                                                    form.setValue('startAt', new Date(yyyy_mm_dd(startAt)));
+                                                }
+                                            } else {
+                                                form.setValue('startAt', null);
+                                            }
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.startAt ? intlDateLong(subscription?.startAt) : '-'}
+                                        {subscription?.startAt ? intlDateLong(subscription?.startAt) : <EmptyValue />}
                                     </div>
                                 )}
                                 <span />
@@ -178,23 +199,33 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         asSingle={true}
                                         useRange={false}
                                         value={{
-                                            startDate: form.watch('finishAt') || subscription.finishAt || null,
-                                            endDate: form.watch('finishAt') || subscription.finishAt || null,
+                                            startDate: form.watch('finishAt') || null,
+                                            endDate: form.watch('finishAt') || null,
                                         }}
                                         onChange={(newValue) => {
-                                            newValue?.startDate &&
-                                                form.setValue('finishAt', new Date(yyyy_mm_dd(newValue?.startDate)));
+                                            const finishAt = newValue?.startDate;
+                                            if (finishAt) {
+                                                const startAt = form.watch('startAt');
+                                                if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                    toast('시작일보다는 커야 합니다.');
+                                                    form.setValue('finishAt', form.watch('finishAt'));
+                                                } else {
+                                                    form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
+                                                }
+                                            } else {
+                                                form.setValue('finishAt', null);
+                                            }
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : '-'}
+                                        {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : <EmptyValue />}
                                     </div>
                                 )}
                                 <span />
                             </FormControl>
 
-                            <FormControl label="요금제">
+                            <FormControl label="결제금액">
                                 {isEditMode ? (
                                     <div className={'mb-[-40px]'}>
                                         <InputSection className="max-w-lg">
@@ -223,9 +254,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.currentBillingAmount?.symbol}
-                                        {subscription?.currentBillingAmount?.amount.toLocaleString()} /{' '}
-                                        {t_SubscriptionBillingCycleTiny(subscription.billingCycleType)}
+                                        {subscription.currentBillingAmount?.to_s('%u %n')}
                                     </div>
                                 )}
                                 <span />
@@ -276,12 +305,22 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="구매수량">
                                 {isEditMode ? (
-                                    <input
-                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                        defaultValue={prevSeatCount}
-                                        min={prevSeatCount}
-                                        onChange={(e) => handleSeats(Number(e.target.value))}
-                                    />
+                                    <div className="relative">
+                                        <input
+                                            className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                            defaultValue={prevSeatCount}
+                                            min={prevSeatCount}
+                                            type="number"
+                                            onChange={(e) => {
+                                                const value = Number(e.target.value.toString().replace(/\D/g, ''));
+                                                e.target.value = value.toString();
+                                                if (value) handleSeats(value);
+                                            }}
+                                        />
+                                        <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
+                                            현재 보유: {prevSeatCount.toLocaleString()}개
+                                        </div>
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {prevSeatCount}
@@ -297,9 +336,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                             'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
                                         }
                                     >
-                                        <PayMethodSelect
-                                            subscription={subscription}
-                                            onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
+                                        <CreditCardSelect
+                                            defaultValue={subscription.creditCard}
+                                            onChange={(creditCard) => {
+                                                form.setValue('creditCardId', creditCard?.id || null);
+                                            }}
                                             ValueComponent={(props) => {
                                                 const {value} = props;
                                                 return typeof value === 'string' ? (
@@ -321,26 +362,49 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                 <span />
                             </FormControl>
 
-                            <FormControl label="청구이메일">
+                            <FormControl label="청구서메일">
                                 {isEditMode ? (
                                     <div className={'mb-[-40px]'}>
                                         <InvoiceAccountSelect
                                             defaultValue={subscription.invoiceAccounts?.[0]}
-                                            onSelect={
-                                                (invoiceAccount) =>
-                                                    form.setValue('invoiceAccountId', invoiceAccount?.id)
-                                                // TODO: 업데이트치면 500 에러남
-                                            }
+                                            onSelect={(invoiceAccount) => {
+                                                form.setValue('invoiceAccountId', invoiceAccount?.id);
+                                            }}
+                                            placeholder={<EmptyValue />}
+                                            getLabel={(option) => (
+                                                <InvoiceAccountProfileCompact invoiceAccount={option} />
+                                            )}
                                         />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription.invoiceAccounts?.length === 0 && (
-                                            <i className="text-gray-400">미설정</i>
+                                    <div className="flex items-center gap-2" style={{height: '49.5px'}}>
+                                        {!!subscription.invoiceAccounts?.length ? (
+                                            <>
+                                                <InvoiceAccountProfileCompact
+                                                    invoiceAccount={(subscription.invoiceAccounts || [])[0]}
+                                                />
+                                                {!!(subscription.invoiceAccounts?.length - 1) && (
+                                                    <Tippy
+                                                        content={
+                                                            <span
+                                                                className="text-12"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: subscription.invoiceAccounts
+                                                                        .map((item) => item.email)
+                                                                        .join('<br />'),
+                                                                }}
+                                                            />
+                                                        }
+                                                    >
+                                                        <div className="text-gray-500 text-13 cursor-pointer">
+                                                            외 {subscription.invoiceAccounts?.length - 1}개
+                                                        </div>
+                                                    </Tippy>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <EmptyValue />
                                         )}
-                                        {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
-                                            <InvoiceAccountProfile key={index} invoiceAccount={invoiceAccount} />
-                                        ))}
                                     </div>
                                 )}
                                 <span />

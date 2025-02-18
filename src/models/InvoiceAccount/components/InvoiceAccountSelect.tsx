@@ -1,34 +1,35 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState} from 'recoil';
-import {debounce} from 'lodash';
-import {toast} from 'react-hot-toast';
-import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
+import React, {memo, useEffect, useState} from 'react';
+import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
+import {debounce} from 'lodash';
+import {InputSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {
     InvoiceAccountSelectModal,
-    InvoiceAccountAutoCreateModal,
     InvoiceAccountCreateMethod,
+    InvoiceAccountCreateMethodModal,
     InvoiceAccountManualCreateModal,
+    InvoiceAccountAutoCreateModal,
 } from '^clients/private/_modals/invoice-accounts';
-import {createSubscriptionFormData} from '../../atom';
-import {InputSection} from '../../inputs/InputSection';
-import {InvoiceAccountCreateMethodModal} from './InvoiceAccountCreateMethodModal';
+import {toast} from 'react-hot-toast';
+import {ReactNodeElement} from '^types/global.type';
 
 interface InvoiceAccountSelectProps {
     defaultValue?: InvoiceAccountDto;
     onSelect?: (invoiceAccount?: InvoiceAccountDto) => void;
+    placeholder?: ReactNodeElement;
+    getLabel?: (option: InvoiceAccountDto) => ReactNodeElement;
 }
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: InvoiceAccountSelectProps) {
-    const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
+    const {defaultValue, onSelect, placeholder, getLabel} = props;
+    const [selectedOption, setSelectedOption] = useState(defaultValue);
     const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
     const [isAutoCreateModalOpen, setIsAutoCreateModalOpen] = useState(false);
     const [isManualCreateModalOpen, setIsManualCreateModalOpen] = useState(false);
     const {search, result, reload, isLoading} = useInvoiceAccountListInSelectModal();
-    const selectedOption = result.items.find((o) => o.id === formData.invoiceAccountId);
 
     useEffect(() => {
         loadAccounts();
@@ -43,11 +44,8 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
     }, 500);
 
     const onChange = (invoiceAccount?: InvoiceAccountDto) => {
-        props.onSelect?.(invoiceAccount);
-        setFormData((f) => ({
-            ...f,
-            invoiceAccountId: invoiceAccount?.id,
-        }));
+        setSelectedOption(invoiceAccount);
+        onSelect && onSelect(invoiceAccount);
     };
 
     const selectModal = {
@@ -66,9 +64,11 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                         id="invoiceAccountSelect"
                         openModal={selectModal.show}
                         clearable
-                        selectedOption={selectedOption || props.defaultValue}
-                        getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
-                        placeholder="이메일 주소 선택"
+                        selectedOption={selectedOption}
+                        getLabel={(option) => {
+                            return getLabel ? getLabel(option) : <InvoiceAccountProfile invoiceAccount={option} />;
+                        }}
+                        placeholder={placeholder || '이메일 주소 선택'}
                         clearOption={() => onChange(undefined)}
                     />
                 </label>
@@ -80,7 +80,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                 isLoading={isLoading}
                 reload={reload}
                 invoiceAccounts={result.items}
-                defaultValue={formData.invoiceAccountId}
+                defaultValue={selectedOption?.id}
                 onSelect={onChange}
                 onCtaButtonClick={() => setIsCreateMethodModalOpen(true)}
                 onReConnect={() => setIsAutoCreateModalOpen(true)}
@@ -109,7 +109,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                 onCreate={() => {
                     toast.success('불러온 청구서 메일을 추가했어요.');
                     setIsAutoCreateModalOpen(false);
-                    reload();
+                    selectModal.show();
                 }}
                 onRetry={() => {
                     setIsAutoCreateModalOpen(true);
@@ -122,7 +122,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                 onCreate={() => {
                     toast.success('청구서 메일을 추가했어요.');
                     setIsManualCreateModalOpen(false);
-                    reload();
+                    selectModal.show();
                 }}
                 onSelect={(invoiceAccount) => {
                     onChange(invoiceAccount);

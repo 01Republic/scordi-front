@@ -46,6 +46,7 @@ export default function Page() {
                         'vendorContracts.vendorCompany',
                         'vendorContracts.vendorManager',
                         'invoiceAccounts',
+                        'invoiceAccounts.googleTokenData',
                         'billingHistories',
                         'subscriptionSeats',
                     ],

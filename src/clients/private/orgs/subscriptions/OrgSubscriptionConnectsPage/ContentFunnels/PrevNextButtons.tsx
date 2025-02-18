@@ -74,7 +74,8 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     isValid={
                         !!formData.currentBillingAmount?.amount &&
                         !!formData.currentBillingAmount?.currency &&
-                        !!formData.billingCycleType
+                        !!formData.billingCycleType &&
+                        !!formData.lastPaidAt
                     }
                 />
             );
