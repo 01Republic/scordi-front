@@ -42,7 +42,9 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                     {email && email.labelIds.length > 0 && (
                         <div className="">
                             {email.labelIds.map((labelId, i) => (
-                                <TagUI className={getColor(i, palette.notionColors)}>{labelId}</TagUI>
+                                <TagUI key={i} className={getColor(i, palette.notionColors)}>
+                                    {labelId}
+                                </TagUI>
                             ))}
                         </div>
                     )}
