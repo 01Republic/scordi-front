@@ -8,7 +8,7 @@ import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSu
 import {StatusCard} from './StatusCard';
 import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
 import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';
-import {SubscriptionBusinessInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBusinessInfoSection';
+import {SubscriptionBusinessInfoSection} from './SubscriptionBusinessInfoSection';
 
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);

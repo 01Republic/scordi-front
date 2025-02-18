@@ -3,12 +3,9 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {FadeUp} from '^components/FadeUp';
 import {createSubscriptionFormData, recurringIsFreeAtom} from '../../atom';
 import {InputSection} from '../InputSection';
-import {debounce} from 'lodash';
 import {yyyy_mm_dd} from '^utils/dateTime';
 
-interface RecurringDateProps {}
-
-export const RecurringDate = memo((props: RecurringDateProps) => {
+export const RecurringDate = memo(() => {
     const isFree = useRecoilValue(recurringIsFreeAtom);
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
 

@@ -199,7 +199,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                     selectedCompany={selectedCompany}
                     vendorManagerId={vendorContract?.vendorManager?.id || undefined}
                     onSelect={onManagerChange}
-                />{' '}
+                />
             </CardSection.Form>
         </CardSection.Base>
     );

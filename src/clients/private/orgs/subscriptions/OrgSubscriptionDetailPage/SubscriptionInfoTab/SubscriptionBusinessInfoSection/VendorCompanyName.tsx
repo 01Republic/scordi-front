@@ -3,8 +3,6 @@ import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import {FaTimes} from 'react-icons/fa';
 import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
-import {UseFormReturn} from 'react-hook-form';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {VendorContractDto} from '^models/vendor/VendorContract/types';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
