@@ -16,11 +16,13 @@ import {debounce} from 'lodash';
 interface ConnectCodefAccountModalProps extends ModalProps {
     cardCompany: CardAccountsStaticData;
     onSubmit: (codefCard: CodefCardDto) => any;
+    // 함수가 주어지면, 병합 가능한 모드로 연결 모달을 실행합니다.
+    onMergeSubmit?: (codefCard: CodefCardDto) => any;
 }
 
 export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {isOpened, onClose, cardCompany, onSubmit} = props;
+    const {isOpened, onClose, cardCompany, onSubmit, onMergeSubmit} = props;
     const [isPreChecked, setIsPreChecked] = useState(false);
     const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
     const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
@@ -59,7 +61,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
             size="md"
             minHeight="min-h-screen sm:min-h-[90%]"
             maxHeight="max-h-screen sm:max-h-[90%]"
-            modalClassName="rounded-none sm:rounded-t-box"
+            modalClassName="rounded-none sm:rounded-t-box flex flex-col items-stretch"
         >
             {isPreChecked && !codefAccount && (
                 <InputCardAccountFormDataStep
@@ -80,7 +82,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
                 />
             )}
 
-            <FadeUp show={!!codefAccount} delay="delay-[50ms]">
+            <FadeUp show={!!codefAccount} delay="delay-[50ms]" className="flex-grow flex flex-col items-stretch">
                 {codefAccount && (
                     <ConnectableCardSelect
                         cardCompany={cardCompany}
@@ -89,6 +91,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
                             setAccount(undefined);
                         }}
                         onSubmit={onSubmit}
+                        onMergeSubmit={onMergeSubmit}
                     />
                 )}
             </FadeUp>
