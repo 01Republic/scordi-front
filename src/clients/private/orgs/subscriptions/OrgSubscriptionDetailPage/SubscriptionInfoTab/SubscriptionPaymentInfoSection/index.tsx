@@ -5,29 +5,21 @@ import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {dateIsBeforeThen, intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
-import {
-    PayingTypeSelect,
-    PayingTypeTag,
-} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
-import {
-    CurrencySelect,
-    InputSection,
-    RecurringAmount,
-} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
+import Tippy from '@tippyjs/react';
+import {CurrencyCode} from '^models/Money';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {IsFreeTierTagUI} from '^models/Subscription/components';
+import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
 import {InvoiceAccountProfileCompact, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
-import {CurrencyCode} from '^models/Money';
-import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
+import {CardSection} from '^clients/private/_components/CardSection';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {useCurrentSubscription} from '../../atom';
-import {FreeTierSelect} from './FreeTireSelect';
-import {BillingCycleSelect} from './BillingCycleTypeSelect';
-import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
-import Tippy from '@tippyjs/react';
+import {EmptyValue} from '../../EmptyValue';
+import {SubscriptionIsFreeTier} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionIsFreeTier';
+import {SubscriptionBillingAmount} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionBillingAmount';
+import {SubscriptionBillingCycleType} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionBillingCycleType';
+import {SubscriptionPricingModel} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionPricingModel';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -122,308 +114,197 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     form.watch();
 
     return (
-        <section>
-            <div className="card card-bordered bg-white rounded-md relative">
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <div className="absolute right-0 top-0 px-8 py-8 flex items-center gap-4">
-                        <a className="link text-14" onClick={() => setIsEditMode((v) => !v)}>
-                            {isEditMode ? '취소' : '수정'}
-                        </a>
+        <CardSection.Base>
+            <CardSection.Form
+                title="결제 정보"
+                isEditMode={isEditMode}
+                setIsEditMode={setIsEditMode}
+                onSubmit={form.handleSubmit(onSubmit)}
+                isSaving={isSaving}
+            >
+                <SubscriptionIsFreeTier isEditMode={isEditMode} form={form} />
 
-                        {isEditMode && (
-                            <button className={`btn btn-sm btn-scordi ${isSaving ? 'loading' : ''}`}>저장</button>
-                        )}
-                    </div>
-
-                    <div className="px-8 py-8 border-b">
-                        <div className="max-w-md flex flex-col gap-4">
-                            <h2 className="leading-none text-xl font-semibold pb-4">결제 정보</h2>
-
-                            <FormControl label="유무료여부">
-                                {isEditMode ? (
-                                    <div
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                    >
-                                        <FreeTierSelect
-                                            isFreeTier={form.watch('isFreeTier') ?? subscription.isFreeTier}
-                                            onChange={(value) => form.setValue('isFreeTier', value)}
-                                        />
-                                        {form.watch('isFreeTier')}
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-1" style={{height: '49.5px'}}>
-                                        <IsFreeTierTagUI value={subscription?.isFreeTier} />
-                                    </div>
-                                )}
-                            </FormControl>
-
-                            <FormControl label="구독시작일">
-                                {isEditMode ? (
-                                    <Datepicker
-                                        inputClassName="input border-gray-200 bg-gray-100 w-full"
-                                        asSingle={true}
-                                        useRange={false}
-                                        value={{
-                                            startDate: form.watch('startAt') || null,
-                                            endDate: form.watch('startAt') || null,
-                                        }}
-                                        onChange={(newValue) => {
-                                            const startAt = newValue?.startDate;
-                                            if (startAt) {
-                                                const finishAt = form.watch('finishAt');
-                                                if (finishAt && !dateIsBeforeThen(startAt, finishAt)) {
-                                                    toast('종료일보다는 작아야 합니다.');
-                                                    form.setValue('startAt', form.watch('startAt'));
-                                                } else {
-                                                    form.setValue('startAt', new Date(yyyy_mm_dd(startAt)));
-                                                }
-                                            } else {
-                                                form.setValue('startAt', null);
-                                                form.setValue('finishAt', null);
-                                            }
-                                        }}
-                                    />
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.startAt ? intlDateLong(subscription?.startAt) : <EmptyValue />}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
-
-                            <FormControl label="구독종료일">
-                                {isEditMode ? (
-                                    <>
-                                        {startAt ? (
-                                            <Datepicker
-                                                inputClassName="input border-gray-200 bg-gray-100 w-full"
-                                                asSingle={true}
-                                                useRange={false}
-                                                value={{
-                                                    startDate: finishAt || null,
-                                                    endDate: finishAt || null,
-                                                }}
-                                                onChange={(newValue) => {
-                                                    const finishAt = newValue?.startDate;
-                                                    if (finishAt) {
-                                                        if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
-                                                            toast('시작일보다는 커야 합니다.');
-                                                            form.setValue('finishAt', form.watch('finishAt'));
-                                                        } else {
-                                                            form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
-                                                        }
-                                                    } else {
-                                                        form.setValue('finishAt', null);
-                                                    }
-                                                }}
-                                            />
-                                        ) : (
-                                            <div onClick={() => toast('시작일을 먼저 설정해주세요.')}>
-                                                <input
-                                                    className="input border-gray-200 bg-gray-100 w-full cursor-pointer"
-                                                    placeholder="YYYY-MM-DD"
-                                                    readOnly
-                                                />
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : <EmptyValue />}
-                                    </div>
-                                )}
-                            </FormControl>
-
-                            <FormControl label="결제금액">
-                                {isEditMode ? (
-                                    <div className={'mb-[-40px]'}>
-                                        <InputSection className="max-w-lg">
-                                            <div className="grid grid-cols-8 gap-2">
-                                                <div className="col-span-4">
-                                                    <RecurringAmount
-                                                        defaultValue={subscription.currentBillingAmount?.amount}
-                                                        onChange={(amount) =>
-                                                            form.setValue('currentBillingAmount.amount', amount)
-                                                        }
-                                                    />
-                                                </div>
-                                                <div className="col-span-4">
-                                                    <CurrencySelect
-                                                        defaultValue={subscription.currentBillingAmount?.code}
-                                                        onChange={(currency) =>
-                                                            form.setValue(
-                                                                'currentBillingAmount.currency',
-                                                                currency as CurrencyCode,
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </InputSection>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription.currentBillingAmount?.to_s('%u %n')}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
-
-                            <FormControl label="결제주기">
-                                {isEditMode ? (
-                                    <div
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                    >
-                                        <BillingCycleSelect
-                                            billingCycle={
-                                                form.watch('billingCycleType') || subscription.billingCycleType
-                                            }
-                                            onChange={(value) => form.setValue('billingCycleType', value)}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        <BillingCycleTypeTagUI value={subscription.billingCycleType} />
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
-
-                            <FormControl label="과금방식">
-                                {isEditMode ? (
-                                    <div
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                    >
-                                        <PayingTypeSelect
-                                            defaultValue={subscription.pricingModel}
-                                            subscription={subscription}
-                                            onChange={(value) => form.setValue('pricingModel', value)}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        <PayingTypeTag value={subscription.pricingModel} />
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
-
-                            <FormControl label="구매수량">
-                                {isEditMode ? (
-                                    <div className="relative">
-                                        <input
-                                            className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                            defaultValue={prevSeatCount}
-                                            min={prevSeatCount}
-                                            type="number"
-                                            onChange={(e) => {
-                                                const value = Number(e.target.value.toString().replace(/\D/g, ''));
-                                                e.target.value = value.toString();
-                                                if (value) handleSeats(value);
-                                            }}
-                                        />
-                                        <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
-                                            현재 보유: {prevSeatCount.toLocaleString()}개
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {prevSeatCount}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
-
-                            <FormControl label="결제수단">
-                                {isEditMode ? (
-                                    <div
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                    >
-                                        <CreditCardSelect
-                                            defaultValue={subscription.creditCard}
-                                            onChange={(creditCard) => {
-                                                form.setValue('creditCardId', creditCard?.id || null);
-                                            }}
-                                            ValueComponent={(props) => {
-                                                const {value} = props;
-                                                return typeof value === 'string' ? (
-                                                    <p>{value}</p>
-                                                ) : (
-                                                    <CreditCardProfileCompact item={value} />
-                                                );
-                                            }}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {/*{subscription.creditCard?.length === 0 && (*/}
-                                        {/*    <i className="text-gray-400">미설정</i>*/}
-                                        {/*)}*/}
-                                        <CreditCardProfileCompact item={subscription.creditCard} />
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
-
-                            <FormControl label="청구서메일">
-                                {isEditMode ? (
-                                    <div className={'mb-[-40px]'}>
-                                        <InvoiceAccountSelect
-                                            defaultValue={subscription.invoiceAccounts?.[0]}
-                                            onSelect={(invoiceAccount) => {
-                                                form.setValue('invoiceAccountId', invoiceAccount?.id);
-                                            }}
-                                            placeholder={<EmptyValue />}
-                                            getLabel={(option) => (
-                                                <InvoiceAccountProfileCompact invoiceAccount={option} />
-                                            )}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-2" style={{height: '49.5px'}}>
-                                        {!!subscription.invoiceAccounts?.length ? (
-                                            <>
-                                                <InvoiceAccountProfileCompact
-                                                    invoiceAccount={(subscription.invoiceAccounts || [])[0]}
-                                                />
-                                                {!!(subscription.invoiceAccounts?.length - 1) && (
-                                                    <Tippy
-                                                        content={
-                                                            <span
-                                                                className="text-12"
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: subscription.invoiceAccounts
-                                                                        .map((item) => item.email)
-                                                                        .join('<br />'),
-                                                                }}
-                                                            />
-                                                        }
-                                                    >
-                                                        <div className="text-gray-500 text-13 cursor-pointer">
-                                                            외 {subscription.invoiceAccounts?.length - 1}개
-                                                        </div>
-                                                    </Tippy>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <EmptyValue />
-                                        )}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
+                <FormControl label="구독시작일">
+                    {isEditMode ? (
+                        <Datepicker
+                            inputClassName="input border-gray-200 bg-gray-100 w-full"
+                            asSingle={true}
+                            useRange={false}
+                            value={{
+                                startDate: form.watch('startAt') || null,
+                                endDate: form.watch('startAt') || null,
+                            }}
+                            onChange={(newValue) => {
+                                const startAt = newValue?.startDate;
+                                if (startAt) {
+                                    const finishAt = form.watch('finishAt');
+                                    if (finishAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                        toast('종료일보다는 작아야 합니다.');
+                                        form.setValue('startAt', form.watch('startAt'));
+                                    } else {
+                                        form.setValue('startAt', new Date(yyyy_mm_dd(startAt)));
+                                    }
+                                } else {
+                                    form.setValue('startAt', null);
+                                    form.setValue('finishAt', null);
+                                }
+                            }}
+                        />
+                    ) : (
+                        <div className="flex items-center" style={{height: '49.5px'}}>
+                            {subscription?.startAt ? intlDateLong(subscription?.startAt) : <EmptyValue />}
                         </div>
-                    </div>
-                </form>
-            </div>
-        </section>
+                    )}
+                    <span />
+                </FormControl>
+
+                <FormControl label="구독종료일">
+                    {isEditMode ? (
+                        <>
+                            {startAt ? (
+                                <Datepicker
+                                    inputClassName="input border-gray-200 bg-gray-100 w-full"
+                                    asSingle={true}
+                                    useRange={false}
+                                    value={{
+                                        startDate: finishAt || null,
+                                        endDate: finishAt || null,
+                                    }}
+                                    onChange={(newValue) => {
+                                        const finishAt = newValue?.startDate;
+                                        if (finishAt) {
+                                            if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                toast('시작일보다는 커야 합니다.');
+                                                form.setValue('finishAt', form.watch('finishAt'));
+                                            } else {
+                                                form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
+                                            }
+                                        } else {
+                                            form.setValue('finishAt', null);
+                                        }
+                                    }}
+                                />
+                            ) : (
+                                <div onClick={() => toast('시작일을 먼저 설정해주세요.')}>
+                                    <input
+                                        className="input border-gray-200 bg-gray-100 w-full cursor-pointer"
+                                        placeholder="YYYY-MM-DD"
+                                        readOnly
+                                    />
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="flex items-center" style={{height: '49.5px'}}>
+                            {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : <EmptyValue />}
+                        </div>
+                    )}
+                </FormControl>
+                <SubscriptionBillingAmount isEditMode={isEditMode} form={form} />
+                <SubscriptionBillingCycleType isEditMode={isEditMode} form={form} />
+                <SubscriptionPricingModel isEditMode={isEditMode} form={form} />
+
+                <FormControl label="구매수량">
+                    {isEditMode ? (
+                        <div className="relative">
+                            <input
+                                className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                defaultValue={prevSeatCount}
+                                min={prevSeatCount}
+                                type="number"
+                                onChange={(e) => {
+                                    const value = Number(e.target.value.toString().replace(/\D/g, ''));
+                                    e.target.value = value.toString();
+                                    if (value) handleSeats(value);
+                                }}
+                            />
+                            <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
+                                현재 보유: {prevSeatCount.toLocaleString()}개
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-center h-[50px] font-normal text-16 text-slate-950">
+                            {prevSeatCount}
+                        </div>
+                    )}
+                    <span />
+                </FormControl>
+
+                <FormControl label="결제수단">
+                    {isEditMode ? (
+                        <div className={'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'}>
+                            <CreditCardSelect
+                                defaultValue={subscription.creditCard}
+                                onChange={(creditCard) => {
+                                    form.setValue('creditCardId', creditCard?.id || null);
+                                }}
+                                ValueComponent={(props) => {
+                                    const {value} = props;
+                                    return typeof value === 'string' ? (
+                                        <p>{value}</p>
+                                    ) : (
+                                        <CreditCardProfileCompact item={value} />
+                                    );
+                                }}
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex items-center h-[50px] font-normal text-16 text-slate-950">
+                            {/*{subscription.creditCard?.length === 0 && (*/}
+                            {/*    <i className="text-gray-400">미설정</i>*/}
+                            {/*)}*/}
+                            <CreditCardProfileCompact item={subscription.creditCard} />
+                        </div>
+                    )}
+                    <span />
+                </FormControl>
+
+                <FormControl label="청구서메일">
+                    {isEditMode ? (
+                        <div className={'mb-[-40px]'}>
+                            <InvoiceAccountSelect
+                                defaultValue={subscription.invoiceAccounts?.[0]}
+                                onSelect={(invoiceAccount) => {
+                                    form.setValue('invoiceAccountId', invoiceAccount?.id);
+                                }}
+                                placeholder={<EmptyValue />}
+                                getLabel={(option) => <InvoiceAccountProfileCompact invoiceAccount={option} />}
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex items-center h-[50px] font-normal text-16 text-slate-950">
+                            {!!subscription.invoiceAccounts?.length ? (
+                                <>
+                                    <InvoiceAccountProfileCompact
+                                        invoiceAccount={(subscription.invoiceAccounts || [])[0]}
+                                    />
+                                    {!!(subscription.invoiceAccounts?.length - 1) && (
+                                        <Tippy
+                                            content={
+                                                <span
+                                                    className="text-12"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: subscription.invoiceAccounts
+                                                            .map((item) => item.email)
+                                                            .join('<br />'),
+                                                    }}
+                                                />
+                                            }
+                                        >
+                                            <div className="text-gray-500 text-13 cursor-pointer">
+                                                외 {subscription.invoiceAccounts?.length - 1}개
+                                            </div>
+                                        </Tippy>
+                                    )}
+                                </>
+                            ) : (
+                                <EmptyValue />
+                            )}
+                        </div>
+                    )}
+                    <span />
+                </FormControl>
+            </CardSection.Form>
+        </CardSection.Base>
     );
 });
