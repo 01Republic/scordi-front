@@ -21,6 +21,7 @@ import {VendorManager} from './VendorManager';
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
@@ -90,12 +91,16 @@ export const SubscriptionBusinessInfoSection = memo(() => {
         const updateSubscriptionPromise = subscriptionApi.update(subscription.id, data);
 
         Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise])
+            .then(() => setIsSaving(true))
             .then(() => reload())
             .then(() => {
                 toast.success('변경사항을 저장했어요.');
                 setIsEditMode(false);
             })
-            .catch(errorToast);
+            .catch(errorToast)
+            .finally(() => {
+                setIsSaving(false);
+            });
     };
 
     const vendorContract =
@@ -121,6 +126,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                 setIsEditMode={setIsEditMode}
                 onSubmit={form.handleSubmit(onSubmit)}
                 isButtonText={!vendorContract}
+                isSaving={isSaving}
             >
                 <VendorCompanyName
                     isEditMode={isEditMode}
