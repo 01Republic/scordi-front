@@ -73,7 +73,7 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
             </td>
 
             {/*구독 수*/}
-            <td>
+            <td className={`${hoverBgColor}`}>
                 <div>
                     <p className="text-14">
                         {invoiceAccount.subscriptions?.length.toLocaleString()}{' '}

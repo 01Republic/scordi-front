@@ -38,14 +38,14 @@ export const CustomTooltip = memo((props: CustomTooltipProps) => {
             <div className="flex-flex-col justify-start gap-1 py-2 px-3 bg-zinc-900 text-neutral-50 font-medium text-12 rounded-lg">
                 {currentData.notPaidAmount && (
                     <>
-                        <p>{`구독 지출액 예정액: ${currencyFormat(roundNumber(currentData.notPaidAmount))}`}</p>
-                        <p>{`구독 예정 건수: ${currentData.notPaidServiceCount.toLocaleString()}건`}</p>
+                        <p>{`지출 예정 금액: ${currencyFormat(roundNumber(currentData.notPaidAmount))}`}</p>
+                        <p>{`지출 예정 구독수: ${currentData.notPaidServiceCount.toLocaleString()}건`}</p>
                         <div className="w-full my-2 border-[0.5px] border-neutral-600" />
                     </>
                 )}
 
-                <p>{`구독 지출액: ${currencyFormat(roundNumber(currentData.paidAmount || 0))}`}</p>
-                <p>{`구독 건수: ${currentData.paidDataServiceCount?.toLocaleString() || 0}건`}</p>
+                <p>{`지출된 구독 금액: ${currencyFormat(roundNumber(currentData.paidAmount || 0))}`}</p>
+                <p>{`지출된 구독수: ${currentData.paidDataServiceCount?.toLocaleString() || 0}건`}</p>
             </div>
         );
     }
