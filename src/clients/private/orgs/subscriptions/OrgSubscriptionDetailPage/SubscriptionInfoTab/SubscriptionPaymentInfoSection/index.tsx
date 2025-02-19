@@ -16,7 +16,6 @@ import {
 } from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {t_SubscriptionBillingCycleTiny} from '^models/Subscription/types/BillingCycleOptions';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {IsFreeTierTagUI} from '^models/Subscription/components';
@@ -29,7 +28,6 @@ import {FreeTierSelect} from './FreeTireSelect';
 import {BillingCycleSelect} from './BillingCycleTypeSelect';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import Tippy from '@tippyjs/react';
-import {currencyFormat} from '^utils/number';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -181,6 +179,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                                 }
                                             } else {
                                                 form.setValue('startAt', null);
+                                                form.setValue('finishAt', null);
                                             }
                                         }}
                                     />
@@ -194,35 +193,46 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="구독종료일">
                                 {isEditMode ? (
-                                    <Datepicker
-                                        inputClassName="input border-gray-200 bg-gray-100 w-full"
-                                        asSingle={true}
-                                        useRange={false}
-                                        value={{
-                                            startDate: form.watch('finishAt') || null,
-                                            endDate: form.watch('finishAt') || null,
-                                        }}
-                                        onChange={(newValue) => {
-                                            const finishAt = newValue?.startDate;
-                                            if (finishAt) {
-                                                const startAt = form.watch('startAt');
-                                                if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
-                                                    toast('시작일보다는 커야 합니다.');
-                                                    form.setValue('finishAt', form.watch('finishAt'));
-                                                } else {
-                                                    form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
-                                                }
-                                            } else {
-                                                form.setValue('finishAt', null);
-                                            }
-                                        }}
-                                    />
+                                    <>
+                                        {form.watch('startAt') ? (
+                                            <Datepicker
+                                                inputClassName="input border-gray-200 bg-gray-100 w-full"
+                                                asSingle={true}
+                                                useRange={false}
+                                                value={{
+                                                    startDate: form.watch('finishAt') || null,
+                                                    endDate: form.watch('finishAt') || null,
+                                                }}
+                                                onChange={(newValue) => {
+                                                    const finishAt = newValue?.startDate;
+                                                    if (finishAt) {
+                                                        const startAt = form.watch('startAt');
+                                                        if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                            toast('시작일보다는 커야 합니다.');
+                                                            form.setValue('finishAt', form.watch('finishAt'));
+                                                        } else {
+                                                            form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
+                                                        }
+                                                    } else {
+                                                        form.setValue('finishAt', null);
+                                                    }
+                                                }}
+                                            />
+                                        ) : (
+                                            <div onClick={() => toast('시작일을 먼저 설정해주세요.')}>
+                                                <input
+                                                    className="input border-gray-200 bg-gray-100 w-full cursor-pointer"
+                                                    placeholder="YYYY-MM-DD"
+                                                    readOnly
+                                                />
+                                            </div>
+                                        )}
+                                    </>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : <EmptyValue />}
                                     </div>
                                 )}
-                                <span />
                             </FormControl>
 
                             <FormControl label="결제금액">
