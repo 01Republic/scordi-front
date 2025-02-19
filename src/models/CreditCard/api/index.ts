@@ -28,6 +28,13 @@ export const creditCardApi = {
         return api.patch<CreditCardDto>(url, data).then(oneDtoOf(CreditCardDto));
     },
 
+    // 카드 병합
+    // id 의 카드(본카드)를 hostCardId 의 카드(호스트카드)에 병합
+    mergeCard(orgId: number, id: number, hostCardId: number) {
+        const url = `/organizations/${orgId}/credit-cards/${id}/mergeCard/${hostCardId}`;
+        return api.patch(url);
+    },
+
     destroy(orgId: number, id: number) {
         const url = `/${NAMESPACE}/${orgId}/credit-cards/${id}`;
         return api.delete<CreditCardDto>(url);

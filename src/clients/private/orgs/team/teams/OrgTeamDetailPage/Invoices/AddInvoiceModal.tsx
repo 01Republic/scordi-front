@@ -1,54 +1,58 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {toast} from 'react-hot-toast';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
-import {useRecoilValue} from 'recoil';
+import {teamIdParamState} from '^atoms/common';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
-import {toast} from 'react-hot-toast';
 
 interface AddInvoiceModalProps extends ModalProps {
-    preItems?: TeamInvoiceAccountDto[];
+    defaultValue?: TeamInvoiceAccountDto[];
+    onClose: (isChanged?: boolean) => void;
 }
 
 export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceModalProps) {
-    const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
-    const {isOpened, onClose} = props;
+    const {defaultValue = [], isOpened, onClose} = props;
     const {result, search, reload} = useInvoiceAccounts();
-    const [selected, setSelected] = React.useState<InvoiceAccountDto[]>([]);
+    const {items, pagination} = result;
+    const [selected, setSelected] = useState<InvoiceAccountDto[]>([]);
+    const selectables = items.filter((item) => !defaultValue.map((item) => item.invoiceAccount?.id).includes(item.id));
 
     const onSave = () => {
         const requests = selected.map((invoice) => invoiceAccountApi.teamsApi.create(invoice.id, teamId));
         const req = Promise.allSettled(requests);
         req.then(() => {
             toast.success('청구서 메일을 연결했어요.');
-            setSelected([]);
-            onClose();
+            closeModal(true);
         });
     };
 
-    const onCloseModal = () => {
+    const closeModal = (isChanged = false) => {
         setSelected([]);
-        onClose();
+        onClose(isChanged);
     };
 
-    const entries = result.items.filter(
-        (item) => !props.preItems?.map((item) => item.invoiceAccount?.id).includes(item.id),
-    );
+    useEffect(() => {
+        if (isOpened) reload();
+    }, [isOpened]);
 
     useEffect(() => {
-        !!orgId && !!teamId && reload();
-    }, [orgId, teamId]);
+        search({
+            relations: ['holdingMember', 'subscriptions', 'googleTokenData'],
+            itemsPerPage: 0,
+        });
+    }, []);
 
     return (
         <div
             data-modal="TeamMemberSelectModal-for-AppShowModal"
             className={`modal modal-bottom ${isOpened ? 'modal-open' : ''}`}
-            onClick={onCloseModal}
+            onClick={() => closeModal(false)}
         >
             <div
                 className="modal-box max-w-lg p-0"
@@ -64,7 +68,7 @@ export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceMo
                 <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
                     <div className="flex-1 py-4 px-2 text-sm">
                         <ul>
-                            {entries.map((invoice, i) => (
+                            {selectables.map((invoice, i) => (
                                 <div
                                     tabIndex={0}
                                     key={i}

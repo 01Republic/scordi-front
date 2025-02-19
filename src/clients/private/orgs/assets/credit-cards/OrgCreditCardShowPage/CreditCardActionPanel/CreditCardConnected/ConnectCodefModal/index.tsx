@@ -17,10 +17,12 @@ enum Step {
 interface ConnectCodefModalProps extends ModalProps {
     creditCard: CreditCardDto;
     onSubmit: (codefCard: CodefCardDto) => any;
+    // 함수가 주어지면, 병합 가능한 모드로 연결 모달을 실행합니다.
+    onMergeSubmit?: (codefCard: CodefCardDto) => any;
 }
 
 export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
-    const {isOpened, onClose, creditCard, onSubmit} = props;
+    const {isOpened, onClose, creditCard, onSubmit, onMergeSubmit} = props;
     const [step, setStep] = useState(Step.companySelect);
     const [cardCompany, setCardCompany] = useState(creditCard.company);
     const [isSelectCompanyModalOpened, setIsSelectCompanyModalOpened] = useState(false);
@@ -66,6 +68,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
                     onClose={close}
                     cardCompany={cardCompany}
                     onSubmit={onSubmit}
+                    onMergeSubmit={onMergeSubmit}
                 />
             )}
         </>

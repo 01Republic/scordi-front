@@ -21,7 +21,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
     // Ref: NewCodefCardAccountPage.tsx
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-stretch h-full">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex-grow flex flex-col items-stretch h-full">
             <div className="mb-4">
                 <div className="mb-4">
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />

@@ -108,10 +108,11 @@ interface ConnectableCardSelectProps {
     codefAccount: CodefAccountDto;
     onBack: () => any;
     onSubmit: (checkedCard: CodefCardDto) => any;
+    onMergeSubmit?: (checkedCard: CodefCardDto) => any;
 }
 
 export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) => {
-    const {cardCompany, codefAccount, onBack, onSubmit} = props;
+    const {cardCompany, codefAccount, onBack, onSubmit, onMergeSubmit} = props;
     const {search, result, isLoading, reset} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCard, setCheckedCard] = useState<CodefCardDto>();
 
@@ -130,15 +131,22 @@ export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) =>
     useUnmount(() => reset());
 
     return (
-        <div className="flex flex-col items-stretch">
+        <div className="flex-grow flex flex-col items-stretch">
             <div className="mb-4">
                 <div className="mb-4">
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
-                <h3 className="font-bold text-xl leading-tight">
-                    새로 등록할 카드를 <br /> 모두 선택해주세요.
-                </h3>
+                {onMergeSubmit ? (
+                    <h3 className="font-bold text-xl leading-tight">
+                        어떤 카드와 연결할까요? <br />
+                        <span className="font-medium text-14">이미 연결된 카드가 있다면 병합할 수 있어요.</span>
+                    </h3>
+                ) : (
+                    <h3 className="font-bold text-xl leading-tight">
+                        새로 등록할 카드를 <br /> 모두 선택해주세요.
+                    </h3>
+                )}
             </div>
 
             <div className="mb-8">
@@ -149,6 +157,7 @@ export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) =>
                             cardCompany={cardCompany}
                             codefCard={codefCard}
                             onClick={setCheckedCard}
+                            onMerge={onMergeSubmit ? setCheckedCard : undefined}
                             checked={codefCard.id === checkedCard?.id}
                         />
                     ))}
@@ -156,9 +165,15 @@ export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) =>
             </div>
 
             {!isLoading && (
-                <div className="py-4">
+                <div className="p-4 absolute bottom-0 left-0 right-0">
                     {checkedCard ? (
-                        <CreateCreditCardButton checkedCards={[checkedCard]} onSubmit={([card]) => onSubmit(card)} />
+                        <CreateCreditCardButton
+                            checkedCards={[checkedCard]}
+                            onSubmit={([card]) => {
+                                !card.creditCardId ? onSubmit(card) : onMergeSubmit && onMergeSubmit(card);
+                            }}
+                            text={checkedCard.creditCardId && onMergeSubmit ? '병합하기' : undefined}
+                        />
                     ) : (
                         <button type="button" className={`btn btn-block btn-scordi`} onClick={onBack}>
                             돌아가기
