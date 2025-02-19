@@ -87,7 +87,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                         className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
                     >
                         <TeamMemberAvatar teamMember={teamMember} className="w-8 h-8" />
-                        <div className="overflow-x-hidden">
+                        <div className="">
                             <p className="truncate text-14">
                                 <span>{teamMember.name}</span>
                             </p>
