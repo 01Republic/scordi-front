@@ -41,6 +41,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
     const prevSeatCount = subscription.subscriptionSeats?.length || 0;
     const seatWithTeamMemberCount = prevSeats.filter((seat) => seat.teamMemberId).length;
+    const finishAt = form.watch('finishAt');
+    const startAt = form.watch('startAt');
 
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {
@@ -194,19 +196,18 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             <FormControl label="구독종료일">
                                 {isEditMode ? (
                                     <>
-                                        {form.watch('startAt') ? (
+                                        {startAt ? (
                                             <Datepicker
                                                 inputClassName="input border-gray-200 bg-gray-100 w-full"
                                                 asSingle={true}
                                                 useRange={false}
                                                 value={{
-                                                    startDate: form.watch('finishAt') || null,
-                                                    endDate: form.watch('finishAt') || null,
+                                                    startDate: finishAt || null,
+                                                    endDate: finishAt || null,
                                                 }}
                                                 onChange={(newValue) => {
                                                     const finishAt = newValue?.startDate;
                                                     if (finishAt) {
-                                                        const startAt = form.watch('startAt');
                                                         if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
                                                             toast('시작일보다는 커야 합니다.');
                                                             form.setValue('finishAt', form.watch('finishAt'));
