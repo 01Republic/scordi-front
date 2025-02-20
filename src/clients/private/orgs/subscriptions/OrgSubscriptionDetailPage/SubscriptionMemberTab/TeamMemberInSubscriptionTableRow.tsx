@@ -16,7 +16,7 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import {SubscriptionSeatDto, UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 import {subscriptionApi} from '^models/Subscription/api';
 import {FiMinusCircle} from '^components/react-icons';
-import {confirm2} from '^components/util/dialog';
+import {confirm2, confirmed} from '^components/util/dialog';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {debounce} from 'lodash';
 
@@ -57,25 +57,26 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
     }, 500);
 
     const onDelete = () => {
-        confirm2(
-            `구독 연결을 해제할까요?`,
-            <span>
-                이 작업은 취소할 수 없습니다.
-                <br />
-                <b>이 멤버가 구독에서 제외</b>됩니다. <br />
-                그래도 연결을 해제 하시겠어요?
-            </span>,
-            'warning',
-        ).then((res) => {
-            if (res.isConfirmed) {
-                setIsLoading(true);
-                subscriptionApi.seatsApi.destroy(orgId, subscription.id, seat.id).then(() => {
-                    toast.success('삭제했습니다');
-                    setIsLoading(false);
-                    reload && reload();
-                });
-            }
-        });
+        const deleteConfirm = () => {
+            return confirm2(
+                `구독 연결을 해제할까요?`,
+                <span>
+                    이 작업은 취소할 수 없습니다.
+                    <br />
+                    <b>이 멤버가 구독에서 제외</b>됩니다. <br />
+                    그래도 연결을 해제 하시겠어요?
+                </span>,
+                'warning',
+            );
+        };
+
+        confirmed(deleteConfirm())
+            .then(() => setIsLoading(true))
+            .then(() => subscriptionApi.seatsApi.destroy(orgId, subscription.id, seat.id))
+            .then(() => toast.success('삭제했습니다'))
+            .then(() => reload())
+            .catch(errorToast)
+            .finally(() => setIsLoading(false));
     };
 
     return (
