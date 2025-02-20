@@ -9,6 +9,7 @@ import {
     dashboardSubscriptionSearchResultAtom,
     getCurrentSubscriptionQuery,
     subscriptionListAtom,
+    subscriptionListOfBankAccountAtom,
     subscriptionListOfCreditCardAtom,
     subscriptionListOfInvoiceAccountAtom,
     subscriptionsForSummaryState,
@@ -48,6 +49,9 @@ export const useSubscriptionsInTeamMemberShowModal = () =>
 
 // 팀멤버 상세페이지 / 이용중인 서비스 목록
 export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subscriptionsInTeamMemberShowModalAtom);
+
+// 계좌 상세 페이지 > 구독 테이블
+export const useSubscriptionListOfBankAccount = () => useSubscriptions(subscriptionListOfBankAccountAtom);
 
 // 카드 상세 페이지 > 구독 테이블
 export const useSubscriptionListOfCreditCard = () => useSubscriptions(subscriptionListOfCreditCardAtom);

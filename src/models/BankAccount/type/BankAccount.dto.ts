@@ -6,6 +6,7 @@ import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {TeamMemberDto} from '^models/TeamMember';
 import {OrganizationDto} from '^models/Organization/type';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 
 /**
  * 계좌
@@ -58,4 +59,21 @@ export class BankAccountDto {
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 연결된 카드
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[]; // 거래 내역
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[]; // 연결된 구독
+
+    get title() {
+        return this.name || `[${this.bankName}] ${this.displayNumber}`;
+    }
+
+    get company() {
+        return BankAccountsStaticData.findByPersonal(this.isPersonal).find((data) => this.bank === data.displayName);
+    }
+
+    get bankName() {
+        const company = this.company;
+        return company ? company.displayName.replace('은행', '') : this.bank;
+    }
+
+    endNumber(n = 4) {
+        return this.displayNumber?.slice(n * -1);
+    }
 }

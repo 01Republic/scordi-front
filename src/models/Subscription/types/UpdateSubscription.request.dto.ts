@@ -12,4 +12,5 @@ export class UpdateSubscriptionRequestDto extends PartialType(
     isActive?: boolean; // 활성화 여부
     masterId?: number | null; // 관리자 TeamMember ID
     recurringTypeTagId?: number; // 과금방식 태그
+    bankAccountId?: number; // 계좌 ID
 }

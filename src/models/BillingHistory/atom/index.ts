@@ -24,6 +24,12 @@ export const billingHistoryListOfCreditCardAtom = pagedResourceAtom<BillingHisto
     {key: 'billingHistoryListOfCreditCardAtom'},
 );
 
+// 계좌 상세페이지 / 결제내역
+export const billingHistoryListOfBankAccountAtom = pagedResourceAtom<
+    BillingHistoryDto,
+    FindAllBillingHistoriesQueryDto
+>({key: 'billingHistoryListOfBankAccountAtom'});
+
 // 청구서수신계정 상세페이지 / 결제내역
 export const billingHistoryListOfInvoiceAccountAtom = pagedResourceAtom<
     BillingHistoryDto,

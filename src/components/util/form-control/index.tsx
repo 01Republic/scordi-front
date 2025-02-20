@@ -7,6 +7,10 @@ import {BottomLeftHint} from './BottomLeftHint';
 
 export const FormControlGroup = Object.assign(FormControlGroup2, {});
 
+interface FormControlProps {
+    label?: string;
+}
+
 export const FormControl = Object.assign(FormControl2, {
     TopLeftLabel,
     BottomLeftHint,

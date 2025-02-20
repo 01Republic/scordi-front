@@ -18,6 +18,7 @@ import {appBillingHistoryApi, billingHistoryApi} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
+    billingHistoryListOfBankAccountAtom,
     billingHistoryListOfCreditCardAtom,
     billingHistoryListOfInvoiceAccountAtom,
     billingHistoryListOfSubscriptionAtom,
@@ -37,6 +38,9 @@ export const useBillingHistoryListInSiblings = () => useBillingHistories(billing
 
 // 결제수단 상세페이지 / 결제내역
 export const useBillingHistoryListOfCreditCard = () => useBillingHistoriesOfOrg(billingHistoryListOfCreditCardAtom);
+
+// 결제수단 상세페이지 / 결제내역
+export const useBillingHistoryListOfBankAccount = () => useBillingHistoriesOfOrg(billingHistoryListOfBankAccountAtom);
 
 // 청구서수신계정 상세페이지 / 결제내역
 export const useBillingHistoryListOfInvoiceAccount = () =>

@@ -100,3 +100,8 @@ export const codefAccountIdParamState = atom({
     key: 'codefAccountIdParamState',
     default: NaN,
 });
+
+export const bankAccountIdParamState = atom({
+    key: 'bankAccountIdParamState',
+    default: NaN,
+});
