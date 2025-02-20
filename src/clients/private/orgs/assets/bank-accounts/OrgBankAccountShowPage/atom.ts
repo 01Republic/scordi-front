@@ -67,7 +67,7 @@ export const useCurrentBankAccountEdit = () => {
         const data = plainToInstance(UpdateBankAccountRequestDto, formData);
 
         if (!data.name) {
-            toast.error('계좌 별칭을 입력해주세요');
+            toast.error('계좌 이름을 입력해주세요');
             return;
         }
 

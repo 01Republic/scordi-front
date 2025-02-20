@@ -16,6 +16,7 @@ export const BankAccountInformationPanel = memo(() => {
 
     return (
         <div>
+            {/* TODO: 계좌상세p / CardCompanyNotSetAlert 는 카드상세 에서만 유효한 컴포넌트 입니다. */}
             {!currentBankAccount.bank && <CardCompanyNotSetAlert />}
 
             <div className="p-8">

@@ -27,7 +27,7 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
             .finally(() => reload && reload());
     };
 
-    // const company = bankAccount.company;
+    const company = bankAccount.company;
     // const expiry = bankAccount.decryptSign().expiry;
 
     const showPagePath = OrgBankAccountShowPageRoute.path(bankAccount.organizationId, bankAccount.id);
@@ -64,9 +64,9 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
 
             {/* 은행명 */}
             <td>
-                {bankAccount.bank ? (
+                {company ? (
                     <div className="text-14">
-                        <span>{bankAccount.bank.replace('은행', '')}</span>
+                        <span>{company.displayName.replace('은행', '')}</span>
                     </div>
                 ) : (
                     <i className="text-gray-300">-</i>

@@ -95,15 +95,17 @@ interface BankAccountProfileOptionProps {
 interface BankAccountProfileOption2Props {
     item: BankAccountDto;
     placeholder?: string;
+    subtextMethod?: 'fullNumber' | 'endNumber'; // default: 'fullNumber'
 }
 
 export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2Props) => {
-    const {item: bankAccount, placeholder} = props;
+    const {item: bankAccount, placeholder, subtextMethod = 'fullNumber'} = props;
 
     const randomNumber = (bankAccount.name || '').length + bankAccount.id;
     const colorClass = getColor(randomNumber, palette.notionColors);
-    const endNumber = bankAccount.displayNumber?.slice(-3);
-    const bank = bankAccount.bank;
+    const endNumber = bankAccount.endNumber();
+    const company = bankAccount.company;
+    const bankName = bankAccount.bankName;
 
     return (
         <div
@@ -113,8 +115,8 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
             {bankAccount ? (
                 <>
                     <Avatar className="w-7">
-                        {bank && BankAccountsStaticData.logo(bank) ? (
-                            <img src={BankAccountsStaticData.logo(bank)} alt={bank || ''} />
+                        {company ? (
+                            <img src={company.logo} alt={company.displayName || ''} />
                         ) : (
                             <RiBankFill size={20} className="h-full w-full p-[6px]" />
                         )}
@@ -122,14 +124,19 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
 
                     <div className="flex flex-col gap-0.5 overflow-hidden text-left">
                         <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
-                            <span className="truncate">
-                                [{bankAccount.name}] {bankAccount.displayNumber}
-                            </span>
+                            <span className="truncate">{bankAccount.title}</span>
                         </p>
-                        {endNumber && (
+                        {subtextMethod === 'fullNumber' ? (
                             <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                                끝자리: <span>{endNumber || '알수없음'}</span>
+                                {bankAccount.name && company && <span>{bankName} </span>}
+                                <span>{bankAccount.displayNumber || '(알수없음)'}</span>
                             </p>
+                        ) : (
+                            endNumber && (
+                                <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
+                                    끝자리: <span>{endNumber || '(알수없음)'}</span>
+                                </p>
+                            )
                         )}
                     </div>
                 </>
