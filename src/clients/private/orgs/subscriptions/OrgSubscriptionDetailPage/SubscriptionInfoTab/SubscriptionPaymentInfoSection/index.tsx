@@ -3,17 +3,12 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import Datepicker from 'react-tailwindcss-datepicker';
-import {dateIsBeforeThen, intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
-import Tippy from '@tippyjs/react';
 import {CurrencyCode} from '^models/Money';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 import {CardSection} from '^clients/private/_components/CardSection';
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {useCurrentSubscription} from '../../atom';
-import {EmptyValue} from '../../EmptyValue';
 import {SubscriptionIsFreeTier} from './SubscriptionIsFreeTier';
 import {SubscriptionBillingAmount} from './SubscriptionBillingAmount';
 import {SubscriptionBillingCycleType} from './SubscriptionBillingCycleType';
@@ -21,6 +16,8 @@ import {SubscriptionPricingModel} from './SubscriptionPricingModel';
 import {SubscriptionSeats} from './SubscriptionSeats';
 import {SubscriptionCreditCard} from './SubscriptionCreditCard';
 import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
+import {SubscriptionStartAt} from './SubscriptionStartAt';
+import {SubscriptionFinishAt} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionFinishAt';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -34,10 +31,6 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
     const prevSeatCount = subscription.subscriptionSeats?.length || 0;
     const seatWithTeamMemberCount = prevSeats.filter((seat) => seat.teamMemberId).length;
-    const finishAt = form.watch('finishAt');
-    const startAt = form.watch('startAt');
-
-    console.log('invoiceAccountId', form.watch('invoiceAccountId'));
 
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {
@@ -106,7 +99,6 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             form.setValue('finishAt', subscription.finishAt);
         }
 
-        console.log('전', subscription.subscriptionSeats);
         const seats: UpdateSubscriptionSeatRequestDto[] =
             subscription.subscriptionSeats?.map((seat) => ({
                 subscriptionId: subscription.id,
@@ -114,7 +106,6 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             })) || [];
 
         setPrevSeats(seats);
-        console.log('후', seats);
     }, [subscription]);
 
     form.watch();
@@ -129,83 +120,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                 isSaving={isSaving}
             >
                 <SubscriptionIsFreeTier isEditMode={isEditMode} form={form} />
-
-                <FormControl label="구독시작일">
-                    {isEditMode ? (
-                        <Datepicker
-                            inputClassName="input border-gray-200 bg-gray-100 w-full"
-                            asSingle={true}
-                            useRange={false}
-                            value={{
-                                startDate: form.watch('startAt') || null,
-                                endDate: form.watch('startAt') || null,
-                            }}
-                            onChange={(newValue) => {
-                                const startAt = newValue?.startDate;
-                                if (startAt) {
-                                    const finishAt = form.watch('finishAt');
-                                    if (finishAt && !dateIsBeforeThen(startAt, finishAt)) {
-                                        toast('종료일보다는 작아야 합니다.');
-                                        form.setValue('startAt', form.watch('startAt'));
-                                    } else {
-                                        form.setValue('startAt', new Date(yyyy_mm_dd(startAt)));
-                                    }
-                                } else {
-                                    form.setValue('startAt', null);
-                                    form.setValue('finishAt', null);
-                                }
-                            }}
-                        />
-                    ) : (
-                        <div className="flex items-center" style={{height: '49.5px'}}>
-                            {subscription?.startAt ? intlDateLong(subscription?.startAt) : <EmptyValue />}
-                        </div>
-                    )}
-                    <span />
-                </FormControl>
-
-                <FormControl label="구독종료일">
-                    {isEditMode ? (
-                        <>
-                            {startAt ? (
-                                <Datepicker
-                                    inputClassName="input border-gray-200 bg-gray-100 w-full"
-                                    asSingle={true}
-                                    useRange={false}
-                                    value={{
-                                        startDate: finishAt || null,
-                                        endDate: finishAt || null,
-                                    }}
-                                    onChange={(newValue) => {
-                                        const finishAt = newValue?.startDate;
-                                        if (finishAt) {
-                                            if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
-                                                toast('시작일보다는 커야 합니다.');
-                                                form.setValue('finishAt', form.watch('finishAt'));
-                                            } else {
-                                                form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
-                                            }
-                                        } else {
-                                            form.setValue('finishAt', null);
-                                        }
-                                    }}
-                                />
-                            ) : (
-                                <div onClick={() => toast('시작일을 먼저 설정해주세요.')}>
-                                    <input
-                                        className="input border-gray-200 bg-gray-100 w-full cursor-pointer"
-                                        placeholder="YYYY-MM-DD"
-                                        readOnly
-                                    />
-                                </div>
-                            )}
-                        </>
-                    ) : (
-                        <div className="flex items-center" style={{height: '49.5px'}}>
-                            {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : <EmptyValue />}
-                        </div>
-                    )}
-                </FormControl>
+                <SubscriptionStartAt isEditMode={isEditMode} form={form} />
+                <SubscriptionFinishAt isEditMode={isEditMode} form={form} />
                 <SubscriptionBillingAmount isEditMode={isEditMode} form={form} />
                 <SubscriptionBillingCycleType isEditMode={isEditMode} form={form} />
                 <SubscriptionPricingModel isEditMode={isEditMode} form={form} />
