@@ -1,10 +1,17 @@
 import React, {memo} from 'react';
-import {FaTimes} from '@react-icons/all-files/fa/FaTimes';
+import {useRecoilState} from 'recoil';
+import {CgChevronDoubleRight} from '@react-icons/all-files/cg/CgChevronDoubleRight';
+import {CgArrowsExpandLeft} from '@react-icons/all-files/cg/CgArrowsExpandLeft';
 import {attachmentClickHandler, GmailContentReadableDto} from '^models/InvoiceAccount/type/gmail.type';
 import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
+import {Tip} from '^admin/share/Tip';
+import {selectedInvoiceAccountAtom} from '../../atoms';
+import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
+import {copyText} from '^components/util/copy';
+import {toast} from 'react-hot-toast';
 
 interface GmailDetailModalProps {
     email?: GmailContentReadableDto;
@@ -13,23 +20,50 @@ interface GmailDetailModalProps {
 
 export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
     const {email, onClose} = props;
+    const [selectedInvoiceAccount, setSelectedInvoiceAccount] = useRecoilState(selectedInvoiceAccountAtom);
+
+    const getUrl = () => {
+        if (!selectedInvoiceAccount || !email) return;
+        const {id, organizationId} = selectedInvoiceAccount;
+        return AdminOrgInvoiceAccountEmailShowPageRoute.url(organizationId, id, email.id);
+    };
+
+    const onOpen = () => {
+        const url = getUrl();
+        url && window.open(url, '_blank');
+    };
 
     return (
         <SlideSideModal open={!!email} onClose={onClose}>
             <div className="relative flex items-center">
-                {/*닫기*/}
-                <button
-                    onClick={onClose}
-                    className="btn btn-sm btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
-                >
-                    <FaTimes size={20} />
-                </button>
+                <Tip text="닫기" subtext="Escape">
+                    <button
+                        onClick={onClose}
+                        className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
+                    >
+                        <CgChevronDoubleRight size={16} className="scale-[1.5]" />
+                    </button>
+                </Tip>
+                <Tip text="전체 페이지로 열기" subtext="⌘↵">
+                    <button
+                        onClick={onOpen}
+                        className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
+                    >
+                        <CgArrowsExpandLeft size={16} />
+                    </button>
+                </Tip>
 
                 <div className="ml-auto">
                     {email && (
-                        <div className="flex items-center gap-4">
+                        <div
+                            className="flex items-center gap-4"
+                            onClick={() => {
+                                const url = getUrl();
+                                url && copyText(url).then(() => toast('링크를 복사했어요.'));
+                            }}
+                        >
                             <div className="text-gray-500">ID:</div>
-                            <div className="font-semibold">{email.id}</div>
+                            <div className="font-semibold link link-primary">{email.id}</div>
                         </div>
                     )}
                 </div>

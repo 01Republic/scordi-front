@@ -6,11 +6,15 @@ import {DraftInboxControlBar} from './DraftInboxControlBar';
 import {DraftInboxDataTable} from './DraftInboxDataTable';
 import {GmailDetailModal} from './GmailDetailModal';
 import {useDraftInboxController} from './useDraftInboxController';
+import {NextPrevNavigator} from './DraftInboxControlBar/NextPrevNavigator';
 
 export const DraftInboxContent = memo((props: TabPaneProps) => {
     const {moveTab = console.log} = props;
     const {form, data, isLoading, isFetching, refetch, pageTokens, setPageTokens} = useDraftInboxController();
     const [detailModalEmail, setDetailModalEmail] = useState<GmailContentReadableDto>();
+
+    const params = form.watch();
+    const currentPageNum = pageTokens.findIndex((token) => token === params.pageToken) + 1;
 
     return (
         <div>
@@ -35,6 +39,21 @@ export const DraftInboxContent = memo((props: TabPaneProps) => {
                 entries={data?.messages || []}
                 onClick={(email) => setDetailModalEmail(email)}
             />
+
+            <div className="pt-4 flex items-center justify-center">
+                <NextPrevNavigator
+                    currentPageNum={currentPageNum}
+                    pageTokens={pageTokens}
+                    nextPageToken={data?.nextPageToken}
+                    onPrev={(pageToken) => form.setValue('pageToken', pageToken)}
+                    onNext={(pageToken) => {
+                        setPageTokens((tokens) => {
+                            return tokens.includes(pageToken) ? [...tokens] : [...tokens, pageToken];
+                        });
+                        form.setValue('pageToken', pageToken);
+                    }}
+                />
+            </div>
 
             {/* 상세 모달 */}
             <GmailDetailModal email={detailModalEmail} onClose={() => setDetailModalEmail(undefined)} />
