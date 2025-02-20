@@ -12,9 +12,10 @@ import {
     MemberCount,
 } from '^models/Subscription/components';
 import {subscriptionApi} from '^models/Subscription/api';
-import {confirm2} from '^components/util/dialog';
+import {confirm2, confirmed} from '^components/util/dialog';
 import {useCurrentCodefCard} from '../../../atom';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {errorToast} from '^api/api';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -29,25 +30,29 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
         return subscriptionApi
             .update(subscription.id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
-            .finally(() => reload && reload());
+            .then(() => reload && reload())
+            .catch(() => toast.error('문제가 발생했어요.'));
     };
 
     const disconnect = async () => {
-        const isConfirmed = await confirm2(
-            '구독 연결을 해제할까요?',
-            <p>
-                이 작업은 취소할 수 없습니다.
-                <br />
-                <b>결제수단에서 제외</b>됩니다. <br />
-                그래도 연결을 해제 하시겠어요?
-            </p>,
-            'warning',
-        ).then((res) => res.isConfirmed);
-        if (!isConfirmed) return;
-        await subscriptionApi.update(subscription.id, {creditCardId: null});
-        toast.success('연결을 해제했어요.');
-        reload();
+        const disconnectConfirm = () => {
+            return confirm2(
+                '구독 연결을 해제할까요?',
+                <p>
+                    이 작업은 취소할 수 없습니다.
+                    <br />
+                    <b>결제수단에서 제외</b>됩니다. <br />
+                    그래도 연결을 해제 하시겠어요?
+                </p>,
+                'warning',
+            );
+        };
+
+        return confirmed(disconnectConfirm())
+            .then(() => subscriptionApi.update(subscription.id, {creditCardId: null}))
+            .then(() => toast.success('연결을 해제했어요.'))
+            .then(() => reload())
+            .catch(errorToast);
     };
 
     const {nextComputedBillingDate} = subscription;
