@@ -58,6 +58,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
         form.setValue('isAutoTrackable', product.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', product.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', product.desc); // 비고
+        form.setValue('saasCollectionExposePriority', product.saasCollectionExposePriority || 0);
     }, [product]);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -178,6 +179,19 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                                 type="checkbox"
                                 className="checkbox checkbox-primary"
                                 {...form.register('isFreeTierAvailable')}
+                            />
+                        </ContentPanelInput>
+                    </ContentPanelList>
+                </ContentPanel>
+
+                <ContentPanel title="설정">
+                    <ContentPanelList>
+                        <ContentPanelInput title="SaaS 컬렉션 노출 우선순위" text="높은 숫자일수록 상위노출 됩니다.">
+                            <TextInput
+                                type="number"
+                                placeholder="0"
+                                min={0}
+                                {...form.register('saasCollectionExposePriority')}
                             />
                         </ContentPanelInput>
                     </ContentPanelList>

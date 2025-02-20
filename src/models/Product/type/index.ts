@@ -32,6 +32,7 @@ export class ProductDto {
     planComparePageUrlScheme: string; // 결제플랜 비교 페이지 URL Scheme
     upgradePlanPageUrlScheme: string; // 결제플랜 변경 페이지 URL Scheme
     updatePayMethodUrlScheme: string; // 결제수단 변경 페이지 URL Scheme
+    saasCollectionExposePriority?: number;
 
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
@@ -86,12 +87,10 @@ export type CreateProductRequestDto = {
     isAutoTrackable: boolean; // API 지원 여부
     isFreeTierAvailable: boolean; // 프리티어 지원 여부
     connectMethod?: ProductConnectMethod; // 연동 방법
+    saasCollectionExposePriority?: number; // SaaS 컬렉션 노출 우선순위
 };
 
-export type UpdateProductRequestDto = Partial<CreateProductRequestDto> & {
-    // name?: string; // 서비스명
-    connectMethod?: ProductConnectMethod; // 연동방법
-};
+export type UpdateProductRequestDto = Partial<CreateProductRequestDto>;
 
 export function safeImageSrc(product: ProductDto, w: number, h: number): string {
     return (
@@ -106,6 +105,7 @@ export class FindAllProductQuery extends FindAllQueryDto<ProductDto> {
     tagIds?: number[];
     tagName?: string;
     organizationId?: number;
+    isOrderByPriority?: boolean; // 노출 우선순위 정렬 적용 여부
 }
 
 export type ApplyToAddDto = {
