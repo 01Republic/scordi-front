@@ -24,7 +24,7 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
     const onReady = () => {
         if (!currentBankAccount) return;
         search({
-            relations: ['master'],
+            relations: ['holdingMember'],
             where: {bankAccountId: currentBankAccount.id},
             order: {id: 'DESC'},
         });
