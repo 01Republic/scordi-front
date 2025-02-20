@@ -10,16 +10,17 @@ import {CurrencyCode} from '^models/Money';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
-import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
-import {InvoiceAccountProfileCompact, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
 import {CardSection} from '^clients/private/_components/CardSection';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {useCurrentSubscription} from '../../atom';
 import {EmptyValue} from '../../EmptyValue';
-import {SubscriptionIsFreeTier} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionIsFreeTier';
-import {SubscriptionBillingAmount} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionBillingAmount';
-import {SubscriptionBillingCycleType} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionBillingCycleType';
-import {SubscriptionPricingModel} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionPricingModel';
+import {SubscriptionIsFreeTier} from './SubscriptionIsFreeTier';
+import {SubscriptionBillingAmount} from './SubscriptionBillingAmount';
+import {SubscriptionBillingCycleType} from './SubscriptionBillingCycleType';
+import {SubscriptionPricingModel} from './SubscriptionPricingModel';
+import {SubscriptionSeats} from './SubscriptionSeats';
+import {SubscriptionCreditCard} from './SubscriptionCreditCard';
+import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -36,11 +37,14 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const finishAt = form.watch('finishAt');
     const startAt = form.watch('startAt');
 
+    console.log('invoiceAccountId', form.watch('invoiceAccountId'));
+
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {
             setIsSaving(true);
             await onUpdateSeats();
             await subscriptionApi.update(subscription.id, dto);
+            console.log('invoiceAccountId', dto.invoiceAccountId);
             await reload();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
@@ -102,6 +106,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             form.setValue('finishAt', subscription.finishAt);
         }
 
+        console.log('전', subscription.subscriptionSeats);
         const seats: UpdateSubscriptionSeatRequestDto[] =
             subscription.subscriptionSeats?.map((seat) => ({
                 subscriptionId: subscription.id,
@@ -109,6 +114,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             })) || [];
 
         setPrevSeats(seats);
+        console.log('후', seats);
     }, [subscription]);
 
     form.watch();
@@ -203,107 +209,9 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                 <SubscriptionBillingAmount isEditMode={isEditMode} form={form} />
                 <SubscriptionBillingCycleType isEditMode={isEditMode} form={form} />
                 <SubscriptionPricingModel isEditMode={isEditMode} form={form} />
-
-                <FormControl label="구매수량">
-                    {isEditMode ? (
-                        <div className="relative">
-                            <input
-                                className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                defaultValue={prevSeatCount}
-                                min={prevSeatCount}
-                                type="number"
-                                onChange={(e) => {
-                                    const value = Number(e.target.value.toString().replace(/\D/g, ''));
-                                    e.target.value = value.toString();
-                                    if (value) handleSeats(value);
-                                }}
-                            />
-                            <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
-                                현재 보유: {prevSeatCount.toLocaleString()}개
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="flex items-center h-[50px] font-normal text-16 text-slate-950">
-                            {prevSeatCount}
-                        </div>
-                    )}
-                    <span />
-                </FormControl>
-
-                <FormControl label="결제수단">
-                    {isEditMode ? (
-                        <div className={'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'}>
-                            <CreditCardSelect
-                                defaultValue={subscription.creditCard}
-                                onChange={(creditCard) => {
-                                    form.setValue('creditCardId', creditCard?.id || null);
-                                }}
-                                ValueComponent={(props) => {
-                                    const {value} = props;
-                                    return typeof value === 'string' ? (
-                                        <p>{value}</p>
-                                    ) : (
-                                        <CreditCardProfileCompact item={value} />
-                                    );
-                                }}
-                            />
-                        </div>
-                    ) : (
-                        <div className="flex items-center h-[50px] font-normal text-16 text-slate-950">
-                            {/*{subscription.creditCard?.length === 0 && (*/}
-                            {/*    <i className="text-gray-400">미설정</i>*/}
-                            {/*)}*/}
-                            <CreditCardProfileCompact item={subscription.creditCard} />
-                        </div>
-                    )}
-                    <span />
-                </FormControl>
-
-                <FormControl label="청구서메일">
-                    {isEditMode ? (
-                        <div className={'mb-[-40px]'}>
-                            <InvoiceAccountSelect
-                                defaultValue={subscription.invoiceAccounts?.[0]}
-                                onSelect={(invoiceAccount) => {
-                                    form.setValue('invoiceAccountId', invoiceAccount?.id);
-                                }}
-                                placeholder={<EmptyValue />}
-                                getLabel={(option) => <InvoiceAccountProfileCompact invoiceAccount={option} />}
-                            />
-                        </div>
-                    ) : (
-                        <div className="flex items-center h-[50px] font-normal text-16 text-slate-950">
-                            {!!subscription.invoiceAccounts?.length ? (
-                                <>
-                                    <InvoiceAccountProfileCompact
-                                        invoiceAccount={(subscription.invoiceAccounts || [])[0]}
-                                    />
-                                    {!!(subscription.invoiceAccounts?.length - 1) && (
-                                        <Tippy
-                                            content={
-                                                <span
-                                                    className="text-12"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: subscription.invoiceAccounts
-                                                            .map((item) => item.email)
-                                                            .join('<br />'),
-                                                    }}
-                                                />
-                                            }
-                                        >
-                                            <div className="text-gray-500 text-13 cursor-pointer">
-                                                외 {subscription.invoiceAccounts?.length - 1}개
-                                            </div>
-                                        </Tippy>
-                                    )}
-                                </>
-                            ) : (
-                                <EmptyValue />
-                            )}
-                        </div>
-                    )}
-                    <span />
-                </FormControl>
+                <SubscriptionSeats isEditMode={isEditMode} handleSeats={handleSeats} />
+                <SubscriptionCreditCard isEditMode={isEditMode} form={form} />
+                <SubscriptionInvoiceAccount isEditMode={isEditMode} form={form} />
             </CardSection.Form>
         </CardSection.Base>
     );
