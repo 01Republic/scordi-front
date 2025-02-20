@@ -9,20 +9,27 @@ import {SubscriptionAlias} from './SubscriptionAlias';
 import {SubscriptionDesc} from './SubscriptionDesc';
 import {SubscriptionMaster} from './SubscriptionMaster';
 import {SubscriptionTeam} from './SubscriptionTeam';
+import {errorToast} from '^api/api';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
 
     if (!subscription) return <></>;
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
-        subscriptionApi.update(subscription.id, dto).then(() => {
-            toast.success('변경사항을 저장했어요.');
-            setIsEditMode(false);
-            reload();
-        });
+        subscriptionApi
+            .update(subscription.id, dto)
+            .then(() => setIsSaving(true))
+            .then(() => reload())
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .then(() => setIsEditMode(false))
+            .catch(errorToast)
+            .finally(() => {
+                setIsSaving(false);
+            });
     };
 
     return (
@@ -32,6 +39,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                 isEditMode={isEditMode}
                 setIsEditMode={setIsEditMode}
                 onSubmit={form.handleSubmit(onSubmit)}
+                isSaving={isSaving}
             >
                 <SubscriptionAlias isEditMode={isEditMode} form={form} />
                 <SubscriptionMaster isEditMode={isEditMode} form={form} />
