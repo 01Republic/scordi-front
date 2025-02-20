@@ -10,13 +10,13 @@ import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {bankAccountApi} from '^models/BankAccount/api';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {BankAccountKind, BankAccountUsingStatus, CreateBankAccountRequestDto} from '^models/BankAccount/type';
-import {FormContainer} from '^clients/private/_components/containers';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
+import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {CardIsPersonalSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
-import {CardHoldingMemberIdSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
+import {BankAccountIsPersonalSelect} from './BankAccountIsPersonalSelect';
+import {BankAccountHoldingMemberIdSelect} from './BankAccountHoldingMemberIdSelect';
 import {BankUsingStatusSelect} from './BankUsingStatusSelect';
 
 export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
@@ -122,9 +122,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                         <section className="relative mb-20">
                             <div className="mb-10">
-                                <h2 className="leading-none text-xl font-semibold mb-4">
-                                    Step2. 은행사를 선택해주세요.
-                                </h2>
+                                <h2 className="leading-none text-xl font-semibold mb-4">Step2. 은행을 선택해주세요.</h2>
                                 <p className="text-16 text-gray-500"></p>
                             </div>
 
@@ -152,7 +150,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">
-                                선택된 은행사: <b>{bankCompany}</b>
+                                선택된 은행: <b>{bankCompany}</b>
                             </p>
                             <button className="btn btn-xs btn-scordi gap-2" onClick={() => setCompany(undefined)}>
                                 변경하기
@@ -186,6 +184,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                         {...form.register('number', {required: true})}
                                         required
                                     />
+                                    <span />
                                 </FormControl>
                             </div>
 
@@ -196,12 +195,12 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     defaultValue={form.getValues('usingStatus') || BankAccountUsingStatus.InUse}
                                     onChange={(status) => form.setValue('usingStatus', status)}
                                 />
-                                <CardIsPersonalSelect
+                                <BankAccountIsPersonalSelect
                                     isLoading={isLoading}
                                     defaultValue={form.getValues('isPersonal') ?? undefined}
                                     onChange={(isPersonal) => form.setValue('isPersonal', isPersonal || false)}
                                 />
-                                <CardHoldingMemberIdSelect
+                                <BankAccountHoldingMemberIdSelect
                                     isLoading={isLoading}
                                     defaultValue={form.getValues('holdingMemberId') || undefined}
                                     onChange={(member) => form.setValue('holdingMemberId', member)}
