@@ -16,16 +16,15 @@ export const AirInputText = memo((props: AirInputTextProps) => {
     const [inProgress, setInProgress] = useState(0);
 
     const onSubmit = async (value: string) => {
-        setInProgress(1); // ing
-        const request = Promise.resolve(onChange && onChange(value));
+        if (defaultValue === value) {
+            setIsEditMode(false);
+            return;
+        }
 
-        return request
-            .then(() => {
-                setInProgress(0); // success
-            })
-            .catch(() => {
-                setInProgress(3); // failed
-            });
+        setInProgress(1); // ing
+        return Promise.resolve(onChange && onChange(value))
+            .then(() => setInProgress(2)) // success
+            .catch(() => setInProgress(3)); // failed
     };
 
     return (
@@ -37,18 +36,15 @@ export const AirInputText = memo((props: AirInputTextProps) => {
                         className="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center bg-slate-100 focus:outline-1 focus:outline-offset-0"
                         defaultValue={defaultValue}
                         onBlur={(e) => {
-                            setIsEditMode(false);
-                            defaultValue !== e.target.value && onSubmit(e.target.value);
+                            return onSubmit(e.target.value);
                         }}
                         onKeyUp={(e) => {
-                            if (e.key === 'Enter') {
-                                return onSubmit(e.target.value);
-                            }
+                            if (e.key === 'Enter') return onSubmit(e.target.value);
                         }}
                         autoFocus={true}
                         placeholder={placeholder}
                     />
-                    <div className="absolute -right-4 top-0 bottom-0 flex items-center justify-center">
+                    <div className="absolute -left-4 top-0 bottom-0 flex items-center justify-center">
                         {inProgress === 1 && <Spinner />}
                         {inProgress === 2 && <FaCheck className="text-green-500" />}
                         {inProgress === 3 && <FaTimes className="text-red-500" />}

@@ -1,4 +1,4 @@
-import React, {DetailedHTMLProps, HTMLAttributes} from 'react';
+import React from 'react';
 import {IoMdMore} from 'react-icons/io';
 import {toast} from 'react-hot-toast';
 import {CardTableColumns} from '^admin/share';
@@ -10,16 +10,6 @@ import {unitFormat} from '^utils/number';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
-
-const DropdownMenuItem = ({
-    onClick,
-    className = '',
-    children,
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
-    <div onClick={onClick} className={`cursor-pointer px-2 py-1.5 hover:bg-slate-100 btn-animation ${className}`}>
-        {children}
-    </div>
-);
 
 interface Options {
     reload: () => Promise<any>;
@@ -150,10 +140,10 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
                             )}
                         >
                             <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
-                                <DropdownMenuItem onClick={syncCodefCardsOfAccount}>
+                                <MoreDropdown.MenuItem onClick={syncCodefCardsOfAccount}>
                                     [코드에프] 카드 상태 동기화
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={removeAccount}>이 계정 삭제</DropdownMenuItem>
+                                </MoreDropdown.MenuItem>
+                                <MoreDropdown.MenuItem onClick={removeAccount}>이 계정 삭제</MoreDropdown.MenuItem>
                             </div>
                         </MoreDropdown>
                     </div>

@@ -4,6 +4,8 @@ import {Avatar} from '^components/Avatar';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface ExpenseSubscriptionProps {
     summary?: SummaryOfBillingHistoriesDto;
@@ -25,6 +27,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
         }
     })();
     const subscriptionSpends = summaryOfState?.subscriptionSpends || [];
+    // const url = ;
 
     // 로딩이 아직 안되었거나, 결과가 없는 경우
     if (subscriptionSpends.length === 0) {
@@ -36,7 +39,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     'border-red-100 text-red-400': currentStatusTab === BillingHistoryStatus.PayFail,
                 })}
             >
-                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 지출액이 없어요.`}</p>
+                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 내역이 없어요.`}</p>
             </div>
         );
     }
@@ -50,10 +53,10 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
             })}
         >
             {subscriptionSpends.map((spend) => (
-                <div
+                <LinkTo
+                    href={OrgSubscriptionDetailPageRoute.path(spend.organizationId, spend.subscriptionId)}
                     key={spend.subscription.id}
                     className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
-                    onClick={() => console.log(spend)}
                 >
                     <div className="flex items-center gap-3">
                         <Avatar
@@ -66,7 +69,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     </div>
 
                     <p>{currencyFormat(roundNumber(spend.amount))}</p>
-                </div>
+                </LinkTo>
             ))}
         </div>
     );

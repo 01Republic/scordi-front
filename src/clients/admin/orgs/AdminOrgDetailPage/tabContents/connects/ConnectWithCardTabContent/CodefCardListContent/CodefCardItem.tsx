@@ -22,6 +22,7 @@ import {confirm2, confirmed} from '^components/util/dialog';
 import {codefCardApi} from '^models/CodefCard/api';
 import {errorToast} from '^api/api';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
+import {CodefCardRowActionColumn} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithCardTabContent/CodefCardListContent/ActionColumn';
 
 interface CodefCardItemProps {
     codefCard: CodefCardDto;
@@ -30,11 +31,10 @@ interface CodefCardItemProps {
 }
 
 export const CodefCardItem = memo((props: CodefCardItemProps) => {
-    const org = useRecoilValue(adminOrgDetail);
     const {codefCard, reload, moveTab} = props;
     const setSelectedCodefAccount = useSetRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefCard = useSetRecoilState(selectedCodefCardAtom);
-    const {syncCard, isSyncRunning} = useCodefCardSync();
+    const {isSyncRunning} = useCodefCardSync();
 
     const account = codefCard.account!;
     const codefBillingHistories = codefCard.codefBillingHistories || [];
@@ -42,58 +42,9 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
     const isSleep = !!codefCard.isSleep;
     const sleepStyleClass: string = 'opacity-20';
 
-    const syncButtonClickHandler = () => {
-        if (!org) return;
-        const run = () => {
-            syncCard(org.id, codefCard).finally(() => reload());
-        };
-
-        const runningRows = document.querySelectorAll('.CodefCardItem-running');
-        if (runningRows.length <= 2) {
-            run();
-        } else {
-        }
-    };
-
     const goCardHistories = () => {
         moveTab(2);
         setSelectedCodefCard(codefCard);
-    };
-
-    // 이 '코드에프 카드' 항목 삭제
-    const removeCodefCard = () => {
-        if (!org) return;
-        const removeConfirm = () => {
-            return confirm2(
-                '진짜 삭제할까요?',
-                <div>
-                    <p>
-                        나중에 카드사 계정 연동이 최신화 되었을 때, DB에 없는 카드가 감지되면 사용자에게 신규카드가
-                        발견된 것 처럼 보일 수 있습니다.
-                    </p>
-                    <p>그래도 삭제할까요?</p>
-                </div>,
-            );
-        };
-
-        return confirmed(removeConfirm())
-            .then(() => codefCardApi.destroy(org.id, codefCard.id))
-            .then(() => toast.success(`코드에프 카드 (${codefCard.resCardName}) 삭제완료`))
-            .then(() => codefCard.creditCardId && disconnectCreditCard('연결된 결제수단(카드)도 함께 제거 할까요?'))
-            .then(() => reload())
-            .catch(errorToast);
-    };
-
-    // 연결된 결제수단(카드) 제거
-    const disconnectCreditCard = (title?: string) => {
-        if (!org || !codefCard.creditCardId) return;
-        const creditCardId = codefCard.creditCardId;
-
-        return confirmed(confirm2(title || '진짜 삭제할까요?'))
-            .then(() => creditCardApi.destroy(org.id, creditCardId))
-            .then(() => toast.success('Successfully disconnected'))
-            .then(() => reload())
-            .catch(errorToast);
     };
 
     return (
@@ -182,43 +133,7 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 </div>
 
                 <div className="flex items-center justify-end gap-1">
-                    <Tippy content="최신화">
-                        <button
-                            disabled={isSyncRunning}
-                            className={`btn btn-xs btn-scordi btn-square capitalize ${isSyncRunning ? 'loading' : ''}`}
-                            onClick={syncButtonClickHandler}
-                        >
-                            <IoRefresh />
-                        </button>
-                    </Tippy>
-
-                    <MoreDropdown
-                        placement="bottom-end"
-                        Trigger={() => (
-                            <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
-                                <IoMdMore fontSize={16} />
-                            </button>
-                        )}
-                    >
-                        {() => (
-                            <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
-                                <div
-                                    onClick={() => removeCodefCard()}
-                                    className="cursor-pointer px-2 py-1 hover:bg-slate-100 btn-animation"
-                                >
-                                    이 '코드에프 카드' 항목 삭제
-                                </div>
-                                {codefCard.creditCardId && (
-                                    <div
-                                        onClick={() => disconnectCreditCard()}
-                                        className="cursor-pointer px-2 py-1 hover:bg-slate-100 btn-animation"
-                                    >
-                                        연결된 결제수단(카드) 제거
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </MoreDropdown>
+                    <CodefCardRowActionColumn codefCard={codefCard} reload={reload} moveTab={moveTab} />
                 </div>
             </CardTableTR>
         </LoadableBox>

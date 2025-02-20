@@ -6,6 +6,7 @@ import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-h
 import {ClassConstructor} from 'class-transformer';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
 
 /** [연동] Connect CODEF Cards API */
 export const codefCardApi = {
@@ -43,6 +44,18 @@ export const codefCardApi = {
     histories(orgId: number, codefCardId: number, params: FindAllCardHistoryQueryDto = {}) {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
         return api.get(url, {params}); //.then(paginatedDtoOf(CodefCardDto));
+    },
+
+    // 코드에프 결제내역 패치 (코드에프 결제내역만 불러와서 저장)
+    patchHistories(orgId: number, codefCardId: number, params: RangeQueryDto = {}) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
+        return api.patch(url, {}, {params});
+    },
+
+    // 코드에프 구독 동기화
+    patchSubscriptions(orgId: number, codefCardId: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/subscriptions`;
+        return api.patch(url);
     },
 };
 

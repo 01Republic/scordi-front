@@ -1,28 +1,25 @@
 import React, {memo} from 'react';
+import {toast} from 'react-hot-toast';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useCreditCards} from '^models/CreditCard/hook';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {subscriptionApi} from '^models/Subscription/api';
-import {useToast} from '^hooks/useToast';
 import {CreditCardProfileOption2} from '^models/CreditCard/components';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface PayMethodSelectProps {
     subscription: SubscriptionDto;
     onChange: (creditCard?: CreditCardDto) => any;
     ValueComponent?: (props: {value: CreditCardDto | string}) => JSX.Element;
+    dryMode?: boolean;
 }
 
 export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {toast} = useToast();
+    const {subscription, onChange, ValueComponent = DefaultValueComponent, dryMode = false} = props;
     const {search, deleteCreditCard} = useCreditCards();
-
-    const {subscription, onChange, ValueComponent = DefaultValueComponent} = props;
+    const orgId = subscription.organizationId;
 
     const BillingHistory = BillingHistoryManager.init(subscription.billingHistories);
     const lastPaidHistory = BillingHistory.lastPaidHistory();
@@ -45,6 +42,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
 
     const onSelect = async (creditCard: CreditCardDto) => {
         if (creditCard.id === subscription.creditCard?.id) return;
+        if (dryMode) return onChange(creditCard);
 
         return subscriptionApi
             .update(subscription.id, {creditCardId: creditCard.id})
@@ -53,6 +51,8 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
     };
 
     const optionDetach = async () => {
+        if (dryMode) return onChange();
+
         return subscriptionApi
             .update(subscription.id, {creditCardId: null})
             .then(() => onChange())

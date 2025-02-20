@@ -59,9 +59,9 @@ export class MoneyDto {
         return !this.isDomestic();
     }
 
-    to_s() {
+    to_s(format?: string) {
         const amount = this.roundedAmount.toLocaleString();
-        return this.format.replace('%u', this.symbol).replace('%n', amount);
+        return (format || this.format).replace('%u', this.symbol).replace('%n', amount);
     }
 
     /**

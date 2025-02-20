@@ -1,16 +1,19 @@
 import React, {memo} from 'react';
-import {SubscriptionPaymentInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection';
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
-import {FaRegCreditCard} from 'react-icons/fa6';
-import {SubscriptionBasicInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBasicInfoSection';
-import {IoMdCalendar} from 'react-icons/io';
-import {BsCash, BsFolderFill} from 'react-icons/bs';
 import {useRecoilValue} from 'recoil';
+import {IoMdCalendar} from 'react-icons/io';
+import {FaRegCreditCard} from 'react-icons/fa6';
+import {BsCash, BsFolderFill} from 'react-icons/bs';
+import {roundNumber} from '^utils/number';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {SubscriptionBusinessInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBusinessInfoSection';
+import {StatusCard} from './StatusCard';
+import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
+import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';
+import {SubscriptionBusinessInfoSection} from './SubscriptionBusinessInfoSection';
 
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
+
+    if (!subscription) return <></>;
 
     const endNumber = subscription?.creditCard?.secretInfo?.number4;
 
@@ -29,11 +32,9 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 />
                 <StatusCard
                     title={'결제 예정 금액'}
-                    titleValue={
-                        `${
-                            subscription?.currentBillingAmount?.symbol
-                        } ${subscription?.nextBillingAmount.toLocaleString()}` || '-'
-                    }
+                    titleValue={`${subscription?.currentBillingAmount?.symbol} ${roundNumber(
+                        subscription.nextBillingAmount,
+                    ).toLocaleString()}`}
                     icon={<BsCash size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-orange-400'}
                 />
@@ -50,6 +51,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                     iconColor={'bg-blue-400'}
                 />
             </div>
+
             <SubscriptionBasicInfoSection />
             <SubscriptionPaymentInfoSection />
             <SubscriptionBusinessInfoSection />

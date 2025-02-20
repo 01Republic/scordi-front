@@ -11,9 +11,8 @@ import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgS
 import {FaPlus} from 'react-icons/fa6';
 import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionTeamMemberSelect';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
-import {SubscriptionUsingStatus} from '^models/Subscription/types';
 import {Paginated} from '^types/utils/paginated.dto';
-import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
+import {SubscriptionSeatDto, SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -60,16 +59,16 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     };
     const removedSeatCount = getRemovedSeatCount().toLocaleString();
 
-    const onChangeScopeHandler = (status: SubscriptionUsingStatus | null) => {
-        let query = {};
-        if (status === SubscriptionUsingStatus.PAID) query = {isPaid: true};
-        if (status === SubscriptionUsingStatus.FREE) query = {isPaid: false};
-        if (status === SubscriptionUsingStatus.NONE) query = {finishAt: 'NULL'};
-        if (status === SubscriptionUsingStatus.QUIT) query = {finishAt: {op: 'not', val: 'NULL'}};
-        search({
-            order: {id: 'DESC'},
-            where: query,
-        });
+    const onChangeScopeHandler = (status: SubscriptionSeatStatus | null) => {
+        if (!status) {
+            search({
+                order: {id: 'DESC'},
+            });
+        } else
+            search({
+                order: {id: 'DESC'},
+                where: {status},
+            });
     };
 
     useEffect(() => {
