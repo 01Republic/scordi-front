@@ -106,6 +106,7 @@ export class FindAllProductQuery extends FindAllQueryDto<ProductDto> {
     tagIds?: number[];
     tagName?: string;
     organizationId?: number;
+    isOrderByPriority?: boolean; // 노출 우선순위 정렬 적용 여부
 }
 
 export type ApplyToAddDto = {

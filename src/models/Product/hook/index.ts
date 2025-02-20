@@ -33,6 +33,7 @@ export const useProductsInSaaSCollection = () => {
             isLive: true,
             itemsPerPage: 15,
             order: {id: 'DESC'},
+            isOrderByPriority: true,
             ...query,
         });
     };
