@@ -36,7 +36,7 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
             <div className={'flex justify-between'}>
                 <PaymentScopeHandler />
 
-                <AddPaymentHistoryDropdown reload={reload} />
+                <AddPaymentHistoryDropdown subscription={subscription} reload={reload} />
             </div>
 
             <ListTableContainer
