@@ -37,7 +37,7 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
             <td>
                 <IsFreeTierTagUI value={subscription.isFreeTier || false} />
             </td>
-            <td className={'text-right font-medium'}>{ratio.toFixed(1)}%</td>
+            <td className={'text-right font-medium'}>{ratio.toFixed(2)}%</td>
             <td className={'text-right font-medium'}>
                 {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
             </td>
