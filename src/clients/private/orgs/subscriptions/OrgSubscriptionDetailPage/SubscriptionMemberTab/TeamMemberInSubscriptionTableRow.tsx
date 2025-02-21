@@ -11,14 +11,19 @@ import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {orgIdParamState} from '^atoms/common';
 import {errorToast} from '^api/api';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
 import Datepicker from 'react-tailwindcss-datepicker';
-import {SubscriptionSeatDto, UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
+import {
+    SubscriptionSeatDto,
+    SubscriptionSeatStatus,
+    UpdateSubscriptionSeatRequestDto,
+} from '^models/SubscriptionSeat/type';
 import {subscriptionApi} from '^models/Subscription/api';
 import {FiMinusCircle} from '^components/react-icons';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {debounce} from 'lodash';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
@@ -104,7 +109,23 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
             {/* 상태 */}
             <td className={`${hoverBgColor} ${loadingStyle}`}>
-                <SubscriptionUsingStatusTag value={seat.status} />
+                <SelectColumn
+                    value={seat.status}
+                    getOptions={async () => [
+                        SubscriptionSeatStatus.QUIT,
+                        SubscriptionSeatStatus.NONE,
+                        SubscriptionSeatStatus.PAID,
+                        SubscriptionSeatStatus.FREE,
+                    ]}
+                    onSelect={async (status: SubscriptionSeatStatus) => {
+                        if (status === seat.status) return;
+                        return update({status});
+                    }}
+                    ValueComponent={SubscriptionUsingStatusTag}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="상태를 변경합니다."
+                    inputDisplay={false}
+                />
             </td>
 
             {/* 이메일 */}
