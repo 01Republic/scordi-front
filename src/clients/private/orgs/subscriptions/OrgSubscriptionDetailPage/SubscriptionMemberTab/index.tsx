@@ -1,7 +1,6 @@
 import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import React, {memo, useEffect, useState} from 'react';
-import {RiUser3Fill, RiUserFollowFill, RiUserForbidFill, RiUserUnfollowFill} from 'react-icons/ri';
 import {useRecoilValue} from 'recoil';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {orgIdParamState} from '^atoms/common';
@@ -11,8 +10,12 @@ import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgS
 import {FaPlus} from 'react-icons/fa6';
 import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionTeamMemberSelect';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
-import {Paginated} from '^types/utils/paginated.dto';
-import {SubscriptionSeatDto, SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
+import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
+import {SubscriptionSeatStatusSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection';
+import {useAssignedSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/AssignedSeatCounter';
+import {useFinishTargetSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/FinishTargetSeatCounter';
+import {usePaidSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/PaidSeatCounter';
+import {useQuitStatusSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/QuitStatusSeatCounter';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -20,9 +23,12 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const {search, result, isLoading, isEmptyResult, isNotLoaded, movePage, changePageSize, reload, orderBy} =
         useSubscriptionSeatsInMemberTab();
     const [isOpened, setIsOpened] = useState(false);
-    const [originSeats, setOriginSeats] = useState<Paginated<SubscriptionSeatDto>>();
+    const {refetch: refetchAssignedSeatCount} = useAssignedSeatCounter(subscription);
+    const {refetch: refetchPaidSeatCount} = usePaidSeatCounter(subscription);
+    const {refetch: refetchFinishTargetSeatCounter} = useFinishTargetSeatCounter(subscription);
+    const {refetch: refetchQuitStatusSeatCount} = useQuitStatusSeatCounter(subscription);
 
-    if (!orgId || !subscription) return null;
+    if (!orgId || !subscription) return <></>;
 
     const onClose = () => {
         setIsOpened(false);
@@ -30,34 +36,13 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     };
 
     const onPageReload = () => {
-        reload().then((res) => {
-            setOriginSeats(res);
-        });
+        reload();
         reloadSubscription();
+        refetchAssignedSeatCount();
+        refetchPaidSeatCount();
+        refetchFinishTargetSeatCounter();
+        refetchQuitStatusSeatCount();
     };
-
-    const getUsingCount = () => {
-        return (originSeats?.items || []).filter((seat) => !!seat.teamMemberId).length;
-    };
-    const usingCount = getUsingCount().toLocaleString();
-
-    const allSeatCount = (originSeats?.items.length || 0).toLocaleString();
-
-    const getWillRemoveSeatCount = () => {
-        const willRemoveSeats = (originSeats?.items || []).filter(
-            (seat) => !!seat.finishAt && seat.finishAt.getMonth() === new Date().getMonth(),
-        );
-        return willRemoveSeats.length;
-    };
-    const willRemoveSeatCount = getWillRemoveSeatCount().toLocaleString();
-
-    const getRemovedSeatCount = () => {
-        const willRemoveSeats = (originSeats?.items || []).filter(
-            (seat) => !!seat.finishAt && seat.finishAt < new Date(),
-        );
-        return willRemoveSeats.length;
-    };
-    const removedSeatCount = getRemovedSeatCount().toLocaleString();
 
     const onChangeScopeHandler = (status: SubscriptionSeatStatus | null) => {
         if (!status) {
@@ -77,32 +62,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
 
     return (
         <div className={'py-4 space-y-4'}>
-            <div className={'bg-gray-200 grid grid-cols-4 p-4 space-x-4 rounded'}>
-                <StatusCard
-                    title={'현재 할당된 계정'}
-                    titleValue={usingCount}
-                    icon={<RiUser3Fill size={20} className="h-full w-full p-[6px] text-white" />}
-                    iconColor={'bg-purple-400'}
-                />
-                <StatusCard
-                    title={'구매한 계정'}
-                    titleValue={allSeatCount}
-                    icon={<RiUserFollowFill size={20} className="h-full w-full p-[6px] text-white" />}
-                    iconColor={'bg-orange-400'}
-                />
-                <StatusCard
-                    title={'이번달 회수(예정) 계정'}
-                    titleValue={willRemoveSeatCount}
-                    icon={<RiUserUnfollowFill size={20} className="h-full w-full p-[6px] text-white" />}
-                    iconColor={'bg-pink-400'}
-                />
-                <StatusCard
-                    title={'해지 완료된 계정'}
-                    titleValue={removedSeatCount}
-                    icon={<RiUserForbidFill size={20} className="h-full w-full p-[6px] text-white" />}
-                    iconColor={'bg-blue-400'}
-                />
-            </div>
+            <SubscriptionSeatStatusSection />
 
             <div className={'flex justify-between'}>
                 <MemberStatusScopeHandler onSearch={onChangeScopeHandler} />

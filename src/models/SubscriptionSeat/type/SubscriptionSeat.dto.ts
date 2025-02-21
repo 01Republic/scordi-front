@@ -36,4 +36,5 @@ export class SubscriptionSeatDto {
 
 export class FindAllSubscriptionSeatQueryDto extends FindAllQueryDto<SubscriptionSeatDto> {
     keyword?: string; // 키워드
+    isFinishTargetOnly?: boolean; // 이번 달 회수예정만 검색 요청
 }
