@@ -1,25 +1,15 @@
-import React, {memo} from 'react';
+import {memo} from 'react';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
+import {c_SubscriptionUsingStatus, SubscriptionUsingStatus, t_SubscriptionUsingStatus} from '../types';
 
-export const SubscriptionUsingStatusTag = memo((props: {value: SubscriptionSeatStatus | string}) => {
-    const {value} = props;
+interface SubscriptionUsingStatusTagProps {
+    value: string | SubscriptionUsingStatus;
+    className?: string;
+}
 
-    const colorClass =
-        {
-            [SubscriptionSeatStatus.QUIT]: 'bg-red-200',
-            [SubscriptionSeatStatus.PAID]: 'bg-green-200',
-            [SubscriptionSeatStatus.FREE]: 'bg-cyan-200',
-            [SubscriptionSeatStatus.NONE]: 'bg-gray-100',
-        }[value] || SubscriptionSeatStatus.NONE;
-
-    const text =
-        {
-            [SubscriptionSeatStatus.QUIT]: '해지',
-            [SubscriptionSeatStatus.PAID]: '유료',
-            [SubscriptionSeatStatus.FREE]: '무료',
-            [SubscriptionSeatStatus.NONE]: '미정',
-        }[value] || SubscriptionSeatStatus.NONE;
-
-    return <TagUI className={colorClass}>{text}</TagUI>;
+export const SubscriptionUsingStatusTag = memo((props: SubscriptionUsingStatusTagProps) => {
+    const {value, className = ''} = props;
+    const colorClass = c_SubscriptionUsingStatus(value as SubscriptionUsingStatus);
+    const text = t_SubscriptionUsingStatus(value as SubscriptionUsingStatus);
+    return <TagUI className={`${colorClass} ${className}`}>{text}</TagUI>;
 });

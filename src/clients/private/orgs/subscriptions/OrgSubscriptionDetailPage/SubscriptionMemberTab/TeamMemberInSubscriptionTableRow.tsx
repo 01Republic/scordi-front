@@ -23,7 +23,7 @@ import {confirm2, confirmed} from '^components/util/dialog';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {debounce} from 'lodash';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
+import {SubscriptionSeatStatusTag} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusTag';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
@@ -121,7 +121,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                         if (status === seat.status) return;
                         return update({status});
                     }}
-                    ValueComponent={SubscriptionUsingStatusTag}
+                    ValueComponent={SubscriptionSeatStatusTag}
                     contentMinWidth="240px"
                     optionListBoxTitle="상태를 변경합니다."
                     inputDisplay={false}
