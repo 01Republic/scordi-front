@@ -104,7 +104,7 @@ export const DraftInboxDataTable = memo((props: DraftInboxDataTableProps) => {
                                         `오늘 ${hm}`
                                     ) : (
                                         <div>
-                                            <div className="leading-none">{ymd}</div>
+                                            <div className="leading-none whitespace-nowrap">{ymd}</div>
                                             <div className="leading-none text-10 text-gray-500">{hm}</div>
                                         </div>
                                     )}

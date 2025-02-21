@@ -1,30 +1,28 @@
 import React, {memo} from 'react';
-import {useRecoilState} from 'recoil';
+import {toast} from 'react-hot-toast';
 import {CgChevronDoubleRight} from '@react-icons/all-files/cg/CgChevronDoubleRight';
 import {CgArrowsExpandLeft} from '@react-icons/all-files/cg/CgArrowsExpandLeft';
-import {attachmentClickHandler, GmailContentReadableDto} from '^models/InvoiceAccount/type/gmail.type';
-import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
 import {getColor, palette} from '^components/util/palette';
-import {Tip} from '^admin/share/Tip';
-import {selectedInvoiceAccountAtom} from '../../atoms';
-import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
 import {copyText} from '^components/util/copy';
-import {toast} from 'react-hot-toast';
+import {Tip} from '^admin/share/Tip';
+import {InvoiceAccountDto, attachmentClickHandler, GmailContentReadableDto} from '^models/InvoiceAccount/type';
+import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
 
 interface GmailDetailModalProps {
+    invoiceAccount?: InvoiceAccountDto;
     email?: GmailContentReadableDto;
     onClose: () => any;
 }
 
 export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
-    const {email, onClose} = props;
-    const [selectedInvoiceAccount, setSelectedInvoiceAccount] = useRecoilState(selectedInvoiceAccountAtom);
+    const {invoiceAccount, email, onClose} = props;
 
     const getUrl = () => {
-        if (!selectedInvoiceAccount || !email) return;
-        const {id, organizationId} = selectedInvoiceAccount;
+        if (!invoiceAccount || !email) return;
+        const {id, organizationId} = invoiceAccount;
         return AdminOrgInvoiceAccountEmailShowPageRoute.url(organizationId, id, email.id);
     };
 
