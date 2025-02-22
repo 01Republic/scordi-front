@@ -91,9 +91,7 @@ export const BillingHistoryMonthly = memo(
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full hide-scrollbar">
                         <table className="table w-full text-sm">
-                            <thead className="[--rounded-box:0.375rem]">
-                                <BillingHistoryMonthlyHeader months={months} />
-                            </thead>
+                            <BillingHistoryMonthlyHeader months={months} />
                             <tbody>
                                 {histories.length === 0 ? (
                                     <tr>
@@ -108,9 +106,7 @@ export const BillingHistoryMonthly = memo(
                                             data={history}
                                             ratio={ratioOf(history.getCostSumToKRW(exchangeRate), totalAmount)}
                                             exchangeRate={exchangeRate}
-                                            renderColumns={(
-                                                items: BillingHistoriesMonthlySumBySubscriptionDto['items'],
-                                            ) => {
+                                            renderColumns={() => {
                                                 return months.map((month, i) => (
                                                     <BillingHistoryMonthlyColumn
                                                         key={i}

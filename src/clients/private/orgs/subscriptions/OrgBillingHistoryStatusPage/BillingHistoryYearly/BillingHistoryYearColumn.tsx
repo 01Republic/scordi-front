@@ -17,7 +17,7 @@ export const BillingHistoryYearColumn = memo((props: BillingHistoryYearColumnPro
     const {currentData, previousData, exchangeRate} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
-    if (!currentData) return <td className="text-right">N/A</td>;
+    if (!currentData) return <td className="text-right">-</td>;
 
     const currentAmount = currentData.getCurrentAmount(exchangeRate, displayCurrency);
 
