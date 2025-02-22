@@ -23,16 +23,13 @@ export const BillingHistoryMonthlyColumn = memo((props: BillingHistoryMonthlyCol
     const previousAmount = previousData?.getCurrentAmount(exchangeRate, displayCurrency) || 0;
     const isHigher = currentAmount > previousAmount;
     const isLower = currentAmount < previousAmount;
+    const cellColor = isHigher ? 'text-red-500 bg-red-50' : isLower ? 'text-blue-500 bg-blue-50' : '';
 
     const symbol = displayCurrency === CurrencyCode.KRW ? '₩' : currentData?.symbol;
     const fixedAmount = toFixedAmount(currentAmount, currentData.code, displayCurrency);
 
     return (
-        <td
-            className={`text-right font-light min-w-28 ${
-                isHigher ? 'text-red-500 bg-red-50' : isLower ? 'text-blue-500 bg-blue-50' : ''
-            }`}
-        >
+        <td className={`text-right font-light min-w-28`}>
             {symbol} {fixedAmount.toLocaleString()}
         </td>
     );
