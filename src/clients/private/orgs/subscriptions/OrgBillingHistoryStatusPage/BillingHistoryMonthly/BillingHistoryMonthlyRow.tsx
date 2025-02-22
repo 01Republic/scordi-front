@@ -31,17 +31,18 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
 
     return (
         <tr className="group">
-            <td className="sticky left-0 bg-white min-w-40 flex z-10 border-r-2">
+            <td className="sticky left-0 bg-white min-w-64 flex z-10 border-r-2">
                 <SubscriptionProfile subscription={subscription} className="font-medium" />
             </td>
+            <td />
             <td>
                 <IsFreeTierTagUI value={subscription.isFreeTier || false} />
             </td>
-            <td className={'text-right font-medium'}>{ratio.toFixed(2)}%</td>
-            <td className={'text-right font-medium'}>
+            <td className={'text-right font-medium min-w-28'}>{ratio.toFixed(2)}%</td>
+            <td className={'text-right font-medium min-w-28'}>
                 {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
             </td>
-            <td className={'text-right font-medium'}>
+            <td className={'text-right font-medium min-w-28'}>
                 {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
             </td>
             {renderColumns(items)}

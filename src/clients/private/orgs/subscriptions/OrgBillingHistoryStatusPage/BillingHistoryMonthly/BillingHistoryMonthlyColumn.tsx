@@ -17,7 +17,7 @@ export const BillingHistoryMonthlyColumn = memo((props: BillingHistoryMonthlyCol
     const {currentData, previousData, exchangeRate} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
-    if (!currentData) return <td className="text-right">-</td>;
+    if (!currentData) return <td className="text-right min-w-28">-</td>;
 
     const currentAmount = currentData?.getCurrentAmount(exchangeRate, displayCurrency) || 0;
     const previousAmount = previousData?.getCurrentAmount(exchangeRate, displayCurrency) || 0;
@@ -29,7 +29,7 @@ export const BillingHistoryMonthlyColumn = memo((props: BillingHistoryMonthlyCol
 
     return (
         <td
-            className={`text-right font-light ${
+            className={`text-right font-light min-w-28 ${
                 isHigher ? 'text-red-500 bg-red-50' : isLower ? 'text-blue-500 bg-blue-50' : ''
             }`}
         >
