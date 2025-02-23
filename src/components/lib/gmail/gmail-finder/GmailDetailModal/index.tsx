@@ -2,6 +2,8 @@ import React, {memo, useEffect} from 'react';
 import {toast} from 'react-hot-toast';
 import {CgChevronDoubleRight} from '@react-icons/all-files/cg/CgChevronDoubleRight';
 import {CgArrowsExpandLeft} from '@react-icons/all-files/cg/CgArrowsExpandLeft';
+import {CgChevronUp} from '@react-icons/all-files/cg/CgChevronUp';
+import {CgChevronDown} from '@react-icons/all-files/cg/CgChevronDown';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
@@ -41,12 +43,12 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
         const shortcut = (evt: KeyboardEvent) => {
             if (evt.metaKey && evt.key === 'Enter') return onOpen();
 
-            if (evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail(email);
-            if (evt.key === 'J' && navigator?.goLastOfPage) return navigator.goLastOfPage();
-            if (evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail(email);
-            if (evt.key === 'K' && navigator?.goFirstOfPage) return navigator.goFirstOfPage();
-            if (evt.key === '<' && navigator?.goPrevPage) return navigator.goPrevPage();
-            if (evt.key === '>' && navigator?.goNextPage) return navigator.goNextPage();
+            if (evt.ctrlKey && evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail(email);
+            if (evt.ctrlKey && evt.key === 'J' && navigator?.goLastOfPage) return navigator.goLastOfPage();
+            if (evt.ctrlKey && evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail(email);
+            if (evt.ctrlKey && evt.key === 'K' && navigator?.goFirstOfPage) return navigator.goFirstOfPage();
+            if (evt.ctrlKey && evt.key === '<' && navigator?.goPrevPage) return navigator.goPrevPage();
+            if (evt.ctrlKey && evt.key === '>' && navigator?.goNextPage) return navigator.goNextPage();
         };
         // console.log('shortcut', 'on');
         window.addEventListener('keydown', shortcut);
@@ -58,23 +60,48 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
 
     return (
         <SlideSideModal open={isOpened} onClose={onClose}>
-            <div className="relative flex items-center">
-                <Tip text="닫기" subtext="Escape">
-                    <button
-                        onClick={onClose}
-                        className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
-                    >
-                        <CgChevronDoubleRight size={16} className="scale-[1.5]" />
-                    </button>
-                </Tip>
-                <Tip text="전체 페이지로 열기" subtext="⌘↵">
-                    <button
-                        onClick={onOpen}
-                        className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
-                    >
-                        <CgArrowsExpandLeft size={16} />
-                    </button>
-                </Tip>
+            <div className="relative flex items-center gap-2">
+                <div className="flex items-center">
+                    <Tip text="닫기" subtext="Escape">
+                        <button
+                            onClick={onClose}
+                            className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
+                        >
+                            <CgChevronDoubleRight size={16} className="scale-[1.5]" />
+                        </button>
+                    </Tip>
+                    <Tip text="전체 페이지로 열기" subtext="⌘↵">
+                        <button
+                            onClick={onOpen}
+                            className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
+                        >
+                            <CgArrowsExpandLeft size={16} />
+                        </button>
+                    </Tip>
+                </div>
+                <div className="flex items-center">
+                    <div className="text-gray-300">|</div>
+                </div>
+                <div className="flex items-center">
+                    <Tip text="이전" subtext="Ctrl+K">
+                        <button
+                            onClick={() => navigator?.goPrevEmail(email!)}
+                            className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
+                            disabled={!navigator?.prevPageToken}
+                        >
+                            <CgChevronUp size={16} className="scale-[1.5]" />
+                        </button>
+                    </Tip>
+                    <Tip text="다음" subtext="Ctrl+J">
+                        <button
+                            onClick={() => navigator?.goNextEmail(email!)}
+                            className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
+                            disabled={!navigator?.nextPageToken}
+                        >
+                            <CgChevronDown size={16} className="scale-[1.5]" />
+                        </button>
+                    </Tip>
+                </div>
 
                 <div className="ml-auto">
                     {email && (
