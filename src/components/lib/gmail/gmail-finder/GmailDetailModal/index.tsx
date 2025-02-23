@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {toast} from 'react-hot-toast';
 import {CgChevronDoubleRight} from '@react-icons/all-files/cg/CgChevronDoubleRight';
 import {CgArrowsExpandLeft} from '@react-icons/all-files/cg/CgArrowsExpandLeft';
@@ -10,15 +10,18 @@ import {copyText} from '^components/util/copy';
 import {Tip} from '^admin/share/Tip';
 import {InvoiceAccountDto, attachmentClickHandler, GmailContentReadableDto} from '^models/InvoiceAccount/type';
 import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
+import {GmailListNavigator} from '../GmailListFinder/useGmailListNavigator';
 
 interface GmailDetailModalProps {
     invoiceAccount?: InvoiceAccountDto;
     email?: GmailContentReadableDto;
     onClose: () => any;
+    navigator?: GmailListNavigator;
 }
 
 export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
-    const {invoiceAccount, email, onClose} = props;
+    const {invoiceAccount, email, onClose, navigator} = props;
+    const isOpened = !!email;
 
     const getUrl = () => {
         if (!invoiceAccount || !email) return;
@@ -31,8 +34,30 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
         url && window.open(url, '_blank');
     };
 
+    useEffect(() => {
+        if (!isOpened) return;
+        if (!window || typeof window !== 'object') return;
+
+        const shortcut = (evt: KeyboardEvent) => {
+            if (evt.metaKey && evt.key === 'Enter') return onOpen();
+
+            if (evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail(email);
+            if (evt.key === 'J' && navigator?.goLastOfPage) return navigator.goLastOfPage();
+            if (evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail(email);
+            if (evt.key === 'K' && navigator?.goFirstOfPage) return navigator.goFirstOfPage();
+            if (evt.key === '<' && navigator?.goPrevPage) return navigator.goPrevPage();
+            if (evt.key === '>' && navigator?.goNextPage) return navigator.goNextPage();
+        };
+        // console.log('shortcut', 'on');
+        window.addEventListener('keydown', shortcut);
+        return () => {
+            // console.log('shortcut', 'off');
+            window.removeEventListener('keydown', shortcut);
+        };
+    }, [isOpened, email]);
+
     return (
-        <SlideSideModal open={!!email} onClose={onClose}>
+        <SlideSideModal open={isOpened} onClose={onClose}>
             <div className="relative flex items-center">
                 <Tip text="닫기" subtext="Escape">
                     <button

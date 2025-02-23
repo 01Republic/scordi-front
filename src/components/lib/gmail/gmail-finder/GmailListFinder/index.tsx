@@ -2,6 +2,7 @@ import React, {memo, useState} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {GmailContentReadableDto} from '^models/InvoiceAccount/type/gmail.type';
 import {useDraftInboxController} from './useDraftInboxController';
+import {useGmailListNavigator} from './useGmailListNavigator';
 import {SelectedInvoiceAccount} from './SelectedInvoiceAccount';
 import {DraftInboxControlBar} from './DraftInboxControlBar';
 import {DraftInboxDataTable} from './DraftInboxDataTable';
@@ -15,12 +16,14 @@ interface GmailListFinderProps {
 
 export const GmailListFinder = memo((props: GmailListFinderProps) => {
     const {invoiceAccount, unSelectHandler} = props;
-    const {form, data, isLoading, isFetching, refetch, pageTokens, setPageTokens} =
-        useDraftInboxController(invoiceAccount);
+    const {form, data, isLoading, isFetching, refetch} = useDraftInboxController(invoiceAccount);
     const [detailModalEmail, setDetailModalEmail] = useState<GmailContentReadableDto>();
-
-    const params = form.watch();
-    const currentPageNum = pageTokens.findIndex((token) => token === params.pageToken) + 1;
+    const navigator = useGmailListNavigator({
+        data,
+        form,
+        currentEmail: detailModalEmail,
+        setCurrentEmail: setDetailModalEmail,
+    });
 
     return (
         <div>
@@ -28,14 +31,7 @@ export const GmailListFinder = memo((props: GmailListFinderProps) => {
             <SelectedInvoiceAccount invoiceAccount={invoiceAccount} onClick={() => unSelectHandler()} />
 
             {/* 인박스 요청 컨트롤바 */}
-            <DraftInboxControlBar
-                form={form}
-                pageTokens={pageTokens}
-                setPageTokens={setPageTokens}
-                nextPageToken={data?.nextPageToken}
-                isLoading={isFetching}
-                reload={() => refetch()}
-            />
+            <DraftInboxControlBar navigator={navigator} isLoading={isFetching} reload={() => refetch()} />
 
             <br />
 
@@ -48,16 +44,10 @@ export const GmailListFinder = memo((props: GmailListFinderProps) => {
 
             <div className="pt-4 flex items-center justify-center">
                 <NextPrevNavigator
-                    currentPageNum={currentPageNum}
-                    pageTokens={pageTokens}
-                    nextPageToken={data?.nextPageToken}
-                    onPrev={(pageToken) => form.setValue('pageToken', pageToken)}
-                    onNext={(pageToken) => {
-                        setPageTokens((tokens) => {
-                            return tokens.includes(pageToken) ? [...tokens] : [...tokens, pageToken];
-                        });
-                        form.setValue('pageToken', pageToken);
-                    }}
+                    prevDisabled={!navigator.prevPageToken}
+                    nextDisabled={!navigator.nextPageToken}
+                    onPrev={navigator.goPrevPage}
+                    onNext={navigator.goNextPage}
                 />
             </div>
 
@@ -66,6 +56,7 @@ export const GmailListFinder = memo((props: GmailListFinderProps) => {
                 invoiceAccount={invoiceAccount}
                 email={detailModalEmail}
                 onClose={() => setDetailModalEmail(undefined)}
+                navigator={navigator}
             />
         </div>
     );

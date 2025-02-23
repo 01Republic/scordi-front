@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {useQuery} from '@tanstack/react-query';
 import {invoiceAccountGmailTestApi} from '^models/InvoiceAccount/api';
@@ -7,7 +6,6 @@ import {GmailMessageListFetchParamQueryDto} from '^models/InvoiceAccount/type/in
 
 export const useDraftInboxController = (invoiceAccount?: InvoiceAccountDto) => {
     const invoiceAccountId = invoiceAccount?.id;
-    const [pageTokens, setPageTokens] = useState<string[]>(['']);
     const form = useForm<GmailMessageListFetchParamQueryDto>({
         defaultValues: {
             maxResults: 20,
@@ -29,7 +27,5 @@ export const useDraftInboxController = (invoiceAccount?: InvoiceAccountDto) => {
         isFetching,
         refetch,
         form,
-        pageTokens,
-        setPageTokens,
     };
 };
