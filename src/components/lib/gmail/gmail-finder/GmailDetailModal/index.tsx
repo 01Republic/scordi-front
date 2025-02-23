@@ -13,6 +13,7 @@ import {Tip} from '^admin/share/Tip';
 import {InvoiceAccountDto, attachmentClickHandler, GmailContentReadableDto} from '^models/InvoiceAccount/type';
 import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
 import {GmailListNavigator} from '../GmailListFinder/useGmailListNavigator';
+import {GmailContentDisplayByType} from '../GmailDetailPage/GmailContentDisplay';
 
 interface GmailDetailModalProps {
     invoiceAccount?: InvoiceAccountDto;
@@ -87,7 +88,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                         <button
                             onClick={() => navigator?.goPrevEmail(email!)}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
-                            disabled={!navigator?.prevPageToken}
+                            disabled={!navigator?.prevEmail && !navigator?.prevPageToken}
                         >
                             <CgChevronUp size={16} className="scale-[1.5]" />
                         </button>
@@ -96,7 +97,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                         <button
                             onClick={() => navigator?.goNextEmail(email!)}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
-                            disabled={!navigator?.nextPageToken}
+                            disabled={!navigator?.nextEmail && !navigator?.nextPageToken}
                         >
                             <CgChevronDown size={16} className="scale-[1.5]" />
                         </button>
@@ -151,9 +152,11 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                 <div className="flex flex-col text-14">
                     <Section label="보낸이 (From)">{email?.metadata.from}</Section>
                     <Section label="받는이 (To)">{email?.metadata.to}</Section>
-                    <Section label="받은이 (Receiver)">{email?.metadata.receiver}</Section>
+                    <Section label="받은이 (Receiver)" className="pb-4">
+                        {email?.metadata.receiver}
+                    </Section>
 
-                    <Section label="첨부파일" className="mt-4">
+                    <Section label="첨부파일">
                         {email?.attachments.length ? (
                             email.attachments.map((attachment, i) => {
                                 return (
@@ -177,7 +180,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                 <hr className="mb-4" />
 
                 <div className="max-w-full overflow-auto no-scrollbar">
-                    <div className="" dangerouslySetInnerHTML={{__html: email?.contents[0] || ''}} />
+                    <GmailContentDisplayByType content={email?.content} />
                 </div>
             </div>
         </SlideSideModal>

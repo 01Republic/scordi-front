@@ -16,7 +16,7 @@ export const GmailContentTopbar = memo((props: GmailContentTopbarProps) => {
                 <Tip text={viewMode === 'parsed' ? '이메일 보기' : `데이터 보기`}>
                     <button
                         className={`btn btn-xs btn-square transition-all no-animation btn-animation ${
-                            viewMode === 'parsed' ? 'btn-ghost' : 'btn-scordi'
+                            viewMode === 'parsed' ? 'btn-white' : 'btn-scordi'
                         }`}
                         onClick={() => changeViewMode()}
                     >

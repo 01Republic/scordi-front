@@ -22,11 +22,18 @@ export const useGmailListNavigator = (config: GmailListNavigatorConfig) => {
 
     const {messages = []} = data || {};
     const params = form.watch();
+
+    // Page Values
     const currentPageIndex = pageTokens.findIndex((token) => token === params.pageToken);
     const currentPageNum = currentPageIndex + 1;
     const prevPageToken = pageTokens[currentPageIndex - 1];
     const nextPageToken = data?.nextPageToken;
+
+    // Email Values
     const getSubject = (email?: GmailContentReadableDto) => email?.metadata.subject;
+    const indexOf = (email: GmailContentReadableDto) => messages.findIndex((msg) => msg.id === email.id);
+    const prevEmail = currentEmail ? messages[indexOf(currentEmail) - 1] : undefined;
+    const nextEmail = currentEmail ? messages[indexOf(currentEmail) + 1] : undefined;
 
     useEffect(() => {
         const oldFirstEmail = firstEmail;
@@ -60,21 +67,19 @@ export const useGmailListNavigator = (config: GmailListNavigatorConfig) => {
         if (newFirstEmail) setFirstEmail(newFirstEmail);
     }, [messages, firstEmail, currentPageIndex, beforePageIndex]);
 
-    const indexOf = (email: GmailContentReadableDto) => messages.findIndex((msg) => msg.id === email.id);
-
     const goPrevEmail = (email: GmailContentReadableDto) => {
-        const target = messages[indexOf(email) - 1];
-        if (target) {
-            setCurrentEmail(target);
+        // const target = messages[indexOf(email) - 1];
+        if (prevEmail) {
+            setCurrentEmail(prevEmail);
         } else {
             goPrevPage();
         }
     };
 
     const goNextEmail = (email: GmailContentReadableDto) => {
-        const target = messages[indexOf(email) + 1];
-        if (target) {
-            setCurrentEmail(target);
+        // const target = messages[indexOf(email) + 1];
+        if (nextEmail) {
+            setCurrentEmail(nextEmail);
         } else {
             goNextPage();
         }
@@ -125,6 +130,8 @@ export const useGmailListNavigator = (config: GmailListNavigatorConfig) => {
         pageTokens,
         prevPageToken,
         nextPageToken,
+        prevEmail,
+        nextEmail,
         goPrevEmail,
         goNextEmail,
         goFirstOfPage,
