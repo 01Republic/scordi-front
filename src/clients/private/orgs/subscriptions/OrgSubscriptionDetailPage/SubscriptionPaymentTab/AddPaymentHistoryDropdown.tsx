@@ -8,8 +8,9 @@ import {
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
 import {InvoiceAccountAutoCreateModal} from '^clients/private/_modals/invoice-accounts';
 import {toast} from 'react-hot-toast';
-import {MdOutlineRefresh} from 'react-icons/md';
+import {MdRefresh} from 'react-icons/md';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {useCreditCardSync} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/atom';
 
 interface AddPaymentHistoryDropdownProps {
     subscription: SubscriptionDto;
@@ -18,23 +19,33 @@ interface AddPaymentHistoryDropdownProps {
 
 export const AddPaymentHistoryDropdown = memo((props: AddPaymentHistoryDropdownProps) => {
     const {subscription, reload} = props;
+    const {startSync, isSyncRunning} = useCreditCardSync(subscription.creditCard);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
     const [isInvoiceAutoCreateModalOpened, setIsInvoiceAutoCreateModalOpened] = useState(false);
+    const creditCardId = subscription.creditCardId;
+
+    const onClickCreditCard = () => {
+        if (!creditCardId) {
+            setIsCardAutoCreateModalOpen(true);
+        } else {
+            startSync().then((result) => result && reload());
+        }
+    };
 
     return (
         <ListPageDropdown>
-            <button className={'btn btn-outline btn-sm text-14 bg-white'}>
-                <MdOutlineRefresh />
-                &nbsp;최신내역 불러오기
+            <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`}>
+                <MdRefresh fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
+                <span>최신내역 불러오기</span>
             </button>
 
             <ListPageDropdownMenu>
-                <div className={`${!subscription.creditCardId && 'pointer-events-none opacity-50'}`}>
+                <div className={`${!subscription.creditCardId || (isSyncRunning && 'pointer-events-none opacity-50')}`}>
                     <MethodOption
                         Icon={FcDataBackup}
                         title="결제내역 불러오기"
                         desc="카드사 로그인으로 한 번에 불러와요"
-                        onClick={() => setIsCardAutoCreateModalOpen(true)}
+                        onClick={onClickCreditCard}
                     />
                 </div>
 
