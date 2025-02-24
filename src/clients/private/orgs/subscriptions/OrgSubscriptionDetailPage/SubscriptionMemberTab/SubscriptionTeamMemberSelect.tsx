@@ -88,7 +88,7 @@ export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
                         </div>
                     </div>
 
-                    <div className={'max-h-96 overflow-scroll'}>
+                    <div className={'max-h-96 overflow-y-scroll'}>
                         <TeamMemberSelectableSection
                             gridCols={1}
                             filter={(teamMember) =>
