@@ -76,20 +76,19 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
                                 />
                                 <span />
                             </FormControl>
-                            <FormControl label="전화번호" required>
+                        </div>
+
+                        <div className="max-w-md mx-auto flex flex-col gap-8">
+                            <h2 className="leading-none text-xl font-semibold">선택정보</h2>
+                            <FormControl label="전화번호">
                                 <input
                                     type="tel"
                                     className="input input-underline !bg-slate-100 w-full"
                                     name="phone"
                                     defaultValue={formData.phone}
-                                    required
                                 />
                                 <span />
                             </FormControl>
-                        </div>
-
-                        <div className="max-w-md mx-auto flex flex-col gap-8">
-                            <h2 className="leading-none text-xl font-semibold">선택정보</h2>
                             <TeamMemberTeamSelect defaultValue={formData.teamIds} />
                         </div>
                     </div>
