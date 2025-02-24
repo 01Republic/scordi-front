@@ -30,14 +30,14 @@ interface SubscriptionTableRowProps {
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload} = props;
 
-    const _update = async (dto: UpdateSubscriptionRequestDto) => {
+    const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
         const {id, organizationId: orgId} = subscription;
         return subscriptionApi
             .update(id, dto)
-            .then(() => toast.success('수정했습니다'))
+            .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
             .finally(() => reload());
-    };
+    }, 250);
 
     const update = debounce(_update, 250);
 
