@@ -128,7 +128,6 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
                         </p>
                         {subtextMethod === 'fullNumber' ? (
                             <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                                {bankAccount.name && company && <span>{bankName} </span>}
                                 <span>{bankAccount.displayNumber || '(알수없음)'}</span>
                             </p>
                         ) : (
