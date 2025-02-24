@@ -22,12 +22,12 @@ export const SubscriptionSeats = memo((props: SubscriptionSeatsProps) => {
                     <input
                         className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
                         defaultValue={currentSeatCount}
-                        type="number"
+                        type="string"
                         onWheel={(e) => e.preventDefault()}
                         onChange={(e) => {
-                            const value = Number(e.target.value.toString().replace(/\D/g, ''));
+                            const value = e.target.value.toString().replace(/\D/g, '');
                             e.target.value = value.toString();
-                            if (value) setUpdateSeatCount(value - currentSeatCount);
+                            if (value) setUpdateSeatCount(Number(value) - currentSeatCount);
                         }}
                     />
                     <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
