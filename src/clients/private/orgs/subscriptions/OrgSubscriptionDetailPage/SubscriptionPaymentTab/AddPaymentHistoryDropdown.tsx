@@ -26,11 +26,14 @@ export const AddPaymentHistoryDropdown = memo((props: AddPaymentHistoryDropdownP
 
     const onClickCreditCard = () => {
         if (!creditCardId) {
-            setIsCardAutoCreateModalOpen(true);
+            // setIsCardAutoCreateModalOpen(true);
+            return;
         } else {
             startSync().then((result) => result && reload());
         }
     };
+
+    const onClickInvoiceAccount = () => {};
 
     return (
         <ListPageDropdown>
@@ -40,7 +43,9 @@ export const AddPaymentHistoryDropdown = memo((props: AddPaymentHistoryDropdownP
             </button>
 
             <ListPageDropdownMenu>
-                <div className={`${!subscription.creditCardId || (isSyncRunning && 'pointer-events-none opacity-50')}`}>
+                <div
+                    className={`${!subscription.creditCardId || isSyncRunning ? 'pointer-events-none opacity-50' : ''}`}
+                >
                     <MethodOption
                         Icon={FcDataBackup}
                         title="결제내역 불러오기"
