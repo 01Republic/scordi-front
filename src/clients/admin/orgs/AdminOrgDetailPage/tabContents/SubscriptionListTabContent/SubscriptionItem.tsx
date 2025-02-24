@@ -1,57 +1,97 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {CardTableTR} from '^admin/share';
 import {Avatar} from '^components/Avatar';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {hh_mm, yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {SubscriptionItemMoreDropdown} from './SubscriptionItemMoreDropdown';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {AdminProductPageRoute} from '^pages/admin/products/[id]';
+import Tippy from '@tippyjs/react';
 
 interface SubscriptionItemProps {
     subscription: SubscriptionDto;
-    borderBottom?: boolean;
     reload: () => any;
 }
 
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
-    const {subscription, borderBottom = true, reload} = props;
+    const {subscription, reload} = props;
 
-    const [invoiceAccount] = subscription.invoiceAccounts || [];
+    const {product, invoiceAccounts = []} = subscription;
+    const [invoiceAccount] = invoiceAccounts;
 
     return (
-        <CardTableTR gridClass="grid-cols-7" borderBottom={borderBottom}>
-            {/* name */}
+        <>
+            {/* ID */}
             <div>
-                <div className="flex gap-2 items-center">
-                    <Avatar src={subscription.product.image} className="w-[32px]" />
-                    <p className="text-left flex flex-col gap-0.5 leading-none">
-                        <span className="text-xs text-gray-500">(#{subscription.id})</span>
-                        <span className="whitespace-nowrap">{subscription.product.nameKo}</span>
-                    </p>
-                </div>
+                <span className="badge badge-xs">#{subscription.id}</span>
             </div>
 
-            {/* billing */}
-            <div></div>
-
-            {/* 인보이스 계정 */}
-            <div className="col-span-2">
-                {invoiceAccount && (
+            {/* Product */}
+            <div className="col-span-2 overflow-hidden">
+                <OpenButtonColumn href={AdminProductPageRoute.path(product.id)}>
                     <div className="flex gap-2 items-center">
-                        <Avatar src={invoiceAccount.image!} className="w-[32px]" />
-                        <p className="text-left flex flex-col gap-0.5 leading-none">
-                            <span className="text-xs text-gray-500">(#{invoiceAccount.id})</span>
-                            <span className="whitespace-nowrap">{invoiceAccount.email}</span>
+                        <Avatar src={product.image} className="w-[20px] border border-gray-200 rounded-full shadow" />
+                        <p className="text-left flex items-center gap-0.5 leading-none">
+                            <span className="text-12 text-gray-500">(#{product.id})</span>
+                            <span className="whitespace-nowrap">{product.nameKo}</span>
                         </p>
                     </div>
+                </OpenButtonColumn>
+            </div>
+
+            {/* 결제수단(계좌) */}
+            <div className="col-span-2"></div>
+
+            {/* 결제수단 */}
+            <div className="col-span-2"></div>
+
+            {/* 청구서 계정 */}
+            <div className="col-span-2">
+                {invoiceAccount ? (
+                    <Tippy
+                        className="!text-12"
+                        content={
+                            <div className="flex flex-col gap-0.5">
+                                {invoiceAccounts.map((invoiceAccount, i) => (
+                                    <div key={i} className="flex items-center gap-1">
+                                        <div>({invoiceAccount.id})</div>
+                                        <div>{invoiceAccount.email}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        }
+                    >
+                        <div>
+                            <div className="flex gap-2 items-center">
+                                <Avatar src={invoiceAccount.image!} className="w-[20px]" />
+                                <p className="text-left flex items-center gap-0.5 leading-none overflow-hidden">
+                                    <span className="whitespace-nowrap truncate text-ellipsis">
+                                        {invoiceAccount.email}
+                                    </span>
+                                    <span className="text-12 text-gray-400 whitespace-nowrap">
+                                        등 {invoiceAccounts.length}개
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </Tippy>
+                ) : (
+                    <EmptyText />
                 )}
             </div>
 
-            {/* created at */}
+            {/* 등록일시 */}
             <div>
-                <span className="whitespace-nowrap">{yyyy_mm_dd_hh_mm(subscription.createdAt)}</span>
+                <div className={`tooltip tooltip-top tooltip-success`} data-tip={hh_mm(subscription.createdAt)}>
+                    {yyyy_mm_dd(subscription.createdAt)}
+                </div>
             </div>
 
+            {/* 수정일시 */}
             <div>
-                <span className="whitespace-nowrap">{yyyy_mm_dd_hh_mm(subscription.updatedAt)}</span>
+                <div className={`tooltip tooltip-top tooltip-success`} data-tip={hh_mm(subscription.updatedAt)}>
+                    {yyyy_mm_dd(subscription.updatedAt)}
+                </div>
             </div>
 
             {/* actions */}
@@ -61,6 +101,8 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                 {/*<button className="btn btn-sm btn-warning">수정</button>*/}
                 {/*<button className="btn btn-sm btn-error">삭제</button>*/}
             </div>
-        </CardTableTR>
+        </>
     );
 });
+
+const EmptyText = () => <span className="text-12 text-gray-300">비어있음</span>;

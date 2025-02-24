@@ -55,15 +55,22 @@ export const SubscriptionListTabContent = memo(() => {
 
             <SearchResultContainer>
                 <CardTablePanel
-                    gridClass="grid-cols-7"
+                    gridClass="grid-cols-12"
+                    className="text-14"
                     entries={listPage.items}
-                    ths={['name', 'billing', '인보이스 계정', '', 'created at', 'updated at', '']}
-                    entryComponent={(subscription, i, arr) => (
-                        <SubscriptionItem
-                            subscription={subscription}
-                            borderBottom={i + 1 < arr.length}
-                            reload={() => onSearch({})}
-                        />
+                    ths={[
+                        <div>ID</div>,
+                        <div className="col-span-2">앱</div>,
+                        <div className="col-span-2">결제수단(계좌)</div>,
+                        <div className="col-span-2">결제수단</div>,
+                        <div className="col-span-2">청구서 계정</div>,
+                        <div>등록일시</div>,
+                        <div>수정일시</div>,
+                        <div></div>,
+                    ]}
+                    entryTrWrap
+                    entryComponent={(subscription) => (
+                        <SubscriptionItem subscription={subscription} reload={() => onSearch({})} />
                     )}
                 />
             </SearchResultContainer>

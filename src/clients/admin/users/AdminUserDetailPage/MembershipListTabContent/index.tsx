@@ -52,7 +52,14 @@ export const MembershipListTabContent = memo(() => {
                     pagination={result.pagination}
                     pageMove={movePage}
                     changePageSize={changePageSize}
-                    ths={['조직', '', '조직내 권한', '조직 가입 승인상태', '조직 링크', '가입일시']}
+                    ths={[
+                        <div>조직</div>,
+                        <div></div>,
+                        <div>조직내 권한</div>,
+                        <div>조직 가입 승인상태</div>,
+                        <div>조직 링크</div>,
+                        <div>가입일시</div>,
+                    ]}
                     entryComponent={(membership, i, arr) => (
                         <MembershipItem
                             membership={membership}
