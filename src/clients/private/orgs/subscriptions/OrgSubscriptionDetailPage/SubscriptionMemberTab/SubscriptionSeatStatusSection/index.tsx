@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {AssignedSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/AssignedSeatCounter';
-import {FinishTargetSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/FinishTargetSeatCounter';
-import {PaidSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/PaidSeatCounter';
-import {QuitStatusSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/QuitStatusSeatCounter';
+import {PaidSeatCounter} from './PaidSeatCounter';
+import {AssignedSeatCounter} from './AssignedSeatCounter';
+import {QuitStatusSeatCounter} from './QuitStatusSeatCounter';
+import {FinishTargetSeatCounter} from './FinishTargetSeatCounter';
 
 interface SubscriptionSeatStatusSectionProps {
     //

@@ -1,20 +1,14 @@
 import React, {memo} from 'react';
 import {RiUser3Fill} from 'react-icons/ri';
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useSeatCounter} from '^models/SubscriptionSeat/hook/useSeatCounter';
 import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
+import {StatusCard} from '../../SubscriptionInfoTab/StatusCard';
+import {useCurrentSubscription} from '../../atom';
 
 export const useAssignedSeatCounter = (subscription: SubscriptionDto | null) => {
     return useSeatCounter(subscription, {
-        where: {teamMemberId: {op: 'not', val: 'NULL'}},
-    });
-};
-
-export const useQuitStatusSeatCounter = (subscription: SubscriptionDto | null) => {
-    return useSeatCounter(subscription, {
-        where: {status: SubscriptionSeatStatus.QUIT},
+        where: {teamMemberId: {op: 'not', val: 'NULL'}, status: {op: 'not', val: SubscriptionSeatStatus.QUIT}},
     });
 };
 
