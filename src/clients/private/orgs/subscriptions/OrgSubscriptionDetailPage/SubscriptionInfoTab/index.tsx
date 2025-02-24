@@ -18,7 +18,9 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const endNumber = subscription?.creditCard?.secretInfo?.number4;
 
     const paymentMethodText = subscription?.creditCard?.issuerCompany
-        ? `${subscription?.creditCard?.issuerCompany.replace('카드', '').replace('card', '')}(${endNumber})`
+        ? `${subscription?.creditCard?.issuerCompany.replace('카드', '').replace('card', '')}${
+              endNumber ? `(${endNumber})` : ''
+          }`
         : '-';
 
     return (
