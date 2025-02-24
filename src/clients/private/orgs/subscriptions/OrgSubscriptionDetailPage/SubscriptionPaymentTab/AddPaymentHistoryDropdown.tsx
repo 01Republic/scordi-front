@@ -33,7 +33,9 @@ export const AddPaymentHistoryDropdown = memo((props: AddPaymentHistoryDropdownP
         }
     };
 
-    const onClickInvoiceAccount = () => {};
+    const isConnectedInvoiceAccount = subscription.invoiceAccounts?.some(
+        (invoiceAccount) => invoiceAccount.googleTokenDataId !== null,
+    );
 
     return (
         <ListPageDropdown>
@@ -54,7 +56,7 @@ export const AddPaymentHistoryDropdown = memo((props: AddPaymentHistoryDropdownP
                     />
                 </div>
 
-                <div className={`${!subscription.invoiceAccounts?.length && 'pointer-events-none opacity-50'}`}>
+                <div className={`${!isConnectedInvoiceAccount && 'pointer-events-none opacity-50'}`}>
                     <MethodOption
                         Icon={FcDataBackup}
                         title="청구서 메일 불러오기"
