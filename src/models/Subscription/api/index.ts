@@ -58,6 +58,12 @@ export const subscriptionApi = {
         return api.patch<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
     },
 
+    // 구독 병합 (id 의 구독(본구독)을 hostSubscriptionId 의 구독(호스트구독)에 병합)
+    merge(id: number, hostSubscriptionId: number) {
+        const url = `/subscriptions/${id}/merge/${hostSubscriptionId}`;
+        return api.patch<SubscriptionDto>(url).then(oneDtoOf(SubscriptionDto));
+    },
+
     destroy: (id: number) => {
         const url = `/${NAMESPACE}/${id}`;
         return api.delete<Omit<SubscriptionDto, 'id'>>(url);
