@@ -52,6 +52,10 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
             .finally(() => setIsLoading(false));
     }, 500);
 
+    if (currentUserMembership.level === MembershipLevel.MEMBER) {
+        return <StatusButton teamMember={teamMember} caret={false} />;
+    }
+
     return (
         <Dropdown
             placement="bottom-end"
