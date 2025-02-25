@@ -3,23 +3,19 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoOrganization, GoSignIn} from 'react-icons/go';
-import {useToast} from '^hooks/useToast';
+import {toast} from 'react-hot-toast';
 import {currentUserAtom} from '^models/User/atom';
 import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {MainPageRoute} from '^pages/index';
+import {LinkTo, LinkToProps} from '^components/util/LinkTo';
+import {Avatar} from '^components/Avatar';
 
 export const InviteOrgErrorBody = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
     const router = useRouter();
-    const {toast} = useToast();
-
-    const moveToMain = () => {
-        if (!currentUser?.lastSignedOrgId) return toast.error('회원가입을 먼저 진행해주세요');
-
-        router.push(V3OrgHomePageRoute.path(currentUser.lastSignedOrgId));
-    };
 
     return (
         <div className="m-auto text-center py-32 flex flex-col gap-5">
@@ -33,13 +29,21 @@ export const InviteOrgErrorBody = memo(() => {
                 <Button
                     text="스코디 메인 페이지로 이동하기"
                     icon={<GoSignIn size={20} />}
-                    onClick={() => router.push(MainPageRoute.path())}
+                    href={MainPageRoute.path()}
                 />
-                <Button
-                    text="내 조직 워크스페이스로 이동하기"
-                    icon={<GoOrganization size={20} />}
-                    onClick={moveToMain}
-                />
+                {currentUser?.lastSignedOrgId ? (
+                    <Button
+                        text="내 조직 워크스페이스로 이동하기"
+                        icon={<GoOrganization size={20} />}
+                        href={OrgMainPageRoute.path(currentUser.lastSignedOrgId!)}
+                    />
+                ) : (
+                    <Button
+                        text="내 조직 워크스페이스로 이동하기"
+                        icon={<GoOrganization size={20} />}
+                        onClick={() => toast.error('회원가입을 먼저 진행해주세요')}
+                    />
+                )}
                 <button onClick={router.back} className="btn btn-link">
                     다른 계정으로 시도하기
                 </button>
@@ -47,29 +51,30 @@ export const InviteOrgErrorBody = memo(() => {
 
             <div className="m-auto">
                 <p className="mb-1">스코디가 처음이라면?</p>
-                <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
-                    <GoogleLoginBtn about="admin" />
+                <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
+                    <GoogleLoginBtn about="login" />
                 </GoogleOAuthProvider>
             </div>
         </div>
     );
 });
 
-interface ButtonProps {
+interface ButtonProps extends LinkToProps {
     text: string;
     icon: ReactNode;
-    onClick: () => void;
 }
 const Button = (props: ButtonProps) => {
-    const {text, icon, onClick} = props;
+    const {text, icon, href, onClick, disabled} = props;
 
     return (
-        <button
-            onClick={() => onClick()}
+        <LinkTo
+            href={href}
+            onClick={onClick}
             className="btn flex items-center justify-center gap-2 text-[14px] sm:text-lg btn-lg h-[3rem] sm:h-[4rem] min-h-[3rem] sm:min-h-[4rem] sm:px-28 border border-gray-300 font-semibold"
+            disabled={disabled}
         >
             <span>{icon}</span>
             <span>{text}</span>
-        </button>
+        </LinkTo>
     );
 };
