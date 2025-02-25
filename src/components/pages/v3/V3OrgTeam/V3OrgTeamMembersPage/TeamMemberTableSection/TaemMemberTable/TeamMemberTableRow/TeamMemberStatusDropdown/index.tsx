@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
 import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
-import {currentUserAtom} from '^models/User/atom';
+import {currentUserAtom, getMembership} from '^models/User/atom';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {StatusButton} from './StatusButton';
@@ -39,7 +39,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
     const memberships = currentUser.memberships || [];
     const {membership} = teamMember;
     const isMe = !!memberships.find((m) => m.id === membership?.id);
-    const currentUserMembership = currentUser.memberships?.find((m) => m.organizationId === teamMember.organizationId);
+    const currentUserMembership = getMembership(currentUser, teamMember.organizationId);
     if (!currentUserMembership) return <>!</>;
 
     const sendInvitation = debounce((callback: () => any) => {

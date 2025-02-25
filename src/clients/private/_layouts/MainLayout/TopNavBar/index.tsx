@@ -1,3 +1,4 @@
+import {useRecoilValue} from 'recoil';
 import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {FaReceipt} from 'react-icons/fa6';
@@ -9,6 +10,7 @@ import {
     TbChartInfographic,
 } from '^components/react-icons';
 import {useCurrentOrg2} from '^models/Organization/hook';
+import {currentUserAtom, getMembership} from '^models/User/atom';
 import {ActiveRoute} from '^types/pageRoute.type';
 import {TopNavBarItem} from './TopNavBarItem';
 import {TopNavBarDropdownItem} from './TopNavBarDropdownItem';
@@ -21,12 +23,13 @@ import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
+import {MembershipDto, MembershipLevel} from '^models/Membership/types';
 
 interface TopNavBarProps {
     //
 }
 
-const getTopNavStructure = () => [
+const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
     {name: '홈', routeProps: OrgMainPageRoute},
     {
         name: '구독',
@@ -49,14 +52,29 @@ const getTopNavStructure = () => [
             {name: '청구서 메일', Icon: FaReceipt, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
-    {name: '설정', routeProps: OrgSettingsInformationPageRoute},
+    {
+        name: '설정',
+        routeProps: OrgSettingsInformationPageRoute,
+        isValid() {
+            const level = props.currentUserMembership?.level;
+            if (!level) return false;
+
+            if (level === MembershipLevel.ADMIN) return true;
+            if (level === MembershipLevel.OWNER) return true;
+
+            return false;
+        },
+    },
 ];
 
 export const TopNavBar = memo((props: TopNavBarProps) => {
     const {} = props;
     const router = useRouter();
     const {currentOrg} = useCurrentOrg2();
-    const TopNavStructure = getTopNavStructure();
+    const currentUser = useRecoilValue(currentUserAtom);
+    const currentUserMembership = getMembership(currentUser, currentOrg?.id);
+
+    const TopNavStructure = getTopNavStructure({currentUserMembership});
 
     const routeProps = <T extends (...args: any) => any>(
         route: {pathname: string; path: T},
@@ -73,7 +91,9 @@ export const TopNavBar = memo((props: TopNavBarProps) => {
     return (
         <div className="container-fluid h-[52px] flex items-stretch justify-center py-0 border-b bg-white-blurred">
             {TopNavStructure.map((menuItem, i) => {
-                const {name, routeProps, items} = menuItem;
+                const {name, routeProps, items, isValid} = menuItem;
+
+                if (isValid && !isValid()) return <></>;
 
                 if (!items) {
                     return (
