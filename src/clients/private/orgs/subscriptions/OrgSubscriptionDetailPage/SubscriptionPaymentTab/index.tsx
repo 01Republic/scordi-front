@@ -18,6 +18,7 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
 
         search({
             relations: ['invoiceApp', 'invoiceApp.invoiceAccount', 'invoiceApp.invoiceAccount.googleTokenData'],
+            // relations: ['invoiceAccountSubscriptions', 'invoiceAccountSubscriptions.invoiceAccounts'],
             where: {
                 subscriptionId: subscription.id,
             },

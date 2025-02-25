@@ -6,7 +6,11 @@ import {useQuery} from '@tanstack/react-query';
 import {codefCardApi} from '^models/CodefCard/api';
 import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 
+/* 카드 동기화 */
 export const useCreditCardSync = (creditCard?: CreditCardDto) => {
     const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
     const [params, search] = useState<FindAllCardQueryDto>();
@@ -45,4 +49,20 @@ export const useCreditCardSync = (creditCard?: CreditCardDto) => {
     };
 
     return {startSync, isSyncRunning, codefCard, startSyncStandAlone};
+};
+
+/* 청구서 수신 계정 동기화 */
+export const useStartInvoiceAccountSync = (invoiceAccount?: InvoiceAccountDto) => {
+    const {syncAccountWithConfirm, isSyncRunning} = useInvoiceAccountSync();
+
+    const startSync = async () => {
+        if (!invoiceAccount) return;
+        return syncAccountWithConfirm(invoiceAccount.organizationId, invoiceAccount);
+    };
+
+    const startSyncStandAlone = async (orgId: number, invoiceAccount: InvoiceAccountDto) => {
+        return syncAccountWithConfirm(orgId, invoiceAccount);
+    };
+
+    return {startSync, isSyncRunning, startSyncStandAlone};
 };
