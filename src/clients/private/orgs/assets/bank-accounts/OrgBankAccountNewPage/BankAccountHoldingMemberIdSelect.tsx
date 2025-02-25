@@ -13,7 +13,7 @@ export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSele
     });
 
     return (
-        <FormControl label="소지자">
+        <FormControl label="관리자">
             <div
                 className={`input input-underline !bg-slate-100 w-full flex items-center justify-between ${
                     isLoading ? 'opacity-50 pointer-events-none' : ''
@@ -24,8 +24,8 @@ export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSele
                     onChange={(member) => {
                         setHoldingMember(member);
                     }}
-                    optionListBoxTitle="소지자를 변경할까요?"
-                    detachableOptionBoxTitle="현재 소지자"
+                    optionListBoxTitle="관리자를 변경할까요?"
+                    detachableOptionBoxTitle="현재 관리자"
                     className="flex-auto"
                     defaultValue={holdingMember}
                 />
