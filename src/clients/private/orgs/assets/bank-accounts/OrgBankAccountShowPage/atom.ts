@@ -46,7 +46,7 @@ export const useCurrentBankAccountEdit = () => {
                 isPersonal: currentBankAccount.isPersonal,
                 usingStatus: currentBankAccount.usingStatus,
                 memo: currentBankAccount.memo || '',
-                number: currentBankAccount.displayNumber || '',
+                number: currentBankAccount.number || '',
             });
         }
     }, [currentBankAccount, isEditMode]);

@@ -177,6 +177,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                                 <FormControl label="계좌 번호" required>
                                     <input
+                                        type={'number'}
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
