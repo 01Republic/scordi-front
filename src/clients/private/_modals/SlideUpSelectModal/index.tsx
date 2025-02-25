@@ -30,12 +30,13 @@ interface SlideUpSelectModalProps<T> {
     title: string;
     ctaInactiveText?: string;
     ctaActiveText?: string;
+    successMessage?: string;
 }
 
 export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
     const {isOpened, onClose, onOpened: _onOpened, onClosed: _onClosed, onCreate, onSubmit: _onSubmit} = props;
     const {isLoading = false, items = [], Row, getId} = props;
-    const {titleCaption = '', title, ctaInactiveText = '', ctaActiveText = ''} = props;
+    const {titleCaption = '', title, ctaInactiveText = '', ctaActiveText = '', successMessage} = props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
     const onOpened = () => _onOpened && _onOpened();
@@ -53,7 +54,7 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
 
     const onSubmit = async () => {
         await (_onSubmit && _onSubmit(selectedIds));
-        toast.success('구독을 연결했어요.');
+        toast.success(successMessage ?? '구독을 연결했어요.');
         onCreate && onCreate();
     };
 
