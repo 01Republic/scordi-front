@@ -33,9 +33,6 @@ export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) 
 
             {/* 비고 */}
             <th>비고</th>
-
-            {/* 연동 상태 */}
-            <th />
         </tr>
     );
 });
