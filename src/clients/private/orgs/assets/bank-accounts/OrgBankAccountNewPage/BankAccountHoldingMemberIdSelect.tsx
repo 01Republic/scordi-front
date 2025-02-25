@@ -6,7 +6,7 @@ import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSe
 import {BankAccountAttrSelectPropsType} from './BankAccountAttrSelectProps.type';
 
 export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSelectPropsType<number>) => {
-    const {defaultValue, isLoading = false} = props;
+    const {defaultValue, isLoading = false, onChange} = props;
     const {result} = useTeamMembers();
     const [holdingMember, setHoldingMember] = useState<TeamMemberDto | undefined>(() => {
         return defaultValue ? result.items.find((member) => member.id === defaultValue) : undefined;
@@ -23,6 +23,7 @@ export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSele
                 <TeamMemberSelectColumn
                     onChange={(member) => {
                         setHoldingMember(member);
+                        !!onChange && onChange(member?.id);
                     }}
                     optionListBoxTitle="관리자를 변경할까요?"
                     detachableOptionBoxTitle="현재 관리자"
