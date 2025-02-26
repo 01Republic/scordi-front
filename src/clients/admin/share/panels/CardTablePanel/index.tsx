@@ -3,7 +3,7 @@ import {CardTableTH, CardTableTR} from './CardTableTr';
 import {PagePerSelect, Paginator} from '^components/Paginator';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
-import React from 'react';
+import React, {Fragment} from 'react';
 export * from './CardTable';
 export * from './CardTableTr';
 export * from './columns';
@@ -16,10 +16,13 @@ export interface CardTableColumns<T> {
 
 interface CardTablePanelProps<T> extends WithChildren {
     gridClass: string;
+    // All of <tr /> className
+    className?: string;
     entries: T[];
     columns?: CardTableColumns<T>[];
     ths?: ReactNodeElement[];
     entryComponent?: (entry: T, i: number, arr: T[]) => ReactNodeElement;
+    entryTrWrap?: boolean;
     pagination?: PaginationMetaData;
     pageMove?: (pageNum: number) => any;
     changePageSize?: (itemsPerPage: number) => any;
@@ -28,9 +31,11 @@ interface CardTablePanelProps<T> extends WithChildren {
 export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
     const {
         gridClass,
+        className = '',
         entries,
         ths,
         entryComponent,
+        entryTrWrap = false,
         columns = [],
         pagination,
         pageMove,
@@ -46,13 +51,13 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
                 <>
                     <CardTable>
                         {ths ? (
-                            <CardTableTH gridClass={gridClass}>
+                            <CardTableTH gridClass={gridClass} className={className}>
                                 {ths.map((th, i) => (
-                                    <div key={i}>{th}</div>
+                                    <Fragment key={i}>{th}</Fragment>
                                 ))}
                             </CardTableTH>
                         ) : columns.length ? (
-                            <CardTableTH gridClass={gridClass}>
+                            <CardTableTH gridClass={gridClass} className={className}>
                                 {columns.map((column, i) => (
                                     <div key={i} className={column.className}>
                                         {column.th}
@@ -66,9 +71,25 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
 
                         {entries.map((entry, i, arr) =>
                             entryComponent ? (
-                                entryComponent(entry, i, arr)
+                                entryTrWrap ? (
+                                    <CardTableTR
+                                        key={i}
+                                        gridClass={gridClass}
+                                        borderBottom={i + 1 < arr.length}
+                                        className={className}
+                                    >
+                                        {entryComponent(entry, i, arr)}
+                                    </CardTableTR>
+                                ) : (
+                                    entryComponent(entry, i, arr)
+                                )
                             ) : (
-                                <CardTableTR key={i} gridClass={gridClass} borderBottom={i + 1 < arr.length}>
+                                <CardTableTR
+                                    key={i}
+                                    gridClass={gridClass}
+                                    className={className}
+                                    borderBottom={i + 1 < arr.length}
+                                >
                                     {columns.map((column, j) => (
                                         <div key={j} className={column.className}>
                                             {column.render(entry)}

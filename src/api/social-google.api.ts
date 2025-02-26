@@ -11,6 +11,7 @@ import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {SaveTokenReportRequestDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/save.report.request.dto';
+import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
 
 const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 
@@ -18,7 +19,7 @@ export const userSocialGoogleApi = {
     token(dto: GoogleAccessTokenQueryDto) {
         const url = `/users/auth/social/google/token?${makeQueryString(dto)}`;
         // 쿠키를 Request에 담을 수 있도록 설정합니다.
-        return api.get<GoogleAccessTokenContainer>(url, {withCredentials: true}).then((res) => res.data);
+        return api.get<GoogleTokenDataDto>(url, {withCredentials: true}).then((res) => res.data);
     },
 
     login(token: string) {

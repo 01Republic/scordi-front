@@ -3,10 +3,11 @@ import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
 import {googleAccessTokenAtom, googleButtonIsLoading} from '^components/pages/UsersLogin/atom';
-import {userSocialGoogleApi} from '^api/social-google.api';
+import {GoogleAccessTokenQueryDto, userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {googleOAuth} from '^config/environments';
+import {errorToast} from '^api/api';
 
 const SCOPE_MAP = {
     login: ['email', 'profile', 'openid'],
@@ -65,13 +66,18 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                 return onCode(code);
             }
 
-            const {accessToken} = await userSocialGoogleApi.token({
-                code,
-                ...(feature ? {feature} : {}),
-            });
-            setAccessToken(accessToken);
-            setIsLoading(false);
-            return onAccessToken(accessToken);
+            const dto: GoogleAccessTokenQueryDto = {code};
+            if (feature) dto.feature = feature;
+
+            return userSocialGoogleApi
+                .token(dto)
+                .then((tokenData) => {
+                    setAccessToken(tokenData.accessToken);
+                    return tokenData.accessToken;
+                })
+                .then(onAccessToken)
+                .catch(errorToast)
+                .finally(() => setIsLoading(false));
         },
         scope: about === 'login' ? undefined : scope.join(' '),
         flow: 'auth-code',

@@ -15,6 +15,7 @@ import {useCurrentUser} from '^models/User/hook';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {errorToast} from '^api/api';
+import {userSocialGoogleApi} from '^api/social-google.api';
 
 export const JoinPageBody = memo(() => {
     return (
@@ -46,14 +47,12 @@ const InvitedGoogleLoginButton = memo(() => {
     const router = useRouter();
 
     // Org Join 페이지에서 로그인했을 경우 초대된 유저가 맞는지 확인하는 함수.
-    const checkInvitedEmail = async (user: UserDto, invitedOrgId: number) => {
+    const checkInvitedEmail = async (email: string, invitedOrgId: number) => {
         // 초대 링크 통해서 들어온 유저는 초대된 유저인지 확인 안함
         if (isFromInviteLink) return true;
 
-        if (orgId !== invitedOrgId) return false;
-
         return inviteMembershipApi
-            .validate(invitedOrgId, user.email)
+            .validate(invitedOrgId, email)
             .then(() => true)
             .catch(() => false);
     };
@@ -76,7 +75,7 @@ const InvitedGoogleLoginButton = memo(() => {
                 console.log('// 가입된 회원인 경우.');
                 setCurrentUser(user);
 
-                const invited = await checkInvitedEmail(user, invitedOrgId);
+                const invited = await checkInvitedEmail(user.email, invitedOrgId);
                 if (!invited) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
 
                 await confirmInviteEmail(user);
@@ -110,7 +109,19 @@ const InvitedGoogleLoginButton = memo(() => {
                         </span>
                     </span>
                 }
-                onToken={onSuccess}
+                onCode={(code) => {
+                    return userSocialGoogleApi
+                        .token({code, feature: 'login'})
+                        .then(async (tokenData) => {
+                            const isValid = await checkInvitedEmail(tokenData.email, invitedOrgId);
+                            if (!isValid) {
+                                const lines = [`선택하신 계정(${tokenData.email})은 초대받은 계정이 아닙니다.`];
+                                throw new Error(lines.join('\n'));
+                            }
+                            return onSuccess(tokenData.accessToken);
+                        })
+                        .catch(errorToast);
+                }}
             />
         </GoogleOAuthProvider>
     );

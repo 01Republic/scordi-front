@@ -23,6 +23,15 @@ export const currentUserAtom = atom<UserDto | null>({
     default: null,
 });
 
+export const getMembership = (user: UserDto | null, orgId?: number | null) => {
+    if (!user) return;
+
+    const {memberships = []} = user;
+    if (!orgId) return memberships[0];
+
+    return memberships.find((m) => m.organizationId === orgId);
+};
+
 export const getCurrentUserQueryAtom = atom<string | null>({
     key: 'getCurrentUserQueryAtom',
     default: null,

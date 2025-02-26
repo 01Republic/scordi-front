@@ -1,9 +1,9 @@
 import React from 'react';
 import cn from 'classnames';
-import {Avatar} from '^components/Avatar';
 import {currencyFormat, roundNumber} from '^utils/number';
-import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
+import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
+import {SubscriptionProfile} from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {LinkTo} from '^components/util/LinkTo';
 
@@ -58,16 +58,14 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     key={spend.subscription.id}
                     className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
                 >
-                    <div className="flex items-center gap-3">
-                        <Avatar
-                            src={spend.subscription.product.image}
-                            className="w-5 h-5"
-                            draggable={false}
-                            loading="lazy"
-                        />
-                        <p>{spend.subscription.product.name()}</p>
-                    </div>
-
+                    <SubscriptionProfile
+                        subscription={spend.subscription}
+                        width={20}
+                        height={20}
+                        className="gap-3"
+                        textClassName="text-14 font-base font-normal"
+                        isAlias={false}
+                    />
                     <p>{currencyFormat(roundNumber(spend.amount))}</p>
                 </LinkTo>
             ))}

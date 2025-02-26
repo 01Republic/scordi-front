@@ -1,33 +1,48 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {Avatar} from '^components/Avatar';
+import Image from 'next/image';
 import {FaQuestion} from 'react-icons/fa6';
-import {WithChildren} from '^types/global.type';
+import {SubscriptionDto} from '^models/Subscription/types';
 
-interface SubscriptionProfileProps extends WithChildren {
+interface SubscriptionProfileProps {
     subscription: SubscriptionDto;
+    width?: number;
+    height?: number;
     className?: string;
+    profileClassName?: string;
+    textClassName?: string;
+    isAlias?: boolean;
 }
 
 export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
-    const {subscription, className = '', children} = props;
-    const {product} = subscription;
+    const {subscription, width = 24, height = 24, isAlias = true} = props;
+    const {className = 'gap-2', profileClassName, textClassName = 'text-sm truncate font-base'} = props;
 
+    const {product} = subscription;
     return (
-        <div className={`flex items-center gap-2 ${className}`}>
-            <Avatar className="w-6 h-6" src={product.image} alt={product.name()} draggable={false} loading="lazy">
-                <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
-            </Avatar>
-            <div className="h-full flex items-center group-hover:text-scordi transition-all w-full ">
-                {children ? (
-                    children
-                ) : (
-                    <p className="truncate text-sm">
-                        {product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
-                    </p>
-                )}
-            </div>
+        <div className={`flex items-center ${className}`}>
+            {product.image ? (
+                <Image
+                    src={product.image}
+                    alt={product.name()}
+                    width={width}
+                    height={height}
+                    loading="lazy"
+                    draggable={false}
+                    className={`rounded-full overflow-hidden ${profileClassName}`}
+                />
+            ) : (
+                <div
+                    className={`flex items-center bg-gray-100 rounded-full ${profileClassName}`}
+                    style={{width: width, height: height}}
+                >
+                    <FaQuestion className="text-neutral-900 h-full w-full p-1" />
+                </div>
+            )}
+            <p className={`text-neutral-900 whitespace-nowrap ${textClassName}`}>
+                {product.name()} {isAlias && subscription.alias && `- ${subscription.alias}`}
+            </p>
         </div>
     );
 });
+
 SubscriptionProfile.displayName = 'SubscriptionProfile';
