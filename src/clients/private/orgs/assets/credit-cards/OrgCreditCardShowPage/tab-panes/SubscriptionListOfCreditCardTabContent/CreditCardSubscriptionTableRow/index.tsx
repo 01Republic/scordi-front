@@ -4,8 +4,8 @@ import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {
-    IsFreeTierTagUI,
     SubscriptionProfile,
+    IsFreeTierTagUI,
     LatestPayAmount,
     BillingCycleTypeTagUI,
     NextComputedBillingDateText,
