@@ -2,10 +2,9 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
-// import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {SubscriptionProfile} from '^models/Subscription/components';
 import {BillingHistoriesYearlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {CurrencyCode} from '^models/Money';
-import {SubscriptionProfile} from '^components/SubscriptionProfile';
 
 interface BillingHistoryYearlyRowProps {
     data: BillingHistoriesYearlySumBySubscriptionDto;
@@ -24,15 +23,7 @@ export const BillingHistoryYearlyRow = memo((props: BillingHistoryYearlyRowProps
     return (
         <tr className="group">
             <td className="sticky left-0 bg-white z-10">
-                <SubscriptionProfile
-                    subscription={subscription}
-                    width={24}
-                    height={24}
-                    className="gap-2"
-                    textClassName="text-sm truncate font-base"
-                    isAlias={true}
-                />
-                {/*<SubscriptionProfile subscription={subscription} className="font-medium" />*/}
+                <SubscriptionProfile subscription={subscription} textClassName="font-medium" />
             </td>
             <td className="text-right">
                 <IsFreeTierTagUI value={subscription.isFreeTier} />
