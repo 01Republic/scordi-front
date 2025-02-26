@@ -3,6 +3,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
 import {FaCheck} from 'react-icons/fa6';
+import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 
 interface SubscriptionSelectItemProps {
     subscription: SubscriptionDto;
@@ -17,15 +18,16 @@ export const SubscriptionSelectItem = memo((props: SubscriptionSelectItemProps) 
     return (
         <div
             onClick={() => onClick && onClick(subscription)}
-            className="flex items-center gap-4 px-4 py-3 -mx-4 no-selectable hover:bg-scordi-light-50 rounded-btn cursor-pointer group"
+            className="flex items-center justify-between px-4 py-3 -mx-4 no-selectable hover:bg-scordi-light-50 rounded-btn cursor-pointer group"
         >
-            <Avatar src={product.image} className="w-7 h-7 outline outline-offset-1 outline-slate-100 rounded-full" />
-
-            <div className="flex-1">
-                <p className="font-semibold text-gray-800 max-w-[20rem] overflow-x-auto no-scrollbar">
-                    {product.name()}
-                </p>
-            </div>
+            <SubscriptionProfile
+                subscription={subscription}
+                width={28}
+                height={28}
+                className="gap-4"
+                profileClassName="outline outline-offset-1 outline-slate-100"
+                textClassName="font-semibold text-gray-800 max-w-[20rem] overflow-x-auto no-scrollbar"
+            />
 
             <div className="flex items-center">
                 <button className="relative">
