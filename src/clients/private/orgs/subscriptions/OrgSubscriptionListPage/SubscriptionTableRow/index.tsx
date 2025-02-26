@@ -8,6 +8,7 @@ import {Dropdown} from '^v3/share/Dropdown';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {
+    SubscriptionProfile,
     PayMethodSelect,
     MemberCount,
     SubscriptionUsingStatusTag,
@@ -17,7 +18,6 @@ import {
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {SubscriptionProfile} from '^components/SubscriptionProfile';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -43,14 +43,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
         <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
-                <SubscriptionProfile
-                    subscription={subscription}
-                    width={24}
-                    height={24}
-                    className="gap-2"
-                    textClassName="text-sm truncate"
-                    isAlias={true}
-                />
+                <SubscriptionProfile subscription={subscription} />
             </td>
 
             {/* 유/무료 */}
