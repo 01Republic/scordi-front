@@ -4,7 +4,8 @@ import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistor
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {CurrencyCode} from '^models/Money';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {SubscriptionProfile} from '^components/SubscriptionProfile';
+// import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 
 interface BillingHistoryMonthlyRowProps {
     data: BillingHistoriesMonthlySumBySubscriptionDto;
@@ -32,7 +33,15 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
     return (
         <tr className="group">
             <td className="sticky left-0 bg-white min-w-40 flex z-10 border-r-2">
-                <SubscriptionProfile subscription={subscription} className="font-medium" />
+                <SubscriptionProfile
+                    subscription={subscription}
+                    width={24}
+                    height={24}
+                    className="gap-2 font-medium"
+                    textClassName="text-sm truncate font-base"
+                    isAlias={true}
+                />
+                {/*<SubscriptionProfile subscription={subscription} className="font-medium" />*/}
             </td>
             <td>
                 <IsFreeTierTagUI value={subscription.isFreeTier || false} />
