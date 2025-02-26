@@ -1,9 +1,7 @@
 import React, {memo} from 'react';
-import {Avatar} from '^components/Avatar';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {truncate} from '^components/util/string';
-import {SubscriptionProfile} from '^components/SubscriptionProfile';
+import {SubscriptionProfile} from '^models/Subscription/components';
 
 interface TeamSubscriptionCardProps {
     item: SubscriptionDto;
@@ -23,9 +21,8 @@ export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
                     subscription={subscription}
                     width={28}
                     height={28}
-                    className="gap-2"
                     textClassName="text-14 font-semibold block text-max-line [--line-clamp-size:2]"
-                    isAlias={true}
+                    isAlias={false}
                 />
 
                 <div className="flex avatar-group -space-x-2.5 overflow-visible">
