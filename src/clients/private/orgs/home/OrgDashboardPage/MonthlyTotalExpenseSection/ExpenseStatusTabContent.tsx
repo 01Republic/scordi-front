@@ -4,7 +4,7 @@ import {Avatar} from '^components/Avatar';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
-import {SubscriptionProfile} from '^components/SubscriptionProfile';
+import {SubscriptionProfile} from '^models/Subscription/components';
 
 interface ExpenseSubscriptionProps {
     summary?: SummaryOfBillingHistoriesDto;
@@ -58,7 +58,11 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                 >
                     <SubscriptionProfile
                         subscription={spend.subscription}
+                        width={20}
+                        height={20}
+                        className="gap-3"
                         textClassName="text-14 font-base font-normal"
+                        isAlias={false}
                     />
 
                     <p>{currencyFormat(roundNumber(spend.amount))}</p>
