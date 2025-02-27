@@ -35,7 +35,7 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
                     className={`flex items-center bg-gray-100 rounded-full ${profileClassName}`}
                     style={{width: width, height: height}}
                 >
-                    <FaQuestion className="text-neutral-900 h-full w-full p-1" />
+                    <FaQuestion className="text-gray-300 h-full w-full p-1" />
                 </div>
             )}
             <p className={`text-neutral-900 whitespace-nowrap ${textClassName}`}>
