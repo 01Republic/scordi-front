@@ -16,6 +16,8 @@ import {confirm2, confirmed} from '^components/util/dialog';
 import {useCurrentCodefCard} from '../../../atom';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {errorToast} from '^api/api';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -61,7 +63,11 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
         <tr className="table-fixed">
             {/* 서비스 명 */}
             <td>
-                <SubscriptionProfile subscription={subscription} />
+                <OpenButtonColumn
+                    href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                >
+                    <SubscriptionProfile subscription={subscription} />
+                </OpenButtonColumn>
             </td>
 
             {/* 구독상태 */}

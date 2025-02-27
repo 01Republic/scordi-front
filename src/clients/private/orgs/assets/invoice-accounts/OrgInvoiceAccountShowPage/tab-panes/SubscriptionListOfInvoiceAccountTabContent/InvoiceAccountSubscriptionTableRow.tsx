@@ -16,6 +16,8 @@ import {
     LatestPayAmount,
 } from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {useCurrentInvoiceAccount} from '../../atom';
 
 interface InvoiceAccountSubscriptionTableRowProps {
@@ -64,7 +66,11 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
         <tr>
             {/* 서비스명 */}
             <td>
-                <SubscriptionProfile subscription={subscription} />
+                <OpenButtonColumn
+                    href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                >
+                    <SubscriptionProfile subscription={subscription} />
+                </OpenButtonColumn>
             </td>
 
             {/* 구독상태 */}
