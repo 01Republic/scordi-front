@@ -39,7 +39,7 @@ export const useCreditCardSync = (creditCard?: CreditCardDto) => {
         if (codefCard) {
             return syncCardWithConfirm(creditCard.organizationId, codefCard);
         } else {
-            toast('먼저 카드사를 연결해주세요');
+            toast('연결이 필요한 카드입니다.');
             return;
         }
     };
