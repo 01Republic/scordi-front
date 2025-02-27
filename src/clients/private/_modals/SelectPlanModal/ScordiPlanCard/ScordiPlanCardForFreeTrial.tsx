@@ -40,7 +40,7 @@ export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTria
                 <div className="flex justify-between items-start">
                     <div>{scordiPlan.name}</div>
                 </div>
-                <div className={'font-bold text-xl'}>14일 무료</div>
+                <div className={'font-bold text-xl'}>1개월 무료</div>
             </div>
 
             <div className="flex flex-col justify-between flex-grow">
