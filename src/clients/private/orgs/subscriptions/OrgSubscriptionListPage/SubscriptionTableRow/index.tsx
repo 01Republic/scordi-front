@@ -5,7 +5,13 @@ import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
 import {IoIosMore} from 'react-icons/io';
 import {Dropdown} from '^v3/share/Dropdown';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {
+    SubscriptionDto,
+    SubscriptionUsingStatus,
+    SubscriptionUsingStatusValues,
+    UpdateSubscriptionRequestDto,
+} from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {
     SubscriptionProfile,
@@ -20,6 +26,8 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {currentUserAtom} from '^models/User/atom';
+import {useRecoilValue} from 'recoil';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -29,6 +37,7 @@ interface SubscriptionTableRowProps {
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload} = props;
+    const currentUser = useRecoilValue(currentUserAtom);
 
     const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
         const {id, organizationId: orgId} = subscription;
@@ -59,10 +68,27 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 상태 */}
             <td>
-                <SubscriptionUsingStatusTag
-                    value={subscription.usingStatus}
-                    className="no-selectable !cursor-default"
-                />
+                {currentUser?.isAdmin ? (
+                    <SelectColumn
+                        value={subscription.usingStatus}
+                        getOptions={async () => [...SubscriptionUsingStatusValues].reverse()}
+                        onSelect={async (usingStatus: SubscriptionUsingStatus) => {
+                            if (usingStatus === subscription.usingStatus) return;
+                            // return update({ usingStatus });
+                        }}
+                        ValueComponent={({value}) => (
+                            <SubscriptionUsingStatusTag value={value} className="no-selectable !cursor-default" />
+                        )}
+                        contentMinWidth="240px"
+                        optionListBoxTitle="사용 상태를 변경합니다"
+                        inputDisplay={false}
+                    />
+                ) : (
+                    <SubscriptionUsingStatusTag
+                        value={subscription.usingStatus}
+                        className="no-selectable !cursor-default"
+                    />
+                )}
             </td>
 
             {/* 결제주기 */}

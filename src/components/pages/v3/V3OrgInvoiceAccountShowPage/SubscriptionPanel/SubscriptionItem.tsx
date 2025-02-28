@@ -60,7 +60,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                 <input
                     type="checkbox"
                     className="toggle toggle-primary"
-                    defaultChecked={isActive}
+                    defaultChecked={isActive || undefined}
                     onChange={onActiveChange}
                 />
             </div>
