@@ -1,14 +1,9 @@
 import React, {memo, useEffect} from 'react';
-import {ModalProps} from '^components/modals/_shared/Modal.types';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
+import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
-import {CreditCardDto} from '^models/CreditCard/type';
 import {teamCreditCardApi} from '^models/TeamCreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {TeamCreditCardDto} from '^models/TeamCreditCard/type';
-import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
-import {toast} from 'react-hot-toast';
 import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
 import {CreditCardSelectItem} from '^models/CreditCard/components/CreditCardSelectItem';
 
@@ -24,7 +19,6 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
     const {result, search} = useCreditCardListForListPage();
-    const [selected, setSelected] = React.useState<CreditCardDto[]>([]);
 
     const onSave = async (selectedIds: number[]) => {
         const requests = selectedIds.map((creditCardId) =>

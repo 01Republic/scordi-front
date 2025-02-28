@@ -1,27 +1,12 @@
-import React, {memo, useEffect, useState} from 'react';
-import {toast} from 'react-hot-toast';
-import {
-    TeamMemberCreateAutoModal,
-    TeamMemberCreateManualModal,
-    TeamMemberCreateMethodModal,
-} from '^clients/private/_modals/team-members';
-import {TeamMemberSearchInput} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/TeamMemberSearchInput';
-import {TeamMemberSelectableSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/TeamMemberSelectableSection';
-import {useListOf} from '^hooks/useResource';
-import {selectedTeamMembersAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/atom';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {FaTimes} from 'react-icons/fa';
-import {updateCurrentSubscriptionState} from '^v3/V3OrgAppShowPage/atom';
-import {Button} from '^components/util/form-control/inputs/ButtonGroupRadio/Button';
-import {subscriptionApi} from '^models/Subscription/api';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import React, {memo, useEffect} from 'react';
+import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {subscriptionApi} from '^models/Subscription/api';
+import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
+import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
 import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
-import {CreditCardSelectItem} from '^models/CreditCard/components/CreditCardSelectItem';
-import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
-import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 
 interface SubscriptionTeamMemberSelectModalProps {
     isOpened: boolean;

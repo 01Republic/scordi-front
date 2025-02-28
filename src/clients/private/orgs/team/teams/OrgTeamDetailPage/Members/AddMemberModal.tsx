@@ -1,16 +1,14 @@
 import React, {memo, useEffect} from 'react';
-import {ModalProps} from '^components/modals/_shared/Modal.types';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
-import {useRecoilValue} from 'recoil';
-import {TeamMemberDto, useAddableTeamMemberListInAddTeamMemberModal} from '^models/TeamMember';
-import {teamMembershipApi} from '^models/TeamMembership/api';
 import {toast} from 'react-hot-toast';
-import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
-import {SubscriptionSelectItem} from '^models/Subscription/components/SubscriptionSelectItem';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {useRecoilValue} from 'recoil';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {LoadableBox} from '^components/util/loading';
+import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {teamMembershipApi} from '^models/TeamMembership/api';
 import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
+import {TeamMemberDto, useAddableTeamMemberListInAddTeamMemberModal} from '^models/TeamMember';
+import {ModalProps} from '^components/modals/_shared/Modal.types';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {LoadableBox} from '^components/util/loading';
 
 interface AddMemberModalProps extends ModalProps {
     //
