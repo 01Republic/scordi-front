@@ -57,7 +57,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/* 서비스 명 */}
             <td>
                 <OpenButtonColumn href={showPagePath}>
-                    <SubscriptionProfile subscription={subscription} />
+                    <SubscriptionProfile subscription={subscription} className="gap-2 mr-2" />
                 </OpenButtonColumn>
             </td>
 
