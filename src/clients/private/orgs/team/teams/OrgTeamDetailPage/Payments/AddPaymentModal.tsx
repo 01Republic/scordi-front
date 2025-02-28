@@ -30,13 +30,7 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
         const requests = selectedIds.map((creditCardId) =>
             teamCreditCardApi.create(orgId, {teamId: teamId, creditCardId: creditCardId}),
         );
-
         await Promise.allSettled(requests);
-    };
-
-    const onCloseModal = () => {
-        setSelected([]);
-        onClose();
     };
 
     const entries = result.items.filter(
@@ -50,7 +44,7 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
     return (
         <SlideUpSelectModal
             isOpened={isOpened}
-            onClose={onCloseModal}
+            onClose={onClose}
             onCreate={onCreate}
             items={entries}
             getId={(item) => item.id}
