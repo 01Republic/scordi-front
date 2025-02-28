@@ -43,7 +43,7 @@ export const SubscriptionTableRowOfBankAccount = memo((props: SubscriptionTableR
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
-        await subscriptionApi.update(subscription.id, {bankAccountId: undefined});
+        await subscriptionApi.update(subscription.id, {bankAccountId: null});
         toast.success('연결을 해제했어요.');
         reload();
     };
