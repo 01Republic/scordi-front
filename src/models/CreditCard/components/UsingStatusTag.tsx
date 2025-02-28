@@ -19,7 +19,7 @@ export const UsingStatusTag = memo((props: {value: CreditCardUsingStatus | BankA
             [CreditCardUsingStatus.UnDef]: '미정',
             [CreditCardUsingStatus.NoUse]: '미사용',
             [CreditCardUsingStatus.InUse]: '사용중',
-            [CreditCardUsingStatus.Expired]: '만료됨',
+            [CreditCardUsingStatus.Expired]: '만료',
         }[value] || '???';
 
     return <TagUI className={colorClass}>{text}</TagUI>;
