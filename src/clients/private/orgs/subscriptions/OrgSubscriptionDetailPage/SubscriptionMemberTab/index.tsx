@@ -98,7 +98,16 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 />
             </ListTableContainer>
 
-            <SubscriptionTeamMemberSelectModal isOpened={isOpened} onClose={onClose} />
+            <SubscriptionTeamMemberSelectModal
+                isOpened={isOpened}
+                onClose={() => {
+                    setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
+                }}
+            />
         </div>
     );
 });
