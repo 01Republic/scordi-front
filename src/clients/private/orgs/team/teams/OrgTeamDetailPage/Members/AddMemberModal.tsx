@@ -82,7 +82,6 @@ export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModal
                     </div>
                 ) : (
                     <div>
-                        <span className="text-18">{result.pagination.totalItemCount && '더 이상'}</span>{' '}
                         <h3 className="text-18">추가 할 수 있는 팀원이 없어요</h3>
                     </div>
                 )}
