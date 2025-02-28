@@ -126,17 +126,18 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
                         <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
                             <span className="truncate">{bankAccount.title}</span>
                         </p>
-                        {subtextMethod === 'fullNumber' ? (
-                            <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                                <span>{bankAccount.displayNumber || '(알수없음)'}</span>
-                            </p>
-                        ) : (
-                            endNumber && (
+                        {bankAccount.displayNumber &&
+                            (subtextMethod === 'fullNumber' ? (
                                 <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                                    끝자리: <span>{endNumber || '(알수없음)'}</span>
+                                    <span>{bankAccount.displayNumber || '(알수없음)'}</span>
                                 </p>
-                            )
-                        )}
+                            ) : (
+                                endNumber && (
+                                    <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
+                                        끝자리: <span>{endNumber || '(알수없음)'}</span>
+                                    </p>
+                                )
+                            ))}
                     </div>
                 </>
             ) : (

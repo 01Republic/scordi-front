@@ -39,11 +39,6 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
             return;
         }
 
-        if (!data.number) {
-            toast.error('계좌번호를 입력해주세요');
-            return;
-        }
-
         setLoading(true);
         bankAccountApi
             .create(orgId, data)
@@ -178,15 +173,14 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     <span />
                                 </FormControl>
 
-                                <FormControl label="계좌 번호" required>
+                                <FormControl label="계좌 번호">
                                     <input
                                         type={'number'}
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
-                                        {...form.register('number', {required: true})}
-                                        required
+                                        {...form.register('number')}
                                     />
                                     <span />
                                 </FormControl>
