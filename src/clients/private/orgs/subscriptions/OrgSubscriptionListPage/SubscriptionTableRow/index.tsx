@@ -74,7 +74,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                         getOptions={async () => [...SubscriptionUsingStatusValues].reverse()}
                         onSelect={async (usingStatus: SubscriptionUsingStatus) => {
                             if (usingStatus === subscription.usingStatus) return;
-                            // return update({ usingStatus });
+                            return _update({usingStatus});
                         }}
                         ValueComponent={({value}) => (
                             <SubscriptionUsingStatusTag value={value} className="no-selectable !cursor-default" />

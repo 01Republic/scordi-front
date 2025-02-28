@@ -1,21 +1,20 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
-import {CgTrash} from 'react-icons/cg';
 import {errorToast} from '^api/api';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
 import {subscriptionApi} from '^models/Subscription/api';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
-import {useCurrentSubscription} from '../atom';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {LinkTo} from '^components/util/LinkTo';
+import {useCurrentSubscription} from '../../atom';
 
-export const SubscriptionRemoveButton = memo(() => {
+export const DeleteSubscriptionItem = memo(() => {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const router = useRouter();
 
     if (!subscription) return <></>;
 
-    const handleRemove = async () => {
+    const onClick = async () => {
         const {id, organizationId} = subscription;
 
         const removeConfirm = () =>
@@ -38,11 +37,16 @@ export const SubscriptionRemoveButton = memo(() => {
     };
 
     return (
-        <LinkTo
-            className="btn btn-square !bg-white border border-slate-300 rounded-md hover:border-slate-400 hover:shadow transition-all mb-1"
-            onClick={handleRemove}
-        >
-            <CgTrash fontSize={20} color={'red'} />
-        </LinkTo>
+        <MoreDropdownMenuItem onClick={onClick} theme="danger">
+            삭제하기
+        </MoreDropdownMenuItem>
     );
+    // return (
+    //     <LinkTo
+    //         className="btn btn-square !bg-white border border-slate-300 rounded-md hover:border-slate-400 hover:shadow transition-all mb-1"
+    //         onClick={onClick}
+    //     >
+    //         <CgTrash fontSize={20} color={'red'} />
+    //     </LinkTo>
+    // );
 });
