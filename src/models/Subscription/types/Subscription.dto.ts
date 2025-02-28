@@ -31,7 +31,7 @@ export class SubscriptionDto {
     readonly usingStatus: SubscriptionUsingStatus; // 구독 상태 (신) - 미정, 무료, 유료, 해지
     alias: string; // 별칭
     desc: string | null; // 메모
-    isActive: boolean; // 활성화 여부
+    isActive: boolean | null; // 활성화 여부
     isFreeTier: boolean; // 프리티어 여부
     assumedBillingType: BillingType; // 인보이스 추정 결제 주기
 

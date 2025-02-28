@@ -9,6 +9,7 @@ import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {debounce} from 'lodash';
 
 interface CreditCardTableRowProps {
     creditCard: CreditCardDto;
@@ -18,14 +19,14 @@ interface CreditCardTableRowProps {
 export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
     const {creditCard, reload} = props;
 
-    const update = async (dto: UpdateCreditCardDto) => {
+    const update = debounce(async (dto: UpdateCreditCardDto) => {
         const {id, organizationId: orgId} = creditCard;
         return creditCardApi
             .update(orgId, id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(() => toast.error('문제가 발생했어요.'))
             .finally(() => reload && reload());
-    };
+    }, 250);
 
     const company = creditCard.company;
     const expiry = creditCard.decryptSign().expiry;

@@ -7,6 +7,7 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {TeamMemberDto} from '^models/TeamMember';
 import {OrganizationDto} from '^models/Organization/type';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {CodefBankCode} from '^models/CodefAccount/type/enums';
 
 /**
  * 계좌
@@ -16,7 +17,7 @@ export class BankAccountDto {
     organizationId: number; // 조직 ID
     holdingMemberId: number | null; // 담당자 ID
     isPersonal: boolean; // 법인 여부
-    bank: string | null; // 은행
+    bank: CodefBankCode | null; // 은행
     kind: BankAccountKind; // 계좌 종류
     /**
      * 예금구분 (resAccountDeposit)
@@ -65,7 +66,7 @@ export class BankAccountDto {
     }
 
     get company() {
-        return BankAccountsStaticData.findByPersonal(this.isPersonal).find((data) => this.bank === data.displayName);
+        return BankAccountsStaticData.findByPersonal(this.isPersonal).find((data) => this.bank === data.param);
     }
 
     get bankName() {

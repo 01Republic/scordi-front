@@ -39,6 +39,7 @@ export const InvoiceAccountAddSubscriptionModal = memo((props: InvoiceAccountAdd
             title="어느 구독을 연결할까요?"
             ctaInactiveText="구독을 선택해주세요"
             ctaActiveText="%n개의 선택된 구독 연결하기"
+            toastMessage="선택한 구독을 연결했어요."
         />
     );
 });

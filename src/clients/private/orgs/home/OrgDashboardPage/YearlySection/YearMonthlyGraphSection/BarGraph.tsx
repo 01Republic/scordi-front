@@ -124,31 +124,29 @@ export const BarGraph = memo((props: BarGraphProps) => {
                             return <rect x={x} y={y} width={width} height={height} fill={fillColor} rx={2} />;
                         }}
                     />
-                    <Bar
-                        stackId="a"
-                        dataKey="notPaidAmount"
-                        barSize={8}
-                        fill="#FBCFE8"
-                        isAnimationActive={false}
-                        shape={(props: any) => {
-                            const {x, y, width, height, index} = props;
-
-                            const isBarHovered = hoveredIndex === index;
-                            const isBarSelected = selectedIndex === index;
-                            const isAnyActive = selectedIndex !== null || hoveredIndex !== null;
-                            let fillColor = '#FBCFE8';
-
-                            if (isAnyActive) {
-                                if (isBarSelected || isBarHovered) {
-                                    fillColor = '#FBCFE8';
-                                } else {
-                                    fillColor = '#FEF1F8';
-                                }
-                            }
-
-                            return <rect x={x} y={y} width={width} height={height} fill={fillColor} rx={2} />;
-                        }}
-                    />
+                    {/*TODO: 예상 금액 API 수정 완료 시 주석 해제*/}
+                    {/*<Bar*/}
+                    {/*    stackId="a"*/}
+                    {/*    dataKey="notPaidAmount"*/}
+                    {/*    barSize={8}*/}
+                    {/*    fill="#FBCFE8"*/}
+                    {/*    isAnimationActive={false}*/}
+                    {/*    shape={(props: any) => {*/}
+                    {/*        const {x, y, width, height, index} = props;*/}
+                    {/*        const isBarHovered = hoveredIndex === index;*/}
+                    {/*        const isBarSelected = selectedIndex === index;*/}
+                    {/*        const isAnyActive = selectedIndex !== null || hoveredIndex !== null;*/}
+                    {/*        let fillColor = '#FBCFE8';*/}
+                    {/*        if (isAnyActive) {*/}
+                    {/*            if (isBarSelected || isBarHovered) {*/}
+                    {/*                fillColor = '#FBCFE8';*/}
+                    {/*            } else {*/}
+                    {/*                fillColor = '#FEF1F8';*/}
+                    {/*            }*/}
+                    {/*        }*/}
+                    {/*        return <rect x={x} y={y} width={width} height={height} fill={fillColor} rx={2} />;*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                 </BarChart>
             </ResponsiveContainer>
         </div>

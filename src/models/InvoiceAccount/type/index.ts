@@ -129,3 +129,5 @@ export const getCreateInvoiceAccountFromTo = () => ({
 export class FindAllInvoiceAccountQueryDto extends FindAllQueryDto<InvoiceAccountDto> {
     keyword?: string;
 }
+
+export * from './gmail.type';

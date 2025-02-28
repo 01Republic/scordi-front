@@ -1,6 +1,9 @@
 import {GmailContentDto, GmailContentReadableDto} from '^models/InvoiceAccount/type/gmail.type';
 import {plainToInstance, Transform} from 'class-transformer';
 import {TypeCast} from '^types/utils/class-transformer';
+import {SubscriptionUsingStatus} from '^models/Subscription/types';
+import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 
 export class GmailMessageListFetchParamQueryDto {
     // 반환할 최대 메시지 수입니다.
@@ -39,4 +42,16 @@ export class GmailMessageListFetchResultDto {
     messages: GmailContentReadableDto[];
     nextPageToken?: string;
     resultSizeEstimate: number;
+}
+
+// Request Body
+export class CreateBillingHistoryFromGmailItemDto {
+    productId: number; // 서비스 ID
+    subscriptionId?: number; // 구독 ID
+    pricingModel: PricingModelOptions; // 과금 방식
+    billingCycleType: BillingCycleOptions; // 결제 주기
+    usingStatus: SubscriptionUsingStatus; // 구독 상태 (신) - 미정, 무료, 유료, 해지
+    issuedAt: string; // BillingHistory(인보이스 발행 일시) yyyy-mm-dd
+    paidAt: string; // BillingHistory(결제 완료 일시) yyyy-mm-dd
+    isDomestic: boolean; // 국내결제여부
 }

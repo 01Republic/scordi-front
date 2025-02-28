@@ -71,6 +71,11 @@ export type GmailContentPayloadPart =
     | GmailContentPayloadAttachmentTextType
     | GmailContentPayloadMixedType;
 
+export type GmailContentPayloadPartInFlat =
+    | GmailContentPayloadTextType
+    | GmailContentPayloadAttachmentType
+    | GmailContentPayloadAttachmentTextType;
+
 export class GmailAttachment {
     partId: string;
     mimeType: 'application/pdf' | 'application/vnd.ms-excel' | 'application/octet-stream' | 'text/html';
@@ -144,13 +149,21 @@ export class GmailContentReadableDto {
     @TypeCast(() => GmailPermittedMetadata)
     metadata: GmailPermittedMetadata;
 
-    contents: string[];
+    contents: GmailContentPayloadPartInFlat[];
 
     attachments: GmailAttachment[];
 
     get date() {
         if (this.metadata.date) return this.metadata.date;
         return new Date(Number(this.internalDate));
+    }
+
+    get content(): GmailContentPayloadTextType | undefined {
+        const contents = this.contents.filter((content) => {
+            return content.mimeType === 'text/plain' || content.mimeType === 'text/html';
+        });
+        const htmlContent = contents.find((content) => content.mimeType === 'text/html');
+        return (htmlContent || contents[0]) as GmailContentPayloadTextType | undefined;
     }
 }
 

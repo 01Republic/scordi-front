@@ -24,6 +24,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const form = useForm<CreateBankAccountRequestDto>();
     const [isLoading, setLoading] = useState(false);
+    const [selectedBank, setSelectedBank] = useState<BankAccountsStaticData>();
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -52,10 +53,12 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
             .finally(() => setLoading(false));
     };
 
-    const bankCompany = form.getValues('bank') || undefined;
     const setCompany = (bank?: BankAccountsStaticData) => {
-        bank ? form.setValue('bank', bank.displayName) : form.setValue('bank', '');
+        bank ? form.setValue('bank', bank.param) : form.resetField('bank');
+        setSelectedBank(bank);
     };
+
+    form.register('bank');
 
     return (
         <MainLayout>
@@ -77,7 +80,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 </div>
 
                 {/* 은행사 선택 단계 */}
-                {!bankCompany && (
+                {!selectedBank && (
                     <div>
                         <section className="relative mb-12">
                             <div className="mb-4">
@@ -144,13 +147,13 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 )}
 
                 {/* 정보입력 단계 */}
-                <FadeUp show={!!bankCompany} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
+                <FadeUp show={!!selectedBank} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
                     <div className="mb-10 flex items-center justify-between">
                         <h2 className="leading-none text-xl font-semibold">Step3. 세부 정보를 입력해주세요.</h2>
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">
-                                선택된 은행: <b>{bankCompany}</b>
+                                선택된 은행: <b>{selectedBank?.displayName}</b>
                             </p>
                             <button className="btn btn-xs btn-scordi gap-2" onClick={() => setCompany(undefined)}>
                                 변경하기
@@ -159,7 +162,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                     </div>
 
                     <FormContainer onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading}>
-                        <input type="hidden" name="issuerCompany" value={bankCompany} />
+                        <input type="hidden" name="issuerCompany" value={selectedBank?.displayName} />
                         <div className="px-4 py-8 border-b">
                             <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
                                 <h2 className="leading-none text-xl font-semibold">필수정보</h2>

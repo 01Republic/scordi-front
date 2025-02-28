@@ -45,18 +45,7 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
             <td className="text-12 max-w-sm whitespace-pre-wrap">{billingHistory.title}</td>
 
             {/*연결된 구독*/}
-            <td>
-                {subscription && (
-                    <SubscriptionProfile subscription={subscription}>
-                        <p className="truncate text-sm">
-                            {subscription.product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
-                        </p>
-                        {/*<p className="text-12 text-gray-400">*/}
-                        {/*    {issuedAt.getFullYear()}년 {issuedAt.getMonth() + 1}월 청구*/}
-                        {/*</p>*/}
-                    </SubscriptionProfile>
-                )}
-            </td>
+            <td>{subscription && <SubscriptionProfile subscription={subscription} />}</td>
 
             {/*결제금액*/}
             <td>

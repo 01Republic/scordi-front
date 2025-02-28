@@ -82,14 +82,14 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
 
             {/* 연결 추가 모달 */}
             <AddInvoiceModal
-                defaultValue={result.items}
+                teamInvoiceAccount={result.items}
                 isOpened={isOpened}
-                onClose={(isChanged = false) => {
-                    if (isChanged) {
-                        reload();
-                        reloadParent();
-                    }
+                onClose={() => {
                     setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
                 }}
             />
         </>

@@ -1,5 +1,6 @@
 import {api} from '^api/api';
 import {
+    CreateBillingHistoryFromGmailItemDto,
     GetEmailOfInvoiceAccountQueryDto,
     GmailMessageListFetchParamQueryDto,
     GmailMessageListFetchResultDto,
@@ -27,5 +28,11 @@ export const invoiceAccountGmailTestApi = {
         return api.get(url, {params}).then((res) => {
             return plainToInstance(GmailContentReadableDto, res.data);
         });
+    },
+
+    // InvoiceAccount 이메일로 BillingHistory 생성
+    createBillingHistory(invoiceAccountId: number, messageId: string, dto: CreateBillingHistoryFromGmailItemDto) {
+        const url = `/invoice_accounts/test/${invoiceAccountId}/emails/${messageId}/billingHistory`;
+        return api.post(url, dto);
     },
 };
