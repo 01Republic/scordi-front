@@ -24,7 +24,7 @@ export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) =>
             </SortableTH>
 
             <th>이메일</th>
-            <th>전화번호</th>
+            {/*<th>전화번호</th>*/}
             <th>비고</th>
             {/*/!* 권한 *!/*/}
             {/*<th />*/}
