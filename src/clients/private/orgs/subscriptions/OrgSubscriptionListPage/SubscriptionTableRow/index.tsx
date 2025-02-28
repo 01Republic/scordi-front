@@ -28,6 +28,7 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {currentUserAtom} from '^models/User/atom';
 import {useRecoilValue} from 'recoil';
+import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -40,9 +41,8 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const currentUser = useRecoilValue(currentUserAtom);
 
     const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
-        const {id, organizationId: orgId} = subscription;
         return subscriptionApi
-            .update(id, dto)
+            .update(subscription.id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
             .finally(() => reload());
@@ -93,11 +93,28 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 결제주기 */}
             <td>
-                <BillingCycleTypeTagUI
-                    value={subscription.billingCycleType}
-                    className="no-selectable !cursor-default"
-                    short
-                />
+                {currentUser?.isAdmin ? (
+                    <SelectColumn
+                        value={subscription.billingCycleType}
+                        getOptions={async () => [...SubscriptionBillingCycleTypeValues]}
+                        onSelect={async (billingCycleType) => {
+                            if (billingCycleType === subscription.billingCycleType) return;
+                            return _update({billingCycleType});
+                        }}
+                        ValueComponent={({value}) => (
+                            <BillingCycleTypeTagUI value={value} className="no-selectable !cursor-default" short />
+                        )}
+                        contentMinWidth="240px"
+                        optionListBoxTitle="결제주기를 변경합니다"
+                        inputDisplay={false}
+                    />
+                ) : (
+                    <BillingCycleTypeTagUI
+                        value={subscription.billingCycleType}
+                        className="no-selectable !cursor-default"
+                        short
+                    />
+                )}
             </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
