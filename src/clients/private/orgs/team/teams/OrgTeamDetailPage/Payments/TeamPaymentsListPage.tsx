@@ -76,12 +76,14 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
             </ListTableContainer>
 
             <AddPaymentModal
-                preItems={result.items}
+                teamCreditCard={result.items}
                 isOpened={isOpened}
                 onClose={() => {
-                    reload();
-                    reloadParent();
                     setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
                 }}
             />
         </>
