@@ -12,6 +12,7 @@ interface MonoSelectInputProps<Option> {
     getLabel?: (option: Option) => ReactNodeElement;
     placeholder?: ReactNodeElement;
     clearOption?: () => any;
+    readonly?: boolean;
 }
 
 export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) => {
@@ -23,6 +24,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
         getLabel = (v) => <>{v}</>,
         placeholder,
         clearOption,
+        readonly = false,
     } = props;
 
     return (
@@ -31,7 +33,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
             tabIndex={0}
             className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
             onKeyDown={enterToSpace(() => openModal && openModal())}
-            onClick={() => openModal && openModal()}
+            onClick={() => !readonly && openModal && openModal()}
         >
             {!selectedOption && placeholder ? (
                 <div className="text-gray-400">{placeholder}</div>
