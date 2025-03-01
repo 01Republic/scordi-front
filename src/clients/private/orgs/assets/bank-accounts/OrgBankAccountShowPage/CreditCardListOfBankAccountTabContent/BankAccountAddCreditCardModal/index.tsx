@@ -43,7 +43,7 @@ export const BankAccountAddCreditCardModal = memo((props: BankAccountAddCreditCa
             title="연결할 카드를 모두 선택해주세요."
             ctaInactiveText="카드 선택"
             ctaActiveText="%n개의 선택된 카드 연결하기"
-            toastMessage="선택한 카드를 연결했어요."
+            successMessage="카드를 연결했어요."
         />
     );
 });

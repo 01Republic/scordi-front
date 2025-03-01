@@ -29,15 +29,13 @@ export const BankAccountProfilePanel = memo(function CreditCardProfilePanel() {
                         className={`flex gap-2 text-18 font-semibold items-center group-hover:text-scordi leading-none py-1`}
                     >
                         <span className="truncate">
-                            {currentBankAccount.title} {!!currentBankAccount.displayNumber && `(${endNumber})`}
+                            {currentBankAccount.title} {endNumber && `(${endNumber})`}
                         </span>
                     </p>
-                    {!!currentBankAccount.displayNumber && (
-                        <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                            {currentBankAccount.name && company && <span>{bankName} </span>}
-                            <span>{currentBankAccount.displayNumber || '(알수없음)'}</span>
-                        </p>
-                    )}
+                    <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
+                        {currentBankAccount.name && company && <span>{bankName} </span>}
+                        {currentBankAccount.displayNumber && <span>{currentBankAccount.displayNumber}</span>}
+                    </p>
 
                     <div className="flex items-center gap-3 pt-3">
                         <div>
