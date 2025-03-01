@@ -172,7 +172,10 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     />
                                     <span />
                                 </FormControl>
+                            </div>
 
+                            <div className="max-w-md mx-auto flex flex-col gap-8">
+                                <h2 className="leading-none text-xl font-semibold">선택정보</h2>
                                 <FormControl label="계좌 번호">
                                     <input
                                         type={'number'}
@@ -184,10 +187,6 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     />
                                     <span />
                                 </FormControl>
-                            </div>
-
-                            <div className="max-w-md mx-auto flex flex-col gap-8">
-                                <h2 className="leading-none text-xl font-semibold">선택정보</h2>
                                 <BankUsingStatusSelect
                                     isLoading={isLoading}
                                     defaultValue={form.getValues('usingStatus') || BankAccountUsingStatus.InUse}
