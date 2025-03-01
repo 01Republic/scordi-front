@@ -62,7 +62,7 @@ export const TeamMemberConnectModal = memo((props: TeamMemberConnectModalProps) 
             title="연결할 구독을 모두 선택해주세요."
             ctaInactiveText="구독을 선택해주세요"
             ctaActiveText="%n개의 선택된 구독 연결하기"
-            toastMessage="선택한 구독을 연결했어요."
+            successMessage="선택한 구독을 연결했어요."
         />
     );
 });

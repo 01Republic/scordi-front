@@ -56,7 +56,7 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
             title="이용중인 구성원을 모두 선택해주세요."
             ctaInactiveText="이용중인 구성원을 선택해주세요."
             ctaActiveText="%n명의 이용중인 구성원 연결하기"
-            toastMessage="선택한 구성원을 연결했어요."
+            successMessage="선택한 구성원을 연결했어요."
         />
     );
 });

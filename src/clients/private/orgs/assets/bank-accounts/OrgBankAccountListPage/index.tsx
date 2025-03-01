@@ -32,7 +32,6 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
         search({where: {organizationId}, order: {id: 'DESC'}});
     };
 
-    // TODO: 검색어 입력해도 필터링 안됨
     const onSearch = debounce((keyword?: string) => {
         return search({
             ...query,

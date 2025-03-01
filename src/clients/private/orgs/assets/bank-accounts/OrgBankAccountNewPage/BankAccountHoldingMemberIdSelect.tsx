@@ -6,14 +6,14 @@ import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSe
 import {BankAccountAttrSelectPropsType} from './BankAccountAttrSelectProps.type';
 
 export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSelectPropsType<number>) => {
-    const {defaultValue, isLoading = false} = props;
+    const {defaultValue, isLoading = false, onChange} = props;
     const {result} = useTeamMembers();
     const [holdingMember, setHoldingMember] = useState<TeamMemberDto | undefined>(() => {
         return defaultValue ? result.items.find((member) => member.id === defaultValue) : undefined;
     });
 
     return (
-        <FormControl label="소지자">
+        <FormControl label="관리자">
             <div
                 className={`input input-underline !bg-slate-100 w-full flex items-center justify-between ${
                     isLoading ? 'opacity-50 pointer-events-none' : ''
@@ -23,9 +23,10 @@ export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSele
                 <TeamMemberSelectColumn
                     onChange={(member) => {
                         setHoldingMember(member);
+                        !!onChange && onChange(member?.id);
                     }}
-                    optionListBoxTitle="소지자를 변경할까요?"
-                    detachableOptionBoxTitle="현재 소지자"
+                    optionListBoxTitle="관리자를 변경할까요?"
+                    detachableOptionBoxTitle="현재 관리자"
                     className="flex-auto"
                     defaultValue={holdingMember}
                 />

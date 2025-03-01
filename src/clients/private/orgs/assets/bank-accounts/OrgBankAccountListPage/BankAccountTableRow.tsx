@@ -92,16 +92,16 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
             {/* 연결된 카드 */}
             <td>
                 {bankAccount.creditCards && bankAccount.creditCards?.length > 0 ? (
-                    <>
-                        <CreditCardProfileCompact item={bankAccount.creditCards[0]} /> 외{' '}
+                    <span className={'whitespace-nowrap flex items-center gap-1 text-sm'}>
+                        <CreditCardProfileCompact className={'inline-flex'} item={bankAccount.creditCards[0]} /> 외{' '}
                         {bankAccount.creditCards.length - 1}개
-                    </>
+                    </span>
                 ) : (
                     <i className="text-gray-300">-</i>
                 )}
             </td>
 
-            {/* 소지자 */}
+            {/* 관리자 */}
             <td>
                 <TeamMemberSelectColumn
                     compactView
@@ -110,8 +110,8 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
                         if (bankAccount.holdingMemberId === holdingMember?.id) return;
                         return update({holdingMemberId: holdingMember?.id || undefined});
                     }}
-                    optionListBoxTitle="소지자를 변경할까요?"
-                    detachableOptionBoxTitle="현재 소지자"
+                    optionListBoxTitle="관리자를 변경할까요?"
+                    detachableOptionBoxTitle="현재 관리자"
                 />
             </td>
 

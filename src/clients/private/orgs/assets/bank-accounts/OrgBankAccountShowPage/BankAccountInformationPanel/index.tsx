@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
-import {useCurrentBankAccountEdit} from '../atom';
 import {EditButton} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/EditButton';
-import {CardCompanyNotSetAlert} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/InformationAlert';
+import {useCurrentBankAccountEdit} from '../atom';
 import {BankAccountNumber} from './BankAccountNumber';
 import {BankAccountMemo} from './BankAccountMemo';
 import {BankAccountName} from './BankAccountName';
@@ -16,9 +15,6 @@ export const BankAccountInformationPanel = memo(() => {
 
     return (
         <div>
-            {/* TODO: 계좌상세p / CardCompanyNotSetAlert 는 카드상세 에서만 유효한 컴포넌트 입니다. */}
-            {!currentBankAccount.bank && <CardCompanyNotSetAlert />}
-
             <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-16 font-semibold">세부정보</h3>
@@ -55,7 +51,8 @@ export const BankAccountInformationPanel = memo(() => {
                     <BankAccountNumber
                         isEditMode={isEditMode}
                         isLoading={isLoading}
-                        value={currentBankAccount.displayNumber || ''}
+                        displayValue={currentBankAccount.displayNumber || ''}
+                        value={currentBankAccount.number || ''}
                         defaultValue={formData.number ?? undefined}
                         onChange={(number) => setFormValue({number})}
                     />
