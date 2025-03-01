@@ -1,9 +1,10 @@
 import {BankAccountKind} from './BankAccountKind.enum';
 import {BankAccountUsingStatus} from './BankAccountUsingStatus.enum';
+import {CodefBankCode} from '^models/CodefAccount/type/enums';
 
 export class CreateBankAccountRequestDto {
     isPersonal: boolean; // 법인 여부
-    bank: string; // 은행
+    bank: CodefBankCode; // 은행
     kind: BankAccountKind; // 계좌 종류
     number: string; // 계좌번호
     displayNumber?: string; // 계좌번호(표시용)

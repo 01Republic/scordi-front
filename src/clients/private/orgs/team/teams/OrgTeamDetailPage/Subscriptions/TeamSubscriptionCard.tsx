@@ -1,8 +1,9 @@
 import React, {memo} from 'react';
-import {Avatar} from '^components/Avatar';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {truncate} from '^components/util/string';
+import {SubscriptionProfile} from '^models/Subscription/components';
+import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface TeamSubscriptionCardProps {
     item: SubscriptionDto;
@@ -17,21 +18,17 @@ export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
 
     return (
         <li className="w-full border bg-white rounded-lg flex items-center">
-            <div className="w-full flex items-center justify-between p-4">
-                <div className="flex items-center gap-2">
-                    <Avatar
-                        className="w-7 h-7"
-                        src={product.image}
-                        alt={product.name()}
-                        draggable={false}
-                        loading="lazy"
-                    />
-                    <div>
-                        <span className="text-14 font-semibold block text-max-line [--line-clamp-size:2]">
-                            {product.name()}
-                        </span>
-                    </div>
-                </div>
+            <LinkTo
+                href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                className="w-full flex items-center justify-between p-4"
+            >
+                <SubscriptionProfile
+                    subscription={subscription}
+                    width={28}
+                    height={28}
+                    textClassName="text-14 font-semibold block text-max-line [--line-clamp-size:2]"
+                    isAlias={false}
+                />
 
                 <div className="flex avatar-group -space-x-2.5 overflow-visible">
                     {teamMembers.slice(0, memberMaxLength).map((teamMember) => (
@@ -47,7 +44,7 @@ export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
                         </div>
                     )}
                 </div>
-            </div>
+            </LinkTo>
         </li>
     );
 });

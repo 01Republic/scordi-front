@@ -1,17 +1,16 @@
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import React, {memo, useEffect, useState} from 'react';
-import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
 import {useRecoilValue} from 'recoil';
-import {teamIdParamState} from '^atoms/common';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {AddPaymentModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Payments/AddPaymentModal';
-import {TeamPaymentTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Payments/TeamPaymentTableHeader';
-import {TeamPaymentTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Payments/TeamPaymentTableRow';
 import {FaPlus} from 'react-icons/fa6';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {useRouter} from 'next/router';
-import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {teamIdParamState} from '^atoms/common';
 import {useUnmount} from '^hooks/useUnmount';
+import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
+import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {AddPaymentModal} from './AddPaymentModal';
+import {TeamPaymentTableRow} from './TeamPaymentTableRow';
+import {TeamPaymentTableHeader} from './TeamPaymentTableHeader';
 
 export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
@@ -76,12 +75,14 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
             </ListTableContainer>
 
             <AddPaymentModal
-                preItems={result.items}
+                teamCreditCard={result.items}
                 isOpened={isOpened}
                 onClose={() => {
-                    reload();
-                    reloadParent();
                     setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
                 }}
             />
         </>

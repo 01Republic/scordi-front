@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {MdRefresh} from 'react-icons/md';
 import {useCurrentCreditCardSync} from '../../atom';
 import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
+import {codefCardApi} from '^models/CodefCard/api';
 
 export const BillingHistoryTableControl = memo(() => {
     return (

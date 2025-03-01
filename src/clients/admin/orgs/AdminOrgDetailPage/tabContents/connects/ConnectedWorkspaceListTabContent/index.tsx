@@ -63,7 +63,7 @@ export const ConnectedWorkspaceListTabContent = memo(() => {
             <CardTablePanel
                 gridClass="grid-cols-5"
                 entries={result.items}
-                ths={['id', '계정', '실행 시각', 'token', '']}
+                ths={[<div>id</div>, <div>계정</div>, <div>실행 시각</div>, <div>token</div>, <div></div>]}
                 entryComponent={(googleSyncHistory, i, arr) => (
                     <GoogleSyncHistoryItem
                         key={i}

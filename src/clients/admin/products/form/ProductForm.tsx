@@ -51,6 +51,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
         form.setValue('ogImageUrl', product.ogImageUrl ?? ''); // og image url
         form.setValue('pricingPageUrl', product.pricingPageUrl); // Pricing Page url
         form.setValue('companyName', product.companyName); // 운영사명
+        form.setValue('saasCollectionExposePriority', product.saasCollectionExposePriority || 0);
 
         // 아래는 수정 폼에서만 노출되는 인풋
         form.setValue('searchText', product.searchText); // 검색키워드
@@ -58,7 +59,6 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
         form.setValue('isAutoTrackable', product.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', product.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', product.desc); // 비고
-        form.setValue('saasCollectionExposePriority', product.saasCollectionExposePriority || 0);
     }, [product]);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

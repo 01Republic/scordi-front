@@ -40,6 +40,7 @@ export const CreditCardAddSubscriptionModal = memo((props: CreditCardAddSubscrip
             title="연결할 구독을 모두 선택해주세요."
             ctaInactiveText="구독 선택"
             ctaActiveText="%n개의 선택된 구독 연결하기"
+            toastMessage="선택한 구독을 연결했어요."
         />
     );
     // return (

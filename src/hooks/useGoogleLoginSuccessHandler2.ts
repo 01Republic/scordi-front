@@ -80,32 +80,32 @@ export const useGoogleLoginSuccessHandler2 = () => {
         // const {data: googleSignedUserData} = await getGoogleUserData(code);
 
         // 서버에 이 회원이 가입된 계정이 있는지 확인합니다.
-        const jwtRequest = userSocialGoogleApi.login(accessToken);
+        await userSocialGoogleApi
+            .login(accessToken)
+            // 만약 가입된 계정이 있다면, 응답으로 토큰이 오는데
+            .then(({data: {token}}) => {
+                // 토큰으로 사용자를 조회한 뒤
+                setToken(token);
+                userSessionApi.index().then(({data: user}) => {
+                    localStorage.setItem('locale', user?.locale ?? 'ko');
+                    if (callbackFn) {
+                        callbackFn(user);
+                    } else {
+                        user.phone
+                            ? moveWithLogin(user) // 전화번호가 있으면 로그인 시키고
+                            : moveToSignUpPage(); // 전화번호가 없으면 추가정보 입력을 위해 가입페이지로 넘깁니다.
+                    }
+                });
+            })
 
-        // 만약 가입된 계정이 있다면, 응답으로 토큰이 오는데
-        jwtRequest.then(({data: {token}}) => {
-            // 토큰으로 사용자를 조회한 뒤
-            setToken(token);
-            userSessionApi.index().then(({data: user}) => {
-                localStorage.setItem('locale', user?.locale ?? 'ko');
+            // 만약 가입된 계정이 없으면, 구글 회원 정보를 상태에 저장하고 추가정보 입력을 위해 가입페이지로 넘깁니다.
+            .catch(() => {
+                localStorage.setItem('accessToken', accessToken);
                 if (callbackFn) {
-                    callbackFn(user);
+                    callbackFn();
                 } else {
-                    user.phone
-                        ? moveWithLogin(user) // 전화번호가 있으면 로그인 시키고
-                        : moveToSignUpPage(); // 전화번호가 없으면 추가정보 입력을 위해 가입페이지로 넘깁니다.
+                    moveToSignUpPage();
                 }
             });
-        });
-
-        // 만약 가입된 계정이 없으면, 구글 회원 정보를 상태에 저장하고 추가정보 입력을 위해 가입페이지로 넘깁니다.
-        jwtRequest.catch(() => {
-            localStorage.setItem('accessToken', accessToken);
-            if (callbackFn) {
-                callbackFn();
-            } else {
-                moveToSignUpPage();
-            }
-        });
     };
 };

@@ -36,7 +36,7 @@ interface SlideUpSelectModalProps<T> {
 export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
     const {isOpened, onClose, onOpened: _onOpened, onClosed: _onClosed, onCreate, onSubmit: _onSubmit} = props;
     const {isLoading = false, items = [], Row, getId} = props;
-    const {titleCaption = '', title, ctaInactiveText = '', ctaActiveText = '', successMessage} = props;
+    const {titleCaption = '', title, ctaInactiveText = '', ctaActiveText = '', successMessage = '연결했어요.'} = props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
     const onOpened = () => _onOpened && _onOpened();
@@ -54,7 +54,7 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
 
     const onSubmit = async () => {
         await (_onSubmit && _onSubmit(selectedIds));
-        toast.success(successMessage ?? '구독을 연결했어요.');
+        toast.success(successMessage);
         onCreate && onCreate();
     };
 

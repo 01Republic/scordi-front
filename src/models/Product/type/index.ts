@@ -47,7 +47,7 @@ export class ProductDto {
     subscriptions?: SubscriptionDto[];
 
     name() {
-        return this.nameKo || this.nameEn;
+        return this.nameEn || this.nameKo;
     }
 }
 

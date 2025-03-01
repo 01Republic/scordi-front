@@ -3,6 +3,7 @@ import {LinkTo, LinkToProps} from '^components/util/LinkTo';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {FaRegFolderOpen} from 'react-icons/fa';
 import {WithChildren} from '^types/global.type';
+import Tippy from '@tippyjs/react/headless';
 
 interface OpenButtonProps extends LinkToProps {}
 
@@ -26,14 +27,20 @@ export const OpenButtonColumn = memo((props: OpenButtonColumn & WithChildren) =>
     const {children, ...res} = props;
 
     return (
-        <div className="flex items-center justify-between cursor-pointer group gap-2">
-            {children}
-
-            <div className="flex items-center invisible pointer-events-none group-hover:visible group-hover:pointer-events-auto">
-                <OpenButton {...res} />
-            </div>
-        </div>
+        <Tippy placement="right" offset={[0, -30]} interactive render={() => <OpenButton {...res} />}>
+            <div className="">{children}</div>
+        </Tippy>
     );
+
+    // return (
+    //     <div className="flex items-center justify-between cursor-pointer group gap-2">
+    //         {children}
+    //
+    //         <div className="flex items-center invisible pointer-events-none group-hover:visible group-hover:pointer-events-auto">
+    //             <OpenButton {...res} />
+    //         </div>
+    //     </div>
+    // );
 
     // return (
     //     <div className="relative cursor-pointer">

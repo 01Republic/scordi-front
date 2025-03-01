@@ -1,9 +1,10 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {memo, useEffect} from 'react';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {defineTabs, useTabs} from '^components/util/tabs';
 import {InvoiceAccountListContent} from './InvoiceAccountListContent';
 import {DraftInboxContent} from './DraftInboxContent';
+import {selectedInvoiceAccountAtom} from './atoms';
 
 const invoiceAccountConnectedTab = defineTabs('invoiceAccountConnectedTab', [
     {label: '청구서 계정', TabPane: InvoiceAccountListContent},
@@ -12,7 +13,15 @@ const invoiceAccountConnectedTab = defineTabs('invoiceAccountConnectedTab', [
 
 export const InvoiceAccountListTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);
+    const setSelectedInvoiceAccount = useSetRecoilState(selectedInvoiceAccountAtom);
     const {tabs, currentTabIndex, setCurrentTabIndex, CurrentTabPane} = useTabs(invoiceAccountConnectedTab);
+
+    useEffect(() => {
+        return () => {
+            setCurrentTabIndex(0);
+            setSelectedInvoiceAccount(undefined);
+        };
+    }, []);
 
     if (!org) return <></>;
 

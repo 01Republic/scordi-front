@@ -58,16 +58,16 @@ export const ProductSubscriptionList = memo(function ProductSubscriptionList() {
                         changePageSize={changePageSize}
                         pageMove={movePage}
                         ths={[
-                            'Name',
-                            '',
-                            '조직',
-                            '',
-                            '등록방법',
-                            '결제내역',
-                            '멤버',
-                            '인보이스 계정',
-                            '생성/수정 일시',
-                            '',
+                            <div>Name</div>,
+                            <div></div>,
+                            <div>조직</div>,
+                            <div></div>,
+                            <div>등록방법</div>,
+                            <div>결제내역</div>,
+                            <div>멤버</div>,
+                            <div>인보이스 계정</div>,
+                            <div>생성/수정 일시</div>,
+                            <div></div>,
                         ]}
                         entryComponent={(subscription, i, arr) => (
                             <ProductSubscriptionItem

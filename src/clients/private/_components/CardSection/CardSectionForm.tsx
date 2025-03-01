@@ -27,10 +27,10 @@ export const CardSectionForm = memo((props: CardSectionFormProps) => {
                 </div>
             </div>
             {!isButtonText ? (
-                <div className="max-w-md flex flex-col gap-4 pt-8">{children}</div>
+                <div className="max-w-lg flex flex-col gap-4 pt-8">{children}</div>
             ) : (
                 <div
-                    className={`flex flex-col max-w-md gap-4 overflow-hidden transition-all h-auto ${
+                    className={`flex flex-col max-w-lg gap-4 overflow-hidden transition-all h-auto ${
                         isEditMode ? 'pt-8' : '!h-0'
                     }`}
                 >
