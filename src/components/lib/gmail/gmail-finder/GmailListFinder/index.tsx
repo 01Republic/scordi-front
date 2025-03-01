@@ -44,7 +44,7 @@ export const GmailListFinder = memo((props: GmailListFinderProps) => {
 
             <div className="pt-4 flex items-center justify-center">
                 <NextPrevNavigator
-                    prevDisabled={!navigator.prevPageToken}
+                    prevDisabled={typeof navigator.prevPageToken === 'undefined'}
                     nextDisabled={!navigator.nextPageToken}
                     onPrev={navigator.goPrevPage}
                     onNext={navigator.goNextPage}

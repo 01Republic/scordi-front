@@ -27,7 +27,7 @@ export const DraftInboxControlBar = memo((props: DraftInboxControlBarProps) => {
                 <PagesNavigator currentPageNum={currentPageNum} pageTokens={pageTokens} moveTo={navigator.goPage} />
 
                 <NextPrevNavigator
-                    prevDisabled={!prevPageToken}
+                    prevDisabled={typeof prevPageToken === 'undefined'}
                     nextDisabled={!nextPageToken}
                     onPrev={navigator.goPrevPage}
                     onNext={navigator.goNextPage}

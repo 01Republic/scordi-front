@@ -44,9 +44,9 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
         const shortcut = (evt: KeyboardEvent) => {
             if (evt.metaKey && evt.key === 'Enter') return onOpen();
 
-            if (evt.ctrlKey && evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail(email);
+            if (evt.ctrlKey && evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail();
             if (evt.ctrlKey && evt.key === 'J' && navigator?.goLastOfPage) return navigator.goLastOfPage();
-            if (evt.ctrlKey && evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail(email);
+            if (evt.ctrlKey && evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail();
             if (evt.ctrlKey && evt.key === 'K' && navigator?.goFirstOfPage) return navigator.goFirstOfPage();
             if (evt.ctrlKey && evt.key === '<' && navigator?.goPrevPage) return navigator.goPrevPage();
             if (evt.ctrlKey && evt.key === '>' && navigator?.goNextPage) return navigator.goNextPage();
@@ -86,7 +86,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                 <div className="flex items-center">
                     <Tip text="이전" subtext="Ctrl+K">
                         <button
-                            onClick={() => navigator?.goPrevEmail(email!)}
+                            onClick={() => navigator?.goPrevEmail()}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
                             disabled={!navigator?.prevEmail && !navigator?.prevPageToken}
                         >
@@ -95,7 +95,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                     </Tip>
                     <Tip text="다음" subtext="Ctrl+J">
                         <button
-                            onClick={() => navigator?.goNextEmail(email!)}
+                            onClick={() => navigator?.goNextEmail()}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
                             disabled={!navigator?.nextEmail && !navigator?.nextPageToken}
                         >
