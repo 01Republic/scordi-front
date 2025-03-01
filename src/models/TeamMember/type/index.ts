@@ -8,6 +8,7 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {PartialType} from '^types/utils/partial-type';
 import {getColor} from '^components/util/palette';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 export * from './CreateGoogleAdminTeamMembersRequestDto';
 
@@ -39,6 +40,7 @@ export class TeamMemberDto {
     @TypeCast(() => TeamDto) teams?: TeamDto[]; // 팀
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[]; // 사용하는 구독
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 보유 중인 카드
+    @TypeCast(() => BankAccountDto) bankAccounts?: BankAccountDto[]; // 담당 중인 계좌
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[]; // 담당중인 인보이스 계정
 
     get user() {

@@ -1,9 +1,11 @@
 import React from 'react';
 import cn from 'classnames';
-import {Avatar} from '^components/Avatar';
 import {currencyFormat, roundNumber} from '^utils/number';
-import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
+import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
+import {SubscriptionProfile} from '^models/Subscription/components';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface ExpenseSubscriptionProps {
     summary?: SummaryOfBillingHistoriesDto;
@@ -25,6 +27,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
         }
     })();
     const subscriptionSpends = summaryOfState?.subscriptionSpends || [];
+    // const url = ;
 
     // 로딩이 아직 안되었거나, 결과가 없는 경우
     if (subscriptionSpends.length === 0) {
@@ -36,37 +39,35 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     'border-red-100 text-red-400': currentStatusTab === BillingHistoryStatus.PayFail,
                 })}
             >
-                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 지출액이 없어요.`}</p>
+                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 내역이 없어요.`}</p>
             </div>
         );
     }
 
     return (
         <div
-            className={cn('w-full rounded-2xl grid grid-cols-3 gap-2 p-2', {
+            className={cn('w-full rounded-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2', {
                 'bg-emerald-100': currentStatusTab === BillingHistoryStatus.PaySuccess,
                 'bg-orange-100 ': currentStatusTab === BillingHistoryStatus.PayWait,
                 'bg-red-100': currentStatusTab === BillingHistoryStatus.PayFail,
             })}
         >
             {subscriptionSpends.map((spend) => (
-                <div
+                <LinkTo
+                    href={OrgSubscriptionDetailPageRoute.path(spend.organizationId, spend.subscriptionId)}
                     key={spend.subscription.id}
                     className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
-                    onClick={() => console.log(spend)}
                 >
-                    <div className="flex items-center gap-3">
-                        <Avatar
-                            src={spend.subscription.product.image}
-                            className="w-5 h-5"
-                            draggable={false}
-                            loading="lazy"
-                        />
-                        <p>{spend.subscription.product.name()}</p>
-                    </div>
-
+                    <SubscriptionProfile
+                        subscription={spend.subscription}
+                        width={20}
+                        height={20}
+                        className="gap-3"
+                        textClassName="text-14 font-base font-normal"
+                        isAlias={false}
+                    />
                     <p>{currencyFormat(roundNumber(spend.amount))}</p>
-                </div>
+                </LinkTo>
             ))}
         </div>
     );

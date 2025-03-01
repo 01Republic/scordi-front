@@ -4,7 +4,7 @@ import {OutLink} from '^components/OutLink';
 import {FadeUp} from '^components/FadeUp';
 import {createSubscriptionFormData} from '../atom';
 import {StepLayout} from '../_common/StepLayout';
-import {InputSection, PricingTypeSelect, CurrencySelect, RecurringAmount} from '../inputs';
+import {InputSection, PricingTypeSelect, CurrencySelect, RecurringAmount, RecurringDate} from '../inputs';
 import {useCurrentConnectingProduct} from '../useCurrentConnectingProduct';
 
 export const SubscriptionInfoStep = memo(() => {
@@ -39,7 +39,7 @@ export const SubscriptionInfoStep = memo(() => {
                 )}
             </InputSection>
 
-            {/*<RecurringDate />*/}
+            <RecurringDate />
 
             <InputSection className="max-w-lg">
                 <FadeUp show={!formData.isFreeTier} delay="delay-[100ms]">

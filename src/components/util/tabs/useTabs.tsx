@@ -1,20 +1,20 @@
 import {atom, RecoilState, useRecoilState} from 'recoil';
-import {TabItem} from '^components/util/tabs/defineTabs';
+import {TabItem, TabPaneProps} from '^components/util/tabs/defineTabs';
 import React, {memo, useEffect, useState} from 'react';
 import {ContentTabNav, ContentTabNavProps} from '^layouts/ContentLayout';
 
-interface UseTabsConfig {
+interface UseTabsConfig<T extends TabPaneProps> {
     tabIndexAtom: RecoilState<number>;
-    tabs: TabItem[];
+    tabs: TabItem<T>[];
     TabNav: React.MemoExoticComponent<(props: Partial<ContentTabNavProps>) => JSX.Element>;
 }
 
-export const useTabs = (config: UseTabsConfig) => {
+export const useTabs = <T extends TabPaneProps>(config: UseTabsConfig<T>) => {
     const {tabIndexAtom, tabs, TabNav} = config;
     const [currentTabIndex, setCurrentTabIndex] = useRecoilState(tabIndexAtom);
     const [tabLen, setTabLen] = useState(tabs.length);
 
-    const addTabs = (newTabs: TabItem[]) => {
+    const addTabs = (newTabs: TabItem<T>[]) => {
         newTabs.forEach((newTab) => tabs.push(newTab));
         setTabLen((len) => len + newTabs.length);
     };

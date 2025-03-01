@@ -9,6 +9,12 @@ import {BillingHistoryTableControl} from './BillingHistoryTableControl';
 import {BillingHistoryTableHeaderOfCreditCard} from './BillingHistoryTableHeaderOfCreditCard';
 import {BillingHistoryRowOfCreditCard} from './BillingHistoryRowOfCreditCard';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {subscriptionApi} from '^models/Subscription/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {billingHistoryApi} from '^models/BillingHistory/api';
 
 export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHistoryListOfCreditCardTabContent() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -32,6 +38,27 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
         onReady();
     }, [currentCreditCard]);
 
+    const onDelete = (id: number) => {
+        const deleteConfirm = () => {
+            return confirm2(
+                '결제내역을 삭제할까요?',
+                <div className="text-16">
+                    이 작업은 취소할 수 없습니다.
+                    <br />
+                    <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                    그래도 삭제하시겠어요?
+                </div>,
+                'warning',
+            );
+        };
+
+        confirmed(deleteConfirm(), '삭제 취소')
+            .then(() => billingHistoryApi.destroy(id))
+            .then(() => reload())
+            .then(() => toast.success('결제내역을 삭제했어요.'))
+            .catch(errorToast);
+    };
+
     if (!currentCreditCard) return <></>;
 
     const {totalItemCount} = result.pagination;
@@ -53,7 +80,9 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <BillingHistoryTableHeaderOfCreditCard orderBy={orderBy} />}
-                        Row={({item}) => <BillingHistoryRowOfCreditCard item={item} onSaved={() => reload()} />}
+                        Row={({item}) => (
+                            <BillingHistoryRowOfCreditCard item={item} onSaved={() => reload()} onDelete={onDelete} />
+                        )}
                     />
                 )}
             </ListTableContainer>

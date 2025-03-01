@@ -9,6 +9,7 @@ import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
 import {AddCreditCardDropdown} from './AddCreditCardDropdown';
 import {AddCreditCardModal} from './AddCreditCardModal';
+import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useOrgIdParam();
@@ -48,7 +49,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             onReady={onReady}
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
-            titleText="카드"
+            Title={() => <TitleScopeHandler />}
             Buttons={() => <AddCreditCardDropdown reload={refresh} />}
             ScopeHandler={CreditCardScopeHandler}
             searchInputPlaceholder="검색어를 입력해주세요"

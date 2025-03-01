@@ -1,17 +1,18 @@
 import React, {memo, useRef} from 'react';
 import {eventCut} from '^utils/event';
-import {debounce} from 'lodash';
+import {ApiError, errorToast} from '^api/api';
 
 interface InviteEmailInputProps {
     defaultValue: string;
-    onSubmit: (value: string) => any;
+    validate?: (value: string) => boolean | Promise<boolean>;
+    onSubmit: (value: string) => any | Promise<any>;
     onRemove?: (value: string) => any;
     resetFocus?: () => any;
     isLoading?: boolean;
 }
 
 export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
-    const {defaultValue, onSubmit, onRemove, resetFocus, isLoading = false} = props;
+    const {defaultValue, validate, onSubmit, onRemove, resetFocus, isLoading = false} = props;
     const isEditMode = !!onRemove;
     const formRef = useRef<HTMLFormElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -19,21 +20,26 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     return (
         <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
                 eventCut(e);
                 if (!inputRef.current) return;
                 const email = inputRef.current.value;
-                inputRef.current.checkValidity();
-                inputRef.current.reportValidity();
-                if (!email) {
-                    return;
-                } else {
-                    if (!isEditMode) {
-                        inputRef.current.value = '';
-                        inputRef.current.focus();
+                try {
+                    if (validate) await validate(email);
+                    inputRef.current.checkValidity();
+                    inputRef.current.reportValidity();
+                    if (!email) {
+                        return;
+                    } else {
+                        if (!isEditMode) {
+                            inputRef.current.value = '';
+                            inputRef.current.focus();
+                        }
+                        await onSubmit(email); // add or update
+                        resetFocus && resetFocus();
                     }
-                    onSubmit(email); // add or update
-                    resetFocus && resetFocus();
+                } catch (e) {
+                    errorToast(e as ApiError);
                 }
             }}
         >
@@ -59,7 +65,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
 
                 <div className="flex items-center justify-end">
                     <button
-                        type={isEditMode ? 'button' : 'submit'}
+                        type={isEditMode ? 'button' : 'button'}
                         className={`btn btn-xs normal-case !bg-white !border-gray-300 !text-gray-500 !rounded-md shadow hover:shadow-lg ${
                             isLoading ? 'opacity-30 pointer-events-none' : ''
                         }`}

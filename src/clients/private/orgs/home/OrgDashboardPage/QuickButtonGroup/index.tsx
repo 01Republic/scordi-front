@@ -6,7 +6,7 @@ import {AddTeamMemberButton} from './AddTeamMemberButton';
 
 export const QuickButtonGroup = memo(() => {
     return (
-        <div className="flex gap-3">
+        <div className="flex gap-3 overflow-hidden overflow-x-auto" style={{scrollbarWidth: 'none'}}>
             {/*구독 추가*/}
             <AddSubscriptionButton />
 

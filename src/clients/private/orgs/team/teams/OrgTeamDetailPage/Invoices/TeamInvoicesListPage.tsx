@@ -22,7 +22,12 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
 
     const onSearch = (keyword?: string) => {
         search({
-            relations: ['invoiceAccount', 'invoiceAccount.holdingMember', 'invoiceAccount.subscriptions'],
+            relations: [
+                'invoiceAccount',
+                'invoiceAccount.holdingMember',
+                'invoiceAccount.subscriptions',
+                'invoiceAccount.googleTokenData',
+            ],
             where: {teamId},
             keyword,
         });
@@ -77,12 +82,14 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
 
             {/* 연결 추가 모달 */}
             <AddInvoiceModal
-                preItems={result.items}
+                teamInvoiceAccount={result.items}
                 isOpened={isOpened}
                 onClose={() => {
-                    reload();
-                    reloadParent();
                     setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
                 }}
             />
         </>

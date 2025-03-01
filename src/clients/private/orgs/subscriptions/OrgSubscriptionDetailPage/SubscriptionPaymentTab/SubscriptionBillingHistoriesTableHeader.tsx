@@ -13,7 +13,7 @@ export const SubscriptionBillingHistoriesTableHeader = memo((props: Subscription
 
             <th>연결된 결제수단</th>
 
-            <th>연결된 청구서 수신메일</th>
+            <th>연결된 청구서메일</th>
 
             <th>비고</th>
 

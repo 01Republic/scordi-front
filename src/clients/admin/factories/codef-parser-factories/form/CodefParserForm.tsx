@@ -21,7 +21,7 @@ interface FormProps<T extends FieldValues> {
      * 1. 폼을 제출하는 API 요청에 대한 promise 를 리턴해야 하며,
      * 2. 이 promise 는 실행 결과로서 콜백 함수를 리턴해야 합니다.
      */
-    onSubmit: (data: T) => Promise<() => any>;
+    onSubmit: (data: T) => Promise<(() => any) | any>;
     reloadOnReady?: boolean;
 }
 
@@ -38,7 +38,7 @@ export const CodefParserForm = (props: CreateFormProps | UpdateFormProps) => {
         if (searchText.asApiValues) dto.searchText = searchText.asApiValues();
         if (resMemberStoreName.asApiValues) dto.resMemberStoreName = resMemberStoreName.asApiValues();
 
-        savingToast(onSubmit(dto)).then((cbFn) => cbFn && cbFn());
+        savingToast(onSubmit(dto)).then((cbFn) => typeof cbFn === 'function' && cbFn());
     }, 1000);
 
     return (

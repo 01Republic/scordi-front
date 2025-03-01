@@ -1,20 +1,19 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {WithChildren} from '^types/global.type';
-import {orgIdParamState} from '^atoms/common';
 import {GrCertificate} from 'react-icons/gr';
 import {TbApps} from 'react-icons/tb';
 import {BsBuilding} from '@react-icons/all-files/bs/BsBuilding';
 import {BsCreditCard} from '@react-icons/all-files/bs/BsCreditCard';
 import {BsPeople} from '@react-icons/all-files/bs/BsPeople';
-import {AiOutlineAppstoreAdd} from '@react-icons/all-files/ai/AiOutlineAppstoreAdd';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integrations';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {OrgSettingsContent} from './OrgSettingsContent';
+import {OrgSettingsLeftListBox} from './OrgSettingsLeftListBox';
 import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
 
 interface OrgSettingsLayoutProps extends WithChildren {
@@ -24,8 +23,7 @@ interface OrgSettingsLayoutProps extends WithChildren {
 
 export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSettingsLayoutProps) {
     const {children, ignoreCardWrap = false} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-    const {currentOrg} = useCurrentOrg(orgId);
+    const orgId = useOrgIdParam();
 
     return (
         <MainLayout>

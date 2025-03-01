@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {LoadableBox} from '^components/util/loading';
 import {ReactNodeElement} from '^types/global.type';
+import {OrgSettingsCardSection} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsCardSection';
 
 interface OrgSettingsListSectionProps {
     title: string;
@@ -13,11 +14,12 @@ interface OrgSettingsListSectionProps {
 
 export const OrgSettingsListSection = memo(function (props: OrgSettingsListSectionProps) {
     const {title, buttonHref, buttonOnClick, items = [], isLoading = false} = props;
+
     return (
-        <div className={'pt-4 pb-12'}>
-            <div className={'flex justify-between items-center'}>
-                <div className={'font-bold'}>{title}</div>
-                {(buttonHref || buttonOnClick) && (
+        <OrgSettingsCardSection
+            title={title}
+            right={
+                (buttonHref || buttonOnClick) && (
                     <LinkTo
                         className={'text-blue-500 cursor-pointer text-12 hover:underline'}
                         href={buttonHref}
@@ -25,9 +27,9 @@ export const OrgSettingsListSection = memo(function (props: OrgSettingsListSecti
                     >
                         변경
                     </LinkTo>
-                )}
-            </div>
-
+                )
+            }
+        >
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 {items.map((item, i) => (
                     <div key={i} className={'grid grid-cols-5 items-center my-4 text-14'}>
@@ -36,6 +38,6 @@ export const OrgSettingsListSection = memo(function (props: OrgSettingsListSecti
                     </div>
                 ))}
             </LoadableBox>
-        </div>
+        </OrgSettingsCardSection>
     );
 });

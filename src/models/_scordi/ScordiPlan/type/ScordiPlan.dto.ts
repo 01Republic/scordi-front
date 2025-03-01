@@ -7,6 +7,12 @@ export enum ScordiPlanStepType {
     Year = 'Year',
 }
 
+// 플랜 만기시 전략
+export enum ScordiPlanNextStrategy {
+    RECURRING = 'RECURRING',
+    BLOCK = 'BLOCK',
+}
+
 /**
  * 스코디 결제플랜
  */
@@ -20,6 +26,7 @@ export class ScordiPlanDto {
     isCustomInquired: boolean; // 도입문의 플랜 여부
     stepType: ScordiPlanStepType; // 결제주기 유형
     stepSize: number; // 결제주기 사이즈
+    nextStrategy: ScordiPlanNextStrategy; // 플랜 만기시 전략
     secretCode: string; // 쿠폰코드
     priority: number; // 전시간 정렬 우선순위
     @TypeCast(() => Date) createdAt: Date; // 생성일시

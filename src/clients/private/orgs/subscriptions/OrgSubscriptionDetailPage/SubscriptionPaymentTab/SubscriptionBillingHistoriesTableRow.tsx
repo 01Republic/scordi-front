@@ -6,6 +6,9 @@ import {BillingHistoryDto, UpdateBillingHistoryRequestDto} from '^models/Billing
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
+import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
+import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
+import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/button/BillingHistoryAttachmentShowButton';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -49,12 +52,21 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
             {/* 연결된 결제수단 */}
             <td>
-                <CreditCardProfileCompact item={billingHistory.creditCard!} />
+                {billingHistory.creditCard ? (
+                    <CreditCardProfileCompact item={billingHistory.creditCard} />
+                ) : (
+                    <EmptyValue />
+                )}
             </td>
 
             {/* 연결된 청구서 수신 메일 */}
-            {/* TODO 이거 정보?? */}
-            <td>{/*<InvoiceAccountProfile invoiceAccount={billingHistory} />*/}모름</td>
+            <td>
+                {billingHistory.invoiceApp?.invoiceAccount ? (
+                    <InvoiceAccountProfileCompact invoiceAccount={billingHistory.invoiceApp?.invoiceAccount} />
+                ) : (
+                    <EmptyValue />
+                )}
+            </td>
 
             {/* 비고 */}
             <td>
@@ -69,9 +81,7 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
             {/* 청구서 보기 */}
             <td>
-                <button className={'btn btn-outline btn-sm text-14'} onClick={handleShowInvoice}>
-                    청구서 보기
-                </button>
+                <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
             </td>
         </tr>
     );

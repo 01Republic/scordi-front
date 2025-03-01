@@ -34,11 +34,11 @@ export const ActionColumn = memo((props: ColumnProps) => {
 
     return (
         <div className="flex gap-1">
-            <button className="btn btn-info btn-sm" onClick={onDetailButtonClick}>
+            <button className="btn btn-info btn-xs" onClick={onDetailButtonClick}>
                 상세
             </button>
 
-            <button className="btn btn-error btn-sm" onClick={onDeleteButtonClick}>
+            <button className="btn btn-error btn-xs" onClick={onDeleteButtonClick}>
                 삭제
             </button>
 

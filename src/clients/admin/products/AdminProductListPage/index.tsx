@@ -68,7 +68,7 @@ export const AdminProductListPage = memo(() => {
                 <SearchResultContainer>
                     <div className="w-full">
                         <CardTablePanel
-                            gridClass="grid-cols-1 lg:grid-cols-8"
+                            gridClass="grid-cols-1 lg:grid-cols-12"
                             entries={listPage.items}
                             columns={[
                                 // XS
@@ -81,39 +81,47 @@ export const AdminProductListPage = memo(() => {
                                 // LG
                                 {
                                     th: 'name',
-                                    className: 'hidden lg:block',
+                                    className: 'hidden lg:block col-span-3 text-14',
                                     render: (product) => (
                                         <DefaultColumn
                                             value={
-                                                <div className="pr-2">
-                                                    <div className="block whitespace-nowrap text-14 mb-1">
+                                                <div className="pr-2 flex items-center gap-1.5 group">
+                                                    <div className="">
                                                         <TagUI className="bg-gray-200">{product.id}</TagUI>
-                                                        {product.name()}
                                                     </div>
-                                                    <span className="block whitespace-nowrap text-11 text-gray-500">
-                                                        <code className="badge badge-xs">EN</code> {product.nameEn}
-                                                    </span>
-                                                    <span className="block whitespace-nowrap text-11 text-gray-500">
-                                                        <code className="badge badge-xs">KO</code> {product.nameKo}
-                                                    </span>
+                                                    <div className="flex group-hover:hidden flex-col items-start gap-0 text-12">
+                                                        <div className="whitespace-nowrap">
+                                                            <span>{product.name()}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="hidden group-hover:flex flex-col items-start gap-0 text-12">
+                                                        <div className="whitespace-nowrap">
+                                                            <span className="text-gray-400">EN | </span>
+                                                            <span>{product.nameEn}</span>
+                                                        </div>
+                                                        <div className="whitespace-nowrap">
+                                                            <span className="text-gray-400">KO | </span>
+                                                            <span>{product.nameKo}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             }
                                         />
                                     ),
                                 },
                                 {
-                                    th: '로고(image)',
-                                    className: 'hidden lg:block',
+                                    th: '로고',
+                                    className: 'hidden lg:block text-14',
                                     render: (product) => <ImageColumn product={product} />,
                                 },
                                 {
-                                    th: '썸네일(og:img)',
-                                    className: 'hidden lg:block',
+                                    th: '썸네일',
+                                    className: 'hidden lg:block text-14',
                                     render: (product) => <ThumbnailColumn product={product} />,
                                 },
                                 {
                                     th: 'category',
-                                    className: 'hidden lg:block col-span-2',
+                                    className: 'hidden lg:block text-14 col-span-3',
                                     render: (product) => (
                                         <DefaultColumn
                                             value={product.tags ? product.tags.map((tag) => tag.name).join(', ') : ''}
@@ -127,14 +135,14 @@ export const AdminProductListPage = memo(() => {
                                 // },
                                 {
                                     th: '공개상태',
-                                    className: '',
+                                    className: 'text-14',
                                     render: (product) => (
                                         <DefaultColumn
                                             value={
-                                                <div>
+                                                <div className="flex items-center">
                                                     <input
                                                         type="checkbox"
-                                                        className="checkbox"
+                                                        className="checkbox checkbox-sm checkbox-primary"
                                                         readOnly={true}
                                                         checked={product.connectMethod != ProductConnectMethod.PREPARE}
                                                         onClick={() => togglePublishStatus(product)}
@@ -146,7 +154,7 @@ export const AdminProductListPage = memo(() => {
                                 },
                                 {
                                     th: 'homepage',
-                                    className: 'hidden lg:block',
+                                    className: 'hidden lg:block col-span-2 text-14',
                                     render: (product) => (
                                         <OutLink
                                             href={product.homepageUrl}
@@ -160,7 +168,7 @@ export const AdminProductListPage = memo(() => {
                                 },
                                 {
                                     th: '',
-                                    className: 'hidden lg:block',
+                                    className: 'hidden lg:block text-14',
                                     render: (product) => <ActionColumn product={product} fetchData={fetchData} />,
                                 },
                             ]}

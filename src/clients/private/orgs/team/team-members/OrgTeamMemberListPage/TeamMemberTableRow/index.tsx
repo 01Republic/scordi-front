@@ -77,15 +77,15 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
                 </p>
             </td>
 
-            {/* 전화번호 */}
-            <td
-                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
-                onClick={() => onClick && onClick(teamMember)}
-            >
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.phone}
-                </p>
-            </td>
+            {/*/!* 전화번호 *!/*/}
+            {/*<td*/}
+            {/*    className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}*/}
+            {/*    onClick={() => onClick && onClick(teamMember)}*/}
+            {/*>*/}
+            {/*    <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">*/}
+            {/*        {teamMember.phone}*/}
+            {/*    </p>*/}
+            {/*</td>*/}
 
             {/* 비고 */}
             <td

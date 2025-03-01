@@ -2,19 +2,19 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
 import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
-import {currentUserAtom} from '^models/User/atom';
+import {currentUserAtom, getMembership} from '^models/User/atom';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {StatusButton} from './StatusButton';
 import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
 import {plainToast} from '^hooks/useToast';
-import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
-import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
-import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
 import {errorToast} from '^api/api';
-import {toast} from 'react-hot-toast';
 import {debounce} from 'lodash';
+import {InviteListItem} from './InviteListItem';
+import {ResendInviteItem} from './ResendInviteItem';
+import {DeleteMemberItem} from './DeleteMemberItem';
+import {DeleteMembershipItem} from './DeleteMembershipItem';
 
 interface TeamMemberStatusDropdownProps {
     teamMember: TeamMemberDto;
@@ -39,7 +39,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
     const memberships = currentUser.memberships || [];
     const {membership} = teamMember;
     const isMe = !!memberships.find((m) => m.id === membership?.id);
-    const currentUserMembership = currentUser.memberships?.find((m) => m.organizationId === teamMember.organizationId);
+    const currentUserMembership = getMembership(currentUser, teamMember.organizationId);
     if (!currentUserMembership) return <>!</>;
 
     const sendInvitation = debounce((callback: () => any) => {
@@ -51,6 +51,10 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     }, 500);
+
+    if (currentUserMembership.level === MembershipLevel.MEMBER) {
+        return <StatusButton teamMember={teamMember} caret={false} />;
+    }
 
     return (
         <Dropdown
@@ -115,12 +119,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                             <DeleteMemberItem reload={reload} teamMember={teamMember} />
                         )}
                         {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
-                            <MoreDropdownListItem onClick={() => toast('준비중입니다.')}>
-                                <div className="flex items-center gap-3 w-full text-red-500 py-1">
-                                    <FaSignOutAlt size={12} />
-                                    <p>워크스페이스에서 내보내기</p>
-                                </div>
-                            </MoreDropdownListItem>
+                            <DeleteMembershipItem teamMember={teamMember} reload={reload} />
                         )}
                     </ul>
                 );

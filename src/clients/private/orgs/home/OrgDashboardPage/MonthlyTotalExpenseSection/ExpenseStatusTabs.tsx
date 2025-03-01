@@ -15,7 +15,7 @@ export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
     const {summary, currentStatusTab = BillingHistoryStatus.PaySuccess, onChange} = props;
 
     return (
-        <div className="w-full grid grid-cols-3 gap-5">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5 whitespace-nowrap text-14 lg:text-16">
             <ExpenseStatusTab
                 status={BillingHistoryStatus.PaySuccess}
                 currentStatus={currentStatusTab}

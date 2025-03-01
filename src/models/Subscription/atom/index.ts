@@ -41,6 +41,11 @@ export const subscriptionsInTeamShowPageAtom = pagedResourceAtom<SubscriptionDto
 });
 
 // 카드 상세 페이지 > 구독 테이블
+export const subscriptionListOfBankAccountAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'subscriptionListOfBankAccountAtom',
+});
+
+// 카드 상세 페이지 > 구독 테이블
 export const subscriptionListOfCreditCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListOfCreditCardAtom',
 });

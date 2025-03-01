@@ -10,7 +10,7 @@ import {PriceHeaderV2} from './PriceHeaderV2';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {SubscriptionProfile} from '^models/Subscription/components';
 import {ListItemForSubscription} from '^v3/share/modals/AppShowPageModal/AppShowPageBody/InformationPanel/ListItemForSubscription';
 
 // 정기결제금액 *

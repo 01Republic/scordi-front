@@ -1,0 +1,22 @@
+import React, {memo} from 'react';
+import {RiShareBoxLine} from 'react-icons/ri';
+import {LinkTo} from '^components/util/LinkTo';
+import {useCurrentSubscription} from '../atom';
+
+export const SubscriptionPricingPageButton = memo(() => {
+    const {currentSubscription: subscription} = useCurrentSubscription();
+
+    if (!subscription) return <></>;
+
+    const pricingPageUrl = subscription.product.pricingPageUrl;
+
+    return (
+        <LinkTo
+            className="btn btn-square !bg-white border border-slate-300 rounded-md hover:border-slate-400 hover:shadow transition-all mb-1"
+            href={pricingPageUrl}
+            target="_blank"
+        >
+            <RiShareBoxLine fontSize={20} />
+        </LinkTo>
+    );
+});

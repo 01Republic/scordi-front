@@ -1,8 +1,9 @@
-import { memo } from 'react';
-import { CreditCardUsingStatus } from '^models/CreditCard/type';
-import { TagUI } from '^v3/share/table/columns/share/TagUI';
+import {memo} from 'react';
+import {CreditCardUsingStatus} from '^models/CreditCard/type';
+import {BankAccountUsingStatus} from '^models/BankAccount/type';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
-export const UsingStatusTag = memo((props: {value: CreditCardUsingStatus | string}) => {
+export const UsingStatusTag = memo((props: {value: CreditCardUsingStatus | BankAccountUsingStatus | string}) => {
     const {value} = props;
 
     const colorClass =
@@ -18,7 +19,7 @@ export const UsingStatusTag = memo((props: {value: CreditCardUsingStatus | strin
             [CreditCardUsingStatus.UnDef]: '미정',
             [CreditCardUsingStatus.NoUse]: '미사용',
             [CreditCardUsingStatus.InUse]: '사용중',
-            [CreditCardUsingStatus.Expired]: '만료됨',
+            [CreditCardUsingStatus.Expired]: '만료',
         }[value] || '???';
 
     return <TagUI className={colorClass}>{text}</TagUI>;

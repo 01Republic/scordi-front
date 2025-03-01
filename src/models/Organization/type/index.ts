@@ -7,10 +7,11 @@ import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {zero1_republic_workspace_id} from '^config/environments';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {BankAccountDto} from '^models/BankAccount/type';
 
-export type CreateOrganizationRequestDto = {
+export class CreateOrganizationRequestDto {
     name: string;
-};
+}
 
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {
     slug?: string;
@@ -42,6 +43,7 @@ export class OrganizationDto {
     // roles?: RoleDto[]
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[];
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 카드
+    @TypeCast(() => BankAccountDto) bankAccounts?: BankAccountDto[]; // 계좌
     @TypeCast(() => GoogleSyncHistoryDto) googleSyncHistories?: GoogleSyncHistoryDto[]; // 구글 동기화 내역
     @TypeCast(() => GoogleSyncHistoryDto) lastGoogleSyncHistory: GoogleSyncHistoryDto | null; // 최신 워크스페이스 동기화 내역
 

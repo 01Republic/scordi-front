@@ -33,6 +33,7 @@ export const useProductsInSaaSCollection = () => {
             isLive: true,
             itemsPerPage: 15,
             order: {id: 'DESC'},
+            isOrderByPriority: true,
             ...query,
         });
     };
@@ -222,7 +223,7 @@ export const useProductPostContent = () => {
     const makeContent = (product: ProductDto) => {
         const [post] = product.posts;
         // const productName = locale === 'ko' ? product.nameKo : product.nameEn;
-        const productName = `${product.nameKo}(${product.nameEn})`;
+        const productName = product.nameEn; // `${product.nameKo}(${product.nameEn})`;
 
         const shortName = product.nameEn?.split(' ')?.[0] ?? 'untitled';
 

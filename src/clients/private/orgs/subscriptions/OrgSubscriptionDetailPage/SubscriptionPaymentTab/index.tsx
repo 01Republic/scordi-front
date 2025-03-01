@@ -17,6 +17,8 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
         if (!subscription) return;
 
         search({
+            relations: ['invoiceApp', 'invoiceApp.invoiceAccount', 'invoiceApp.invoiceAccount.googleTokenData'],
+            // relations: ['invoiceAccountSubscriptions', 'invoiceAccountSubscriptions.invoiceAccounts'],
             where: {
                 subscriptionId: subscription.id,
             },
@@ -35,7 +37,7 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
             <div className={'flex justify-between'}>
                 <PaymentScopeHandler />
 
-                <AddPaymentHistoryDropdown reload={reload} />
+                <AddPaymentHistoryDropdown subscription={subscription} reload={reload} />
             </div>
 
             <ListTableContainer
@@ -46,7 +48,7 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={result.items.length === 0}
-                emptyMessage="조회된 결제수단이 없어요."
+                emptyMessage="조회된 결제내역이 없어요."
                 // EmptyButtons={AddCreditCardDropdown}
             >
                 <ListTable

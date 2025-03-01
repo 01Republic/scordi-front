@@ -8,10 +8,11 @@ import {toast} from 'react-hot-toast';
 interface CreateCreditCardButtonProps {
     checkedCards: CodefCardDto[];
     onSubmit: (checkedCards: CodefCardDto[]) => any;
+    text?: string;
 }
 
 export const CreateCreditCardButton = memo((props: CreateCreditCardButtonProps) => {
-    const {checkedCards, onSubmit} = props;
+    const {checkedCards, onSubmit, text = '추가하기'} = props;
 
     return (
         <button
@@ -21,7 +22,7 @@ export const CreateCreditCardButton = memo((props: CreateCreditCardButtonProps) 
             }`}
             onClick={() => onSubmit(checkedCards)}
         >
-            추가하기
+            {text}
         </button>
     );
 });

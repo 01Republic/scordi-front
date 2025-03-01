@@ -1,3 +1,5 @@
+import {captures} from '^utils/array';
+
 export const zeroPad = (num: string): string => (num.length == 1 ? `0${num}` : num);
 
 export const intlDateLong = (dateString: string | Date) => {
@@ -52,6 +54,11 @@ export const datetime_local = (date: Date): string => {
     return [yyyy_mm_dd(date), hh_mm(date)].join('T');
 };
 
+export function yyyymmddToDate(yyyymmdd: string): Date {
+    const [year, month, day] = captures(yyyymmdd, /(\d{4})(\d{2})(\d{2})/);
+    return new Date(`${year}-${month}-${day} `);
+}
+
 export const getToday = () => new Date();
 
 export const getLocalOffset = (): number => {
@@ -103,6 +110,14 @@ export const yearBefore = (n: number, date = new Date()) => yearAfter(n * -1, da
  * Day
  */
 export const startOfDay = (date?: Date) => hourBefore(getLocalOffset(), date);
+
+export function todayOf(date: Date, sep = '-') {
+    return yyyy_mm_dd(dayBefore(0, startOfDay(date)), sep);
+}
+
+export function yesterdayOf(date: Date, sep = '-') {
+    return yyyy_mm_dd(dayBefore(1, startOfDay(date)), sep);
+}
 
 /**
  * Month

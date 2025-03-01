@@ -6,7 +6,7 @@ import {InvoiceAccountListTabContent} from './InvoiceAccountListTabContent';
 import {ConnectWithCardTabContent} from './ConnectWithCardTabContent';
 import {defineTabs, useTabs} from '^components/util/tabs';
 
-export const connectionTab = defineTabs('adminOrgDetailPage/connections', [
+const connectionTab = defineTabs('adminOrgDetailPage/connections', [
     {label: '구성원(워크스페이스)', TabPane: ConnectedWorkspaceListTabContent},
     {label: '결제메일', TabPane: InvoiceAccountListTabContent},
     {label: '카드', TabPane: ConnectWithCardTabContent},

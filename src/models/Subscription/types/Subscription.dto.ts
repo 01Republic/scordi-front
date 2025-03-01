@@ -22,6 +22,7 @@ import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorContractDto} from '^models/vendor/VendorContract/types';
 import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 export class SubscriptionDto {
     id: number;
@@ -30,7 +31,7 @@ export class SubscriptionDto {
     readonly usingStatus: SubscriptionUsingStatus; // 구독 상태 (신) - 미정, 무료, 유료, 해지
     alias: string; // 별칭
     desc: string | null; // 메모
-    isActive: boolean; // 활성화 여부
+    isActive: boolean | null; // 활성화 여부
     isFreeTier: boolean; // 프리티어 여부
     assumedBillingType: BillingType; // 인보이스 추정 결제 주기
 
@@ -63,6 +64,7 @@ export class SubscriptionDto {
     paymentPlanId: number | null; // 결제플랜 ID
     billingCycleId: number | null; // 결제주기 ID
     creditCardId: number | null; // 결제 카드 ID
+    bankAccountId: number | null; // 계좌 ID
     masterId?: number; // 관리자 ID
     recurringTypeTagId: number | null; // 과금 방식 태그 ID
     billingCycleTagId: number | null; // 결제 주기 태그 ID
@@ -84,6 +86,7 @@ export class SubscriptionDto {
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[]; // 결제내역
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[]; // 인보이스 계정
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto; // 결제 카드
+    @TypeCast(() => BankAccountDto) bankAccount?: BankAccountDto; // 계좌
     @TypeCast(() => SubscriptionSeatDto) subscriptionSeats?: SubscriptionSeatDto[]; // 연결된 시트
 
     @TypeCast(() => TeamMemberDto) teamMembers?: TeamMemberDto[]; // 사용 중인 팀 멤버

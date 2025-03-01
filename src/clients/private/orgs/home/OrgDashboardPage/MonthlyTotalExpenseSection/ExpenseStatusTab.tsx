@@ -28,11 +28,14 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
     return (
         <div
             onClick={activeThisTab}
-            className={cn('flex items-center gap-4 pb-3 cursor-pointer border-b-2', {
-                'font-semibold': isActive,
-                'border-transparent': !isActive,
-                [activeBorderColorClass]: isActive,
-            })}
+            className={cn(
+                'flex justify-between md:justify-start md:items-center md:gap-3 lg:gap-4 pb-3 cursor-pointer border-b-2',
+                {
+                    'font-semibold': isActive,
+                    'border-transparent': !isActive,
+                    [activeBorderColorClass]: isActive,
+                },
+            )}
         >
             <div
                 className={`flex items-center justify-center px-3 py-1 rounded-lg ${activeBgColorClass} ${activeTextColorClass}`}

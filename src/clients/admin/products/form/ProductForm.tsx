@@ -51,6 +51,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
         form.setValue('ogImageUrl', product.ogImageUrl ?? ''); // og image url
         form.setValue('pricingPageUrl', product.pricingPageUrl); // Pricing Page url
         form.setValue('companyName', product.companyName); // 운영사명
+        form.setValue('saasCollectionExposePriority', product.saasCollectionExposePriority || 0);
 
         // 아래는 수정 폼에서만 노출되는 인풋
         form.setValue('searchText', product.searchText); // 검색키워드
@@ -178,6 +179,19 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                                 type="checkbox"
                                 className="checkbox checkbox-primary"
                                 {...form.register('isFreeTierAvailable')}
+                            />
+                        </ContentPanelInput>
+                    </ContentPanelList>
+                </ContentPanel>
+
+                <ContentPanel title="설정">
+                    <ContentPanelList>
+                        <ContentPanelInput title="SaaS 컬렉션 노출 우선순위" text="높은 숫자일수록 상위노출 됩니다.">
+                            <TextInput
+                                type="number"
+                                placeholder="0"
+                                min={0}
+                                {...form.register('saasCollectionExposePriority')}
                             />
                         </ContentPanelInput>
                     </ContentPanelList>

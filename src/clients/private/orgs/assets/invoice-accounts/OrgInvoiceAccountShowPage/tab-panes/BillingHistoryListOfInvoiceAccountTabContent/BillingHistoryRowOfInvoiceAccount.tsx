@@ -6,15 +6,17 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
 import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 import {BillingHistoryAttachmentShowButton} from './BillingHistoryAttachmentShowButton';
+import {BillingHistoryDeleteButton} from './BillingHistoryDeleteButton';
 
 interface BillingHistoryRowOfInvoiceAccountProps {
     item: BillingHistoryDto;
     onSaved?: () => any;
+    reload: () => any;
     mode?: number;
 }
 
 export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowOfInvoiceAccountProps) => {
-    const {item: billingHistory, onSaved, mode = 1} = props;
+    const {item: billingHistory, onSaved, reload, mode = 1} = props;
 
     const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
@@ -43,18 +45,7 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
             <td className="text-12 max-w-sm whitespace-pre-wrap">{billingHistory.title}</td>
 
             {/*연결된 구독*/}
-            <td>
-                {subscription && (
-                    <SubscriptionProfile subscription={subscription}>
-                        <p className="truncate text-sm">
-                            {subscription.product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
-                        </p>
-                        {/*<p className="text-12 text-gray-400">*/}
-                        {/*    {issuedAt.getFullYear()}년 {issuedAt.getMonth() + 1}월 청구*/}
-                        {/*</p>*/}
-                    </SubscriptionProfile>
-                )}
-            </td>
+            <td>{subscription && <SubscriptionProfile subscription={subscription} />}</td>
 
             {/*결제금액*/}
             <td>
@@ -74,7 +65,10 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
 
             {/* 다운로드 */}
             <td>
-                <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
+                <div className="flex items-center gap-2">
+                    <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
+                    {reload && <BillingHistoryDeleteButton billingHistory={billingHistory} reload={reload} />}
+                </div>
             </td>
             {/*<td>{billingHistory.issuedAt}</td>*/}
             {/*<td>{billingHistory.invoiceUrl}</td>*/}

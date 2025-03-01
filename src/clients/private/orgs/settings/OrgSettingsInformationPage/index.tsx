@@ -6,6 +6,7 @@ import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {OrgBasicInfoSection} from './OrgBasicInfoSection';
 import {SubscriptionInfoSection} from './SubscriptionInfoSection';
 import {WorkspaceSettingSection} from './WorkspaceSettingSection';
+import {OrgSettingsContent} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsContent';
 
 export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPage() {
     const orgId = useRecoilValue(orgIdParamState);

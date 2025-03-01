@@ -19,6 +19,7 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
     const {result: searchedManager} = useVendorManagerListInCreateSubscription();
     const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
     const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
+    const [isSelectVendorCompany, setIsSelectVendorCompany] = useState<boolean | null>(null);
 
     useEffect(() => {
         const defaultCompany = searchedCompany.items.find((o) => o.id === formData.vendorContract?.vendorCompanyId);
@@ -26,7 +27,11 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
 
         const defaultManager = searchedManager.items.find((o) => o.id === formData.vendorContract?.vendorManagerId);
         setSelectedManager(defaultManager);
-    }, []);
+
+        if (selectedCompany) {
+            setIsSelectVendorCompany(false);
+        }
+    }, [selectedCompany]);
 
     const onCompanyChange = (vendorCompany?: VendorCompanyDto) => {
         setSelectedCompany(vendorCompany);
@@ -57,6 +62,14 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
         });
     };
 
+    const checkVendorCompany = () => {
+        if (!selectedCompany) {
+            setIsSelectVendorCompany(true);
+        } else {
+            setIsSelectVendorCompany(false);
+        }
+    };
+
     return (
         <InputSection>
             <div className="form-control mb-4">
@@ -74,18 +87,19 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
             </div>
 
             <div className="form-control">
-                <label>
+                <label onClick={checkVendorCompany}>
                     <p className="text-11 text-gray-500 mb-1">담당자</p>
                     <MonoSelectInput
-                        openModal={() => setIsManagerSelectModalOpened(true)}
+                        openModal={() => setIsManagerSelectModalOpened(!!selectedCompany)}
                         clearable
                         selectedOption={selectedManager}
                         getLabel={(vendorManager) => (
                             <VendorManagerProfile item={vendorManager} avatarClass="w-8 h-8" />
                         )}
-                        placeholder="선택되지 않았아요."
+                        placeholder="담당자를 선택해주세요"
                         clearOption={() => onManagerChange(undefined)}
                     />
+                    {isSelectVendorCompany && <p className="text-error p-1">파트너사를 먼저 선택해주세요.</p>}
                 </label>
             </div>
 

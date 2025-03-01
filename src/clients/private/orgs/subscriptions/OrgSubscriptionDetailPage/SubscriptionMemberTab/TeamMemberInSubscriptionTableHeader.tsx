@@ -21,9 +21,7 @@ export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubs
 
             <th>이메일 계정</th>
 
-            <th>계정부여일</th>
-
-            <th>계정회수(예정)일</th>
+            <th>계정부여(예정)일 ~ 계정회수(예정)일</th>
 
             <th>비고</th>
 

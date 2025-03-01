@@ -6,10 +6,11 @@ interface SwalFormProps extends WithChildren {
     className?: string;
     onSubmit?: FormEventHandler<HTMLFormElement>;
     confirmBtnText?: string;
+    isLoading?: boolean;
 }
 
 export const SwalForm = memo((props: SwalFormProps) => {
-    const {className = '', onSubmit, confirmBtnText, children} = props;
+    const {className = '', onSubmit, confirmBtnText, isLoading = false, children} = props;
 
     // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     //     try {
@@ -34,7 +35,10 @@ export const SwalForm = memo((props: SwalFormProps) => {
                     >
                         취소
                     </button>
-                    <button type="submit" className="btn sm:btn-sm btn-scordi rounded-btn">
+                    <button
+                        type="submit"
+                        className={`btn sm:btn-sm btn-scordi rounded-btn ${isLoading ? 'loading' : ''}`}
+                    >
                         {confirmBtnText || '업데이트'}
                     </button>
                 </section>

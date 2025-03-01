@@ -79,7 +79,14 @@ export const UserListTabContent = memo(() => {
                 <CardTablePanel
                     gridClass="grid-cols-6"
                     entries={items}
-                    ths={['멤버십 id', '회원', '권한', '가입 승인상태', '워크스페이스 가입일시', '']}
+                    ths={[
+                        <div>멤버십 id</div>,
+                        <div>회원</div>,
+                        <div>권한</div>,
+                        <div>가입 승인상태</div>,
+                        <div>워크스페이스 가입일시</div>,
+                        <div></div>,
+                    ]}
                     entryComponent={(membership) => (
                         <UserItem
                             key={membership.id}

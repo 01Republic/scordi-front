@@ -99,7 +99,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
             {/* 전화번호 */}
             <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.phone}
+                    {teamMember.phone || <span className="text-12 text-gray-300">비어있음</span>}
                 </p>
             </td>
 

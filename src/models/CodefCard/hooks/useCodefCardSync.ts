@@ -53,7 +53,7 @@ export function useCodefCardSync() {
             .catch(onError ? onError : (e) => console.log(e.message));
     };
 
-    return {syncCard, syncCardWithConfirm, isSyncRunning};
+    return {syncCard, syncCardWithConfirm, isSyncRunning, setIsSyncRunning};
 }
 
 export function useCodefCardSyncQueue() {

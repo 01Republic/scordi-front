@@ -11,6 +11,5 @@ export const SubscriptionUsingStatusTag = memo((props: SubscriptionUsingStatusTa
     const {value, className = ''} = props;
     const colorClass = c_SubscriptionUsingStatus(value as SubscriptionUsingStatus);
     const text = t_SubscriptionUsingStatus(value as SubscriptionUsingStatus);
-
     return <TagUI className={`${colorClass} ${className}`}>{text}</TagUI>;
 });

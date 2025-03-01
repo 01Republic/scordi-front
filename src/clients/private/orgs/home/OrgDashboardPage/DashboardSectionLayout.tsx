@@ -17,7 +17,7 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
 
     return (
         <section
-            className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-6 px-7 overflow-hidden ${className}`}
+            className={`w-full flex flex-col justify-start gap-3 md:gap-4 lg:gap-5 border rounded-sm sm:rounded-3xl bg-white py-6 px-4 sm:px-7 overflow-hidden ${className}`}
         >
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
