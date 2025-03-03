@@ -34,7 +34,7 @@ export const BillingHistoryYearColumn = memo((props: BillingHistoryYearColumnPro
     const fixedAmount = toFixedAmount(currentAmount, currentData.code, displayCurrency);
 
     return (
-        <td className={`text-right ${colorClass}`}>
+        <td className={`text-right`}>
             {symbol} {fixedAmount.toLocaleString()}
         </td>
     );
