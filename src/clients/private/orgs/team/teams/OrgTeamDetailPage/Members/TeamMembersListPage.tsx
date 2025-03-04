@@ -85,9 +85,11 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
             <AddMemberModal
                 isOpened={isOpened}
                 onClose={() => {
-                    reload();
-                    reloadParent();
                     setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
                 }}
             />
         </>
