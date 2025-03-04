@@ -20,7 +20,10 @@ export const BillingHistoryYearlyRow = memo((props: BillingHistoryYearlyRowProps
     const {subscription, items} = data;
 
     const symbol = displayCurrency === CurrencyCode.KRW ? '₩' : subscription.currentBillingAmount?.symbol;
-    const averageCost = data.getAverageCost(exchangeRate, displayCurrency);
+    const averageCost =
+        symbol === '₩'
+            ? Number(data.getAverageCost(exchangeRate, displayCurrency).toFixed(0)).toLocaleString()
+            : Number(data.getAverageCost(exchangeRate, displayCurrency).toFixed(2)).toLocaleString();
 
     return (
         <tr className="group">
@@ -35,7 +38,7 @@ export const BillingHistoryYearlyRow = memo((props: BillingHistoryYearlyRowProps
                 <IsFreeTierTagUI value={subscription.isFreeTier} />
             </td>
             <td className="text-right font-medium">
-                {symbol} {averageCost.toLocaleString()}
+                {symbol} {averageCost}
             </td>
             {renderColumns(items)}
         </tr>

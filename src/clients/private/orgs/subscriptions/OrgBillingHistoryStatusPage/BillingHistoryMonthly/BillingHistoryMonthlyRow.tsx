@@ -5,7 +5,6 @@ import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {CurrencyCode} from '^models/Money';
 import {SubscriptionProfile} from '^models/Subscription/components';
-import {LinkTo} from '^components/util/LinkTo';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 
@@ -34,7 +33,7 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
 
     return (
         <tr className="group">
-            <td className="sticky left-0 bg-white min-w-40 flex z-10 border-r-2">
+            <td className="sticky left-0 bg-white min-w-64 flex z-10 border-r-2">
                 <div className="w-full">
                     <OpenButtonColumn
                         href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
@@ -43,14 +42,15 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
                     </OpenButtonColumn>
                 </div>
             </td>
+            <td />
             <td>
                 <IsFreeTierTagUI value={subscription.isFreeTier || false} />
             </td>
-            <td className={'text-right font-medium'}>{ratio.toFixed(1)}%</td>
-            <td className={'text-right font-medium'}>
-                {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency))}
+            <td className={'text-right font-medium min-w-28'}>{ratio.toFixed(2)}%</td>
+            <td className={'text-right font-medium min-w-28'}>
+                {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
             </td>
-            <td className={'text-right font-medium'}>
+            <td className={'text-right font-medium min-w-28'}>
                 {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
             </td>
             {renderColumns(items)}

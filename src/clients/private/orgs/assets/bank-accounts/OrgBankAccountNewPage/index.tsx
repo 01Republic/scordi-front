@@ -39,11 +39,6 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
             return;
         }
 
-        if (!data.number) {
-            toast.error('계좌번호를 입력해주세요');
-            return;
-        }
-
         setLoading(true);
         bankAccountApi
             .create(orgId, data)
@@ -177,23 +172,21 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     />
                                     <span />
                                 </FormControl>
+                            </div>
 
-                                <FormControl label="계좌 번호" required>
+                            <div className="max-w-md mx-auto flex flex-col gap-8">
+                                <h2 className="leading-none text-xl font-semibold">선택정보</h2>
+                                <FormControl label="계좌 번호">
                                     <input
                                         type={'number'}
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
-                                        {...form.register('number', {required: true})}
-                                        required
+                                        {...form.register('number')}
                                     />
                                     <span />
                                 </FormControl>
-                            </div>
-
-                            <div className="max-w-md mx-auto flex flex-col gap-8">
-                                <h2 className="leading-none text-xl font-semibold">선택정보</h2>
                                 <BankUsingStatusSelect
                                     isLoading={isLoading}
                                     defaultValue={form.getValues('usingStatus') || BankAccountUsingStatus.InUse}
