@@ -14,6 +14,8 @@ import {
 } from '^models/Subscription/components';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 
 interface SubscriptionTableRowOfBankAccountProps {
     subscription: SubscriptionDto;
@@ -48,6 +50,8 @@ export const SubscriptionTableRowOfBankAccount = memo((props: SubscriptionTableR
         reload();
     };
 
+    const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
+
     // TODO: 구독 자동연결 완료시 연동타입 변경
     const isManuallyCreated = true;
 
@@ -55,7 +59,9 @@ export const SubscriptionTableRowOfBankAccount = memo((props: SubscriptionTableR
         <tr className="table-fixed">
             {/* 구독명 */}
             <td>
-                <SubscriptionProfile subscription={subscription} />
+                <OpenButtonColumn href={showPagePath}>
+                    <SubscriptionProfile subscription={subscription} />
+                </OpenButtonColumn>
             </td>
 
             {/* 결제주기 */}
