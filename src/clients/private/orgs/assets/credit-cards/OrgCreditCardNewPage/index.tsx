@@ -32,7 +32,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                 ...permittedValues,
                 isCreditCard: typeof isCreditCard === 'undefined' ? undefined : isCreditCard === 'true',
                 isPersonal: typeof isPersonal === 'undefined' ? undefined : isPersonal === 'true',
-                holdingMemberId: typeof holdingMemberId === 'undefined' ? undefined : Number(holdingMemberId),
+                holdingMemberId: holdingMemberId === '' ? null : Number(holdingMemberId),
             };
         },
     });
@@ -272,6 +272,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 <CardHoldingMemberIdSelect
                                     isLoading={isLoading}
                                     defaultValue={formData.holdingMemberId || undefined}
+                                    onChange={(holdingMemberId) => setFormValue({holdingMemberId})}
                                 />
                                 <FormControl label="비고">
                                     <input
