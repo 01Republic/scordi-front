@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
@@ -77,8 +77,6 @@ export const BankManualCreateModal = memo((props: BankManualCreateModalProps) =>
             setFormData({number: ''});
         }
 
-        setFormData({kind: BankAccountKind.DEPOSIT_TRUST});
-
         setStep(Step.creating);
         bankAccountApi
             .create(orgId, createBankAccountFormData)
@@ -94,6 +92,11 @@ export const BankManualCreateModal = memo((props: BankManualCreateModalProps) =>
                 errorToast(e);
             });
     }, 500);
+
+    useEffect(() => {
+        setFormData({kind: BankAccountKind.DEPOSIT_TRUST});
+        setFormData({number: ''});
+    }, []);
 
     return (
         <>
