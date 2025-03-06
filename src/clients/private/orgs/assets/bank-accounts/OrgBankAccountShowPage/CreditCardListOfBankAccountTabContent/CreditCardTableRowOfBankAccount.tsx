@@ -10,6 +10,8 @@ import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSe
 import {errorToast} from '^api/api';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from '@react-icons/all-files/bs/BsDashCircle';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 
 interface CreditCardTableRowOfBankAccountProps {
     creditCard: CreditCardDto;
@@ -54,11 +56,15 @@ export const CreditCardTableRowOfBankAccount = memo((props: CreditCardTableRowOf
 
     const expiry = creditCard.decryptSign().expiry;
 
+    const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
+
     return (
         <tr className="table-fixed">
-            {/* 구독명 */}
+            {/* 카드명 */}
             <td>
-                <CreditCardProfileOption2 item={creditCard} />
+                <OpenButtonColumn href={showPagePath}>
+                    <CreditCardProfileOption2 item={creditCard} />
+                </OpenButtonColumn>
             </td>
 
             {/* 종류(신용/체크) */}

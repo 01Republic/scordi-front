@@ -1,22 +1,22 @@
 import React, {memo} from 'react';
-import {CreditCardDto} from '^models/CreditCard/type';
 import {LoadableBox} from '^components/util/loading';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {SelectablePaymentMethodItem} from './SelectablePaymentMethodItem';
 import {HiMiniInbox} from 'react-icons/hi2';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {SelectableBankAccountItem} from './SelectableBankAccountItem';
 
-interface PaymentMethodSelectModalProps {
+interface BankAccountSelectModalProps {
     isOpened: boolean;
     onClose: () => any;
     isLoading: boolean;
     reload: () => Promise<any>;
-    entries: CreditCardDto[];
+    entries: BankAccountDto[];
     defaultValue?: number | null;
-    onSelect: (creditCard?: CreditCardDto) => any;
+    onSelect: (bankAccount?: BankAccountDto) => any;
     onCtaButtonClick: () => any;
 }
 
-export const PaymentMethodSelectModal = memo((props: PaymentMethodSelectModalProps) => {
+export const BankAccountSelectModal = memo((props: BankAccountSelectModalProps) => {
     const {
         isOpened,
         onClose,
@@ -29,9 +29,9 @@ export const PaymentMethodSelectModal = memo((props: PaymentMethodSelectModalPro
     } = props;
 
     const selectedItem = entries.find((o) => o.id === defaultValue);
-    const clickOption = (creditCard?: CreditCardDto) => {
-        if (creditCard) {
-            onSelect(creditCard);
+    const clickOption = (bankAccount?: BankAccountDto) => {
+        if (bankAccount) {
+            onSelect(bankAccount);
             onClose();
         } else {
             onSelect();
@@ -59,14 +59,14 @@ export const PaymentMethodSelectModal = memo((props: PaymentMethodSelectModalPro
                             }}
                         >
                             <>
-                                {entries.map((creditCard, i) => {
-                                    const isSelected = !!selectedItem && selectedItem.id === creditCard.id;
+                                {entries.map((bankAccount, i) => {
+                                    const isSelected = !!selectedItem && selectedItem.id === bankAccount.id;
 
                                     return (
-                                        <SelectablePaymentMethodItem
+                                        <SelectableBankAccountItem
                                             key={i}
-                                            item={creditCard}
-                                            onClick={() => clickOption(isSelected ? undefined : creditCard)}
+                                            item={bankAccount}
+                                            onClick={() => clickOption(isSelected ? undefined : bankAccount)}
                                             isSelected={isSelected}
                                             onSaved={() => reload()}
                                         />
@@ -94,10 +94,10 @@ export const PaymentMethodSelectModal = memo((props: PaymentMethodSelectModalPro
                 }}
             >
                 <button className="btn btn-block btn-scordi" onClick={onCtaButtonClick}>
-                    카드 추가
+                    계좌 추가
                 </button>
             </div>
         </SlideUpModal>
     );
 });
-PaymentMethodSelectModal.displayName = 'PaymentMethodSelectModal';
+BankAccountSelectModal.displayName = 'BankAccountSelectModal';

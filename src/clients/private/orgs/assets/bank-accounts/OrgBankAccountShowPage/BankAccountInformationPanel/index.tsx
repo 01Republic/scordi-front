@@ -51,7 +51,7 @@ export const BankAccountInformationPanel = memo(() => {
                     <BankAccountNumber
                         isEditMode={isEditMode}
                         isLoading={isLoading}
-                        displayValue={currentBankAccount.displayNumber || ''}
+                        displayValue={currentBankAccount.displayNumber || '-'}
                         value={currentBankAccount.number || ''}
                         defaultValue={formData.number ?? undefined}
                         onChange={(number) => setFormValue({number})}

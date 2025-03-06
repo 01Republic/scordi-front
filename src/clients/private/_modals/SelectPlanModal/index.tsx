@@ -15,6 +15,7 @@ import {organizationApi} from '^models/Organization/api';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {oneDtoOf} from '^types/utils/response-of';
 import {OrganizationDto} from '^models/Organization/type';
+import {ChannelTalk_Url} from '^config/constants';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -91,6 +92,17 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         _onSuccess();
     };
 
+    const onClickScordiPlanCard = (plan: ScordiPlanDto) => {
+        // Custom 플랜 구분
+        const isCustomPlan = plan.id === 6 || plan.name === 'Custom';
+
+        if (isCustomPlan) {
+            window.open(ChannelTalk_Url, '_blank');
+        } else {
+            setSelectedPlan(plan);
+        }
+    };
+
     return (
         <>
             <TossPaymentAuthCallbackProvider
@@ -136,13 +148,13 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                             key={plan.id}
                                             scordiPlan={plan}
                                             scordiSubscriptions={scordiSubscriptions}
-                                            onClick={() => setSelectedPlan(plan)}
+                                            onClick={() => onClickScordiPlanCard(plan)}
                                         />
                                     ) : (
                                         <ScordiPlanCard
                                             key={plan.id}
                                             scordiPlan={plan}
-                                            onClick={() => setSelectedPlan(plan)}
+                                            onClick={() => onClickScordiPlanCard(plan)}
                                         />
                                     );
                                 })}
