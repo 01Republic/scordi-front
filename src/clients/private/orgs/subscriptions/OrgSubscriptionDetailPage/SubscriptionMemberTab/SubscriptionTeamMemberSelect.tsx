@@ -38,7 +38,7 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
 
     useEffect(() => {
         search({});
-        teamMemberSearch({});
+        teamMemberSearch({itemsPerPage: 0});
     }, []);
 
     return (
