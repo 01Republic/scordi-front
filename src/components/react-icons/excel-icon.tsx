@@ -1,17 +1,15 @@
+import {LucideIcon} from 'lucide-react';
 import SVGUniqueID from 'react-svg-unique-id';
-import {IconBaseProps} from '@react-icons/all-files/lib/esm/iconBase';
 // import ExcelLogo from '^public/images/logo/external/logo_excel.svg';
 
-interface ExcelIconProps extends IconBaseProps {
-    //
-}
-
-export const ExcelIcon = (props: ExcelIconProps) => {
+export const FileSpreadsheet = (props: LucideIcon) => {
     const {...attrs} = props;
 
     return (
         <SVGUniqueID>
-            {/* import ExcelLogo from '^public/images/logo/external/logo_excel.svg'; 에서 이미지 확인 가능 */}
+            {/* import ExcelLogo from '^public/images/logo/external/logo_excel.svg';
+import { CircleUser, FileSpreadsheet } from 'lucide-react';
+ 에서 이미지 확인 가능 */}
             <svg
                 width="1em"
                 height="1em"

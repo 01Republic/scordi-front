@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {BsChevronDown} from 'react-icons/bs';
 import {WithChildren} from '^types/global.type';
 import {ProductDto} from '^models/Product/type';
 import {AccountDto, UnSignedAccountFormData} from '^models/Account/types';
@@ -9,6 +8,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Input} from './Input';
 import {PasswordInput} from './PasswordInput';
 import {SelectProduct} from './SelectProduct';
+import {ChevronDown} from 'lucide-react';
 
 interface AccountFormProps extends WithChildren {
     form: UseFormReturn<UnSignedAccountFormData, any>;
@@ -53,7 +53,7 @@ export const AccountForm = memo((props: AccountFormProps) => {
                                     onClick={() => setIsAdvancedInputsShow(true)}
                                 >
                                     <span>더 입력하기</span>
-                                    <BsChevronDown />
+                                    <ChevronDown />
                                 </p>
                             )}
 

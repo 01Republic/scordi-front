@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import {IoMdClose, IoMdRefresh} from '^components/react-icons';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {HistoryStatusButton} from './HistoryStatusButton';
 import {
@@ -10,6 +9,7 @@ import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {zeroPad} from '^utils/number';
 import {useCurrentSyncHistory} from '^models/SubscriptionSyncHistory/hook';
 import {syncHistory} from '^models/SubscriptionSyncHistory/api';
+import {RotateCw, X} from 'lucide-react';
 
 interface HistoryItemProps {
     subscription: SubscriptionDto;
@@ -80,7 +80,7 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
                         className="btn btn-sm btn-red-500 btn-outline normal-case gap-1 items-center"
                         onClick={onCancel}
                     >
-                        <IoMdClose size={16} strokeWidth={20} className="-ml-1.5" />
+                        <X size={16} strokeWidth={20} className="-ml-1.5" />
                         <span>Cancel</span>
                     </button>
                 ) : (
@@ -91,7 +91,7 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
             {/*Actions*/}
             <td>
                 <button className="btn btn-sm btn-circle btn-ghost" onClick={onRefreshClick}>
-                    <IoMdRefresh size={20} />
+                    <RotateCw size={20} />
                 </button>
             </td>
         </tr>

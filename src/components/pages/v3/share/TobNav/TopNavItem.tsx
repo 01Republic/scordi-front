@@ -1,13 +1,13 @@
 import {memo, useEffect, useState} from 'react';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 
 interface TopNavItemProps extends WithChildren {
     text: string;
     href: string;
-    iconDefault: IconType;
-    iconActivated: IconType;
+    iconDefault: LucideIcon;
+    iconActivated: LucideIcon;
     matched?: RegExp | string;
 }
 

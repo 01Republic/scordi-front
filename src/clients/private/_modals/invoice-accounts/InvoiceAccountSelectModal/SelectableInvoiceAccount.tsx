@@ -2,9 +2,9 @@ import React, {memo, useState} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {FaCheck} from 'react-icons/fa6';
 import {MoreButtonContent} from './MoreButtonContent';
 import {MoreButtonDropdown} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown';
+import {Check} from 'lucide-react';
 
 interface SelectableInvoiceAccountProps {
     invoiceAccount: InvoiceAccountDto;
@@ -35,7 +35,7 @@ export const SelectableInvoiceAccount = memo((props: SelectableInvoiceAccountPro
             </div>
 
             <div className="flex items-center gap-2">
-                <div>{isSelected && <FaCheck className="text-scordi" />}</div>
+                <div>{isSelected && <Check className="text-scordi" />}</div>
 
                 <div className={`${isHovered ? 'flex' : 'hidden'} items-center justify-center transition-all`}>
                     <MoreButtonDropdown>

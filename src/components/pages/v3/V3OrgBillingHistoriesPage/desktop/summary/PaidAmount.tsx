@@ -5,9 +5,9 @@ import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {monthlyBillingHistoryAtom, monthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {monthlyPaidAmountAtom} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthlyPaidAmount';
-import {FcApproval} from 'react-icons/fc';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
+import {CheckCircle} from 'lucide-react';
 
 export const PaidAmount = memo(function PaidAmount() {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
@@ -27,7 +27,7 @@ export const PaidAmount = memo(function PaidAmount() {
     return (
         <div className="stat bg-white shadow rounded-box" onClick={() => open()}>
             <div className="stat-figure">
-                <FcApproval size={40} />
+                <CheckCircle size={40} />
             </div>
             <div className="stat-title">결제완료</div>
             <div className="stat-value text-3xl text-success">

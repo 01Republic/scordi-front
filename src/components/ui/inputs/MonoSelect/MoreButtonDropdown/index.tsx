@@ -1,8 +1,8 @@
 import React, {memo, useRef, useState} from 'react';
 import Tippy from '@tippyjs/react/headless';
 import {Placement} from 'tippy.js';
-import {IoMdMore} from '^components/react-icons';
 import {WithChildren} from '^types/global.type';
+import {MoreHorizontal} from 'lucide-react';
 
 interface MoreButtonProps extends WithChildren<(props: {show?: () => any; hide?: () => void}) => JSX.Element> {
     placement?: Placement;
@@ -28,7 +28,7 @@ export const MoreButtonDropdown = (props: MoreButtonProps) => {
                 }}
                 // onMouseEnter={show}
             >
-                <IoMdMore size={16} />
+                <MoreHorizontal size={16} />
             </button>
 
             <Tippy

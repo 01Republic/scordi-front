@@ -2,9 +2,6 @@ import React, {memo, useRef, useState} from 'react';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
 import {useId} from 'react-id-generator';
-import {FaSearch} from 'react-icons/fa';
-import {FaCheck} from 'react-icons/fa6';
-import {IoIosClose} from 'react-icons/io';
 import {ApiError} from '^api/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {OrganizationDto} from '^models/Organization/type';
@@ -13,6 +10,7 @@ import {Spinner} from '^components/util/loading';
 import {codefParserFactoryApi} from './../../CodefParserFactory/api';
 import {CodefCardSearchResultDto} from './../../CodefParserFactory/CodefCardSearchResult.dto';
 import {CodefCardTagUI} from '../../form/share/CodefCardTagUI';
+import {Check, Search, X} from 'lucide-react';
 
 interface SearchCardInputProps {
     onCardSelect: (codefCard?: CodefCardDto) => any;
@@ -91,7 +89,7 @@ export const SearchCardInput = memo((props: SearchCardInputProps) => {
 
                     <div className="relative">
                         <div className="absolute top-0 bottom-0 w-[25px] flex items-center justify-center">
-                            <FaSearch size={12} className="text-gray-500" />
+                            <Search size={12} className="text-gray-500" />
                         </div>
                         {searchKey === SearchKey.Name && (
                             <input
@@ -134,7 +132,7 @@ export const SearchCardInput = memo((props: SearchCardInputProps) => {
                             <span className="text-12 text-gray-500 group-hover:text-gray-800 transition-all">
                                 {searchResult.organization.name}
                             </span>
-                            <IoIosClose size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
+                            <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                         </div>
 
                         <div className="text-11 flex items-center justify-end gap-x-2 flex-wrap overflow-scroll no-scrollbar">
@@ -222,7 +220,7 @@ const SearchedCardItem = memo((props: {codefCard: CodefCardDto; onClick: () => a
                 <div>
                     <CodefCardTagUI codefCard={codefCard} />
                 </div>
-                <div>{isConnected ? <FaCheck className="text-green-400" /> : <></>}</div>
+                <div>{isConnected ? <Check className="text-green-400" /> : <></>}</div>
             </div>
         </div>
     );

@@ -3,14 +3,13 @@ import {useCurrentInvoiceAccount} from '../../atom';
 import {useSubscriptionListOfInvoiceAccount} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import Tippy from '@tippyjs/react';
-import {MdRefresh} from 'react-icons/md';
-import {FaPlus} from 'react-icons/fa6';
 import {LinkTo} from '^components/util/LinkTo';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {InvoiceAccountSubscriptionTableHeader} from './InvoiceAccountSubscriptionTableHeader';
 import {InvoiceAccountSubscriptionTableRow} from './InvoiceAccountSubscriptionTableRow';
 import {InvoiceAccountAddSubscriptionModal} from './InvoiceAccountAddSubscriptionModal';
 import {useUnmount} from '^hooks/useUnmount';
+import {Plus, RotateCw} from 'lucide-react';
 
 export const SubscriptionListOfInvoiceAccountTabContent = memo(function SubscriptionListOfInvoiceAccountTabContent() {
     const {currentInvoiceAccount, reload: reloadCurrentInvoiceAccount} = useCurrentInvoiceAccount();
@@ -33,7 +32,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
 
     const AddSubscriptionButton = () => (
         <LinkTo onClick={() => setAddSubscriptionModalOpened(true)} className="btn btn-scordi gap-2" loadingOnBtn>
-            <FaPlus />
+            <Plus />
             <span>구독 연결</span>
         </LinkTo>
     );
@@ -68,7 +67,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
                                 className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`}
                                 onClick={() => reload()}
                             >
-                                <MdRefresh fontSize={14} />
+                                <RotateCw fontSize={14} />
                             </button>
                         </Tippy>
                     </div>
@@ -79,7 +78,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
                                 className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
                                 onClick={() => setAddSubscriptionModalOpened(true)}
                             >
-                                <FaPlus />
+                                <Plus />
                                 <span>구독 연결하기</span>
                             </button>
                         )}

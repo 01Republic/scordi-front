@@ -1,7 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
-import {BiSolidErrorAlt} from 'react-icons/bi';
 import cn from 'classnames';
 import {errorToast} from '^api/api';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -17,6 +16,7 @@ import {CardSection} from '^clients/private/_components/CardSection';
 import {VendorContractMemo} from './VendorContractMemo';
 import {VendorCompanyName} from './VendorCompanyName';
 import {VendorManager} from './VendorManager';
+import {AlertOctagon} from 'lucide-react';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -158,7 +158,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             />
                             {isEmailError && (
                                 <div className="flex items-center gap-[3px] -mb-2 pt-2 w-full">
-                                    <BiSolidErrorAlt className="text-error" />
+                                    <AlertOctagon className="text-error" />
                                     <p className="text-error text-13 ">담당자를 먼저 선택해주세요.</p>
                                 </div>
                             )}
@@ -186,7 +186,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             />
                             {isPhoneError && (
                                 <div className="flex items-center gap-[3px] -mb-2 pt-2 w-full">
-                                    <BiSolidErrorAlt className="text-error" />
+                                    <AlertOctagon className="text-error" />
                                     <p className="text-error text-13">담당자를 먼저 선택해주세요.</p>
                                 </div>
                             )}

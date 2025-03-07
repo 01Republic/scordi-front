@@ -1,6 +1,4 @@
 import React, {memo} from 'react';
-import {FaChevronLeft} from 'react-icons/fa';
-import {FaChevronRight} from 'react-icons/fa';
 import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {DashboardSectionLayout} from '../../DashboardSectionLayout';
@@ -10,6 +8,7 @@ import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 interface YearMonthlyGraphSectionProps {
     result?: DashboardSummaryYearMonthlyResultDto;
@@ -38,7 +37,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
         return (
             <div className="flex items-center gap-2">
                 <button className="btn btn-sm btn-ghost btn-square" onClick={() => changeYear(year - 1)}>
-                    <FaChevronLeft />
+                    <ChevronLeft />
                 </button>
                 <button
                     className="btn btn-sm btn-ghost btn-square"
@@ -47,7 +46,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                         changeYear(year + 1);
                     }}
                 >
-                    <FaChevronRight />
+                    <ChevronRight />
                 </button>
             </div>
         );

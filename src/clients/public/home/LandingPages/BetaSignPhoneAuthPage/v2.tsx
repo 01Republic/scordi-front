@@ -3,7 +3,6 @@ import {useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState} 
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'next-i18next';
-import {CgSpinner} from 'react-icons/cg';
 import {ApiError} from '^api/api';
 import {LandingPageLayout} from '../LandingPageLayout';
 import {codeConfirmedState, isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
@@ -18,6 +17,7 @@ import {useSocialLoginV2} from '^models/User/hook';
 import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
+import {Loader} from 'lucide-react';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
@@ -225,7 +225,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                         onClick={() => !isLoading && agreeModalOnConfirm()}
                     >
                         {isLoading ? (
-                            <CgSpinner size={28} className="animate-spin" />
+                            <Loader size={28} className="animate-spin" />
                         ) : (
                             <>{t('phone_auth.start_with_phone_number')}</>
                         )}

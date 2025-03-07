@@ -1,5 +1,5 @@
 import React, {Dispatch, memo, SetStateAction} from 'react';
-import {FaPen} from '@react-icons/all-files/fa/FaPen';
+import {Pen} from 'lucide-react';
 
 interface EditButtonProps {
     isEditMode: boolean;
@@ -17,7 +17,7 @@ export const EditButton = memo((props: EditButtonProps) => {
                     onClick={() => setIsEditMode(true)}
                     className="btn btn-xs border-transparent bg-transparent text-gray-500 hover:bg-gray-100 hover:border-gray-100 hover:text-black gap-1.5"
                 >
-                    <FaPen fontSize={10} />
+                    <Pen fontSize={10} />
                     <span>수정</span>
                 </button>
             ) : (

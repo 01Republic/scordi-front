@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {IoMdCheckmark} from '^components/react-icons';
 import {MembershipLevel, t_membershipLevel} from '^models/Membership/types';
+import {Check} from 'lucide-react';
 
 interface MembershipLevelItemProps {
     level: MembershipLevel;
@@ -23,7 +23,7 @@ export const MembershipLevelItem = memo((props: MembershipLevelItemProps) => {
             <div className="flex items-center gap-4">{t_membershipLevel(level)}</div>
             {isCurrent && (
                 <div>
-                    <IoMdCheckmark fontSize={12} className="text-scordi" />
+                    <Check fontSize={12} className="text-scordi" />
                 </div>
             )}
         </div>

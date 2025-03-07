@@ -1,8 +1,8 @@
 import {ReactNodeElement} from '^types/global.type';
 import {MouseEvent, ButtonHTMLAttributes, DetailedHTMLProps, useState, HTMLAttributes, MouseEventHandler} from 'react';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaTimes} from 'react-icons/fa';
 import {getColor, palette} from '^components/util/palette';
+import {X} from 'lucide-react';
 
 type FilterKey = string | number;
 
@@ -123,7 +123,7 @@ export const FilterItem = ({filter}: FilterItemProps) => {
         >
             <div>{value}</div>
             <div className="ml-1 bg-transparent text-gray-500 group-hover:text-gray-800 transition-all">
-                <FaTimes fontSize={10} />
+                <X fontSize={10} />
             </div>
         </TagUI>
     );

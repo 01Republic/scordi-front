@@ -3,8 +3,8 @@ import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {CardTableTR} from '^admin/share';
 import {hh_mm, yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {FaCheck} from 'react-icons/fa6';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {Check} from 'lucide-react';
 
 interface CodefBillingHistoryItemProps {
     codefBillingHistory: CodefBillingHistoryDto;
@@ -79,7 +79,7 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
             {/*<div>{codefBillingHistory}</div>*/}
 
             {/* 스코디 연동 */}
-            <div>{codefBillingHistory.billingHistoryId && <FaCheck className="text-success" size={14} />}</div>
+            <div>{codefBillingHistory.billingHistoryId && <Check className="text-success" size={14} />}</div>
 
             <div></div>
             <div></div>

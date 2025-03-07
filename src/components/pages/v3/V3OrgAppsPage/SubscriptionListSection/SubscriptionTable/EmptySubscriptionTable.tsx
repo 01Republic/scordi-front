@@ -1,12 +1,12 @@
 import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {CgSpinner} from 'react-icons/cg';
 import {orgIdParamState} from '^atoms/common';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {useModal} from '^v3/share/modals';
 import {newFormForGeneralInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
+import {Loader} from 'lucide-react';
 
 export const EmptySubscriptionTableInDashBoard = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -29,7 +29,7 @@ export const EmptySubscriptionTableInDashBoard = memo(() => {
                         onClick={() => !isLoading && onClick()}
                         className={`${isLoading && 'btn-disabled !border !border-gray-300'} btn bg-scordi text-white`}
                     >
-                        {isLoading ? <CgSpinner size={28} className="animate-spin" /> : <>데이터 연결로 불러오기</>}
+                        {isLoading ? <Loader size={28} className="animate-spin" /> : <>데이터 연결로 불러오기</>}
                     </button>
 
                     <span className="text-sm">or</span>

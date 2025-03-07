@@ -3,9 +3,8 @@ import {changePriceCurrencyV2, currencyFormat, getCurrencySymbol} from '^api/tas
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {CurrencyCode, MoneyDto} from '^models/Money';
-import {BsInfoCircle} from 'react-icons/bs';
-import {BiError} from 'react-icons/bi';
 import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
+import {AlertCircle, Info} from 'lucide-react';
 
 interface RowPriceTextProps {
     billingHistory: BillingHistoryDto;
@@ -36,7 +35,7 @@ const PriceTextUnknown = memo(() => {
 const PriceTextInfo = memo(() => {
     return (
         <span className="text-scordi-light relative -top-[4px]">
-            <BsInfoCircle />
+            <Info />
         </span>
     );
 });
@@ -61,7 +60,7 @@ const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
 
     return (
         <span className="text-error relative -top-[4px]">
-            <BiError />
+            <AlertCircle />
         </span>
     );
     // return (

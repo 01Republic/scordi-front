@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {CardCreateMethodOption} from '^clients/private/_modals/credit-cards';
 import {InvoiceAccountCreateMethod} from '^clients/private/_modals/invoice-accounts';
+import {Database, DatabaseBackup} from 'lucide-react';
 
 interface InvoiceAccountCreateMethodModalProps {
     isOpened: boolean;
@@ -21,7 +21,7 @@ export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreate
 
             <div className="py-4 flex flex-col gap-3">
                 <CardCreateMethodOption
-                    Icon={FcDataBackup}
+                    Icon={Database}
                     title="청구서 메일 불러오기"
                     desc="구글 로그인으로 한 번에 불러와요."
                     onClick={() => {
@@ -32,7 +32,7 @@ export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreate
                     }}
                 />
                 <CardCreateMethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 추가하기"
                     desc="이메일 주소를 입력한 뒤 추가해요."
                     onClick={() => {

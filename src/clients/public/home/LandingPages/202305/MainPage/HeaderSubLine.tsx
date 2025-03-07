@@ -1,23 +1,20 @@
 import {memo} from 'react';
-import {GiClick} from '@react-icons/all-files/gi/GiClick';
-import {IconType} from '@react-icons/all-files';
-import {BiTrendingDown} from '@react-icons/all-files/bi/BiTrendingDown';
-import {GoChecklist} from '@react-icons/all-files/go/GoChecklist';
-
+import {LucideIcon} from 'lucide-react';
+import {CheckSquare, MousePointer, TrendingDown} from 'lucide-react';
 export const HeaderSubLine = memo(() => {
     return (
         <section className="bg-scordi py-6">
             <div className="container flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between max-w-[70%]">
-                <HeaderSubLineItem icon={GiClick} text="클릭 한 번으로 SaaS 관리 끝" />
-                <HeaderSubLineItem icon={BiTrendingDown} text="비용 지출까지 똑똑하게 확인" />
-                <HeaderSubLineItem icon={GoChecklist} text="계정 연동과 해제를 한 번에" />
+                <HeaderSubLineItem icon={MousePointer} text="클릭 한 번으로 SaaS 관리 끝" />
+                <HeaderSubLineItem icon={TrendingDown} text="비용 지출까지 똑똑하게 확인" />
+                <HeaderSubLineItem icon={CheckSquare} text="계정 연동과 해제를 한 번에" />
             </div>
         </section>
     );
 });
 
 interface HeaderSubLineItemProps {
-    icon: IconType;
+    icon: LucideIcon;
     text: string;
 }
 

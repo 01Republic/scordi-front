@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import Image from 'next/image';
-import {FaQuestion} from 'react-icons/fa6';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {HelpCircle} from 'lucide-react';
 
 interface SubscriptionProfileProps {
     subscription: SubscriptionDto;
@@ -35,7 +35,7 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
                     className={`flex items-center bg-gray-100 rounded-full ${profileClassName}`}
                     style={{width: width, height: height}}
                 >
-                    <FaQuestion className="text-gray-300 h-full w-full p-1" />
+                    <HelpCircle className="text-gray-300 h-full w-full p-1" />
                 </div>
             )}
             <span className={`text-neutral-900 whitespace-nowrap ${textClassName}`}>

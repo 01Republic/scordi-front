@@ -4,7 +4,6 @@ import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
-import {FaArrowLeft} from 'react-icons/fa6';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {
     CodefCardCompanyCode,
@@ -26,6 +25,7 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {plainToast as toast} from '^hooks/useToast';
 import {useCodefAccountsAlreadyIs} from '^models/CodefAccount/hook';
 import {OutLink} from '^components/OutLink';
+import {ArrowLeft} from 'lucide-react';
 
 export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -138,7 +138,7 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                         href={V3OrgConnectsPageRoute.path(orgId)}
                         className="flex items-center text-gray-500 hover:underline gap-2"
                     >
-                        <FaArrowLeft /> 처음으로
+                        <ArrowLeft /> 처음으로
                     </LinkTo>
                 </div>
 

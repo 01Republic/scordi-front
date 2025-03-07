@@ -1,6 +1,6 @@
 import {Component, HTMLAttributeAnchorTarget, memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 import {ReactComponentLike} from 'prop-types';
 import {LinkTo} from '^components/util/LinkTo';
 
@@ -8,7 +8,7 @@ interface MenuItemProps extends WithChildren {
     href: string;
     isActive: boolean;
     name?: string;
-    Icon?: IconType | ReactComponentLike;
+    Icon?: LucideIcon | ReactComponentLike;
     status?: 'new' | 'soon' | 'running';
     target?: HTMLAttributeAnchorTarget;
 }

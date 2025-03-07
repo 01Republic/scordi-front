@@ -12,6 +12,7 @@ import {LoadingDotSeries} from '^v3/share/LoadingDotSeries';
 import {useCodefCardConnect} from './useCodefCardConnect';
 import {plainToast as toast} from '^hooks/useToast';
 import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
+import {Pen} from 'lucide-react';
 
 interface NewCodefCardProps {
     codefCard: CodefCardDto;
@@ -65,7 +66,7 @@ export const NewCodefCard = memo((props: NewCodefCardProps) => {
 
             <div className="ml-20 flex items-center gap-1.5">
                 {/*<button className="btn btn-square btn-ghost btn-sm">*/}
-                {/*    <FaPen className="text-gray-500" />*/}
+                {/*    <Pen className="text-gray-500" />*/}
                 {/*</button>*/}
                 {connectingStatus.isFinished() ? (
                     <button className="btn btn-sm !border-none !bg-green-200 !text-green-800">완료</button>

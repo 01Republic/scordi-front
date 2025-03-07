@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {MembershipDto, t_membershipLevel} from '^models/Membership/types';
-import {FaChevronDown} from 'react-icons/fa6';
+import {ChevronDown} from 'lucide-react';
 
 interface MembershipLevelButtonProps {
     membership: MembershipDto;
@@ -16,7 +16,7 @@ export const MembershipLevelButton = memo((props: MembershipLevelButtonProps) =>
             }`}
         >
             <div className="text-13 font-medium">{t_membershipLevel(membership.level)}</div>
-            {membership.userId && <FaChevronDown fontSize={10} className="relative top-[-1px] ml-2" />}
+            {membership.userId && <ChevronDown fontSize={10} className="relative top-[-1px] ml-2" />}
         </div>
     );
 });

@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {ProductDto} from '^models/Product/type';
-import {FaEdit} from 'react-icons/fa';
 import {LinkTo} from '^components/util/LinkTo';
 import {AdminProductPageRoute} from '^pages/admin/products/[id]';
+import {Edit} from 'lucide-react';
 
 interface SearchedProductItemProps {
     product: ProductDto;
@@ -29,7 +29,7 @@ export const SearchedProductItem = memo((props: SearchedProductItemProps) => {
                     <ProductAvatar size={5} product={product} displayName={false} displayOutline={false} />
                     <div>
                         <LinkTo href={AdminProductPageRoute.path(product.id)} target="_blank" className="text-12">
-                            <FaEdit className="text-gray-400 hover:text-red-500 transition-all cursor-pointer" />
+                            <Edit className="text-gray-400 hover:text-red-500 transition-all cursor-pointer" />
                         </LinkTo>
                     </div>
                 </div>

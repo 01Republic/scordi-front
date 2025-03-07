@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {FaCheckCircle, FaExclamationTriangle} from 'react-icons/fa';
+import {AlertTriangle, CheckCircle} from 'lucide-react';
 
 interface ValidateMessageProps {
     value: string;
@@ -18,17 +18,17 @@ export const ValidateMessage = memo((props: ValidateMessageProps) => {
                     <div className="flex items-center gap-4">
                         {matchedLength ? (
                             <>
-                                <FaExclamationTriangle className="text-error" />
+                                <AlertTriangle className="text-error" />
                                 <p className="text-11 text-error font-semibold">이미 사용중인 이름입니다.</p>
                             </>
                         ) : invalidMsg ? (
                             <>
-                                <FaExclamationTriangle className="text-error" />
+                                <AlertTriangle className="text-error" />
                                 <p className="text-11 text-error font-semibold">사용할 수 없는 이름입니다.</p>
                             </>
                         ) : (
                             <>
-                                <FaCheckCircle className="text-success" />
+                                <CheckCircle className="text-success" />
                                 <p className="text-11 text-success font-semibold">사용할 수 있습니다.</p>
                             </>
                         )}

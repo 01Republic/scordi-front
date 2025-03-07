@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {FaSearch} from 'react-icons/fa';
+import {Search} from 'lucide-react';
 
 interface ListPageSearchInputProps {
     onSearch?: (keyword?: string) => any;
@@ -32,7 +32,7 @@ export const ListPageSearchInput = memo((props: ListPageSearchInputProps) => {
                     onSearch && onSearch(value);
                 }}
             />
-            <FaSearch className="absolute my-auto top-0 bottom-0 right-3" onClick={() => onSearch && onSearch(val)} />
+            <Search className="absolute my-auto top-0 bottom-0 right-3" onClick={() => onSearch && onSearch(val)} />
         </label>
     );
 });
@@ -70,7 +70,7 @@ export const ListPageSearchInputStandAlone = memo((props: ListPageSearchInputSta
                     onSearch && onSearch(value);
                 }}
             />
-            <FaSearch className="absolute my-auto top-0 bottom-0 right-3" onClick={() => onSearch && onSearch(val)} />
+            <Search className="absolute my-auto top-0 bottom-0 right-3" onClick={() => onSearch && onSearch(val)} />
         </label>
     );
 });

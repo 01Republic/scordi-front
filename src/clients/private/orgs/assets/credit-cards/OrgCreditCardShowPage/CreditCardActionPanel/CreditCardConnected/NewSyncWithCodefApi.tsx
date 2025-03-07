@@ -1,5 +1,4 @@
 import React, {memo, useState} from 'react';
-import {BsStars} from 'react-icons/bs';
 import {useCurrentCreditCard, useCurrentCreditCardSync} from '../../atom';
 import {ConnectCodefModal} from './ConnectCodefModal';
 import {codefCardApi} from '^models/CodefCard/api';
@@ -13,6 +12,7 @@ import {creditCardApi} from '^models/CreditCard/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRouter} from 'next/router';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {Sparkles} from 'lucide-react';
 
 export const NewSyncWithCodefApi = memo(() => {
     const orgId = useOrgIdParam();
@@ -81,7 +81,7 @@ export const NewSyncWithCodefApi = memo(() => {
                 className={`btn btn-scordi no-animation btn-animation gap-2 ${isSyncRunning ? 'link_to-loading' : ''}`}
                 onClick={onClick}
             >
-                <BsStars />
+                <Sparkles />
                 <span>연결</span>
             </button>
             <ConnectCodefModal

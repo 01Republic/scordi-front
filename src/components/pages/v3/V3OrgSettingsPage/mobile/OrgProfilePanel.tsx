@@ -3,9 +3,9 @@ import {Avatar} from '^components/Avatar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {BiChevronRight} from 'react-icons/bi';
 import {useModal} from '../../share/modals/useModal';
 import {isOpenModifyOrgNameModalAtom} from '../ModifyOrgNameModal';
+import {ChevronRight} from 'lucide-react';
 
 export const OrgProfilePanel = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -28,7 +28,7 @@ export const OrgProfilePanel = memo(() => {
                             <small className="mr-0.5"></small>
                         </p>
                     </div>
-                    <BiChevronRight size={28} />
+                    <ChevronRight size={28} />
                 </div>
             </MobileSection.Padding>
         </MobileSection.Item>

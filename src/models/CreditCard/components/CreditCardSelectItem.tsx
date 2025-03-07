@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {FaCheck} from 'react-icons/fa6';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CreditCardProfileOption2} from '^models/CreditCard/components/CreditCardProfile';
+import {Check} from 'lucide-react';
 
 interface CreditCardSelectItemProps {
     creditCard: CreditCardDto;
@@ -21,7 +21,7 @@ export const CreditCardSelectItem = memo((props: CreditCardSelectItemProps) => {
 
             <div className="flex items-center">
                 <button className="relative">
-                    <FaCheck
+                    <Check
                         fontSize={16}
                         strokeWidth={0.3}
                         className={isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'}

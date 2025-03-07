@@ -6,9 +6,9 @@ import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {OutLink} from '^components/OutLink';
-import {MdNavigateBefore, MdNavigateNext} from '^components/react-icons';
 import {createSubscription} from '^models/Subscription/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 export const SelectOrgStage = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
@@ -137,13 +137,13 @@ export const SelectOrgStage = memo(() => {
 
             <ModalActionWrapper>
                 <button type="button" className="btn mr-auto" onClick={backButtonClick}>
-                    <MdNavigateBefore size={20} className="ml-[-6px]" />
+                    <ChevronLeft size={20} className="ml-[-6px]" />
                     <span>Back</span>
                 </button>
                 {checkTeams.length > 0 && (
                     <button type="submit" className="btn btn-primary" disabled={!nextButtonActive}>
                         <span>Next</span>
-                        <MdNavigateNext size={20} className="mr-[-6px]" />
+                        <ChevronRight size={20} className="mr-[-6px]" />
                     </button>
                 )}
             </ModalActionWrapper>

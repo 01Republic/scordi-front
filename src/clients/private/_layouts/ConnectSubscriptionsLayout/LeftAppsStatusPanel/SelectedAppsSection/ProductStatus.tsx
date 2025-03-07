@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {ProductDto} from '^models/Product/type';
 import {ProductAvatarImg} from '^v3/share/ProductAvatar';
 import {Avatar} from '^components/Avatar';
-import {FaCheckCircle} from 'react-icons/fa';
+import {CheckCircle} from 'lucide-react';
 
 interface ProductStatusProps {
     product: ProductDto;
@@ -29,7 +29,7 @@ export const ProductStatus = memo((props: ProductStatusProps) => {
                 >
                     {finished ? (
                         <Avatar className="w-full">
-                            <FaCheckCircle className="text-scordi" fontSize={28} />
+                            <CheckCircle className="text-scordi" fontSize={28} />
                         </Avatar>
                     ) : (
                         <ProductAvatarImg

@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
-import {FaCheck} from 'react-icons/fa6';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
+import {Check} from 'lucide-react';
 
 interface TeamMemberSelectItemProps {
     teamMember: TeamMemberDto;
@@ -21,7 +21,7 @@ export const TeamMemberSelectItem = memo((props: TeamMemberSelectItemProps) => {
 
             <div className="flex items-center">
                 <button className="relative">
-                    <FaCheck
+                    <Check
                         fontSize={16}
                         strokeWidth={0.3}
                         className={isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'}

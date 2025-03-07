@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {LoadableBox} from '^components/util/loading';
 import {toast} from 'react-hot-toast';
+import {ChevronLeft} from 'lucide-react';
 
 interface SlideUpSelectModalProps<T> {
     /**
@@ -70,7 +70,7 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
         <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
             <div className="flex items-center">
                 <div className="p-6 text-gray-400 hover:text-black transition-all cursor-pointer" onClick={onClose}>
-                    <FaChevronLeft fontSize={16} />
+                    <ChevronLeft fontSize={16} />
                 </div>
             </div>
             <div className="px-6 bg-white flex items-center justify-between">

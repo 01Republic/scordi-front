@@ -1,5 +1,5 @@
 import {InputHTMLAttributes, memo} from 'react';
-import {AiOutlineSearch} from '@react-icons/all-files/ai/AiOutlineSearch';
+import {Search} from 'lucide-react';
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
     onSearch: (keyword: string) => any;
@@ -11,7 +11,7 @@ export const SearchInput = memo((props: SearchInputProps) => {
     return (
         <div className="relative">
             <label className="text-gray-400 absolute top-0 bottom-0 left-1.5 h-full w-6 flex items-center justify-center">
-                <AiOutlineSearch />
+                <Search />
             </label>
             <input
                 type="text"

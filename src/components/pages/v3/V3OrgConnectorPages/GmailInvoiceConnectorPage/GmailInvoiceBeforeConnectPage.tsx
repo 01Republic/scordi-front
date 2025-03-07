@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft} from 'react-icons/fa6';
 import {SafeBadge} from '^v3/V3OrgConnectorPages/GoogleWorkspaceConnectorPage/GoogleWorkspaceBeforeConnectPage';
 import {useRouter} from 'next/router';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useSetRecoilState} from 'recoil';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {ArrowLeft} from 'lucide-react';
 
 export const GmailInvoiceBeforeConnectPage = memo(function GmailInvoiceBeforeConnectPage() {
     const router = useRouter();
@@ -19,7 +19,7 @@ export const GmailInvoiceBeforeConnectPage = memo(function GmailInvoiceBeforeCon
                         onClick={() => router.back()}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <FaArrowLeft /> 뒤로가기
+                        <ArrowLeft /> 뒤로가기
                     </LinkTo>
                 </div>
 

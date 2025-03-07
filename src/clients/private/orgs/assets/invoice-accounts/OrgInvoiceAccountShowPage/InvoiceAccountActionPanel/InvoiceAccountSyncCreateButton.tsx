@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {BsStars} from 'react-icons/bs';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useCurrentInvoiceAccountSync} from '../atom';
 import {startSyncWithCheckValidToken} from './ReconnectModal';
+import {Sparkles} from 'lucide-react';
 
 interface InvoiceAccountSyncCreateButtonProps {
     invoiceAccount: InvoiceAccountDto;
@@ -18,7 +18,7 @@ export const InvoiceAccountSyncCreateButton = memo((props: InvoiceAccountSyncCre
 
     return (
         <button className={`btn btn-scordi gap-2 ${isSyncRunning ? 'link_to-loading' : ''}`} onClick={onClick}>
-            <BsStars />
+            <Sparkles />
             <span>연결</span>
         </button>
     );

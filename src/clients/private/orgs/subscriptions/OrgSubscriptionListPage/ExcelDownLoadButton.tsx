@@ -2,11 +2,11 @@ import {debounce} from 'lodash';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {FiDownload} from 'react-icons/fi';
 import React, {memo, useState} from 'react';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {Download} from 'lucide-react';
 
 export const ExcelDownLoadButton = memo(() => {
     const {currentOrg} = useCurrentOrg2();
@@ -33,7 +33,7 @@ export const ExcelDownLoadButton = memo(() => {
             className={`btn bg-white border border-[#CBD5E1] ${isLoading ? 'opacity-40 pointer-events-none' : ''}`}
             onClick={!isLoading ? onClick : undefined}
         >
-            <FiDownload fontSize={20} />
+            <Download fontSize={20} />
         </div>
     );
 });

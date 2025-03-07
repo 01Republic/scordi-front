@@ -8,8 +8,8 @@ import {orgIdParamState} from '^atoms/common';
 import {selectedCodefCardAtom} from './atom';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {plainToast as toast} from '^hooks/useToast';
-import {IoWarning} from 'react-icons/io5';
 import {creditCardApi} from '^models/CreditCard/api';
+import {AlertTriangle} from 'lucide-react';
 
 interface ConnectedCodefCardProps {
     codefCard: ConnectedCodefCardDto;
@@ -96,7 +96,7 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
                 <div className="flex-1 relative">
                     {isSleep && (
                         <div className="absolute bottom-full left-0 text-12 flex items-center gap-1 text-orange-400">
-                            <IoWarning /> <span>휴면상태의 카드입니다</span>
+                            <AlertTriangle /> <span>휴면상태의 카드입니다</span>
                         </div>
                     )}
                     <p className={`font-bold text-16 text-gray-800 mb-1 ${isSleep ? 'line-through opacity-30' : ''}`}>
