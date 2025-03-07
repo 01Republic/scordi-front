@@ -2,9 +2,9 @@ import React, {memo} from 'react';
 import {useCurrentUser} from '^models/User/hook';
 import {OrgInfo} from './OrgInfo';
 import {ProfileDropDown} from './ProfileDropDown';
-import {TbLayoutSidebarLeftCollapse, TbLayoutSidebarRightCollapse} from '^components/react-icons';
 import {useRecoilState} from 'recoil';
 import {sidebarActiveAtom} from '^layouts/org/mainLayout/Sidebar';
+import { LayoutPanelLeft } from 'lucide-react';
 
 export const OrgTopbar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -17,9 +17,9 @@ export const OrgTopbar = memo(() => {
             <div className="flex">
                 <button className="btn btn-ghost btn-square" onClick={() => setSidebarActive(!sidebarActive)}>
                     {sidebarActive ? (
-                        <TbLayoutSidebarLeftCollapse size={24} />
+                        <LayoutPanelLeft size={24} />
                     ) : (
-                        <TbLayoutSidebarRightCollapse size={24} />
+                        <LayoutPanelLeft size={24} />
                     )}
                 </button>
                 <OrgInfo />

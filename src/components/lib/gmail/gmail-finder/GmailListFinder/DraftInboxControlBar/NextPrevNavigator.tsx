@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {FaChevronLeft} from '@react-icons/all-files/fa/FaChevronLeft';
-import {FaChevronRight} from '@react-icons/all-files/fa/FaChevronRight';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+;
 
 interface Props {
     prevDisabled: boolean;
@@ -19,7 +19,7 @@ export const NextPrevNavigator = memo((props: Props) => {
                 disabled={prevDisabled}
                 onClick={() => !prevDisabled && onPrev()}
             >
-                <FaChevronLeft />
+                <ChevronLeft />
             </button>
 
             <button
@@ -27,7 +27,7 @@ export const NextPrevNavigator = memo((props: Props) => {
                 disabled={nextDisabled}
                 onClick={() => !nextDisabled && onNext()}
             >
-                <FaChevronRight />
+                <ChevronRight />
             </button>
         </div>
     );

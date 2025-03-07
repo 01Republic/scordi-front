@@ -3,7 +3,6 @@ import {toast} from 'react-hot-toast';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
-import {IoIosMore} from 'react-icons/io';
 import {Dropdown} from '^v3/share/Dropdown';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {
@@ -29,6 +28,7 @@ import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[su
 import {currentUserAtom} from '^models/User/atom';
 import {useRecoilValue} from 'recoil';
 import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
+import { MoreHorizontal } from 'lucide-react';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -167,7 +167,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* Actions */}
             <td className="cursor-pointer">
-                <Dropdown placement="bottom-end" Trigger={() => <IoIosMore fontSize={20} />}>
+                <Dropdown placement="bottom-end" Trigger={() => <MoreHorizontal fontSize={20} />}>
                     {({hide}) => (
                         <ul
                             className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"

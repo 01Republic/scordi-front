@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
-import {FaTimes} from 'react-icons/fa';
-import {FaCaretDown} from 'react-icons/fa6';
+;
 import {ReactNodeElement} from '^types/global.type';
+import { ChevronDown, X } from 'lucide-react';
 
 interface MonoSelectInputProps<Option> {
     id?: string;
@@ -41,7 +41,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
 
             <div className="flex items-center gap-4">
                 {selectedOption && clearable && (
-                    <FaTimes
+                    <X
                         size={16}
                         className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
                         onClick={(e) => {
@@ -51,7 +51,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
                         }}
                     />
                 )}
-                <FaCaretDown size={14} className="text-gray-400" />
+                <ChevronDown size={14} className="text-gray-400" />
             </div>
         </div>
     );
