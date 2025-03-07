@@ -5,13 +5,12 @@ import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/Content
 import {InvoiceDropZone} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/ConnectInManual/InvoiceDropZone';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
-import {IoChevronBackOutline} from '@react-icons/all-files/io5/IoChevronBackOutline';
-import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {subscriptionApi} from '^models/Subscription/api';
+import {ChevronLeft, Zap} from 'lucide-react';
 
 interface ConnectInManualProps {
     protoApp: ProductDto;
@@ -93,11 +92,11 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
                             className="btn btn-ghost border-[#dbd6e1] gap-2"
                             onClick={() => setConnectMethod(undefined)}
                         >
-                            <IoChevronBackOutline /> 처음으로
+                            <ChevronLeft /> 처음으로
                         </button>
 
                         <button className="btn btn-secondary text-lg gap-2" disabled={!connectable} onClick={onSubmit}>
-                            <IoFlash /> Add App
+                            <Zap /> Add App
                         </button>
                     </div>
                 </ContentPanelItem>

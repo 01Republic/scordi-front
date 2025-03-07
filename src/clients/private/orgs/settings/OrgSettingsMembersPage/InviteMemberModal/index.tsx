@@ -1,6 +1,5 @@
 import React, {memo, useRef, useState} from 'react';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {FaTimes} from 'react-icons/fa';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {inviteMembershipApi, membershipApi} from '^models/Membership/api';
@@ -8,6 +7,7 @@ import {confirm2} from '^components/util/dialog';
 import {useInviteInputs} from './useInviteInputs.hook';
 import {InviteEmailInput} from './InviteEmailInput';
 import {debounce} from 'lodash';
+import {X} from 'lucide-react';
 
 interface InviteMemberModalProps {
     organizationId: number;
@@ -79,7 +79,7 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
                                     onClick={onClose}
                                     className="btn btn-square btn-sm !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all absolute bottom-0 right-0 z-[1]"
                                 >
-                                    <FaTimes size={20} />
+                                    <X size={20} />
                                 </button>
                             </div>
                         </div>

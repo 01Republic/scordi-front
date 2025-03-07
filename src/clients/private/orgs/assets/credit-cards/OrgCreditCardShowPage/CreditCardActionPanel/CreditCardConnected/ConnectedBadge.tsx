@@ -3,13 +3,8 @@ import Tippy from '@tippyjs/react';
 import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {FaBoltLightning, FaPlay} from 'react-icons/fa6';
-import {IoWarning} from 'react-icons/io5';
-import {PiLightningFill, PiLightningSlash} from 'react-icons/pi';
-import {RiAlarmWarningFill} from 'react-icons/ri';
-import {LuTimer} from 'react-icons/lu';
-import {IoMdRefresh, RiErrorWarningFill} from '^components/react-icons';
 import {MakeSyncWithCodefAPI} from './MakeSyncWithCodefAPI';
+import {AlertCircle, AlertTriangle, Play, RotateCw, Timer, Zap, ZapOff} from 'lucide-react';
 
 export const ConnectedBadgeType1 = memo(() => {
     return (
@@ -32,11 +27,11 @@ export const ConnectedBadgeType2 = memo(() => {
                     isLoading ? 'opacity-50' : ''
                 } !text-success !border-success`}
             >
-                <PiLightningFill fontSize={16} />
+                <Zap fontSize={16} />
                 <div className="flex flex-col gap-0.5">
                     <div className="font-semibold text-left">API Connected</div>
                     <div className="text-12 flex items-center gap-1 font-[400]">
-                        {/*<LuTimer />*/}
+                        {/*<Timer />*/}
                         <span>Last:</span>
                         <span>{yyyy_mm_dd(codefCard.createdAt)}</span>
                     </div>
@@ -50,7 +45,7 @@ export const ConnectedBadgeType2 = memo(() => {
                     isLoading ? 'opacity-50' : ''
                 }`}
             >
-                <PiLightningSlash fontSize={16} />
+                <ZapOff fontSize={16} />
                 <div className="flex items-center font-semibold text-left whitespace-nowrap">No API connected</div>
             </div>
         );
@@ -66,11 +61,11 @@ export const ConnectedBadgeType3 = memo(() => {
             {codefCard ? (
                 <div className={`normal-case ${isLoading ? 'opacity-50' : ''}`}>
                     <div className="inline-flex items-center justify-end !text-success border !border-success text-14 gap-1 px-1.5 mb-1 rounded-full">
-                        <PiLightningFill fontSize={12} />
+                        <Zap fontSize={12} />
                         <div className="font-semibold text-left">API Connected</div>
                     </div>
                     <div className="text-12 flex items-center justify-end gap-1 font-[400] text-gray-400">
-                        <LuTimer />
+                        <Timer />
                         <span>최근 동기화:</span>
                         <span>{codefCard.syncedEndDate ? yyyy_mm_dd(codefCard.syncedEndDate) : '-'}</span>
                     </div>
@@ -79,11 +74,11 @@ export const ConnectedBadgeType3 = memo(() => {
                 <div className={`normal-case ${isLoading ? 'opacity-50' : ''}`}>
                     {/*  text-gray-400 border border-gray-300 */}
                     <div className="inline-flex items-center justify-end bg-gray-100 text-gray-400 border border-gray-300 text-14 gap-1 px-1.5 mb-1 rounded-full">
-                        <PiLightningSlash fontSize={12} />
+                        <ZapOff fontSize={12} />
                         <div className="font-semibold text-left">No API Connected</div>
                     </div>
                     <div className="text-12 flex items-center justify-end gap-1 font-[400] text-yellow-600">
-                        <RiAlarmWarningFill fontSize={14} className="relative top-[-1px]" />
+                        <AlertTriangle fontSize={14} className="relative top-[-1px]" />
                         <span>API를 연결하면 결제내역을 불러와요!</span>
                     </div>
                 </div>

@@ -1,26 +1,26 @@
-@import "./variables/grid";
+@import './variables/grid';
 
 .Toastify__toast-container {
-  min-width: 320px;
-  display: flex;
-  justify-content: center;
+    min-width: 320px;
+    display: flex;
+    justify-content: center;
 
-  .Toastify__toast {
-    background: #333d4b !important;
-    border-radius: 14px !important;
-    min-width: 200px;
-    margin-bottom: 12.5vh; // default: 'bottom-center'
+    .Toastify__toast {
+        background: #333d4b !important;
+        border-radius: 14px !important;
+        min-width: 200px;
+        margin-bottom: 12.5vh; // default: 'bottom-center'
 
-    @media (min-width: map-get($breakpoints, 'sm')) {
-      margin-bottom: 10vh; // default: 'bottom-center'
+        @media (min-width: map-get($breakpoints, 'sm')) {
+            margin-bottom: 10vh; // default: 'bottom-center'
+        }
+
+        .Toastify__toast-body > div:last-child {
+            /*white-space: nowrap !important;*/
+        }
     }
-
-    .Toastify__toast-body > div:last-child {
-      /*white-space: nowrap !important;*/
-    }
-  }
 }
 
 .scordi-bottom-toast {
-  /*white-space: nowrap !important;*/
+    /*white-space: nowrap !important;*/
 }

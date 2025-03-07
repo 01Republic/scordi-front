@@ -1,11 +1,10 @@
 import React, {memo, useState} from 'react';
-import {FaCheck} from 'react-icons/fa6';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {MoreButtonDropdown} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown';
 import {MoreButtonContent} from './MoreButtonContent';
-import {HiMiniInbox} from 'react-icons/hi2';
+import {Check, Inbox} from 'lucide-react';
 
 interface SelectablePaymentMethodItemProps {
     item: CreditCardDto;
@@ -36,7 +35,7 @@ export const SelectablePaymentMethodItem = memo((props: SelectablePaymentMethodI
             </div>
 
             <div className="flex items-center gap-2">
-                <div>{isSelected && <FaCheck className="text-scordi" />}</div>
+                <div>{isSelected && <Check className="text-scordi" />}</div>
 
                 <div className={`${isHovered ? 'flex' : 'hidden'} items-center justify-center transition-all`}>
                     <MoreButtonDropdown>

@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {HeaderPanel} from './HeaderPanel';
-import {BsPlus} from 'react-icons/bs';
 import {CardList} from './CardList';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '../share/sections/MobileSection';
@@ -14,6 +13,7 @@ import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
+import {Plus} from 'lucide-react';
 
 export const V3OrgCardListPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -53,7 +53,7 @@ export const V3OrgCardListPage = memo(() => {
                             onClick={() => cardNumberModal.open()}
                             className="btn btn-lg btn-scordi btn-circle btn-floating"
                         >
-                            <BsPlus size={48} />
+                            <Plus size={48} />
                         </button>
                     )}
                 </MobileSection.List>

@@ -2,9 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
 import {BillingStatus, ConnectStatus, MemberStatus, WorkspaceStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
-import {PiSpinnerGapThin} from 'react-icons/pi';
-import {CgSpinner} from 'react-icons/cg';
-
+import {Loader} from 'lucide-react';
 interface MenuListProps extends WithChildren {
     title: string;
 }
@@ -59,7 +57,7 @@ export const MenuItem = (props: MenuItemProps) => {
             }  font-semibold px-5 py-1.5 cursor-pointer flex gap-2 items-center`}
         >
             {isSelected ? <span className="ml-[-4px]">{status}</span> : status}
-            {isLoading && <CgSpinner size={16} className="animate-spin" />}
+            {isLoading && <Loader size={16} className="animate-spin" />}
         </li>
     );
 };

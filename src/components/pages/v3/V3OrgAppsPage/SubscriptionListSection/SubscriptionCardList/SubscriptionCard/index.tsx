@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
-import {FaQuestion} from 'react-icons/fa6';
 import {useAppShowModal} from 'src/components/pages/v3/share/modals/AppShowPageModal';
+import {HelpCircle} from 'lucide-react';
 
 interface SubscriptionCardProps {
     subscription: SubscriptionDto;
@@ -24,7 +24,7 @@ export const SubscriptionCard = memo((props: SubscriptionCardProps) => {
         >
             <div>
                 <Avatar className="w-8" src={product.image}>
-                    <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
+                    <HelpCircle size={24} className="text-gray-300 h-full w-full p-[6px]" />
                 </Avatar>
             </div>
             <div className="flex-1 h-full flex flex-col items-end gap-2">

@@ -2,11 +2,11 @@ import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
-import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {userSocialGoogleApi} from '^api/social-google.api';
+import {ArrowLeft, ArrowRight} from 'lucide-react';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -39,7 +39,7 @@ export const ConnectInvoiceAccountAfterLoad = memo(function ConnectInvoiceAccoun
                         className="btn btn-block btn-link text-gray-400 hover:text-gray-500 !no-underline items-center gap-2"
                         onClick={() => onPrev && onPrev()}
                     >
-                        <FaArrowLeft />
+                        <ArrowLeft />
                         <span>뒤로가기</span>
                     </button>
                 </Container>
@@ -49,7 +49,7 @@ export const ConnectInvoiceAccountAfterLoad = memo(function ConnectInvoiceAccoun
                 {/*<Container size="sm">*/}
                 {/*    <button className="btn btn-block btn-link no-underline items-center gap-2" onClick={() => onNext()}>*/}
                 {/*        <span>Next</span>*/}
-                {/*        <FaArrowRight />*/}
+                {/*        <ArrowRight />*/}
                 {/*    </button>*/}
                 {/*</Container>*/}
             </div>

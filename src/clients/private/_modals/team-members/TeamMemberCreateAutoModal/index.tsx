@@ -1,7 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {AxiosResponse} from 'axios';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {isGoogleError} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
@@ -9,6 +8,7 @@ import {connectGoogleAdmin} from '^models/TeamMember';
 import {ApiErrorResponse} from '^api/api';
 import {debounce} from 'lodash';
 import {useGoogleLoginForWorkspaceConnect} from '../useGoogleLoginForWorkspaceConnect';
+import {ChevronLeft} from 'lucide-react';
 
 interface TeamMemberCreateAutoModalProps {
     isOpened: boolean;
@@ -88,7 +88,7 @@ export const TeamMemberCreateAutoModal = memo((props: TeamMemberCreateAutoModalP
             <header>
                 <div>
                     <div className="mb-4">
-                        <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                        <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                     </div>
 
                     <div className="mb-4 flex items-center justify-between">

@@ -2,10 +2,10 @@ import {memo, useEffect, useState} from 'react';
 import {AdminListPageLayout} from '^admin/layouts';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
 import {CodefParserFile} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefParserFile';
-import {CgSpinner} from 'react-icons/cg';
 import {CodefParserNewPageRoute} from '^pages/admin/factories/codef-parsers/new';
 import {CodefParserCard} from '^admin/factories/codef-parser-factories/CodefParserListPage/CodefParserCard';
 import {SearchInput} from '^components/util/form-control/inputs/SearchInput';
+import {Loader} from 'lucide-react';
 
 const compareString = (a: string, b: string, direct: 'asc' | 'desc' = 'asc') => {
     const g = direct === 'asc' ? 1 : -1;
@@ -111,7 +111,7 @@ export const CodefParserListPage = memo(() => {
                 {isLoading ? (
                     <div className="flex items-center justify-center">
                         <div className="animate-spin">
-                            <CgSpinner size={30} />
+                            <Loader size={30} />
                         </div>
                     </div>
                 ) : (

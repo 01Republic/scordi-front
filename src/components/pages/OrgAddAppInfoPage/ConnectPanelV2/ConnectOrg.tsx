@@ -2,7 +2,6 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Scrapping} from '^components/ApplicationConnectStage/Scrapping';
 import {OrgResponseDataDto} from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout/ContentPanel';
-import {IoChevronForwardOutline} from '@react-icons/all-files/io5/IoChevronForwardOutline';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {ProductDto} from '^models/Product/type';
 import {ConnectMethod} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/SelectConnectMethod';
@@ -12,6 +11,7 @@ import {
     FetchedProfileDto,
 } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {ConnectComplete} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/ConnectComplete';
+import {ChevronRight} from 'lucide-react';
 
 interface ConnectOrgProps {
     protoApp: ProductDto;
@@ -62,7 +62,7 @@ export const ConnectOrg = (props: ConnectOrgProps) => {
                                     <>연결중</>
                                 ) : (
                                     <>
-                                        <IoChevronForwardOutline /> 연결하기
+                                        <ChevronRight /> 연결하기
                                     </>
                                 )}
                             </button>

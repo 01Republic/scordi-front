@@ -1,13 +1,12 @@
 import React, {memo} from 'react';
-import {FaRegCreditCard} from 'react-icons/fa6';
 import {getColor, palette} from '^components/util/palette';
 import {Avatar} from '^components/Avatar';
 import {NextImage} from '^components/NextImage';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
-import {RiBankFill} from '@react-icons/all-files/ri/RiBankFill';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {Building, CreditCard} from 'lucide-react';
 
 /**
  * 계좌 프로필 : 기본
@@ -67,7 +66,7 @@ interface BankAccountProfileOptionProps {
 //             {bankAccount ? (
 //                 <>
 //                     <Avatar className="w-7">
-//                         <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+//                         <CreditCard size={20} className="h-full w-full p-[6px]" />
 //                     </Avatar>
 //
 //                     <div className="flex flex-col gap-0.5 overflow-hidden text-left">
@@ -118,7 +117,7 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
                         {company ? (
                             <img src={company.logo} alt={company.displayName || ''} />
                         ) : (
-                            <RiBankFill size={20} className="h-full w-full p-[6px]" />
+                            <Building size={20} className="h-full w-full p-[6px]" />
                         )}
                     </Avatar>
 
@@ -171,7 +170,7 @@ export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactP
                 {company ? (
                     <NextImage src={company?.logo} alt={company?.displayName} fill />
                 ) : (
-                    <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
+                    <CreditCard size={12} className="h-full w-full p-1 text-gray-400" />
                 )}
             </Avatar>
 

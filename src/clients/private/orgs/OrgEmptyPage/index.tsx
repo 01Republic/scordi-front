@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
-import {MdError} from '@react-icons/all-files/md/MdError';
 import {OrgCreatePageRoute} from '^pages/orgs/new';
+import {AlertCircle} from 'lucide-react';
 
 export const OrgEmptyPage = memo(function OrgEmptyPage() {
     return (
@@ -11,7 +11,7 @@ export const OrgEmptyPage = memo(function OrgEmptyPage() {
                 {/*<CheckCircle className="w-[60px] mb-10" color="#5E5FEE" />*/}
                 <p className="flex items-center justify-center text-[160px] font-extrabold">
                     {/*<span>4</span>*/}
-                    <MdError fontSize={80} className="text-red-500 btn-animation hover:rotate-[360deg]" />
+                    <AlertCircle fontSize={80} className="text-red-500 btn-animation hover:rotate-[360deg]" />
                     {/*<span>4</span>*/}
                 </p>
 

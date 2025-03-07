@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {debounce} from 'lodash';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {LoadableBox} from '^components/util/loading';
 import {useOrgIdParam} from '^atoms/common';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
@@ -11,6 +10,7 @@ import {SearchVendorManagerInput} from './SearchVendorManagerInput';
 import {VendorManagerItem} from './VendorManagerItem';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerUpsertSwalForm} from './VendorManagerUpsertSwalForm';
+import {ChevronLeft} from 'lucide-react';
 
 interface VendorManagerSelectModalProps {
     isOpened: boolean;
@@ -55,7 +55,7 @@ export const VendorManagerSelectModal = memo((props: VendorManagerSelectModalPro
         >
             <div>
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">파트너사 담당자 설정</p>
                 <h3 className="font-bold text-xl leading-tight">

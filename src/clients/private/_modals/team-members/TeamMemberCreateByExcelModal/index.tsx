@@ -2,11 +2,11 @@ import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {ExcelUploader} from './ExcelUploader';
 import {teamMemberApi} from '^models/TeamMember';
 import {toast} from 'react-hot-toast';
 import {ApiError, errorToast} from '^api/api';
+import {ChevronLeft} from 'lucide-react';
 
 interface TeamMemberCreateByExcelModalProps {
     isOpened: boolean;
@@ -59,7 +59,7 @@ export const TeamMemberCreateByExcelModal = memo((props: TeamMemberCreateByExcel
                 <div className="flex flex-col items-stretch h-full">
                     <header className="mb-4">
                         <div className="mb-4">
-                            <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                            <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                         </div>
                         <p className="font-medium text-12 text-scordi">엑셀로 대량 등록하기</p>
                         <h3 className="font-bold text-xl">엑셀로 대량의 구성원 계정을 한 번에 등록해요.</h3>

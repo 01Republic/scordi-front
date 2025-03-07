@@ -1,8 +1,8 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import {BiReceipt} from '^components/react-icons';
 import {Locale, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
+import {Receipt} from 'lucide-react';
 
 interface CurrentBillProps {
     subscription: SubscriptionDto;
@@ -37,7 +37,7 @@ export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {
     return (
         <>
             <div className="stat-figure text-primary">
-                <BiReceipt size={36} />
+                <Receipt size={36} />
             </div>
             <div className="stat-title mb-2">Current {cycleName} bill</div>
             <div className="stat-value mb-3 text-primary">{isFreeTier ? 'Free' : totalPrice}</div>

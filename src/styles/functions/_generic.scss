@@ -1,40 +1,45 @@
-
 @mixin set-important-class($name, $attr, $value) {
-  .\!#{$name} { #{$attr}: $value !important; }
+    .\!#{$name} {
+        #{$attr}: $value !important;
+    }
 }
 
 @mixin set-class($name, $attr, $value) {
-  // ex. .text-scordi, .!text-scordi
-  .#{$name} { #{$attr}: $value; }
-  @include set-important-class($name, $attr, $value);
-
-  // ex. .hover:text-scordi, .!hover:text-scordi
-  @each $state in ('hover', 'active', 'visited', 'focus') {
-    .#{$state}\:#{$name}:#{$state} { #{$attr}: $value; }
-    @include set-important-class('#{$state}\:#{$name}:#{$state}', $attr, $value);
-  }
-
-  // group, peer
-  @each $state in ('hover', 'active', 'visited', 'focus', 'invalid', 'valid') {
-    // ex. .group-hover:text-scordi, .!group-hover:text-scordi
-    .group:#{$state} .group-#{$state}\:#{$name} {
-      #{$attr}: $value;
+    // ex. .text-scordi, .!text-scordi
+    .#{$name} {
+        #{$attr}: $value;
     }
-    .group:#{$state} .\!group-#{$state}\:#{$name} {
-      #{$attr}: $value !important;
+    @include set-important-class($name, $attr, $value);
+
+    // ex. .hover:text-scordi, .!hover:text-scordi
+    @each $state in ('hover', 'active', 'visited', 'focus') {
+        .#{$state}\:#{$name}:#{$state} {
+            #{$attr}: $value;
+        }
+        @include set-important-class('#{$state}\:#{$name}:#{$state}', $attr, $value);
     }
 
-    // ex. .peer-hover:text-scordi, .!peer-hover:text-scordi
-    .peer:#{$state} ~ .peer-#{$state}\:#{$name} {
-      #{$attr}: $value;
+    // group, peer
+    @each $state in ('hover', 'active', 'visited', 'focus', 'invalid', 'valid') {
+        // ex. .group-hover:text-scordi, .!group-hover:text-scordi
+        .group:#{$state} .group-#{$state}\:#{$name} {
+            #{$attr}: $value;
+        }
+        .group:#{$state} .\!group-#{$state}\:#{$name} {
+            #{$attr}: $value !important;
+        }
+
+        // ex. .peer-hover:text-scordi, .!peer-hover:text-scordi
+        .peer:#{$state} ~ .peer-#{$state}\:#{$name} {
+            #{$attr}: $value;
+        }
+        .peer:#{$state} ~ .\!peer-#{$state}\:#{$name} {
+            #{$attr}: $value !important;
+        }
     }
-    .peer:#{$state} ~ .\!peer-#{$state}\:#{$name} {
-      #{$attr}: $value !important;
-    }
-  }
 }
 
 @mixin make-generic-class($domain, $name, $attr, $value) {
-  $base_class: #{$domain}-#{$name};
-  @include set-class($base_class, $attr, $value);
+    $base_class: #{$domain}-#{$name};
+    @include set-class($base_class, $attr, $value);
 }

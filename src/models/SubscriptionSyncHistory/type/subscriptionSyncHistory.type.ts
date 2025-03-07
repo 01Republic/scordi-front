@@ -1,7 +1,7 @@
-import {BiBlock, BiBot, BiCheckCircle, BiError} from '^components/react-icons';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {UserDto} from '^models/User/types';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {AlertCircle, Ban, Bot, CheckCircle} from 'lucide-react';
 
 export enum SyncHistoryResultStatus {
     IN_PROGRESS = 'in progress',
@@ -51,10 +51,10 @@ export function t_syncHistoryResultStatus(status: SyncHistoryResultStatus) {
 }
 
 export const syncHistoryAssets = {
-    [SyncHistoryResultStatus.IN_PROGRESS]: {normal: 'violet-300', darken: 'violet-600', Icon: BiBot},
-    [SyncHistoryResultStatus.SUCCESS]: {normal: 'green-300', darken: 'green-600', Icon: BiCheckCircle},
-    [SyncHistoryResultStatus.FAILED]: {normal: 'red-300', darken: 'red-600', Icon: BiError},
-    [SyncHistoryResultStatus.CANCELED]: {normal: 'gray-300', darken: 'gray-600', Icon: BiBlock},
+    [SyncHistoryResultStatus.IN_PROGRESS]: {normal: 'violet-300', darken: 'violet-600', Icon: Bot},
+    [SyncHistoryResultStatus.SUCCESS]: {normal: 'green-300', darken: 'green-600', Icon: CheckCircle},
+    [SyncHistoryResultStatus.FAILED]: {normal: 'red-300', darken: 'red-600', Icon: AlertCircle},
+    [SyncHistoryResultStatus.CANCELED]: {normal: 'gray-300', darken: 'gray-600', Icon: Ban},
 };
 
 export function restartSyncButtonIsActive(history: SyncHistoryDto) {

@@ -1,12 +1,12 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {BulkCreateFormContainer} from './BulkCreateFormContainer';
+import {ChevronLeft} from 'lucide-react';
 
 interface TeamMemberCreateManualModalProps {
     isOpened: boolean;
@@ -37,7 +37,7 @@ export const TeamMemberCreateManualModal = memo((props: TeamMemberCreateManualMo
         >
             <header className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                 </div>
                 <p className="font-medium text-12 text-scordi">직접 추가하기</p>
                 <h3 className="font-bold text-xl">추가할 구성원 정보를 입력해주세요.</h3>

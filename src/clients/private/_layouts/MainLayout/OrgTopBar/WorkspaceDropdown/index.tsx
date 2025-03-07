@@ -1,5 +1,4 @@
 import {memo, useEffect} from 'react';
-import {FaChevronDown} from 'react-icons/fa6';
 import {LinkTo} from '^components/util/LinkTo';
 import {Dropdown} from '^v3/share/Dropdown';
 import {useCurrentOrg2} from '^models/Organization/hook';
@@ -7,6 +6,7 @@ import {useCurrentUser} from '^models/User/hook';
 import {useMembershipInHeader} from '^models/Membership/hook';
 import {LoadableBox} from '^components/util/loading';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {ChevronDown} from 'lucide-react';
 
 interface WorkspaceDropdownProps {
     //
@@ -47,7 +47,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
             Trigger={({visible}) => (
                 <div className="font-medium cursor-pointer flex items-center gap-0.5">
                     <span>{currentOrg?.name}</span>
-                    <FaChevronDown size={10} strokeWidth={20} />
+                    <ChevronDown size={10} strokeWidth={20} />
                 </div>
             )}
             Content={({visible, show, hide}) => {

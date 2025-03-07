@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {FaChevronRight} from 'react-icons/fa6';
 import {LinkTo} from '^components/util/LinkTo';
+import {ChevronRight} from 'lucide-react';
 
 export type BreadcrumbPath =
     | string
@@ -39,7 +39,7 @@ export const BreadcrumbItem = memo((props: BreadcrumbItemProps) => {
 
     return (
         <>
-            {i !== 0 && <FaChevronRight fontSize={10} className={`text-gray-500`} />}
+            {i !== 0 && <ChevronRight fontSize={10} className={`text-gray-500`} />}
             <div key={i} className={`p-1 ${active ? 'text-scordi' : 'text-gray-500'}`}>
                 {typeof path === 'string' ? (
                     <span>{path}</span>

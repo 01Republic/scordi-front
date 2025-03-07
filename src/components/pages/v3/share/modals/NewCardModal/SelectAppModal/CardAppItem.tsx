@@ -1,9 +1,9 @@
 import {Avatar} from '^components/Avatar';
 import {ProductDto} from '^models/Product/type';
 import React, {memo} from 'react';
-import {IoClose} from 'react-icons/io5';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {productIdsAtom, selectedAppsAtom} from '^v3/share/modals/NewCardModal/SelectAppModal/atom';
+import {X} from 'lucide-react';
 
 interface CardAppItemProps {
     item: ProductDto;
@@ -31,7 +31,7 @@ export const CardAppItem = memo((props: CardAppItemProps) => {
             <p className="leading-none text-[18px] font-semibold">{item.nameEn}</p>
 
             <button onClick={() => deleteApp(item.id)}>
-                <IoClose size={13} />
+                <X size={13} />
             </button>
         </div>
     );

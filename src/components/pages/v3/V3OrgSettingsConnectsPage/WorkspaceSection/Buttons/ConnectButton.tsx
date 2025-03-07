@@ -1,5 +1,5 @@
 import React from 'react';
-import {VscPlug} from 'react-icons/vsc';
+import {Plug} from 'lucide-react';
 
 interface ConnectButtonProps {
     onClick?: () => void;
@@ -14,7 +14,7 @@ export const ConnectButton = (props: ConnectButtonProps) => {
                 disabled={isDisabled ?? true}
                 className="btn btn-sm !border !border-gray-200 font-normal w-fit px-5"
             >
-                <VscPlug size={18} className="mr-1" />
+                <Plug size={18} className="mr-1" />
                 연동하기
             </button>
         </span>

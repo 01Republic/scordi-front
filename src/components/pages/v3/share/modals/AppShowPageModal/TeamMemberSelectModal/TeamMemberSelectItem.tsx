@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
-import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
+import {CheckCircle} from 'lucide-react';
 
 interface TeamMemberSelectItemProps {
     item: TeamMemberDto;
@@ -44,9 +44,9 @@ export const TeamMemberSelectItem = memo((props: TeamMemberSelectItemProps) => {
             <div className="flex items-center">
                 <button className="relative">
                     {isSelected ? (
-                        <BsCheckCircleFill size={24} strokeWidth={0.3} className="text-indigo-500" />
+                        <CheckCircle size={24} strokeWidth={0.3} className="text-indigo-500" />
                     ) : (
-                        <BsCheckCircle
+                        <CheckCircle
                             size={24}
                             strokeWidth={0.3}
                             className="text-indigo-200 group-hover:text-indigo-300"

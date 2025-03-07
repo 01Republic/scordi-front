@@ -1,10 +1,10 @@
 import {memo} from 'react';
 import {MembershipDto} from '^models/Membership/types';
 import {Dropdown} from '^v3/share/Dropdown';
-import {IoIosMore} from 'react-icons/io';
 import {eventCut} from '^utils/event';
 import {RemoveMembershipButton} from './RemoveMembershipButton';
 import {ResendInvitationButton} from './ResendInvitationButton';
+import {MoreHorizontal} from 'lucide-react';
 
 interface MembershipMoreDropdownProps {
     membership: MembershipDto;
@@ -21,7 +21,7 @@ export const MembershipMoreDropdown = memo((props: MembershipMoreDropdownProps) 
             Trigger={() => {
                 return (
                     <button className="btn btn-sm btn-square !bg-transparent !border-transparent text-gray-400 hover:text-black">
-                        <IoIosMore fontSize={20} />
+                        <MoreHorizontal fontSize={20} />
                     </button>
                 );
             }}

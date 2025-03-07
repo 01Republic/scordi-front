@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
-import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
+import {CheckCircle} from 'lucide-react';
 
 interface SubscriptionSelectItemProps {
     subscription: SubscriptionDto;
@@ -41,9 +41,9 @@ export const SubscriptionSelectItem = memo((props: SubscriptionSelectItemProps) 
             <div className="flex items-center">
                 <button className="relative">
                     {isSelected ? (
-                        <BsCheckCircleFill size={24} strokeWidth={0.3} className="text-indigo-500" />
+                        <CheckCircle size={24} strokeWidth={0.3} className="text-indigo-500" />
                     ) : (
-                        <BsCheckCircle
+                        <CheckCircle
                             size={24}
                             strokeWidth={0.3}
                             className="text-indigo-200 group-hover:text-indigo-300"

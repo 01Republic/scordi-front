@@ -1,7 +1,7 @@
 import {TeamMemberDto} from '^models/TeamMember/type';
 import React, {memo, MouseEventHandler} from 'react';
 import {Avatar} from '^components/Avatar';
-import {FaQuestion} from 'react-icons/fa6';
+import {HelpCircle} from 'lucide-react';
 
 interface MasterProfileOptionProps {
     member?: TeamMemberDto;
@@ -23,7 +23,7 @@ export const MasterProfileOption = memo((props: MasterProfileOptionProps) => {
             ) : (
                 <>
                     <Avatar className="w-7">
-                        <FaQuestion size={24} className="h-full w-full p-[6px]" />
+                        <HelpCircle size={24} className="h-full w-full p-[6px]" />
                     </Avatar>
                     <div className="flex-1 h-full">
                         <p className="text-xs">

@@ -5,6 +5,7 @@ import {ScordiPaymentDto, t_scordiPaymentStatus} from '^models/_scordi/ScordiPay
 import {LinkTo} from '^components/util/LinkTo';
 import {ScordiPaymentItemProps} from './ScordiPaymentItem';
 import Tippy from '@tippyjs/react';
+import {CreditCard} from 'lucide-react';
 
 export const ScordiPaymentItemNotionType = memo((props: ScordiPaymentItemProps) => {
     const {scordiPayment} = props;
@@ -76,7 +77,7 @@ const PaidCard = memo((props: {scordiPayment: ScordiPaymentDto}) => {
             {/*    {company?.logo ? (*/}
             {/*        <img src={company?.logo} alt="" />*/}
             {/*    ) : (*/}
-            {/*        <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />*/}
+            {/*        <CreditCard size={20} className="h-full w-full p-[6px]" />*/}
             {/*    )}*/}
             {/*</Avatar>*/}
             <Tippy content={response?.fullCardNumber}>

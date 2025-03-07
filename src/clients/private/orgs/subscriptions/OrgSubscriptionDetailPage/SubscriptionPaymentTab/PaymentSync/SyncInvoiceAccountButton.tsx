@@ -1,10 +1,10 @@
 import React, {memo, useState} from 'react';
-import {FcDataBackup} from 'react-icons/fc';
 import {LoadableBox} from '^components/util/loading';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {MethodOption} from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {startSyncInvoiceAccount} from './InvoiceAccountReconnectModal';
 import {useStartInvoiceAccountSync} from './atom';
+import {Database} from 'lucide-react';
 
 interface SyncInvoiceAccountButtonProps {
     subscription: SubscriptionDto;
@@ -33,7 +33,7 @@ export const SyncInvoiceAccountButton = memo((props: SyncInvoiceAccountButtonPro
         <LoadableBox isLoading={isSyncRunning} loadingType={2} noPadding spinnerPos="center">
             <div className={`${!isConnectedInvoiceAccount && 'pointer-events-none opacity-50'}`}>
                 <MethodOption
-                    Icon={FcDataBackup}
+                    Icon={Database}
                     title="청구서 메일 불러오기"
                     desc="구글 로그인으로 한 번에 불러와요"
                     onClick={onClickInvoiceAccount}

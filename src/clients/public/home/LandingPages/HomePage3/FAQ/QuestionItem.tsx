@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {useId} from 'react-id-generator';
-import {AiOutlinePlus} from '@react-icons/all-files/ai/AiOutlinePlus';
 import {ReactNodeElement} from '^types/global.type';
+import {Plus} from 'lucide-react';
 
 interface QuestionItemProps {
     question: ReactNodeElement;
@@ -19,7 +19,7 @@ export const QuestionItem = memo(function QuestionItem(props: QuestionItemProps)
             <label htmlFor={inputId}>
                 <p className="question">{question}</p>
                 <div className="icon-wrapper">
-                    <AiOutlinePlus size={30} />
+                    <Plus size={30} />
                 </div>
             </label>
             <div className="answer-wrapper">

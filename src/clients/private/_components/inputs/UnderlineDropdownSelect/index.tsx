@@ -1,7 +1,5 @@
 import React, {Fragment, memo, useState} from 'react';
-import {FaCaretDown, FaCheck} from 'react-icons/fa6';
-import {FaTimes} from 'react-icons/fa';
-
+import {Check, ChevronDown, X} from 'lucide-react';
 interface UnderlineDropdownSelectProps<T> {
     name?: string;
     defaultValue?: T;
@@ -58,14 +56,14 @@ export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<
 
                     <div className="flex items-center gap-2">
                         {typeof selectedOption !== 'undefined' && clearable && (
-                            <FaTimes
+                            <X
                                 fontSize={16}
                                 className="text-gray-300 hover:text-gray-400 transition-all cursor-pointer"
                                 onClick={() => selectOption(undefined)}
                             />
                         )}
 
-                        <FaCaretDown fontSize={12} className="text-gray-500" />
+                        <ChevronDown fontSize={12} className="text-gray-500" />
                     </div>
                 </div>
                 <span />
@@ -87,7 +85,7 @@ export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<
                         >
                             <div className="flex-auto">{toComponent ? toComponent(option) : `${value}`}</div>
 
-                            <div>{isSelected && <FaCheck fontSize={16} className="text-green-500" />}</div>
+                            <div>{isSelected && <Check fontSize={16} className="text-green-500" />}</div>
                         </div>
                     );
                 })}

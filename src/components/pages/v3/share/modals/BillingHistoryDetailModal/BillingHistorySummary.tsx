@@ -7,9 +7,9 @@ import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price'
 import {useRouter} from 'next/router';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {BsPlusCircle} from 'react-icons/bs';
 import {useModal} from '^v3/share/modals';
 import {payMethodModalState} from '^v3/share/modals/NewBillingHistoryModal/atoms';
+import {PlusCircle} from 'lucide-react';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];
@@ -45,7 +45,7 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
                             onClick={open}
                             className="relative text-indigo-400 hover:text-indigo-600 transition-all"
                         >
-                            <BsPlusCircle className="" size={24} strokeWidth={0.3} />
+                            <PlusCircle className="" size={24} strokeWidth={0.3} />
                         </button>
                     </div>
                 </div>

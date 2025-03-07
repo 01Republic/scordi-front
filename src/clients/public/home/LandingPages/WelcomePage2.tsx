@@ -7,7 +7,7 @@ import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 import {LinkTo} from '^components/util/LinkTo';
 import {CheckCircle} from '^components/react-icons/check-circle';
-import {CgSpinner} from 'react-icons/cg';
+import {Loader} from 'lucide-react';
 
 export const WelcomePage2 = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -39,7 +39,7 @@ export const WelcomePage2 = memo(() => {
                             disabled={isClicked}
                             className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
                         >
-                            {isClicked ? <CgSpinner size={28} className="animate-spin" /> : <>확인</>}
+                            {isClicked ? <Loader size={28} className="animate-spin" /> : <>확인</>}
                         </button>
                     </LinkTo>
                 </div>

@@ -9,11 +9,11 @@ import {orgIdParamState} from '^atoms/common';
 import {plainToInstance} from 'class-transformer';
 import {AxiosResponse} from 'axios';
 import {debounce} from 'lodash';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {ApiErrorResponse} from '^api/api';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {getCreateInvoiceAccountFromTo, InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {ChevronLeft} from 'lucide-react';
 
 interface InvoiceAccountAutoCreateModalProps {
     isOpened: boolean;
@@ -100,7 +100,7 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
             <header>
                 <div>
                     <div className="mb-4">
-                        <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                        <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                     </div>
 
                     <div className="mb-4 flex items-center justify-between">

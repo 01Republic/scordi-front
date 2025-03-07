@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {usePost} from '^models/Post/hook';
-import {AiFillMail} from 'react-icons/ai';
+import {Mail} from 'lucide-react';
 
 export const OpinionButton = memo(() => {
     const {post} = usePost();
@@ -9,7 +9,7 @@ export const OpinionButton = memo(() => {
 
     return (
         <button className="btn">
-            <AiFillMail size={18} />
+            <Mail size={18} />
             <span>의견 남기기</span>
         </button>
     );

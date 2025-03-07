@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {ProductAvatarImg} from '^v3/share/ProductAvatar';
 import {ProductDto} from '^models/Product/type';
-import {AiOutlineMinus} from 'react-icons/ai';
 import {useSelectProducts} from '^models/Product/hook';
+import {Minus} from 'lucide-react';
 
 interface SearchResultItemProps {
     product: ProductDto;
@@ -37,7 +37,7 @@ export const SearchResultItem = memo((props: SearchResultItemProps) => {
 
                 {subscriptionCount > 0 && (
                     <div className="flex items-center gap-1">
-                        <AiOutlineMinus className="text-gray-500" />
+                        <Minus className="text-gray-500" />
 
                         {/*🧩*/}
                         <span className="text-20 relative leading-none mr-1">🏷</span>

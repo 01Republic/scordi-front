@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
 import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
+import {ArrowLeft} from 'lucide-react';
 
 export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardListPageHeader() {
     const {connectMethod} = useCodefAccountPageSubject();
@@ -30,7 +30,7 @@ export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardList
                     onClick={() => router.back()}
                     className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                 >
-                    <FaArrowLeft /> 뒤로가기
+                    <ArrowLeft /> 뒤로가기
                 </LinkTo>
             </div>
 

@@ -1,23 +1,17 @@
 import {memo, useState} from 'react';
 import {useCurrentUser} from '^models/User/hook';
 import {UserAvatar} from '^v3/share/UserAvatar';
-import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
-import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
-import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
 import {useRecoilValue} from 'recoil';
 import {MembershipLevel} from 'src/models/Membership/types';
 import {useRouter} from 'next/router';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {useTranslation} from 'next-i18next';
 import {AdminUsersPageRoute} from '^pages/admin/users';
-import {PiLinkBold} from 'react-icons/pi';
-import {BsArrowRight} from 'react-icons/bs';
-import {GrFormDown} from 'react-icons/gr';
 import {useOnResize2} from '^components/util/onResize2';
 import {LinkTo} from '^components/util/LinkTo';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 import {ChannelTalk_Url} from '^config/constants';
+import {ArrowRight, ChevronDown, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
@@ -43,7 +37,7 @@ export const TopNavProfileButton = memo(() => {
             <label tabIndex={0} className="btn btn-sm normal-case flex items-center gap-1">
                 {/*<UserAvatar user={currentUser} roundClass="rounded-lg" />*/}
                 <span>{isMobile ? currentUser.name : currentUser.email}</span>
-                <GrFormDown size={18} />
+                <ChevronDown size={18} />
             </label>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
                 <li>
@@ -57,7 +51,7 @@ export const TopNavProfileButton = memo(() => {
                         className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                         onClick={() => setIsProfileEditModalOpened(true)}
                     >
-                        <AiOutlineSetting />
+                        <Settings />
                         <span>{t('dropdown.setting')}</span>
                     </a>
                 </li>
@@ -68,7 +62,7 @@ export const TopNavProfileButton = memo(() => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <AiOutlineQuestionCircle />
+                        <HelpCircle />
                         <span>{t('dropdown.help')}</span>
                     </a>
                 </li>
@@ -77,7 +71,7 @@ export const TopNavProfileButton = memo(() => {
                         className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                         onClick={() => router.push('/')}
                     >
-                        <AiOutlineHome />
+                        <Home />
                         <span>{t('dropdown.goHomePage')}</span>
                     </a>
                 </li>
@@ -87,7 +81,7 @@ export const TopNavProfileButton = memo(() => {
                         className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
                         onClick={() => logout()}
                     >
-                        <BiLogOut />
+                        <LogOut />
                         <span>{t('dropdown.logout')}</span>
                     </a>
                 </li>
@@ -97,9 +91,9 @@ export const TopNavProfileButton = memo(() => {
                             href={AdminUsersPageRoute.path()}
                             className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
                         >
-                            <PiLinkBold />
+                            <Link />
                             <span className="flex gap-2 items-center justify-between w-full">
-                                스코디 어드민 <BsArrowRight />
+                                스코디 어드민 <ArrowRight />
                             </span>
                         </LinkTo>
                     </li>

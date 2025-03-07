@@ -1,7 +1,7 @@
 import React, {FormEventHandler, memo} from 'react';
 import {CardContainer, CardContainerProps} from './CardContainer';
-import {FaCheck} from 'react-icons/fa6';
 import {LoadableBox} from '^components/util/loading';
+import {Check} from 'lucide-react';
 
 interface FormContainerProps extends CardContainerProps {
     onSubmit?: FormEventHandler<HTMLFormElement>;

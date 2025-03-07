@@ -1,11 +1,10 @@
 import React from 'react';
-import {IconType} from '@react-icons/all-files';
-import {IoChevronForwardOutline} from '@react-icons/all-files/io5/IoChevronForwardOutline';
-import {IoChevronBackOutline} from '@react-icons/all-files/io5/IoChevronBackOutline';
+import {LucideIcon} from 'lucide-react';
 import {WithChildren} from '^types/global.type';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 interface ConnectStepMoveBtnProps {
-    icon: IconType;
+    icon: LucideIcon;
     onClick: () => void;
     text?: string;
 }
@@ -26,9 +25,9 @@ export function ConnectStepMoveBtn(props: ConnectStepMoveBtnProps) {
 }
 
 export function ConnectMoveForwardBtn({onClick, ...res}: {onClick: () => void; text?: string}) {
-    return <ConnectStepMoveBtn icon={IoChevronForwardOutline} onClick={onClick} {...res} />;
+    return <ConnectStepMoveBtn icon={ChevronRight} onClick={onClick} {...res} />;
 }
 
 export function ConnectMoveBackwardBtn({onClick, ...res}: {onClick: () => void; text?: string}) {
-    return <ConnectStepMoveBtn icon={IoChevronBackOutline} onClick={onClick} {...res} />;
+    return <ConnectStepMoveBtn icon={ChevronLeft} onClick={onClick} {...res} />;
 }

@@ -2,7 +2,7 @@ import {WithChildren} from '^types/global.type';
 import {onboardingFlowStepStatus, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
 import {memo} from 'react';
 import {useRecoilState} from 'recoil';
-import {FcApproval, FcCheckmark} from 'react-icons/fc';
+import {Check, CheckCircle} from 'lucide-react';
 
 interface StepTabProps extends WithChildren {
     steps: OnboardingStep[];
@@ -31,7 +31,7 @@ export const StepTab = memo((props: StepTabProps) => {
             >
                 <div className="text-13 font-semibold flex items-center gap-2">
                     <span>Step {num}</span>
-                    {checked && <FcCheckmark size={20} className="relative top-[-3px]" />}
+                    {checked && <Check size={20} className="relative top-[-3px]" />}
                 </div>
                 <div className="text-16 font-semibold">{children}</div>
             </div>

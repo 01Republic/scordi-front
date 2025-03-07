@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
-import {BiChevronRight} from '@react-icons/all-files/bi/BiChevronRight';
 import {useSetRecoilState} from 'recoil';
 import {selectedInvoiceAccountAtom} from '../InvoiceAppListPanel';
+import {ChevronRight} from 'lucide-react';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -37,7 +37,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                     <p className="text-xs font-extralight">{appNames.join(', ')}</p>
                 </div>
                 <div>
-                    <BiChevronRight size={22.5} />
+                    <ChevronRight size={22.5} />
                 </div>
             </div>
         </li>

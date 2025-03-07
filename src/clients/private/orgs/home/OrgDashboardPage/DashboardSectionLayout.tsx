@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
-import {FaPlus} from 'react-icons/fa6';
+import {Plus} from 'lucide-react';
 
 interface DashboardLayoutProps extends WithChildren {
     title: React.ReactNode;
@@ -28,7 +28,7 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
                             onClick={plusButtonClick}
                             className="btn btn-ghost btn-square btn-xs text-gray-400 hover:text-black"
                         >
-                            <FaPlus />
+                            <Plus />
                         </button>
                     )}
                 </div>

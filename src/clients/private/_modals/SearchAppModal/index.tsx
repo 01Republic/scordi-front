@@ -3,8 +3,8 @@ import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SearchAppModalInput} from './SearchAppModalInput';
 import {SearchResultSection} from './SearchResultSection';
 import {SelectedProductSection} from './SelectedProductSection';
-import {FaTimes} from 'react-icons/fa';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
+import {X} from 'lucide-react';
 
 interface SearchAppModalProps extends ModalProps {}
 
@@ -22,7 +22,7 @@ export const SearchAppModal = memo((props: SearchAppModalProps) => {
                             onClick={onClose}
                             className="sm:hidden btn btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all absolute top-0 right-0 z-[1]"
                         >
-                            <FaTimes size={20} />
+                            <X size={20} />
                             {/*닫기*/}
                         </button>
                     </SearchAppModalInput>

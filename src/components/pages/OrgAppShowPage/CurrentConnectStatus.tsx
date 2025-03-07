@@ -1,5 +1,4 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-icons';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ConnectStatus} from 'src/models/Subscription/types';
 import {navTabIndex} from './OrgAppShowPage.desktop';
@@ -8,6 +7,7 @@ import {toast} from 'react-toastify';
 import {useCurrentUser} from '^models/User/hook';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^models/SubscriptionSyncHistory/hook';
 import {syncHistory} from '^models/SubscriptionSyncHistory/api';
+import {ChevronDown, RotateCw, Trash} from 'lucide-react';
 
 export const CurrentConnectStatus = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -56,12 +56,12 @@ export const CurrentConnectStatus = memo(() => {
                 <div className="dropdown dropdown-end dropdown-hover">
                     <label tabIndex={0} className="btn btn-green-500 btn-outline shadow gap-2">
                         <span className="normal-case">Connected</span>
-                        <BsFillCaretDownFill size={11} className="-mr-1" />
+                        <ChevronDown size={11} className="-mr-1" />
                     </label>
                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
                             <a onClick={goSync}>
-                                <AiOutlineSync /> Sync again
+                                <RotateCw /> Sync again
                             </a>
                         </li>
                         <li className="menu-title pt-3">
@@ -69,7 +69,7 @@ export const CurrentConnectStatus = memo(() => {
                         </li>
                         <li>
                             <a className="text-red-600 hover:bg-red-600 hover:text-white">
-                                <BsTrash /> Remove
+                                <Trash /> Remove
                             </a>
                         </li>
                     </ul>

@@ -1,14 +1,12 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {IoMdCalendar} from 'react-icons/io';
-import {FaRegCreditCard} from 'react-icons/fa6';
-import {BsCash, BsFolderFill} from 'react-icons/bs';
 import {roundNumber} from '^utils/number';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {StatusCard} from './StatusCard';
 import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
 import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';
 import {SubscriptionBusinessInfoSection} from './SubscriptionBusinessInfoSection';
+import {Banknote, Calendar, CreditCard, Folder} from 'lucide-react';
 
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
@@ -29,7 +27,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 <StatusCard
                     title={'구독상태'}
                     titleValue={subscription?.isFreeTier ? '무료' : '유료'}
-                    icon={<BsFolderFill size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<Folder size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-purple-400'}
                 />
                 <StatusCard
@@ -37,19 +35,19 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                     titleValue={`${subscription?.currentBillingAmount?.symbol} ${roundNumber(
                         subscription.nextBillingAmount,
                     ).toLocaleString()}`}
-                    icon={<BsCash size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<Banknote size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-orange-400'}
                 />
                 <StatusCard
                     title={'다음 결제 예정일'}
                     titleValue={subscription?.nextBillingDate || '-'}
-                    icon={<IoMdCalendar size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<Calendar size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-pink-400'}
                 />
                 <StatusCard
                     title={'결제수단'}
                     titleValue={paymentMethodText}
-                    icon={<FaRegCreditCard size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<CreditCard size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-blue-400'}
                 />
             </div>

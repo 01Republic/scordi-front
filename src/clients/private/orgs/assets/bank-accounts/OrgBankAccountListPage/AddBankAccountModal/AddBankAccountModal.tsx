@@ -1,11 +1,11 @@
 import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
 import {BankCreateMethod, BankCreateMethodModal} from './BankCreateMethodModal';
+import {Plus} from 'lucide-react';
 
 interface AddBankAccountModalProps {
     reload: () => any;
@@ -25,7 +25,7 @@ export const AddBankAccountModal = memo((props: AddBankAccountModalProps) => {
                 className="btn btn-scordi gap-2 mb-1 no-animation btn-animation"
                 onClick={() => setIsBankCreateMethodModalOpen(true)}
             >
-                <FaPlus />
+                <Plus />
                 <span className="mr-1.5">계좌 추가</span>
             </button>
 

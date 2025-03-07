@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {atom, useRecoilState} from 'recoil';
+import {X} from 'lucide-react';
 
 type AttachmentFile = {
     fileName: string;
@@ -39,7 +40,7 @@ export const AttachmentModal = memo(() => {
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="font-bold text-lg">{attachment.fileName}</h3>
                             {/*<button onClick={close} className="btn btn-link p-0 text-gray-500 hover:text-gray-900">*/}
-                            {/*    <IoClose size={26} />*/}
+                            {/*    <X size={26} />*/}
                             {/*</button>*/}
                         </div>
                         <iframe

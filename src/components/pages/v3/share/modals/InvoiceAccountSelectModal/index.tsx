@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {BottomUpModal} from '^v3/share/modals/_layouts/BottomUpModal';
 import {useInvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
 import {Avatar} from '^components/Avatar';
-import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
+import {CheckCircle} from 'lucide-react';
 
 interface InvoiceAccountSelectModalProps {
     onSubmit?: (selectedId: number) => Promise<any> | any;
@@ -73,13 +73,13 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
                                         <div className="flex items-center">
                                             <button className="relative">
                                                 {selectedId === invoiceAccount.id ? (
-                                                    <BsCheckCircleFill
+                                                    <CheckCircle
                                                         size={24}
                                                         strokeWidth={0.3}
                                                         className="text-indigo-500"
                                                     />
                                                 ) : (
-                                                    <BsCheckCircle
+                                                    <CheckCircle
                                                         size={24}
                                                         strokeWidth={0.3}
                                                         className="text-indigo-200 group-hover:text-indigo-300"

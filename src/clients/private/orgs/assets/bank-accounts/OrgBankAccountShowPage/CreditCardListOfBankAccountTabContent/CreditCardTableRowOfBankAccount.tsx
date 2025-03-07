@@ -9,9 +9,9 @@ import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {errorToast} from '^api/api';
 import Tippy from '@tippyjs/react';
-import {BsDashCircle} from '@react-icons/all-files/bs/BsDashCircle';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {MinusCircle} from 'lucide-react';
 
 interface CreditCardTableRowOfBankAccountProps {
     creditCard: CreditCardDto;
@@ -133,7 +133,7 @@ export const CreditCardTableRowOfBankAccount = memo((props: CreditCardTableRowOf
                                 disconnect();
                             }}
                         >
-                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                            <MinusCircle className="" size={24} strokeWidth={0.3} />
                         </button>
                     </Tippy>
                 </div>

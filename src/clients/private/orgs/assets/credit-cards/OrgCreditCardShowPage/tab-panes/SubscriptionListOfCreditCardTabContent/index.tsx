@@ -1,6 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {MdRefresh} from 'react-icons/md';
-import {FaPlus} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react';
 import {LinkTo} from '^components/util/LinkTo';
 import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
@@ -10,6 +8,7 @@ import {useCurrentCodefCard, useCurrentCreditCard} from '../../atom';
 import {CreditCardSubscriptionTableHeader} from './CreditCardSubscriptionTableHeader';
 import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
 import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
+import {Plus, RotateCw} from 'lucide-react';
 
 export const SubscriptionListOfCreditCardTabContent = memo(() => {
     const {currentCreditCard} = useCurrentCreditCard();
@@ -33,7 +32,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
             className="btn btn-scordi gap-2 no-animation btn-animation"
             loadingOnBtn
         >
-            <FaPlus />
+            <Plus />
             <span>구독 연결</span>
         </LinkTo>
     );
@@ -66,7 +65,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                                 className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`}
                                 onClick={() => reload()}
                             >
-                                <MdRefresh fontSize={14} />
+                                <RotateCw fontSize={14} />
                             </button>
                         </Tippy>
                     </div>
@@ -77,7 +76,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                                 className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
                                 onClick={() => setAddSubscriptionModalOpened(true)}
                             >
-                                <FaPlus />
+                                <Plus />
                                 <span>구독 연결하기</span>
                             </button>
                         )}
