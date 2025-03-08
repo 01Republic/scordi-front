@@ -29,7 +29,6 @@ export const makeYearlyExcelDownloader = (
                     평균지출액: averageCost,
                 };
 
-                // Append year columns to row
                 history.items.forEach((item) => {
                     const amount =
                         currencyMode === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
@@ -37,6 +36,14 @@ export const makeYearlyExcelDownloader = (
                             : item.amount;
 
                     row[`${item.issuedYear}년`] = amount.toLocaleString();
+                });
+
+                // 지출액이 0인 연도 표시
+                const allYears = new Set(histories.flatMap((h) => h.items.map((i) => i.issuedYear)));
+                allYears.forEach((year) => {
+                    if (!row.hasOwnProperty(`${year}년`)) {
+                        row[`${year}년`] = '0';
+                    }
                 });
 
                 return row;
