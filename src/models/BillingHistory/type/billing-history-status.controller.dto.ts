@@ -43,13 +43,18 @@ abstract class BillingHistoriesSumBySubscriptionDto {
     abstract items: BillingHistoriesSumItemDto[];
 
     getCostSum(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
-        return this.items.reduce((sum, item) => {
+        const total = this.items.reduce((sum, item) => {
             if (displayCurrency === CurrencyCode.KRW && item.code !== CurrencyCode.KRW) {
                 return sum + item.amount * exchangeRate;
             } else {
                 return sum + item.amount;
             }
         }, 0);
+
+        if (this.subscription.currentBillingAmount?.code === CurrencyCode.KRW) {
+            return Math.round(total);
+        }
+        return total;
     }
 
     getCostSumToKRW(exchangeRate: number) {
@@ -64,6 +69,9 @@ abstract class BillingHistoriesSumBySubscriptionDto {
 
     getAverageCost(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
         const total = this.getCostSum(exchangeRate, displayCurrency);
+        if (this.subscription.currentBillingAmount?.code === CurrencyCode.KRW) {
+            return Math.round(total / this.items.length);
+        }
         return total / this.items.length;
     }
 

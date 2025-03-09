@@ -30,10 +30,13 @@ export const makeYearlyExcelDownloader = (
                 };
 
                 history.items.forEach((item) => {
-                    const amount =
-                        currencyMode === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
-                            ? item.amount * exchangeRate
-                            : item.amount;
+                    const amount = item
+                        ? currencyMode === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
+                            ? Math.round(item.amount * exchangeRate)
+                            : item.code === CurrencyCode.KRW
+                            ? Math.round(item.amount)
+                            : item.amount
+                        : 0;
 
                     row[`${item.issuedYear}년`] = amount.toLocaleString();
                 });

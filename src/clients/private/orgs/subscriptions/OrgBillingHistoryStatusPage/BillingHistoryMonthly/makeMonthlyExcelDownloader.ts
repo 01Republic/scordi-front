@@ -49,7 +49,9 @@ export const makeMonthlyExcelDownloader = (
                     const item = history.items.find((item) => item.issuedYearMonth.split('-')[1] === monthStr);
                     const amount = item
                         ? currencyMode === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
-                            ? item.amount * exchangeRate
+                            ? Math.round(item.amount * exchangeRate)
+                            : item.code === CurrencyCode.KRW
+                            ? Math.round(item.amount)
                             : item.amount
                         : 0;
 
