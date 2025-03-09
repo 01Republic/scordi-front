@@ -17,6 +17,7 @@ import {SubscriptionCreditCard} from './SubscriptionCreditCard';
 import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
 import {SubscriptionStartAt} from './SubscriptionStartAt';
 import {SubscriptionFinishAt} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionFinishAt';
+import {SubscriptionBankAccount} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionBankAccount';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -95,6 +96,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                     currentAssignedSeatCount={currentAssignedSeatCount}
                 />
                 <SubscriptionCreditCard isEditMode={isEditMode} form={form} />
+                <SubscriptionBankAccount isEditMode={isEditMode} form={form} />
                 <SubscriptionInvoiceAccount isEditMode={isEditMode} form={form} />
             </CardSection.Form>
         </CardSection.Base>

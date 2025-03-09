@@ -25,6 +25,7 @@ export const useCurrentSubscription = () => {
                     'invoiceAccounts.googleTokenData',
                     'billingHistories',
                     'subscriptionSeats',
+                    'bankAccount',
                 ],
             })
             .then((res) => {
