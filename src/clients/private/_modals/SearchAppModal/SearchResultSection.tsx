@@ -4,9 +4,8 @@ import {LoadableBox} from '^components/util/loading';
 import {SearchResultItem} from './SearchResultItem';
 import {atom, useRecoilValue} from 'recoil';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
-import {FaConciergeBell} from 'react-icons/fa';
 import {LinkTo} from '^components/util/LinkTo';
-import {IoIosHelpCircle} from 'react-icons/io';
+import {Bell, HelpCircle} from 'lucide-react';
 
 export const searchResultModeAtom = atom<'search' | 'popular'>({
     key: 'searchResultModeAtom',
@@ -45,7 +44,7 @@ export const SearchResultSection = memo(() => {
 
                         <div className="flex items-center justify-between gap-2 p-4 my-2 bg-slate-100 rounded-btn">
                             <div className="flex items-center gap-2 text-scordi-400">
-                                <IoIosHelpCircle fontSize={22} />
+                                <HelpCircle fontSize={22} />
                                 <p className="text-14">찾으시는 앱이 없나요?</p>
                             </div>
 
@@ -55,7 +54,7 @@ export const SearchResultSection = memo(() => {
                                 displayLoading={false}
                                 target="_blank"
                             >
-                                <FaConciergeBell />
+                                <Bell />
                                 <span>미등록 서비스 제보하기</span>
                             </LinkTo>
                         </div>

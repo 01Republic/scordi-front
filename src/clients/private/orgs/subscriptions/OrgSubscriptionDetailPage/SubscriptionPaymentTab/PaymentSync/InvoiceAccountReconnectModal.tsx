@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {BsStars} from 'react-icons/bs';
 import {atom, useRecoilState} from 'recoil';
 import Swal from 'sweetalert2';
 import {swalHTML} from '^components/util/dialog';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {Sparkles} from 'lucide-react';
 
 interface InvoiceAccountReconnectModalProps {
     invoiceAccount: InvoiceAccountDto;
@@ -65,7 +65,7 @@ export const InvoiceAccountReconnectModal = memo((props: InvoiceAccountReconnect
                         Swal.close();
                     }}
                 >
-                    <BsStars />
+                    <Sparkles />
                     <span>계정 확인하기</span>
                 </button>
             </div>

@@ -2,7 +2,7 @@ import React, {memo, useCallback, useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {useProductsV2} from '^models/Product/hook';
 import {selectedCategoriesState} from './FilterCategorySelect';
-import {AiOutlineCloseCircle} from '^components/react-icons';
+import {XCircle} from 'lucide-react';
 
 export const SelectedCategoryTags = memo(() => {
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
@@ -33,7 +33,7 @@ export const SelectedCategoryTags = memo(() => {
                     onClick={() => removeTag(tag.id)}
                 >
                     <span>{tag.name}</span>
-                    <AiOutlineCloseCircle />
+                    <XCircle />
                 </button>
             ))}
         </div>

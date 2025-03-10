@@ -1,9 +1,9 @@
 import {memo} from 'react';
-import {PiCaretDownBold} from 'react-icons/pi';
 import {ProductListSidePanelItem} from './ProductListSidePanelItem';
 import {ProductsOnTagPageRoute} from '^pages/products/tags/[tagName]';
 import {useProductCategoryFeature} from '^clients/public/products/ProductListPage/useProductCategoryFeature';
 import {ProductListPageRoute} from '^pages/products';
+import {ChevronDown} from 'lucide-react';
 
 export const ProductListSidePanel = memo(() => {
     const {categoryTextList, currentCategory, setCurrentCategoryName, toParam} = useProductCategoryFeature();
@@ -28,7 +28,7 @@ export const ProductListSidePanel = memo(() => {
                     </span>
 
                     <span>
-                        <PiCaretDownBold />
+                        <ChevronDown />
                     </span>
                 </label>
                 <ul

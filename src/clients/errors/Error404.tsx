@@ -1,10 +1,10 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {MdError} from 'react-icons/md';
 import {currentUserAtom} from '^models/User/atom';
 import {MainPageRoute} from '^pages/index';
 import {ErrorLayout} from './ErrorLayout';
+import {AlertCircle} from 'lucide-react';
 
 export const Error404Page = memo(() => {
     const router = useRouter();
@@ -20,7 +20,7 @@ export const Error404Page = memo(() => {
                 <div className="flex flex-col items-center">
                     <p className="flex items-center justify-center text-[160px] font-extrabold">
                         <span>4</span>
-                        <MdError className="text-red-500 btn-animation hover:rotate-[360deg]" />
+                        <AlertCircle className="text-red-500 btn-animation hover:rotate-[360deg]" />
                         <span>4</span>
                     </p>
                     <p className="text-3xl mt-8 font-semibold">요청하신 페이지를 찾을 수 없어요 :( </p>

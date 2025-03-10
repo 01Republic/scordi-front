@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
-import {FaSearch} from 'react-icons/fa';
 import {useProductSearchResult} from '^models/Product/hook';
 import {useSetRecoilState} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {debounce} from 'lodash';
 import {searchResultModeAtom} from './SearchResultSection';
 import {WithChildren} from '^types/global.type';
+import {Search} from 'lucide-react';
 
 export const SearchAppModalInput = memo(function SearchAppModalInput(props: WithChildren) {
     const {children} = props;
@@ -36,7 +36,7 @@ export const SearchAppModalInput = memo(function SearchAppModalInput(props: With
     return (
         <div className="sticky top-0 w-full bg-white z-[1]">
             <div className="absolute top-0 bottom-0 w-[50px] flex items-center justify-center">
-                <FaSearch size={16} className="text-gray-500 opacity-50" />
+                <Search size={16} className="text-gray-500 opacity-50" />
             </div>
 
             <input

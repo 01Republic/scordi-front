@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {FaSearch} from 'react-icons/fa';
+import {Search} from 'lucide-react';
 
 interface SearchVendorManagerInputProps {
     onSearch: (keyword?: string) => any;
@@ -12,7 +12,7 @@ export const SearchVendorManagerInput = memo(function SearchVendorManagerInput(p
         <div>
             <label className="relative">
                 <div className="absolute bottom-0 left-0 w-6 h-[48px] z-[1] flex items-center justify-center">
-                    <FaSearch className="text-gray-300" />
+                    <Search className="text-gray-300" />
                 </div>
                 <input
                     className="input input-underline w-full pl-8"

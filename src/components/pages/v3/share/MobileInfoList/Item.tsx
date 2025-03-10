@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
-import {FiChevronRight} from '^components/react-icons';
+import {ChevronRight} from 'lucide-react';
 
 interface MobileInfoListItemProps extends WithChildren {
     label: ReactNodeElement;
@@ -24,7 +24,7 @@ export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
                 {onClick ? (
                     <div className="flex items-center justify-end gap-2 cursor-pointer text-gray-500 hover:text-gray-700 transition-all">
                         <div>{children || value}</div>
-                        <FiChevronRight />
+                        <ChevronRight />
                     </div>
                 ) : (
                     children || value

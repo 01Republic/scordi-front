@@ -1,9 +1,7 @@
-import {IoIosMore} from 'react-icons/io';
-import {FaRegEdit, FaRegTrashAlt} from 'react-icons/fa';
-import {FcCheckmark} from 'react-icons/fc';
 import {WithChildren} from '^types/global.type';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from './ListItem';
+import {Check, Edit, MoreHorizontal, Trash2} from 'lucide-react';
 
 interface MoreDropdownProps<T> extends WithChildren {
     isCurrent: boolean;
@@ -26,17 +24,17 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                     {/* 자리 마킹용 플레이스홀더 */}
                     {/*<div className="invisible flex">*/}
                     {/*    <button className="btn btn-xs btn-square">*/}
-                    {/*        <IoIosMore size={16} />*/}
+                    {/*        <MoreHorizontal size={16} />*/}
                     {/*    </button>*/}
                     {/*</div>*/}
 
                     {/* isCurrent: 드롭다운이 열려있다면 비활성화하고, 닫혀있다면 hover 되지 않을 때 활성화 합니다. */}
-                    <div className={visible ? 'hidden' : `group-hover:hidden`}>{isCurrent && <FcCheckmark />}</div>
+                    <div className={visible ? 'hidden' : `group-hover:hidden`}>{isCurrent && <Check />}</div>
 
                     {/* hover 되었을 때 활성화하고, 드롭다운이 열려있다면 활성화된 상태로 고정합니다. */}
                     <div className={`flex ${visible ? '' : 'invisible group-hover:visible'}`}>
                         <button className="btn btn-xs btn-square !border-none hover:bg-gray-200">
-                            <IoIosMore size={16} />
+                            <MoreHorizontal size={16} />
                         </button>
                     </div>
                 </div>
@@ -49,7 +47,7 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                 {updateRequest && (
                     <MoreDropdownListItem onClick={() => updateRequest(option)}>
                         <div className="flex items-center gap-3 w-full">
-                            <FaRegEdit />
+                            <Edit />
                             <p>수정</p>
                         </div>
                     </MoreDropdownListItem>
@@ -64,7 +62,7 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                         }}
                     >
                         <div className="flex items-center gap-3 w-full">
-                            <FaRegTrashAlt />
+                            <Trash2 />
                             <p>삭제</p>
                         </div>
                     </MoreDropdownListItem>

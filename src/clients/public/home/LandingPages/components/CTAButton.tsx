@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {BsArrowRight} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {BetaUserApplyModalShowAtom} from './BetaUserApplyModal';
 import {useTranslation} from 'next-i18next';
+import {ArrowRight} from 'lucide-react';
 
 interface BetaUserApplyCTAButtonProps {
     text?: string;
@@ -33,7 +33,7 @@ export const BetaUserApplyCTAButton = memo((props: BetaUserApplyCTAButtonProps) 
             onClick={() => setIsModalOpen(true)}
         >
             <span>{text || t('cta.default')}</span>
-            {useArrow && <BsArrowRight size={20} className="ml-2" />}
+            {useArrow && <ArrowRight size={20} className="ml-2" />}
         </label>
     );
 });
@@ -50,7 +50,7 @@ export const BetaUserApplyCTAButtonMobile = memo((props: BetaUserApplyCTAButtonP
             onClick={() => setIsModalOpen(true)}
         >
             <span>사전알림 신청하기</span>
-            <BsArrowRight size={20} className="ml-2" />
+            <ArrowRight size={20} className="ml-2" />
         </label>
     );
 });

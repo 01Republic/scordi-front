@@ -1,11 +1,11 @@
 import React, {memo, useState} from 'react';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CardCompanyItem} from '^models/CodefAccount/components';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {ReactNodeElement} from '^types/global.type';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {ChevronLeft} from 'lucide-react';
 
 interface CardCompanySelectModalProps extends ModalProps {
     title?: ReactNodeElement;
@@ -31,7 +31,7 @@ export const CardCompanySelectModal = memo((props: CardCompanySelectModalProps) 
             <div>
                 <div>
                     <div className="mb-4">
-                        <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                        <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                     </div>
                     <p className="font-medium text-12 text-scordi mb-1">카드사 설정하기</p>
                     <h3 className="font-bold text-xl leading-tight mb-2">

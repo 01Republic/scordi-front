@@ -1,28 +1,24 @@
 import React, {memo, useRef} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {FaCheck, FaRegCircleXmark} from 'react-icons/fa6';
 import {CardTableTR} from '^admin/share';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 import {LinkTo} from '^components/util/LinkTo';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaRegFolderOpen} from 'react-icons/fa';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {LoadableBox} from '^components/util/loading';
-import {MdOutlineClear} from 'react-icons/md';
 import Tippy from '@tippyjs/react';
-import {IoMdMore} from 'react-icons/io';
 import {creditCardApi} from '^models/CreditCard/api';
 import {toast} from 'react-hot-toast';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
-import {IoRefresh} from '@react-icons/all-files/io5/IoRefresh';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {codefCardApi} from '^models/CodefCard/api';
 import {errorToast} from '^api/api';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardRowActionColumn} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithCardTabContent/CodefCardListContent/ActionColumn';
+import {Check, FolderOpen, MoreHorizontal, RotateCw, X, XCircle} from 'lucide-react';
 
 interface CodefCardItemProps {
     codefCard: CodefCardDto;
@@ -93,7 +89,7 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                     <div className="hidden group-hover:flex">
                         <LinkTo href="#" displayLoading={false}>
                             <TagUI className="bg-white btn-animation no-selectable gap-1 hover:bg-gray-200 shadow-lg border !border-gray-300">
-                                <FaRegFolderOpen size={10} />
+                                <FolderOpen size={10} />
                                 <span className="text-10">열기</span>
                             </TagUI>
                         </LinkTo>
@@ -108,14 +104,14 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                     {isSleep && (
                         <Tippy content="휴면처리된 카드">
                             <div>
-                                <MdOutlineClear fontSize={16} className="text-red-500" />
+                                <X fontSize={16} className="text-red-500" />
                             </div>
                         </Tippy>
                     )}
                     {isConnected && (
                         <Tippy content={`카드 아이디: ${codefCard.creditCardId}`}>
                             <div>
-                                <FaCheck className="text-scordi" />
+                                <Check className="text-scordi" />
                             </div>
                         </Tippy>
                     )}

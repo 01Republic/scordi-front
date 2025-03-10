@@ -3,13 +3,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {Paginator} from '^components/Paginator';
 import {useBillingHistoryList} from '^models/BillingHistory/hook';
 import {BillingHistoryItem} from './BillingHistoryItem';
-import {
-    AiOutlineSync,
-    BsFillCaretDownFill,
-    BsFillPencilFill,
-    BsLightningChargeFill,
-    FiUpload,
-} from '^components/react-icons';
+import {ChevronDown, Pencil, RotateCw, Upload, Zap} from 'lucide-react';
 
 interface BillingHistoryTableProps {
     subscription: SubscriptionDto;
@@ -40,7 +34,7 @@ export const BillingHistoryTable = memo((props: BillingHistoryTableProps) => {
                             className="btn btn-sm btn-success border border-success text-white shadow gap-2"
                         >
                             <span className="normal-case">Update</span>
-                            <BsFillCaretDownFill size={11} className="-mr-1" />
+                            <ChevronDown size={11} className="-mr-1" />
                         </label>
                         <ul
                             tabIndex={0}
@@ -48,19 +42,19 @@ export const BillingHistoryTable = memo((props: BillingHistoryTableProps) => {
                         >
                             <li>
                                 <a className="bg-pink-100 hover:bg-pink-200">
-                                    <BsLightningChargeFill />
+                                    <Zap />
                                     Sync again
                                 </a>
                             </li>
                             <li>
                                 <a>
-                                    <FiUpload />
+                                    <Upload />
                                     Add by invoice file
                                 </a>
                             </li>
                             <li>
                                 <a>
-                                    <BsFillPencilFill />
+                                    <Pencil />
                                     Add in manual
                                 </a>
                             </li>

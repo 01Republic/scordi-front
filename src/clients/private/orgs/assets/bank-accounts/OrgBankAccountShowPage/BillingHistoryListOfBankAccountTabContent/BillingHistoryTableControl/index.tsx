@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {MdRefresh} from 'react-icons/md';
 import {useCurrentCreditCardSync} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
+import {RotateCw} from 'lucide-react';
 
 export const BillingHistoryTableControl = memo(() => {
     return (
@@ -26,7 +26,7 @@ export const SyncRecentBillingHistoryButton = memo(() => {
 
     return (
         <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`} onClick={onClick}>
-            <MdRefresh fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
+            <RotateCw fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
             <span>최신내역 불러오기</span>
         </button>
     );

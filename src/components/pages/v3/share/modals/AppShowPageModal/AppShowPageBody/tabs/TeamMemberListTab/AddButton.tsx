@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {BsPlusCircle} from 'react-icons/bs';
 import {useAppShowModal} from '^v3/share/modals/AppShowPageModal';
 import {teamMemberApi} from '^models/TeamMember';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useTeamMemberSelectModal} from '^v3/share/modals/AppShowPageModal/TeamMemberSelectModal/hook';
+import {PlusCircle} from 'lucide-react';
 
 export const AddButton = memo(function AddButton() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -40,7 +40,7 @@ export const AddButton = memo(function AddButton() {
     return (
         <div className="tooltip tooltip-top tooltip-primary" data-tip="추가">
             <button onClick={onClick} className="relative text-indigo-400 hover:text-indigo-600 transition-all">
-                <BsPlusCircle className="" size={24} strokeWidth={0.3} />
+                <PlusCircle className="" size={24} strokeWidth={0.3} />
             </button>
         </div>
     );

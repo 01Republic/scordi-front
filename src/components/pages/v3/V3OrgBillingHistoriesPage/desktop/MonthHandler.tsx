@@ -1,12 +1,12 @@
 import React, {memo, useEffect} from 'react';
 import {lastDayOfMonth, yyyy_mm} from '^utils/dateTime';
-import {GrFormNext, GrFormPrevious} from 'react-icons/gr';
 import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {asEndDate, asStartDate} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthHandler';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {useBillingSchedulesV3} from '^models/BillingSchedule/hook';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 export const MonthHandler = memo(() => {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -39,10 +39,10 @@ export const MonthHandler = memo(() => {
             <h1>{yyyy_mm(focusedMonth || new Date())}</h1>
             <div className="flex gap-1">
                 <button className="btn btn-square btn-sm" onClick={() => prevMonth()}>
-                    <GrFormPrevious size={20} />
+                    <ChevronLeft size={20} />
                 </button>
                 <button className="btn btn-square btn-sm" onClick={() => nextMonth()}>
-                    <GrFormNext size={20} />
+                    <ChevronRight size={20} />
                 </button>
             </div>
         </div>

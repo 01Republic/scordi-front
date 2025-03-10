@@ -1,5 +1,4 @@
 import {memo, useEffect, useState} from 'react';
-import {IoCloseOutline} from 'react-icons/io5';
 import {WithChildren} from '^types/global.type';
 import {LinkTo} from '^components/util/LinkTo';
 import {LineBannerTheme, TopLineBannerDto} from '../type';
@@ -7,6 +6,7 @@ import {useCurrentOrg} from '^models/Organization/hook';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
+import {X} from 'lucide-react';
 
 interface TopLineBannerContentProps extends WithChildren {
     topLineBanner: TopLineBannerDto;
@@ -55,7 +55,7 @@ export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
                 {timeout || !closeButton ? (
                     ''
                 ) : (
-                    <IoCloseOutline
+                    <X
                         size={14}
                         className="absolute right-10 top-1/2 transform -translate-y-1/2 text-[#353535] cursor-pointer"
                         onClick={() => setIsOpen(false)}

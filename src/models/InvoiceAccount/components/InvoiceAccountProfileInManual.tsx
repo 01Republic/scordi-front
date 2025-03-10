@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
-import {FaCircleExclamation} from 'react-icons/fa6';
+import {AlertCircle} from 'lucide-react';
 
 interface InvoiceAccountProfileInManualProps {
     invoiceAccount: InvoiceAccountDto;

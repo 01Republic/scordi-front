@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {useOrgIdParam} from '^atoms/common';
-import {BsBuildingFill, BsCreditCard, BsPeopleFill} from 'react-icons/bs';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
@@ -10,6 +9,7 @@ import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Brea
 import {OrgSettingsContent} from './OrgSettingsContent';
 import {OrgSettingsLeftListBox} from './OrgSettingsLeftListBox';
 import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
+import {Building, CreditCard, Users} from 'lucide-react';
 
 interface OrgSettingsLayoutProps extends WithChildren {
     breadcrumbPath: BreadcrumbPath;
@@ -28,17 +28,17 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                     <div className={'col-span-1 flex flex-col gap-4'}>
                         <OrgSettingsLeftListBox title="일반">
                             <OrgSettingLeftListItem
-                                Icon={BsBuildingFill}
+                                Icon={Building}
                                 name={'워크스페이스 정보'}
                                 href={OrgSettingsInformationPageRoute.path(orgId)}
                             />
                             <OrgSettingLeftListItem
-                                Icon={BsCreditCard}
+                                Icon={CreditCard}
                                 name={'구독 및 결제'}
                                 href={OrgSettingsPaymentPageRoute.path(orgId)}
                             />
                             <OrgSettingLeftListItem
-                                Icon={BsPeopleFill}
+                                Icon={Users}
                                 name={'멤버 관리'}
                                 href={OrgSettingsMemberPageRoute.path(orgId)}
                             />

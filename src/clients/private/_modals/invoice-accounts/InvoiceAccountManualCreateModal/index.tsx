@@ -6,11 +6,11 @@ import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {CreateInvoiceAccountDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useInvoiceAccountsSearch} from '^models/InvoiceAccount/hook';
 import {LoadableBox} from '^components/util/loading';
-import {HiCursorClick} from '^components/react-icons';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {InvoiceAccountManualCreateModalHeader} from './InvoiceAccountManualCreateModalHeader';
 import {InvoiceAccountManualCreateSubmitButton} from './InvoiceAccountManualCreateSubmitButton';
 import {SelectableInvoiceAccount} from '../InvoiceAccountSelectModal/SelectableInvoiceAccount';
+import {MousePointerClick} from 'lucide-react';
 
 interface InvoiceAccountManualCreateModalProps {
     isOpened: boolean;
@@ -104,7 +104,7 @@ export const InvoiceAccountManualCreateModal = memo((props: InvoiceAccountManual
                     <div>
                         {!!result.items.length && (
                             <p className="text-12 text-gray-500 mb-1 flex items-center gap-1">
-                                <span>찾으시는 계정이 있다면 선택해주세요</span> <HiCursorClick />
+                                <span>찾으시는 계정이 있다면 선택해주세요</span> <MousePointerClick />
                             </p>
                         )}
                         <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>

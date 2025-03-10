@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
-import {FaCaretDown, FaCheck} from 'react-icons/fa6';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FaTimes} from 'react-icons/fa';
 import {ModalLayoutProps} from '^components/modals/_shared/Modal.types';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
 import {MonoSelectInput} from './MonoSelectInput';
+import {Check, ChevronDown, X} from 'lucide-react';
 
 interface MonoSelectProps<Option, Value> {
     id?: string;
@@ -127,7 +126,7 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
                                             )}
                                         </div>
 
-                                        <div>{isSelected && <FaCheck className="text-scordi" />}</div>
+                                        <div>{isSelected && <Check className="text-scordi" />}</div>
                                     </div>
                                 );
                             })}

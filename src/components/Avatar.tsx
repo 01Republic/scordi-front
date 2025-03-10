@@ -1,6 +1,6 @@
 import {FC, ImgHTMLAttributes, memo} from 'react';
-import {BiCreditCard} from 'react-icons/bi';
 import {WithChildren} from '^types/global.type';
+import {CreditCard} from 'lucide-react';
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {}
 
@@ -64,7 +64,7 @@ export const AvatarCard = memo((props: AvatarCardProps) => {
         <img className={`avatar ${className}`} src={src} {...props} />
     ) : (
         <span className={`avatar-default ${className} p-0.5`}>
-            <BiCreditCard className="h-full w-full text-gray-300" />
+            <CreditCard className="h-full w-full text-gray-300" />
         </span>
     );
 });

@@ -1,87 +1,87 @@
 .ContentLayout--ContentTable {
-  .table {
-    :where(th, td) {
-      @apply text-sm pl-0 pr-4;
+    .table {
+        :where(th, td) {
+            @apply text-sm pl-0 pr-4;
 
-      &:last-child {
-        @apply pr-0;
-      }
-    }
+            &:last-child {
+                @apply pr-0;
+            }
+        }
 
-    :where(thead, tfoot) {
-      :where(th, td) {
-        @apply text-xs font-normal capitalize bg-white text-gray-500;
-      }
-    }
+        :where(thead, tfoot) {
+            :where(th, td) {
+                @apply text-xs font-normal capitalize bg-white text-gray-500;
+            }
+        }
 
-    th:first-child {
-      z-index: auto;
-    }
+        th:first-child {
+            z-index: auto;
+        }
 
-    tbody {
-      border-top: none;
+        tbody {
+            border-top: none;
+        }
     }
-  }
 }
 
 .ContentLayout--NavTabs {
-  position: relative;
-  .tab-bordered {
-    z-index: 1;
-    border-bottom-color: transparent;
-    height: 2.5rem;
-    --tab-padding: 1.25rem;
-    @apply text-gray-500;
-    //padding-left: var(--tab-padding, 1.25rem);
-    //padding-right: var(--tab-padding, 1.25rem);
-    &.tab-active {
-      //border-color: hsl(var(--bc) / var(--tw-border-opacity));
-      border-color: hsl(var(--p) / var(--tw-border-opacity));
-      @apply text-primary
+    position: relative;
+    .tab-bordered {
+        z-index: 1;
+        border-bottom-color: transparent;
+        height: 2.5rem;
+        --tab-padding: 1.25rem;
+        @apply text-gray-500;
+        //padding-left: var(--tab-padding, 1.25rem);
+        //padding-right: var(--tab-padding, 1.25rem);
+        &.tab-active {
+            //border-color: hsl(var(--bc) / var(--tw-border-opacity));
+            border-color: hsl(var(--p) / var(--tw-border-opacity));
+            @apply text-primary;
+        }
     }
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    height: calc(var(--tab-border, 1px) + 1px);
-    background: hsl(var(--bc) / var(--tw-border-opacity));
-    right: 0;
-    z-index: 0;
-    --tw-border-opacity: 0.15;
-  }
+    &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        height: calc(var(--tab-border, 1px) + 1px);
+        background: hsl(var(--bc) / var(--tw-border-opacity));
+        right: 0;
+        z-index: 0;
+        --tw-border-opacity: 0.15;
+    }
 }
 
 .ContentLayout--ContentButton,
 .btn2 {
-  @apply btn btn-outline capitalize font-medium shadow;
-  @apply text-gray-500 border-gray-300 bg-white;
-  @apply hover:text-gray-800 hover:border-gray-500 hover:bg-white;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+    @apply btn btn-outline capitalize font-medium shadow;
+    @apply text-gray-500 border-gray-300 bg-white;
+    @apply hover:text-gray-800 hover:border-gray-500 hover:bg-white;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
 
-  &.btn-sm {
-    height: 2rem;
-    min-height: 2rem;
-    @apply text-xs shadow;
-  }
-  &.btn-xs {
-    height: 1.5rem;
-    min-height: 1.5rem;
-    @apply text-xs shadow;
-  }
-
-  $colors: (
-    ('primary', 'primary-content', 'primary', 'primary-focus'),
-    ('secondary', 'secondary-content', 'secondary', 'secondary-focus'),
-    ('success', 'success', 'success', 'success'),
-    ('green', 'green-300', 'green-500', 'green-800'),
-    ('gray', 'gray-300', 'gray-500', 'gray-800'),
-  );
-  @each $color-abbrev, $color-week, $color-normal, $color-strong in $colors {
-    &.btn-#{$color-abbrev} {
-      @apply text-#{$color-normal} border-#{$color-week} bg-white;
-      @apply hover:text-#{$color-strong} hover:border-#{$color-normal} hover:bg-white;
+    &.btn-sm {
+        height: 2rem;
+        min-height: 2rem;
+        @apply text-xs shadow;
     }
-  }
+    &.btn-xs {
+        height: 1.5rem;
+        min-height: 1.5rem;
+        @apply text-xs shadow;
+    }
+
+    $colors: (
+        ('primary', 'primary-content', 'primary', 'primary-focus'),
+        ('secondary', 'secondary-content', 'secondary', 'secondary-focus'),
+        ('success', 'success', 'success', 'success'),
+        ('green', 'green-300', 'green-500', 'green-800'),
+        ('gray', 'gray-300', 'gray-500', 'gray-800')
+    );
+    @each $color-abbrev, $color-week, $color-normal, $color-strong in $colors {
+        &.btn-#{$color-abbrev} {
+            @apply text-#{$color-normal} border-#{$color-week} bg-white;
+            @apply hover:text-#{$color-strong} hover:border-#{$color-normal} hover:bg-white;
+        }
+    }
 }

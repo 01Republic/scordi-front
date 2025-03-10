@@ -1,13 +1,5 @@
 import {memo, useState} from 'react';
 import {useTranslation} from 'next-i18next';
-
-import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
-import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
-import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
-import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
-import {PiLinkBold} from 'react-icons/pi';
-import {BsArrowRight} from 'react-icons/bs';
-
 import {useCurrentUser} from '^models/User/hook';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {UserAvatar} from '^models/User/components/UserAvatar';
@@ -16,6 +8,7 @@ import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 import {ChannelTalk_Url} from '^config/constants';
 import {serviceHost} from '^config/environments';
+import {ArrowRight, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const {t} = useTranslation('profile');
@@ -62,7 +55,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     onClick={() => setIsProfileEditModalOpened(true)}
                                 >
-                                    <AiOutlineSetting />
+                                    <Settings />
                                     <span>{t('dropdown.setting')}</span>
                                 </a>
                             </li>
@@ -71,7 +64,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     onClick={() => window.open(ChannelTalk_Url, '_blank')}
                                 >
-                                    <AiOutlineQuestionCircle />
+                                    <HelpCircle />
                                     <span>{t('dropdown.help')}</span>
                                 </a>
                             </li>
@@ -81,7 +74,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     displayLoading={false}
                                 >
-                                    <AiOutlineHome />
+                                    <Home />
                                     <span>{t('dropdown.goHomePage')}</span>
                                 </LinkTo>
                             </li>
@@ -91,7 +84,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
                                     onClick={() => logout()}
                                 >
-                                    <BiLogOut />
+                                    <LogOut />
                                     <span>{t('dropdown.logout')}</span>
                                 </a>
                             </li>
@@ -101,9 +94,9 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                         href={AdminUsersPageRoute.path()}
                                         className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
                                     >
-                                        <PiLinkBold />
+                                        <Link />
                                         <span className="flex gap-2 items-center justify-between w-full">
-                                            스코디 어드민 <BsArrowRight />
+                                            스코디 어드민 <ArrowRight />
                                         </span>
                                     </LinkTo>
                                 </li>

@@ -2,10 +2,10 @@ import React, {memo} from 'react';
 import {InvoiceTableRow} from './InvoiceTableRow';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
-import {RiMailAddLine} from '^components/react-icons';
 import {useTranslation} from 'next-i18next';
 import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
+import {MailPlus} from 'lucide-react';
 
 export const InvoiceTable = memo(() => {
     const {result, movePage} = useBillingHistoriesV3();
@@ -22,7 +22,7 @@ export const InvoiceTable = memo(() => {
                         <div className="mb-6">
                             <div className="avatar">
                                 <div className="w-24 mask mask-squircle !flex items-center justify-center text-gray-400 bg-slate-200">
-                                    <RiMailAddLine size={50} />
+                                    <MailPlus size={50} />
                                 </div>
                             </div>
                         </div>

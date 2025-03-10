@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {CgSpinner} from 'react-icons/cg';
+import {Loader} from 'lucide-react';
 
 interface SpinnerProps {
     size?: number;
@@ -13,7 +13,7 @@ export const Spinner = memo((props: SpinnerProps) => {
     return (
         <div className={`flex items-${posY} justify-${posX} h-full`}>
             <div className="animate-spin">
-                <CgSpinner size={size} />
+                <Loader size={size} />
             </div>
         </div>
     );

@@ -1,17 +1,5 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {
-    FcAdvertising,
-    FcCalendar,
-    FcComboChart,
-    FcDatabase,
-    FcDiploma1,
-    FcDocument,
-    FcKey,
-    FcParallelTasks,
-    FcSettings,
-    FcWorkflow,
-} from 'react-icons/fc';
 import {Header} from './Header';
 import {MenuList} from './MenuList';
 import {MenuItem} from './MenuItem';
@@ -27,6 +15,18 @@ import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {LinkTo} from '^components/util/LinkTo';
+import {
+    BarChart,
+    Calendar,
+    Database,
+    File,
+    FileText,
+    GitBranch,
+    Key,
+    ListTodo,
+    Megaphone,
+    Settings,
+} from 'lucide-react';
 
 export enum LNBIndex {
     Dashboard,
@@ -66,20 +66,20 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                 <MenuItem
                     name="대시보드"
                     href={safePath((org) => V3OrgHomePageRoute.path(org.id))}
-                    Icon={() => <FcDocument size={24} />}
+                    Icon={() => <File size={24} />}
                     isActive={LNBIndex.Dashboard === activeIndex}
                 />
                 <MenuItem
                     name="인사이트"
                     href="#"
-                    Icon={() => <FcComboChart size={24} />}
+                    Icon={() => <BarChart size={24} />}
                     isActive={LNBIndex.Insights === activeIndex}
                     status="soon"
                 />
                 <MenuItem
                     name="결제달력"
                     href={safePath((org) => V3OrgBillingHistoriesPageRoute.path(org.id))}
-                    Icon={() => <FcCalendar size={24} />}
+                    Icon={() => <Calendar size={24} />}
                     isActive={LNBIndex.Calendar === activeIndex}
                 />
             </MenuList>
@@ -88,27 +88,27 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                 <MenuItem
                     name="구독리스트"
                     href={safePath((org) => V3OrgAppsPageRoute.path(org.id))}
-                    Icon={() => <FcWorkflow size={24} />}
+                    Icon={() => <GitBranch size={24} />}
                     isActive={LNBIndex.Subscriptions === activeIndex}
                 />
                 <MenuItem
                     name="결제 수단"
                     href={safePath((org) => V3OrgCardListPageRoute.path(org.id))}
-                    Icon={() => <FcDiploma1 size={24} />}
+                    Icon={() => <FileText size={24} />}
                     isActive={LNBIndex.Cards === activeIndex}
                     status="soon"
                 />
                 <MenuItem
                     name="계정 관리"
                     href={safePath((org) => V3OrgAccountListPageRoute.path(org.id))}
-                    Icon={() => <FcKey size={24} />}
+                    Icon={() => <Key size={24} />}
                     isActive={LNBIndex.Accounts === activeIndex}
                     status="soon"
                 />
                 <MenuItem
                     name="멤버 관리"
                     href={safePath((org) => V3OrgTeamMembersPageRoute.path(org.id))}
-                    Icon={() => <FcParallelTasks size={24} />}
+                    Icon={() => <ListTodo size={24} />}
                     isActive={LNBIndex.Members === activeIndex}
                 />
             </MenuList>
@@ -117,7 +117,7 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                 <MenuItem
                     name="설정"
                     href={safePath((org) => V3OrgSettingsOrgPageRoute.path(org.id))}
-                    Icon={() => <FcSettings size={24} />}
+                    Icon={() => <Settings size={24} />}
                     isActive={LNBIndex.Settings === activeIndex}
                 />
                 {/*<MenuItem name="멤버 초대" href="#" Icon={() => <FcBusiness size={24} />} />*/}
@@ -125,14 +125,14 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                 {/*<MenuItem*/}
                 {/*    name="업데이트 소식"*/}
                 {/*    href="#"*/}
-                {/*    Icon={() => <FcAdvertising size={24} />}*/}
+                {/*    Icon={() => <Megaphone size={24} />}*/}
                 {/*    isActive={LNBIndex.Updates === activeIndex}*/}
                 {/*    status="soon"*/}
                 {/*/>*/}
                 <MenuItem
                     name="문의하기"
                     href="https://scordi.channel.io"
-                    Icon={() => <FcAdvertising size={24} />}
+                    Icon={() => <Megaphone size={24} />}
                     isActive={LNBIndex.Updates === activeIndex}
                     target="_blank"
                 />

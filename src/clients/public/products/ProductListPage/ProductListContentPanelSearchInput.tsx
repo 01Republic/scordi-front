@@ -1,9 +1,9 @@
 import {memo, useEffect} from 'react';
-import {BsSearch} from 'react-icons/bs';
 import {useProductsInSaaSCollection} from '^models/Product/hook';
 import {debounce} from 'lodash';
 import {useProductCategoryFeature} from './useProductCategoryFeature';
 import {ProductListPageRoute} from '^pages/products';
+import {Search} from 'lucide-react';
 
 export const ProductListContentPanelSearchInput = memo(() => {
     const {search} = useProductsInSaaSCollection();
@@ -43,7 +43,7 @@ export const ProductListContentPanelSearchInput = memo(() => {
                     onChange={(e) => onChange(e.target.value.trim())}
                 />
                 <div className="absolute top-0 bottom-0 m-auto w-[48px] h-[48px] flex items-center justify-center text-gray-400">
-                    <BsSearch />
+                    <Search />
                 </div>
             </label>
         </div>

@@ -3,7 +3,7 @@ import {useSetRecoilState} from 'recoil';
 import {Avatar} from '^components/Avatar';
 import {useReportInDemo} from '../../atom';
 import {isAddingModeState} from './atom';
-import {FaPlus} from 'react-icons/fa6';
+import {Plus} from 'lucide-react';
 
 type InputElem = EventTarget & HTMLInputElement;
 
@@ -33,7 +33,7 @@ export const NewAppInput = memo(function NewAppInput() {
         <div className="card p-4 bg-base-100 shadow-md hover:shadow-lg flex flex-row gap-2 items-start cursor-pointer">
             <div>
                 <Avatar className="w-8">
-                    <FaPlus size={24} className="text-gray-400 h-full w-full p-[6px]" />
+                    <Plus size={24} className="text-gray-400 h-full w-full p-[6px]" />
                 </Avatar>
             </div>
             <div className="flex-1 h-full flex flex-col items-end gap-2">

@@ -1,9 +1,9 @@
 import {memo, useEffect} from 'react';
 import {useSetRecoilState} from 'recoil';
-import {FaTimes} from 'react-icons/fa';
 import {useListOf} from '^hooks/useResource';
 import {createSubscriptionFormData} from '../../atom';
 import {selectedTeamMembersAtom} from './atom';
+import {X} from 'lucide-react';
 
 export const TeamMemberSelectedSection = memo(function TeamMemberSelectedSection() {
     const {list, remove} = useListOf(selectedTeamMembersAtom, {getKey: 'id'});
@@ -24,7 +24,7 @@ export const TeamMemberSelectedSection = memo(function TeamMemberSelectedSection
                         onClick={() => remove(teamMember)}
                     >
                         <span>{teamMember.name}</span>
-                        <FaTimes size={12} />
+                        <X size={12} />
                     </div>
                 ))}
             </div>

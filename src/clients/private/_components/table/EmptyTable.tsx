@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {HiMiniInbox} from 'react-icons/hi2';
 import {ReactComponentLike} from 'prop-types';
+import {Inbox} from 'lucide-react';
 
 interface EmptyTableProps {
     Icon?: () => JSX.Element;
@@ -35,6 +35,6 @@ export const EmptyTable = memo((props: EmptyTableProps) => {
 
 const DefaultEmptyIcon = () => (
     <span className="relative">
-        <HiMiniInbox className="text-slate-200" fontSize={48} />
+        <Inbox className="text-slate-200" fontSize={48} />
     </span>
 );

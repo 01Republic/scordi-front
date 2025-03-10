@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
-import {GoCreditCard} from 'react-icons/go';
 import {useRecoilValue} from 'recoil';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {orgIdParamState} from '^atoms/common';
@@ -12,6 +11,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {PaymentMethodItem} from './PaymentMethodItem';
 import {EmptyTableLayout} from '../EmptyTableLayout';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
+import {CreditCard} from 'lucide-react';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -32,7 +32,7 @@ export const PaymentMethodsSection = memo(() => {
             <>
                 <EmptyTableLayout
                     title="결제수단"
-                    Icon={() => <GoCreditCard />}
+                    Icon={() => <CreditCard />}
                     onClick={() => setIsCardCreateMethodModalOpen(true)}
                 />
 

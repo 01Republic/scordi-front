@@ -1,14 +1,6 @@
 import {useRecoilValue} from 'recoil';
 import {memo} from 'react';
 import {useRouter} from 'next/router';
-import {FaReceipt} from 'react-icons/fa6';
-import {
-    BsCreditCardFill,
-    BsPeopleFill,
-    BsPersonLinesFill,
-    MdSpaceDashboard,
-    TbChartInfographic,
-} from '^components/react-icons';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {currentUserAtom, getMembership} from '^models/User/atom';
 import {ActiveRoute} from '^types/pageRoute.type';
@@ -24,6 +16,7 @@ import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 import {MembershipDto, MembershipLevel} from '^models/Membership/types';
+import {BarChart4, CreditCard, LayoutDashboard, Receipt, User, Users} from 'lucide-react';
 
 interface TopNavBarProps {
     //
@@ -34,22 +27,22 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
     {
         name: '구독',
         items: [
-            {name: '구독리스트', Icon: MdSpaceDashboard, routeProps: OrgSubscriptionListPageRoute},
-            {name: '결제현황', Icon: TbChartInfographic, routeProps: OrgBillingHistoryStatusPageRoute},
+            {name: '구독리스트', Icon: LayoutDashboard, routeProps: OrgSubscriptionListPageRoute},
+            {name: '결제현황', Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
         ],
     },
     {
         name: '팀',
         items: [
-            {name: '팀 목록', Icon: BsPersonLinesFill, routeProps: OrgTeamListPageRoute},
-            {name: '구성원', Icon: BsPeopleFill, routeProps: OrgTeamMemberListPageRoute},
+            {name: '팀 목록', Icon: User, routeProps: OrgTeamListPageRoute},
+            {name: '구성원', Icon: Users, routeProps: OrgTeamMemberListPageRoute},
         ],
     },
     {
         name: '자산',
         items: [
-            {name: '결제수단', Icon: BsCreditCardFill, routeProps: OrgCreditCardListPageRoute},
-            {name: '청구서 메일', Icon: FaReceipt, routeProps: OrgInvoiceAccountListPageRoute},
+            {name: '결제수단', Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
+            {name: '청구서 메일', Icon: Receipt, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
     {

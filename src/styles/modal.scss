@@ -1,38 +1,38 @@
-
 /**
  * Modal Right
  */
 .modal-open.modal-right .modal-box {
-  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x))
+        skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
 }
 
 .modal-right {
-  justify-content: end;
+    justify-content: end;
 
-  :where(.modal-box) {
-    max-height: none;
-    height: 100%;
-    width: 100%;
-    max-width: none;
-    border-radius: 0;
-  }
+    :where(.modal-box) {
+        max-height: none;
+        height: 100%;
+        width: 100%;
+        max-width: none;
+        border-radius: 0;
+    }
 }
 
 .modal {
-  &.modal-bottom {
-    .modal-box {
-      transition: all 200ms ease;
-      transform: translateY(100%);
-    }
+    &.modal-bottom {
+        .modal-box {
+            transition: all 200ms ease;
+            transform: translateY(100%);
+        }
 
-    &.modal-open {
-      .modal-box {
-        transform: translateY(0);
-      }
+        &.modal-open {
+            .modal-box {
+                transform: translateY(0);
+            }
+        }
     }
-  }
 }
 
 body .swal2-container {
-  z-index: 9999;
+    z-index: 9999;
 }

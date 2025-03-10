@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {MdRefresh} from 'react-icons/md';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useCurrentInvoiceAccount, useCurrentInvoiceAccountSync} from '../../atom';
 import {startSyncWithCheckValidToken} from '../../InvoiceAccountActionPanel/ReconnectModal';
 import {BillingHistoryTableTitle} from './BillingHistoryTableTitle';
 import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
+import {RotateCw} from 'lucide-react';
 
 export const BillingHistoryTableControl = memo(() => {
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
@@ -40,7 +40,7 @@ export const SyncRecentBillingHistoryButton = memo((props: ButtonProps) => {
 
     return (
         <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`} onClick={onClick}>
-            <MdRefresh fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
+            <RotateCw fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
             <span>최신내역 불러오기</span>
         </button>
     );

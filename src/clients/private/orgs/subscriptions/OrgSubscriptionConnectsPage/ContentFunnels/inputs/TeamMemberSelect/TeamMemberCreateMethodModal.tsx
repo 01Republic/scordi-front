@@ -1,11 +1,8 @@
 import React, {memo} from 'react';
-import {IconType} from '@react-icons/all-files';
-import {FcDataBackup} from '@react-icons/all-files/fc/FcDataBackup';
-import {FcDataRecovery} from '@react-icons/all-files/fc/FcDataRecovery';
-import {FaChevronRight} from 'react-icons/fa6';
-import {ExcelIcon} from '^components/react-icons';
+import {LucideIcon} from 'lucide-react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {useGoogleLoginForWorkspaceConnect} from '^clients/private/_modals/team-members';
+import {ChevronRight, Database, DatabaseBackup, FileSpreadsheet} from 'lucide-react';
 
 interface TeamMemberCreateMethodModalProps {
     isOpened: boolean;
@@ -23,7 +20,7 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
 
             <div className="py-4 flex flex-col gap-3">
                 <MethodOption
-                    Icon={FcDataBackup}
+                    Icon={Database}
                     title="구성원 불러오기"
                     desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => {
@@ -34,7 +31,7 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                     }}
                 />
                 <MethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 추가하기"
                     desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => {
@@ -43,7 +40,7 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                     }}
                 />
                 <MethodOption
-                    Icon={ExcelIcon}
+                    Icon={FileSpreadsheet}
                     title="엑셀로 대량 등록하기"
                     desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
                     onClick={() => {
@@ -58,7 +55,7 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
 TeamMemberCreateMethodModal.displayName = 'TeamMemberCreateMethodModal';
 
 interface Props {
-    Icon: IconType;
+    Icon: LucideIcon;
     title: string;
     desc: string;
     onClick: () => any;
@@ -82,7 +79,7 @@ const MethodOption = memo((props: Props) => {
             </div>
 
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

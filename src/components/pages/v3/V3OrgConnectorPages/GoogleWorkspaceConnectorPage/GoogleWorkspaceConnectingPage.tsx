@@ -1,7 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {FaArrowLeft} from 'react-icons/fa6';
-import {PiSpinnerGapThin} from 'react-icons/pi';
 import {LinkTo} from '^components/util/LinkTo';
 import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
@@ -10,6 +8,7 @@ import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {AxiosError} from 'axios';
 import {ApiError} from '^api/api';
 import {useAlert} from '^hooks/useAlert';
+import {ArrowLeft, Loader} from 'lucide-react';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
@@ -92,7 +91,7 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
                         onClick={routerBack}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <FaArrowLeft /> 뒤로가기
+                        <ArrowLeft /> 뒤로가기
                     </LinkTo>
                 </div>
 
@@ -113,7 +112,7 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
             </header>
 
             <section className="py-8">
-                <PiSpinnerGapThin size={60} className="animate-spin text-scordi-500 m-auto" />
+                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
             </section>
         </div>
     );

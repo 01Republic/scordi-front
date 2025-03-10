@@ -7,7 +7,6 @@ import {orgIdParamState} from '^atoms/common';
 import {TeamMemberInSubscriptionTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/TeamMemberInSubscriptionTableRow';
 import {TeamMemberInSubscriptionTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/TeamMemberInSubscriptionTableHeader';
 import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/MemberStatusScopeHandler';
-import {FaPlus} from 'react-icons/fa6';
 import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionTeamMemberSelect';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
 import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
@@ -16,6 +15,7 @@ import {useAssignedSeatCounter} from '^clients/private/orgs/subscriptions/OrgSub
 import {useFinishTargetSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/FinishTargetSeatCounter';
 import {usePaidSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/PaidSeatCounter';
 import {useQuitStatusSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/QuitStatusSeatCounter';
+import {Plus} from 'lucide-react';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -67,7 +67,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
             <div className={'flex justify-between'}>
                 <MemberStatusScopeHandler onSearch={onChangeScopeHandler} />
                 <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
-                    <FaPlus />
+                    <Plus />
                     &nbsp;멤버 연결하기
                 </button>
             </div>
@@ -84,7 +84,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 emptyButtonText="구성원 등록"
                 EmptyButtons={() => (
                     <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
-                        <FaPlus />
+                        <Plus />
                         &nbsp;멤버 연결하기
                     </button>
                 )}

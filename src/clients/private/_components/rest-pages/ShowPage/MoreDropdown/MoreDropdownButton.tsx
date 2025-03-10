@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {IoIosMore} from 'react-icons/io';
+import {MoreHorizontal} from 'lucide-react';
 
 interface MoreDropdownButtonProps extends WithChildren {
     className?: string;
@@ -16,7 +16,7 @@ export const MoreDropdownButton = memo((props: MoreDropdownButtonProps) => {
                 className || 'btn-square'
             } !bg-white border border-slate-300 rounded-md hover:border-slate-400 hover:shadow transition-all mb-1`}
         >
-            {children || <IoIosMore fontSize={20} />}
+            {children || <MoreHorizontal fontSize={20} />}
         </button>
     );
 });

@@ -2,7 +2,6 @@ import {memo} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import toast from 'react-hot-toast';
 import {debounce} from 'lodash';
-import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {UserEditProfileRequestDto} from '^models/User/types';
 import {UserAvatar} from '^models/User/components/UserAvatar';
@@ -11,6 +10,7 @@ import {userApi, userSessionApi} from '^models/User/api/session';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import SwitchNotificationCard from './SwitchNotificationCard';
 import {t_membershipLevel} from '^models/Membership/types';
+import {X} from 'lucide-react';
 
 interface EditUserProfileModalProps {
     isOpened: boolean;
@@ -48,7 +48,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                         onClick={onClose}
                         className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200"
                     >
-                        <IoClose size={26} />
+                        <X size={26} />
                     </button>
                 </div>
 

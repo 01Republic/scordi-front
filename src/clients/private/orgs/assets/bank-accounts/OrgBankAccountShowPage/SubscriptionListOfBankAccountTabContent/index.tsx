@@ -1,8 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaPlus} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react';
-import {MdRefresh} from 'react-icons/md';
 import {useSubscriptionListOfBankAccount} from '^models/Subscription/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -11,6 +9,7 @@ import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/
 import {BankAccountAddSubscriptionModal} from './BankAccountAddSubscriptionModal';
 import {SubscriptionTableRowOfBankAccount} from './SubscriptionTableRowOfBankAccount';
 import {SubscriptionTableHeaderOfBankAccount} from './SubscriptionTableHeaderOfBankAccount';
+import {Plus, RotateCw} from 'lucide-react';
 
 export const SubscriptionListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
@@ -34,7 +33,7 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
             className="btn btn-scordi gap-2 no-animation btn-animation"
             loadingOnBtn
         >
-            <FaPlus />
+            <Plus />
             <span>구독 연결</span>
         </LinkTo>
     );
@@ -67,7 +66,7 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
                                 className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`}
                                 onClick={() => reload()}
                             >
-                                <MdRefresh fontSize={14} />
+                                <RotateCw fontSize={14} />
                             </button>
                         </Tippy>
                     </div>
@@ -78,7 +77,7 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
                                 className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
                                 onClick={() => setAddSubscriptionModalOpened(true)}
                             >
-                                <FaPlus />
+                                <Plus />
                                 <span>구독 연결하기</span>
                             </button>
                         )}

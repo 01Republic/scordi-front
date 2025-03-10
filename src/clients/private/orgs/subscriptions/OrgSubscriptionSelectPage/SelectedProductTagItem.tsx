@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {ProductDto} from '^models/Product/type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
-import {FaTimes} from 'react-icons/fa';
+import {X} from 'lucide-react';
 
 interface SelectedProductTagItemProps {
     product: ProductDto;
@@ -19,7 +19,7 @@ export const SelectedProductTagItem = memo((props: SelectedProductTagItemProps) 
             onClick={() => unSelect(product)}
         >
             <span>{product.name()}</span>
-            <FaTimes size={14} className="opacity-40 group-hover:opacity-60" />
+            <X size={14} className="opacity-40 group-hover:opacity-60" />
         </TagUI>
     );
 });

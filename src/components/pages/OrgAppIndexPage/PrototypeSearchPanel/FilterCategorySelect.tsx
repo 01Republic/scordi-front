@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
-import {AiFillCaretDown} from '^components/react-icons';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {useProductTags} from '^models/Tag/hook';
+import {ChevronDown} from 'lucide-react';
 
 type CategoryDto = {id: number; name: string};
 export const categoriesState = atom<CategoryDto[]>({
@@ -40,7 +40,7 @@ export const FilterCategorySelect = memo(() => {
                     className="btn btn-sm btn-outline bg-white text-gray-400 border-gray-300 hover:bg-white hover:text-gray-500 hover:border-gray-400 capitalize font-normal flex-nowrap"
                 >
                     <span className="mr-1.5 whitespace-nowrap">filter category</span>
-                    <AiFillCaretDown className="w-3 h-3" />
+                    <ChevronDown className="w-3 h-3" />
                 </label>
                 <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box">
                     {categories.map((category, i) => (

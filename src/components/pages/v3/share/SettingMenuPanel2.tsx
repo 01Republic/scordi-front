@@ -4,11 +4,10 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {V3OrgSettingsBillingPageRoute} from '^pages/v3/orgs/[orgId]/settings/billing';
 import {V3OrgSettingsMembersPageRoute} from '^pages/v3/orgs/[orgId]/settings/members';
-import {HiOutlineBuildingOffice2, HiOutlineCreditCard, HiOutlineUserGroup, HiOutlineKey} from 'react-icons/hi2';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-import {VscPlug} from 'react-icons/vsc';
 import {V3OrgSettingsConnectsPageRoute} from '^pages/v3/orgs/[orgId]/settings/connects';
+import {Building2, CreditCard, Key, Plug, Users} from 'lucide-react';
 
 export const V3OrgSettingsMenuPanel = memo(() => {
     const router = useRouter();
@@ -25,25 +24,25 @@ export const V3OrgSettingsMenuPanel = memo(() => {
             </li>
             <li>
                 <ActiveLinkTo href={V3OrgSettingsOrgPageRoute.path(orgId)} className="mb-0.5">
-                    <HiOutlineBuildingOffice2 />
+                    <Building2 />
                     <span>워크스페이스 정보</span>
                 </ActiveLinkTo>
             </li>
             <li>
                 <ActiveLinkTo href={V3OrgSettingsBillingPageRoute.path(orgId)} className="mb-0.5">
-                    <HiOutlineCreditCard />
+                    <CreditCard />
                     <span>결제 관리</span>
                 </ActiveLinkTo>
             </li>
             {/*<li>*/}
             {/*    <ActiveLinkTo href={V3OrgSettingsMembersPageRoute.path(orgId)} className="mb-0.5">*/}
-            {/*        <HiOutlineUserGroup />*/}
+            {/*        <Users />*/}
             {/*        <span>멤버 관리</span>*/}
             {/*    </ActiveLinkTo>*/}
             {/*</li>*/}
             <li>
                 <ActiveLinkTo href={V3OrgSettingsConnectsPageRoute.path(orgId)} className="mb-0.5">
-                    <VscPlug size={18} />
+                    <Plug size={18} />
                     <span>연동 관리</span>
                 </ActiveLinkTo>
             </li>

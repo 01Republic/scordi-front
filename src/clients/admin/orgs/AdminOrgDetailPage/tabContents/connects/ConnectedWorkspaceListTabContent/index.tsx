@@ -6,7 +6,7 @@ import {CardTablePanel} from '^admin/share';
 import {GoogleSyncHistoryItem} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectedWorkspaceListTabContent/GoogleSyncHistoryItem';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {plainToast as toast} from '^hooks/useToast';
-import {IoReload} from 'react-icons/io5';
+import {RotateCw} from 'lucide-react';
 
 export const ConnectedWorkspaceListTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);
@@ -48,7 +48,7 @@ export const ConnectedWorkspaceListTabContent = memo(() => {
 
                 <div className="flex items-center gap-2">
                     <a className="btn btn-ghost gap-2" onClick={() => reload()}>
-                        <IoReload /> 새로고침
+                        <RotateCw /> 새로고침
                     </a>
 
                     <button

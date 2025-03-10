@@ -7,8 +7,8 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
 import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 import {Dropdown} from '^v3/share/Dropdown';
-import {IoIosMore} from 'react-icons/io';
 import {eventCut} from '^utils/event';
+import {MoreHorizontal} from 'lucide-react';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
@@ -67,7 +67,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
 
             {/* Actions */}
             <td className="cursor-pointer">
-                <Dropdown placement="bottom-end" Trigger={() => <IoIosMore fontSize={20} />}>
+                <Dropdown placement="bottom-end" Trigger={() => <MoreHorizontal fontSize={20} />}>
                     {({hide}) => (
                         <ul
                             className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"

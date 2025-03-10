@@ -1,8 +1,8 @@
 import React from 'react';
 import Tippy from '@tippyjs/react';
-import {FaRegCreditCard} from 'react-icons/fa6';
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {Avatar} from '^components/Avatar';
+import {CreditCard} from 'lucide-react';
 
 interface PaymentMethodCardProps {
     paymentMethod: ScordiPaymentMethodDto;
@@ -19,7 +19,7 @@ export const PaymentMethodCard = (props: PaymentMethodCardProps) => {
                 {company ? (
                     <img src={company.logo} alt="" />
                 ) : (
-                    <FaRegCreditCard size={20} className="h-full w-full p-[2px]" />
+                    <CreditCard size={20} className="h-full w-full p-[2px]" />
                 )}
             </Avatar>
 

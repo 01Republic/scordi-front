@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
-import {BsDashCircle} from 'react-icons/bs';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {useToast} from '^hooks/useToast';
+import {MinusCircle} from 'lucide-react';
 
 interface SubscriptionItemProps {
     teamMember: TeamMemberDto;
@@ -50,7 +50,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                         }}
                         className="relative top-[-2px] text-red-300 hover:text-red-500 transition-all"
                     >
-                        <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                        <MinusCircle className="" size={24} strokeWidth={0.3} />
                     </button>
                 </div>
             </div>

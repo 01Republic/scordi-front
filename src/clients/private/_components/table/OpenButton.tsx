@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {LinkTo, LinkToProps} from '^components/util/LinkTo';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaRegFolderOpen} from 'react-icons/fa';
 import {WithChildren} from '^types/global.type';
 import Tippy from '@tippyjs/react/headless';
+import {FolderOpen} from 'lucide-react';
 
 interface OpenButtonProps extends LinkToProps {}
 
@@ -13,7 +13,7 @@ export const OpenButton = memo((props: OpenButtonProps) => {
     return (
         <LinkTo {...res} displayLoading={false}>
             <TagUI className="border border-gray-200 bg-white btn-animation no-selectable gap-1 shadow hover:shadow-lg">
-                <FaRegFolderOpen size={10} />
+                <FolderOpen size={10} />
                 <span className="text-10">열기</span>
             </TagUI>
         </LinkTo>

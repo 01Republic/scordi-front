@@ -97,38 +97,38 @@
     .select {
         @apply text-13 px-4 h-12 placeholder-gray-400 border border-gray-100
           disabled:bg-gray-100 disabled:text-gray-400 focus:border-gray-900 focus:ring-0;
-  }
-  .sidebar {
-    @apply flex flex-col w-60 border-r;
-    /*@apply border-gray-300;*/
-    border-right-color: #e0e0e0;
-  }
-  .sidebar-title {
-    @apply flex items-center px-4 h-16 font-bold text-2xl text-gray-800;
-  }
-  .sidebar-menu {
-    @apply flex-grow flex flex-col space-y-1 p-3 overflow-y-auto;
-  }
-  .sidebar-menu-item {
-    @apply p-3 rounded-md text-sm font-normal flex items-center;
-  }
-  .table {
-    @apply divide-y divide-gray-200;
-  }
-  .table-head {
-    @apply bg-gray-50;
-  }
-  .table-body {
-    @apply divide-y divide-gray-200;
-  }
-  .table-th {
-    @apply px-4 py-3 text-left text-12 md:text-16 font-medium text-gray-500 uppercase tracking-wider;
-  }
-  .table-td {
-    @apply px-4 py-4 max-w-xs text-left text-12 md:text-16 font-medium text-gray-500 truncate;
-  }
-  .textarea {
-    @apply px-4 py-2 border border-gray-200 placeholder-gray-400
+    }
+    .sidebar {
+        @apply flex flex-col w-60 border-r;
+        /*@apply border-gray-300;*/
+        border-right-color: #e0e0e0;
+    }
+    .sidebar-title {
+        @apply flex items-center px-4 h-16 font-bold text-2xl text-gray-800;
+    }
+    .sidebar-menu {
+        @apply flex-grow flex flex-col space-y-1 p-3 overflow-y-auto;
+    }
+    .sidebar-menu-item {
+        @apply p-3 rounded-md text-sm font-normal flex items-center;
+    }
+    .table {
+        @apply divide-y divide-gray-200;
+    }
+    .table-head {
+        @apply bg-gray-50;
+    }
+    .table-body {
+        @apply divide-y divide-gray-200;
+    }
+    .table-th {
+        @apply px-4 py-3 text-left text-12 md:text-16 font-medium text-gray-500 uppercase tracking-wider;
+    }
+    .table-td {
+        @apply px-4 py-4 max-w-xs text-left text-12 md:text-16 font-medium text-gray-500 truncate;
+    }
+    .textarea {
+        @apply px-4 py-2 border border-gray-200 placeholder-gray-400
           disabled:bg-gray-100 disabled:text-gray-400 focus:border-brand-1 focus:ring-0;
     }
     .textfield {

@@ -8,12 +8,12 @@ import Select, {
     SingleValueProps,
 } from 'react-select';
 import React, {useRef, useState} from 'react';
-import {HiOutlineXMark} from 'react-icons/hi2';
 import {tagApi} from '^models/Tag/api';
 import {useSetRecoilState} from 'recoil';
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {usePayingTypeTags} from '^models/Tag/hook';
 import {usePopper} from 'react-popper';
+import {X} from 'lucide-react';
 
 export const selectStylesOptions = {
     placeholder: () => ({
@@ -88,7 +88,7 @@ export const Components = () => {
                     {/*    onClick={onDelete}*/}
                     {/*    className="relative text-gray-400 hover:text-gray-600 transition-all text-end"*/}
                     {/*>*/}
-                    {/*    <HiOutlineXMark size={12} />*/}
+                    {/*    <X size={12} />*/}
                     {/*</button>*/}
                 </div>
             </components.Option>

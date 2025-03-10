@@ -1,13 +1,12 @@
 import React, {memo} from 'react';
 import Tippy from '@tippyjs/react';
-import {FaBookmark, FaRegBookmark, FaRegCreditCard} from 'react-icons/fa6';
-import {IoMdMore} from 'react-icons/io';
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {Avatar} from '^components/Avatar';
 import {Dropdown} from '^v3/share/Dropdown';
 import {ChangeIsActiveButton} from './ChangeIsActiveButton';
 import {ScordiPaymentMethodRemoveButton} from './ScordiPaymentMethodRemoveButton';
+import {Bookmark, BookmarkMinus, CreditCard, MoreHorizontal} from 'lucide-react';
 
 interface ScordiPaymentMethodItemProps {
     data: ScordiPaymentMethodDto;
@@ -27,7 +26,7 @@ export const ScordiPaymentMethodItem = memo((props: ScordiPaymentMethodItemProps
                     {company ? (
                         <img src={company.logo} alt="" />
                     ) : (
-                        <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+                        <CreditCard size={20} className="h-full w-full p-[6px]" />
                     )}
                 </Avatar>
                 <Tippy content={paymentMethod.fullCardNumber}>
@@ -53,7 +52,7 @@ export const ScordiPaymentMethodItem = memo((props: ScordiPaymentMethodItemProps
                         placement="bottom-end"
                         Trigger={() => (
                             <button className="btn btn-circle btn-xs text-gray-500 hover:text-black">
-                                <IoMdMore fontSize={18} />
+                                <MoreHorizontal fontSize={18} />
                             </button>
                         )}
                         Content={() => (

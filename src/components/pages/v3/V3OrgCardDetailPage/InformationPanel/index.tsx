@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^models/CreditCard/api';
@@ -13,6 +12,7 @@ import {inputCardNameModal} from '^v3/share/modals/NewCardModal/CardNameModal/at
 import {inputCardHoldingMemberModal} from '^v3/share/modals/NewCardModal/CardHoldingMemberModal/atom';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {useAlert} from '^hooks/useAlert';
+import {Edit} from 'lucide-react';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
@@ -54,7 +54,7 @@ export const InformationPanel = memo(() => {
                             ) : (
                                 <p className="text-gray-300">카드의 별칭을 입력하기</p>
                             )}
-                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
+                            <Edit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 
                         {/* 카드사 */}
@@ -67,7 +67,7 @@ export const InformationPanel = memo(() => {
                             ) : (
                                 <p className="text-gray-300">카드사를 입력하기</p>
                             )}
-                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
+                            <Edit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 
                         {/* 카드번호 */}
@@ -76,7 +76,7 @@ export const InformationPanel = memo(() => {
                             className="flex items-center gap-3 cursor-pointer group"
                         >
                             <p className="text-lg font-bold">{`${cardInfo?.number1}-${cardInfo?.number2}-${cardInfo?.number3}-${cardInfo?.number4}`}</p>
-                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
+                            <Edit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 
                         {/* 카드소유자 */}
@@ -92,7 +92,7 @@ export const InformationPanel = memo(() => {
                             ) : (
                                 <p className="text-gray-300">카드 소유자 등록하기</p>
                             )}
-                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
+                            <Edit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
                     </div>
                     <div onClick={onDelete} className="cursor-pointer align-top text-error">

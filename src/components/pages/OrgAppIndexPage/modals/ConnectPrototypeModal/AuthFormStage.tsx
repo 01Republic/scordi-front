@@ -5,9 +5,9 @@ import {LoginDto, LoginWithVerify} from '^types/crawler';
 import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
-import {MdNavigateNext} from '^components/react-icons';
 import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
+import {ChevronRight} from 'lucide-react';
 
 export const AuthFormStage = memo(() => {
     const {
@@ -88,7 +88,7 @@ export const AuthFormStage = memo(() => {
             <ModalActionWrapper>
                 <button type="submit" className="btn btn-primary" disabled={!nextButtonActive}>
                     <span>Next</span>
-                    <MdNavigateNext size={20} className="mr-[-6px]" />
+                    <ChevronRight size={20} className="mr-[-6px]" />
                 </button>
             </ModalActionWrapper>
         </form>

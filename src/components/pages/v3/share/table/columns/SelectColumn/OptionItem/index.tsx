@@ -1,6 +1,6 @@
-import {FcCheckmark} from 'react-icons/fc';
 import {ValueComponent} from '../type';
 import {MoreDropdown} from './MoreDropdown';
+import {Check} from 'lucide-react';
 
 interface OptionItemProps<T> {
     option: T;
@@ -38,7 +38,7 @@ export const OptionItem = <T,>(props: OptionItemProps<T>) => {
                         />
                     </div>
                 ) : (
-                    <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>
+                    <div className="ml-auto">{isCurrent && <Check />}</div>
                 )}
             </div>
         </li>

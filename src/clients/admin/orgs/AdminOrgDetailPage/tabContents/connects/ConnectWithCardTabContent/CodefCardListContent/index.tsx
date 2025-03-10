@@ -8,7 +8,7 @@ import {PagePerSelect} from '^components/Paginator';
 import {TabPaneProps} from '^components/util/tabs';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardItem} from './CodefCardItem';
-import {IoIosClose} from 'react-icons/io';
+import {X} from 'lucide-react';
 
 export const CodefCardListContent = memo(function CodefCardListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -70,7 +70,7 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
                             onClick={() => setSelectedCodefAccount(undefined)}
                         >
                             <div className="">{selectedCodefAccount.profile}</div>
-                            <IoIosClose size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
+                            <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                         </div>
                     </div>
                 </section>

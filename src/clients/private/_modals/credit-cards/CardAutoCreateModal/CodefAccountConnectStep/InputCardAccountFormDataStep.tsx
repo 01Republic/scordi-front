@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {OutLink} from '^components/OutLink';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {ChevronLeft} from 'lucide-react';
 
 interface InputCardAccountFormDataStepProps {
     cardCompany: CardAccountsStaticData;
@@ -24,7 +24,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex-grow flex flex-col items-stretch h-full">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">

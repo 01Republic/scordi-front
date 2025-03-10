@@ -1,7 +1,7 @@
 import React, {FormEventHandler, memo} from 'react';
 import {UseFormHandleSubmit, UseFormRegisterReturn} from 'react-hook-form/dist/types/form';
-import {IoSearch} from '@react-icons/all-files/io5/IoSearch';
 import {TextInput} from '^components/TextInput';
+import {Search} from 'lucide-react';
 
 export interface SearchInputProps<T> {
     onSubmit?: (value: string) => any | undefined;
@@ -24,7 +24,7 @@ export const SearchInput = memo(<T,>(props: SearchInputProps<T>) => {
                 {...register}
             />
             <button type="submit" className="btn btn-link absolute top-0 text-gray-500" style={{right: 0}}>
-                <IoSearch className="w-5 h-5" />
+                <Search className="w-5 h-5" />
             </button>
         </div>
     );

@@ -5,7 +5,6 @@ import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
 import {useRouter} from 'next/router';
-import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useForm} from 'react-hook-form';
 import {PreLoader} from '^components/PreLoader';
 import {SearchInput} from '^components/SearchInput';
@@ -20,6 +19,7 @@ import {SearchResultSection} from '^components/pages/OrgApplicationSelectPage/Se
 import {SearchInputSection} from '^components/pages/OrgApplicationSelectPage/SearchInputSection';
 import {MobileScrollable} from '^components/v2/MobileScrollable';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {ArrowLeft} from 'lucide-react';
 
 export const OrgApplicationSelectPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/select',
@@ -113,7 +113,7 @@ export default function OrgApplicationSelectPage() {
         <ContentLayout>
             <ContentHeading title="어떤 서비스를 연동하시겠어요?">
                 <ContentHeadingSecondaryButton className="gap-2" onClick={() => router.back()}>
-                    <IoArrowBack /> Back
+                    <ArrowLeft /> Back
                 </ContentHeadingSecondaryButton>
             </ContentHeading>
             <div className="mb-5 shadow rounded-lg">

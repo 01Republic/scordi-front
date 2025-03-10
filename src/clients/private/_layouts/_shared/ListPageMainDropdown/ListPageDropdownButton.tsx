@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {FaCaretDown, FaPlus} from 'react-icons/fa6';
+import {ChevronDown, Plus} from 'lucide-react';
 
 interface ListPageDropdownButtonProps {
     text?: string;
@@ -10,9 +10,9 @@ export const ListPageDropdownButton = memo((props: ListPageDropdownButtonProps) 
 
     return (
         <button tabIndex={0} className="btn btn-scordi gap-2 mb-1 no-animation btn-animation">
-            <FaPlus />
+            <Plus />
             <span className="mr-1.5">{text}</span>
-            <FaCaretDown />
+            <ChevronDown />
         </button>
     );
 });

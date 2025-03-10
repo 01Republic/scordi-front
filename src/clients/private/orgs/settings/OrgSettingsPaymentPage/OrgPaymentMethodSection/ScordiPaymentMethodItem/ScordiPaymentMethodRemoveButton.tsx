@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {FaRegTrashAlt} from 'react-icons/fa';
 import {ScordiPaymentMoreDropdownButton} from './ScordiPaymentMoreDropdownButton';
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {scordiPaymentMethodApi} from '^models/_scordi/ScordiPaymentMethod/api';
@@ -9,6 +8,7 @@ import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymen
 import {errorToast} from '^api/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {Trash2} from 'lucide-react';
 
 interface ScordiPaymentMethodRemoveButtonProps {
     paymentMethod: ScordiPaymentMethodDto;
@@ -42,7 +42,7 @@ export const ScordiPaymentMethodRemoveButton = memo((props: ScordiPaymentMethodR
 
     return (
         <ScordiPaymentMoreDropdownButton className="!text-error bg-error/5" onClick={onClick}>
-            <FaRegTrashAlt fontSize={10} />
+            <Trash2 fontSize={10} />
             <span>삭제하기</span>
         </ScordiPaymentMoreDropdownButton>
     );
