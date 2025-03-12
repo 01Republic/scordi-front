@@ -1,5 +1,6 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {monthAfter, yearAfter} from '^utils/dateTime';
+import {DPayPlanData} from './DPayPlanData';
 
 // 스코디 결제주기 유형
 export enum ScordiPlanStepType {
@@ -29,6 +30,7 @@ export class ScordiPlanDto {
     nextStrategy: ScordiPlanNextStrategy; // 플랜 만기시 전략
     secretCode: string; // 쿠폰코드
     priority: number; // 전시간 정렬 우선순위
+    extraData: null | string | DPayPlanData; // 추가적인 데이터
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 

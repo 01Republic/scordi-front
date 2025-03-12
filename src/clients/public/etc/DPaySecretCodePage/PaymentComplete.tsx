@@ -2,21 +2,31 @@ import React, {memo} from 'react';
 import {ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {LinkTo} from '^components/util/LinkTo';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {DPayPlanData} from '^models/_scordi/ScordiPlan/type/DPayPlanData';
 
 interface PaymentCompleteProps {
     payment?: ScordiPaymentDto;
+    plan?: ScordiPlanDto;
+}
+
+function getExtraData(plan?: ScordiPlanDto): DPayPlanData | undefined {
+    const extraData = plan?.extraData || '';
+    return typeof extraData === 'object' ? extraData : undefined;
 }
 
 export const PaymentComplete = memo((props: PaymentCompleteProps) => {
-    const {payment} = props;
+    const {payment, plan} = props;
+
+    const extraData = getExtraData(plan);
 
     const planName = payment?.planName || 'test';
     const price = payment?.price || 0;
     const receiptUrl = payment?.response?.receipt?.url;
-    const hasMoveButton = true;
-    const moveButtonText: string = '오픈카톡방으로 이동';
-    const moveButtonUrl: string = "javascript:alert('이동할 주소를 설정해주세요.')";
-    const moveButtonMethod: React.HTMLAttributeAnchorTarget | undefined = '_target';
+    const hasMoveButton = extraData?.hasMoveButton ?? true;
+    const moveButtonText = extraData?.moveButtonText || '오픈카톡방으로 이동';
+    const moveButtonUrl = extraData?.moveButtonUrl || "javascript:alert('이동할 주소를 설정해주세요.')";
+    const moveButtonMethod: React.HTMLAttributeAnchorTarget | undefined = extraData?.moveButtonMethod || '_blank';
 
     return (
         <div className="w-full h-full flex flex-col pt-20 pb-8 sm:pb-20">

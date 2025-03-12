@@ -30,6 +30,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
     const form = useForm<DPayRequestFormDto>();
+    const plan = plans[0];
 
     const onSubmit = debounce((data: DPayRequestFormDto) => {
         const formData = plainToInstance(DPayRequestFormDto, data);
@@ -81,7 +82,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
                     )}
                 </form>
             ) : (
-                <PaymentComplete payment={resultPayment} />
+                <PaymentComplete payment={resultPayment} plan={plan} />
             )}
             <AnimatedModal open={isPending} onClose={console.log} backdrop={{opacity: 0.25}}>
                 <div>
