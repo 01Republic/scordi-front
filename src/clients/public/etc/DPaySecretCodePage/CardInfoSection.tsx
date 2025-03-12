@@ -135,16 +135,19 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                             />
                         </div>
 
-                        {isPending ? (
-                            <section className="mt-6">
-                                <CTAButton text="결제 요청 중 ..." disabled />
-                            </section>
-                        ) : (
-                            <section className="flex gap-2 mt-6">
-                                <CTAButton text="이전" onClick={prevStep} />
-                                <CTAButton text="결제하기" type="submit" disabled={!isValid} />
-                            </section>
-                        )}
+                        <section className="w-full h-24 sm:hidden" />
+                        <div className="fixed sm:relative left-0 right-0 bottom-0 p-8 sm:p-0 bg-white/50">
+                            {isPending ? (
+                                <section className="">
+                                    <CTAButton text="결제 요청 중 ..." disabled />
+                                </section>
+                            ) : (
+                                <section className="flex gap-2">
+                                    <CTAButton text="이전" onClick={prevStep} />
+                                    <CTAButton text="결제하기" type="submit" disabled={!isValid} />
+                                </section>
+                            )}
+                        </div>
                     </div>
                 </div>
             </section>

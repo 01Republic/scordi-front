@@ -16,16 +16,10 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     return (
         <button
             type={type}
-            className={cn(
-                'w-full h-16 sm:h-10 text-18 sm:text-14 rounded-md text-white transition btn-animation',
-                className,
-                {
-                    'bg-gray-300 hover:bg-gray-400 focus:outline-gray-400 no-click cursor-not-allowed': disabled,
-                    'bg-[#6454FF] hover:bg-[#3F51B5] focus:outline-blue-600': !disabled,
-                },
-            )}
+            className={`flex-1 btn btn-md h-[3.4rem] sm:h-[3rem] transition no-animation btn-animation ${
+                disabled ? 'btn-gray !text-gray-500 no-click cursor-not-allowed opacity-50' : 'btn-scordi'
+            }`}
             onClick={onClick}
-            disabled={disabled}
         >
             {text || children}
         </button>

@@ -79,7 +79,12 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
                         />
                     </article>
 
-                    <CTAButton text="다음" onClick={() => isValid && nextStep()} disabled={!isValid} />
+                    <section className="w-full h-24 sm:hidden" />
+                    <div className="fixed sm:relative left-0 right-0 bottom-0 p-8 sm:p-0 bg-white/50">
+                        <section className="flex gap-2">
+                            <CTAButton text="다음" onClick={() => isValid && nextStep()} disabled={!isValid} />
+                        </section>
+                    </div>
                 </div>
             </section>
         </article>
