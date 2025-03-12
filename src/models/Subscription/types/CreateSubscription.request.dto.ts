@@ -50,7 +50,7 @@ export class CreateSubscriptionRequestDto {
     // // usedMemberCount?: number; // 사용중인 사용자 수
 
     //타입수정요청
-    invoiceAccountId?: number[];
+    invoiceAccountId?: number;
     vendorContract?: UpsertVendorContractWithSubscriptionDto; // 연결하고자 하는 벤더사 데이터
 }
 

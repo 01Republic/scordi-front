@@ -32,7 +32,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const removeInvoiceAccount = () => {
         if (!subscription.invoiceAccounts) return;
         const defaultInvoiceAccountIds = subscription.invoiceAccounts.map((invoiceAccount) => invoiceAccount.id);
-        const selectAccountIds = form.getValues('invoiceAccountId') || [];
+        const selectAccountIds = form.getValues('invoiceAccountIdsForMulti') || [];
         const removedIds = defaultInvoiceAccountIds.filter((id) => !selectAccountIds.includes(id));
         const addedIds = selectAccountIds.filter((id) => !defaultInvoiceAccountIds.includes(id));
 
@@ -82,8 +82,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                 );
             }
 
-            const {invoiceAccountId, ...dtoWithoutInvoiceAccountId} = dto;
-            await subscriptionApi.update(subscription.id, dtoWithoutInvoiceAccountId);
+            const {invoiceAccountIdsForMulti, ...dtoWithoutInvoiceAccountIdsForMulti} = dto;
+            await subscriptionApi.update(subscription.id, dtoWithoutInvoiceAccountIdsForMulti);
             await reload();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);

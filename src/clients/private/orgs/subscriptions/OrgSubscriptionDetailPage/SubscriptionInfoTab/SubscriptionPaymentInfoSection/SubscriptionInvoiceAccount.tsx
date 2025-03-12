@@ -28,7 +28,7 @@ export const SubscriptionInvoiceAccount = memo((props: SubscriptionInvoiceAccoun
                         onChange={(invoiceAccounts) => {
                             const newInvoiceAccounts = invoiceAccounts || [];
                             form.setValue(
-                                'invoiceAccountId',
+                                'invoiceAccountIdsForMulti',
                                 newInvoiceAccounts.map((invoiceAccount) => invoiceAccount.id),
                             );
                         }}
