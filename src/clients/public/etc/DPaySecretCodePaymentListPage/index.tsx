@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {useRecoilValue} from 'recoil';
 import {secretCodeParamsAtom} from '^clients/public/etc/DPaySecretCodePage/atom';
@@ -16,11 +16,25 @@ import {useRouter} from 'next/router';
 import {cryptoUtil} from '^utils/crypto';
 import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {toast} from 'react-hot-toast';
+import {scordiPlanApi} from '^models/_scordi/ScordiPlan/api';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+
+async function getPlan(secretCode: string) {
+    return scordiPlanApi
+        .index({
+            where: {secretCode},
+            order: {id: 'DESC'},
+            itemsPerPage: 1,
+        })
+        .then((res) => res.data || [])
+        .then((list) => list[0]);
+}
 
 export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePaymentListPage() {
     const router = useRouter();
     const secretCode = useRecoilValue(secretCodeParamsAtom);
     const {search, result, isLoading, reload, isEmptyResult, clearCache} = useDPayPaymentsInPaymentListPage();
+    const [plan, setPlan] = useState<ScordiPlanDto>();
 
     useEffect(() => {
         if (!secretCode) return;
@@ -32,6 +46,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
             order: {id: 'DESC'},
             itemsPerPage: 0,
         });
+        getPlan(secretCode).then(setPlan);
     }, [secretCode]);
 
     useUnmount(() => {
@@ -56,9 +71,11 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                 <div className="max-w-[1156px] mx-auto">
                     <section className="flex items-center mb-[32px]">
                         <h1 className="flex items-center gap-4">
-                            <span>
-                                <span className="text-scordi mr-1">{secretCode}</span>의 결제 현황
-                            </span>
+                            {plan && (
+                                <span>
+                                    <span className="text-scordi mr-1">{plan?.name || ''}</span>의 결제 현황
+                                </span>
+                            )}
 
                             <Tippy className="!text-10" content="새로고침">
                                 <button className={`btn btn-xs btn-square btn-scordi`} onClick={() => reload()}>
