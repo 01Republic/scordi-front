@@ -19,6 +19,8 @@ import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {useCurrentInvoiceAccount} from '../../atom';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 
 interface InvoiceAccountSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -118,7 +120,13 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                     onChange={reload}
                     ValueComponent={(props) => {
                         const {value} = props;
-                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                        return typeof value === 'string' ? (
+                            <p>{value}</p>
+                        ) : value instanceof CreditCardDto ? (
+                            <CreditCardProfileCompact item={value} />
+                        ) : (
+                            <BankAccountProfileCompact item={value} />
+                        );
                     }}
                 />
             </td>

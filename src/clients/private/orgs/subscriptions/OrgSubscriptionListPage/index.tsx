@@ -27,7 +27,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const onReady = () => {
         search({
             where: {organizationId: orgId},
-            relations: ['master', 'teamMembers', 'creditCard'],
+            relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
             order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
         });
     };

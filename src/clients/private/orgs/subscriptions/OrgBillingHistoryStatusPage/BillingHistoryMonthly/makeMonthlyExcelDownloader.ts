@@ -12,7 +12,7 @@ export const makeMonthlyExcelDownloader = (
     filename: string,
 ) => {
     const totalAmount = histories.reduce((sum, monthly) => sum + monthly.getCostSumToKRW(exchangeRate), 0);
-    const toPercentage = (amt: number) => `${ratioOf(amt, totalAmount).toFixed(1)}%`;
+    const toPercentage = (amt: number) => `${ratioOf(amt, totalAmount).toFixed(2)}%`;
 
     return function downloadExcel() {
         const timestamp = yyyy_mm_dd(new Date());
@@ -44,14 +44,19 @@ export const makeMonthlyExcelDownloader = (
                 };
 
                 // Append month columns to row
-                history.items.forEach((item, index) => {
-                    const amount =
-                        currencyMode === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
-                            ? item.amount * exchangeRate
-                            : item.amount;
+                for (let month = 1; month <= 12; month++) {
+                    const monthStr = month.toString().padStart(2, '0');
+                    const item = history.items.find((item) => item.issuedYearMonth.split('-')[1] === monthStr);
+                    const amount = item
+                        ? currencyMode === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
+                            ? Math.round(item.amount * exchangeRate)
+                            : item.code === CurrencyCode.KRW
+                            ? Math.round(item.amount)
+                            : item.amount
+                        : 0;
 
-                    row[`${index + 1}월`] = amount.toLocaleString();
-                });
+                    row[`${monthStr}월`] = amount.toLocaleString();
+                }
 
                 return row;
             });
@@ -62,7 +67,7 @@ export const makeMonthlyExcelDownloader = (
         const workbook = XLSX.utils.book_new();
         // XLSX.utils.book_append_sheet(workbook, worksheetKRW, '원화 기준');
         // XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
-        XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 조회결과`);
+        XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 결제현황 조회결과`);
         XLSX.writeFile(workbook, `${filename}.xlsx`);
         toast.success('월별 결제현황 엑셀을 다운로드 했어요.');
     };

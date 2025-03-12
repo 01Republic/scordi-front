@@ -5,6 +5,7 @@ import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {CurrencyCode} from '^models/Money';
 import {subscriptionApi} from '^models/Subscription/api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CardSection} from '^clients/private/_components/CardSection';
 import {useCurrentSubscription} from '../../atom';
@@ -16,9 +17,8 @@ import {SubscriptionSeats} from './SubscriptionSeats';
 import {SubscriptionCreditCard} from './SubscriptionCreditCard';
 import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
 import {SubscriptionStartAt} from './SubscriptionStartAt';
-import {SubscriptionFinishAt} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionFinishAt';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {SubscriptionFinishAt} from './SubscriptionFinishAt';
+import {SubscriptionBankAccount} from './SubscriptionBankAccount';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -124,6 +124,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                     currentAssignedSeatCount={currentAssignedSeatCount}
                 />
                 <SubscriptionCreditCard isEditMode={isEditMode} form={form} />
+                <SubscriptionBankAccount isEditMode={isEditMode} form={form} />
                 <SubscriptionInvoiceAccount isEditMode={isEditMode} form={form} />
             </CardSection.Form>
         </CardSection.Base>

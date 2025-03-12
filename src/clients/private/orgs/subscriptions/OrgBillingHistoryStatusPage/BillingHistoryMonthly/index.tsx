@@ -30,7 +30,7 @@ export const BillingHistoryMonthly = memo(
 
         const {currentOrg} = useCurrentOrg2();
         const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
-        const filename = `${orgName}_결제현황_월별_다운로드`;
+        const filename = `${focusYear}_${orgName}_결제현황_월별_다운로드`;
 
         const months = rangeToArr(1, 12);
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
