@@ -87,9 +87,7 @@ export const BillingHistoryYearly = memo(
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full">
                         <table className="table w-full text-sm">
-                            <thead className="[--rounded-box:0.375rem]">
-                                <BillingHistoryYearlyHeader years={reversedYears} />
-                            </thead>
+                            <BillingHistoryYearlyHeader years={reversedYears} />
                             <tbody>
                                 {sortedHistories.length === 0 ? (
                                     <tr>

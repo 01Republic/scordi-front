@@ -15,7 +15,7 @@ import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../InputSection';
 import {PaymentMethodSelectModal} from './PaymentMethodSelectModal';
 
-export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
+export const PaymentMethodSelectCreditCard = memo(function PaymentMethodSelectCreditCard() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
     const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
@@ -40,6 +40,7 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
         setFormData((f) => ({
             ...f,
             creditCardId: creditCard?.id,
+            bankAccountId: creditCard?.bankAccountId,
         }));
     };
 
@@ -63,7 +64,7 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
                         clearable
                         selectedOption={selectedOption}
                         getLabel={(card) => <CreditCardProfileOption2 item={card} />}
-                        placeholder="카드 또는 계좌"
+                        placeholder="카드 선택"
                         clearOption={() => onChange(undefined)}
                     />
                 </label>

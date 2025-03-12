@@ -16,6 +16,10 @@ import {
 } from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 
 interface TeamMemberSubscriptionTableRowProps {
     teamMember: TeamMemberDto;
@@ -50,11 +54,15 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
         reload();
     };
 
+    const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
+
     return (
         <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
-                <SubscriptionProfile subscription={subscription} />
+                <OpenButtonColumn href={showPagePath}>
+                    <SubscriptionProfile subscription={subscription} />
+                </OpenButtonColumn>
             </td>
 
             {/* 유/무료 */}
@@ -92,7 +100,13 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
                     onChange={reload}
                     ValueComponent={(props) => {
                         const {value} = props;
-                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                        return typeof value === 'string' ? (
+                            <p>{value}</p>
+                        ) : value instanceof CreditCardDto ? (
+                            <CreditCardProfileCompact item={value} />
+                        ) : (
+                            <BankAccountProfileCompact item={value} />
+                        );
                     }}
                 />
             </td>

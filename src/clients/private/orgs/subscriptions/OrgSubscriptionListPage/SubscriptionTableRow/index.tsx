@@ -14,12 +14,13 @@ import {
 } from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {
-    SubscriptionProfile,
-    PayMethodSelect,
-    MemberCount,
-    SubscriptionUsingStatusTag,
     LatestPayAmount,
+    MemberCount,
     NextComputedBillingDateText,
+    PayMethodSelect,
+    PayMethodSelectType,
+    SubscriptionProfile,
+    SubscriptionUsingStatusTag,
 } from '^models/Subscription/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -29,6 +30,8 @@ import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[su
 import {currentUserAtom} from '^models/User/atom';
 import {useRecoilValue} from 'recoil';
 import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -140,11 +143,18 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/* 결제수단 */}
             <td className="pl-3 py-0">
                 <PayMethodSelect
+                    payMethodSelectType={PayMethodSelectType.BOTH}
                     subscription={subscription}
                     onChange={reload}
                     ValueComponent={(props) => {
                         const {value} = props;
-                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                        return typeof value === 'string' ? (
+                            <p>{value}</p>
+                        ) : value instanceof CreditCardDto ? (
+                            <CreditCardProfileCompact item={value} />
+                        ) : (
+                            <BankAccountProfileCompact item={value} />
+                        );
                     }}
                 />
             </td>

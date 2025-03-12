@@ -49,6 +49,7 @@ export default function Page() {
                         'invoiceAccounts.googleTokenData',
                         'billingHistories',
                         'subscriptionSeats',
+                        'bankAccount',
                     ],
                 })
             }

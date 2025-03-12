@@ -68,7 +68,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.shinhancard.com/pconts/html/main.html',
     },
     {
-        displayName: 'KDB',
+        displayName: 'KDB산업은행',
         param: CodefBankCode.산업은행,
         logo: '/logo/banks/SU.png',
         themeColor: '#e30614',
@@ -77,7 +77,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
     },
     {
-        displayName: 'KDB',
+        displayName: 'KDB산업은행',
         param: CodefBankCode.산업은행,
         logo: '/logo/banks/SU.png',
         themeColor: '#e30614',
@@ -158,7 +158,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
-        displayName: 'SC',
+        displayName: 'SC제일은행',
         param: CodefBankCode.SC은행,
         logo: '/logo/banks/SC.png',
         themeColor: '#008485',
@@ -167,7 +167,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
-        displayName: 'SC',
+        displayName: 'SC제일은행',
         param: CodefBankCode.SC은행,
         logo: '/logo/banks/SC.png',
         themeColor: '#008485',
@@ -212,7 +212,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
-        displayName: 'IM뱅크',
+        displayName: 'IM뱅크(대구은행)',
         param: CodefBankCode.대구은행,
         logo: '/logo/banks/IM.png',
         themeColor: '#008485',
@@ -221,7 +221,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
-        displayName: 'IM뱅크',
+        displayName: 'IM뱅크(대구은행)',
         param: CodefBankCode.대구은행,
         logo: '/logo/banks/IM.png',
         themeColor: '#008485',
@@ -284,7 +284,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
-        displayName: '새마을',
+        displayName: '새마을금고',
         param: CodefBankCode.새마을금고,
         logo: '/logo/banks/SM.png',
         themeColor: '#008485',
@@ -293,7 +293,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
-        displayName: '새마을',
+        displayName: '새마을금고',
         param: CodefBankCode.새마을금고,
         logo: '/logo/banks/SM.png',
         themeColor: '#008485',
@@ -392,7 +392,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
-        displayName: 'SBI',
+        displayName: 'SBI저축은행',
         param: CodefBankCode.SBI저축은행,
         logo: '/logo/banks/SBI.png',
         themeColor: '#008485',
@@ -401,7 +401,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
-        displayName: 'SBI',
+        displayName: 'SBI저축은행',
         param: CodefBankCode.SBI저축은행,
         logo: '/logo/banks/SBI.png',
         themeColor: '#008485',
@@ -468,7 +468,7 @@ export const bankStaticDataAlt = [
         en: 'LOTTE',
     },
     {
-        displayName: 'KDB',
+        displayName: 'KDB산업은행',
         param: '30',
         ko: '산업',
         en: 'KDBBANK',

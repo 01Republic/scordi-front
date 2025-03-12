@@ -160,7 +160,7 @@ export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactP
     const {item: bankAccount, className = ''} = props;
     if (!bankAccount) return <div className="text-13 text-gray-300">비어있음</div>;
 
-    const bank = bankAccount.bank;
+    const company = bankAccount.company;
 
     return (
         <div
@@ -168,17 +168,17 @@ export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactP
             className={`h-[20px] flex gap-1.5 items-center max-w-sm ${className}`}
         >
             <Avatar className="w-[20px] h-[20px] text-12 relative">
-                {bank ? (
-                    // TODO: 로고 이미지
-                    // <NextImage src={company.logo} alt={company.displayName} fill />
-                    <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
+                {company ? (
+                    <NextImage src={company?.logo} alt={company?.displayName} fill />
                 ) : (
                     <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
                 )}
             </Avatar>
 
             <div className="flex items-center text-14 leading-none whitespace-nowrap overflow-hidden">
-                <span className="truncate">{bankAccount.alias}</span>
+                <span className="truncate">
+                    {bankAccount.alias} {bankAccount.displayNumber && `(${bankAccount.endNumber()})`}
+                </span>
             </div>
         </div>
     );

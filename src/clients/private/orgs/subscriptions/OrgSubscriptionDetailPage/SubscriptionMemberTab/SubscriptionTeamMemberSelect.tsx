@@ -5,8 +5,8 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
 import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
-import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {SlideUpAllSelectModal} from '^clients/private/_modals/SlideUpAllSelectModal';
 
 interface SubscriptionTeamMemberSelectModalProps {
     isOpened: boolean;
@@ -26,10 +26,10 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
 
     const handleUpdate = async (selectedIds: number[]) => {
         const requests = selectedIds.map((teamMemberId) => {
-            subscriptionApi.seatsApi.create(orgId, subscription.id, {teamMemberId: teamMemberId});
+            return subscriptionApi.seatsApi.create(orgId, subscription.id, {teamMemberId: teamMemberId});
         });
 
-        await Promise.all(requests);
+        await Promise.allSettled(requests);
     };
 
     const filterTeamMemberSeatList = teamMemberList.items.filter(
@@ -38,11 +38,11 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
 
     useEffect(() => {
         search({});
-        teamMemberSearch({});
+        teamMemberSearch({itemsPerPage: 0});
     }, []);
 
     return (
-        <SlideUpSelectModal
+        <SlideUpAllSelectModal
             isOpened={isOpened}
             onClose={onClose}
             onCreate={onCreate}

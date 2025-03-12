@@ -86,7 +86,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     onPrev={() => setStep(prev)}
                     onNext={() => setStep(next)}
                     isValid={true}
-                    nextButtonText={formData.creditCardId ? undefined : '건너뛰기'}
+                    nextButtonText={formData.creditCardId || formData.bankAccountId ? undefined : '건너뛰기'}
                 />
             );
         case Steps.InvoiceAccount:
