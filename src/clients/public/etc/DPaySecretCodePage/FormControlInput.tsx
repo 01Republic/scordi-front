@@ -20,15 +20,22 @@ export const FormControlInput = <FieldName extends FieldPath<DPayRequestFormDto>
     return (
         <div className="w-full">
             <label htmlFor="customerName" className="flex flex-col gap-2">
-                {label && <span>{label}</span>}
+                <div className="flex items-end justify-between">
+                    <span>{label || ''}</span>
+                    {errorMessage && <p className="text-red-600 text-right text-12">{errorMessage}</p>}
+                </div>
                 <TextInput
                     type={type}
                     {...register}
                     isInvalid={!!errorMessage}
                     onBlur={() => f.trigger(field)}
+                    onChange={(e) => {
+                        return register.onChange(e).then(() => {
+                            return f.trigger(field);
+                        });
+                    }}
                     {...res}
                 />
-                {errorMessage && <p className="text-red-600 text-right text-12">{errorMessage}</p>}
             </label>
         </div>
     );

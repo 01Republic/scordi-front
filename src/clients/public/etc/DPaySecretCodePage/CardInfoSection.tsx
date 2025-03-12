@@ -11,6 +11,7 @@ import {FormBusinessNumber} from './FormBusinessNumber';
 import {FormCardPassword} from './FormCardPassword';
 import {emailValid} from '^utils/input-helper';
 import {CTAButton} from './CTAButton';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface CardInfoSectionProps extends WithChildren {
     prevStep: () => void;
@@ -118,10 +119,21 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                         {isPersonal ? <FormBirthDay register={register} /> : <FormBusinessNumber register={register} />}
                     </section>
                     <div className="mt-10">
-                        <label className="mb-6">
-                            <input type="checkbox" {...register('agree', {required: true})} />
-                            <span className="ml-2">[필수] 서비스 이용 약관, 개인정보 처리 동의</span>
-                        </label>
+                        <div className="mb-6 flex items-center justify-between">
+                            <label className="flex items-center">
+                                <input type="checkbox" {...register('agree', {required: true})} />
+                                <span className="ml-2">[필수] 개인정보 처리 동의</span>
+                            </label>
+
+                            <LinkTo
+                                text="(열기)"
+                                href="https://01republic.notion.site/D-Pay-1b41aa2520df80a2808cdc9036e05e30"
+                                target="_blank"
+                                passHref
+                                className="text-12 text-gray-400 hover:text-gray-500 transition-all pb-[1px]"
+                                displayLoading={false}
+                            />
+                        </div>
 
                         {isPending ? (
                             <section className="mt-6">

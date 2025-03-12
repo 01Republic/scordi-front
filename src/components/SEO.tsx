@@ -12,10 +12,13 @@ interface SEOProps extends WithChildren {
     author?: string;
     keywords?: string;
     siteName?: string;
+
+    // options
+    stepBy?: boolean;
 }
 
 export const SEO = memo((props: SEOProps) => {
-    const {children} = props;
+    const {stepBy = true, children} = props;
 
     const title = props.title || '스코디 Scordi - 우리 회사 SaaS 관리, 클릭 하나로 끝내보세요';
     const description =
@@ -113,7 +116,7 @@ export const SEO = memo((props: SEOProps) => {
 
             <meta name="naver-site-verification" content="e6dd19e77ee0c635af64ba80bbf6ac46f7cb4c14" />
 
-            <script src="https://package.stepby.co/sdk/index.min.js" type="text/javascript" />
+            {stepBy && <script src="https://package.stepby.co/sdk/index.min.js" type="text/javascript" />}
         </Head>
     );
 });

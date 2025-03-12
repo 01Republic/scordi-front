@@ -16,9 +16,9 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
 
     const checkValid = () => {
         if (errors.planId) return false;
-        if (errors.customerName) return false;
-        if (errors.customerEmail) return false;
-        if (errors.customerPhone) return false;
+        if (!form.watch('customerName')) return false;
+        if (!form.watch('customerEmail') || errors.customerEmail) return false;
+        if (!form.watch('customerPhone')) return false;
 
         return true;
     };
