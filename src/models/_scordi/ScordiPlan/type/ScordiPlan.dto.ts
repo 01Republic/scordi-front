@@ -4,8 +4,11 @@ import {DPayPlanData} from './DPayPlanData';
 
 // 스코디 결제주기 유형
 export enum ScordiPlanStepType {
+    DAY = 'Day',
+    WEEK = 'Week',
     Month = 'Month',
     Year = 'Year',
+    NO = 'No',
 }
 
 // 플랜 만기시 전략
