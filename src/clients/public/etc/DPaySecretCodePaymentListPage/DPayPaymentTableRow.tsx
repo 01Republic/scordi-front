@@ -29,7 +29,7 @@ export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
     const invoiceUrl = payment.invoiceUrl;
 
     const cancelPayment = () => {
-        return confirmed(() => confirm2('이 결제를 취소할까요?'))
+        return confirmed(confirm2('이 결제를 취소할까요?'))
             .then(() => dPayScordiPaymentsApi.cancel(payment.id, secretCode))
             .then(() => toast.success('취소되었어요.'))
             .then(() => reload())
