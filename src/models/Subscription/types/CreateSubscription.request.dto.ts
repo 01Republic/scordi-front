@@ -49,7 +49,8 @@ export class CreateSubscriptionRequestDto {
     // // paidMemberCount: number; // 결제되는 사용자 수
     // // usedMemberCount?: number; // 사용중인 사용자 수
 
-    invoiceAccountId?: number;
+    //타입수정요청
+    invoiceAccountId?: number[];
     vendorContract?: UpsertVendorContractWithSubscriptionDto; // 연결하고자 하는 벤더사 데이터
 }
 

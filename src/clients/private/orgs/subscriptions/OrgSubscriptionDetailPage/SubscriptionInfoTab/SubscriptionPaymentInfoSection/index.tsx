@@ -17,6 +17,8 @@ import {SubscriptionCreditCard} from './SubscriptionCreditCard';
 import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
 import {SubscriptionStartAt} from './SubscriptionStartAt';
 import {SubscriptionFinishAt} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionFinishAt';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -26,6 +28,16 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
 
     if (!subscription) return null;
+
+    const removeInvoiceAccount = () => {
+        if (!subscription.invoiceAccounts) return;
+        const defaultInvoiceAccountIds = subscription.invoiceAccounts.map((invoiceAccount) => invoiceAccount.id);
+        const selectAccountIds = form.getValues('invoiceAccountId') || [];
+        const removedIds = defaultInvoiceAccountIds.filter((id) => !selectAccountIds.includes(id));
+        const addedIds = selectAccountIds.filter((id) => !defaultInvoiceAccountIds.includes(id));
+
+        return {removedIds, addedIds};
+    };
 
     const currentSeatCount = subscription.subscriptionSeats?.length || 0;
     const currentAssignedSeatCount = subscription.subscriptionSeats?.filter((seat) => seat.teamMemberId).length || 0;
@@ -54,7 +66,24 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                 );
             }
 
-            await subscriptionApi.update(subscription.id, dto);
+            const removedIds = removeInvoiceAccount()?.removedIds;
+            const addedIds = removeInvoiceAccount()?.addedIds;
+            if (removedIds && removedIds.length > 0) {
+                await Promise.all(
+                    removedIds.map((invoiceAccountId) =>
+                        invoiceAccountApi.subscriptionsApi.destroy(invoiceAccountId, id),
+                    ),
+                );
+            }
+
+            if (addedIds && addedIds.length > 0) {
+                await Promise.all(
+                    addedIds.map((invoiceAccountId) => invoiceAccountApi.subscriptionsApi.create(invoiceAccountId, id)),
+                );
+            }
+
+            const {invoiceAccountId, ...dtoWithoutInvoiceAccountId} = dto;
+            await subscriptionApi.update(subscription.id, dtoWithoutInvoiceAccountId);
             await reload();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
