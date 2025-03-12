@@ -2,15 +2,31 @@ import React, {memo} from 'react';
 import {ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {LinkTo} from '^components/util/LinkTo';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {DPayPlanData} from '^models/_scordi/ScordiPlan/type/DPayPlanData';
 
 interface PaymentCompleteProps {
     payment?: ScordiPaymentDto;
+    plan?: ScordiPlanDto;
+}
+
+function getExtraData(plan?: ScordiPlanDto): DPayPlanData | undefined {
+    const extraData = plan?.extraData || '';
+    return typeof extraData === 'object' ? extraData : undefined;
 }
 
 export const PaymentComplete = memo((props: PaymentCompleteProps) => {
-    const {payment} = props;
+    const {payment, plan} = props;
 
+    const extraData = getExtraData(plan);
+
+    const planName = payment?.planName || 'test';
+    const price = payment?.price || 0;
     const receiptUrl = payment?.response?.receipt?.url;
+    const hasMoveButton = extraData?.hasMoveButton ?? true;
+    const moveButtonText = extraData?.moveButtonText || '오픈카톡방으로 이동';
+    const moveButtonUrl = extraData?.moveButtonUrl || "javascript:alert('이동할 주소를 설정해주세요.')";
+    const moveButtonMethod: React.HTMLAttributeAnchorTarget | undefined = extraData?.moveButtonMethod || '_blank';
 
     return (
         <div className="w-full h-full flex flex-col pt-20 pb-8 sm:pb-20">
@@ -20,8 +36,8 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
                 <h1 className="text-xl sm:text-3xl mb-8 font-bold text-center">결제가 완료되었습니다!</h1>
 
                 <div className="my-auto px-10 md:px-0">
-                    <KeyValue label="주문 상품" value={payment?.planName || 'test'} />
-                    <KeyValue label="결제 금액" value={`${(payment?.price || 0).toLocaleString()} 원`} />
+                    <KeyValue label="주문 상품" value={planName} />
+                    <KeyValue label="결제 금액" value={`${price.toLocaleString()} 원`} />
                 </div>
             </div>
 
@@ -37,16 +53,18 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
                         displayLoading={false}
                     />
                 </div>
-                <div className="flex-1">
-                    <LinkTo
-                        className="btn btn-lg sm:btn-md btn-scordi btn-block rounded-lg"
-                        href="https://umoh.io/ko/startup_party"
-                        target="_blank"
-                        displayLoading={false}
-                    >
-                        우모로 이동
-                    </LinkTo>
-                </div>
+                {hasMoveButton && (
+                    <div className="flex-1">
+                        <LinkTo
+                            className="btn btn-lg sm:btn-md btn-scordi btn-block rounded-lg"
+                            href={moveButtonUrl}
+                            target={moveButtonMethod}
+                            displayLoading={false}
+                        >
+                            {moveButtonText}
+                        </LinkTo>
+                    </div>
+                )}
             </div>
         </div>
     );
