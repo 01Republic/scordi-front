@@ -3,6 +3,7 @@ import {OrganizationDto} from '^models/Organization/type';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {TossPaymentsPaymentDto} from '^models/_scordi/toss-payment';
+import {dateSortBy} from '^components/util/date';
 
 /**
  * 스코디 결제의 진행상태
@@ -75,6 +76,18 @@ export class ScordiPaymentDto {
     // 결제승인일
     get approvedAt() {
         return this.response?.approvedAt || null;
+    }
+
+    // 결제취소일
+    get canceledAt(): Date | null {
+        const cancels = this.response?.cancels || undefined;
+        const lastCancel = cancels?.sort(dateSortBy('DESC'))?.[0];
+        return lastCancel?.canceledAt || null;
+    }
+
+    // 잔액
+    get remainAmount() {
+        return this.response?.balanceAmount ?? this.price;
     }
 
     // 청구서 링크

@@ -14,10 +14,11 @@ import {exportTableToExcel} from '^utils/export-table-to-excel';
 import {IoMdShare} from 'react-icons/io';
 import {useRouter} from 'next/router';
 import {cryptoUtil} from '^utils/crypto';
-import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {yyyy_mm_dd} from '^utils/dateTime';
 import {toast} from 'react-hot-toast';
 import {scordiPlanApi} from '^models/_scordi/ScordiPlan/api';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {ScordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
 
 async function getPlan(secretCode: string) {
     return scordiPlanApi
@@ -53,7 +54,9 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
         clearCache();
     }, [secretCode]);
 
-    const totalPrice = result.items.reduce((total, payment) => total + payment.price, 0);
+    const successItems = result.items.filter((item) => item.status === ScordiPaymentStatus.SUCCESS);
+    const totalCount = successItems.length;
+    const totalPrice = successItems.reduce((total, payment) => total + payment.price, 0);
 
     const copyShareLink = async () => {
         if (!window) return;
@@ -89,9 +92,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                     </h1>
 
                     <div className="ml-auto flex items-center gap-2 text-xl font-bold">
-                        <div className="whitespace-nowrap">
-                            총 {result.pagination.totalItemCount.toLocaleString()}건
-                        </div>
+                        <div className="whitespace-nowrap">총 {totalCount.toLocaleString()}건</div>
                         <div>/</div>
                         <div className="whitespace-nowrap">{totalPrice.toLocaleString()}원</div>
                     </div>
@@ -136,7 +137,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                         <th>주문번호</th>
                                         <th>구매상품</th>
                                         <th>결제상태</th>
-                                        {/*<th>취소하기</th>*/}
+                                        <th>취소하기</th>
                                         <th>
                                             <div className="flex items-center gap-2">
                                                 <div>영수증</div>
@@ -164,18 +165,21 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
 
                                 <tbody>
                                     {result.items.map((payment, i) => (
-                                        <DPayPaymentTableRow key={i} payment={payment} />
+                                        <DPayPaymentTableRow
+                                            key={i}
+                                            payment={payment}
+                                            secretCode={secretCode}
+                                            reload={() => reload()}
+                                        />
                                     ))}
                                 </tbody>
 
                                 <tfoot>
                                     <tr className="relative">
                                         <td className="fixed-left">
-                                            <span className="font-semibold">
-                                                총 {result.pagination.totalItemCount.toLocaleString()}건
-                                            </span>
+                                            <span className="font-semibold">총 {totalCount.toLocaleString()}건</span>
                                         </td>
-                                        <td colSpan={12} className="text-right">
+                                        <td colSpan={13} className="text-right">
                                             <span className="font-semibold sticky right-0 px-[12px] py-[4px] mx-[-12px] my-[-4px]">
                                                 합계: {totalPrice.toLocaleString()}원
                                             </span>
