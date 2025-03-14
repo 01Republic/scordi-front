@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {LoadableBox} from '^components/util/loading';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {HiMiniInbox} from 'react-icons/hi2';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {SelectableBankAccountItem} from './SelectableBankAccountItem';
+import {Inbox} from 'lucide-react';
 
 interface BankAccountSelectModalProps {
     isOpened: boolean;
@@ -83,7 +83,7 @@ export const BankAccountSelectModal = memo((props: BankAccountSelectModalProps) 
                         maxHeight: 'calc(var(--modal-height) - 28px - 1.5rem - 80px)',
                     }}
                 >
-                    <HiMiniInbox className="text-slate-200" fontSize={48} />
+                    <Inbox className="text-slate-200" fontSize={48} />
                     <span className="text-16 font-semibold text-gray-400">등록된 결제수단이 없어요.</span>
                 </div>
             )}
