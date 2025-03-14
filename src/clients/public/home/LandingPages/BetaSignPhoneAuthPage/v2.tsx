@@ -10,7 +10,7 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {errorNotify} from '^utils/toast-notify';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
-import {googleAccessTokenAtom, googleTokenDataAtom} from '^components/pages/UsersLogin/atom';
+import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {TermModalV2} from '^clients/public/home/LandingPages/BetaSignPhoneAuthPage/TermModalV2';
 import {useSocialLoginV2} from '^models/User/hook';
