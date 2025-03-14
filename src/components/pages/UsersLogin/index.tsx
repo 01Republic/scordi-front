@@ -1,5 +1,8 @@
 import React, {memo, useState} from 'react';
+import Image from 'next/image';
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import scordiLogo from '../../../../public/images/renewallogo/scordi-symbol-logo.png';
+import scordiTextLogo from '../../../../public/images/renewallogo/scordi-text-loco.png';
 import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
@@ -27,37 +30,25 @@ export const UsersLoginPage = memo(() => {
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                     {/*<form onSubmit={form.handleSubmit(submit)}>*/}
-                    <div className="m-auto text-center w-[400px]">
+                    <div className="flex flex-col items-center justify-center w-[400px] gap-10">
                         {/*<img src="/logo-sign_in_page.png" alt="" />*/}
-                        <h1
-                            className="mb-1 text-gradient-color"
-                            style={{background: 'linear-gradient(to right, #5c5fee, #a5a6f5)'}}
-                        >
-                            SaaS 관리는 스코디
-                        </h1>
-                        <p className="mb-5 text-14 font-semibold text-gray-500">
-                            팀 생산성을 높이는 소프트웨어 구독 비용 관리
-                        </p>
+                        <section className="flex items-center justify-center gap-3">
+                            <Image src={scordiLogo} alt="scordiLogo" width={40} height={40} priority />
+                            <Image src={scordiTextLogo} alt="scordiLogo" width={140} height={36} priority />
+                        </section>
 
-                        <div className="">
-                            <GoogleLoginBtn
-                                about="login"
-                                className="btn-block justify-start relative"
-                                buttonText={
-                                    <span>
-                                        Google 계정으로 시작하기{' '}
-                                        <span className="absolute right-4">
-                                            <ArrowRight />
-                                        </span>
+                        <GoogleLoginBtn
+                            about="login"
+                            className="btn-block justify-start relative"
+                            buttonText={
+                                <span>
+                                    Google 계정으로 로그인
+                                    <span className="absolute right-4">
+                                        <ArrowRight />
                                     </span>
-                                }
-                            />
-                        </div>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
+                                </span>
+                            }
+                        />
                     </div>
                     {/*</form>*/}
                 </div>

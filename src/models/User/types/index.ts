@@ -164,3 +164,12 @@ export class FindAllUserByAdminDto extends FindAllQueryDto<UserDto> {
 export class UpdateUserByAdminDto {
     isAdmin?: boolean; // 관리자 여부
 }
+
+// 임시타입-유저정보 받기
+export interface UserAdditionalInfoType {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    job: string;
+    code: string;
+}

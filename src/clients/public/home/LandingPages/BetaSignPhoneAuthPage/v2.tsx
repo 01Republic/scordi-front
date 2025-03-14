@@ -10,13 +10,14 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {errorNotify} from '^utils/toast-notify';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
-import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
+import {googleAccessTokenAtom, googleTokenDataAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {TermModalV2} from '^clients/public/home/LandingPages/BetaSignPhoneAuthPage/TermModalV2';
 import {useSocialLoginV2} from '^models/User/hook';
-import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
+import {UserAdditionalInfoType, UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
+import {SignAdditionalInfoPage} from 'src/clients/public/home/LandingPages/SignAdditionalInfoPage';
 import {Loader} from 'lucide-react';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
@@ -197,7 +198,8 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-            <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
+            <SignAdditionalInfoPage />
+            <div className=" mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                 <h1
                     className="text-3xl sm:text-4xl font-bold"
                     onClick={() => {
