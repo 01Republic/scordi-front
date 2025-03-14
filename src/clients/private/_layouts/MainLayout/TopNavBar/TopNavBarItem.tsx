@@ -41,7 +41,7 @@ export const TopNavBarItem = memo((props: TopNavBarItemProps) => {
                             }`}
                         >
                             <span>{name}</span>
-                            <ChevronDown size={10} strokeWidth={20} />
+                            <ChevronDown size={16} />
                         </a>
                     </div>
                 )}
