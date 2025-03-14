@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {createBankAccountDtoAtom} from '^v3/share/modals/NewBankAccountModal/atom';
+import {ChevronLeft} from 'lucide-react';
 
 interface InputBankFormDataStepProps {
     bankCompany: BankAccountsStaticData;
@@ -18,7 +18,7 @@ export const InputBankFormDataStep = memo((props: InputBankFormDataStepProps) =>
         <div className="flex flex-col items-stretch">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={() => onBack()} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={() => onBack()} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">계좌 직접 추가하기</p>
                 <h3 className="font-bold text-xl leading-tight">

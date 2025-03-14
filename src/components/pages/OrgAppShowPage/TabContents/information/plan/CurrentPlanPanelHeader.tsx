@@ -1,8 +1,8 @@
 import {memo} from 'react';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {ContentPanelHeading} from '^layouts/ContentLayout';
-import {BsFillCaretDownFill} from '^components/react-icons';
 import {Locale, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
+import {ChevronDown} from 'lucide-react';
 
 interface CurrentPlanPanelHeader {
     subscription: SubscriptionDto;
@@ -41,7 +41,7 @@ export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-sm btn-gray shadow normal-case gap-1">
                             <span>Edit</span>
-                            <BsFillCaretDownFill size={10} />
+                            <ChevronDown size={10} />
                         </label>
                         <ul tabIndex={0} className="dropdown-content menu p-0 mt-2 shadow bg-base-100 rounded-lg">
                             <li>

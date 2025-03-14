@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {IoIosLink} from 'react-icons/io';
 import {LinkTo} from '^components/util/LinkTo';
+import {Link} from 'lucide-react';
 
 interface ConnectMethodCardProps {
     logo: string;
@@ -48,7 +48,7 @@ export const ConnectMethodCard = memo((props: ConnectMethodCardProps) => {
                         <>
                             {connected && (
                                 <span className="flex gap-1 items-center px-2 py-0.5 bg-green-200 text-green-800 rounded-btn text-sm">
-                                    <IoIosLink /> 연결됨
+                                    <Link /> 연결됨
                                 </span>
                             )}
                         </>

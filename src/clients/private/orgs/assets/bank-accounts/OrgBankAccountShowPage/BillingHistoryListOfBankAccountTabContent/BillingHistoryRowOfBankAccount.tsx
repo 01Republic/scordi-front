@@ -2,13 +2,13 @@ import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/Billi
 import React, {memo} from 'react';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
-import {IoIosMore} from 'react-icons/io';
 import {eventCut} from '^utils/event';
 import {Dropdown} from '^v3/share/Dropdown';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {BillingHistoryStatusTagUI, BillingHistoryTimestamp, PayAmount} from '^models/BillingHistory/components';
+import {MoreHorizontal} from 'lucide-react';
 
 interface BillingHistoryRowOfBankAccountProps {
     item: BillingHistoryDto;
@@ -63,7 +63,7 @@ export const BillingHistoryRowOfBankAccount = memo((props: BillingHistoryRowOfBa
 
             {/* Actions */}
             <td className="cursor-pointer">
-                <Dropdown placement="bottom-end" Trigger={() => <IoIosMore fontSize={20} />}>
+                <Dropdown placement="bottom-end" Trigger={() => <MoreHorizontal fontSize={20} />}>
                     {({hide}) => (
                         <ul
                             className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"

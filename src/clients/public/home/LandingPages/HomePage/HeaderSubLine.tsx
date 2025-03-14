@@ -1,9 +1,7 @@
 import {memo} from 'react';
-import {GiClick} from '@react-icons/all-files/gi/GiClick';
-import {IconType} from '@react-icons/all-files';
-import {GoTasklist} from '@react-icons/all-files/go/GoTasklist';
-import {BsCalendarEvent} from '^components/react-icons';
+import {LucideIcon} from 'lucide-react';
 import {useTranslation} from 'next-i18next';
+import {CalendarDays, ListTodo, MousePointer} from 'lucide-react';
 
 export const HeaderSubLine = memo(() => {
     const {t} = useTranslation('publicMain');
@@ -11,16 +9,16 @@ export const HeaderSubLine = memo(() => {
     return (
         <section className="bg-scordi py-6">
             <div className="flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between max-w-[80%] sm:max-w-[70%] mx-auto">
-                <HeaderSubLineItem icon={GiClick} text={t('subLine.1st')} />
-                <HeaderSubLineItem icon={BsCalendarEvent} text={t('subLine.2nd')} />
-                <HeaderSubLineItem icon={GoTasklist} text={t('subLine.3rd')} />
+                <HeaderSubLineItem icon={MousePointer} text={t('subLine.1st')} />
+                <HeaderSubLineItem icon={CalendarDays} text={t('subLine.2nd')} />
+                <HeaderSubLineItem icon={ListTodo} text={t('subLine.3rd')} />
             </div>
         </section>
     );
 });
 
 interface HeaderSubLineItemProps {
-    icon: IconType;
+    icon: LucideIcon;
     text: string;
 }
 

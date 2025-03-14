@@ -1,7 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {GoMail} from 'react-icons/go';
 import {orgIdParamState} from '^atoms/common';
 import {swalHTML} from '^components/util/dialog';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
@@ -12,6 +11,7 @@ import {
 } from '^clients/private/_modals/invoice-accounts';
 import {QuickButton} from './QuickButton';
 import {useDashboardInvoiceAccountsSection} from '^models/_dashboard/hook';
+import {Mail} from 'lucide-react';
 
 export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -26,7 +26,7 @@ export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
         <>
             <QuickButton
                 text="청구서 메일 추가"
-                Icon={() => <GoMail />}
+                Icon={() => <Mail />}
                 onClick={() => setIsInvoiceCreateModalOpened(true)}
             />
 

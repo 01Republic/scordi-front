@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {HiOutlineInbox} from 'react-icons/hi2';
 import {useToast} from '^hooks/useToast';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {ListContainer} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListContainer';
 import {ConnectWorkspaceButtonInConnectsPage as ConnectWorkspaceButton} from '^v3/V3OrgConnectsPage/DatasourceListSection/WorkspacesSection/ConnectWorkspaceButton';
 import {WorkspaceItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/WorkspacesSection/WorkspaceItem';
+import {Inbox} from 'lucide-react';
 
 export const WorkspacesSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -23,7 +23,7 @@ export const WorkspacesSection = memo(() => {
     return (
         <ListContainer
             title="워크스페이스"
-            Icon={() => <HiOutlineInbox size={20} />}
+            Icon={() => <Inbox size={20} />}
             onClickAddButton={() => onClick()}
             isShowAddButton={false}
             className="border-r"

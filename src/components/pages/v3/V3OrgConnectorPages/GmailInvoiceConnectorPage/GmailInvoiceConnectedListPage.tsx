@@ -1,7 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft, FaArrowRotateRight, FaPlus} from 'react-icons/fa6';
-import {FcAddressBook, FcFinePrint} from 'react-icons/fc';
 import {useRouter} from 'next/router';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
@@ -23,6 +21,7 @@ import {useAlert} from '^hooks/useAlert';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
+import {ArrowLeft, Book, FileText, Plus, RotateCw} from 'lucide-react';
 
 const selectedInvoiceAccountAtom = atom<InvoiceAccountDto | null>({
     key: 'selectedInvoiceAccountAtom',
@@ -46,7 +45,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
                         onClick={() => router.back()}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <FaArrowLeft /> 뒤로가기
+                        <ArrowLeft /> 뒤로가기
                     </LinkTo>
                 </div>
 
@@ -68,7 +67,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
 
                     <div className="flex gap-2">
                         {/*<button className="btn btn-scordi-light-200 !text-gray-700 btn-lg gap-2">*/}
-                        {/*    <FaArrowRotateRight />*/}
+                        {/*    <RotateCw />*/}
                         {/*    <span>모두 동기화</span>*/}
                         {/*</button>*/}
 
@@ -77,7 +76,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
                             onCode={(code) => setCode(code)}
                             ButtonComponent={() => (
                                 <button className="btn btn-scordi btn-lg gap-2">
-                                    <FaPlus />
+                                    <Plus />
                                     <span>새 메일 추가</span>
                                 </button>
                             )}
@@ -118,7 +117,7 @@ const InvoiceAccountListSection = memo(() => {
     return (
         <div className="col-span-2 mb-8">
             <h3 className="flex items-center gap-2 mb-6">
-                <FcAddressBook size={30} />
+                <Book size={30} />
                 <span>청구서 수신 메일</span>
                 <button
                     className={`btn btn-sm btn-ghost ml-auto gap-2 ${refreshIsClicked ? 'loading' : ''}`}
@@ -129,7 +128,7 @@ const InvoiceAccountListSection = memo(() => {
                 >
                     {!refreshIsClicked && (
                         <>
-                            <FaArrowRotateRight />
+                            <RotateCw />
                             <span>새로고침</span>
                         </>
                     )}
@@ -235,7 +234,7 @@ const SubscriptionListSection = memo(() => {
     return (
         <div className="col-span-3 mb-8">
             <h3 className="flex items-center gap-2 mb-6">
-                <FcFinePrint size={30} />{' '}
+                <FileText size={30} />{' '}
                 <span>계정으로 조회된 구독 {subscriptions.length ? `(${subscriptions.length})` : ''}</span>
             </h3>
 

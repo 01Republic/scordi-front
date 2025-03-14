@@ -1,12 +1,12 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FaCaretDown} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentTeamMember} from '^models/TeamMember';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {FormControl} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControl';
 import {FormControlEmptyValue} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControlEmptyValue';
+import {ChevronDown} from 'lucide-react';
 
 interface BankAccountHoldingMemberProps {
     isEditMode: boolean;
@@ -46,7 +46,7 @@ export const BankAccountHoldingMember = memo((props: BankAccountHoldingMemberPro
                         className="flex-auto"
                         compactView
                     />
-                    <FaCaretDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
+                    <ChevronDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
                 </div>
             ) : (
                 <div className={`w-full flex items-center justify-between h-[32px]`}>

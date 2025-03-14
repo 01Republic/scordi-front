@@ -6,12 +6,8 @@ import {useDPayPaymentsInPaymentListPage} from '^models/_scordi/ScordiPayment/ho
 import {useUnmount} from '^hooks/useUnmount';
 import {DPayPaymentTableRow} from './DPayPaymentTableRow';
 import {LoadableBox} from '^components/util/loading';
-import {MdRefresh} from 'react-icons/md';
 import Tippy from '@tippyjs/react';
-import {BsFillInfoCircleFill} from 'react-icons/bs';
-import {RiFileExcel2Fill} from 'react-icons/ri';
 import {exportTableToExcel} from '^utils/export-table-to-excel';
-import {IoMdShare} from 'react-icons/io';
 import {useRouter} from 'next/router';
 import {cryptoUtil} from '^utils/crypto';
 import {yyyy_mm_dd} from '^utils/dateTime';
@@ -19,6 +15,7 @@ import {toast} from 'react-hot-toast';
 import {scordiPlanApi} from '^models/_scordi/ScordiPlan/api';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {ScordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
+import {FileSpreadsheet, Info, RotateCw, Share} from 'lucide-react';
 
 async function getPlan(secretCode: string) {
     return scordiPlanApi
@@ -86,7 +83,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                 className={`btn text-18 sm:btn-xs sm:text-14 btn-square btn-scordi ml-auto sm:ml-0`}
                                 onClick={() => reload()}
                             >
-                                <MdRefresh className={isLoading ? 'animate-spin' : ''} />
+                                <RotateCw className={isLoading ? 'animate-spin' : ''} />
                             </button>
                         </Tippy>
                     </h1>
@@ -101,7 +98,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                 <section className="flex items-center gap-2 mb-3">
                     <div>
                         <button className="btn btn-sm rounded-md gap-2" onClick={() => copyShareLink()}>
-                            <IoMdShare className="text-scordi" fontSize={16} />
+                            <Share className="text-scordi" fontSize={16} />
                             <span>링크 공유하기</span>
                         </button>
                     </div>
@@ -114,7 +111,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                 })
                             }
                         >
-                            <RiFileExcel2Fill className="text-green-600" fontSize={16} />
+                            <FileSpreadsheet className="text-green-600" fontSize={16} />
                             <span>엑셀 다운로드</span>
                         </button>
                     </div>
@@ -146,7 +143,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                                     content="네이버페이, 카카오페이 등 간편결제를 사용한 현금성 결제는 현금영수증이 표시돼요."
                                                 >
                                                     <div>
-                                                        <BsFillInfoCircleFill fontSize={14} className="text-gray-400" />
+                                                        <Info fontSize={14} className="text-gray-400" />
                                                     </div>
                                                 </Tippy>
                                             </div>

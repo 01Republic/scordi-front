@@ -1,6 +1,6 @@
 import {WithChildren} from '^types/global.type';
 import {memo, useEffect, useState} from 'react';
-import {TiArrowSortedDown, TiArrowSortedUp} from 'react-icons/ti';
+import {ArrowDown, ArrowUp} from 'lucide-react';
 
 interface SortableTHProps extends WithChildren {
     className?: string;
@@ -29,7 +29,7 @@ export const SortableTH = (props: SortableTHProps) => {
         <th onClick={sort} className={`cursor-pointer bg-transparent ${className}`}>
             {isSortable ? (
                 <div className={`flex items-center ${className}`}>
-                    {children} {direct === 'DESC' ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
+                    {children} {direct === 'DESC' ? <ArrowUp /> : <ArrowDown />}
                 </div>
             ) : (
                 children

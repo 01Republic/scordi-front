@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {Avatar} from '^components/Avatar';
-import {HiOutlineChevronRight} from 'react-icons/hi';
 import {useRouter} from 'next/router';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
+import {ChevronRight} from 'lucide-react';
 
 interface CardItemProps {
     idx: number;
@@ -37,7 +37,7 @@ export const CardItem2 = memo((props: CardItemProps) => {
             </div>
 
             <div>
-                <HiOutlineChevronRight size={14} className="text-gray-500" />
+                <ChevronRight size={14} className="text-gray-500" />
             </div>
         </div>
     );

@@ -3,9 +3,9 @@ import {useRecoilValue} from 'recoil';
 import {ContentPanelBody, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {fetchSubscriptionQueryById} from '^models/Subscription/atom';
-import {AiOutlineWarning} from '^components/react-icons';
 import {ProductDto} from '^models/Product/type';
 import {useBillingList} from '^hooks/useBillingList';
+import {AlertCircle} from 'lucide-react';
 
 export const BillingScheduleListPanel = memo(() => {
     const {selectedDate, billingHistories, billingSchedules} = useBillingList();
@@ -94,7 +94,7 @@ const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
                             {isOverdue && (
                                 <span className="text-error flex gap-2 items-center justify-end">
                                     <span className="inline">
-                                        <AiOutlineWarning size={14} />
+                                        <AlertCircle size={14} />
                                     </span>
                                     <span>결제기한이 지났어요!</span>
                                 </span>

@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {BiChevronDown} from '@react-icons/all-files/bi/BiChevronDown';
+import {ChevronDown} from 'lucide-react';
 
 export interface SelectContainerProps extends WithChildren {
     currentVal: string;
@@ -17,7 +17,7 @@ export const SelectContainer = memo((props: SelectContainerProps) => {
                 <span className={`text-sm normal-case ${isNotSelected ? 'text-gray-300' : 'text-gray-700'}`}>
                     {currentVal}
                 </span>
-                <BiChevronDown />
+                <ChevronDown />
             </label>
             <ul
                 tabIndex={0}

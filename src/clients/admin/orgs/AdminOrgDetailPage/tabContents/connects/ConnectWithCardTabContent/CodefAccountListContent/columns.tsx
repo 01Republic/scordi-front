@@ -1,5 +1,4 @@
 import React from 'react';
-import {IoMdMore} from 'react-icons/io';
 import {toast} from 'react-hot-toast';
 import {CardTableColumns} from '^admin/share';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
@@ -10,6 +9,7 @@ import {unitFormat} from '^utils/number';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
+import {MoreHorizontal} from 'lucide-react';
 
 interface Options {
     reload: () => Promise<any>;
@@ -135,7 +135,7 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
                             placement="bottom-end"
                             Trigger={() => (
                                 <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
-                                    <IoMdMore fontSize={16} />
+                                    <MoreHorizontal fontSize={16} />
                                 </button>
                             )}
                         >

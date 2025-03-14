@@ -1,7 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
 import {
@@ -10,6 +9,7 @@ import {
     TeamMemberCreateByExcelModal,
 } from '^clients/private/_modals/team-members';
 import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
+import {Plus} from 'lucide-react';
 
 interface AddTeamMemberModalProps {
     reload: () => any;
@@ -30,7 +30,7 @@ export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
                 className="btn btn-scordi gap-2 mb-1 no-animation btn-animation"
                 onClick={() => setCreateMethodModalOpened(true)}
             >
-                <FaPlus />
+                <Plus />
                 <span className="mr-1.5">구성원 추가</span>
             </button>
 

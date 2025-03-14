@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {FaRegCreditCard} from 'react-icons/fa6';
 import {getColor, palette} from '^components/util/palette';
 import {Avatar} from '^components/Avatar';
 import {NextImage} from '^components/NextImage';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {CreditCard} from 'lucide-react';
 
 /**
  * 카드 프로필 : 기본
@@ -64,7 +64,7 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
             {creditCard ? (
                 <>
                     <Avatar className="w-7">
-                        <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+                        <CreditCard size={20} className="h-full w-full p-[6px]" />
                     </Avatar>
 
                     <div className="flex flex-col gap-0.5 overflow-hidden text-left">
@@ -113,7 +113,7 @@ export const CreditCardProfileOption2 = memo((props: CreditCardProfileOption2Pro
                         {company ? (
                             <img src={company.logo} alt="" />
                         ) : (
-                            <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+                            <CreditCard size={20} className="h-full w-full p-[6px]" />
                         )}
                     </Avatar>
 
@@ -158,7 +158,7 @@ export const CreditCardProfileCompact = memo((props: CreditCardProfileCompactPro
                 {company ? (
                     <NextImage src={company.logo} alt={company.displayName} fill />
                 ) : (
-                    <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
+                    <CreditCard size={12} className="h-full w-full p-1 text-gray-400" />
                 )}
             </Avatar>
 

@@ -10,11 +10,10 @@ import {GoogleSyncHistoryDto} from '^models/GoogleSyncHistory/type';
 import {plainToast as toast} from '^hooks/useToast';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {OnboardingSkippedStore, SkippedStoreStatus} from '^v3/share/OnboardingFlow/SkipButton';
-import {IoIosLink, IoMdMore} from 'react-icons/io';
-import {FaCaretDown, FaCaretRight} from 'react-icons/fa6';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {useRouter} from 'next/router';
+import {ChevronDown, ChevronRight, Link, MoreHorizontal} from 'lucide-react';
 
 export const GoogleWorkspaceConnector = memo(function GoogleWorkspaceConnector() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -113,7 +112,7 @@ const GoogleWorkspaceConnectedCard = memo((props: Props) => {
                     Trigger={() => (
                         <div ref={moreDropdownLabelRef}>
                             <div className="cursor-pointer text-gray-500 text-14 flex gap-1 items-center">
-                                <FaCaretRight className="relative -top-[1px]" />
+                                <ChevronRight className="relative -top-[1px]" />
                             </div>
                         </div>
                     )}

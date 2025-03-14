@@ -2,12 +2,11 @@ import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CardTableTR} from '^admin/share';
 import {hh_mm, yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {GoDotFill} from 'react-icons/go';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {InvoiceAppManager} from '^models/InvoiceApp/manager';
-import {IoMdMore} from 'react-icons/io';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {Circle, MoreHorizontal} from 'lucide-react';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -48,12 +47,12 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
             <div className="flex items-center gap-2 whitespace-nowrap">
                 {/*{invoiceAccount.isTokenExpiredAssume ? (*/}
                 {/*    <div className="badge bg-white gap-1 no-selectable border-success whitespace-nowrap">*/}
-                {/*        <GoDotFill className="text-success" size={20} />*/}
+                {/*        <Circle className="text-success" size={20} />*/}
                 {/*        <span>On Air</span>*/}
                 {/*    </div>*/}
                 {/*) : (*/}
                 {/*    <div className="badge bg-white gap-1 no-selectable border-gray-300 whitespace-nowrap">*/}
-                {/*        <GoDotFill className="text-gray-500" size={20} />*/}
+                {/*        <Circle className="text-gray-500" size={20} />*/}
                 {/*        <span>Expired</span>*/}
                 {/*    </div>*/}
                 {/*)}*/}
@@ -101,7 +100,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                     placement="bottom-end"
                     Trigger={() => (
                         <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
-                            <IoMdMore fontSize={16} />
+                            <MoreHorizontal fontSize={16} />
                         </button>
                     )}
                 >

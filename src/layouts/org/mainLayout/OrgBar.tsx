@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {OrganizationDto} from '^models/Organization/type';
 import {useCurrentUser} from '^models/User/hook';
-import {AiOutlinePlus} from '^components/react-icons';
 import {OrgSearchRoute} from '^pages/orgs/search';
 import {useRouter} from 'next/router';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {useCurrentUserMemberships} from '^models/Membership/hook';
+import {Plus} from 'lucide-react';
 
 export const OrgBar = memo(() => {
     const router = useRouter();
@@ -29,7 +29,7 @@ export const OrgBar = memo(() => {
                 style={{minHeight: '1.75rem'}}
                 onClick={() => router.push(OrgSearchRoute.path())}
             >
-                <AiOutlinePlus strokeWidth={50} />
+                <Plus strokeWidth={50} />
             </button>
         </div>
     );

@@ -5,8 +5,8 @@ import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
 import {WithChildren} from '^types/global.type';
 import {googleOAuth} from '^config/environments';
-import {FaArrowRight} from 'react-icons/fa6';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
+import {ArrowRight} from 'lucide-react';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,7 +47,7 @@ export const UsersLoginPage = memo(() => {
                                     <span>
                                         Google 계정으로 시작하기{' '}
                                         <span className="absolute right-4">
-                                            <FaArrowRight />
+                                            <ArrowRight />
                                         </span>
                                     </span>
                                 }

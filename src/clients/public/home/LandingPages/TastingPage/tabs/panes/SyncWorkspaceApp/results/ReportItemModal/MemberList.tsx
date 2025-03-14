@@ -1,12 +1,11 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {MdOutlineWatchLater} from 'react-icons/md';
 import {Avatar} from '^components/Avatar';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {subjectReportProductItem, useReportInDemo} from '../../atom';
-import {BsDashCircle} from 'react-icons/bs';
 import {ReportGroupedByProductMemberDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-member.dto';
 import {useReportMemberItemModal} from '^tasting/tabs/panes/SyncWorkspaceApp/results/ReportMemberItemModal/atom';
+import {Clock, MinusCircle} from 'lucide-react';
 
 export const ReportItemModalMemberList = memo(function ReportItemModalMemberList() {
     const subjectItem = useRecoilValue(subjectReportProductItem);
@@ -40,7 +39,7 @@ export const ReportItemModalMemberList = memo(function ReportItemModalMemberList
                             <p className="font-semibold text-sm">{member.email}</p>
                             <p className="leading-none font-light text-xs text-gray-500 flex items-center gap-1">
                                 <span className="flex items-center gap-1 pt-[1px]">
-                                    <MdOutlineWatchLater size={14} className="relative" />
+                                    <Clock size={14} className="relative" />
                                     {/*<span className="">마지막 인증</span>*/}
                                 </span>
                                 {member.lastAuthorizedTime && (
@@ -58,7 +57,7 @@ export const ReportItemModalMemberList = memo(function ReportItemModalMemberList
                                 }}
                                 className="relative top-[-2px] text-red-300 hover:text-red-500 transition-all"
                             >
-                                <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                                <MinusCircle className="" size={24} strokeWidth={0.3} />
                             </button>
                         </div>
                     </div>

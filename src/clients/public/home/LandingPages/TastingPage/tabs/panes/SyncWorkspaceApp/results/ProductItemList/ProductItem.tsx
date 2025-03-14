@@ -1,13 +1,12 @@
 import React, {memo, useState} from 'react';
 import {useSetRecoilState} from 'recoil';
-import {FaQuestion} from 'react-icons/fa6';
-import {BsFillXCircleFill} from 'react-icons/bs';
 import {useModal} from '^v3/share/modals/useModal';
 import {useOnResize2} from '^components/util/onResize2';
 import {Avatar} from '^components/Avatar';
 import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
 import {reportItemModalIsShow, subjectReportProductItem, useReportInDemo} from '../../atom';
 import {isAddingModeState} from '../ReportItemModal/atom';
+import {HelpCircle, XCircle} from 'lucide-react';
 
 interface ProductItemProps {
     item: ReportGroupedByProductItemDto;
@@ -43,7 +42,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
         >
             <div>
                 <Avatar className="w-8" src={item.product?.image}>
-                    <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
+                    <HelpCircle size={24} className="text-gray-300 h-full w-full p-[6px]" />
                 </Avatar>
             </div>
             <div className="flex-1 h-full flex flex-col items-end gap-2">
@@ -61,7 +60,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
                         }}
                         className="relative top-[-2px] rounded-full text-red-500 hover:outline outline-offset-2 transition-all"
                     >
-                        <BsFillXCircleFill className="" size={16} />
+                        <XCircle className="" size={16} />
                     </button>
                 </div>
             )}

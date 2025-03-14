@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import Tippy from '@tippyjs/react';
-import {BsDashCircle} from 'react-icons/bs';
 import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
@@ -20,6 +19,7 @@ import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[su
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {MinusCircle} from 'lucide-react';
 
 interface TeamMemberSubscriptionTableRowProps {
     teamMember: TeamMemberDto;
@@ -154,7 +154,7 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
                                 disconnect();
                             }}
                         >
-                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                            <MinusCircle className="" size={24} strokeWidth={0.3} />
                         </button>
                     </Tippy>
                 </div>

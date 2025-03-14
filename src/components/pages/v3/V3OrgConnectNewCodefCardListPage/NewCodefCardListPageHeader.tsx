@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {FaArrowLeft} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
 import {debounce} from 'lodash';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
@@ -9,6 +8,7 @@ import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
 import {reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 import {newCodefCardConnected} from './atom';
+import {ArrowLeft} from 'lucide-react';
 
 export const NewCodefCardListPageHeader = memo(() => {
     const router = useRouter();
@@ -38,7 +38,7 @@ export const NewCodefCardListPageHeader = memo(() => {
                         !reloading ? 'cursor-pointer' : 'cursor-wait opacity-30'
                     }`}
                 >
-                    <FaArrowLeft /> 뒤로가기
+                    <ArrowLeft /> 뒤로가기
                 </LinkTo>
             </div>
 

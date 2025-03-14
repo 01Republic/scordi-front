@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {debounce} from 'lodash';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {useOrgIdParam} from '^atoms/common';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
@@ -10,6 +9,7 @@ import {useVendorCompanyListInCreateSubscription} from '^models/vendor/VendorCom
 import {SearchVendorCompanyInput} from './SearchVendorCompanyInput';
 import {VendorCompanyItem} from './VendorCompanyItem';
 import {toast} from 'react-hot-toast';
+import {ChevronLeft} from 'lucide-react';
 
 interface VendorCompanySelectModalProps {
     isOpened: boolean;
@@ -63,7 +63,7 @@ export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalPro
         >
             <div>
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">파트너사 설정</p>
                 <h3 className="font-bold text-xl leading-tight">

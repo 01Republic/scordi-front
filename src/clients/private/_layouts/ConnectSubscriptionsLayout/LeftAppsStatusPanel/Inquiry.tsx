@@ -1,12 +1,12 @@
 import {memo} from 'react';
-import {BsQuestionCircle} from 'react-icons/bs';
 import {LinkTo} from '^components/util/LinkTo';
 import {ChannelTalk_Url} from '^config/constants';
+import {HelpCircle} from 'lucide-react';
 
 export const Inquiry = memo(function Inquiry() {
     return (
         <div>
-            <BsQuestionCircle size={20} className="text-gray-500 mb-3 relative -left-[1px]" />
+            <HelpCircle size={20} className="text-gray-500 mb-3 relative -left-[1px]" />
 
             <h4 className="text-13 mb-3">연동에 문제가 있나요?</h4>
             <p className="text-12 font-medium text-gray-500 leading-[1.5] mb-4">

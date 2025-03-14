@@ -1,9 +1,7 @@
 import {memo, useEffect} from 'react';
-import {FaPlus} from 'react-icons/fa6';
 import {AppUnit} from '^clients/private/orgs/home/OrgMainPage/AppUnit';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {IoIosMore} from 'react-icons/io';
 import {Squircle} from '^components/ui/Squircle';
 import {LoadableBox} from '^components/util/loading';
 import {useProductOnMainPage} from '^models/Product/hook';
@@ -11,6 +9,7 @@ import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/sel
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
 import {useUnmount} from '^hooks/useUnmount';
+import {MoreHorizontal, Plus} from 'lucide-react';
 
 export const AppUnitList = memo(function AppUnitList() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -40,7 +39,7 @@ export const AppUnitList = memo(function AppUnitList() {
                 {pagination.totalPage > 1 && (
                     <div className="flex items-center justify-center">
                         <Squircle text="전체보기" onClick={() => changePageSize(0)}>
-                            <IoIosMore size={24} />
+                            <MoreHorizontal size={24} />
                         </Squircle>
                     </div>
                 )}
@@ -48,7 +47,7 @@ export const AppUnitList = memo(function AppUnitList() {
                 <div className="flex items-center justify-center">
                     <LinkTo href={OrgSubscriptionSelectPageRoute.path(organizationId)} displayLoading={false}>
                         <Squircle text="등록하기">
-                            <FaPlus className="" />
+                            <Plus className="" />
                         </Squircle>
                     </LinkTo>
                 </div>

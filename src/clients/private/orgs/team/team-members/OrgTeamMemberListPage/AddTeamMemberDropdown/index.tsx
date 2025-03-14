@@ -2,7 +2,6 @@ import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {orgIdParamState} from '^atoms/common';
 import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
 import {
@@ -17,7 +16,7 @@ import {
     TeamMemberCreateAutoModal,
     TeamMemberCreateByExcelModal,
 } from '^clients/private/_modals/team-members';
-import {ExcelIcon} from '^components/react-icons';
+import {Database, DatabaseBackup, FileSpreadsheet} from 'lucide-react';
 
 interface AddTeamMemberDropdownProps {
     reload: () => any;
@@ -43,20 +42,20 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
                     }}
                 >
                     <MethodOption
-                        Icon={FcDataBackup}
+                        Icon={Database}
                         title="구성원 불러오기"
                         desc="구글워크스페이스 로그인으로 한 번에 불러와요."
                         onClick={resetGsuiteAuthCode}
                     />
                 </GoogleAdminOAuthButton>
                 <MethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 추가하기"
                     desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => router.push(OrgTeamMemberNewPageRoute.path(orgId))}
                 />
                 <MethodOption
-                    Icon={ExcelIcon}
+                    Icon={FileSpreadsheet}
                     title="엑셀로 대량 등록하기"
                     desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
                     onClick={() => setCreateByExcelModalOpened(true)}

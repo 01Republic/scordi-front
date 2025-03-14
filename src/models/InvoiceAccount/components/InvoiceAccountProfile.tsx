@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
-import {FaCircleExclamation} from 'react-icons/fa6';
 import {InvoiceAccountProfileCompactInManual, InvoiceAccountProfileInManual} from './InvoiceAccountProfileInManual';
 import Tippy from '@tippyjs/react';
+import {AlertCircle} from 'lucide-react';
 
 interface InvoiceAccountProfileProps {
     invoiceAccount: InvoiceAccountDto;
@@ -24,7 +24,7 @@ export const InvoiceAccountProfile = memo((props: InvoiceAccountProfileProps) =>
                     <p className="leading-none font-medium text-14 mb-1">{invoiceAccount.googleTokenData.name}</p>
                 ) : (
                     <p className="leading-none text-orange-400 text-12 mb-1 flex items-center">
-                        <FaCircleExclamation className="mr-1" />
+                        <AlertCircle className="mr-1" />
                         <span>재연동이 필요합니다</span>
                     </p>
                 )}
@@ -64,7 +64,7 @@ export const InvoiceAccountProfileCompact = memo((props: InvoiceAccountProfilePr
                         <Tippy className="text-13" content={<span>재연동이 필요합니다</span>}>
                             <div className="flex items-center gap-1 cursor-pointer">
                                 <span>{invoiceAccount.email}</span>
-                                <FaCircleExclamation fontSize={11} />
+                                <AlertCircle fontSize={11} />
                             </div>
                         </Tippy>
                     ) : (

@@ -3,7 +3,6 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {MobileSection} from '../share/sections/MobileSection';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
-import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
 import {ContentEmpty} from '../share/ContentEmpty';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
@@ -18,6 +17,7 @@ import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^mode
 import {creditCardApi} from '^models/CreditCard/api';
 import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
 import {orgIdParamState} from '^atoms/common';
+import {Plus} from 'lucide-react';
 
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -87,7 +87,7 @@ export const V3OrgCardDetailPage = memo(() => {
 
                 {isModalClose() && (
                     <button className="btn btn-lg btn-scordi btn-circle btn-floating">
-                        <BsPlus size={48} onClick={openSelectAppModal} />
+                        <Plus size={48} onClick={openSelectAppModal} />
                     </button>
                 )}
             </MobileSection.List>

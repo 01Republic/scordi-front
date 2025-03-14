@@ -2,8 +2,6 @@ import React, {ImgHTMLAttributes, memo} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {FaArrowLeft} from 'react-icons/fa6';
-import {AiFillSafetyCertificate} from 'react-icons/ai';
 import {googleOAuth} from '^config/environments';
 import {WithChildren} from '^types/global.type';
 import {OutLink} from '^components/OutLink';
@@ -11,6 +9,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {BottomUpModalSwal} from '^components/util/modals/share';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {googleWorkspaceAccessTokenAtom} from './atom';
+import {ArrowLeft, Shield} from 'lucide-react';
 
 export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBeforeConnectPage() {
     const router = useRouter();
@@ -24,7 +23,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                         onClick={() => router.back()}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <FaArrowLeft /> 뒤로가기
+                        <ArrowLeft /> 뒤로가기
                     </LinkTo>
                 </div>
 
@@ -247,7 +246,7 @@ export const SafeBadge = () => {
             className="btn btn-sm !bg-green-200 hover:border-green-700 text-green-700 gap-2 !cursor-pointer"
             onClick={onClick}
         >
-            <AiFillSafetyCertificate /> 보안 인증 완료
+            <Shield /> 보안 인증 완료
         </button>
     );
 };

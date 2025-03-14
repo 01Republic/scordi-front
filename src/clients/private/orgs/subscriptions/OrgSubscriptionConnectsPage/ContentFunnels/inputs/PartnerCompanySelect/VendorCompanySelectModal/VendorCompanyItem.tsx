@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
-import {FaCheck, FaChevronRight} from 'react-icons/fa6';
+import {Check, ChevronRight} from 'lucide-react';
 
 interface VendorCompanyItemProps {
     vendorCompany: VendorCompanyDto;
@@ -20,9 +20,9 @@ export const VendorCompanyItem = memo((props: VendorCompanyItemProps) => {
                 <p className="text-14">{vendorCompany.name}</p>
             </div>
             <div className="flex items-center gap-2">
-                <div>{selected && <FaCheck className="text-green-400" />}</div>
+                <div>{selected && <Check className="text-green-400" />}</div>
                 <div>
-                    <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" size={10} />
+                    <ChevronRight className="text-gray-400 group-hover:text-black transition-all" size={10} />
                 </div>
             </div>
         </div>

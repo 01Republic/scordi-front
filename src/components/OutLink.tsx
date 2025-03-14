@@ -1,7 +1,7 @@
 import React, {HTMLAttributeAnchorTarget, memo, ReactNode} from 'react';
-import {BiLinkExternal} from '^components/react-icons';
 import {WithChildren} from '^types/global.type';
 import {LinkTo} from '^components/util/LinkTo';
+import {ExternalLink} from 'lucide-react';
 
 interface OutLinkProps {
     href: string;
@@ -29,7 +29,7 @@ export const OutLink = memo((props: OutLinkProps & WithChildren) => {
                     className={`link text-gray-400 hover:text-gray-800 transition-all inline-flex items-center gap-1 ${className}`}
                 >
                     <span>{children || text || href}</span>
-                    {icon ? icon : <BiLinkExternal size={11} />}
+                    {icon ? icon : <ExternalLink size={11} />}
                 </LinkTo>
             ) : (
                 <a className="inline-flex items-center">{children || text || href}</a>

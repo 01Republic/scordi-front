@@ -4,7 +4,6 @@ import {useRouter} from 'next/router';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {OrganizationDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
-import {BiLinkExternal} from '^components/react-icons';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {
@@ -18,6 +17,7 @@ import {
     PaymentListTabContent,
 } from './tabContents';
 import {defineTabs, useTabs} from '^components/util/tabs';
+import {ExternalLink} from 'lucide-react';
 
 export const adminOrgDetail = atom<OrganizationDto | null>({
     key: 'adminOrgDetail',
@@ -73,7 +73,7 @@ const ShowOnServiceButton = memo(() => {
 
     return (
         <button className="btn btn-gray btn-square" onClick={onClick}>
-            <BiLinkExternal />
+            <ExternalLink />
         </button>
     );
 });

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
-import {FaQuestion} from 'react-icons/fa6';
+import {HelpCircle} from 'lucide-react';
 
 interface SubscriptionProfilePanelProps {
     subscription: SubscriptionDto;
@@ -15,7 +15,7 @@ export const SubscriptionProfilePanel = memo((props: SubscriptionProfilePanelPro
     return (
         <div className="flex items-start gap-6">
             <Avatar className="w-14 h-14" src={product.image} alt={product.name()} draggable={false} loading="lazy">
-                <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
+                <HelpCircle size={24} className="text-gray-300 h-full w-full p-[6px]" />
             </Avatar>
             <div className="flex flex-col gap-0.5 overflow-hidden text-left">
                 <p className="flex gap-2 text-18 font-semibold items-center group-hover:text-scordi leading-none py-1">

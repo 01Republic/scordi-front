@@ -2,7 +2,6 @@ import React, {memo, ReactNode} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {GoOrganization, GoSignIn} from 'react-icons/go';
 import {toast} from 'react-hot-toast';
 import {currentUserAtom} from '^models/User/atom';
 import {googleOAuth} from '^config/environments';
@@ -12,6 +11,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {MainPageRoute} from '^pages/index';
 import {LinkTo, LinkToProps} from '^components/util/LinkTo';
 import {Avatar} from '^components/Avatar';
+import {Building, LogIn} from 'lucide-react';
 
 export const InviteOrgErrorBody = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -26,21 +26,17 @@ export const InviteOrgErrorBody = memo(() => {
             </h3>
 
             <div className="flex flex-col gap-5 w-fit m-auto mb-10">
-                <Button
-                    text="스코디 메인 페이지로 이동하기"
-                    icon={<GoSignIn size={20} />}
-                    href={MainPageRoute.path()}
-                />
+                <Button text="스코디 메인 페이지로 이동하기" icon={<LogIn size={20} />} href={MainPageRoute.path()} />
                 {currentUser?.lastSignedOrgId ? (
                     <Button
                         text="내 조직 워크스페이스로 이동하기"
-                        icon={<GoOrganization size={20} />}
+                        icon={<Building size={20} />}
                         href={OrgMainPageRoute.path(currentUser.lastSignedOrgId!)}
                     />
                 ) : (
                     <Button
                         text="내 조직 워크스페이스로 이동하기"
-                        icon={<GoOrganization size={20} />}
+                        icon={<Building size={20} />}
                         onClick={() => toast.error('회원가입을 먼저 진행해주세요')}
                     />
                 )}

@@ -1,12 +1,12 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {HiOutlineEnvelope} from 'react-icons/hi2';
 import {orgIdParamState} from '^atoms/common';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {useModal} from '^v3/share/modals';
 import {ListContainer} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListContainer';
 import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {InvoiceAccountItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/InvoiceAccountsSection/InvoiceAccountItem';
+import {Mail} from 'lucide-react';
 
 export const InvoiceAccountsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -22,7 +22,7 @@ export const InvoiceAccountsSection = memo(() => {
         <ListContainer
             title="인보이스 수신 계정"
             listCount={invoiceAccounts.length}
-            Icon={() => <HiOutlineEnvelope size={20} />}
+            Icon={() => <Mail size={20} />}
             className="border-r"
             onClickAddButton={() => open()}
         >

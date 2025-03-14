@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {BankCompanyItem} from '^models/CodefAccount/components/BankCompanyItem';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {ChevronLeft} from 'lucide-react';
 
 interface BankCompanySelectStepProps {
     codefClientType: CodefCustomerType;
@@ -19,7 +19,7 @@ export const BankCompanySelectStep = memo((props: BankCompanySelectStepProps) =>
         <div className="h-full flex flex-col">
             <div>
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi">계좌 직접 추가하기</p>
                 <h3 className="font-bold text-xl">

@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
-import {FaQuestion} from 'react-icons/fa6';
+import {HelpCircle} from 'lucide-react';
 
 interface SubscriptionAvatarsProps {
     subscriptions: SubscriptionDto[];

@@ -11,7 +11,7 @@ import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {useAlert} from '^hooks/useAlert';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {FaRegEnvelope} from 'react-icons/fa';
+import {Mail} from 'lucide-react';
 
 /**
  * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
@@ -99,13 +99,13 @@ export const TeamMemberInfoPanel = memo(() => {
                         {inviteContext === 'CANNOT_INVITE' && '초대하려면 이메일이 필요합니다'}
                         {inviteContext === 'INVITE' && (
                             <span className="flex gap-4 items-center">
-                                <FaRegEnvelope size={24} />
+                                <Mail size={24} />
                                 <span>이 멤버 초대하기</span>
                             </span>
                         )}
                         {inviteContext === 'RESEND' && (
                             <span className="flex gap-4 items-center">
-                                <FaRegEnvelope size={24} />
+                                <Mail size={24} />
                                 <span>초대 메일 재전송</span>
                             </span>
                         )}

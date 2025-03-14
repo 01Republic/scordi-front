@@ -1,4 +1,4 @@
-@import "./variables/color";
+@import './variables/color';
 
 //.input.input-underline {
 //  @apply w-full px-0 text-xl;
@@ -15,109 +15,109 @@
 //}
 
 .input-underline {
-  // 기존 스타일 초기화
-  --tw-bg-opacity: 0.05;
-  outline: none !important;
-  position: relative;
-  border-radius: inherit;
-
-  $height: 1.5px;
-  $speed: 150ms;
-  $inactive-color: #d3d3d3;
-  $active-color: #0070f3;
-
-  & + span {
-    --input-underline--inactive-color: #{$inactive-color};
-    --input-underline--active-color: #{$active-color};
-    display: block;
-    height: $height;
-    background-color: var(--input-underline--inactive-color);
-    width: 100%;
-
-    &:after {
-      --input-underline--inactive-color: #{$inactive-color};
-      --input-underline--active-color: #{$active-color};
-      content: '';
-      display: block;
-      height: $height;
-      background-color: var(--input-underline--active-color);
-      width: 0;
-      transition: width #{$speed} ease;
-    }
-  }
-
-  &:focus {
     // 기존 스타일 초기화
-    --tw-bg-opacity: 1;
-    --tw-text-opacity: 1;
-    color: hsl(var(--bc) / var(--tw-text-opacity));
+    --tw-bg-opacity: 0.05;
+    outline: none !important;
+    position: relative;
+    border-radius: inherit;
+
+    $height: 1.5px;
+    $speed: 150ms;
+    $inactive-color: #d3d3d3;
+    $active-color: #0070f3;
 
     & + span {
-      &:after {
+        --input-underline--inactive-color: #{$inactive-color};
+        --input-underline--active-color: #{$active-color};
+        display: block;
+        height: $height;
+        background-color: var(--input-underline--inactive-color);
         width: 100%;
-      }
+
+        &:after {
+            --input-underline--inactive-color: #{$inactive-color};
+            --input-underline--active-color: #{$active-color};
+            content: '';
+            display: block;
+            height: $height;
+            background-color: var(--input-underline--active-color);
+            width: 0;
+            transition: width #{$speed} ease;
+        }
     }
-  }
+
+    &:focus {
+        // 기존 스타일 초기화
+        --tw-bg-opacity: 1;
+        --tw-text-opacity: 1;
+        color: hsl(var(--bc) / var(--tw-text-opacity));
+
+        & + span {
+            &:after {
+                width: 100%;
+            }
+        }
+    }
 }
 
 .select-underline {
-  &:not(.select) {
-    div[class*="-control"] {
-      border: none;
-      box-shadow: none;
-      background-color: inherit;
+    &:not(.select) {
+        div[class*='-control'] {
+            border: none;
+            box-shadow: none;
+            background-color: inherit;
 
-      div[class*="-ValueContainer"],
-      & > div:nth-child(1) {
-        @apply h-[2.5rem] text-xl font-[500] w-full;
-        //padding-left: 0;
-        //padding-right: 0;
-        padding: 0;
-      }
+            div[class*='-ValueContainer'],
+            & > div:nth-child(1) {
+                @apply h-[2.5rem] text-xl font-[500] w-full;
+                //padding-left: 0;
+                //padding-right: 0;
+                padding: 0;
+            }
 
-      div[class*="-IndicatorsContainer"] {
-        & > span[class*="-indicatorSeparator"] {
-          width: 0;
+            div[class*='-IndicatorsContainer'] {
+                & > span[class*='-indicatorSeparator'] {
+                    width: 0;
+                }
+            }
         }
-      }
     }
-  }
 
-  &.select {
-    @apply px-0;
-    //font-size: 0.875rem;
-    //line-height: 1.25rem;
-    //line-height: 2;
-    //height: 3rem;
-    //min-height: 3rem;
-    font-weight: inherit;
-    font-size: inherit;
+    &.select {
+        @apply px-0;
+        //font-size: 0.875rem;
+        //line-height: 1.25rem;
+        //line-height: 2;
+        //height: 3rem;
+        //min-height: 3rem;
+        font-weight: inherit;
+        font-size: inherit;
 
-    div[class*="-control"] {
-      padding-left: 1rem;
-      border: none;
-      box-shadow: none;
-      background-color: inherit;
-      width: 100%;
+        div[class*='-control'] {
+            padding-left: 1rem;
+            border: none;
+            box-shadow: none;
+            background-color: inherit;
+            width: 100%;
 
-      div[class*="-ValueContainer"],
-      & > div:nth-child(1) {
-        //@apply h-[2.5rem] text-xl font-[500] w-full;
-        //padding-left: 0;
-        //padding-right: 0;
-        padding: 0;
-        height: 100%;
-      }
+            div[class*='-ValueContainer'],
+            & > div:nth-child(1) {
+                //@apply h-[2.5rem] text-xl font-[500] w-full;
+                //padding-left: 0;
+                //padding-right: 0;
+                padding: 0;
+                height: 100%;
+            }
 
-      //div[class*="-placeholder"] {
-      //  height: 100%;
-      //}
+            //div[class*="-placeholder"] {
+            //  height: 100%;
+            //}
 
-      div[class*="-IndicatorsContainer"] {
-        & > span[class*="-indicatorSeparator"] {
-          width: 0;
+            div[class*='-IndicatorsContainer'] {
+                & > span[class*='-indicatorSeparator'] {
+                    width: 0;
+                }
+            }
         }
-      }
     }
-  }
 }

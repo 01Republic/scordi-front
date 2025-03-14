@@ -1,12 +1,12 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {GoCreditCard} from 'react-icons/go';
 import {orgIdParamState} from '^atoms/common';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {QuickButton} from './QuickButton';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
+import {CreditCard} from 'lucide-react';
 
 export const AddCreditCardButton = memo(function AddCreditCardButton() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -23,7 +23,7 @@ export const AddCreditCardButton = memo(function AddCreditCardButton() {
         <>
             <QuickButton
                 text="결제수단 추가"
-                Icon={() => <GoCreditCard />}
+                Icon={() => <CreditCard />}
                 onClick={() => setIsCardCreateMethodModalOpen(true)}
             />
 

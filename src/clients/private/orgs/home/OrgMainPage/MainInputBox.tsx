@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
-import {FaSearch} from 'react-icons/fa';
 import {SearchAppModal} from '^clients/private/_modals/SearchAppModal';
+import {Search} from 'lucide-react';
 
 export const MainInputBox = memo(function MainInputBox() {
     const [isOpened, setIsOpened] = useState(false);
@@ -10,7 +10,7 @@ export const MainInputBox = memo(function MainInputBox() {
             <div className="w-full">
                 <div className="relative w-full btn-animation">
                     <div className="absolute top-0 bottom-0 w-[50px] flex items-center justify-center">
-                        <FaSearch size={16} className="text-gray-500 opacity-50" />
+                        <Search size={16} className="text-gray-500 opacity-50" />
                     </div>
 
                     <input

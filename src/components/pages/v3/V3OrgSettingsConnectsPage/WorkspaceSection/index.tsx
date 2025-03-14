@@ -1,8 +1,5 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FcGoogle} from 'react-icons/fc';
-import {SiNaver} from 'react-icons/si';
-import {BsMicrosoftTeams} from 'react-icons/bs';
 import {useToast} from '^hooks/useToast';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
@@ -13,6 +10,7 @@ import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Butt
 import {isWorkspaceDisConnectLoadingAtom, isWorkspaceSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 import {LoadingButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/LoadingButton';
 import {ConnectWorkspaceButtonInSettings} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectWorkspaceButton';
+import {CircleUser, Users} from 'lucide-react';
 
 export const WorkspaceSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -25,7 +23,7 @@ export const WorkspaceSection = memo(() => {
         <SettingBodyPanel title="워크스페이스" className="mb-5">
             {/*구글 워크스페이스*/}
             <WorkspaceItem
-                logo={<FcGoogle size={28} />}
+                logo={<CircleUser size={28} />}
                 tool={ToolType.google}
                 tokenData={tokenData}
                 button={
@@ -44,14 +42,14 @@ export const WorkspaceSection = memo(() => {
             {/*마이크로소프트 Teams*/}
             <WorkspaceItem
                 tool={ToolType.microsoft}
-                logo={<BsMicrosoftTeams size={26} className="text-indigo-500" />}
+                logo={<Users size={26} className="text-indigo-500" />}
                 button={<ConnectButton onClick={() => toast.info('준비중입니다')} />}
             />
 
             {/*네이버 Works*/}
             <WorkspaceItem
                 tool={ToolType.naver}
-                logo={<SiNaver size={22} className="text-green-500" />}
+                logo={<CircleUser size={22} className="text-green-500" />}
                 button={<ConnectButton onClick={() => toast.info('준비중입니다')} />}
             />
         </SettingBodyPanel>

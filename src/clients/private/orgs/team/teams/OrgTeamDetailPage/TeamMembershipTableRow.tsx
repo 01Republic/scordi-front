@@ -5,11 +5,11 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {FiMinusCircle} from '^components/react-icons';
 import Tippy from '@tippyjs/react';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {toast} from 'react-hot-toast';
 import {confirm2} from '^components/util/dialog';
+import {MinusCircle} from 'lucide-react';
 
 interface TeamMembershipTableRowProps {
     teamMembership: TeamMembershipDto;
@@ -87,7 +87,7 @@ export const TeamMembershipTableRow = memo((props: TeamMembershipTableRowProps) 
                 <div className="flex items-center justify-end">
                     <Tippy content="이 팀에서 제거">
                         <div>
-                            <FiMinusCircle
+                            <MinusCircle
                                 fontSize={24}
                                 className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
                                 onClick={removeFromTeam}

@@ -1,7 +1,7 @@
 import React, {AnchorHTMLAttributes, memo, ReactNode, useEffect, useState} from 'react';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 
 type ActiveLinkToProps = AnchorHTMLAttributes<HTMLAnchorElement> &
     WithChildren & {

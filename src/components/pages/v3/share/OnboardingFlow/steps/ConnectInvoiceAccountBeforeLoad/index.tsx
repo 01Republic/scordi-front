@@ -2,12 +2,12 @@ import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
-import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
+import {ArrowLeft, ArrowRight} from 'lucide-react';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -49,7 +49,7 @@ export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccou
                         className="btn btn-block btn-link text-gray-400 hover:text-gray-500 !no-underline items-center gap-2"
                         onClick={() => onPrev && onPrev()}
                     >
-                        <FaArrowLeft />
+                        <ArrowLeft />
                         <span>뒤로가기</span>
                     </button>
                 </Container>

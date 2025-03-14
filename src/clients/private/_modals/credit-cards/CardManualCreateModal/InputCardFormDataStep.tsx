@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {inputTextToCardNumberFormat, inputTextToCardNumberInShortFormat} from '^utils/input-helper';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 import {NumericTextInput} from '^clients/private/_components/inputs/NumericTextInput';
+import {ChevronLeft} from 'lucide-react';
 
 interface InputCardFormDataStepProps {
     cardCompany: CardAccountsStaticData;
@@ -20,7 +20,7 @@ export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) =>
         <div className="flex flex-col items-stretch">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={() => onBack()} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={() => onBack()} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">카드 직접 추가하기</p>
                 <h3 className="font-bold text-xl leading-tight">

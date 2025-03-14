@@ -8,8 +8,8 @@ import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from '^components/react-icons';
 import {atom, useRecoilValue} from 'recoil';
+import {AppWindow, LayoutDashboard, Settings} from 'lucide-react';
 
 export const sidebarActiveAtom = atom({
     key: 'sidebarActiveAtom',
@@ -52,13 +52,13 @@ export const OrgSidebar = memo(() => {
                     text="dashboard"
                     to={OrgHomeRoute.path(organizationId)}
                     selected={pathname === OrgHomeRoute.pathname}
-                    icon={() => <AiOutlineDashboard size={24} />}
+                    icon={() => <LayoutDashboard size={24} />}
                 />
                 <Sidebar.Menu.Item
                     text="apps"
                     to={OrgAppIndexPageRoute.path(organizationId)}
                     selected={pathname.startsWith(OrgAppIndexPageRoute.pathname)}
-                    icon={() => <AiOutlineAppstoreAdd size={24} />}
+                    icon={() => <AppWindow size={24} />}
                     iconTransform={false}
                 />
                 <Sidebar.Menu.Item
@@ -72,7 +72,7 @@ export const OrgSidebar = memo(() => {
                     to={OrgMainPageRoute.path(organizationId)}
                     selected={pathname === OrgMainPageRoute.pathname}
                     // icon={Icon2.Building}
-                    icon={() => <AiOutlineSetting size={24} />}
+                    icon={() => <Settings size={24} />}
                     iconTransform={false}
                 />
             </Sidebar.Menu>

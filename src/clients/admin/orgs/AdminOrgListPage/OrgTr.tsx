@@ -7,7 +7,7 @@ import {Avatar} from '^components/Avatar';
 import {MembershipLevel} from '^models/Membership/types';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaRegFolderOpen} from 'react-icons/fa';
+import {FolderOpen} from 'lucide-react';
 
 interface OrgTrProps {
     org: OrganizationDto;
@@ -38,7 +38,7 @@ export const OrgTr = memo((props: OrgTrProps) => {
                 <div className="hidden group-hover:flex">
                     <LinkTo href={AdminOrgPageRoute.path(org.id)} displayLoading={false}>
                         <TagUI className="bg-gray-200 btn-animation no-selectable gap-1 hover:bg-gray-300">
-                            <FaRegFolderOpen size={10} />
+                            <FolderOpen size={10} />
                             <span className="text-10">열기</span>
                         </TagUI>
                     </LinkTo>

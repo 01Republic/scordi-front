@@ -4,8 +4,8 @@ import {OrganizationConnectStatusDto} from '^models/Organization/type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {WithChildren} from '^types/global.type';
 import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';
-import {FaRegFolderOpen} from 'react-icons/fa';
 import {LinkTo} from '^components/util/LinkTo';
+import {FolderOpen} from 'lucide-react';
 
 interface OrgItemForConnectStatusProps {
     org: OrganizationConnectStatusDto;
@@ -28,7 +28,7 @@ export const OrgItemForConnectStatus = memo((props: OrgItemForConnectStatusProps
                 <div className="hidden group-hover:flex">
                     <LinkTo href={AdminOrgPageRoute.path(org.id)} displayLoading={false}>
                         <TagUI className="bg-gray-200 btn-animation no-selectable gap-1 hover:bg-gray-300">
-                            <FaRegFolderOpen size={10} />
+                            <FolderOpen size={10} />
                             <span className="text-10">열기</span>
                         </TagUI>
                     </LinkTo>

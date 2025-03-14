@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {FaChevronRight} from 'react-icons/fa6';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {ChevronRight} from 'lucide-react';
 
 interface BankCompanyItemProps {
     bankCompanyData: BankAccountsStaticData;
@@ -23,7 +23,7 @@ export const BankCompanyItem = memo((props: BankCompanyItemProps) => {
                 <p className="text-14">{displayName}</p>
             </div>
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

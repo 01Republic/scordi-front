@@ -1,7 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {CgSpinner} from 'react-icons/cg';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {ModalTopbar, useModal} from '^v3/share/modals';
@@ -10,6 +9,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
+import {Loader} from 'lucide-react';
 
 export const ConnectDataSourcesModal = memo(() => {
     const {Modal, setIsShow, close} = useModal(connectDataSourcesModalState);
@@ -50,7 +50,7 @@ export const ConnectDataSourcesModal = memo(() => {
                         isLoading && 'btn-disabled !border !border-gray-300'
                     } btn btn-block btn-lg bg-scordi text-white mb-3`}
                 >
-                    {isLoading ? <CgSpinner size={28} className="animate-spin" /> : <>데이터 연결로 구독 불러오기</>}
+                    {isLoading ? <Loader size={28} className="animate-spin" /> : <>데이터 연결로 구독 불러오기</>}
                 </button>
             </ModalLikeBottomBar>
         </Modal>

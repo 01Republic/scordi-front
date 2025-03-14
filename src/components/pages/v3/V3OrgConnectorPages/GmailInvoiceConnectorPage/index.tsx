@@ -3,9 +3,6 @@ import {V3MainLayout} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft} from 'react-icons/fa6';
-import {MdAlternateEmail} from 'react-icons/md';
-import {FcAddressBook, FcFinePrint} from 'react-icons/fc';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
@@ -24,6 +21,7 @@ import {
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
+import {ArrowLeft, AtSign, Book, FileText} from 'lucide-react';
 
 export const GmailInvoiceConnectorPage = memo(function GmailInvoiceConnectorPage() {
     const organizationId = useRecoilValue(orgIdParamState);

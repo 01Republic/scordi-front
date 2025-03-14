@@ -1,7 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {StepContentProps, useFunnel} from '^components/util/funnel';
 import {Container} from '^v3/share/OnboardingFlow/Container';
-import {PiSpinnerGapThin} from 'react-icons/pi';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
@@ -10,6 +9,7 @@ import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/Conn
 import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {isLoadedState, onboardingFlowStepStatus, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
 import {useToast} from '^hooks/useToast';
+import {Loader} from 'lucide-react';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -65,7 +65,7 @@ export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccoun
             </Container>
 
             <Container size="sm" className="flex justify-center py-8">
-                <PiSpinnerGapThin size={60} className="animate-spin text-scordi-500 m-auto" />
+                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
             </Container>
         </div>
     );

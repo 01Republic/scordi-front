@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
-import {FaCheck} from 'react-icons/fa6';
+import {Check} from 'lucide-react';
 
 interface TeamMemberSelectableItemProps {
     teamMember: TeamMemberDto;
@@ -21,7 +21,7 @@ export const TeamMemberSelectableItem = memo((props: TeamMemberSelectableItemPro
         >
             <div className="flex items-center justify-between">
                 <TeamMemberProfile item={teamMember} />
-                {selected && <FaCheck className="text-scordi" size={20} />}
+                {selected && <Check className="text-scordi" size={20} />}
             </div>
         </div>
     );
