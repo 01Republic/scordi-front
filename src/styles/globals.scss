@@ -448,32 +448,36 @@ body.hide-channel-talk {
     position: relative;
 
     .card.image-full {
-        //height: 500px;
-        //max-height: 50vw;
-        background-color: #232528;
-        position: relative;
+      /*
+      height: 500px;
+      max-height: 50vw;
+      */
+      background-color: #232528;
+      position: relative;
 
-        &:before {
-            border-radius: 0;
-            opacity: 0;
-        }
+      &:before {
+        border-radius: 0;
+        opacity: 0;
+      }
     }
 
     figure {
-        position: absolute;
-        height: 100%;
-        left: 0;
-        right: 0;
+      position: absolute;
+      height: 100%;
+      left: 0;
+      right: 0;
     }
 
     .title {
-        font-weight: 500;
-        color: white;
+      font-weight: 500;
+      color: white;
     }
+
     .subtitle {
-        color: white;
-        flex-grow: initial;
+      color: white;
+      flex-grow: initial;
     }
+  }
 }
 
 /**
@@ -771,27 +775,27 @@ body.hide-channel-talk {
     }
 
     .bg-container {
-        //@keyframes logo-background {
-        //  0% {
-        //    opacity: 0;
-        //  }
-        //  10% {
-        //    opacity: 0;
-        //  }
-        //  40% {
-        //    opacity: 1;
-        //  }
-        //  75% {
-        //    opacity: 1;
-        //  }
-        //  80% {
-        //    opacity: 0;
-        //  }
-        //  100% {
-        //    opacity: 0;
-        //  }
-        //}
-
+      /*@keyframes logo-background {
+        0% {
+          opacity: 0;
+        }
+        10% {
+          opacity: 0;
+        }
+        40% {
+          opacity: 1;
+        }
+        75% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }*/
+    }
     /*
     @keyframes logo-background {
       0% {
@@ -846,6 +850,7 @@ body.hide-channel-talk {
         */
       }
     }
+
 }
 
 #faq-list {
@@ -993,6 +998,7 @@ body {
         display: none !important;
       }
     }
+  }
 }
 
 progress::-webkit-progress-value,
