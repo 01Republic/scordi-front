@@ -191,7 +191,7 @@ export const EditItemForm = memo(function EditItemForm() {
                                     })
                                 }
                             >
-                                <ArrowUpDown size={24} className="mr-2" />
+                                <ArrowUpDown className="mr-2" />
                                 {currencyType === CurrencyCode.KRW && '달러'}
                                 {currencyType === CurrencyCode.USD && '원'}
                             </button>
