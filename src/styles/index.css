@@ -162,3 +162,8 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
     -moz-appearance: textfield;
 }
+
+.lucide {
+    width: 1em;
+    height: 1em;
+}
