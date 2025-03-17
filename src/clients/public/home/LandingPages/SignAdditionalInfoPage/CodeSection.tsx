@@ -1,34 +1,25 @@
 import React, {memo, useState} from 'react';
-import {FaPhoneAlt} from 'react-icons/fa';
-import cn from 'classnames';
-import {CiWarning} from 'react-icons/ci';
 import {useFormContext} from 'react-hook-form';
+import {CiWarning} from 'react-icons/ci';
+import {PiListNumbersFill} from 'react-icons/pi';
+import cn from 'classnames';
 import {UserAdditionalInfoType} from '^models/User/types';
-import {
-    codeConfirmedState,
-    codeSentState,
-    useConfirmCode,
-    useSendCode,
-} from '^clients/public/home/LandingPages/BetaSignPhoneAuthPage/BetaSignPhoneAuthPage.atom';
 import {Timer} from '^components/pages/UserSignUp/AuthenticationCode';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {useTranslation} from 'next-i18next';
+import {useCodeConfirm, useCodeSend} from '../BetaSignPhoneAuthPage/BetaSignPhoneAuthPage.atom';
 
-interface CodeSectionProps {}
+interface CodeSectionProps {
+    setIsCodeSent: (val: boolean) => void;
+    setIsCodeConfirmed: (val: boolean) => void;
+}
 
 export const CodeSection = memo((props: CodeSectionProps) => {
-    const {} = props;
+    const {setIsCodeSent, setIsCodeConfirmed} = props;
     const [isActive, setIsActive] = useState<boolean>(false);
-    const setCodeSent = useSetRecoilState(codeSentState);
-    const setCodeConfirmed = useSetRecoilState(codeConfirmedState);
-    const codeConfirmed = useRecoilValue(codeConfirmedState);
-    const sendCode = useSendCode();
-    const confirmCode = useConfirmCode();
-    const {t} = useTranslation('sign');
 
     const {
         register,
         watch,
+        setValue,
         setError,
         formState: {errors},
     } = useFormContext<UserAdditionalInfoType>();
@@ -49,15 +40,23 @@ export const CodeSection = memo((props: CodeSectionProps) => {
     const code = watch('code');
     const disabled = code?.length < 6 || !code;
 
-    const onCodeConfirm = async () => {
-        try {
-            await confirmCode({phoneNumber, code}).then(() => {
-                setCodeSent(false);
-                setCodeConfirmed(true);
-            });
-        } catch (error: any) {
-            setError('code', {type: 'manual', message: error.message});
-        }
+    const {mutate: codeSentMutate} = useCodeSend();
+    const {mutate} = useCodeConfirm();
+
+    const onCodeConfirm = () => {
+        mutate(
+            {phoneNumber, code},
+            {
+                onSuccess: () => {
+                    setIsCodeSent(false);
+                    setIsCodeConfirmed(true);
+                    setValue('code', '');
+                },
+                onError: () => {
+                    setError('code', {type: 'manual', message: '인증번호를 확인해주세요'});
+                },
+            },
+        );
     };
 
     return (
@@ -86,7 +85,7 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                                 className="w-full bg-white h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                             />
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <FaPhoneAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
+                                <PiListNumbersFill className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                             </div>
                             <div
                                 className={cn(
@@ -96,25 +95,25 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                             >
                                 <span>인증번호</span>
                             </div>
-                            <p className="absolute inset-y-0 flex items-center right-4 text-sm text-neutral-900">
+                            <div className="absolute inset-y-0 flex items-center right-4 text-sm text-neutral-900">
                                 <Timer
                                     sec={3 * 60}
                                     onFinish={({reset}) => {
-                                        const confirmMessage = `${t(
-                                            'phone_auth.code_input.code_has_been_expired',
-                                        )}\n${t('phone_auth.code_input.shall_i_send_new_code')}`;
+                                        const confirmMessage = '인증 번호가 만료되었습니다.\n새 인증 번호를 보낼까요?';
 
                                         const isOkClicked = confirm(confirmMessage);
                                         if (isOkClicked) {
-                                            sendCode({phoneNumber});
+                                            codeSentMutate({phoneNumber});
+                                            setValue('code', '');
                                             reset();
                                         } else {
-                                            setCodeSent(false);
+                                            setIsCodeSent(false);
+                                            setValue('code', '');
                                         }
                                     }}
                                     resettable
                                 />
-                            </p>
+                            </div>
                         </div>
                     </label>
                 </div>
@@ -126,16 +125,14 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                     <p className="whitespace-nowrap">인증 확인</p>
                 </button>
             </section>
-            <div className="flex items-center justify-between -mt-1">
-                <div>
-                    {errors.code && (
-                        <section className="flex gap-1 text-red-400 w-full justify-start">
-                            <CiWarning className="text-red-400" />
-                            <p className="font-normal text-10">{errors.code?.message}</p>
-                        </section>
-                    )}
-                </div>
-            </div>
+            <section className="flex items-center justify-between -mt-1">
+                {errors.code && (
+                    <section className="flex gap-1 text-red-400 w-full justify-start">
+                        <CiWarning className="text-red-400" />
+                        <p className="font-normal text-10">{errors.code?.message}</p>
+                    </section>
+                )}
+            </section>
         </>
     );
 });

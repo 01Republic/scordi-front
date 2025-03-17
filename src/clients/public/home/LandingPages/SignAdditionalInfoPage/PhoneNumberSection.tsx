@@ -1,34 +1,25 @@
-import React, {memo, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import React, {useState} from 'react';
+import {useFormContext} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import {CiWarning} from 'react-icons/ci';
 import {FaCheck} from 'react-icons/fa6';
-import {
-    codeConfirmedState,
-    codeSentState,
-    phoneAuthDataState,
-    phoneAuthReadyState,
-    useSendCode,
-} from '^clients/public/home/LandingPages/BetaSignPhoneAuthPage/BetaSignPhoneAuthPage.atom';
-import {useTranslation} from 'next-i18next';
 import {FaPhoneAlt} from 'react-icons/fa';
-import {useFormContext} from 'react-hook-form';
-import {UserAdditionalInfoType} from '^models/User/types';
 import cn from 'classnames';
-import {CodeSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/CodeSection';
+import {UserAdditionalInfoType} from '^models/User/types';
+import {useCodeSend} from '../BetaSignPhoneAuthPage/BetaSignPhoneAuthPage.atom';
+import {CodeSection} from './CodeSection';
 
-interface PhoneNumberSectionProps {}
-
-export const PhoneNumberSection = memo((props: PhoneNumberSectionProps) => {
-    const {} = props;
+export const PhoneNumberSection = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
-    const codeConfirmed = useRecoilValue(codeConfirmedState);
+    const [isCodeSent, setIsCodeSent] = useState(false);
+    const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
 
     const {
         register,
         watch,
         formState: {errors},
     } = useFormContext<UserAdditionalInfoType>();
-    const phoneNumber = watch('phoneNumber');
+
     const {
         onBlur: registerOnBlur,
         onChange: registerOnChange,
@@ -41,23 +32,33 @@ export const PhoneNumberSection = memo((props: PhoneNumberSectionProps) => {
         },
     });
 
+    const phoneNumber = watch('phoneNumber');
     const disabled = phoneNumber?.length < 11 || !phoneNumber;
 
-    const codeSent = useRecoilValue(codeSentState);
-    const sendCode = useSendCode();
-    const {t} = useTranslation('sign');
+    const {mutate} = useCodeSend();
 
-    codeConfirmed;
+    const onCodeSend = () => {
+        mutate(
+            {phoneNumber},
+            {
+                onSuccess: () => {
+                    setIsCodeSent(true);
+                    toast.success('인증 번호를 발송해드렸어요.');
+                },
+            },
+        );
+    };
+
     return (
         <>
             <section className="grid grid-cols-4 items-center justify-center gap-3">
-                <div className={cn(!codeConfirmed ? 'col-span-3' : 'col-span-4')}>
+                <div className={cn(!isCodeConfirmed ? 'col-span-3' : 'col-span-4')}>
                     <label htmlFor="전화번호" className="block relative">
                         <div className="relative">
                             <input
                                 type="number"
-                                readOnly={codeConfirmed}
-                                disabled={codeConfirmed}
+                                readOnly={isCodeConfirmed}
+                                disabled={isCodeConfirmed}
                                 onClick={() => setIsActive(true)}
                                 onBlur={(e) => {
                                     registerOnBlur(e);
@@ -76,8 +77,8 @@ export const PhoneNumberSection = memo((props: PhoneNumberSectionProps) => {
                                 className={cn(
                                     'w-full h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900',
                                     {
-                                        'bg-gray-100': codeConfirmed,
-                                        'bg-white': !codeConfirmed,
+                                        'bg-gray-100': isCodeConfirmed,
+                                        'bg-white': !isCodeConfirmed,
                                     },
                                 )}
                             />
@@ -95,20 +96,22 @@ export const PhoneNumberSection = memo((props: PhoneNumberSectionProps) => {
                                 <span>전화번호</span>
                             </div>
                         </div>
-                        {codeConfirmed && (
+                        {isCodeConfirmed && (
                             <div className="absolute inset-y-0 flex items-center right-4">
                                 <FaCheck className=" text-emerald-400 text-20" />
                             </div>
                         )}
                     </label>
                 </div>
-                {!codeConfirmed && (
+                {!isCodeConfirmed && (
                     <button
                         type="button"
-                        onClick={() => sendCode({phoneNumber})}
+                        onClick={onCodeSend}
                         className={cn('col-span-1 ', disabled ? 'btn-disabled' : 'btn bg-primaryColor-900 text-white')}
                     >
-                        <p className="whitespace-nowrap">인증 요청</p>
+                        <p className="whitespace-nowrap">
+                            {isCodeSent && !isCodeConfirmed ? '인증 재요청' : '인증 요청'}
+                        </p>
                     </button>
                 )}
             </section>
@@ -118,7 +121,9 @@ export const PhoneNumberSection = memo((props: PhoneNumberSectionProps) => {
                     <p className="font-normal text-10">{errors.phoneNumber?.message}</p>
                 </section>
             )}
-            {codeConfirmed ? null : codeSent && <CodeSection />}
+            {isCodeConfirmed
+                ? null
+                : isCodeSent && <CodeSection setIsCodeSent={setIsCodeSent} setIsCodeConfirmed={setIsCodeConfirmed} />}
         </>
     );
-});
+};
