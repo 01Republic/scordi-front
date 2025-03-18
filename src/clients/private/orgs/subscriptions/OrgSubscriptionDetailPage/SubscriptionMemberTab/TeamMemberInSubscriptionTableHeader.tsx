@@ -9,6 +9,8 @@ export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubs
 
     return (
         <tr className="bg-slate-100">
+            <th></th>
+
             <SortableTH sortKey="[name]" onClick={orderBy}>
                 이름
             </SortableTH>

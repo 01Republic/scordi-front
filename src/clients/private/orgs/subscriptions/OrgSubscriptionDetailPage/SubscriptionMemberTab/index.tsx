@@ -28,6 +28,8 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const {refetch: refetchFinishTargetSeatCounter} = useFinishTargetSeatCounter(subscription);
     const {refetch: refetchQuitStatusSeatCount} = useQuitStatusSeatCounter(subscription);
 
+    const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+
     if (!orgId || !subscription) return <></>;
 
     const onClose = () => {
@@ -94,7 +96,18 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     isLoading={false}
                     addBottomPadding={true}
                     Header={() => <TeamMemberInSubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <TeamMemberInSubscriptionTableRow seat={item} reload={onPageReload} />}
+                    Row={({item}) => (
+                        <TeamMemberInSubscriptionTableRow
+                            seat={item}
+                            reload={onPageReload}
+                            selected={selectedMembers.includes(item.id)}
+                            onSelect={(value: boolean) =>
+                                setSelectedMembers((prev) =>
+                                    value ? [...prev, item.id] : prev.filter((v) => v !== item.id),
+                                )
+                            }
+                        />
+                    )}
                 />
             </ListTableContainer>
 

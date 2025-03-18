@@ -29,13 +29,15 @@ interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
     onClick?: (seat: SubscriptionSeatDto) => any;
     reload: () => any;
+    selected: boolean;
+    onSelect: (selected: boolean) => any;
 }
 
 export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscriptionTableRowProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const [isLoading, setIsLoading] = useState(false);
-    const {seat, onClick, reload} = props;
+    const {seat, onClick, reload, selected, onSelect} = props;
 
     const [seatDateValue, setSeatDateValue] = useState({
         startDate: seat.startAt || null,
@@ -86,6 +88,14 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
     return (
         <tr className="group">
+            <td className={`${hoverBgColor} ${loadingStyle}`}>
+                <input
+                    type="checkbox"
+                    checked={selected}
+                    onChange={(e) => onSelect && onSelect(e.target.checked)}
+                    className="w-4 h-4 focus:ring-0 cursor-pointer"
+                />
+            </td>
             {/* 이름 */}
             <td className={`${hoverBgColor} ${loadingStyle}`}>
                 <OpenButtonColumn href={showPagePath}>
