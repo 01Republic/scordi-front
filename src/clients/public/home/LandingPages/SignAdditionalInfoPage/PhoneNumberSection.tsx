@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {CiWarning} from 'react-icons/ci';
-import {FaCheck} from 'react-icons/fa6';
-import {FaPhoneAlt} from 'react-icons/fa';
+import {TriangleAlert} from 'lucide-react';
+import {Check} from 'lucide-react';
+import {Phone} from 'lucide-react';
 import cn from 'classnames';
 import {UserAdditionalInfoType} from '^models/User/types';
 import {useCodeSend} from '../BetaSignPhoneAuthPage/BetaSignPhoneAuthPage.atom';
@@ -83,7 +83,7 @@ export const PhoneNumberSection = () => {
                                 )}
                             />
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <FaPhoneAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
+                                <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                             </div>
                             <div
                                 className={cn(
@@ -98,7 +98,7 @@ export const PhoneNumberSection = () => {
                         </div>
                         {isCodeConfirmed && (
                             <div className="absolute inset-y-0 flex items-center right-4">
-                                <FaCheck className=" text-emerald-400 text-20" />
+                                <Check className=" text-emerald-400 text-20" />
                             </div>
                         )}
                     </label>
@@ -117,7 +117,7 @@ export const PhoneNumberSection = () => {
             </section>
             {errors.phoneNumber && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
-                    <CiWarning className="text-red-400" />
+                    <TriangleAlert className="text-red-400" />
                     <p className="font-normal text-10">{errors.phoneNumber?.message}</p>
                 </section>
             )}

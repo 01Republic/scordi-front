@@ -1,7 +1,7 @@
 import React, {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import cn from 'classnames';
-import {FaPen} from 'react-icons/fa6';
+import {Pencil} from 'lucide-react';
 
 interface NameSectionProps {}
 
@@ -29,7 +29,7 @@ export const NameSection = memo((props: NameSectionProps) => {
                     className="w-full bg-gray-100 h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                 />
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <FaPen className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-[22px]" />
+                    <Pencil className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-[22px]" />
                 </div>
                 <div
                     className={cn(

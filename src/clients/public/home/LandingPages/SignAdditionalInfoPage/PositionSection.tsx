@@ -1,7 +1,7 @@
 import React, {memo, useState} from 'react';
-import {RiArrowDownSFill} from 'react-icons/ri';
-import {CiWarning} from 'react-icons/ci';
-import {MdWork} from 'react-icons/md';
+import {ChevronDown} from 'lucide-react';
+import {TriangleAlert} from 'lucide-react';
+import {BriefcaseBusiness} from 'lucide-react';
 import {useFormContext} from 'react-hook-form';
 import {UserAdditionalInfoType} from '^models/User/types';
 import cn from 'classnames';
@@ -44,7 +44,7 @@ export const PositionSection = () => {
                         className="w-full bg-white h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <MdWork className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
+                        <BriefcaseBusiness className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                     </div>
                     <div
                         className={cn(
@@ -56,12 +56,12 @@ export const PositionSection = () => {
                     </div>
                 </div>
                 <button className="absolute inset-y-0 flex items-center right-4">
-                    <RiArrowDownSFill className="text-neutral-600 text-20" />
+                    <ChevronDown className="text-neutral-600 text-20" />
                 </button>
             </label>
             {errors.job && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
-                    <CiWarning className="text-red-400" />
+                    <TriangleAlert className="text-red-400" />
                     <p className="font-normal text-10">{errors.job?.message}</p>
                 </section>
             )}
