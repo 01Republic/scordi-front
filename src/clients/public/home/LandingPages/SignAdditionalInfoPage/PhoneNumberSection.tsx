@@ -75,10 +75,12 @@ export const PhoneNumberSection = () => {
                                 }}
                                 {...restRegister}
                                 className={cn(
-                                    'w-full h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900',
+                                    'w-full bg-white h-12 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                                     {
                                         'bg-gray-100': isCodeConfirmed,
                                         'bg-white': !isCodeConfirmed,
+                                        'border-red-400 focus:outline-red-400': errors.phoneNumber,
+                                        'border-neutral-300 focus:outline-primaryColor-900': !errors.phoneNumber,
                                     },
                                 )}
                             />
@@ -118,7 +120,7 @@ export const PhoneNumberSection = () => {
             {errors.phoneNumber && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
                     <TriangleAlert className="text-red-400" />
-                    <p className="font-normal text-10">{errors.phoneNumber?.message}</p>
+                    <p className="font-normal text-12">{errors.phoneNumber?.message}</p>
                 </section>
             )}
             {isCodeConfirmed

@@ -62,7 +62,7 @@ export const PositionSection = () => {
             {errors.job && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
                     <TriangleAlert className="text-red-400" />
-                    <p className="font-normal text-10">{errors.job?.message}</p>
+                    <p className="font-normal text-12">{errors.job?.message}</p>
                 </section>
             )}
         </>

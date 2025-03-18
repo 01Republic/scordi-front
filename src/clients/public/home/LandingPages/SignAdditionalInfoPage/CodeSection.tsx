@@ -82,7 +82,12 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                                     }
                                 }}
                                 {...restRegister}
-                                className="w-full bg-white h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
+                                className={cn(
+                                    'w-full bg-white h-12 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                                    errors.code
+                                        ? 'border-red-400 focus:outline-red-400'
+                                        : 'border-neutral-300 focus:outline-primaryColor-900',
+                                )}
                             />
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <KeyRound className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
@@ -125,14 +130,12 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                     <p className="whitespace-nowrap">인증 확인</p>
                 </button>
             </section>
-            <section className="flex items-center justify-between -mt-1">
-                {errors.code && (
-                    <section className="flex gap-1 text-red-400 w-full justify-start">
-                        <TriangleAlert className="text-red-400" />
-                        <p className="font-normal text-10">{errors.code?.message}</p>
-                    </section>
-                )}
-            </section>
+            {errors.code && (
+                <section className="flex items-center gap-1 text-red-400 w-full justify-start -mt-1">
+                    <TriangleAlert className="text-red-400" />
+                    <p className="font-normal text-12">{errors.code?.message}</p>
+                </section>
+            )}
         </>
     );
 });
