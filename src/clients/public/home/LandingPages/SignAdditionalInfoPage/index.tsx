@@ -9,7 +9,7 @@ import {StepButton} from '^clients/public/home/LandingPages/SignAdditionalInfoPa
 import {NameSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/NameSection';
 import {EmailSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/EmailSection';
 import {PhoneNumberSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/PhoneNumberSection';
-import {JobSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/JobSection';
+import {PositionSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/PositionSection';
 
 interface SignAdditionalInfoPageProps {}
 
@@ -70,7 +70,7 @@ export const SignAdditionalInfoPage = memo((props: SignAdditionalInfoPageProps) 
                         <NameSection />
                         <EmailSection />
                         <PhoneNumberSection />
-                        <JobSection />
+                        <PositionSection />
                     </section>
                     <StepButton text="계속" />
                 </div>

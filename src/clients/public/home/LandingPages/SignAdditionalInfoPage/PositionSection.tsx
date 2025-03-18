@@ -6,10 +6,7 @@ import {useFormContext} from 'react-hook-form';
 import {UserAdditionalInfoType} from '^models/User/types';
 import cn from 'classnames';
 
-interface JobSectionProps {}
-
-export const JobSection = memo((props: JobSectionProps) => {
-    const {} = props;
+export const PositionSection = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
 
     const {
@@ -70,4 +67,4 @@ export const JobSection = memo((props: JobSectionProps) => {
             )}
         </>
     );
-});
+};
