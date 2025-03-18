@@ -2,18 +2,13 @@ import {Fragment, memo, useEffect} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {orgIdParamState, productIdParamsState, useRouterIdParamState} from '^atoms/common';
-import {
-    PrototypeHeader,
-    Breadcrumb,
-    TabContentForInformation,
-    TabContentForInvoices,
-    TabContentForSpend,
-} from './index';
+import {PrototypeHeader, Breadcrumb} from './index';
 import {atom, useRecoilValue} from 'recoil';
 import {TabContentForSetting} from '^components/pages/OrgProtoDetailPage/TabContents/TabContentForSetting';
 import {useCurrentUser} from '^models/User/hook';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {defineTabs, useTabs} from '^components/util/tabs';
+import {TabContentForInformation, TabContentForInvoices, TabContentForSpend} from '../OrgAppShowPage/TabContents';
 
 const protoDetailPageTab = defineTabs('protoDetailPageTab', [
     {label: 'information', TabPane: TabContentForInformation},
