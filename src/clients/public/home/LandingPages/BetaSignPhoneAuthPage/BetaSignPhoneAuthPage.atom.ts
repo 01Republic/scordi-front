@@ -30,7 +30,6 @@ export const codeConfirmedState = atom<boolean>({
     default: false,
 });
 
-//동의모달
 export const isTermModalOpenedState = atom<boolean>({
     key: 'BetaSign/isTermModalOpenedState',
     default: false,
