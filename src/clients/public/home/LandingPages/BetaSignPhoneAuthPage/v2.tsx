@@ -198,7 +198,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-            <SignAdditionalInfoPage />
+            <SignAdditionalInfoPage onClick={() => !isLoading && agreeModalOnConfirm()} />
             <div className=" mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                 <h1
                     className="text-3xl sm:text-4xl font-bold"

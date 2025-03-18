@@ -10,7 +10,12 @@ import {EmailSection} from './EmailSection';
 import {PhoneNumberSection} from './PhoneNumberSection';
 import {PositionSection} from './PositionSection';
 
-export const SignAdditionalInfoPage = () => {
+interface SignAdditionalInfoPageProps {
+    onClick: () => void;
+}
+
+export const SignAdditionalInfoPage = (props: SignAdditionalInfoPageProps) => {
+    const {onClick} = props;
     const setTokenData = useSetRecoilState(googleTokenDataAtom);
     const tokenData = useRecoilValue(googleTokenDataAtom);
 
@@ -63,7 +68,7 @@ export const SignAdditionalInfoPage = () => {
                         <PhoneNumberSection />
                         <PositionSection />
                     </section>
-                    <StepButton text="계속" disabled={disabled} />
+                    <StepButton text="계속" disabled={disabled} onClick={onClick} />
                 </div>
             </FormProvider>
         </NewLandingPageLayout>
