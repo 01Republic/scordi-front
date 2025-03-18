@@ -1,23 +1,18 @@
-import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import React, {useEffect} from 'react';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {FormProvider, useForm} from 'react-hook-form';
 import {googleTokenDataAtom} from '^atoms/common';
 import {UserAdditionalInfoType} from '^models/User/types';
-import {signAdditionalInfoPageDataState} from './AdditionalInfoPage.atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
-import {StepButton} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/StepButton';
-import {NameSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/NameSection';
-import {EmailSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/EmailSection';
-import {PhoneNumberSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/PhoneNumberSection';
-import {PositionSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/PositionSection';
+import {StepButton} from './StepButton';
+import {NameSection} from './NameSection';
+import {EmailSection} from './EmailSection';
+import {PhoneNumberSection} from './PhoneNumberSection';
+import {PositionSection} from './PositionSection';
 
-interface SignAdditionalInfoPageProps {}
-
-export const SignAdditionalInfoPage = memo((props: SignAdditionalInfoPageProps) => {
+export const SignAdditionalInfoPage = () => {
     const setTokenData = useSetRecoilState(googleTokenDataAtom);
     const tokenData = useRecoilValue(googleTokenDataAtom);
-    const [additionalData, setAdditionalData] = useRecoilState(signAdditionalInfoPageDataState);
-    const {} = props;
 
     const methods = useForm<UserAdditionalInfoType>({
         mode: 'all',
@@ -55,12 +50,6 @@ export const SignAdditionalInfoPage = memo((props: SignAdditionalInfoPageProps) 
         }
     }, [reset, tokenData?.name, tokenData?.email]);
 
-    const name = watch('name');
-    const email = watch('email');
-    const phoneNumber = watch('phoneNumber');
-    const code = watch('code');
-    const job = watch('job');
-
     return (
         <NewLandingPageLayout pageName="AdditionalInfoPage" hideNav>
             <FormProvider {...methods}>
@@ -77,4 +66,4 @@ export const SignAdditionalInfoPage = memo((props: SignAdditionalInfoPageProps) 
             </FormProvider>
         </NewLandingPageLayout>
     );
-});
+};
