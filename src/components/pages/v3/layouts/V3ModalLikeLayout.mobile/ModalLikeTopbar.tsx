@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {FiArrowLeft} from 'react-icons/fi';
 import {ReactComponentLike} from 'prop-types';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
+import {ArrowLeft} from 'lucide-react';
 
 interface ModalLikeTopbarProps {
     backBtnOnClick: () => any;
@@ -28,7 +28,7 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps & WithChildren)
                         className="px-5 h-full flex items-center cursor-pointer"
                         onClick={backBtnOnClick}
                     >
-                        <FiArrowLeft size={24} strokeWidth={2.5} />
+                        <ArrowLeft size={24} strokeWidth={2.5} />
                     </div>
                 </div>
                 <div className="h-full flex-1 flex items-center font-semibold text-16">{children || title}</div>

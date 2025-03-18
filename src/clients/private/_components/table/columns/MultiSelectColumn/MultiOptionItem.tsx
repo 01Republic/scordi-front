@@ -1,6 +1,6 @@
-import {FcCheckmark} from 'react-icons/fc';
 import {ValueComponent} from '^v3/share/table/columns/SelectColumn/type';
 import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
+import {Check} from 'lucide-react';
 
 interface MultiOptionItemProps<T> {
     option: T;
@@ -39,7 +39,7 @@ export const MultiOptionItem = <T,>(props: MultiOptionItemProps<T>) => {
                         />
                     </div>
                 ) : (
-                    <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>
+                    <div className="ml-auto">{isCurrent && <Check />}</div>
                 )}
             </div>
         </li>

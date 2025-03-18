@@ -6,9 +6,9 @@ import {LoadableBox} from '^components/util/loading';
 import {CardTablePanel, CardTableTH} from '^admin/share';
 import {PagePerSelect} from '^components/Paginator';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {IoIosClose} from 'react-icons/io';
 import {selectedCodefCardAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
+import {X} from 'lucide-react';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
@@ -71,7 +71,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                             <div>
                                 <CodefCardTagUI codefCard={selectedCodefCard} />
                             </div>
-                            <IoIosClose size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
+                            <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                         </div>
                     </div>
                 </section>

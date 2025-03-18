@@ -1,11 +1,11 @@
 import React, {memo, useState} from 'react';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
-import {FaTimes} from 'react-icons/fa';
 import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
 import {VendorContractDto} from '^models/vendor/VendorContract/types';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {X} from 'lucide-react';
 
 interface VendorCompanyNameProps {
     isEditMode?: boolean;
@@ -28,7 +28,7 @@ export const VendorCompanyName = memo((props: VendorCompanyNameProps) => {
                 >
                     <div>{selectedCompany?.name || <EmptyValue />}</div>
                     {selectedCompany && (
-                        <FaTimes
+                        <X
                             size={16}
                             className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
                             onClick={(e) => {

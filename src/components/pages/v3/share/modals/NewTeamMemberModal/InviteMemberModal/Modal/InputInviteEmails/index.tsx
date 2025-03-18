@@ -1,11 +1,11 @@
 import React, {memo, useEffect, useRef} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {IoClose} from 'react-icons/io5';
 import {useInviteMember} from './useInviteMember';
 import {
     createInviteTeamMemberAtom,
     emailInputValueAtom,
 } from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
+import {X} from 'lucide-react';
 
 export const InputInviteEmails = memo(() => {
     const [inputValue, setInputValue] = useRecoilState(emailInputValueAtom);
@@ -23,7 +23,7 @@ export const InputInviteEmails = memo(() => {
                 {formData.invitations?.map((invitation, i) => (
                     <span key={i} className="m-1 py-1 px-2 rounded-lg bg-scordi-light-200 flex justify-between text-sm">
                         {invitation.email}
-                        <IoClose
+                        <X
                             size={13}
                             className="self-center ml-2 cursor-pointer"
                             onClick={() => removeInvitedEmail(invitation.email)}

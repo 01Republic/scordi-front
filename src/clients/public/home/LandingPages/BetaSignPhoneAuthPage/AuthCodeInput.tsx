@@ -9,8 +9,8 @@ import {
     useConfirmCode,
     useSendCode,
 } from './BetaSignPhoneAuthPage.atom';
-import {BsCheck2} from '^components/react-icons';
 import {useTranslation} from 'next-i18next';
+import {Check} from 'lucide-react';
 
 export const AuthCodeInput = memo(() => {
     const [phoneAuthData, setPhoneAuthData] = useRecoilState(phoneAuthDataState);
@@ -53,7 +53,7 @@ export const AuthCodeInput = memo(() => {
                     type="button"
                     className="btn btn-xs !bg-success !text-white absolute right-4 top-0 bottom-0 m-auto btn-circle"
                 >
-                    <BsCheck2 size={14} />
+                    <Check size={14} />
                 </button>
             ) : (
                 <button

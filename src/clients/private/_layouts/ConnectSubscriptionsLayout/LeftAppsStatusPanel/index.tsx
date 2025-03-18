@@ -3,8 +3,8 @@ import {LogoHeader} from './LogoHeader';
 import {SelectedAppsSection} from './SelectedAppsSection';
 import {Inquiry} from './Inquiry';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaAngleLeft} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
+import {ChevronLeft} from 'lucide-react';
 
 export const LeftAppsStatusPanel = memo(function LeftAppsStatusPanel() {
     const router = useRouter();
@@ -17,7 +17,7 @@ export const LeftAppsStatusPanel = memo(function LeftAppsStatusPanel() {
                         className="flex items-center gap-2 transition-all hover:gap-3 cursor-pointer"
                         displayLoading={false}
                     >
-                        <FaAngleLeft />
+                        <ChevronLeft />
                         <span>돌아가기</span>
                     </LinkTo>
                 </div>

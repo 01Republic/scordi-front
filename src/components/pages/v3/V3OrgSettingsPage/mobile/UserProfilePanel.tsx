@@ -3,8 +3,8 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Avatar} from '^components/Avatar';
 import {currentUserAtom} from '^models/User/atom';
 import {useRecoilValue} from 'recoil';
-import {BiChevronRight} from 'react-icons/bi';
 import {useToast} from '^hooks/useToast';
+import {ChevronRight} from 'lucide-react';
 
 export const UserProfilePanel = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -28,7 +28,7 @@ export const UserProfilePanel = memo(() => {
                             <small className="mr-0.5"></small>
                         </p>
                     </div>
-                    <BiChevronRight size={28} />
+                    <ChevronRight size={28} />
                 </div>
             </MobileSection.Padding>
         </MobileSection.Item>

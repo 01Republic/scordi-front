@@ -1,7 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {FcDataRecovery} from 'react-icons/fc';
 import {orgIdParamState} from '^atoms/common';
 import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
 import {
@@ -11,6 +10,7 @@ import {
     MethodOption,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
+import {Database, DatabaseBackup} from 'lucide-react';
 
 interface AddBankAccountDropdownProps {
     reload: () => any;
@@ -29,14 +29,14 @@ export const AddBankAccountDropdown = memo((props: AddBankAccountDropdownProps) 
             <ListPageDropdownMenu>
                 {/* TODO: 공동인증서로 불러오기 기능 완료시 복구 */}
                 {/*<MethodOption*/}
-                {/*    Icon={FcDataBackup}*/}
+                {/*    Icon={Database}*/}
                 {/*    title="이체내역 불러오기"*/}
                 {/*    desc="공동인증서로 간편하게 불러와요."*/}
                 {/*    onClick={() => setIsCardAutoCreateModalOpen(true)}*/}
                 {/*/>*/}
 
                 <MethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 입력하기"
                     desc="계좌 정보를 입력한 뒤 추가해요."
                     onClick={() => router.push(OrgBankAccountNewPageRoute.path(orgId))}

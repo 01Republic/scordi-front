@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {HiMiniInbox} from 'react-icons/hi2';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {LoadableBox} from '^components/util/loading';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {NotSelectableInvoiceAccount} from './NotSelectableInvoiceAccount';
 import {SelectableInvoiceAccount} from './SelectableInvoiceAccount';
+import {Inbox} from 'lucide-react';
 
 interface InvoiceAccountSelectModalProps {
     isOpened: boolean;
@@ -99,7 +99,7 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
                                     maxHeight: 'calc(var(--modal-height) - 28px - 1.5rem - 80px)',
                                 }}
                             >
-                                <HiMiniInbox className="text-slate-200" fontSize={48} />
+                                <Inbox className="text-slate-200" fontSize={48} />
                                 <span className="text-16 font-semibold text-gray-400">
                                     등록된 청구서 메일이 없어요.
                                 </span>

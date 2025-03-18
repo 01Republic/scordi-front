@@ -1,9 +1,9 @@
 import React, {memo, useState} from 'react';
-import {FaCaretDown} from 'react-icons/fa6';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {BankAccountAttrSelectPropsType} from './BankAccountAttrSelectProps.type';
+import {ChevronDown} from 'lucide-react';
 
 export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSelectPropsType<number>) => {
     const {defaultValue, isLoading = false, onChange} = props;
@@ -30,7 +30,7 @@ export const BankAccountHoldingMemberIdSelect = memo((props: BankAccountAttrSele
                     className="flex-auto"
                     defaultValue={holdingMember}
                 />
-                <FaCaretDown fontSize={12} className="text-gray-500" />
+                <ChevronDown fontSize={12} className="text-gray-500" />
             </div>
             <span></span>
         </FormControl>

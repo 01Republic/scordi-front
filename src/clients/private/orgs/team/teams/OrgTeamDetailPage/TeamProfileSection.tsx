@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
-import {FaPen} from 'react-icons/fa';
 import {TeamAvatar} from './TeamAvatar';
 import {useCurrentTeam} from '^models/Team/hook';
 import {prompt2} from '^components/util/dialog';
-import {FaUserGroup} from 'react-icons/fa6';
+import {Pen, Users} from 'lucide-react';
 
 export const TeamProfileSection = memo(() => {
     const {team, update} = useCurrentTeam();
@@ -26,7 +25,7 @@ export const TeamProfileSection = memo(() => {
             <div className="relative">
                 <TeamAvatar name={team?.name || ''} className="w-20 h-20 text-3xl" />
                 <div className="absolute bottom-0 right-0 btn btn-xs btn-scordi btn-square border shadow animate-none">
-                    <FaUserGroup />
+                    <Users />
                 </div>
             </div>
 
@@ -36,7 +35,7 @@ export const TeamProfileSection = memo(() => {
             >
                 <h3 className="inline-block text-lg font-semibold">{team?.name || '-'}</h3>
                 <button className="opacity-0 group-hover:opacity-100 absolute top-0 bottom-[3px] right-[-15px] transition">
-                    <FaPen fontSize={10} />
+                    <Pen fontSize={10} />
                 </button>
             </div>
         </div>

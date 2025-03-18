@@ -2,8 +2,8 @@ import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useBillingHistoryListOfInvoiceAccount} from '^models/BillingHistory/hook';
 import Tippy from '@tippyjs/react';
-import {MdRefresh} from 'react-icons/md';
 import {intlDateRangeShort, intlDateShort, yyyy_mm} from '^utils/dateTime';
+import {RotateCw} from 'lucide-react';
 
 interface BillingHistoryTableTitleProps {
     invoiceAccount: InvoiceAccountDto;
@@ -45,7 +45,7 @@ export const BillingHistoryTableTitle = memo((props: BillingHistoryTableTitlePro
 
             <Tippy className="!text-10" content="목록 새로고침">
                 <button className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`} onClick={() => reload()}>
-                    <MdRefresh fontSize={14} />
+                    <RotateCw fontSize={14} />
                 </button>
             </Tippy>
 

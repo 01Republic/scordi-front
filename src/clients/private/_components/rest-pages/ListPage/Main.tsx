@@ -7,7 +7,7 @@ import {WithChildren} from '^types/global.type';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {LuDownload} from 'react-icons/lu';
+import {Download} from 'lucide-react';
 
 interface ListPageProps extends WithChildren {
     onReady?: () => any;
@@ -81,7 +81,7 @@ export const ListPageMain = memo((props: ListPageProps) => {
                                     className="btn btn-outline animate-none btn-animation bg-white border-gray-300"
                                     onClick={onDownload}
                                 >
-                                    <LuDownload fontSize={20} />
+                                    <Download fontSize={20} />
                                 </button>
                             )}
                             {searchInputPosition === 'right-of-scopes' && onSearch && (

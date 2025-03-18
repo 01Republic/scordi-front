@@ -3,10 +3,10 @@ import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {useAccountsOfSubscriptionAtom} from '^models/Account/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {currencyFormat} from '^utils/number';
-import {FiChevronRight} from '^components/react-icons';
 import {useModal} from '^v3/share/modals/useModal';
 import {accountListModal, subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {useSetRecoilState} from 'recoil';
+import {ChevronRight} from 'lucide-react';
 
 export const ListItemForAccount = memo(() => {
     const {result, fetchAllAccountsBy, isLoading} = useAccountsOfSubscriptionAtom();
@@ -42,7 +42,7 @@ export const ListItemForAccount = memo(() => {
                         <span className="text-sm text-gray-500">계정을 안전하게 보관해보세요</span>
                     )}
                     <span>
-                        <FiChevronRight />
+                        <ChevronRight />
                     </span>
                 </div>
             )}

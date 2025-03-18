@@ -1,11 +1,9 @@
 import React, {memo} from 'react';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {IconType} from '@react-icons/all-files';
-import {FaChevronRight} from 'react-icons/fa6';
+import {LucideIcon} from 'lucide-react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useGoogleLoginForWorkspaceConnect} from './useGoogleLoginForWorkspaceConnect';
-import {ExcelIcon} from '^components/react-icons';
+import {ChevronRight, Database, DatabaseBackup, FileSpreadsheet} from 'lucide-react';
 
 interface TeamMemberCreateMethodModalProps {
     isOpened: boolean;
@@ -29,14 +27,14 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                     }}
                 >
                     <MethodOption
-                        Icon={FcDataBackup}
+                        Icon={Database}
                         title="구성원 불러오기"
                         desc="구글워크스페이스 로그인으로 한 번에 불러와요."
                         onClick={resetGsuiteAuthCode}
                     />
                 </GoogleAdminOAuthButton>
                 <MethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 입력하기"
                     desc="멤버를 수기로 입력해요"
                     onClick={() => {
@@ -45,7 +43,7 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                     }}
                 />
                 <MethodOption
-                    Icon={ExcelIcon}
+                    Icon={FileSpreadsheet}
                     title="엑셀로 대량 등록하기"
                     desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
                     onClick={() => {
@@ -60,7 +58,7 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
 TeamMemberCreateMethodModal.displayName = 'TeamMemberCreateMethodModal';
 
 interface Props {
-    Icon: IconType;
+    Icon: LucideIcon;
     title: string;
     desc: string;
     onClick: () => any;
@@ -84,7 +82,7 @@ const MethodOption = memo((props: Props) => {
             </div>
 
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

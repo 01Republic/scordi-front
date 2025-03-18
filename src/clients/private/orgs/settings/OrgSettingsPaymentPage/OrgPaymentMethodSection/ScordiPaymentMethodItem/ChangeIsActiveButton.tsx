@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {FaBookmark, FaRegBookmark} from 'react-icons/fa6';
 import {ScordiPaymentMoreDropdownButton} from './ScordiPaymentMoreDropdownButton';
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {scordiPaymentMethodApi} from '^models/_scordi/ScordiPaymentMethod/api';
@@ -9,6 +8,7 @@ import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymen
 import {errorToast} from '^api/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {Bookmark, BookmarkMinus} from 'lucide-react';
 
 interface ChangeIsActiveButtonProps {
     paymentMethod: ScordiPaymentMethodDto;
@@ -62,14 +62,14 @@ export const ChangeIsActiveButton = memo((props: ChangeIsActiveButtonProps) => {
     if (paymentMethod.isActive) {
         return (
             <ScordiPaymentMoreDropdownButton className="hover:text-scordi" onClick={() => onClick(false)}>
-                <FaBookmark fontSize={10} className="text-scordi" />
+                <Bookmark fontSize={10} className="text-scordi" />
                 <span>서브 카드로 변경하기</span>
             </ScordiPaymentMoreDropdownButton>
         );
     } else {
         return (
             <ScordiPaymentMoreDropdownButton className="hover:text-scordi" onClick={() => onClick(true)}>
-                <FaRegBookmark fontSize={10} />
+                <BookmarkMinus fontSize={10} />
                 <span>메인 카드로 변경하기</span>
             </ScordiPaymentMoreDropdownButton>
         );

@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import Tippy from '@tippyjs/react';
-import {BsFillInfoCircleFill} from 'react-icons/bs';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {Info} from 'lucide-react';
 
 interface InvoiceAccountTableHeaderProps extends ListTableHeaderProps {
     //
@@ -29,7 +29,7 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
                 등록방식
                 <Tippy content="연동된 메일은 구글 로고가 표시됩니다">
                     <div>
-                        <BsFillInfoCircleFill fontSize={14} className="text-gray-400" />
+                        <Info fontSize={14} className="text-gray-400" />
                     </div>
                 </Tippy>
             </th>

@@ -4,7 +4,6 @@ import {Avatar} from '^components/Avatar';
 import {useSetRecoilState} from 'recoil';
 import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel';
 import {zeroPad} from '^utils/dateTime';
-import {FiRefreshCw} from 'react-icons/fi';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
@@ -12,6 +11,7 @@ import {useRouter} from 'next/router';
 import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
 import {useToast} from '^hooks/useToast';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {ChevronRight, RefreshCw} from 'lucide-react';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -67,14 +67,14 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                 <p className="text-[16px]">{invoiceAccount.email}</p>
             </div>
             <div>
-                {/*<BiChevronRight size={22.5} />*/}
+                {/*<ChevronRight size={22.5} />*/}
                 <button className="btn btn-sm bg-slate-200 text-xs" data-created_at={createdAt}>
                     {since} ~
                 </button>
             </div>
             <div>
                 <button className="btn btn-sm btn-scordi text-xs" onClick={() => sync()}>
-                    <FiRefreshCw size="10" />
+                    <RefreshCw size="10" />
                 </button>
             </div>
         </div>

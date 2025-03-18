@@ -4,7 +4,7 @@ import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {ApplicationLogo} from './ApplicationLogo';
-import {FiExternalLink} from '^components/react-icons';
+import {ExternalLink} from 'lucide-react';
 
 export const ApplicationHeader = memo((props: WithChildren) => {
     const {children} = props;
@@ -53,7 +53,7 @@ export const ApplicationHeader = memo((props: WithChildren) => {
 
             <div className="flex gap-2 items-center">
                 <button className="btn btn-gray" onClick={() => open(orgPageUrl)}>
-                    <FiExternalLink size={20} />
+                    <ExternalLink size={20} />
                 </button>
                 {children}
             </div>

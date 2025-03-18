@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {Dropdown} from '^v3/share/Dropdown';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaChevronDown} from 'react-icons/fa6';
+import {ChevronDown} from 'lucide-react';
 
 interface TopNavBarItemProps extends WithChildren {
     name: string;
@@ -41,7 +41,7 @@ export const TopNavBarItem = memo((props: TopNavBarItemProps) => {
                             }`}
                         >
                             <span>{name}</span>
-                            <FaChevronDown size={10} strokeWidth={20} />
+                            <ChevronDown size={16} />
                         </a>
                     </div>
                 )}

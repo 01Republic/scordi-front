@@ -7,13 +7,13 @@ import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]'
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {currentUserAtom} from '^models/User/atom';
-import {GoPlug} from '^components/react-icons';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
 import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {connectProductModalState, currentProductState} from '^atoms/connectProducts.atom';
 import {OutLink} from '^components/OutLink';
 import {productApi} from '^models/Product/api';
+import {Plug} from 'lucide-react';
 
 export const SearchResultTable = memo(() => {
     const {result, reload} = useProductsV2();
@@ -111,7 +111,7 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
                     style={{flexWrap: 'nowrap'}}
                     onClick={() => clickConnectBtn(proto)}
                 >
-                    <GoPlug size={16} />
+                    <Plug size={16} />
                     <span>connect</span>
                 </button>
             </td>

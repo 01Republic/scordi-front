@@ -2,8 +2,8 @@ import {memo, useRef, useState} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaCheck} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react';
+import {Check} from 'lucide-react';
 
 interface ConnectableCardItemProps {
     cardCompany: CardAccountsStaticData;
@@ -70,7 +70,7 @@ export const ConnectableCardItem = memo((props: ConnectableCardItemProps) => {
                     </TagUI>
                 )}
             </div>
-            <div>{checked && <FaCheck className="text-scordi" />}</div>
+            <div>{checked && <Check className="text-scordi" />}</div>
         </div>
     );
 });

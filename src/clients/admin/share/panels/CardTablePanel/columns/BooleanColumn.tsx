@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {FiCheck} from '@react-icons/all-files/fi/FiCheck';
 import {ReactNodeElement} from '^types/global.type';
+import {Check} from 'lucide-react';
 
 interface BooleanColumnProps {
     value: boolean;
@@ -9,7 +9,7 @@ interface BooleanColumnProps {
 }
 
 export const BooleanColumn = memo((props: BooleanColumnProps) => {
-    const {value, trueVal = <FiCheck />, falseVal = '-'} = props;
+    const {value, trueVal = <Check />, falseVal = '-'} = props;
 
     return <span className="whitespace-nowrap">{value ? trueVal : falseVal}</span>;
 });

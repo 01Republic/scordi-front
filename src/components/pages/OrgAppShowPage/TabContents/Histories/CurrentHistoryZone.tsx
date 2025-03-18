@@ -1,5 +1,4 @@
 import {memo, useEffect} from 'react';
-import {BiGitCommit, BsCalendarDay, BsStopwatch, IoMdRefresh} from '^components/react-icons';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {
     restartSyncButtonIsActive,
@@ -9,6 +8,7 @@ import {
 import {Avatar} from '^components/Avatar';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {useCurrentSyncHistory} from '^models/SubscriptionSyncHistory/hook';
+import {CalendarDays, GitCommit, RotateCw, Timer} from 'lucide-react';
 
 interface CurrentHistoryZoneProps {
     subscription: SubscriptionDto;
@@ -86,7 +86,7 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
                                 {/* execute status */}
                                 <div className="flex-1">
                                     <div className={`text-${asset?.darken} flex gap-3 items-center mb-5`}>
-                                        <BiGitCommit size={14} />
+                                        <GitCommit size={14} />
                                         <p>
                                             <span className="mr-2">#{currentSyncHistory.id}</span>
                                             <span>{label}</span>
@@ -94,12 +94,12 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
                                     </div>
 
                                     <div className={`text-gray-500 flex gap-3 items-center`}>
-                                        <BsStopwatch size={14} />
+                                        <Timer size={14} />
                                         <p>{durationMsg}</p>
                                     </div>
 
                                     <div className={`text-gray-500 flex gap-3 items-center`}>
-                                        <BsCalendarDay size={14} />
+                                        <CalendarDays size={14} />
                                         <p>{finishedAgoMsg}</p>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
                                         className="btn btn-xs btn-gray btn-outline normal-case gap-2"
                                         disabled={!syncButtonIsActive}
                                     >
-                                        <IoMdRefresh size={14} />
+                                        <RotateCw size={14} />
                                         <span>Restart sync</span>
                                     </button>
                                 </div>

@@ -1,8 +1,8 @@
 import React, {memo, useEffect} from 'react';
 import {RecoilState, useRecoilState} from 'recoil';
 import {WithChildren} from '^types/global.type';
-import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {DefaultModal} from '^v3/share/modals/_layouts/DefaultModal';
+import {X} from 'lucide-react';
 
 export interface UseModalOption {
     isShowAtom: RecoilState<boolean>;
@@ -93,7 +93,7 @@ export const useModal = (option: UseModalOption) => {
                 onClick={close}
                 className={`btn btn-link p-0 text-gray-500 hover:text-gray-900 ${className}`}
             >
-                {children || <IoClose size={26} />}
+                {children || <X size={26} />}
             </button>
         )),
     };

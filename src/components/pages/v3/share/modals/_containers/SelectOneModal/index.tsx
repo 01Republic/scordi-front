@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {BottomUpModal, BottomUpModalProps} from '^v3/share/modals/_layouts/BottomUpModal';
 import {ValueComponent} from '^v3/share/table/columns/SelectColumn/type';
-import {FcCheckmark} from 'react-icons/fc';
+import {Check} from 'lucide-react';
 
 interface SelectOneModalProps<T> extends Omit<BottomUpModalProps, 'size' | 'children'> {
     title: string;
@@ -90,7 +90,7 @@ export const SelectOneModal = <T,>(props: SelectOneModalProps<T>) => {
                                                     selectedOption={selectedOption || null}
                                                 />
                                             </div>
-                                            <div>{isCurrent && <FcCheckmark size={18} />}</div>
+                                            <div>{isCurrent && <Check size={18} />}</div>
                                         </div>
                                     </li>
                                 );

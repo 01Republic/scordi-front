@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {FaSearch} from 'react-icons/fa';
+import {Search} from 'lucide-react';
 
 interface SearchInputProps
     extends Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'className'> {
@@ -38,7 +38,7 @@ export const SearchInput = memo((props: SearchInputProps) => {
     return (
         <div className="relative">
             <div className={`absolute top-0 bottom-0 w-[${paddingScale}] flex items-center justify-center`}>
-                <FaSearch size={iconSize} className="text-gray-500" />
+                <Search size={iconSize} className="text-gray-500" />
             </div>
 
             <input

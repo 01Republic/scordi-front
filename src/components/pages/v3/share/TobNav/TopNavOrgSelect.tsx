@@ -1,7 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {BiChevronDown} from '@react-icons/all-files/bi/BiChevronDown';
 import {Avatar} from '^components/Avatar';
 import {useCurrentUser} from '^models/User/hook';
 import {useCurrentUserMemberships} from '^models/Membership/hook';
@@ -9,6 +8,7 @@ import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {MembershipManager} from '^models/Membership/manager';
 import {OrganizationDto} from '^models/Organization/type';
 import {LinkTo} from '^components/util/LinkTo';
+import {ChevronDown} from 'lucide-react';
 
 export const TopNavOrgSelect = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -38,7 +38,7 @@ export const TopNavOrgSelect = memo(() => {
                 }`}
             >
                 <span>{currentOrg.name}</span>
-                {hasMultiOrg && <BiChevronDown />}
+                {hasMultiOrg && <ChevronDown />}
             </label>
 
             {hasMultiOrg && (

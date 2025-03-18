@@ -6,12 +6,11 @@ import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/Connect
 import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {toast} from 'react-toastify';
-import {PiSpinnerGapThin} from 'react-icons/pi';
 // import {toaster as toast} from '^hooks/useToast';
+import {ArrowLeft, Loader} from 'lucide-react';
 
 export const GmailInvoiceConnectingPage = memo(function GmailInvoiceConnectingPage() {
     const router = useRouter();
@@ -59,7 +58,7 @@ export const GmailInvoiceConnectingPage = memo(function GmailInvoiceConnectingPa
                         onClick={routerBack}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <FaArrowLeft /> 뒤로가기
+                        <ArrowLeft /> 뒤로가기
                     </LinkTo>
                 </div>
 
@@ -80,7 +79,7 @@ export const GmailInvoiceConnectingPage = memo(function GmailInvoiceConnectingPa
             </header>
 
             <section className="py-8">
-                <PiSpinnerGapThin size={60} className="animate-spin text-scordi-500 m-auto" />
+                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
             </section>
         </div>
     );

@@ -1,11 +1,10 @@
 import React, {memo, useState} from 'react';
-import {FaRegTrashAlt} from 'react-icons/fa';
 import {currentTeamMemberState, teamMemberApi, TeamMemberDto, useTeamMember} from '^models/TeamMember';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {CgSpinner} from 'react-icons/cg';
 import {confirm2} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {useSetRecoilState} from 'recoil';
+import {Loader, Trash2} from 'lucide-react';
 
 interface DeleteMemberItemProps {
     reload: () => any;
@@ -43,10 +42,10 @@ export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
         <MoreDropdownListItem onClick={() => !isLoading && onClick()}>
             <div className="flex items-center gap-3 w-full text-red-500 py-1">
                 {isLoading ? (
-                    <CgSpinner size={20} className="animate-spin btn-disabled mx-auto" />
+                    <Loader size={20} className="animate-spin btn-disabled mx-auto" />
                 ) : (
                     <>
-                        <FaRegTrashAlt size={12} />
+                        <Trash2 size={12} />
                         <p>멤버 삭제하기</p>
                     </>
                 )}

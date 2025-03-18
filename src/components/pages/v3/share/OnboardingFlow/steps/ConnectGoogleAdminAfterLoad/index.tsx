@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {FaArrowRight} from 'react-icons/fa6';
 import {StepContentProps} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
@@ -16,6 +15,7 @@ import {
     onboardingReportSavedEmail,
     OnboardingStep,
 } from '^v3/share/OnboardingFlow/atom';
+import {ArrowRight} from 'lucide-react';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -99,7 +99,7 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
                 <Container size="sm" className="mb-8">
                     <button className="btn btn-lg btn-block btn-scordi gap-2" onClick={() => onNext()}>
                         <span>계속하기</span>
-                        <FaArrowRight />
+                        <ArrowRight />
                     </button>
                 </Container>
             )}

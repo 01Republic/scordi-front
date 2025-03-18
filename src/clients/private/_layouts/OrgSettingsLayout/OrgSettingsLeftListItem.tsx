@@ -1,10 +1,10 @@
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
 
 interface OrgSettingLeftListItemProps {
-    Icon: IconType;
+    Icon: LucideIcon;
     name: string;
     href: string;
 }

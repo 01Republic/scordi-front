@@ -1,5 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {Avatar} from '^components/Avatar';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
@@ -10,6 +9,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
 import {confirm2, confirmed} from '^components/util/dialog';
+import {ChevronLeft} from 'lucide-react';
 
 interface MergeSubscriptionModalProps {
     subscription: SubscriptionDto;
@@ -83,7 +83,7 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
             <div className="h-full flex flex-col">
                 <div>
                     <div className="mb-4">
-                        <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
+                        <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                     </div>
                     <p className="font-medium text-12 text-scordi mb-1">구독 합치기</p>
                     {subscriptions.length > 0 ? (

@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {FaChevronLeft, FaChevronRight} from 'react-icons/fa6';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {WithChildren} from '^types/global.type';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 interface ListTablePaginatorProps {
     pagination: PaginationMetaData;
@@ -55,7 +55,7 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
             {movePage && (
                 <div className="flex items-center gap-2">
                     <PageButton onClick={() => movePage(currentPage - 1)} disabled={pagination.currentPage <= 1}>
-                        <FaChevronLeft fontSize={14} />
+                        <ChevronLeft fontSize={14} />
                         <span>이전</span>
                     </PageButton>
 
@@ -64,7 +64,7 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
                         disabled={pagination.totalPage <= pagination.currentPage}
                     >
                         <span>다음</span>
-                        <FaChevronRight fontSize={14} />
+                        <ChevronRight fontSize={14} />
                     </PageButton>
                 </div>
             )}

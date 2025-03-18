@@ -1,5 +1,4 @@
 import React, {memo, useEffect} from 'react';
-import {FiMoreHorizontal} from '^components/react-icons';
 import {DateRangeSelect, dateRangeSelectAtom} from '^v3/V3OrgHomePage/InvoiceSearchControllerSection/DateRangeSelect';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {dayAfter, dayBefore, monthBefore} from '^utils/dateTime';
@@ -9,6 +8,7 @@ import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
 import {localeDateHelper} from '^utils/locale-helper';
 import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
+import {MoreHorizontal} from 'lucide-react';
 
 export const InvoiceSearchControllerSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -72,7 +72,7 @@ export const InvoiceSearchControllerSection = memo(() => {
 
                 <div className="dropdown dropdown-end">
                     <label tabIndex={0} className="btn !bg-white !border-slate-300 text-gray-700 m-1">
-                        <FiMoreHorizontal />
+                        <MoreHorizontal />
                     </label>
                     <ul
                         tabIndex={0}

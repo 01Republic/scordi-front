@@ -1,10 +1,10 @@
 import {memo} from 'react';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 import {useRouter} from 'next/router';
 
 interface BottomNavItemProps {
     text: string;
-    Icon: IconType;
+    Icon: LucideIcon;
     href: string;
     isActive: boolean;
 }

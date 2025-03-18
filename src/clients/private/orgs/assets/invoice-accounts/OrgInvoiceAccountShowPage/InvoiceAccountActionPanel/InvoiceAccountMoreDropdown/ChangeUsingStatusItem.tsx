@@ -1,13 +1,13 @@
 import React, {memo, useState} from 'react';
 import Tippy from '@tippyjs/react';
 import {toast} from 'react-hot-toast';
-import {FaCheck, FaChevronDown} from 'react-icons/fa6';
 import {errorToast} from '^api/api';
 import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
 import {InvoiceAccountUsingStatus} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {UsingStatusTag} from '^models/InvoiceAccount/components';
 import {useCurrentInvoiceAccount} from '../../atom';
+import {Check, ChevronDown} from 'lucide-react';
 
 export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
     const {currentInvoiceAccount, reload} = useCurrentInvoiceAccount();
@@ -53,7 +53,7 @@ export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
                             </div>
 
                             <div>
-                                <FaChevronDown fontSize={10} className="text-gray-500" />
+                                <ChevronDown fontSize={10} className="text-gray-500" />
                             </div>
                         </div>
                     </Tippy>
@@ -93,7 +93,7 @@ const UsingStatusSelect = (props: {
                             <UsingStatusTag value={option} />
                         </div>
 
-                        <div>{isSelected && <FaCheck fontSize={16} className="text-green-500" />}</div>
+                        <div>{isSelected && <Check fontSize={16} className="text-green-500" />}</div>
                     </div>
                 );
             })}

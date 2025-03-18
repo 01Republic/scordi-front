@@ -10,9 +10,9 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
 import {vendorManagerApi} from '^models/vendor/VendorManager/api';
-import {FaTimes} from 'react-icons/fa';
 import {errorToast} from '^api/api';
 import {EmptyValue} from '../EmptyValue';
+import {X} from 'lucide-react';
 
 export const SubscriptionBusinessInfoSectiontest = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -131,7 +131,7 @@ export const SubscriptionBusinessInfoSectiontest = memo(() => {
                                         >
                                             <div>{selectedCompany?.name || <EmptyValue />}</div>
                                             {selectedCompany && (
-                                                <FaTimes
+                                                <X
                                                     size={16}
                                                     className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
                                                     onClick={(e) => {
@@ -158,7 +158,7 @@ export const SubscriptionBusinessInfoSectiontest = memo(() => {
                                         >
                                             <div>{selectedManager?.name || <EmptyValue />}</div>
                                             {selectedManager && (
-                                                <FaTimes
+                                                <X
                                                     size={16}
                                                     className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
                                                     onClick={(e) => {

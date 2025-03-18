@@ -2,9 +2,7 @@ import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {OutLink} from '^components/OutLink';
-import {BsArrowRightShort, BiCreditCard, MdOutlineEmail} from '^components/react-icons';
-import {IoWarningOutline} from 'react-icons/io5';
-
+import {AlertTriangle, ArrowRight, CreditCard, Mail} from 'lucide-react';
 interface PaymentInfoProps {
     subscription: SubscriptionDto;
 }
@@ -23,14 +21,14 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
     return (
         <>
             <div className="stat-figure">
-                <BiCreditCard size={36} />
+                <CreditCard size={36} />
             </div>
             <div className="stat-title mb-2">
                 <OutLink
                     href={paymentInfoUrl}
                     icon={
                         <span className="text-gray-900">
-                            <BsArrowRightShort size={18} />
+                            <ArrowRight size={18} />
                         </span>
                     }
                 >
@@ -40,7 +38,7 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
 
             <div className="stat-desc">
                 <p className="flex items-center gap-2">
-                    <MdOutlineEmail size={18} />
+                    <Mail size={18} />
                     <span>{billingEmail || 'Email not set'}</span>
                 </p>
             </div>
@@ -50,7 +48,7 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
                     className="btn btn-xs gap-2 capitalize btn-error items-center text-white"
                     onClick={() => open(updatePaymentMethodUrl)}
                 >
-                    <IoWarningOutline size={14} strokeWidth="2" />
+                    <AlertTriangle size={14} strokeWidth="2" />
                     <span>Update payment method</span>
                 </button>
             </div>

@@ -1,5 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {FaPlus} from 'react-icons/fa6';
 import {useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentTeamMember} from '../../atom';
@@ -10,8 +9,8 @@ import {LinkTo} from '^components/util/LinkTo';
 import {AddButton} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/tabs/SubscriptionListTab/AddButton';
 import {TeamMemberConnectModal} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage/tab-panes/TeamMemberSubscription/TeamMemberConnectModal';
 import Tippy from '@tippyjs/react';
-import {MdRefresh} from 'react-icons/md';
 import {useUnmount} from '^hooks/useUnmount';
+import {Plus, RotateCw} from 'lucide-react';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();
@@ -75,7 +74,7 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
                                 className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`}
                                 onClick={() => reload()}
                             >
-                                <MdRefresh fontSize={14} />
+                                <RotateCw fontSize={14} />
                             </button>
                         </Tippy>
                     </div>
@@ -85,7 +84,7 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
                             className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
                             onClick={() => setConnectSubscriptionModalOpened(true)}
                         >
-                            <FaPlus />
+                            <Plus />
                             <span>구독 연결하기</span>
                         </button>
                     </div>

@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {FaArrowRight} from 'react-icons/fa6';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
@@ -16,6 +15,7 @@ import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {errorToast} from '^api/api';
 import {userSocialGoogleApi} from '^api/social-google.api';
+import {ArrowRight} from 'lucide-react';
 
 export const JoinPageBody = memo(() => {
     return (
@@ -105,7 +105,7 @@ const InvitedGoogleLoginButton = memo(() => {
                     <span>
                         Google 계정으로 시작하기{' '}
                         <span className="absolute right-4">
-                            <FaArrowRight />
+                            <ArrowRight />
                         </span>
                     </span>
                 }

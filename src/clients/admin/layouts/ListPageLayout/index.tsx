@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {FiPlus} from '@react-icons/all-files/fi/FiPlus';
 import {LinkTo} from '^components/util/LinkTo';
 import {AdminPageHeader, AdminPageHeaderProps} from '^admin/layouts';
 import {AdminPageLayout} from '../AdminPageLayout';
+import {Plus} from 'lucide-react';
 
 interface AdminListPageHeaderProps extends AdminPageHeaderProps {
     createPageRoute?: string;
@@ -26,7 +26,7 @@ export const AdminListPageLayout = memo((props: AdminListPageLayoutProps & WithC
                     {/* Add New Button */}
                     {createPageRoute && (
                         <LinkTo href={createPageRoute} className="btn btn-primary font-semibold">
-                            <FiPlus size={20} />
+                            <Plus size={20} />
                         </LinkTo>
                     )}
                 </div>

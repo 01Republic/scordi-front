@@ -1,7 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {FaPlus} from 'react-icons/fa6';
 import {useMembershipInMembershipTable} from '^models/Membership/hook';
 import {FindAllMembershipQuery, MembershipLevel} from '^models/Membership/types';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
@@ -12,6 +11,7 @@ import {OrgMembersTableHeader} from './OrgMembersTableHeader';
 import {OrgMembersTableRow} from './OrgMembersTableRow';
 import {InviteMemberModal} from '^clients/private/orgs/settings/OrgSettingsMembersPage/InviteMemberModal';
 import {OrgSettingsCardSection} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsCardSection';
+import {Plus} from 'lucide-react';
 
 export const OrgSettingsMembersPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
@@ -61,7 +61,7 @@ export const OrgSettingsMembersPage = memo(function () {
                     <div className={'flex space-x-4'}>
                         {/*<ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />*/}
                         <button className="btn btn-scordi btn-sm gap-2 rounded-lg" onClick={() => setIsOpened(true)}>
-                            <FaPlus fontSize={16} />
+                            <Plus fontSize={16} />
                             <span>멤버 초대</span>
                         </button>
                     </div>

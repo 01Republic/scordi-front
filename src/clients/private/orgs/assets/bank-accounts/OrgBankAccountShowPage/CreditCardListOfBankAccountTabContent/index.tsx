@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import Tippy from '@tippyjs/react';
-import {MdRefresh} from 'react-icons/md';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -8,9 +7,9 @@ import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/
 import {CreditCardTableRowOfBankAccount} from './CreditCardTableRowOfBankAccount';
 import {CreditCardTableHeaderOfBankAccount} from './CreditCardTableHeaderOfBankAccount';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaPlus} from 'react-icons/fa6';
 import {BankAccountAddSubscriptionModal} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/SubscriptionListOfBankAccountTabContent/BankAccountAddSubscriptionModal';
 import {BankAccountAddCreditCardModal} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/CreditCardListOfBankAccountTabContent/BankAccountAddCreditCardModal';
+import {Plus, RotateCw} from 'lucide-react';
 
 export const CreditCardListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
@@ -36,7 +35,7 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
             className="btn btn-scordi gap-2 no-animation btn-animation"
             loadingOnBtn
         >
-            <FaPlus />
+            <Plus />
             <span>카드 연결</span>
         </LinkTo>
     );
@@ -69,7 +68,7 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
                                 className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`}
                                 onClick={() => reload()}
                             >
-                                <MdRefresh fontSize={14} />
+                                <RotateCw fontSize={14} />
                             </button>
                         </Tippy>
                     </div>
@@ -80,7 +79,7 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
                                 className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
                                 onClick={() => setAddCreditCardModalOpened(true)}
                             >
-                                <FaPlus />
+                                <Plus />
                                 <span>카드 연결하기</span>
                             </button>
                         )}

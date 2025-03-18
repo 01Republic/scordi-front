@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
 import {errorToast} from '^api/api';
-import {BsDashCircle} from 'react-icons/bs';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {confirm2, confirmed} from '^components/util/dialog';
@@ -21,6 +20,7 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {useCurrentInvoiceAccount} from '../../atom';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {MinusCircle} from 'lucide-react';
 
 interface InvoiceAccountSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -171,7 +171,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                                         return disconnect();
                                     }}
                                 >
-                                    <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                                    <MinusCircle className="" size={24} strokeWidth={0.3} />
                                 </button>
                             </div>
                         </Tippy>

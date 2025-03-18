@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {FaCaretRight} from 'react-icons/fa6';
+import {ChevronRight} from 'lucide-react';
 
 interface StepProgressItemProps {
     text: string;
@@ -17,7 +17,7 @@ export const StepProgressItem = memo((props: StepProgressItemProps) => {
             }`}
         >
             <span className="text-lg">{text}</span>
-            {!last && <FaCaretRight />}
+            {!last && <ChevronRight />}
         </div>
     );
 });

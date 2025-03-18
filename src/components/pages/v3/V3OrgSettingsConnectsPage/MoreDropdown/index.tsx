@@ -1,11 +1,9 @@
 import React, {memo} from 'react';
 import {Dropdown} from '^v3/share/Dropdown';
-import {IoMdMore} from 'react-icons/io';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {FaSync, FaTimes} from 'react-icons/fa';
-import {CgSpinner} from 'react-icons/cg';
 import {ReactComponentLike} from 'prop-types';
 import {Placement} from '@popperjs/core';
+import {Loader, MoreHorizontal, RotateCw, X} from 'lucide-react';
 
 // settings connect 페이지에서만 사용되는
 // more dropdown component.
@@ -34,7 +32,7 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
                         <button
                             className={`btn btn-xs btn-ghost btn-square !border-none hover:bg-gray-200 ${className}`}
                         >
-                            <IoMdMore size={16} />
+                            <MoreHorizontal size={16} />
                         </button>
                     </div>
                 ))
@@ -46,11 +44,7 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
 
                         <MoreDropdownListItem onClick={() => onSync(action)}>
                             <div className={`${isSyncLoading && 'btn-disabled'} flex items-center gap-3 w-full`}>
-                                {isSyncLoading ? (
-                                    <CgSpinner size={20} className="animate-spin" />
-                                ) : (
-                                    <FaSync size={12} />
-                                )}
+                                {isSyncLoading ? <Loader size={20} className="animate-spin" /> : <RotateCw size={12} />}
                                 <p>동기화</p>
                             </div>
                         </MoreDropdownListItem>
@@ -67,11 +61,7 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
                                         isDisConnectLoading && 'btn-disabled'
                                     } flex items-center gap-3 w-full`}
                                 >
-                                    {isDisConnectLoading ? (
-                                        <CgSpinner size={20} className="animate-spin" />
-                                    ) : (
-                                        <FaTimes />
-                                    )}
+                                    {isDisConnectLoading ? <Loader size={20} className="animate-spin" /> : <X />}
                                     <p>연동 해제하기</p>
                                 </div>
                             </MoreDropdownListItem>

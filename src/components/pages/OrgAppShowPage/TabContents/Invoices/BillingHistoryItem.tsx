@@ -1,8 +1,7 @@
 import {memo} from 'react';
-import {IoClose} from 'react-icons/io5';
-import {FiDownload, IoMdCheckmark} from '^components/react-icons';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {Check, Download, X} from 'lucide-react';
 
 interface BillingHistoryItemProps {
     billingHistory: BillingHistoryDto;
@@ -16,7 +15,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
     return (
         <tr id={`billing-history--${billingHistory.id}`} className={`${!billingHistory.paidAt && 'text-red-600'}`}>
             <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
-                {billingHistory.paidAt ? <IoMdCheckmark className="text-green-600" /> : <IoClose />}
+                {billingHistory.paidAt ? <Check className="text-green-600" /> : <X />}
             </td>
             <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>{billingHistory.uid}</td>
             <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
@@ -28,7 +27,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
             </td>
             <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
                 {billingHistory.invoiceUrl && (
-                    <FiDownload
+                    <Download
                         strokeWidth={3}
                         className="text-scordi-600 hover:text-scordi-900 cursor-pointer"
                         onClick={() => window.open(billingHistory.invoiceUrl!, '_blank')}

@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
-import {FaArrowRight} from 'react-icons/fa6';
 import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals';
+import {ArrowRight} from 'lucide-react';
 
 interface ConnectInvoiceAccountAfterProps {
     onClose?: () => any;
@@ -38,7 +38,7 @@ export const ConnectInvoiceAccountAfter = memo((props: ConnectInvoiceAccountAfte
                     onClick={onClick}
                 >
                     <span>스코디로 관리 시작하기</span>
-                    <FaArrowRight />
+                    <ArrowRight />
                 </button>
             </Container>
         </div>

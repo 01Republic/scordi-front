@@ -18,12 +18,12 @@ import {
     UpdateSubscriptionSeatRequestDto,
 } from '^models/SubscriptionSeat/type';
 import {subscriptionApi} from '^models/Subscription/api';
-import {FiMinusCircle} from '^components/react-icons';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {debounce} from 'lodash';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {SubscriptionSeatStatusTag} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusTag';
+import {MinusCircle} from 'lucide-react';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
@@ -141,7 +141,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                     containerClassName="min-w-[220px] relative"
                     inputClassName="input px-1.5 py-1 rounded-md w-full input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
                     toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
-                    toggleIcon={() => <FiMinusCircle />}
+                    toggleIcon={() => <MinusCircle />}
                     useRange={true}
                     placeholder={`${seat.startAt ? yyyy_mm_dd(seat.startAt) : ''} ~ ${
                         seat.finishAt ? yyyy_mm_dd(seat.finishAt) : ''
@@ -172,7 +172,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                 <div className="flex items-center justify-end">
                     <Tippy content="이 구독에서 제외">
                         <div>
-                            <FiMinusCircle
+                            <MinusCircle
                                 fontSize={24}
                                 className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
                                 onClick={onDelete}

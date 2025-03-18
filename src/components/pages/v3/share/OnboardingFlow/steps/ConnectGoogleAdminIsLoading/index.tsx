@@ -3,13 +3,13 @@ import {StepContentProps, useFunnel} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {PiSpinnerGapThin} from 'react-icons/pi';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {reportState} from '^tasting/tabs/panes/SyncWorkspaceApp/atom';
 import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {useAlert} from '^hooks/useAlert';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
 import {isLoadedState, ONBOARDING_STEP, onboardingFlowStepStatus} from '^v3/share/OnboardingFlow/atom';
+import {Loader} from 'lucide-react';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -71,7 +71,7 @@ export const ConnectGoogleAdminIsLoading = memo(function ConnectGoogleAdminIsLoa
             </Container>
 
             <Container size="sm" className="flex justify-center py-8">
-                <PiSpinnerGapThin size={60} className="animate-spin text-scordi-500 m-auto" />
+                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
             </Container>
         </div>
     );
