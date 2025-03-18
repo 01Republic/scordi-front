@@ -17,6 +17,7 @@ export const PhoneNumberSection = () => {
     const {
         register,
         watch,
+        setValue,
         formState: {errors},
     } = useFormContext<UserAdditionalInfoType>();
 
@@ -38,6 +39,7 @@ export const PhoneNumberSection = () => {
     const {mutate} = useCodeSend();
 
     const onCodeSend = () => {
+        setValue('isConfirmedCode', false);
         mutate(
             {phoneNumber},
             {

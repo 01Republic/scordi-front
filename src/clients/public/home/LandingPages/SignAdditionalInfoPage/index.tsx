@@ -23,8 +23,8 @@ export const SignAdditionalInfoPage = () => {
     });
 
     const {
-        watch,
         reset,
+        getValues,
         formState: {isValid},
     } = methods;
 
@@ -50,6 +50,8 @@ export const SignAdditionalInfoPage = () => {
         }
     }, [reset, tokenData?.name, tokenData?.email]);
 
+    const disabled = isValid && getValues('isConfirmedCode') === true;
+
     return (
         <NewLandingPageLayout pageName="AdditionalInfoPage" hideNav>
             <FormProvider {...methods}>
@@ -61,7 +63,7 @@ export const SignAdditionalInfoPage = () => {
                         <PhoneNumberSection />
                         <PositionSection />
                     </section>
-                    <StepButton text="계속" />
+                    <StepButton text="계속" disabled={disabled} />
                 </div>
             </FormProvider>
         </NewLandingPageLayout>

@@ -172,4 +172,5 @@ export interface UserAdditionalInfoType {
     phoneNumber: string;
     position: string;
     code: string;
+    isConfirmedCode: boolean;
 }

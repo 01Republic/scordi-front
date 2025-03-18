@@ -51,8 +51,10 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                     setIsCodeSent(false);
                     setIsCodeConfirmed(true);
                     setValue('code', '');
+                    setValue('isConfirmedCode', true);
                 },
                 onError: () => {
+                    setValue('isConfirmedCode', false);
                     setError('code', {type: 'manual', message: '인증번호를 확인해주세요'});
                 },
             },
@@ -110,10 +112,12 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                                         if (isOkClicked) {
                                             codeSentMutate({phoneNumber});
                                             setValue('code', '');
+                                            setValue('isConfirmedCode', false);
                                             reset();
                                         } else {
                                             setIsCodeSent(false);
                                             setValue('code', '');
+                                            setValue('isConfirmedCode', false);
                                         }
                                     }}
                                     resettable
