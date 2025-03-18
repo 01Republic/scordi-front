@@ -170,6 +170,6 @@ export interface UserAdditionalInfoType {
     name: string;
     email: string;
     phoneNumber: string;
-    job: string;
+    position: string;
     code: string;
 }

@@ -14,12 +14,12 @@ export const PositionSection = () => {
         watch,
         formState: {errors},
     } = useFormContext<UserAdditionalInfoType>();
-    const job = watch('job');
+    const position = watch('position');
     const {
         onBlur: registerOnBlur,
         onChange: registerOnChange,
         ...restRegister
-    } = register('job', {
+    } = register('position', {
         required: '하는 일을 선택해주세요.',
     });
 
@@ -28,11 +28,11 @@ export const PositionSection = () => {
             <label htmlFor="하는 일" className="block relative">
                 <div className="relative">
                     <input
-                        type="job"
+                        type="position"
                         onClick={() => setIsActive(true)}
                         onBlur={(e) => {
                             registerOnBlur(e);
-                            if (!job) {
+                            if (!position) {
                                 setIsActive(false);
                             }
                         }}
@@ -49,7 +49,7 @@ export const PositionSection = () => {
                     <div
                         className={cn(
                             'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                            isActive || job ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
+                            isActive || position ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                         )}
                     >
                         <span>하는 일</span>
@@ -59,10 +59,10 @@ export const PositionSection = () => {
                     <ChevronDown className="text-neutral-600 text-20" />
                 </button>
             </label>
-            {errors.job && (
+            {errors.position && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
                     <TriangleAlert className="text-red-400" />
-                    <p className="font-normal text-12">{errors.job?.message}</p>
+                    <p className="font-normal text-12">{errors.position?.message}</p>
                 </section>
             )}
         </>
