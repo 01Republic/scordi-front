@@ -1,4 +1,3 @@
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
@@ -35,11 +34,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
 
     if (!orgId || !subscription) return <></>;
-
-    const onClose = () => {
-        setIsOpened(false);
-        onPageReload();
-    };
 
     const onPageReload = () => {
         reload();
