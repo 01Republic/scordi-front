@@ -15,7 +15,7 @@ import {useAssignedSeatCounter} from '^clients/private/orgs/subscriptions/OrgSub
 import {useFinishTargetSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/FinishTargetSeatCounter';
 import {usePaidSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/PaidSeatCounter';
 import {useQuitStatusSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/QuitStatusSeatCounter';
-import {Plus} from 'lucide-react';
+import {MinusCircle, Plus} from 'lucide-react';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -90,6 +90,21 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                         &nbsp;멤버 연결하기
                     </button>
                 )}
+                TopMenu={
+                    selectedMembers.length > 0
+                        ? () => (
+                              <div className="flex items-stretch border border-gray-200 rounded-md shadow-sm">
+                                  <div className="text-sm py-1 px-2">{`${selectedMembers.length}명 선택됨`}</div>
+                                  <button
+                                      onClick={() => {}}
+                                      className="border-l border-gray-200 py-1 px-2 hover:bg-gray-100"
+                                  >
+                                      <MinusCircle className="size-4 text-red-500" />
+                                  </button>
+                              </div>
+                          )
+                        : undefined
+                }
             >
                 <ListTable
                     items={result.items}
