@@ -9,11 +9,11 @@ import organizationSizeData from './organizationSize.json';
 import {StepButton} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/StepButton';
 
 interface OrganizationSizeProps {
-    setIsNext: (val: boolean) => void;
+    setStep: (val: number) => void;
 }
 
 export const OrganizationSizeSection = (props: OrganizationSizeProps) => {
-    const {setIsNext} = props;
+    const {setStep} = props;
     const [isActive, setIsActive] = useState<boolean>(false);
 
     const {
@@ -103,7 +103,7 @@ export const OrganizationSizeSection = (props: OrganizationSizeProps) => {
                 </section>
             )}
             <section className="w-full mt-10">
-                <StepButton text="계속" disabled={isValid} onClick={() => setIsNext(false)} />
+                <StepButton text="계속" disabled={isValid} onClick={() => setStep(3)} />
             </section>
         </>
     );

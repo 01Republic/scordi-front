@@ -6,12 +6,12 @@ import {WorkspacesAndCompanyInfoType} from '^models/User/types';
 import {StepButton} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/StepButton';
 
 interface OrganizationNameSectionProps {
-    setIsNext?: (val: boolean) => void;
+    setStep?: (val: number) => void;
     isDisabled?: boolean;
 }
 
 export const OrganizationNameSection = (props: OrganizationNameSectionProps) => {
-    const {setIsNext, isDisabled = false} = props;
+    const {setStep, isDisabled = false} = props;
     const [isActive, setIsActive] = useState<boolean>(false);
     const {
         register,
@@ -68,9 +68,9 @@ export const OrganizationNameSection = (props: OrganizationNameSectionProps) => 
                 </section>
             )}
 
-            {setIsNext && (
+            {setStep && (
                 <section className="w-full mt-10">
-                    <StepButton text="계속" disabled={isValid} onClick={() => setIsNext(true)} />
+                    <StepButton text="계속" disabled={isValid} onClick={() => setStep(2)} />
                 </section>
             )}
         </>
