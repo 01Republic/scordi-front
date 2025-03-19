@@ -84,6 +84,11 @@ export class ScordiPlanDto {
         return format.replaceAll('%n', num).replaceAll('%u', unit);
     }
 
+    getDPayPlanData(): DPayPlanData | undefined {
+        const extraData = this.extraData || '';
+        return typeof extraData === 'object' ? extraData : undefined;
+    }
+
     static groupByPriority(plans: ScordiPlanDto[]) {
         return plans.reduce<Record<number, ScordiPlanDto[]>>((group, plan) => {
             group[plan.priority] ||= [];
