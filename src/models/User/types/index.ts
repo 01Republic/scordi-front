@@ -174,3 +174,10 @@ export interface UserAdditionalInfoType {
     code: string;
     isConfirmedCode: boolean;
 }
+
+// 임시타입 - 워크스페이스 및 회사명 받기
+export interface WorkspacesAndCompanyInfoType {
+    organizationName: string;
+    businessRegistrationNumber: string;
+    organizationSize: string;
+}
