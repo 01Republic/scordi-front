@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React from 'react';
 import cn from 'classnames';
 
 interface StepButtonProps {
@@ -7,7 +7,7 @@ interface StepButtonProps {
     disabled: boolean;
 }
 
-export const StepButton = memo((props: StepButtonProps) => {
+export const StepButton = (props: StepButtonProps) => {
     const {text, onClick, disabled} = props;
 
     return (
@@ -23,4 +23,4 @@ export const StepButton = memo((props: StepButtonProps) => {
             <p className="font-semibold text-16 py-3">{text}</p>
         </button>
     );
-});
+};
