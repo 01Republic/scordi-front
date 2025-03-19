@@ -9,8 +9,9 @@ import {FormExpiryDate} from './FormExpiryDate';
 import {FormBirthDay} from './FormBirthDay';
 import {FormBusinessNumber} from './FormBusinessNumber';
 import {FormCardPassword} from './FormCardPassword';
-import {emailValid} from '^utils/input-helper';
+import {CTASection} from './CTASection';
 import {CTAButton} from './CTAButton';
+import {emailValid} from '^utils/input-helper';
 import {LinkTo} from '^components/util/LinkTo';
 
 interface CardInfoSectionProps extends WithChildren {
@@ -50,7 +51,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
             <section className="w-full sm:w-1/3">{children}</section>
 
             <section className="w-full sm:w-2/3 h-full">
-                <div className="flex flex-col h-full justify-between text-sm">
+                <div className="flex flex-col sm:h-full sm:justify-between text-sm">
                     <section className="flex flex-col gap-5">
                         <article className="flex flex-col">
                             <div className="flex items-center gap-8 sm:gap-8">
@@ -114,11 +115,15 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                             </div>
                         </article>
                         <FormCardNumber form={form} />
-                        <FormExpiryDate form={form} />
-                        <FormCardPassword form={form} />
+
+                        <div className="flex flex-row sm:flex-col sm:gap-5">
+                            <FormExpiryDate form={form} />
+                            <FormCardPassword form={form} />
+                        </div>
                         {isPersonal ? <FormBirthDay register={register} /> : <FormBusinessNumber register={register} />}
                     </section>
-                    <div className="mt-10">
+
+                    <div className="mt-5 sm:mt-10">
                         <div className="mb-6 flex items-center justify-between">
                             <label className="flex items-center">
                                 <input type="checkbox" {...register('agree', {required: true})} />
@@ -135,8 +140,9 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                             />
                         </div>
 
-                        <section className="w-full h-24 sm:hidden" />
-                        <div className="fixed sm:relative left-0 right-0 bottom-0 p-8 sm:p-0 bg-white/50">
+                        {/*<section className="w-full h-24 sm:hidden" />*/}
+
+                        <CTASection>
                             {isPending ? (
                                 <section className="">
                                     <CTAButton text="결제 요청 중 ..." disabled />
@@ -147,7 +153,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                                     <CTAButton text="결제하기" type="submit" disabled={!isValid} />
                                 </section>
                             )}
-                        </div>
+                        </CTASection>
                     </div>
                 </div>
             </section>

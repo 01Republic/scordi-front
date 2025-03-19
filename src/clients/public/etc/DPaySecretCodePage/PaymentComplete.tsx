@@ -31,12 +31,12 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
     return (
         <div className="w-full h-full flex flex-col pt-20 pb-8 sm:pb-20">
             <div className="w-full max-w-sm mx-auto flex-auto flex flex-col">
-                <CheckCircle className="w-[100px] mb-10" color="#5E5FEE" />
+                <CheckCircle className="w-[60px] mb-10" color="#5E5FEE" />
 
                 <h1 className="text-xl sm:text-3xl mb-8 font-bold text-center">결제가 완료되었습니다!</h1>
 
-                <div className="my-auto px-10 md:px-0">
-                    <KeyValue label="주문 상품" value={planName} />
+                <div className="my-20 px-10 md:px-0">
+                    <KeyValue label="모임 이름" value={planName} />
                     <KeyValue label="결제 금액" value={`${price.toLocaleString()} 원`} />
                 </div>
             </div>
