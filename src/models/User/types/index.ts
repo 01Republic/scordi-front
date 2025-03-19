@@ -3,6 +3,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {MembershipDto} from 'src/models/Membership/types';
 import {UserLocale} from '^models/User/types/UserLocale.enum';
+import {FunnelSection} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/FunnelSection';
 
 export type UserSignUpRequestDto = {
     name: string;
@@ -173,6 +174,12 @@ export interface UserAdditionalInfoType {
     position: string;
     code: string;
     isConfirmedCode: boolean;
+    isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
+    isEmailNoticeAllowed?: boolean; // 이메일 알림 동의 여부
+    isSMSNoticeAllowed?: boolean; // sms 알림 동의 여부
+    locale?: UserLocale | null; // 사용자 언어 설정
+    funnel?: string;
+    funnelOtherDetails?: string;
 }
 
 // 임시타입 - 워크스페이스 및 회사명 받기
@@ -180,4 +187,6 @@ export interface WorkspacesAndCompanyInfoType {
     organizationName: string;
     businessRegistrationNumber: string;
     organizationSize: string;
+    funnel?: string;
+    funnelOtherDetails?: string;
 }
