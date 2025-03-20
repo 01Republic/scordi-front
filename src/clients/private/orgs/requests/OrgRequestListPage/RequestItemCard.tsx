@@ -25,7 +25,7 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
     const progressColor = progressPercent < 20 ? '#F87171' : progressPercent < 80 ? '#FB923C' : '#34D399';
 
     return (
-        <Card className="p-4 space-y-5 bg-white">
+        <Card className="p-4 space-y-5 bg-white hover:shadow-lg">
             <div className={'flex justify-between items-center'}>
                 <Badge className={cn('text-white px-2', badgeColor)}>{status}</Badge>
                 <div className={cn(`text-sm`, isFinished ? finishedTextColor : 'text-slate-800')}>{date}</div>

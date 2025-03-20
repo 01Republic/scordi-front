@@ -4,12 +4,12 @@ import {orgIdParamState} from '^atoms/common';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {debounce} from 'lodash';
 import {LinkTo} from '^components/util/LinkTo';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {Plus} from 'lucide-react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {RequestItemCard} from '^clients/private/orgs/requests/OrgRequestListPage/RequestItemCard';
 import {RequestScopeHandler} from '^clients/private/orgs/requests/OrgRequestListPage/RequestScopeHandler';
+import {OrgRequestAddPageRoute} from '^pages/orgs/[id]/requests/add';
 
 const data = [
     {
@@ -95,7 +95,7 @@ export const OrgRequestListPage = () => {
     const AddRequestButton = () => (
         <div>
             <LinkTo
-                href={OrgSubscriptionSelectPageRoute.path(orgId)}
+                href={OrgRequestAddPageRoute.path(orgId)}
                 className="btn btn-scordi gap-2 no-animation btn-animation"
                 loadingOnBtn
             >
@@ -129,6 +129,7 @@ export const OrgRequestListPage = () => {
                             <RequestItemCard key={index} {...item} />
                         ))}
                     </div>
+                    {/* 하단 페이지네이션 */}
                     <div className="flex justify-end my-10">
                         <ListTablePaginator
                             pagination={result.pagination}
