@@ -22,6 +22,7 @@ interface SlideUpSelectModalProps<T> {
     items?: T[];
     Row: (props: {item: T; onClick?: (selected: T) => any; isSelected?: boolean}) => JSX.Element;
     getId: (item: T) => number;
+    Button?: () => JSX.Element;
 
     /**
      * UI Text & Style Options
@@ -35,7 +36,7 @@ interface SlideUpSelectModalProps<T> {
 
 export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
     const {isOpened, onClose, onOpened: _onOpened, onClosed: _onClosed, onCreate, onSubmit: _onSubmit} = props;
-    const {isLoading = false, items = [], Row, getId} = props;
+    const {isLoading = false, items = [], Row, getId, Button} = props;
     const {titleCaption = '', title, ctaInactiveText = '', ctaActiveText = '', successMessage = '연결했어요.'} = props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
@@ -94,6 +95,7 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
                             />
                         ))}
                     </LoadableBox>
+                    {Button && <Button />}
                 </div>
             </div>
 
