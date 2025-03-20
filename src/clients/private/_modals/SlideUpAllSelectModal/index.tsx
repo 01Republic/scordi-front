@@ -81,8 +81,6 @@ export const SlideUpAllSelectModal = <T,>(props: SlideUpAllSelectModalProps<T>) 
         }
     }, [isOpened]);
 
-    console.log(items.length);
-
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
             <div className="flex items-center">
