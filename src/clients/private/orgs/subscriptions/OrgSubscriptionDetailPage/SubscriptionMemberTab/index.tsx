@@ -141,7 +141,17 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     items={result.items}
                     isLoading={false}
                     addBottomPadding={true}
-                    Header={() => <TeamMemberInSubscriptionTableHeader orderBy={orderBy} />}
+                    Header={() => (
+                        <TeamMemberInSubscriptionTableHeader
+                            orderBy={orderBy}
+                            allSelected={selectedMembers.length > 0 && selectedMembers.length === result.items.length}
+                            onAllSelect={() =>
+                                setSelectedMembers((prev) =>
+                                    prev.length === result.items.length ? [] : result.items.map((item) => item.id),
+                                )
+                            }
+                        />
+                    )}
                     Row={({item}) => (
                         <TeamMemberInSubscriptionTableRow
                             seat={item}
