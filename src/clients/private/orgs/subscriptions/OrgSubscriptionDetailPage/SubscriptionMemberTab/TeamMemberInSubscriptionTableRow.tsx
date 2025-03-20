@@ -18,7 +18,6 @@ import {
     UpdateSubscriptionSeatRequestDto,
 } from '^models/SubscriptionSeat/type';
 import {subscriptionApi} from '^models/Subscription/api';
-import {confirm2, confirmed} from '^components/util/dialog';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {debounce} from 'lodash';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
@@ -29,13 +28,16 @@ interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
     onClick?: (seat: SubscriptionSeatDto) => any;
     reload: () => any;
+    selected: boolean;
+    onSelect: (selected: boolean) => any;
+    onDelete: () => any;
 }
 
 export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscriptionTableRowProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const [isLoading, setIsLoading] = useState(false);
-    const {seat, onClick, reload} = props;
+    const {seat, onClick, reload, selected, onSelect, onDelete} = props;
 
     const [seatDateValue, setSeatDateValue] = useState({
         startDate: seat.startAt || null,
@@ -61,31 +63,16 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             .finally(() => setIsLoading(false));
     }, 500);
 
-    const onDelete = () => {
-        const deleteConfirm = () => {
-            return confirm2(
-                `구독 연결을 해제할까요?`,
-                <span>
-                    이 작업은 취소할 수 없습니다.
-                    <br />
-                    <b>이 멤버가 구독에서 제외</b>됩니다. <br />
-                    그래도 연결을 해제 하시겠어요?
-                </span>,
-                'warning',
-            );
-        };
-
-        confirmed(deleteConfirm())
-            .then(() => setIsLoading(true))
-            .then(() => subscriptionApi.seatsApi.destroy(orgId, subscription.id, seat.id))
-            .then(() => toast.success('삭제했습니다'))
-            .then(() => reload())
-            .catch(errorToast)
-            .finally(() => setIsLoading(false));
-    };
-
     return (
         <tr className="group">
+            <td className={`${hoverBgColor} ${loadingStyle}`}>
+                <input
+                    type="checkbox"
+                    checked={selected}
+                    onChange={(e) => onSelect && onSelect(e.target.checked)}
+                    className="w-4 h-4 focus:ring-0 cursor-pointer"
+                />
+            </td>
             {/* 이름 */}
             <td className={`${hoverBgColor} ${loadingStyle}`}>
                 <OpenButtonColumn href={showPagePath}>

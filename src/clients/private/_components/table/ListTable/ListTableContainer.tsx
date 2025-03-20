@@ -23,6 +23,7 @@ interface ListTableContainerProps extends WithChildren {
 
     // components
     Layout?: ReactComponentLike;
+    TopMenu?: ReactComponentLike;
 
     /**
      * Empty State
@@ -36,7 +37,7 @@ interface ListTableContainerProps extends WithChildren {
 
 export const ListTableContainer = memo((props: ListTableContainerProps) => {
     const {pagination, movePage, changePageSize} = props;
-    const {Layout = CardContainerTableLayout} = props;
+    const {Layout = CardContainerTableLayout, TopMenu} = props;
     const {unit = '개', hideTopPaginator = false, hideBottomPaginator = false} = props;
     const {isLoading = false, isNotLoaded = false, isEmptyResult = false} = props;
     const {children} = props;
@@ -62,7 +63,7 @@ export const ListTableContainer = memo((props: ListTableContainerProps) => {
         <Layout>
             {!hideTopPaginator && (
                 <div className="flex items-center justify-between mb-4">
-                    <div></div>
+                    {TopMenu ? <TopMenu /> : <div />}
                     <ListTablePaginator
                         pagination={pagination}
                         movePage={movePage}
