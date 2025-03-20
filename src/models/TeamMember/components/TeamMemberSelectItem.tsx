@@ -22,7 +22,10 @@ export const TeamMemberSelectItem = memo((props: TeamMemberSelectItemProps) => {
             <div className="flex items-center">
                 <button className="relative">
                     <Check
-                        className={isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'}
+                        strokeWidth={3}
+                        className={`text-20 ${
+                            isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'
+                        }`}
                     />
                 </button>
             </div>
