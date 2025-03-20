@@ -57,4 +57,10 @@ export const dPayScordiPaymentsApi = {
         const url = `/d-pay/payments/${paymentId}/${secretCode}/cancel`;
         return api.patch(url).then(oneDtoOf(ScordiPaymentDto));
     },
+
+    // 비회원 결제 삭제
+    destroy(paymentId: number, secretCode: string) {
+        const url = `/d-pay/payments/${paymentId}/${secretCode}`;
+        return api.delete(url).then(oneDtoOf(ScordiPaymentDto));
+    },
 };

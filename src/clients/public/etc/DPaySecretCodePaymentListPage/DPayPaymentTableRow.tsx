@@ -13,10 +13,11 @@ interface DPayPaymentTableRowProps {
     payment: ScordiPaymentDto;
     secretCode: string;
     reload: () => Promise<any>;
+    isSuperUser: boolean;
 }
 
 export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
-    const {payment, secretCode, reload} = props;
+    const {payment, secretCode, reload, isSuperUser} = props;
 
     const response = payment.response;
     const card = response?.card;
@@ -36,6 +37,14 @@ export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
             .catch(errorToast);
     };
 
+    const removePayment = () => {
+        return confirmed(confirm2('이 결제를 삭제할까요?'))
+            .then(() => dPayScordiPaymentsApi.destroy(payment.id, secretCode))
+            .then(() => toast.success('삭제했어요.'))
+            .then(() => reload())
+            .catch(errorToast);
+    };
+
     return (
         <tr className="relative" onClick={() => console.log(payment)}>
             <td className="fixed-left">{payment.approvedAt ? yyyy_mm_dd_hh_mm(payment.approvedAt) : '-'}</td>
@@ -45,16 +54,25 @@ export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
             <td className={payment.canceledAt ? '!text-red-500 !font-semibold' : ''}>
                 {t_scordiPaymentStatus(payment.status)}
             </td>
-            <td className="text-center">
-                {!payment.canceledAt && (
-                    <LinkTo
-                        className="btn3 btn-xs !border-red-300 !hover:border-red-500 !text-red-500 !bg-red-50 !hover:bg-red-200 transition-all"
-                        onClick={() => cancelPayment()}
-                    >
-                        취소
-                    </LinkTo>
-                )}
-            </td>
+            {isSuperUser && (
+                <td className="text-center">
+                    {!payment.canceledAt ? (
+                        <LinkTo
+                            className="btn3 btn-xs !border-red-300 !hover:border-red-500 !text-red-500 !bg-red-50 !hover:bg-red-200 transition-all"
+                            onClick={() => cancelPayment()}
+                        >
+                            취소
+                        </LinkTo>
+                    ) : (
+                        <LinkTo
+                            className="btn3 btn-xs !border-red-500 !text-white !bg-red-500 !hover:bg-red-700 transition-all"
+                            onClick={() => removePayment()}
+                        >
+                            삭제
+                        </LinkTo>
+                    )}
+                </td>
+            )}
             <td className="text-center">
                 <LinkTo href={invoiceUrl} target="_blank" className="btn3 btn-xs">
                     보기
@@ -74,15 +92,19 @@ export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
                 </div>
             </td>
             {/*<td>취소액</td>*/}
-            <td>
-                <Tippy content={response?.fullCardNumber}>
-                    <div>
-                        {response?.method || '-'} / {card?.number.slice(-4) || '-'}
-                    </div>
-                </Tippy>
-            </td>
-            <td>{company?.displayName || '-'}</td>
-            <td>{card?.approveNo || '-'}</td>
+            {isSuperUser && (
+                <>
+                    <td>
+                        <Tippy content={response?.fullCardNumber}>
+                            <div>
+                                {response?.method || '-'} / {card?.number.slice(-4) || '-'}
+                            </div>
+                        </Tippy>
+                    </td>
+                    <td>{company?.displayName || '-'}</td>
+                    <td>{card?.approveNo || '-'}</td>
+                </>
+            )}
             {/*<td>취소자</td>*/}
         </tr>
     );

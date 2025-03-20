@@ -1,9 +1,8 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {useRecoilValue} from 'recoil';
 import {secretCodeParamsAtom} from '^clients/public/etc/DPaySecretCodePage/atom';
-import {useDPayPaymentsInPaymentListPage} from '^models/_scordi/ScordiPayment/hook';
-import {useUnmount} from '^hooks/useUnmount';
+import {useDPayPlan, useDPayScordiPayments2} from '^models/_scordi/ScordiPayment/hook';
 import {DPayPaymentTableRow} from './DPayPaymentTableRow';
 import {LoadableBox} from '^components/util/loading';
 import Tippy from '@tippyjs/react';
@@ -12,44 +11,26 @@ import {useRouter} from 'next/router';
 import {cryptoUtil} from '^utils/crypto';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {toast} from 'react-hot-toast';
-import {scordiPlanApi} from '^models/_scordi/ScordiPlan/api';
-import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {ScordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
+import {SUPER_ACCESS_CODE} from '^pages/direct-pay/[secretCode]/payments';
+import {parseQueryValue} from '^utils/get-query-params';
 import {FileSpreadsheet, Info, RotateCw, Share} from 'lucide-react';
-
-async function getPlan(secretCode: string) {
-    return scordiPlanApi
-        .index({
-            where: {secretCode},
-            order: {id: 'DESC'},
-            itemsPerPage: 1,
-        })
-        .then((res) => res.data || [])
-        .then((list) => list[0]);
-}
 
 export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePaymentListPage() {
     const router = useRouter();
     const secretCode = useRecoilValue(secretCodeParamsAtom);
-    const {search, result, isLoading, reload, isEmptyResult, clearCache} = useDPayPaymentsInPaymentListPage();
-    const [plan, setPlan] = useState<ScordiPlanDto>();
-
-    useEffect(() => {
-        if (!secretCode) return;
-
-        search({
-            where: {
-                scordiPlan: {secretCode},
-            },
-            order: {id: 'DESC'},
-            itemsPerPage: 0,
-        });
-        getPlan(secretCode).then(setPlan);
-    }, [secretCode]);
-
-    useUnmount(() => {
-        clearCache();
-    }, [secretCode]);
+    const accessCode = parseQueryValue(router.query['accessCode']);
+    const isSuperUser = accessCode === SUPER_ACCESS_CODE;
+    const {
+        data: result,
+        isFetching,
+        reload,
+    } = useDPayScordiPayments2(!!secretCode, {
+        where: {scordiPlan: {secretCode}},
+        order: {id: 'DESC'},
+        itemsPerPage: 0,
+    });
+    const {data: plan} = useDPayPlan(secretCode);
 
     const successItems = result.items.filter((item) => item.status === ScordiPaymentStatus.SUCCESS);
     const totalCount = successItems.length;
@@ -83,7 +64,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                 className={`btn text-18 sm:btn-xs sm:text-14 btn-square btn-scordi ml-auto sm:ml-0`}
                                 onClick={() => reload()}
                             >
-                                <RotateCw className={isLoading ? 'animate-spin' : ''} />
+                                <RotateCw className={isFetching ? 'animate-spin' : ''} />
                             </button>
                         </Tippy>
                     </h1>
@@ -124,7 +105,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                 </section>
 
                 <section>
-                    <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
+                    <LoadableBox isLoading={isFetching} loadingType={2} spinnerPos="center" noPadding>
                         <div className="overflow-x-auto no-scrollbar">
                             <table id="DPayPaymentList" className="table table-v2 table-compact w-full">
                                 <thead>
@@ -134,7 +115,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                         <th>주문번호</th>
                                         <th>구매상품</th>
                                         <th>결제상태</th>
-                                        <th>취소하기</th>
+                                        {isSuperUser && <th>취소하기</th>}
                                         <th>
                                             <div className="flex items-center gap-2">
                                                 <div>영수증</div>
@@ -153,9 +134,13 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                         <th>구매자 휴대폰번호</th>
                                         <th className="text-right">결제액</th>
                                         {/*<th>취소액</th>*/}
-                                        <th>결제수단</th>
-                                        <th>결제기관</th>
-                                        <th>승인번호</th>
+                                        {isSuperUser && (
+                                            <>
+                                                <th>결제수단</th>
+                                                <th>결제기관</th>
+                                                <th>승인번호</th>
+                                            </>
+                                        )}
                                         {/*<th>취소자</th>*/}
                                     </tr>
                                 </thead>
@@ -167,6 +152,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                             payment={payment}
                                             secretCode={secretCode}
                                             reload={() => reload()}
+                                            isSuperUser={isSuperUser}
                                         />
                                     ))}
                                 </tbody>
@@ -176,7 +162,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                         <td className="fixed-left">
                                             <span className="font-semibold">총 {totalCount.toLocaleString()}건</span>
                                         </td>
-                                        <td colSpan={13} className="text-right">
+                                        <td colSpan={isSuperUser ? 13 : 9} className="text-right">
                                             <span className="font-semibold sticky right-0 px-[12px] py-[4px] mx-[-12px] my-[-4px]">
                                                 합계: {totalPrice.toLocaleString()}원
                                             </span>

@@ -2,8 +2,9 @@ import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
 import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
-import {CTAButton} from './CTAButton';
 import {FormControlInput} from './FormControlInput';
+import {CTASection} from './CTASection';
+import {CTAButton} from './CTAButton';
 
 interface CustomerInfoSection extends WithChildren {
     nextStep: () => void;
@@ -80,11 +81,11 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
                     </article>
 
                     <section className="w-full h-24 sm:hidden" />
-                    <div className="fixed sm:relative left-0 right-0 bottom-0 p-8 sm:p-0 bg-white/50">
+                    <CTASection>
                         <section className="flex gap-2">
                             <CTAButton text="다음" onClick={() => isValid && nextStep()} disabled={!isValid} />
                         </section>
-                    </div>
+                    </CTASection>
                 </div>
             </section>
         </article>

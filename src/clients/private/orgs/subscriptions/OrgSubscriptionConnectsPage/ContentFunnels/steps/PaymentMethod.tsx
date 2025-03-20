@@ -49,7 +49,8 @@ export const PaymentMethod = memo(function PaymentMethod() {
                 <>
                     <p className="tracking-[0.5px] text-gray-400 text-16 mb-4">구독이 결제되는 카드를 선택해주세요.</p>
                     <PaymentMethodSelectCreditCard />
-                    <PaymentMethodSelectBankAccount readonly={true} />
+                    {/* 숨김처리 */}
+                    {/*<PaymentMethodSelectBankAccount readonly={true} />*/}
                 </>
             )}
 
