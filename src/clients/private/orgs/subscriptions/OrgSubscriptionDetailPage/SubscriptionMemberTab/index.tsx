@@ -31,6 +31,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const {refetch: refetchFinishTargetSeatCounter} = useFinishTargetSeatCounter(subscription);
     const {refetch: refetchQuitStatusSeatCount} = useQuitStatusSeatCounter(subscription);
 
+    const teamMembers = result.items.filter((item) => item.teamMember);
     const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
 
     if (!orgId || !subscription) return <></>;
@@ -138,16 +139,16 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 }
             >
                 <ListTable
-                    items={result.items}
+                    items={teamMembers}
                     isLoading={false}
                     addBottomPadding={true}
                     Header={() => (
                         <TeamMemberInSubscriptionTableHeader
                             orderBy={orderBy}
-                            allSelected={selectedMembers.length > 0 && selectedMembers.length === result.items.length}
+                            allSelected={selectedMembers.length > 0 && selectedMembers.length === teamMembers.length}
                             onAllSelect={() =>
                                 setSelectedMembers((prev) =>
-                                    prev.length === result.items.length ? [] : result.items.map((item) => item.id),
+                                    prev.length === teamMembers.length ? [] : teamMembers.map((item) => item.id),
                                 )
                             }
                         />
