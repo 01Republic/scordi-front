@@ -18,33 +18,31 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
 
     const finishedTextColor = 'text-gray-300';
 
-    const badgeColor = isFinished ? 'bg-slate-300' : 'bg-black';
+    const badgeColor = isFinished ? 'bg-gray-300' : 'bg-black';
 
     const progressPercent = (progress / goal) * 100;
 
-    const progressColor = progressPercent < 20 ? 'red' : progressPercent < 80 ? 'yellow' : 'green';
+    const progressColor = progressPercent < 20 ? '#F87171' : progressPercent < 80 ? '#FB923C' : '#34D399';
 
     return (
         <Card className="p-4 space-y-5 bg-white">
             <div className={'flex justify-between items-center'}>
-                <Badge className={cn('text-sm text-white px-2', badgeColor)}>{status}</Badge>
-                <div className={cn(`text-sm`, isFinished ? finishedTextColor : 'text-gray-500')}>{date}</div>
+                <Badge className={cn('text-white px-2', badgeColor)}>{status}</Badge>
+                <div className={cn(`text-sm`, isFinished ? finishedTextColor : 'text-slate-800')}>{date}</div>
             </div>
-            <div className={cn(`text-md`, isFinished ? finishedTextColor : 'text-gray-800')}>{title}</div>
+            <div className={cn(`text-md`, isFinished ? finishedTextColor : 'text-slate-900')}>{title}</div>
             <div>
-                <div className={cn('text-sm', isFinished ? finishedTextColor : 'text-gray-500')}>
+                <div className={cn('text-sm', isFinished ? finishedTextColor : 'text-slate-800')}>
                     제출 현황 ({progress}명/{goal}명)
                 </div>
                 <div
-                    className={cn(
-                        `flex items-center justify-between gap-4 font-medium`,
-                        isFinished ? finishedTextColor : `text-${progressColor}-500`,
-                    )}
+                    className={`flex items-center justify-between gap-4 font-medium`}
+                    style={{color: isFinished ? '#D6D6D6' : progressColor}}
                 >
                     <Progress
                         value={progressPercent}
                         className={'h-4 bg-gray-100'}
-                        indicatorClassName={isFinished ? 'bg-slate-300' : `bg-${progressColor}-500`}
+                        indicatorStyle={{backgroundColor: isFinished ? '#D6D6D6' : progressColor}}
                     />
                     {progressPercent}%
                 </div>
