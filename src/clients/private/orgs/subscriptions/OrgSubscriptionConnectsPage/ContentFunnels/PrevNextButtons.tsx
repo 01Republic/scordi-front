@@ -4,12 +4,18 @@ import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {subscriptionApi} from '^models/Subscription/api';
 import {selectedTeamMembersAtom} from './inputs/TeamMemberSelect/atom';
-import {createSubscriptionFormData, currentStepAtom, finishedProductMapAtom} from './atom';
+import {
+    createSubscriptionForInvoiceAccountFormData,
+    createSubscriptionFormData,
+    currentStepAtom,
+    finishedProductMapAtom,
+} from './atom';
 import {Steps} from './steps';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useWorkspaceSubscriptionCount} from '^models/Subscription/hook';
 import {useOrgIdParam} from '^atoms/common';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     const router = useRouter();
@@ -18,31 +24,46 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const clearFormData = useResetRecoilState(createSubscriptionFormData);
     const [teamMembers, setTeamMembers] = useRecoilState(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
+    const [invoiceAccountData, setInvoiceAccountData] = useRecoilState(createSubscriptionForInvoiceAccountFormData);
     const {currentConnectingProduct, finishProduct} = useCurrentConnectingProduct();
     const resetFinishedProductMap = useResetRecoilState(finishedProductMapAtom);
     const {refetch} = useWorkspaceSubscriptionCount(orgId);
-
-    //currentConnectingProduct?.id === product.id
 
     const prev = (i: number) => i - 1;
     const next = (i: number) => i + 1;
 
     const createSubscription = () => {
-        subscriptionApi.create(formData).then((res) => {
-            const subscription = res.data;
-            toast.success(`${currentConnectingProduct?.nameKo} 구독을 등록했어요.`);
-            setTeamMembers([]);
-            clearFormData();
-            const nextProduct = finishProduct(subscription.productId);
-
-            if (nextProduct) {
-                setStep(Steps.IsFreeTier);
-            } else {
-                return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(() => {
-                    resetFinishedProductMap();
+        subscriptionApi
+            .create(formData)
+            .then((res) => {
+                const subscription = res.data;
+                Promise.allSettled(
+                    invoiceAccountData.invoiceAccountIds.map((invoiceAccountId) =>
+                        invoiceAccountApi.subscriptionsApi.create(invoiceAccountId, subscription.id),
+                    ),
+                ).then(() => subscription);
+                return subscription;
+            })
+            .then((subscription) => {
+                toast.success(`${currentConnectingProduct?.nameKo} 구독을 등록했어요.`);
+                setInvoiceAccountData({
+                    invoiceAccounts: [],
+                    invoiceAccountIds: [],
                 });
-            }
-        });
+                setTeamMembers([]);
+                clearFormData();
+                const nextProduct = finishProduct(subscription.productId);
+                if (nextProduct) {
+                    setStep(Steps.IsFreeTier);
+                } else {
+                    return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(() => {
+                        resetFinishedProductMap();
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('구독 생성 실패', error);
+            });
     };
 
     switch (currentStep) {
@@ -96,7 +117,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     onPrev={() => setStep(prev)}
                     onNext={() => setStep(next)}
                     isValid={true}
-                    nextButtonText={formData.invoiceAccountId ? undefined : '건너뛰기'}
+                    nextButtonText={invoiceAccountData.invoiceAccountIds ? undefined : '건너뛰기'}
                 />
             );
         case Steps.TeamMembers:
