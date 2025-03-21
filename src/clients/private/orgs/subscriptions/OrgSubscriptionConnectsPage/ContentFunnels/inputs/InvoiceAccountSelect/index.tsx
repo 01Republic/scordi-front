@@ -5,16 +5,17 @@ import {toast} from 'react-hot-toast';
 import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
 import {
-    InvoiceAccountSelectModal,
     InvoiceAccountAutoCreateModal,
     InvoiceAccountCreateMethod,
     InvoiceAccountManualCreateModal,
 } from '^clients/private/_modals/invoice-accounts';
-import {createSubscriptionFormData} from '../../atom';
+import {createSubscriptionForInvoiceAccountFormData} from '../../atom';
 import {InputSection} from '../../inputs/InputSection';
 import {InvoiceAccountCreateMethodModal} from './InvoiceAccountCreateMethodModal';
+import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
+import {InvoiceAccountSelectItem} from '^models/InvoiceAccount/components/InvoiceAccountSelectItem';
+import {ChevronDown, CircleX} from 'lucide-react';
 
 interface InvoiceAccountSelectProps {
     defaultValue?: InvoiceAccountDto;
@@ -22,13 +23,14 @@ interface InvoiceAccountSelectProps {
 }
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: InvoiceAccountSelectProps) {
-    const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
+    const [invoiceAccountData, setInvoiceAccountData] = useRecoilState(createSubscriptionForInvoiceAccountFormData);
     const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
     const [isAutoCreateModalOpen, setIsAutoCreateModalOpen] = useState(false);
     const [isManualCreateModalOpen, setIsManualCreateModalOpen] = useState(false);
     const {search, result, reload, isLoading} = useInvoiceAccountListInSelectModal();
-    const selectedOption = result.items.find((o) => o.id === formData.invoiceAccountId);
+    const selectedInvoiceAccounts = invoiceAccountData.invoiceAccounts;
+    const selectedInvoiceAccountIds = invoiceAccountData.invoiceAccountIds;
 
     useEffect(() => {
         loadAccounts();
@@ -42,11 +44,38 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
         });
     }, 500);
 
+    const filterInvoiceAccount =
+        selectedInvoiceAccountIds.length > 0
+            ? result.items.filter((item) => !selectedInvoiceAccountIds.includes(item.id))
+            : result.items;
+
+    const onSelected = (selectedIds: number[]) => {
+        const filteredInvoiceAccounts = filterInvoiceAccount.filter((item: InvoiceAccountDto) =>
+            selectedIds.includes(item.id),
+        );
+
+        setInvoiceAccountData((prev) => ({
+            ...prev,
+            invoiceAccounts: [...prev.invoiceAccounts, ...filteredInvoiceAccounts],
+            invoiceAccountIds: [...prev.invoiceAccountIds, ...selectedIds],
+        }));
+    };
+
     const onChange = (invoiceAccount?: InvoiceAccountDto) => {
         props.onSelect?.(invoiceAccount);
-        setFormData((f) => ({
-            ...f,
+        setInvoiceAccountData((prev) => ({
+            ...prev,
             invoiceAccountId: invoiceAccount?.id,
+        }));
+    };
+
+    const onDelete = (invoiceAccount?: InvoiceAccountDto) => {
+        if (!invoiceAccount) return;
+
+        setInvoiceAccountData((prev) => ({
+            ...prev,
+            invoiceAccounts: prev.invoiceAccounts.filter((acc) => acc.id !== invoiceAccount.id),
+            invoiceAccountIds: prev.invoiceAccountIds.filter((id) => id !== invoiceAccount.id),
         }));
     };
 
@@ -58,32 +87,62 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
         hide: () => setIsSelectModalOpened(false),
     };
 
+    const CreateInvoiceAccountButton = () => {
+        return (
+            <div
+                onClick={() => setIsCreateMethodModalOpen(true)}
+                className="btn btn-white w-full flex items-center justify-center py-1 mt-1"
+            >
+                <p>청구서 메일 추가</p>
+            </div>
+        );
+    };
+
     return (
         <InputSection>
             <div className="form-control">
-                <label className="label cursor-pointer p-0">
-                    <MonoSelectInput
-                        id="invoiceAccountSelect"
-                        openModal={selectModal.show}
-                        clearable
-                        selectedOption={selectedOption || props.defaultValue}
-                        getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
-                        placeholder="이메일 주소 선택"
-                        clearOption={() => onChange(undefined)}
-                    />
+                <label className="label cursor-pointer flex flex-col gap-5">
+                    <div
+                        onClick={selectModal.show}
+                        className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer text-gray-400"
+                    >
+                        이메일 주소 선택
+                        <ChevronDown size={14} className="text-gray-400" />
+                    </div>
+                    {selectedInvoiceAccountIds?.length > 0 && (
+                        <ul className="w-full flex flex-col gap-4 px-1">
+                            {selectedInvoiceAccounts.map((invoiceAccount) => (
+                                <li className="w-full flex items-center justify-between">
+                                    <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
+                                    <CircleX
+                                        onClick={() => onDelete(invoiceAccount)}
+                                        className="text-gray-400 text-20"
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </label>
             </div>
 
-            <InvoiceAccountSelectModal
+            <SlideUpSelectModal
                 isOpened={isSelectModalOpened}
-                onClose={() => selectModal.hide()}
-                isLoading={isLoading}
-                reload={reload}
-                invoiceAccounts={result.items}
-                defaultValue={formData.invoiceAccountId}
-                onSelect={onChange}
-                onCtaButtonClick={() => setIsCreateMethodModalOpen(true)}
-                onReConnect={() => setIsAutoCreateModalOpen(true)}
+                onClose={() => setIsSelectModalOpened(false)}
+                onCreate={() => {
+                    setIsSelectModalOpened(false);
+                    reload();
+                }}
+                items={filterInvoiceAccount}
+                getId={(item) => item.id}
+                Row={({item, onClick, isSelected}) => (
+                    <InvoiceAccountSelectItem invoiceAccount={item} onClick={onClick} isSelected={isSelected} />
+                )}
+                Button={() => <CreateInvoiceAccountButton />}
+                onSubmit={onSelected}
+                title="연결할 청구서 메일을 모두 선택해 주세요."
+                ctaInactiveText="청구서 메일을 선택해주세요."
+                ctaActiveText="%n개의 선택된 청구서 메일 연결하기"
+                successMessage="선택한 청구서 메일을 연결했어요."
             />
 
             <InvoiceAccountCreateMethodModal
