@@ -76,7 +76,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                                 targetMembers.map((id) => subscriptionApi.seatsApi.destroy(orgId, subscription.id, id)),
                             );
                             setSelectedMembers([]);
-                            toast.success('삭제했습니다');
+                            toast.success('계정을 회수했어요.');
                             reload();
                         } catch (e) {
                             errorToast(e as ApiError);
