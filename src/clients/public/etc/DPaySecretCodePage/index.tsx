@@ -69,7 +69,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
             {!resultPayment ? (
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
                     {currentStep === 0 && (
-                        <UserInfoSection form={form} nextStep={nextStep}>
+                        <UserInfoSection form={form} nextStep={nextStep} plan={plan}>
                             <Title text="환영합니다!" desc="모임 전, 참가비를 결제해주세요." />
                             <PlanList plans={plans} form={form} />
                         </UserInfoSection>

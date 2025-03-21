@@ -8,16 +8,18 @@ import {dPayScordiPaymentsApi} from '^models/_scordi/ScordiPayment/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 
 interface DPayPaymentTableRowProps {
     payment: ScordiPaymentDto;
     secretCode: string;
     reload: () => Promise<any>;
     isSuperUser: boolean;
+    plan?: ScordiPlanDto;
 }
 
 export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
-    const {payment, secretCode, reload, isSuperUser} = props;
+    const {payment, plan, secretCode, reload, isSuperUser} = props;
 
     const response = payment.response;
     const card = response?.card;
@@ -26,6 +28,9 @@ export const DPayPaymentTableRow = memo((props: DPayPaymentTableRowProps) => {
     const currency = payment.currencyInfo;
     const currencyExchange = currency?.code || CurrencyCode.KRW;
     const currencySymbol = currency?.symbol || '₩';
+
+    const data = plan?.getDPayPlanData();
+    const etcRequired = !!data?.etcRequired;
 
     const invoiceUrl = payment.invoiceUrl;
 
