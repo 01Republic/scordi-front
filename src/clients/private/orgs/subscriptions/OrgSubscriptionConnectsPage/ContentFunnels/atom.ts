@@ -3,6 +3,8 @@ import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOption
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 import {localStorageAtoms} from '^atoms/localStorage.atom';
 import {ProductDto} from '^models/Product/type';
+import {AccountDto} from '^models/Account/types';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 export const currentStepAtom = atom({
     key: 'currentStepAtom',
@@ -19,6 +21,18 @@ export const recurringIsFreeAtom = atom({
 export const createSubscriptionFormData = atom<CreateSubscriptionRequestDto>({
     key: 'createSubscriptionFormData',
     default: {} as CreateSubscriptionRequestDto,
+});
+
+// 구독 등록 시 청구서 메일 계정 폼
+export const createSubscriptionForInvoiceAccountFormData = atom<{
+    invoiceAccounts: InvoiceAccountDto[];
+    invoiceAccountIds: number[];
+}>({
+    key: 'createSubscriptionForInvoiceAccountFormData',
+    default: {
+        invoiceAccounts: [],
+        invoiceAccountIds: [],
+    },
 });
 
 // 구독 주기 (no use)
