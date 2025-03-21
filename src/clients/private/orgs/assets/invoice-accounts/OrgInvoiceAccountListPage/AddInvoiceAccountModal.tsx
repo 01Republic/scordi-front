@@ -1,7 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {
     InvoiceAccountCreateMethodModal,
@@ -10,6 +9,7 @@ import {
 } from '^clients/private/_modals/invoice-accounts';
 import {swalHTML} from '^components/util/dialog';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
+import {Plus} from 'lucide-react';
 
 interface AddInvoiceAccountModalProps {
     reload: () => any;
@@ -28,7 +28,7 @@ export const AddInvoiceAccountModal = memo((props: AddInvoiceAccountModalProps) 
                 className="btn btn-scordi gap-2 mb-1 no-animation btn-animation"
                 onClick={() => setCreateMethodModalOpened(true)}
             >
-                <FaPlus />
+                <Plus />
                 <span className="mr-1.5">청구서 메일 추가</span>
             </button>
 

@@ -1,10 +1,9 @@
 import React, {Fragment} from 'react';
 import Link from 'next/link';
 import {Icon} from '^components/Icon';
-import {IoPencil} from '@react-icons/all-files/io5/IoPencil';
-import {FaPen} from '@react-icons/all-files/fa/FaPen';
 import {FakeLink} from '^components/v2/ui/buttons/FackLink';
 import {DefaultButtonProps} from '^components/v2/ui/buttons/types';
+import {Pen, Pencil} from 'lucide-react';
 
 export const EditButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>) => {
     const {href, target, onClick, className = '', active = false, disabled = false, size} = props;
@@ -24,7 +23,7 @@ export const EditButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>)
                 onClick={onClick}
                 style={props.style}
             >
-                <FaPen />
+                <Pen />
                 {props.text && <span className="ml-1">{props.text}</span>}
             </button>
         </LinkTo>

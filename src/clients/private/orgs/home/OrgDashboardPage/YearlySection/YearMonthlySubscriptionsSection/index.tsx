@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {HiOutlineSquaresPlus} from 'react-icons/hi2';
 import {orgIdParamState} from '^atoms/common';
 import {firstDayOfMonth, firstDayOfYear, monthAfter, yearAfter} from '^utils/dateTime';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
@@ -15,6 +14,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {EmptyTableLayout} from '../../EmptyTableLayout';
 import {PaidSubscriptionSpendItem} from './PaidSubscriptionSpendItem';
+import {LayoutGrid} from 'lucide-react';
 
 interface YearMonthlySubscriptionsSectionProps {
     year: number;
@@ -37,7 +37,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
         return (
             <EmptyTableLayout
                 title="구독 리스트"
-                Icon={HiOutlineSquaresPlus}
+                Icon={LayoutGrid}
                 url={orgId ? OrgSubscriptionSelectPageRoute.path(orgId) : '#'}
                 className="h-full"
             />

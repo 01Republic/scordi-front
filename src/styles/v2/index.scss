@@ -1,44 +1,43 @@
-
-[data-component="TitleSectionCollapse"].collapse2 {
-  &.opened .collapse-content2 {
-    height: 146px;
-    padding: 1rem 0 0;
-  }
-
-  .collapse-content2 {
-    overflow: hidden;
-    height: 0;
-    padding: 0;
-    transition: all 200ms ease;
-  }
-
-  .collapse-trigger {
-    display: flex;
-    align-items: center;
-    padding: 0 3px;
-
-    .collapse-icon {
-      transition: all 200ms ease;
+[data-component='TitleSectionCollapse'].collapse2 {
+    &.opened .collapse-content2 {
+        height: 146px;
+        padding: 1rem 0 0;
     }
-  }
 
-  &.opened .collapse-trigger .collapse-icon {
-    transform: rotate(180deg);
-  }
+    .collapse-content2 {
+        overflow: hidden;
+        height: 0;
+        padding: 0;
+        transition: all 200ms ease;
+    }
+
+    .collapse-trigger {
+        display: flex;
+        align-items: center;
+        padding: 0 3px;
+
+        .collapse-icon {
+            transition: all 200ms ease;
+        }
+    }
+
+    &.opened .collapse-trigger .collapse-icon {
+        transform: rotate(180deg);
+    }
 }
 
 .sidebar {
-  transition: width 200ms ease;
-  &.inactive {
-    width: 0rem;
-    border-right: none;
-  }
+    transition: width 200ms ease;
+    &.inactive {
+        width: 0rem;
+        border-right: none;
+    }
 }
 
 .org-bar-item {
-  &.current {
-    outline: #000 3px solid;
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
+    &.current {
+        outline: #000 3px solid;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
 }

@@ -1,7 +1,7 @@
 import {MouseEvent} from 'react';
 import {WithChildren} from '^types/global.type';
 import {DefaultButton} from '^components/Button';
-import {IoClose} from 'react-icons/io5';
+import {X} from 'lucide-react';
 
 export type ModalProps = {
     type: 'error' | 'success' | 'warning' | 'info';
@@ -36,7 +36,7 @@ export const Modal = (props: ModalProps) => {
                         {props.title && <h3 className="font-bold text-lg">{props.title}</h3>}
                         {props.closeButton?.isDisplayed && (
                             <button className="btn btn-circle btn-xs shadow" onClick={props.closeButton.onClick}>
-                                <IoClose size={13} />
+                                <X size={13} />
                             </button>
                         )}
                     </div>

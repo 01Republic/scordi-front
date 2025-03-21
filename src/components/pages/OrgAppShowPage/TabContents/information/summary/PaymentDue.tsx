@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import {BiCalendarStar} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {navTabIndex} from '^components/pages/OrgAppShowPage';
+import {CalendarDays} from 'lucide-react';
 
 interface PaymentDueProps {
     subscription: SubscriptionDto;
@@ -24,7 +24,7 @@ export const PaymentDue = memo((props: PaymentDueProps & WithChildren) => {
     return (
         <>
             <div className={`stat-figure ${colorClass}`}>
-                <BiCalendarStar size={36} />
+                <CalendarDays size={36} />
             </div>
             <div className="stat-title mb-2">Next payment due</div>
             <div className="stat-value mb-3">

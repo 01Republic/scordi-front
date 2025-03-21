@@ -2,11 +2,11 @@ import {memo, useEffect} from 'react';
 import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
-import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {useCurrentUser} from '^models/User/hook';
 import {Spinner} from '^components/util/loading';
 import {AdminSideBar} from './AdminSideBar';
 import 'tippy.js/dist/tippy.css';
+import {Menu} from 'lucide-react';
 
 interface AdminPageLayoutProps extends WithChildren {}
 
@@ -59,7 +59,7 @@ export const AdminPageLayout = memo((props: AdminPageLayoutProps) => {
                     htmlFor="my-drawer-2"
                     className="btn btn-sm btn-ghost absolute z-20 top-[10px] left-[4px] drawer-button lg:hidden"
                 >
-                    <FiMenu />
+                    <Menu />
                 </label>
 
                 <div id="page-content" className="w-full block pb-40">

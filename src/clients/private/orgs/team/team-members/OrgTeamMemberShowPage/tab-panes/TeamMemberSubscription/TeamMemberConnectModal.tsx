@@ -1,5 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {BsPlusCircle} from 'react-icons/bs';
 import {useSubscriptionSelectModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/SubscriptionSelectModal';
 import {currentTeamMemberState, teamMemberApi, TeamMemberDto, useTeamMember} from '^models/TeamMember';
 import {useSubscriptionListOfCreditCard, useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
@@ -9,6 +8,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {useCurrentTeamMember} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage/atom';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Paginated} from '^types/utils/paginated.dto';
+import {PlusCircle} from 'lucide-react';
 
 interface TeamMemberConnectModalProps {
     teamMemberId: number;

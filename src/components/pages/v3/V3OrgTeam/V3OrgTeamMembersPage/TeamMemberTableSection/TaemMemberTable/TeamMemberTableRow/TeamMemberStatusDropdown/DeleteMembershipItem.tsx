@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {toast} from 'react-hot-toast';
-import {FaSignOutAlt} from 'react-icons/fa';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {membershipApi} from '^models/Membership/api';
 import {errorToast} from '^api/api';
+import {LogOut} from 'lucide-react';
 
 interface DeleteMembershipItemProps {
     teamMember: TeamMemberDto;
@@ -62,7 +62,7 @@ export const DeleteMembershipItem = memo((props: DeleteMembershipItemProps) => {
     return (
         <MoreDropdownListItem onClick={onClick}>
             <div className="flex items-center gap-3 w-full text-red-500 py-1">
-                <FaSignOutAlt size={12} />
+                <LogOut size={12} />
                 <p>워크스페이스에서 내보내기</p>
             </div>
         </MoreDropdownListItem>

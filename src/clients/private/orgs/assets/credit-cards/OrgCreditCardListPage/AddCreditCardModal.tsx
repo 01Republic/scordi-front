@@ -1,10 +1,10 @@
 import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {CardCreateMethod, CardCreateMethodModal, CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
+import {Plus} from 'lucide-react';
 
 interface AddCreditCardModalProps {
     reload: () => any;
@@ -24,7 +24,7 @@ export const AddCreditCardModal = memo((props: AddCreditCardModalProps) => {
                 className="btn btn-scordi gap-2 mb-1 no-animation btn-animation"
                 onClick={() => setIsCardCreateMethodModalOpen(true)}
             >
-                <FaPlus />
+                <Plus />
                 <span className="mr-1.5">카드 추가</span>
             </button>
 

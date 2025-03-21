@@ -5,14 +5,13 @@ import {AdminPostsPageRoute} from '^pages/admin/posts';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {PiSignOut} from 'react-icons/pi';
-import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {AdminProductsPageRoute} from '^pages/admin/products';
 import {BizOpsWorkflowListRoute} from '^pages/admin/biz-ops/manual/workflows';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {LinkTo} from '^components/util/LinkTo';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 import {AdminScordiSubscriptionListPageRoute} from '^pages/admin/billing/scordi-subscriptions';
+import {Home, LogOut} from 'lucide-react';
 
 interface AdminSideBarProps extends WithChildren {}
 
@@ -56,13 +55,13 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                                 href={OrgMainPageRoute.path(currentUser.lastSignedOrgId)}
                                 className="btn btn-block btn-scordi-light"
                             >
-                                <AiOutlineHome />
+                                <Home />
                                 <span className="">서비스로</span>
                             </LinkTo>
                         </li>
                         <li>
                             <a className="btn btn-block" onClick={logout}>
-                                <PiSignOut />
+                                <LogOut />
                                 <span className="">로그아웃</span>
                             </a>
                         </li>

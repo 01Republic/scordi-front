@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {FaSearch} from '@react-icons/all-files/fa/FaSearch';
+import {Search} from 'lucide-react';
 
 interface KeywordSearchInputProps {
     defaultValue?: string;
@@ -12,7 +12,7 @@ export const KeywordSearchInput = memo((props: KeywordSearchInputProps) => {
     return (
         <div className="w-3/6 relative">
             <div className="absolute top-0 bottom-0 left-2.5 flex items-center justify-center">
-                <FaSearch fontSize={12} />
+                <Search fontSize={12} />
             </div>
             <input
                 type="text"

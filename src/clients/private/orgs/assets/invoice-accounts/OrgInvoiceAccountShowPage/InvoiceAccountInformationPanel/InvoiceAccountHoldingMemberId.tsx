@@ -2,9 +2,9 @@ import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {FormControl} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControl';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {FaCaretDown} from 'react-icons/fa6';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
 import {FormControlEmptyValue} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControlEmptyValue';
+import {ChevronDown} from 'lucide-react';
 
 interface InvoiceAccountHoldingMemberIdProps {
     isEditMode: boolean;
@@ -33,7 +33,7 @@ export const InvoiceAccountHoldingMemberId = memo((props: InvoiceAccountHoldingM
                         className="flex-auto"
                         compactView
                     />
-                    <FaCaretDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
+                    <ChevronDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
                 </div>
             ) : (
                 <div className={`w-full flex items-center justify-between h-[32px]`}>

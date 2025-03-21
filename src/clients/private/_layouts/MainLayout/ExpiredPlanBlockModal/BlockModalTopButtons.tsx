@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {MainPageRoute} from '^pages/index';
 import {useCurrentUser} from '^models/User/hook';
-import {IoIosArrowBack} from '@react-icons/all-files/io/IoIosArrowBack';
+import {ArrowLeft} from 'lucide-react';
 
 interface BlockModalTopButtonsProps {
     //
@@ -20,7 +20,7 @@ export const BlockModalTopButtons = memo((props: BlockModalTopButtonsProps) => {
                     displayLoading={false}
                     className="flex items-center gap-2 text-gray-400 hover:text-black transition"
                 >
-                    <IoIosArrowBack />
+                    <ArrowLeft />
                     <span className="text-sm font-medium">홈으로</span>
                 </LinkTo>
             </div>

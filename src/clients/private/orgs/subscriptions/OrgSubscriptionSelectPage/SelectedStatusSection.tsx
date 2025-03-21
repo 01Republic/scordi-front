@@ -1,9 +1,8 @@
 import {memo, useState} from 'react';
 import {useSelectProducts} from '^models/Product/hook';
-import {FaBroom} from 'react-icons/fa6';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
-import {FaConciergeBell} from 'react-icons/fa';
 import {LinkTo} from '^components/util/LinkTo';
+import {Bell, ListRestart} from 'lucide-react';
 
 export const SelectedStatusSection = memo(function SelectedStatusSection() {
     const {selectedProducts, clearSelects} = useSelectProducts();
@@ -26,7 +25,7 @@ export const SelectedStatusSection = memo(function SelectedStatusSection() {
                         className="btn btn-sm btn-ghost capitalize gap-2 text-gray-500 !bg-transparent"
                         onClick={onReset}
                     >
-                        <FaBroom />
+                        <ListRestart />
                         <span>초기화</span>
                     </button>
                 </div>
@@ -37,7 +36,7 @@ export const SelectedStatusSection = memo(function SelectedStatusSection() {
                         displayLoading={false}
                         target="_blank"
                     >
-                        <FaConciergeBell />
+                        <Bell />
                         <span>미등록 서비스 제보하기</span>
                     </LinkTo>
                 </div>

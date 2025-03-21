@@ -12,8 +12,8 @@ import {
     ContentPanelList,
 } from '^layouts/ContentLayout';
 import {WysiwygEditor} from '^components/WysiwygEditor';
-import {IoMdRefresh} from '^components/react-icons';
 import {productApi} from '^models/Product/api';
+import {RotateCw} from 'lucide-react';
 
 export const MenuContentForIntroduce = memo(() => {
     const [proto, mutation] = useProduct();
@@ -55,7 +55,7 @@ export const MenuContentForIntroduce = memo(() => {
                                     }
                                 }}
                             >
-                                <IoMdRefresh size={20} />
+                                <RotateCw size={20} />
                                 초기화
                             </button>
                         </div>

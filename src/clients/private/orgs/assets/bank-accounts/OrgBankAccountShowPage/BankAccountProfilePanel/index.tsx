@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {RiBankFill} from '@react-icons/all-files/ri/RiBankFill';
 import {UsingStatusTag} from '^models/CreditCard/components';
 import {Avatar} from '^components/Avatar';
 import {useCurrentBankAccount} from '../atom';
+import {Building} from 'lucide-react';
 
 export const BankAccountProfilePanel = memo(function CreditCardProfilePanel() {
     const {currentBankAccount} = useCurrentBankAccount();
@@ -20,7 +20,7 @@ export const BankAccountProfilePanel = memo(function CreditCardProfilePanel() {
                     {company ? (
                         <img src={company.logo} alt={company.displayName || ''} />
                     ) : (
-                        <RiBankFill size={20} className="h-full w-full p-[6px]" />
+                        <Building size={20} className="h-full w-full p-[6px]" />
                     )}
                 </Avatar>
 

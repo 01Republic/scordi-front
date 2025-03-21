@@ -1,11 +1,10 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FcFinePrint} from 'react-icons/fc';
 import {useSubscriptionsForCodefAccount, useSubscriptionsForCard} from '^models/CodefCard/hook';
 import {selectedCodefCardAtom} from './atom';
 import {codefAccountIdParamState} from '^atoms/common';
 import {SubscriptionItem} from './SubscriptionItem';
-import {CgSpinner} from 'react-icons/cg';
+import {FileText, Loader} from 'lucide-react';
 
 /** 계정으로 조회된 구독 Section */
 export const AllSubscriptionListSection = memo(() => {
@@ -22,7 +21,7 @@ export const AllSubscriptionListSection = memo(() => {
                 onClick={() => console.log(result)}
                 className="flex items-center gap-2 py-6 sticky top-[64px] z-[1] bg-layout-background -mx-4 px-4"
             >
-                <FcFinePrint size={30} />{' '}
+                <FileText size={30} />{' '}
                 <span>카드로 조회된 구독 {pagination.totalItemCount ? `(${pagination.totalItemCount})` : ''}</span>
             </h3>
 
@@ -31,7 +30,7 @@ export const AllSubscriptionListSection = memo(() => {
                     <div className="px-3 py-2 font-semibold flex items-center justify-center">
                         <div className="text-center">
                             <div className="animate-spin">
-                                <CgSpinner size={30} />
+                                <Loader size={30} />
                             </div>
                         </div>
                     </div>

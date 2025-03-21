@@ -1,7 +1,7 @@
 import {memo} from 'react';
-import {GrShare} from 'react-icons/gr';
 import {ProductDto} from '^models/Product/type';
 import {useProductPostContent} from '^models/Product/hook';
+import {Share} from 'lucide-react';
 
 export const ProductPostContentTitle = memo((props: {product: ProductDto}) => {
     const {product} = props;
@@ -32,7 +32,7 @@ export const ProductPostContentTitle = memo((props: {product: ProductDto}) => {
                 <div>
                     {homePageUrl && (
                         <a role="button" className="btn sm:btn-lg" href={homePageUrl} target="_blank">
-                            <GrShare />
+                            <Share />
                         </a>
                     )}
                 </div>

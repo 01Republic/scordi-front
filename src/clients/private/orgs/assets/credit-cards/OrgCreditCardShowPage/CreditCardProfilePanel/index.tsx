@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {FaRegCreditCard} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
 import {useCurrentCreditCard} from '../atom';
 import {UsingStatusTag} from '^models/CreditCard/components';
+import {CreditCard} from 'lucide-react';
 
 export const CreditCardProfilePanel = memo(function CreditCardProfilePanel() {
     const {currentCreditCard} = useCurrentCreditCard();
@@ -19,7 +19,7 @@ export const CreditCardProfilePanel = memo(function CreditCardProfilePanel() {
                     {company ? (
                         <img src={company.logo} alt={company.displayName} />
                     ) : (
-                        <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+                        <CreditCard size={20} className="h-full w-full p-[6px]" />
                     )}
                 </Avatar>
 

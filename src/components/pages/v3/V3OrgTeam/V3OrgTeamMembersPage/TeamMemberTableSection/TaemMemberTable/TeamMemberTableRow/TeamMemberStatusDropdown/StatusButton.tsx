@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {FaCaretDown} from 'react-icons/fa6';
 import {useRecoilValue} from 'recoil';
 import {TeamMemberDto} from '^models/TeamMember';
 import {currentUserAtom} from '^models/User/atom';
 import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import Tippy from '@tippyjs/react';
+import {ChevronDown} from 'lucide-react';
 
 interface StatusButtonProps {
     teamMember: TeamMemberDto;
@@ -88,7 +88,7 @@ const StatusButtonUI = memo((props: StatusButtonUIProps) => {
                     ) : (
                         <span>{label}</span>
                     )}
-                    {caret && <FaCaretDown className="relative -top-[1px]" size={10} />}
+                    {caret && <ChevronDown className="relative -top-[1px]" size={10} />}
                 </div>
             </div>
             {/*{caption && <p className="capitalize text-xs text-gray-400">{caption}</p>}*/}

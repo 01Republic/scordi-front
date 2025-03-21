@@ -6,9 +6,9 @@ import {WithChildren} from '^types/global.type';
 import CreatableSelect from 'react-select/creatable';
 import {MoreDropdownInSelectTeam} from '^v3/share/modals/_presenters/MoreDropdownInSelectTeam';
 import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
-import {FcCheckmark} from 'react-icons/fc';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
+import {Check} from 'lucide-react';
 
 interface SelectInputProps<Option> {
     options: Option[];
@@ -120,7 +120,7 @@ export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any
     //             } hover:bg-gray-100`}
     //         >
     //             <div className="">{children}</div>
-    //             <div className="ml-auto px-2">{isSelected && <FcCheckmark />}</div>
+    //             <div className="ml-auto px-2">{isSelected && <Check />}</div>
     //         </div>
     //     </div>
     // );

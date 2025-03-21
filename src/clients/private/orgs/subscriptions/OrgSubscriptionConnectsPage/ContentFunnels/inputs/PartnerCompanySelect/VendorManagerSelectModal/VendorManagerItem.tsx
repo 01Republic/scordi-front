@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
-import {FaCheck, FaChevronRight} from 'react-icons/fa6';
 import {VendorManagerProfile} from '^models/vendor/VendorManager/components/VendorManagerProfile';
+import {Check, ChevronRight} from 'lucide-react';
 
 interface VendorManagerItemProps {
     vendorManager: VendorManagerDto;
@@ -21,9 +21,9 @@ export const VendorManagerItem = memo((props: VendorManagerItemProps) => {
                 <VendorManagerProfile item={vendorManager} avatarClass="w-8 h-8" />
             </div>
             <div className="flex items-center gap-2">
-                <div>{selected && <FaCheck className="text-green-400" />}</div>
+                <div>{selected && <Check className="text-green-400" />}</div>
                 <div>
-                    <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" size={10} />
+                    <ChevronRight className="text-gray-400 group-hover:text-black transition-all" size={10} />
                 </div>
             </div>
         </div>

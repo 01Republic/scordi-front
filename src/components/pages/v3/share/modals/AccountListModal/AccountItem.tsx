@@ -1,11 +1,10 @@
 import React, {memo} from 'react';
-import {BiChevronRight, BiCopy} from 'react-icons/bi';
-import {FaKey} from 'react-icons/fa6';
 import {AccountDto} from '^models/Account/types';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {useAccountEditModal} from './AccountEditModal/hook';
 import {Avatar} from '^components/Avatar';
 import {useToast} from '^hooks/useToast';
+import {ChevronRight, Copy, Key} from 'lucide-react';
 
 interface AccountItemProps {
     account: AccountDto;
@@ -32,7 +31,7 @@ export const AccountItem = memo((props: AccountItemProps) => {
                 {hideProduct ? (
                     <div className="">
                         <div className="btn btn-square">
-                            <FaKey />
+                            <Key />
                         </div>
                     </div>
                 ) : (
@@ -42,7 +41,7 @@ export const AccountItem = memo((props: AccountItemProps) => {
                 <div className="flex-1">
                     <p className="text-[16px] font-[500] flex items-center">
                         <span>{decrypted.email}</span>
-                        <BiChevronRight size={22} />
+                        <ChevronRight size={22} />
                     </p>
                     <p className="text-sm text-gray-500">
                         {hideProduct ? (
@@ -74,7 +73,7 @@ export const AccountItem = memo((props: AccountItemProps) => {
                     </div>
                     <CopyToClipboard text={decrypted.password} onCopy={() => copyBtnClick(account.id)}>
                         <button className="btn btn-square btn-ghost">
-                            <BiCopy className="text-[22px]" />
+                            <Copy className="text-[22px]" />
                         </button>
                     </CopyToClipboard>
                 </div>

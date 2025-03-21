@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {FaCaretDown} from 'react-icons/fa6';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
 import {FormControl} from './FormControl';
 import {FormControlEmptyValue} from './FormControlEmptyValue';
+import {ChevronDown} from 'lucide-react';
 
 interface CreditCardHoldingMemberIdProps {
     isEditMode: boolean;
@@ -33,7 +33,7 @@ export const CreditCardHoldingMemberId = memo((props: CreditCardHoldingMemberIdP
                         className="flex-auto"
                         compactView
                     />
-                    <FaCaretDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
+                    <ChevronDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
                 </div>
             ) : (
                 <div className={`w-full flex items-center justify-between h-[32px]`}>

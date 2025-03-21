@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {RiShareBoxLine} from 'react-icons/ri';
 import {LinkTo} from '^components/util/LinkTo';
 import {useCurrentSubscription} from '../atom';
+import {Share} from 'lucide-react';
 
 export const SubscriptionPricingPageButton = memo(() => {
     const {currentSubscription: subscription} = useCurrentSubscription();
@@ -16,7 +16,7 @@ export const SubscriptionPricingPageButton = memo(() => {
             href={pricingPageUrl}
             target="_blank"
         >
-            <RiShareBoxLine fontSize={20} />
+            <Share fontSize={20} />
         </LinkTo>
     );
 });

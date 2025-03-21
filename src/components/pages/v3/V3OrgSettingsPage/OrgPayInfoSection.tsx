@@ -5,7 +5,7 @@ import {useRouter} from 'next/router';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgSettingsBillingPageRoute} from '^pages/v3/orgs/[orgId]/settings/billing';
 import {BillingStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
-import {CgSpinner} from 'react-icons/cg';
+import {Loader} from 'lucide-react';
 
 export const OrgPayInfoSection = memo(() => {
     const router = useRouter();

@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft, FaArrowRotateRight} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {codefAccountAtom} from '^models/CodefAccount/atom';
@@ -8,6 +7,7 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
 import {CardListPageMode, reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 import {codefAccountIdParamState} from '^atoms/common';
+import {ArrowLeft, RotateCw} from 'lucide-react';
 
 export const ConnectedCardListPageHeader = memo(() => {
     const {connectMethod} = useCodefAccountPageSubject();
@@ -26,7 +26,7 @@ export const ConnectedCardListPageHeader = memo(() => {
                     onClick={() => router.back()}
                     className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                 >
-                    <FaArrowLeft /> 뒤로가기
+                    <ArrowLeft /> 뒤로가기
                 </LinkTo>
             </div>
 
@@ -45,7 +45,7 @@ export const ConnectedCardListPageHeader = memo(() => {
                     {/*    className={`btn btn-sm btn-ghost btn-circle ${reloading ? 'animate-spin' : ''}`}*/}
                     {/*    onClick={() => !reloading && reloadData()}*/}
                     {/*>*/}
-                    {/*    <FaArrowRotateRight />*/}
+                    {/*    <RotateCw />*/}
                     {/*</button>*/}
                 </div>
 

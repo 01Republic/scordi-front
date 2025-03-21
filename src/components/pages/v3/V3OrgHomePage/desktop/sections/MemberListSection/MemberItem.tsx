@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {FcOrgUnit} from 'react-icons/fc';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionAvatars} from '^v3/V3OrgHomePage/desktop/sections/MemberListSection/SubscriptionAvatars';
 import {ApprovalStatus} from 'src/models/Membership/types';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
+import {Users} from 'lucide-react';
 
 interface MemberItemProps {
     member: TeamMemberDto;
@@ -49,7 +49,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
                         &nbsp;
                     </div>
                     <div className="flex gap-2 items-center">
-                        <FcOrgUnit size={18} />
+                        <Users size={18} />
                         {/*<FcDoughnutChart size={18} />*/}
                         <p>{member.subscriptions?.length?.toLocaleString()}개 이용 중</p>
                     </div>

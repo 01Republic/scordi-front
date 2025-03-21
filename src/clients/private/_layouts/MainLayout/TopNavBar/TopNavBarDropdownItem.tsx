@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 
 interface TopNavBarDropdownItemProps {
-    Icon: IconType;
+    Icon: LucideIcon;
     name: string;
     href: string;
     active?: boolean;

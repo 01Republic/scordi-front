@@ -3,7 +3,7 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {LoadableBox} from '^components/util/loading';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {SelectablePaymentMethodItem} from './SelectablePaymentMethodItem';
-import {HiMiniInbox} from 'react-icons/hi2';
+import {Inbox} from 'lucide-react';
 
 interface PaymentMethodSelectModalProps {
     isOpened: boolean;
@@ -83,7 +83,7 @@ export const PaymentMethodSelectModal = memo((props: PaymentMethodSelectModalPro
                         maxHeight: 'calc(var(--modal-height) - 28px - 1.5rem - 80px)',
                     }}
                 >
-                    <HiMiniInbox className="text-slate-200" fontSize={48} />
+                    <Inbox className="text-slate-200" fontSize={48} />
                     <span className="text-16 font-semibold text-gray-400">등록된 결제수단이 없어요.</span>
                 </div>
             )}

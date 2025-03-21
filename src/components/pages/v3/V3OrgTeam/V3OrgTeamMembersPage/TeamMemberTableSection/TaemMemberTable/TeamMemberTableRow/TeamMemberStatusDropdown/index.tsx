@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
 import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
 import {currentUserAtom, getMembership} from '^models/User/atom';
 import {Dropdown} from '^v3/share/Dropdown';
@@ -15,6 +14,7 @@ import {InviteListItem} from './InviteListItem';
 import {ResendInviteItem} from './ResendInviteItem';
 import {DeleteMemberItem} from './DeleteMemberItem';
 import {DeleteMembershipItem} from './DeleteMembershipItem';
+import {ArrowUpDown, LogOut} from 'lucide-react';
 
 interface TeamMemberStatusDropdownProps {
     teamMember: TeamMemberDto;
@@ -93,7 +93,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                             }
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
-                                                <FaExchangeAlt size={12} />
+                                                <ArrowUpDown />
                                                 <p>{t_membershipLevel(MembershipLevel.MEMBER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
@@ -106,7 +106,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                             }
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
-                                                <FaExchangeAlt size={12} />
+                                                <ArrowUpDown />
                                                 <p>{t_membershipLevel(MembershipLevel.OWNER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>

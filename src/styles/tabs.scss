@@ -1,17 +1,16 @@
-
 .tabs.tabs-bordered {
-  @apply border-b;
+    @apply border-b;
 
-  .tab {
-    &.tab-active {
-      &::before {
-        content: '';
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        bottom: -1px;
-        background: #000;
-      }
+    .tab {
+        &.tab-active {
+            &::before {
+                content: '';
+                width: 100%;
+                height: 2px;
+                position: absolute;
+                bottom: -1px;
+                background: #000;
+            }
+        }
     }
-  }
 }

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {Modal} from '^components/Modal';
 import {UserSocialSignUpRequestDto} from '^models/User/types';
-import {RiCloseLine} from '^components/react-icons';
+import {X} from 'lucide-react';
 
 export interface AgreeModalProps {
     modalOpen: boolean;
@@ -84,7 +84,7 @@ export const AgreeModal = memo(({modalOpen, setModalOpen, form, modalConfirmButt
                         </label>
                     </div>
                     <div className="text-xl absolute right-5 top-7 cursor-pointer" onClick={onCloseModal}>
-                        <RiCloseLine />
+                        <X />
                     </div>
                 </>
             }

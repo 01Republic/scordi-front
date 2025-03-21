@@ -2,8 +2,8 @@ import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCurrentInvoiceAccount} from '^v3/V3OrgInvoiceAccountShowPage/atom';
 import {Avatar2} from '^components/Avatar';
-import {IoMdRefresh} from 'react-icons/io';
 import {useSyncAccount} from '../hooks/useSyncAccount';
+import {RotateCw} from 'lucide-react';
 
 export const InformationPanel = memo(() => {
     const {currentInvoiceAccount: invoiceAccount, isLoading} = useCurrentInvoiceAccount();
@@ -35,7 +35,7 @@ export const InformationPanel = memo(() => {
                                 </button>
                             ) : (
                                 <button className="btn gap-2" onClick={() => startSync()}>
-                                    <IoMdRefresh size={20} />
+                                    <RotateCw size={20} />
                                     <span>동기화</span>
                                 </button>
                             )}

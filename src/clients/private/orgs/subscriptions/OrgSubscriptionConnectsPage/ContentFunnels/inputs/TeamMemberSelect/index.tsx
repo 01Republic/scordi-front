@@ -1,5 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
 import {
@@ -11,6 +10,7 @@ import {TeamMemberSearchInput} from './TeamMemberSearchInput';
 import {TeamMemberSelectedSection} from './TeamMemberSelectedSection';
 import {TeamMemberSelectableSection} from './TeamMemberSelectableSection';
 import {TeamMemberCreateMethodModal} from './TeamMemberCreateMethodModal';
+import {Plus} from 'lucide-react';
 
 export const TeamMemberSelect = memo(function TeamMemberSelect() {
     const {search, reload, result} = useTeamMemberListInCreateSubscription();
@@ -32,7 +32,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
 
                     <div className="flex items-center justify-start gap-2">
                         <button className="btn btn-scordi gap-2" onClick={() => setCreateMethodModalOpened(true)}>
-                            <FaPlus />
+                            <Plus />
                             <span>구성원 추가</span>
                         </button>
                         <button

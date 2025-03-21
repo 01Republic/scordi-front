@@ -1,8 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {FcAddressBook} from 'react-icons/fc';
-import {FaArrowRotateRight} from 'react-icons/fa6';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
@@ -20,6 +18,7 @@ import {
     useCodefAccountPageSubject,
     useConnectedCardListPageData,
 } from '^v3/V3OrgConnectedCardListPage/atom';
+import {Book, RotateCw} from 'lucide-react';
 
 /** 청구서 수신 메일 Section */
 export const CodefCardListSection = memo(() => {
@@ -39,7 +38,7 @@ export const CodefCardListSection = memo(() => {
     return (
         <div className="col-span-2 mb-8">
             <h3 className="flex items-center gap-2 py-6 sticky top-[64px] z-[1] bg-layout-background -mx-4 px-4">
-                <FcAddressBook size={30} />
+                <Book size={30} />
                 <span>연결된 카드</span>
                 <button
                     className={`btn btn-sm btn-ghost ml-auto gap-2 ${reloading ? 'loading' : ''}`}
@@ -47,7 +46,7 @@ export const CodefCardListSection = memo(() => {
                 >
                     {!reloading && (
                         <>
-                            <FaArrowRotateRight />
+                            <RotateCw />
                             <span>새로고침</span>
                         </>
                     )}

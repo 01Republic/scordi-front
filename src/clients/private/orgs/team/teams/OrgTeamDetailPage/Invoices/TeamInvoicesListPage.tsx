@@ -7,11 +7,11 @@ import {useRecoilValue} from 'recoil';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/InvoicesTableHeader';
 import {InvoicesTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/InvoicesTableRow';
-import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useRouter} from 'next/router';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 import {useUnmount} from '^hooks/useUnmount';
+import {Plus} from 'lucide-react';
 
 export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
@@ -54,7 +54,7 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
                         className="btn btn-square btn-scordi animate-none btn-animation"
                         onClick={() => setIsOpened(true)}
                     >
-                        <FaPlus fontSize={20} />
+                        <Plus fontSize={20} />
                     </button>
                 </div>
             </div>

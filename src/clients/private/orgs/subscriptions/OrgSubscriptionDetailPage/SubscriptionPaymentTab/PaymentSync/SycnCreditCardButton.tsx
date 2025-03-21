@@ -1,10 +1,10 @@
 import React, {memo, useState} from 'react';
 import {MethodOption} from '^clients/private/_layouts/_shared/ListPageMainDropdown';
-import {FcDataBackup} from 'react-icons/fc';
 import {useCreditCardSync} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/PaymentSync/atom';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
 import {LoadableBox} from '^components/util/loading';
+import {Database} from 'lucide-react';
 
 interface SycnCreditCardButtonProps {
     subscription: SubscriptionDto;
@@ -34,7 +34,7 @@ export const SycnCreditCardButton = memo((props: SycnCreditCardButtonProps) => {
                 }`}
             >
                 <MethodOption
-                    Icon={FcDataBackup}
+                    Icon={Database}
                     title="결제내역 불러오기"
                     desc="카드사 로그인으로 한 번에 불러와요"
                     onClick={onClickCreditCard}

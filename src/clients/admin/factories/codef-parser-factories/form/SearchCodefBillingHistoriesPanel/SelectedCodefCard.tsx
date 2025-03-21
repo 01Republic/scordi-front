@@ -1,9 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {IoIosClose} from 'react-icons/io';
 import {codefCardApi} from '^models/CodefCard/api';
-import {CgSpinner} from 'react-icons/cg';
+import {Loader, X} from 'lucide-react';
 
 interface SelectedCodefCardProps {
     codefCard?: CodefCardDto;
@@ -40,7 +39,7 @@ export const SelectedCodefCard = memo((props: SelectedCodefCardProps) => {
                     <div>
                         <CodefCardTagUI codefCard={codefCard} />
                     </div>
-                    <IoIosClose size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
+                    <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                 </div>
             </div>
 
@@ -48,7 +47,7 @@ export const SelectedCodefCard = memo((props: SelectedCodefCardProps) => {
                 {isLoading && (
                     <div>
                         <div className="animate-spin">
-                            <CgSpinner />
+                            <Loader />
                         </div>
                     </div>
                 )}

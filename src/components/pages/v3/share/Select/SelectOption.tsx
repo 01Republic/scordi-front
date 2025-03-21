@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {BsCheck} from '@react-icons/all-files/bs/BsCheck';
+import {Check} from 'lucide-react';
 
 export interface SelectOptionProps extends WithChildren {
     value?: any;
@@ -17,7 +17,7 @@ export const SelectOption = memo((props: SelectOptionProps) => {
         <li>
             <a onClick={() => onSelect && onSelect(value)}>
                 <span>{text || children || value}</span>
-                {selected && <BsCheck />}
+                {selected && <Check />}
             </a>
         </li>
     );

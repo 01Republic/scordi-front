@@ -1,8 +1,8 @@
 import React, {memo, useState} from 'react';
-import {FaCheck} from 'react-icons/fa6';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {BankAccountProfileOption2} from '^models/BankAccount/components';
+import {Check} from 'lucide-react';
 
 interface SelectableBankAccountItemProps {
     item: BankAccountDto;
@@ -33,7 +33,7 @@ export const SelectableBankAccountItem = memo((props: SelectableBankAccountItemP
             </div>
 
             <div className="flex items-center gap-2">
-                <div>{isSelected && <FaCheck className="text-scordi" />}</div>
+                <div>{isSelected && <Check className="text-scordi" />}</div>
             </div>
         </div>
     );

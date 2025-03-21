@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /products/
 Allow: /
 Sitemap: https://scordi.io/sitemap.xml

@@ -2,7 +2,6 @@ import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
-import {AiOutlineUserAdd} from 'react-icons/ai';
 import {orgIdParamState} from '^atoms/common';
 import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
 import {
@@ -11,6 +10,7 @@ import {
     TeamMemberCreateMethodModal,
 } from '^clients/private/_modals/team-members';
 import {QuickButton} from './QuickButton';
+import {UserPlus} from 'lucide-react';
 
 export const AddTeamMemberButton = memo(function AddTeamMemberButton() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -23,7 +23,7 @@ export const AddTeamMemberButton = memo(function AddTeamMemberButton() {
         <>
             <QuickButton
                 text="구성원 추가"
-                Icon={() => <AiOutlineUserAdd />}
+                Icon={() => <UserPlus />}
                 onClick={() => setIsTeamMemberCreateModalOpened(true)}
             />
 

@@ -1,8 +1,7 @@
 import {memo, useRef, useState} from 'react';
 import {Spinner} from '^components/util/loading';
-import {FaCheck} from 'react-icons/fa6';
-import {FaTimes} from 'react-icons/fa';
 import {delay} from '^components/util/delay';
+import {Check, X} from 'lucide-react';
 
 interface AirInputTextProps {
     defaultValue?: string;
@@ -46,8 +45,8 @@ export const AirInputText = memo((props: AirInputTextProps) => {
                     />
                     <div className="absolute -left-4 top-0 bottom-0 flex items-center justify-center">
                         {inProgress === 1 && <Spinner />}
-                        {inProgress === 2 && <FaCheck className="text-green-500" />}
-                        {inProgress === 3 && <FaTimes className="text-red-500" />}
+                        {inProgress === 2 && <Check className="text-green-500" />}
+                        {inProgress === 3 && <X className="text-red-500" />}
                     </div>
                 </>
             ) : (

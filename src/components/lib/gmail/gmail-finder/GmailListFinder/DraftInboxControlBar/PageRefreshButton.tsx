@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {IoMdRefresh} from '@react-icons/all-files/io/IoMdRefresh';
+import {RotateCw} from 'lucide-react';
 
 interface PageRefreshButtonProps {
     isLoading: boolean;
@@ -16,7 +16,7 @@ export const PageRefreshButton = memo((props: PageRefreshButtonProps) => {
             }`}
             onClick={() => onClick()}
         >
-            <IoMdRefresh fontSize={14} />
+            <RotateCw fontSize={14} />
         </button>
     );
 });
