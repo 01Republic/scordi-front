@@ -12,7 +12,7 @@ interface PaymentCompleteProps {
 export const PaymentComplete = memo((props: PaymentCompleteProps) => {
     const {payment, plan} = props;
 
-    const planData = plan?.getDPayPlanData();
+    const planData = (payment?.scordiPlan || plan)?.getDPayPlanData();
 
     const planName = payment?.planName || 'test';
     const price = payment?.price || 0;
@@ -21,6 +21,9 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
     const moveButtonText = planData?.moveButtonText || '오픈카톡방으로 이동';
     const moveButtonUrl = planData?.moveButtonUrl || "javascript:alert('이동할 주소를 설정해주세요.')";
     const moveButtonMethod: React.HTMLAttributeAnchorTarget | undefined = planData?.moveButtonMethod || '_blank';
+    // const etcRequired = !!planData?.etcRequired;
+    // const etcLabel = planData?.etcLabel || '';
+    const onCompleteMessage = planData?.onCompleteMessage || '';
 
     return (
         <div className="w-full h-full flex flex-col pt-20 pb-8 sm:pb-20">
@@ -54,6 +57,7 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
                             href={moveButtonUrl}
                             target={moveButtonMethod}
                             displayLoading={false}
+                            onClick={() => onCompleteMessage && alert(onCompleteMessage)}
                         >
                             {moveButtonText}
                         </LinkTo>

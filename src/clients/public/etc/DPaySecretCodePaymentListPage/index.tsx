@@ -29,6 +29,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
         isFetching,
         reload,
     } = useDPayScordiPayments2(!!secretCode, {
+        relations: ['scordiPlan'],
         where: {scordiPlan: {secretCode}},
         order: {id: 'DESC'},
         itemsPerPage: 0,
@@ -47,6 +48,10 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
         await window.navigator.clipboard.writeText(permittedUrl);
         toast.success('공유 링크를 복사했어요.');
     };
+
+    const data = plan?.getDPayPlanData();
+    const etcRequired = !!data?.etcRequired;
+    const etcLabel = data?.etcLabel || '';
 
     return (
         <div className="min-h-screen w-screen bg-white">
@@ -132,7 +137,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                                 </Tippy>
                                             </div>
                                         </th>
-                                        <th>구매자명</th>
+                                        <th>구매자명{etcRequired && ` - ${etcLabel}`}</th>
                                         <th>구매자 이메일</th>
                                         <th>구매자 휴대폰번호</th>
                                         <th className="text-right">결제액</th>
@@ -156,6 +161,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                                             secretCode={secretCode}
                                             reload={() => reload()}
                                             isSuperUser={isSuperUser}
+                                            plan={plan}
                                         />
                                     ))}
                                 </tbody>
