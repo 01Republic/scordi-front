@@ -112,7 +112,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                     {selectedInvoiceAccountIds?.length > 0 && (
                         <ul className="w-full flex flex-col gap-4 px-1">
                             {selectedInvoiceAccounts.map((invoiceAccount) => (
-                                <li className="w-full flex items-center justify-between">
+                                <li key={invoiceAccount.id} className="w-full flex items-center justify-between">
                                     <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
                                     <CircleX
                                         onClick={() => onDelete(invoiceAccount)}
