@@ -16,6 +16,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useWorkspaceSubscriptionCount} from '^models/Subscription/hook';
 import {useOrgIdParam} from '^atoms/common';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {errorToast} from '^api/api';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     const router = useRouter();
@@ -33,37 +34,37 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const next = (i: number) => i + 1;
 
     const createSubscription = () => {
-        subscriptionApi
+        const {invoiceAccountIds = []} = invoiceAccountData;
+        const redirect = (orgId: number) => router.push(OrgMainPageRoute.path(orgId));
+
+        return subscriptionApi
             .create(formData)
-            .then((res) => {
-                const subscription = res.data;
-                Promise.allSettled(
-                    invoiceAccountData.invoiceAccountIds.map((invoiceAccountId) =>
-                        invoiceAccountApi.subscriptionsApi.create(invoiceAccountId, subscription.id),
-                    ),
-                ).then(() => subscription);
+            .then((res) => res.data)
+            .then(async (subscription) => {
+                const api = invoiceAccountApi.subscriptionsApi;
+                const requests = invoiceAccountIds.map((id) => api.create(id, subscription.id)); // 여러 연결생성 요청을
+                await Promise.allSettled(requests); // 병렬 처리
                 return subscription;
             })
             .then((subscription) => {
                 toast.success(`${currentConnectingProduct?.nameKo} 구독을 등록했어요.`);
+
+                // 폼 상태 초기화
                 setInvoiceAccountData({
                     invoiceAccounts: [],
                     invoiceAccountIds: [],
                 });
                 setTeamMembers([]);
                 clearFormData();
+
+                // 다음 등록할 앱이 있는지 확인하여
                 const nextProduct = finishProduct(subscription.productId);
-                if (nextProduct) {
-                    setStep(Steps.IsFreeTier);
-                } else {
-                    return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(() => {
-                        resetFinishedProductMap();
-                    });
-                }
+
+                return nextProduct
+                    ? setStep(Steps.IsFreeTier) // 있으면 첫 스텝으로
+                    : redirect(subscription.organizationId).then(() => resetFinishedProductMap()); // 없으면 조직 홈으로
             })
-            .catch((error) => {
-                console.error('구독 생성 실패', error);
-            });
+            .catch(errorToast);
     };
 
     switch (currentStep) {
@@ -117,7 +118,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     onPrev={() => setStep(prev)}
                     onNext={() => setStep(next)}
                     isValid={true}
-                    nextButtonText={invoiceAccountData.invoiceAccountIds ? undefined : '건너뛰기'}
+                    nextButtonText={invoiceAccountData.invoiceAccountIds.length === 0 ? undefined : '건너뛰기'}
                 />
             );
         case Steps.TeamMembers:
@@ -160,8 +161,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                 <StepButtons
                     onPrev={() => setStep(prev)}
                     onNext={() => {
-                        createSubscription();
-                        refetch();
+                        createSubscription().then(() => refetch());
                     }}
                     isValid={true}
                     nextButtonText="등록 완료"
