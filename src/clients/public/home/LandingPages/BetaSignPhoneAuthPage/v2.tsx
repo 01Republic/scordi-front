@@ -14,10 +14,12 @@ import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {TermModalV2} from '^clients/public/home/LandingPages/BetaSignPhoneAuthPage/TermModalV2';
 import {useSocialLoginV2} from '^models/User/hook';
-import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
+import {UserAdditionalInfoType, UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
+import {SignAdditionalInfoPage} from 'src/clients/public/home/LandingPages/SignAdditionalInfoPage';
 import {Loader} from 'lucide-react';
+import {OrganizationInfoSectionPage} from '^clients/public/home/LandingPages/SignAdditionalInfoPage/OrganizationInfoSection';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
@@ -142,6 +144,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     if (orgNameInputDisplay) {
         return (
             <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
+                <OrganizationInfoSectionPage />
                 <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                     <h1
                         className="text-3xl sm:text-4xl font-bold leading-loose"
@@ -197,7 +200,8 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-            <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
+            <SignAdditionalInfoPage onClick={() => !isLoading && agreeModalOnConfirm()} />
+            <div className=" mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                 <h1
                     className="text-3xl sm:text-4xl font-bold"
                     onClick={() => {
