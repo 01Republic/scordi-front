@@ -3,9 +3,11 @@ import React from 'react';
 import {LeftSideIndicator} from '^clients/private/orgs/requests/OrgRequestAddPage/LeftSideIndicator';
 import {RequestAddStep1} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep1';
 import {RequestAddStep2} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep2';
+import {RequestAddStep3} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3';
+import {RequestAddStep4} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep4';
 
 export const OrgRequestAddPage = () => {
-    const [step, setStep] = React.useState(2);
+    const [step, setStep] = React.useState(4);
 
     return (
         <MainLayout>
@@ -15,6 +17,8 @@ export const OrgRequestAddPage = () => {
                     <div className={'flex-1 pt-20'}>
                         {step === 1 && <RequestAddStep1 />}
                         {step === 2 && <RequestAddStep2 />}
+                        {step === 3 && <RequestAddStep3 />}
+                        {step === 4 && <RequestAddStep4 />}
                     </div>
                 </div>
             </MainContainer>
