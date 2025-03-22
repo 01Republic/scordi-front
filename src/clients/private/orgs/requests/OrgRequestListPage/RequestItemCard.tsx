@@ -25,13 +25,13 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
     const progressColor = progressPercent < 20 ? '#F87171' : progressPercent < 80 ? '#FB923C' : '#34D399';
 
     return (
-        <Card className="p-4 space-y-5 bg-white hover:shadow-lg">
+        <Card className="p-7 space-y-5 bg-white hover:shadow-lg">
             <div className={'flex justify-between items-center'}>
                 <Badge className={cn('text-white px-2', badgeColor)}>{status}</Badge>
                 <div className={cn(`text-sm`, isFinished ? finishedTextColor : 'text-slate-800')}>{date}</div>
             </div>
-            <div className={cn(`text-md`, isFinished ? finishedTextColor : 'text-slate-900')}>{title}</div>
-            <div>
+            <div className={cn(`text-md line-clamp-2`, isFinished ? finishedTextColor : 'text-slate-900')}>{title}</div>
+            <div className={'space-y-1'}>
                 <div className={cn('text-sm', isFinished ? finishedTextColor : 'text-slate-800')}>
                     제출 현황 ({progress}명/{goal}명)
                 </div>
