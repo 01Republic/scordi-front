@@ -5,9 +5,15 @@ import {RequestAddStep1} from '^clients/private/orgs/requests/OrgRequestAddPage/
 import {RequestAddStep2} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep2';
 import {RequestAddStep3} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3';
 import {RequestAddStep4} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep4';
+import {atom, useRecoilState} from 'recoil';
+
+export const requestAddStepAtom = atom<number>({
+    key: 'requestAddStep',
+    default: 1,
+});
 
 export const OrgRequestAddPage = () => {
-    const [step, setStep] = React.useState(4);
+    const [step, setStep] = useRecoilState(requestAddStepAtom);
 
     return (
         <MainLayout>

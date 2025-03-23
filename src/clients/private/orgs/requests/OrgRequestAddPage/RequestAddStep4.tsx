@@ -3,8 +3,16 @@ import {Label} from '^public/components/ui/label';
 import {Input} from '^public/components/ui/input';
 import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
+import {useRecoilState} from 'recoil';
+import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage/index';
 
 export const RequestAddStep4 = () => {
+    const [step, setStep] = useRecoilState(requestAddStepAtom);
+
+    const onPrevious = () => {
+        setStep(step - 1);
+    };
+
     return (
         <Card className={'bg-white p-10 space-y-10'}>
             <div className={'text-xl font-bold text-gray-900'}>
@@ -23,7 +31,7 @@ export const RequestAddStep4 = () => {
                 <div>총 11명</div>
             </div>
             <div className={'flex justify-end space-x-4'}>
-                <Button size={'xl'} variant={'gray'}>
+                <Button size={'xl'} variant={'gray'} onClick={onPrevious}>
                     뒤로
                 </Button>
                 <Button size={'xl'} variant={'scordi'}>
