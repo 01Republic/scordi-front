@@ -34,7 +34,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
         if ((data.cardNumberFirst || '').length !== 4) return false;
         if ((data.cardNumberSecond || '').length !== 4) return false;
         if ((data.cardNumberThird || '').length !== 4) return false;
-        if (![4, 5].includes((data.cardNumberFourth || '').length)) return false;
+        if (![3, 4, 5].includes((data.cardNumberFourth || '').length)) return false;
         if ((data.cardExpirationMonth || '').length !== 2) return false;
         if ((data.cardExpirationYear || '').length !== 2) return false;
         if ((data.cardPassword || '').length !== 2) return false;
