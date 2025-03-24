@@ -6,11 +6,10 @@ import {Checkbox} from '^public/components/ui/checkbox';
 import React from 'react';
 import {Card} from '^public/components/ui/card';
 import {SubscriptionItemOfResponse} from '^clients/private/orgs/requests/OrgResponsePage/SubscriptionItemOfResponse';
-import {CheckBoxInput} from '^admin/factories/codef-parser-factories/form/SearchProductPanel/CheckBoxInput';
 
 export const OrgResponsePage = () => {
     return (
-        <div className={'bg-gray-50 p-10 space-y-8'}>
+        <div className={'bg-gray-50 p-10 space-y-8 h-lvh'}>
             <div className={'text-xl font-bold text-gray-900'}>요청의 제목과 내용을 입력해 주세요</div>
             <Card className={'bg-white p-5'}>
                 <div className={'text-16 text-gray-800'}>
