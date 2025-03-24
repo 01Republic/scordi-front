@@ -32,6 +32,14 @@ module.exports = {
             colors: {
                 'brand-1': '#0066FF',
                 'stroke-gray': '#e5e7eb',
+
+                primaryColor: {
+                    weak: '#F6F6FE',
+                    bg: '#EFEFFD',
+                    700: '#9D9FF5',
+                    800: '#7D7FF1',
+                    900: '#5C5FEE',
+                },
             },
             fontSize: {
                 10: ['0.625rem', {lineHeight: '1rem'}],

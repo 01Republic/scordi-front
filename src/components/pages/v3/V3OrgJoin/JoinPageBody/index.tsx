@@ -16,6 +16,7 @@ import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {errorToast} from '^api/api';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {ArrowRight} from 'lucide-react';
+import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 
 export const JoinPageBody = memo(() => {
     return (
@@ -83,7 +84,7 @@ const InvitedGoogleLoginButton = memo(() => {
             } else {
                 // 가입된 회원이 아닌 경우. 전화번호 인증 페이지로 이동
                 console.log('// 가입된 회원이 아닌 경우. 전화번호 인증 페이지로 이동');
-                router.push(SignPhoneAuthPageRoute.path());
+                router.push(SignAuthCreateUserPageRoute.path());
             }
             // // 초대된 멤버와 멤버십 데이터를 초대 롼료 상태로 올바르게 업데이트 합니다.
             // if (isFromInviteLink) {

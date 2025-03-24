@@ -12,6 +12,7 @@ import {UserDto} from '^models/User/types';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {userSessionApi} from '^models/User/api/session';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 
 // v2 -> v3 로 넘어가면서 구글 사용자 인증 직후 가입정보가 없으면 리디렉션 되는 위치가 바뀌었습니다.
 // import {UserSignUpPageRoute} from '^pages/users/signup'; // Deprecated.
@@ -28,7 +29,7 @@ export const useGoogleLoginSuccessHandler2 = () => {
     const router = useRouter();
 
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
-    const moveToSignUpPage = () => router.push(SignPhoneAuthPageRoute.path());
+    const moveToSignUpPage = () => router.push(SignAuthCreateUserPageRoute.path());
 
     // 그냥 로그인 시키고 적절한 다음 페이지로 이동시키는 함수.
     const moveWithLogin = async (user: UserDto) => {

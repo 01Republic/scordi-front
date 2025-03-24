@@ -3,6 +3,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 import {OrgCreatePageRoute} from '^pages/orgs/new';
 import {AlertCircle} from 'lucide-react';
+import {SignBizInfoPageRoute} from '^pages/sign/bizInfo';
 
 export const OrgEmptyPage = memo(function OrgEmptyPage() {
     return (
@@ -23,7 +24,7 @@ export const OrgEmptyPage = memo(function OrgEmptyPage() {
                     <br />
 
                     <LinkTo
-                        href={OrgCreatePageRoute.path()}
+                        href={SignBizInfoPageRoute.path()}
                         className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300 no-animation btn-animation"
                     >
                         워크스페이스 생성하기
