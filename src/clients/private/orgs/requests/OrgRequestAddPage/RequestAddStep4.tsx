@@ -24,7 +24,7 @@ export const RequestAddStep4 = () => {
             </div>
             <div className="grid w-full items-center gap-2">
                 <Label htmlFor="email">설명</Label>
-                <Textarea id="description" placeholder="요청 설명" />
+                <Textarea id="description" placeholder="요청 설명" className={'min-h-40'} />
             </div>
             <div>
                 <div>응답 대상자</div>

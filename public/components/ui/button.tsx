@@ -11,6 +11,7 @@ const buttonVariants = cva(
             variant: {
                 scordi: 'bg-scordi text-white shadow hover:bg-primary/90',
                 gray: 'bg-gray-300 text-black shadow hover:bg-primary/90',
+                grayOutline: 'bg-gray-100 text-black hover:bg-primary/90 border',
                 default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
                 destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
                 outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
