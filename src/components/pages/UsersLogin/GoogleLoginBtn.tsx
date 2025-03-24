@@ -8,6 +8,7 @@ import {uniq} from '^utils/array';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {googleOAuth} from '^config/environments';
 import {errorToast} from '^api/api';
+import {googleTokenDataAtom} from '^atoms/common';
 
 const SCOPE_MAP = {
     login: ['email', 'profile', 'openid'],
@@ -72,6 +73,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
             return userSocialGoogleApi
                 .token(dto)
                 .then((tokenData) => {
+                    localStorage.setItem('googleTokenData', JSON.stringify(tokenData));
                     setAccessToken(tokenData.accessToken);
                     return tokenData.accessToken;
                 })
