@@ -98,7 +98,7 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                             <div
                                 className={cn(
                                     'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                                    isActive || phone ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
+                                    isActive || phone ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-14',
                                 )}
                             >
                                 <span className="w-full flex items-center justify-center">
@@ -111,7 +111,7 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                         </div>
                         {isCodeConfirmed && (
                             <div className="absolute inset-y-0 flex items-center right-4">
-                                <Check className=" text-emerald-400 text-20" />
+                                <Check className=" text-emerald-400 text-18" />
                             </div>
                         )}
                     </label>

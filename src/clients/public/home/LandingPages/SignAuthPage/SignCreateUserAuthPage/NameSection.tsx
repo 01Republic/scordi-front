@@ -30,12 +30,12 @@ export const NameSection = memo((props: NameSectionProps) => {
                     className="w-full bg-neutral-100 h-12 border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                 />
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <Pencil className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-[22px]" />
+                    <Pencil className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                 </div>
                 <div
                     className={cn(
                         'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                        isActive || value ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
+                        isActive || value ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-14',
                     )}
                 >
                     <span>이름</span>

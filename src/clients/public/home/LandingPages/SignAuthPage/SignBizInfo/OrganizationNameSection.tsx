@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {Building, Dot, TriangleAlert} from 'lucide-react';
+import {Tag, Dot, TriangleAlert} from 'lucide-react';
 import cn from 'classnames';
 import {CreateOrganizationRequestDto} from '^models/User/types';
-import {StepButton} from '^clients/public/home/LandingPages/SignAuthPage/StepButton';
 
 interface OrganizationNameSectionProps {
     setStep?: (val: number) => void;
@@ -11,7 +10,7 @@ interface OrganizationNameSectionProps {
 }
 
 export const OrganizationNameSection = (props: OrganizationNameSectionProps) => {
-    const {setStep, isDisabled = false} = props;
+    const {isDisabled = false} = props;
     const [isActive, setIsActive] = useState<boolean>(false);
     const {
         register,
@@ -49,12 +48,12 @@ export const OrganizationNameSection = (props: OrganizationNameSectionProps) => 
                         )}
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-[22px]" />
+                        <Tag className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                     </div>
                     <div
                         className={cn(
                             'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                            isActive || value ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
+                            isActive || value ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-14',
                         )}
                     >
                         <span className="w-full flex items-center justify-center">
