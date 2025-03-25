@@ -50,7 +50,7 @@ export const SignDetailAuthPage = () => {
                         <section className="w-full flex flex-col gap-3">
                             <FunnelSection />
                         </section>
-                        <StepButton text={buttonText} disabled={true} onClick={onSubmit} />
+                        <StepButton text={buttonText} disabled={true} onClick={onSubmit} buttonWhite />
                     </div>
                 </form>
             </FormProvider>
