@@ -20,7 +20,7 @@ export const QuitStatusSeatCounter = memo(() => {
         <StatusCard
             title="해지 완료된 계정"
             titleValue={count.toLocaleString()}
-            icon={<UserX size={20} className="h-full w-full p-[6px] text-white" />}
+            icon={<UserX className="size-6 text-white" />}
             iconColor="bg-blue-400"
         />
     );
