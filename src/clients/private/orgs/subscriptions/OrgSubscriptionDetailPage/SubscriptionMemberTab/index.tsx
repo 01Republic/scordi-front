@@ -72,9 +72,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     showLoaderOnConfirm: true,
                     preConfirm: async () => {
                         try {
-                            await Promise.all(
-                                targetMembers.map((id) => subscriptionApi.seatsApi.destroy(orgId, subscription.id, id)),
-                            );
+                            await subscriptionApi.seatsApi.destroyAll(orgId, subscription.id, targetMembers);
                             setSelectedMembers([]);
                             toast.success('계정을 회수했어요.');
                             reload();
