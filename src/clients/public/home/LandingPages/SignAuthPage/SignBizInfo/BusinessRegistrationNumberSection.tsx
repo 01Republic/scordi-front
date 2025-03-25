@@ -9,24 +9,29 @@ export const BusinessRegistrationNumberSection = () => {
     const {
         register,
         watch,
+        setValue,
         formState: {errors},
     } = useFormContext<CreateOrganizationRequestDto>();
     const value = watch('bizInfo.bizNo');
+
     const {
         onBlur: registerOnBlur,
         onChange: registerOnChange,
         ...restRegister
     } = register('bizInfo.bizNo', {
         required: '사업자등록번호를 입력해주세요.',
-        minLength: {
-            value: 10,
-            message: '사업자등록번호는 10자리입니다.',
-        },
-        maxLength: {
-            value: 10,
-            message: '사업자등록번호는 10자리입니다.',
+        validate: (value) => {
+            const digits = value.replace(/-/g, '');
+            return digits.length === 10 || '사업자등록번호는 숫자 10자리여야 합니다.';
         },
     });
+
+    const formatBizNo = (value: string) => {
+        const digits = value.replace(/-/g, '').slice(0, 10);
+        if (digits.length <= 3) return digits;
+        if (digits.length <= 5) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+        return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`;
+    };
 
     return (
         <>
@@ -41,11 +46,8 @@ export const BusinessRegistrationNumberSection = () => {
                             }
                         }}
                         onChange={(e) => {
-                            registerOnChange(e);
-                            const value = e.target.value;
-                            if (Number(value) > 10) {
-                                e.target.value = e.target.value.slice(0, 10);
-                            }
+                            const rawValue = e.target.value.replace(/[^0-9-]/g, '');
+                            setValue('bizInfo.bizNo', formatBizNo(rawValue), {shouldValidate: true});
                         }}
                         {...restRegister}
                         className={cn(
