@@ -165,29 +165,29 @@ export class UpdateUserByAdminDto {
     isAdmin?: boolean; // 관리자 여부
 }
 
-export type JobType =
-    | 'PRESIDENT'
-    | 'C_LEVEL'
-    | 'HR_LEADER'
-    | 'HR_MANAGER'
-    | 'GA_LEADER'
-    | 'GA_MANAGER'
-    | 'ENGINEER'
-    | 'ETC';
+export enum UserJob {
+    PRESIDENT = 'PRESIDENT',
+    C_LEVEL = 'C_LEVEL',
+    GA_LEADER = 'GA_LEADER',
+    GA_MANAGER = 'GA_MANAGER',
+    HR_LEADER = 'HR_LEADER',
+    HR_MANAGER = 'HR_MANAGER',
+    ETC = 'ETC',
+}
 
-export const JOB_LABEL: Record<JobType, string> = {
-    PRESIDENT: '사장',
-    C_LEVEL: 'C-레벨',
-    HR_LEADER: '인사팀장',
-    HR_MANAGER: '인사매니저',
-    GA_LEADER: '총무팀장',
-    GA_MANAGER: '총무매니저',
-    ENGINEER: '엔지니어',
-    ETC: '기타',
+export const USER_JOB_LABELS: Record<UserJob, string> = {
+    [UserJob.PRESIDENT]: '대표',
+    [UserJob.C_LEVEL]: '이사',
+    [UserJob.GA_LEADER]: '총무 팀장',
+    [UserJob.GA_MANAGER]: '총무 팀원',
+    [UserJob.HR_LEADER]: '인사 팀장',
+    [UserJob.HR_MANAGER]: '인사 팀원',
+    [UserJob.ETC]: '기타',
 };
 
-export const utilJobLabel = (status?: JobType) => {
-    return status ? JOB_LABEL[status] : '';
+export const t_userJob = (status?: UserJob) => {
+    if (!status) return '';
+    return USER_JOB_LABELS[status] || '';
 };
 
 // 회원가입
@@ -197,7 +197,7 @@ export class CreateUserRequestDto {
     passWord?: string;
     passwordConfirmation?: string;
     phone: string;
-    job: JobType;
+    job: UserJob;
     profileImageUrl?: string;
 
     /* 약관 동의 모달 */
@@ -234,7 +234,7 @@ export interface CreateUserResponseDto {
     profileImgUrl: string;
     lastSignedOrgId: number;
     email: string;
-    job: JobType;
+    job: UserJob;
     isAdmin: boolean;
     locale: Record<string, unknown>;
     serviceUsageTermAgreedAt: string; // 서비스 이용약관 동의 여부

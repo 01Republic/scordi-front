@@ -3,7 +3,7 @@ import {ChevronDown, Dot} from 'lucide-react';
 import {TriangleAlert} from 'lucide-react';
 import {BriefcaseBusiness} from 'lucide-react';
 import {useFormContext} from 'react-hook-form';
-import {CreateUserRequestDto, JOB_LABEL, JobType, utilJobLabel} from '^models/User/types';
+import {CreateUserRequestDto, t_userJob, UserJob} from '^models/User/types';
 import cn from 'classnames';
 
 export const JobSection = () => {
@@ -13,6 +13,7 @@ export const JobSection = () => {
         register,
         watch,
         setValue,
+        getValues,
         formState: {errors},
     } = useFormContext<CreateUserRequestDto>();
 
@@ -25,31 +26,24 @@ export const JobSection = () => {
         required: '하는 일을 선택해주세요.',
     });
 
-    const selectedJob = watch('job') as JobType;
-    const jobOptions = Object.entries(JOB_LABEL) as [JobType, string][];
+    const selectedJob = watch('job') as UserJob;
+    const jobOptions = Object.values(UserJob);
 
-    const handleSelect = (job: JobType) => {
-        console.log(job);
+    const handleSelect = (job: UserJob) => {
         setValue('job', job);
         setIsActive(false);
     };
+
+    const value = t_userJob(selectedJob) ? t_userJob(selectedJob) : t_userJob(getValues('job'));
 
     return (
         <>
             <label htmlFor="하는 일" className="block relative">
                 <div className="relative">
                     <input
-                        type="hidden"
-                        onChange={(e) => {
-                            registerOnChange(e);
-                            setValue('job', selectedJob);
-                        }}
-                        {...{ref, ...restRegister}}
-                    />
-                    <input
                         type="text"
                         readOnly
-                        value={selectedJob ? utilJobLabel(selectedJob) : ''}
+                        value={value}
                         onClick={() => {
                             setIsActive(!isActive);
                         }}
@@ -59,6 +53,10 @@ export const JobSection = () => {
                                 setIsActive(false);
                             }
                         }}
+                        onChange={(e) => {
+                            registerOnChange(e);
+                        }}
+                        {...{ref, ...restRegister}}
                         className="w-full bg-white h-12 cursor-pointer border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -89,13 +87,15 @@ export const JobSection = () => {
 
                 {isActive && (
                     <ul className="absolute z-10 bg-white border border-neutral-300 w-full mt-1 rounded-lg max-h-60 overflow-auto">
-                        {jobOptions.map(([jobKey, jobLabel]) => (
+                        {jobOptions.map((job) => (
                             <li
-                                key={jobKey}
+                                key={job}
                                 className="px-4 py-3 hover:bg-neutral-100 active:bg-primaryColor-900 active:text-white cursor-pointer text-14"
-                                onMouseDown={() => handleSelect(jobKey)}
+                                onMouseDown={() => {
+                                    handleSelect(job);
+                                }}
                             >
-                                {jobLabel}
+                                {t_userJob(job)}
                             </li>
                         ))}
                     </ul>
