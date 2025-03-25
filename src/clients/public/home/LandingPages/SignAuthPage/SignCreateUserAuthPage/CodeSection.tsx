@@ -1,7 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {TriangleAlert} from 'lucide-react';
-import {KeyRound} from 'lucide-react';
 import cn from 'classnames';
 import {PhoneAuthConfirmDto} from '^models/User/types';
 import {Timer} from '^components/pages/UserSignUp/AuthenticationCode';
@@ -44,6 +43,7 @@ export const CodeSection = memo((props: CodeSectionProps) => {
     const {mutate} = useCodeConfirm();
 
     const onCodeConfirm = () => {
+        if (disabled) return;
         mutate(
             {phoneNumber, code},
             {
@@ -128,7 +128,12 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                 <button
                     type="button"
                     onClick={onCodeConfirm}
-                    className={cn('col-span-1 ', disabled ? 'btn-disabled' : 'btn bg-primaryColor-900 text-white')}
+                    className={cn(
+                        'col-span-1 btn',
+                        disabled
+                            ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                            : 'bg-primaryColor-900 text-white',
+                    )}
                 >
                     <p className="whitespace-nowrap">인증 확인</p>
                 </button>

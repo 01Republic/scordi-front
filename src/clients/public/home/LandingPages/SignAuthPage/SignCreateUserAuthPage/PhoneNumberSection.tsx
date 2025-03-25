@@ -115,7 +115,12 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                     <button
                         type="button"
                         onClick={onCodeSend}
-                        className={cn('col-span-1 ', disabled ? 'btn-disabled' : 'btn bg-primaryColor-900 text-white')}
+                        className={cn(
+                            'col-span-1 btn',
+                            disabled
+                                ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                : 'bg-primaryColor-900 text-white',
+                        )}
                     >
                         <p className="whitespace-nowrap">
                             {isCodeSent && !isCodeConfirmed ? '인증 재요청' : '인증 요청'}
