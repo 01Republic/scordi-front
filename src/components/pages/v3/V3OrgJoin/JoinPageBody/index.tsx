@@ -129,6 +129,7 @@ const InvitedGoogleLoginButton = memo(() => {
                                 const lines = [`선택하신 계정(${tokenData.email})은 초대받은 계정이 아닙니다.`];
                                 throw new Error(lines.join('\n'));
                             }
+                            localStorage.setItem('googleTokenData', JSON.stringify(tokenData));
                             return onSuccess(tokenData.accessToken);
                         })
                         .catch(errorToast);
