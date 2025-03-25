@@ -70,12 +70,6 @@ export const OrganizationNameSection = (props: OrganizationNameSectionProps) => 
                     <p className="font-normal text-12">{errors.name?.message}</p>
                 </section>
             )}
-
-            {setStep && (
-                <section className="w-full mt-10">
-                    <StepButton text="계속" disabled={isValid} onClick={() => setStep(2)} />
-                </section>
-            )}
         </>
     );
 };

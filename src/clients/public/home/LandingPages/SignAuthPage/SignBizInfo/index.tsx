@@ -41,19 +41,12 @@ export const OrganizationBizInfoPage = () => {
                     }}
                 >
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
-                        <span className="text-28 font-bold text-neutral-900">딱 필요한 정보만 받을게요</span>
-                        {step === 1 && (
-                            <section className="w-full flex flex-col gap-3">
-                                <OrganizationNameSection setStep={setStep} />
-                            </section>
-                        )}
-                        {step === 2 && (
-                            <section className="w-full flex flex-col gap-3">
-                                <OrganizationNameSection isDisabled={true} />
-                                <BusinessRegistrationNumberSection />
-                                <OrganizationSizeSection setStep={setStep} onNext={onNext} />
-                            </section>
-                        )}
+                        <span className="text-28 font-bold text-neutral-900">회사 정보를 입력해주세요</span>
+                        <section className="w-full flex flex-col gap-3">
+                            <OrganizationNameSection />
+                            <BusinessRegistrationNumberSection />
+                            <OrganizationSizeSection setStep={setStep} onNext={onNext} />
+                        </section>
                     </div>
                 </form>
             </FormProvider>
