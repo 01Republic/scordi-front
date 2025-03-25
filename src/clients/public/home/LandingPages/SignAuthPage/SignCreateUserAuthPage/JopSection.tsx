@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ChevronDown} from 'lucide-react';
+import {ChevronDown, Dot} from 'lucide-react';
 import {TriangleAlert} from 'lucide-react';
 import {BriefcaseBusiness} from 'lucide-react';
 import {useFormContext} from 'react-hook-form';
@@ -70,7 +70,12 @@ export const JobSection = () => {
                             isActive || selectedJob ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                         )}
                     >
-                        <span>하는 일</span>
+                        <span className="w-full flex items-center justify-center">
+                            하는 일
+                            <Dot
+                                className={cn('text-[#f57453] text-lg', isActive || selectedJob ? 'hidden' : 'flex')}
+                            />
+                        </span>
                     </div>
                 </div>
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {TriangleAlert} from 'lucide-react';
+import {Dot, TriangleAlert} from 'lucide-react';
 import {Check} from 'lucide-react';
 import {Phone} from 'lucide-react';
 import cn from 'classnames';
@@ -101,7 +101,12 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                                     isActive || phone ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                                 )}
                             >
-                                <span>전화번호</span>
+                                <span className="w-full flex items-center justify-center">
+                                    전화번호
+                                    <Dot
+                                        className={cn('text-[#f57453] text-lg', isActive || phone ? 'hidden' : 'flex')}
+                                    />
+                                </span>
                             </div>
                         </div>
                         {isCodeConfirmed && (

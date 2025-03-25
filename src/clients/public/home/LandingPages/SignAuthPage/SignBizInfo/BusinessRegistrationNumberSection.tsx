@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {Building, TriangleAlert} from 'lucide-react';
+import {Building, TriangleAlert, Dot} from 'lucide-react';
 import cn from 'classnames';
 import {CreateOrganizationRequestDto} from '^models/User/types';
 
@@ -65,7 +65,10 @@ export const BusinessRegistrationNumberSection = () => {
                             isActive || value ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                         )}
                     >
-                        <span>사업자등록번호</span>
+                        <span className="w-full flex items-center justify-center">
+                            사업자등록번호
+                            <Dot className={cn('text-[#f57453] text-lg', isActive || value ? 'hidden' : 'flex')} />
+                        </span>
                     </div>
                 </div>
             </label>

@@ -1,6 +1,7 @@
 import React, {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {TriangleAlert} from 'lucide-react';
+import {KeyRound, Dot} from 'lucide-react';
 import cn from 'classnames';
 import {PhoneAuthConfirmDto} from '^models/User/types';
 import {Timer} from '^components/pages/UserSignUp/AuthenticationCode';
@@ -99,8 +100,14 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                                     isActive || code ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                                 )}
                             >
-                                <span>인증번호</span>
+                                <span className="w-full flex items-center justify-center">
+                                    인증번호
+                                    <Dot
+                                        className={cn('text-[#f57453] text-lg', isActive || code ? 'hidden' : 'flex')}
+                                    />
+                                </span>
                             </div>
+
                             <div className="absolute inset-y-0 flex items-center right-4 text-sm text-neutral-900">
                                 <Timer
                                     sec={3 * 60}

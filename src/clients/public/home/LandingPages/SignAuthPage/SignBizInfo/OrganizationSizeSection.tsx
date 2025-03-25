@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {ChevronDown} from 'lucide-react';
+import {ChevronDown, Dot} from 'lucide-react';
 import {TriangleAlert} from 'lucide-react';
 import {BriefcaseBusiness} from 'lucide-react';
 import cn from 'classnames';
@@ -71,7 +71,15 @@ export const OrganizationSizeSection = (props: OrganizationSizeProps) => {
                             isActive || organizationSize ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                         )}
                     >
-                        <span>조직 규모</span>
+                        <span className="w-full flex items-center justify-center">
+                            조직 규모
+                            <Dot
+                                className={cn(
+                                    'text-[#f57453] text-lg',
+                                    isActive || organizationSize ? 'hidden' : 'flex',
+                                )}
+                            />
+                        </span>
                     </div>
                 </div>
 

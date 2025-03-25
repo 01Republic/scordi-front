@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {Building, TriangleAlert} from 'lucide-react';
+import {Building, Dot, TriangleAlert} from 'lucide-react';
 import cn from 'classnames';
 import {CreateOrganizationRequestDto} from '^models/User/types';
 import {StepButton} from '^clients/public/home/LandingPages/SignAuthPage/StepButton';
@@ -57,7 +57,10 @@ export const OrganizationNameSection = (props: OrganizationNameSectionProps) => 
                             isActive || value ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
                         )}
                     >
-                        <span>워크스페이스명</span>
+                        <span className="w-full flex items-center justify-center">
+                            워크스페이스명
+                            <Dot className={cn('text-[#f57453] text-lg', isActive || value ? 'hidden' : 'flex')} />
+                        </span>
                     </div>
                 </div>
             </label>
