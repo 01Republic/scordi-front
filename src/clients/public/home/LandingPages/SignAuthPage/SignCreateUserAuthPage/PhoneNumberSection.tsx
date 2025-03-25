@@ -124,6 +124,8 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                             'col-span-1 btn',
                             disabled
                                 ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                : isCodeSent && !isCodeConfirmed
+                                ? 'btn-white'
                                 : 'bg-primaryColor-900 text-white',
                         )}
                     >
