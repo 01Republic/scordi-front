@@ -83,7 +83,7 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                                 }}
                                 {...restRegister}
                                 className={cn(
-                                    'w-full bg-white h-12 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                                    'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                                     {
                                         'bg-gray-100': isCodeConfirmed,
                                         'bg-white': !isCodeConfirmed,
