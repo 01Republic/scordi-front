@@ -27,7 +27,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 <StatusCard
                     title={'구독상태'}
                     titleValue={subscription?.isFreeTier ? '무료' : '유료'}
-                    icon={<Folder size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<Folder className="size-6 text-white" />}
                     iconColor={'bg-purple-400'}
                 />
                 <StatusCard
@@ -35,19 +35,19 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                     titleValue={`${subscription?.currentBillingAmount?.symbol} ${roundNumber(
                         subscription.nextBillingAmount,
                     ).toLocaleString()}`}
-                    icon={<Banknote size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<Banknote className="size-6 text-white" />}
                     iconColor={'bg-orange-400'}
                 />
                 <StatusCard
                     title={'다음 결제 예정일'}
                     titleValue={subscription?.nextBillingDate || '-'}
-                    icon={<Calendar size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<Calendar className="size-6 text-white" />}
                     iconColor={'bg-pink-400'}
                 />
                 <StatusCard
                     title={'결제수단'}
                     titleValue={paymentMethodText}
-                    icon={<CreditCard size={20} className="h-full w-full p-[6px] text-white" />}
+                    icon={<CreditCard className="size-6 text-white" />}
                     iconColor={'bg-blue-400'}
                 />
             </div>

@@ -16,7 +16,7 @@ import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 import {MembershipDto, MembershipLevel} from '^models/Membership/types';
-import {BarChart4, CreditCard, LayoutDashboard, Receipt, User, Users} from 'lucide-react';
+import {BarChart4, CreditCard, LayoutDashboard, Mail, User, Users} from 'lucide-react';
 
 interface TopNavBarProps {
     //
@@ -42,7 +42,7 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
         name: '자산',
         items: [
             {name: '결제수단', Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
-            {name: '청구서 메일', Icon: Receipt, routeProps: OrgInvoiceAccountListPageRoute},
+            {name: '청구서 메일', Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
     {
