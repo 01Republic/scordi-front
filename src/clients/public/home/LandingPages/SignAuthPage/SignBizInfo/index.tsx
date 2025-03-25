@@ -41,7 +41,7 @@ export const OrganizationBizInfoPage = () => {
                     }}
                 >
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
-                        <span className="text-28 font-600 text-neutral-900">딱 필요한 정보만 받을게요</span>
+                        <span className="text-28 font-bold text-neutral-900">딱 필요한 정보만 받을게요</span>
                         {step === 1 && (
                             <section className="w-full flex flex-col gap-3">
                                 <OrganizationNameSection setStep={setStep} />
