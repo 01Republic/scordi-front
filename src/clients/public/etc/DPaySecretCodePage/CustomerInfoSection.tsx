@@ -10,13 +10,13 @@ import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 interface CustomerInfoSection extends WithChildren {
     nextStep: () => void;
     form: UseFormReturn<DPayRequestFormDto>;
-    plan: ScordiPlanDto;
+    plan?: ScordiPlanDto;
 }
 
 export const UserInfoSection = memo((props: CustomerInfoSection) => {
     const {nextStep, form, plan, children} = props;
     const {errors} = form.formState;
-    const planData = plan.getDPayPlanData();
+    const planData = plan?.getDPayPlanData();
     const etcRequired = !!planData?.etcRequired;
 
     const checkValid = () => {
