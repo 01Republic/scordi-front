@@ -54,6 +54,7 @@ export const SignDetailAuthPage = () => {
                             onClick={onSubmit}
                             className={cn(
                                 'w-full flex items-center justify-center rounded-lg btn',
+                                !funnel ? 'btn-white' : ' btn-scordi ',
                                 isPending && 'link_to-loading',
                             )}
                         >
