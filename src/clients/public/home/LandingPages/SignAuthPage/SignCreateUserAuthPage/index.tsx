@@ -73,19 +73,35 @@ export const SignCreateUserAuthPage = () => {
         }
     }, [reset, tokenData?.name, tokenData?.email]);
 
-    const [name, email, phone, job] = watch(['name', 'email', 'phone', 'job']);
-    const isTermModalValid = !!name && !!email && !!phone && !!job && isCodeConfirmed;
+    const isTermModalValid = isValid && isCodeConfirmed;
 
     const onSubmit = () => {
         methods.handleSubmit((data: CreateUserRequestDto & {code?: string}) => {
             const {code, ...userData} = data;
+
             if ((!isValid && !isCodeConfirmed) || !accessToken) return;
 
+            /* 로그인
+             * 유저 생성 후 로그인.
+             * 로그인 이후 상세정보, 조직 생성이 가능
+             * */
+            const login = (redirectPath: string) => {
+                loginMutate(accessToken, {
+                    onSuccess: () => {
+                        router.replace(redirectPath);
+                    },
+                });
+            };
+
+            /* 초대받은 아이디가 있다면,
+             * 초대 회원가입 API로 유저생성 후
+             * 상세정보 추가 페이지로 이동
+             * */
             if (invitedOrgId) {
                 inviteMutate(
                     {
                         data: {
-                            phone,
+                            phone: data.phone,
                             isAgreeForServiceUsageTerm: data.isAgreeForServiceUsageTerm,
                             isAgreeForPrivacyPolicyTerm: data.isAgreeForPrivacyPolicyTerm,
                             isAgreeForMarketingTerm: data.isAgreeForMarketingTerm,
@@ -95,27 +111,18 @@ export const SignCreateUserAuthPage = () => {
                         accessToken,
                     },
                     {
-                        onSuccess: () => {
-                            if (!accessToken) return;
-                            loginMutate(accessToken, {
-                                onSuccess: () => {
-                                    router.replace(SignUserDetailRoute.path());
-                                },
-                            });
-                        },
+                        onSuccess: () => login(SignUserDetailRoute.path()),
                     },
                 );
+                /* 초대받은 아이디가 없다면,
+                 * 신규 회원가입 API로 유저생성 후
+                 * 조직 생성 페이지로 이동
+                 * */
             } else {
                 mutate(
                     {data: userData, accessToken},
                     {
-                        onSuccess: () => {
-                            loginMutate(accessToken, {
-                                onSuccess: () => {
-                                    router.replace(SignUserDetailRoute.path());
-                                },
-                            });
-                        },
+                        onSuccess: () => login(SignBizInfoPageRoute.path()),
                     },
                 );
             }
