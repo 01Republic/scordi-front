@@ -5,23 +5,16 @@ import {TriangleAlert} from 'lucide-react';
 import {LaptopMinimal} from 'lucide-react';
 import cn from 'classnames';
 import {CreateOrganizationRequestDto} from '^models/User/types';
-import {StepButton} from '../StepButton';
 import organizationSizeData from './organizationSize.json';
 
-interface OrganizationSizeProps {
-    setStep: (val: number) => void;
-    onNext: () => void;
-}
-
-export const OrganizationSizeSection = (props: OrganizationSizeProps) => {
-    const {setStep, onNext} = props;
+export const OrganizationSizeSection = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
 
     const {
         register,
         watch,
         setValue,
-        formState: {errors, isValid},
+        formState: {errors},
     } = useFormContext<CreateOrganizationRequestDto>();
 
     const {
@@ -111,9 +104,6 @@ export const OrganizationSizeSection = (props: OrganizationSizeProps) => {
                     <p className="font-normal text-12">{errors.bizInfo?.employeeScale?.message}</p>
                 </section>
             )}
-            <section className="w-full mt-10">
-                <StepButton text="계속" disabled={isValid} onClick={onNext} />
-            </section>
         </>
     );
 };

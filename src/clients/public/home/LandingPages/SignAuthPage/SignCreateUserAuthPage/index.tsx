@@ -21,9 +21,9 @@ import {JobSection} from './JopSection';
 import {AgreeTermModal} from './AgreeTermModal';
 
 export const SignCreateUserAuthPage = () => {
-    const {mutate} = useCreateUserAuth();
-    const {mutate: inviteMutate} = useInvitedCreateUserAuth();
-    const {mutate: loginMutate} = useLogin();
+    const {mutate, isPending} = useCreateUserAuth();
+    const {mutate: inviteMutate, isPending: isInvitePending} = useInvitedCreateUserAuth();
+    const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const [isOpenTermModal, setIsOpenTermModal] = useState(false);
     const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
@@ -44,7 +44,6 @@ export const SignCreateUserAuthPage = () => {
 
     const {
         reset,
-        watch,
         formState: {isValid},
     } = methods;
 
@@ -148,7 +147,12 @@ export const SignCreateUserAuthPage = () => {
                             />
                             <JobSection />
                         </section>
-                        <StepButton text="계속" disabled={isTermModalValid} onClick={() => setIsOpenTermModal(true)} />
+                        <StepButton
+                            text="계속"
+                            disabled={isTermModalValid}
+                            onClick={() => setIsOpenTermModal(true)}
+                            isPending={isPending || isLoginPending || isInvitePending}
+                        />
                     </div>
                     <AgreeTermModal
                         isOpenTermModal={isOpenTermModal}

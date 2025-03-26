@@ -3,25 +3,24 @@ import {FormProvider, useForm} from 'react-hook-form';
 import {useQueryClient} from '@tanstack/react-query';
 import {CreateUserDetailRequestDto, CreateUserResponseDto} from '^models/User/types';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
-import {StepButton} from '../StepButton';
 import {useCreateUserDetailAuth} from '../SignAuthPage.atom';
 import {FunnelSection} from './FunnelSection';
 import {useCurrentUser} from '^models/User/hook';
 import {SuccessSign} from '^clients/public/home/LandingPages/SignAuthPage/SignDetail/SuccessSign';
+import cn from 'classnames';
 
 export const SignDetailAuthPage = () => {
     const [isSignSuccess, setSignSuccess] = useState(false);
     const queryClient = useQueryClient();
     const {currentUser} = useCurrentUser();
-    const {mutate} = useCreateUserDetailAuth();
+    const {mutate, isPending} = useCreateUserDetailAuth();
     const user = currentUser ? currentUser : queryClient.getQueryData<CreateUserResponseDto>(['createUserAuth']);
     const methods = useForm<CreateUserDetailRequestDto>({
         mode: 'all',
     });
 
     const {watch} = methods;
-
-    const buttonText = watch('funnel') ? '완료' : '건너뛰기';
+    const funnel = watch('funnel');
 
     const onSubmit = () => {
         methods.handleSubmit((data: CreateUserDetailRequestDto) => {
@@ -50,7 +49,16 @@ export const SignDetailAuthPage = () => {
                         <section className="w-full flex flex-col gap-3">
                             <FunnelSection />
                         </section>
-                        <StepButton text={buttonText} disabled={true} onClick={onSubmit} buttonWhite />
+                        <button
+                            type="button"
+                            onClick={onSubmit}
+                            className={cn(
+                                'w-full flex items-center justify-center rounded-lg btn',
+                                isPending && 'link_to-loading',
+                            )}
+                        >
+                            <p className="font-semibold text-16 py-3">{!funnel ? '건너뛰기' : '완료'}</p>
+                        </button>
                     </div>
                 </form>
             </FormProvider>

@@ -1,4 +1,3 @@
-import React from 'react';
 import cn from 'classnames';
 
 interface StepButtonProps {
@@ -6,10 +5,12 @@ interface StepButtonProps {
     onClick?: () => void;
     disabled: boolean;
     buttonWhite?: boolean;
+    isPending: boolean;
 }
 
 export const StepButton = (props: StepButtonProps) => {
-    const {text, onClick, disabled, buttonWhite = false} = props;
+    const {text, onClick, disabled} = props;
+    const {isPending, buttonWhite = false} = props;
 
     return (
         <button
@@ -17,7 +18,9 @@ export const StepButton = (props: StepButtonProps) => {
             onClick={!disabled ? undefined : onClick}
             className={cn(
                 'w-full flex items-center justify-center rounded-lg btn',
-                !disabled
+                isPending
+                    ? 'link_to-loading'
+                    : !disabled
                     ? 'bg-neutral-100 text-neutral-300 pointer-events-none'
                     : buttonWhite
                     ? 'btn-white'

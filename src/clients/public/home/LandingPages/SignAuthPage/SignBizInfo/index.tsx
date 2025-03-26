@@ -8,10 +8,10 @@ import {BusinessRegistrationNumberSection} from './BusinessRegistrationNumberSec
 import {OrganizationSizeSection} from './OrganizationSizeSection';
 import {OrganizationNameSection} from './OrganizationNameSection';
 import {useCreateOrganizationAuth} from '^clients/public/home/LandingPages/SignAuthPage/SignAuthPage.atom';
+import {StepButton} from '^clients/public/home/LandingPages/SignAuthPage/StepButton';
 
 export const OrganizationBizInfoPage = () => {
-    const {mutate} = useCreateOrganizationAuth();
-    const [step, setStep] = useState(1);
+    const {mutate, isPending} = useCreateOrganizationAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -21,6 +21,10 @@ export const OrganizationBizInfoPage = () => {
     const methods = useForm<CreateOrganizationRequestDto>({
         mode: 'all',
     });
+
+    const {
+        formState: {isValid},
+    } = methods;
 
     const onNext = () => {
         methods.handleSubmit((data: CreateOrganizationRequestDto) => {
@@ -45,8 +49,9 @@ export const OrganizationBizInfoPage = () => {
                         <section className="w-full flex flex-col gap-3">
                             <OrganizationNameSection />
                             <BusinessRegistrationNumberSection />
-                            <OrganizationSizeSection setStep={setStep} onNext={onNext} />
+                            <OrganizationSizeSection />
                         </section>
+                        <StepButton text="계속" disabled={isValid} onClick={onNext} isPending={isPending} />
                     </div>
                 </form>
             </FormProvider>
