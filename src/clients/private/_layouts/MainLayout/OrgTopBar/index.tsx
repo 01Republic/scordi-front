@@ -68,7 +68,7 @@ export const OrgTopBar = memo(() => {
                 </div>
 
                 <div className="text-gray-400 transition-all hover:text-scordi-500 cursor-pointer">
-                    <Bell size={20} className="" />
+                    <Bell className="size-5" />
                 </div>
 
                 <div>

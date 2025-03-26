@@ -20,7 +20,7 @@ export const FunnelSection = () => {
                     <input
                         placeholder="유입 경로를 알려주세요."
                         {...register('funnelEtc')}
-                        className="'w-full h-12 border text-sm text-neutral-900 rounded-lg px-5 focus:outline focus:outline-1'"
+                        className="'w-full h-14 border text-sm text-neutral-900 rounded-lg px-5 focus:outline focus:outline-1'"
                     />
                 )}
             </section>

@@ -5,19 +5,23 @@ interface StepButtonProps {
     text: string;
     onClick?: () => void;
     disabled: boolean;
+    buttonWhite?: boolean;
 }
 
 export const StepButton = (props: StepButtonProps) => {
-    const {text, onClick, disabled} = props;
+    const {text, onClick, disabled, buttonWhite = false} = props;
 
     return (
         <button
             type="button"
-            disabled={!disabled}
-            onClick={onClick}
+            onClick={!disabled ? undefined : onClick}
             className={cn(
-                'w-full flex items-center justify-center rounded-lg ',
-                !disabled ? 'btn-disabled' : 'btn-scordi',
+                'w-full flex items-center justify-center rounded-lg btn',
+                !disabled
+                    ? 'bg-neutral-100 text-neutral-300 pointer-events-none'
+                    : buttonWhite
+                    ? 'btn-white'
+                    : ' btn-scordi ',
             )}
         >
             <p className="font-semibold text-16 py-3">{text}</p>

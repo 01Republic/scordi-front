@@ -148,7 +148,7 @@ export const AgreeTermModal = (props: AgreeTermModalProps) => {
                             className={cn('btn btn-block', !isTermModalValid ? 'btn-disabled' : 'btn-scordi')}
                             onClick={confirmBtnClick}
                         >
-                            완료
+                            동의
                         </button>
                     </div>
                 </div>

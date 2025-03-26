@@ -13,7 +13,7 @@ interface NewLandingPageLayoutProps extends WithChildren {
 }
 
 export const NewLandingPageLayout = memo((props: NewLandingPageLayoutProps) => {
-    const {pageName, navBgBlur = false, hideNav = false, hideFooter = false, className = '', children} = props;
+    const {pageName, navBgBlur = false, hideNav = false, hideFooter = true, className = '', children} = props;
 
     return (
         <AOSProvider>

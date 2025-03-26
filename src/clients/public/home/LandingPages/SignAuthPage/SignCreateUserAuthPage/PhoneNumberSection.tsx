@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {TriangleAlert} from 'lucide-react';
+import {Dot, TriangleAlert} from 'lucide-react';
 import {Check} from 'lucide-react';
 import {Phone} from 'lucide-react';
 import cn from 'classnames';
@@ -19,6 +19,7 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isCodeSent, setIsCodeSent] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('string');
+    const validPhoneRegex = /^(010)(-?\d{4})(-?\d{4})$/;
 
     const {
         register,
@@ -32,14 +33,18 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
         ...restRegister
     } = register('phone', {
         required: '전화번호를 입력해주세요.',
-        maxLength: {
-            value: 11,
-            message: '전화번호는 최대 11자리입니다.',
+        pattern: {
+            value: validPhoneRegex,
+            message: '전화번호 형식이 올바르지 않습니다. (예: 010-0000-0000)',
+        },
+        validate: (value) => {
+            const digits = value.replace(/-/g, '');
+            return digits.length === 11 || '전화번호는 숫자 11자리여야 합니다.';
         },
     });
 
     const phone = watch('phone');
-    const disabled = phone?.length < 11 || !phone;
+    const disabled = !phone || !validPhoneRegex.test(phone);
 
     const {mutate} = useCodeSend();
 
@@ -64,7 +69,7 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                     <label htmlFor="전화번호" className="block relative">
                         <div className="relative">
                             <input
-                                type="number"
+                                type="text"
                                 readOnly={isCodeConfirmed}
                                 disabled={isCodeConfirmed}
                                 onClick={() => setIsActive(true)}
@@ -75,15 +80,12 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                                     }
                                 }}
                                 onChange={(e) => {
+                                    e.target.value = e.target.value.replace(/[^0-9-]/g, '');
                                     registerOnChange(e);
-                                    const value = e.target.value;
-                                    if (Number(value) > 11) {
-                                        e.target.value = e.target.value.slice(0, 11);
-                                    }
                                 }}
                                 {...restRegister}
                                 className={cn(
-                                    'w-full bg-white h-12 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                                    'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                                     {
                                         'bg-gray-100': isCodeConfirmed,
                                         'bg-white': !isCodeConfirmed,
@@ -98,15 +100,20 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                             <div
                                 className={cn(
                                     'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                                    isActive || phone ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md',
+                                    isActive || phone ? 'flex-col top-2 text-xs' : 'items-center inset-y-0 text-14',
                                 )}
                             >
-                                <span>전화번호</span>
+                                <span className="w-full flex items-center justify-center">
+                                    전화번호
+                                    <Dot
+                                        className={cn('text-[#f57453] text-lg', isActive || phone ? 'hidden' : 'flex')}
+                                    />
+                                </span>
                             </div>
                         </div>
                         {isCodeConfirmed && (
                             <div className="absolute inset-y-0 flex items-center right-4">
-                                <Check className=" text-emerald-400 text-20" />
+                                <Check className=" text-emerald-400 text-18" />
                             </div>
                         )}
                     </label>
@@ -115,7 +122,14 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                     <button
                         type="button"
                         onClick={onCodeSend}
-                        className={cn('col-span-1 ', disabled ? 'btn-disabled' : 'btn bg-primaryColor-900 text-white')}
+                        className={cn(
+                            'col-span-1 btn',
+                            disabled
+                                ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                : isCodeSent && !isCodeConfirmed
+                                ? 'btn-white'
+                                : 'bg-primaryColor-900 text-white',
+                        )}
                     >
                         <p className="whitespace-nowrap">
                             {isCodeSent && !isCodeConfirmed ? '인증 재요청' : '인증 요청'}

@@ -68,9 +68,7 @@ export const CreateMethodOption = (props: Props) => {
             className="flex items-center -mx-3 px-3 py-3 rounded-box cursor-pointer group hover:bg-scordi-50 transition-all"
             onClick={onClick}
         >
-            <div className="">
-                <Icon size={24} />
-            </div>
+            <Icon />
 
             <div className="flex-auto px-3">
                 <p className="text-14">{title}</p>

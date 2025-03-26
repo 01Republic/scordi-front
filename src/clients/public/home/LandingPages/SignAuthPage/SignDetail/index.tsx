@@ -46,11 +46,11 @@ export const SignDetailAuthPage = () => {
                     }}
                 >
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
-                        <span className="text-28 font-600 text-neutral-900">스코디를 어떻게 알게되셨나요?</span>
+                        <span className="text-28 font-bold text-neutral-900">스코디를 어떻게 알게 되셨나요?</span>
                         <section className="w-full flex flex-col gap-3">
                             <FunnelSection />
                         </section>
-                        <StepButton text={buttonText} disabled={true} onClick={onSubmit} />
+                        <StepButton text={buttonText} disabled={true} onClick={onSubmit} buttonWhite />
                     </div>
                 </form>
             </FormProvider>

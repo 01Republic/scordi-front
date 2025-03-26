@@ -17,7 +17,7 @@ export const FinishTargetSeatCounter = memo(() => {
         <StatusCard
             title="이번달 회수(예정) 계정"
             titleValue={count.toLocaleString()}
-            icon={<UserMinus size={20} className="h-full w-full p-[6px] text-white" />}
+            icon={<UserMinus className="size-6 text-white" />}
             iconColor="bg-pink-400"
         />
     );
