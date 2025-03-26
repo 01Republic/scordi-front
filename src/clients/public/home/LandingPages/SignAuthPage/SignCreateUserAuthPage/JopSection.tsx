@@ -13,16 +13,10 @@ export const JobSection = () => {
         register,
         watch,
         setValue,
-        getValues,
         formState: {errors},
     } = useFormContext<CreateUserRequestDto>();
 
-    const {
-        onBlur: registerOnBlur,
-        onChange: registerOnChange,
-        ref,
-        ...restRegister
-    } = register('job', {
+    const {onBlur: registerOnBlur} = register('job', {
         required: '하는 일을 선택해주세요.',
     });
 
@@ -30,42 +24,34 @@ export const JobSection = () => {
     const jobOptions = Object.values(UserJob);
 
     const handleSelect = (job: UserJob) => {
-        setValue('job', job);
+        setValue('job', job, {shouldValidate: true});
         setIsActive(false);
     };
-
-    const value = t_userJob(selectedJob) ? t_userJob(selectedJob) : t_userJob(getValues('job'));
 
     return (
         <>
             <label htmlFor="하는 일" className="block relative">
                 <div className="relative">
-                    <input
-                        type="text"
-                        readOnly
-                        value={value}
-                        onClick={() => {
-                            setIsActive(!isActive);
-                        }}
+                    <input type="text" readOnly hidden {...register('job', {required: '하는 일을 선택해주세요.'})} />
+                    <div
+                        onClick={() => setIsActive(!isActive)}
                         onBlur={(e) => {
                             registerOnBlur(e);
                             if (!selectedJob) {
                                 setIsActive(false);
                             }
                         }}
-                        onChange={(e) => {
-                            registerOnChange(e);
-                        }}
-                        {...{ref, ...restRegister}}
-                        className="w-full bg-white h-14 cursor-pointer border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
-                    />
+                        className="w-full bg-white pt-6 h-14 cursor-pointer border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 focus:outline focus:outline-1 focus:outline-primaryColor-900"
+                    >
+                        {t_userJob(selectedJob)}
+                    </div>
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <BriefcaseBusiness className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-18" />
                     </div>
                     <div
                         className={cn(
                             'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                            isActive || selectedJob ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-14',
+                            isActive || selectedJob ? 'flex-col top-2 text-xs' : 'items-center inset-y-0 text-14',
                         )}
                     >
                         <span className="w-full flex items-center justify-center">
