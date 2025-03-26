@@ -29,14 +29,22 @@ export const UsersLoginPage = memo(() => {
         <LandingPageLayout pageName="Login" hideNav hideFooter>
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
-                    {/*<form onSubmit={form.handleSubmit(submit)}>*/}
-                    <div className="flex flex-col items-center justify-center w-[400px] gap-10">
-                        {/*<img src="/logo-sign_in_page.png" alt="" />*/}
-                        <section className="flex items-center justify-center gap-3">
-                            <Image src={scordiLogo} alt="scordiLogo" width={40} height={40} priority />
-                            <Image src={scordiTextLogo} alt="scordiLogo" width={140} height={36} priority />
+                    <div className="flex flex-col items-center justify-center w-[400px] gap-5">
+                        <section className="flex items-center justify-center gap-1">
+                            <Image src={scordiLogo} alt="scordiLogo" width={20} height={20} priority />
+                            <Image src={scordiTextLogo} alt="scordiLogo" width={70} height={36} priority />
                         </section>
-
+                        <section className="flex flex-col items-center justify-center gap-1">
+                            <h1
+                                className="text-gradient-color"
+                                style={{background: 'linear-gradient(to right, #5c5fee, #a5a6f5)'}}
+                            >
+                                SaaS 관리는 스코디
+                            </h1>
+                            <p className="text-14 font-semibold text-gray-500">
+                                팀 생산성을 높이는 소프트웨어 구독 비용 관리
+                            </p>
+                        </section>
                         <GoogleLoginBtn
                             about="login"
                             className="btn-block justify-start relative"
