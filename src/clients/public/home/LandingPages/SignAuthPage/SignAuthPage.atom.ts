@@ -8,6 +8,8 @@ import {
     JwtContainer,
     PhoneAuthConfirmDto,
     SendPhoneAuthMessageDto,
+    UserDto,
+    UserGoogleSocialSignUpInvitedRequestDto,
 } from '^models/User/types';
 import {SignUserApi} from '^models/User/api/session';
 import {OrganizationDto} from '^models/Organization/type';
@@ -45,6 +47,21 @@ export const useCreateUserAuth = () => {
         onSuccess: (response) => {
             queryClient.setQueryData(['createUserAuth'], response);
             queryClient.invalidateQueries({queryKey: ['createUserAuth']});
+        },
+    });
+};
+
+/* 초대 회원가입 */
+export const useInvitedCreateUserAuth = () => {
+    const queryClient = useQueryClient();
+    return useMutation<UserDto, ErrorResponse, {data: UserGoogleSocialSignUpInvitedRequestDto; accessToken: string}>({
+        mutationFn: ({data, accessToken}) =>
+            SignUserApi.invitedCreateUser(data, accessToken) //
+                .then((response) => response.data),
+
+        onSuccess: (response) => {
+            queryClient.setQueryData(['invitedCreateUserAuth'], response);
+            queryClient.invalidateQueries({queryKey: ['invitedCreateUserAuth']});
         },
     });
 };

@@ -4,10 +4,14 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {FormProvider, useForm} from 'react-hook-form';
 import {googleTokenDataAtom} from '^atoms/common';
 import {CreateUserRequestDto} from '^models/User/types';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {SignBizInfoPageRoute} from '^pages/sign/bizInfo';
 import {SignUserDetailRoute} from '^pages/sign/detail';
-import {useCreateUserAuth, useLogin} from '^clients/public/home/LandingPages/SignAuthPage/SignAuthPage.atom';
+import {
+    useCreateUserAuth,
+    useInvitedCreateUserAuth,
+    useLogin,
+} from '^clients/public/home/LandingPages/SignAuthPage/SignAuthPage.atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
 import {StepButton} from '../StepButton';
 import {NameSection} from './NameSection';
@@ -18,10 +22,12 @@ import {AgreeTermModal} from './AgreeTermModal';
 
 export const SignCreateUserAuthPage = () => {
     const {mutate} = useCreateUserAuth();
+    const {mutate: inviteMutate} = useInvitedCreateUserAuth();
     const {mutate: loginMutate} = useLogin();
     const [isOpenTermModal, setIsOpenTermModal] = useState(false);
     const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
+    const isCopied = useRecoilValue(isCopiedAtom);
     const setTokenData = useSetRecoilState(googleTokenDataAtom);
     const tokenData = useRecoilValue(googleTokenDataAtom);
     const router = useRouter();
@@ -73,25 +79,46 @@ export const SignCreateUserAuthPage = () => {
     const onSubmit = () => {
         methods.handleSubmit((data: CreateUserRequestDto & {code?: string}) => {
             const {code, ...userData} = data;
-            if (!isValid && !isCodeConfirmed && !accessToken) return;
+            if ((!isValid && !isCodeConfirmed) || !accessToken) return;
 
-            mutate(
-                {data: userData, accessToken},
-                {
-                    onSuccess: () => {
-                        if (!accessToken) return;
-                        loginMutate(accessToken, {
-                            onSuccess: () => {
-                                if (!invitedOrgId) {
-                                    router.replace(SignBizInfoPageRoute.path());
-                                } else {
-                                    router.replace(SignUserDetailRoute.path());
-                                }
-                            },
-                        });
+            if (invitedOrgId) {
+                inviteMutate(
+                    {
+                        data: {
+                            phone,
+                            isAgreeForServiceUsageTerm: data.isAgreeForServiceUsageTerm,
+                            isAgreeForPrivacyPolicyTerm: data.isAgreeForPrivacyPolicyTerm,
+                            isAgreeForMarketingTerm: data.isAgreeForMarketingTerm,
+                            organizationId: invitedOrgId,
+                            isFromCopiedLink: isCopied,
+                        },
+                        accessToken,
                     },
-                },
-            );
+                    {
+                        onSuccess: () => {
+                            if (!accessToken) return;
+                            loginMutate(accessToken, {
+                                onSuccess: () => {
+                                    router.replace(SignUserDetailRoute.path());
+                                },
+                            });
+                        },
+                    },
+                );
+            } else {
+                mutate(
+                    {data: userData, accessToken},
+                    {
+                        onSuccess: () => {
+                            loginMutate(accessToken, {
+                                onSuccess: () => {
+                                    router.replace(SignUserDetailRoute.path());
+                                },
+                            });
+                        },
+                    },
+                );
+            }
         })();
     };
 

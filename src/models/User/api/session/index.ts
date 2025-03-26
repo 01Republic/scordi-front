@@ -5,6 +5,7 @@ import {
     CreateUserRequestDto,
     CreateUserResponseDto,
     SendPhoneAuthMessageDto,
+    UserGoogleSocialSignUpInvitedRequestDto,
     UserSocialSignUpInvitedRequestDto,
     UsersWebpushRegisterDto,
     UsersWebpushTestDto,
@@ -99,6 +100,14 @@ export const SignUserApi = {
         const url = '/users/v2';
         const headers = accessToken ? {'X-GOOGLE-TOKEN': accessToken} : {};
         return api.post<CreateUserResponseDto>(url, data, {headers});
+    },
+
+    /* 초대 유저 회원가입 */
+    invitedCreateUser: (data: UserGoogleSocialSignUpInvitedRequestDto, accessToken: string) => {
+        const url = `/users/social/google/invited`;
+        return api.post<UserDto>(url, data, {
+            headers: {'X-GOOGLE-TOKEN': accessToken},
+        });
     },
 
     /* 핸드폰 인증번호 요청 */
