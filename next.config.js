@@ -70,7 +70,7 @@ const nextConfig = {
     },
 };
 
-if (process.env.NEXT_PUBLIC_APP_ENV === 'production') {
+if (process.env.NEXT_PUBLIC_APP_ENV === 'production' || process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
     // Injected content via Sentry wizard below
     module.exports = withSentryConfig(
         nextConfig,
