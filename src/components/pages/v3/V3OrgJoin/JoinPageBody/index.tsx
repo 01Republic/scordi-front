@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import Image from 'next/image';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
@@ -13,13 +12,10 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
-import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {errorToast} from '^api/api';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {ArrowRight} from 'lucide-react';
 import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
-import scordiLogo from '^public/images/renewallogo/scordi-symbol-logo.png';
-import scordiTextLogo from '^public/images/renewallogo/scordi-text-loco.png';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
 
 export const JoinPageBody = memo(() => {
@@ -27,10 +23,6 @@ export const JoinPageBody = memo(() => {
         <NewLandingPageLayout pageName="joinpage" hideNav>
             <div className="flex items-center justify-center" style={{height: '100vh'}}>
                 <div className="flex flex-col items-center justify-center w-[400px] gap-5">
-                    <section className="flex items-center justify-center gap-1">
-                        <Image src={scordiLogo} alt="scordiLogo" width={20} height={20} priority />
-                        <Image src={scordiTextLogo} alt="scordiLogo" width={70} height={36} priority />
-                    </section>
                     <section className="flex flex-col items-center justify-center gap-1">
                         <h1
                             className="text-gradient-color"

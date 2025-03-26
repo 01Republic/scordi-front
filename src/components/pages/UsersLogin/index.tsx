@@ -1,8 +1,5 @@
 import React, {memo, useState} from 'react';
-import Image from 'next/image';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import scordiLogo from '../../../../public/images/renewallogo/scordi-symbol-logo.png';
-import scordiTextLogo from '../../../../public/images/renewallogo/scordi-text-loco.png';
 import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
@@ -30,10 +27,6 @@ export const UsersLoginPage = memo(() => {
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                     <div className="flex flex-col items-center justify-center w-[400px] gap-5">
-                        <section className="flex items-center justify-center gap-1">
-                            <Image src={scordiLogo} alt="scordiLogo" width={20} height={20} priority />
-                            <Image src={scordiTextLogo} alt="scordiLogo" width={70} height={36} priority />
-                        </section>
                         <section className="flex flex-col items-center justify-center gap-1">
                             <h1
                                 className="text-gradient-color"

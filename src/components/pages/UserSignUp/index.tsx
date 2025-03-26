@@ -1,12 +1,9 @@
 import React, {memo, useState} from 'react';
-import Image from 'next/image';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {ArrowRight} from 'lucide-react';
 import {useCurrentUser} from '^models/User/hook';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 import {googleOAuth} from '^config/environments';
-import scordiLogo from '^public/images/renewallogo/scordi-symbol-logo.png';
-import scordiTextLogo from '^public/images/renewallogo/scordi-text-loco.png';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {Modal} from '^components/Modal';
 
@@ -21,11 +18,7 @@ export const UserSignUpPage = memo(() => {
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                     <div className="flex flex-col items-center justify-center w-[400px] gap-5">
-                        <section className="flex items-center justify-center gap-1">
-                            <Image src={scordiLogo} alt="scordiLogo" width={20} height={20} priority />
-                            <Image src={scordiTextLogo} alt="scordiLogo" width={70} height={36} priority />
-                        </section>
-                        <section className="flex items-center justify-center gap-1">
+                        <section className="flex flex-col items-center justify-center gap-1">
                             <h1
                                 className="text-gradient-color"
                                 style={{background: 'linear-gradient(to right, #5c5fee, #a5a6f5)'}}
@@ -35,7 +28,6 @@ export const UserSignUpPage = memo(() => {
                             <p className="text-14 font-semibold text-gray-500">
                                 팀 생산성을 높이는 소프트웨어 구독 비용 관리
                             </p>
-                            mb-1
                         </section>
                         <GoogleLoginBtn
                             about="login"
