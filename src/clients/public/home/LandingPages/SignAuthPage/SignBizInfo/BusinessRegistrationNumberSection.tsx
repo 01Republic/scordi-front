@@ -6,12 +6,15 @@ import {CreateOrganizationRequestDto} from '^models/User/types';
 
 export const BusinessRegistrationNumberSection = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
+    const validBizNoRegex = /^(\d{3})-?(\d{2})-?(\d{5})$/;
+
     const {
         register,
         watch,
         setValue,
         formState: {errors},
     } = useFormContext<CreateOrganizationRequestDto>();
+
     const value = watch('bizInfo.bizNo');
 
     const {
@@ -20,24 +23,23 @@ export const BusinessRegistrationNumberSection = () => {
         ...restRegister
     } = register('bizInfo.bizNo', {
         required: '사업자등록번호를 입력해주세요.',
+        pattern: {
+            value: validBizNoRegex,
+            message: '사업자등록번호 형식이 올바르지 않습니다. (예: 000-00-00000)',
+        },
         validate: (value) => {
             const digits = value.replace(/-/g, '');
             return digits.length === 10 || '사업자등록번호는 숫자 10자리여야 합니다.';
         },
     });
 
-    const formatBizNo = (value: string) => {
-        const digits = value.replace(/-/g, '').slice(0, 10);
-        if (digits.length <= 3) return digits;
-        if (digits.length <= 5) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-        return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`;
-    };
-
     return (
         <>
             <label htmlFor="사업자등록번호" className="block relative">
                 <div className="relative">
                     <input
+                        type="text"
+                        value={value}
                         onClick={() => setIsActive(true)}
                         onBlur={(e) => {
                             registerOnBlur(e);
@@ -47,7 +49,7 @@ export const BusinessRegistrationNumberSection = () => {
                         }}
                         onChange={(e) => {
                             const rawValue = e.target.value.replace(/[^0-9-]/g, '');
-                            setValue('bizInfo.bizNo', formatBizNo(rawValue), {shouldValidate: true});
+                            setValue('bizInfo.bizNo', rawValue, {shouldValidate: true});
                         }}
                         {...restRegister}
                         className={cn(
