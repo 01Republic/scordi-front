@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {MainPageRoute} from '^pages/index';
 import {useCurrentUser} from '^models/User/hook';
 import {ArrowLeft} from 'lucide-react';
 
@@ -16,7 +15,7 @@ export const BlockModalTopButtons = memo((props: BlockModalTopButtonsProps) => {
         <div className="w-full flex items-center relative -top-4">
             <div className="flex items-center gap-4">
                 <LinkTo
-                    href={MainPageRoute.path()}
+                    href="/"
                     displayLoading={false}
                     className="flex items-center gap-2 text-gray-400 hover:text-black transition"
                 >

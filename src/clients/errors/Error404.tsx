@@ -2,7 +2,6 @@ import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
-import {MainPageRoute} from '^pages/index';
 import {ErrorLayout} from './ErrorLayout';
 import {AlertCircle} from 'lucide-react';
 
@@ -11,7 +10,7 @@ export const Error404Page = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
 
     const onClick = () => {
-        currentUser ? router.back() : router.replace(MainPageRoute.path());
+        currentUser ? router.back() : router.replace('/');
     };
 
     return (

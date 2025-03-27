@@ -10,7 +10,6 @@ import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
-import {MainPageRoute} from '^pages/index';
 
 export const OrgSearchPage = memo(() => {
     const {currentUser, logout} = useCurrentUser();
@@ -43,7 +42,7 @@ export const OrgSearchPage = memo(() => {
         <div className="flex w-full items-center justify-center py-[15vh]" style={{minHeight: '100vh'}}>
             <div className="fixed w-full top-0 flex items-center py-4 px-4 sm:px-12">
                 <div className="flex items-center gap-4">
-                    <LinkTo href={MainPageRoute.path()} displayLoading={false} className="flex items-center gap-2">
+                    <LinkTo href="/" displayLoading={false} className="flex items-center gap-2">
                         <img src="/images/renewallogo/scordi-symbol-logo.png" alt="Scordi Logo" className="h-5" />
                         <span className="text-sm font-medium">홈으로 이동하기</span>
                     </LinkTo>

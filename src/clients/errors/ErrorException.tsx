@@ -1,6 +1,5 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
-import {MainPageRoute} from '^pages/index';
 import {ErrorLayout} from './ErrorLayout';
 import Image from 'next/image';
 import whiteBgLogo from 'src/images/whiteBgLogo.png';
@@ -36,7 +35,7 @@ export const ErrorExceptionPage = memo(() => {
                             <LinkTo
                                 text="메인페이지로 돌아가기"
                                 className="btn btn-scordi mt-4"
-                                onClick={() => router.replace(MainPageRoute.path())}
+                                onClick={() => router.replace('/')}
                             />
                         )}
                     </div>

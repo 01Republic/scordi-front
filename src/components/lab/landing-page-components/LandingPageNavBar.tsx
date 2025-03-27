@@ -1,6 +1,5 @@
 import {UserLoginPageRoute} from '^pages/users/login';
 import {WithChildren} from '^types/global.type';
-import {MainPageRoute} from '^pages/index';
 import {TastingPageRoute} from '^pages/tasting';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
@@ -39,7 +38,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
             <div className={`p-4 ${fluid ? '' : 'container sm:px-0'} navbar ${className}`}>
                 <div className="navbar-start">
                     <LinkTo
-                        href={MainPageRoute.path()}
+                        href="/"
                         className={`btn btn-ghost btn-hover-init normal-case text-2xl md:text-3xl ${
                             fluid ? '' : 'px-0'
                         }`}
