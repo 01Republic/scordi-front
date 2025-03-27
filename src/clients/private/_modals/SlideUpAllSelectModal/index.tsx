@@ -95,13 +95,14 @@ export const SlideUpAllSelectModal = <T,>(props: SlideUpAllSelectModalProps<T>) 
                 {titleCaption && <p className="text-12 text-scordi">{titleCaption}</p>}
                 <div className="w-full flex items-center justify-between">
                     <h3 className="text-18">{title}</h3>
-
-                    {items.length > 0 && (
-                        <button className="btn-white btn-sm" onClick={handleSelectAll}>
+                </div>
+                {items.length > 0 && (
+                    <div className="w-full flex justify-end">
+                        <button className="link link-primary no-underline text-14" onClick={handleSelectAll}>
                             {isAllSelect ? '선택취소' : '전체선택'}
                         </button>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
 
             <div className="relative w-[calc(100%-3rem)] mx-6 mt-6">
