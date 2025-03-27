@@ -84,8 +84,11 @@ export const SlideUpAllSelectModal = <T,>(props: SlideUpAllSelectModalProps<T>) 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
             <div className="flex items-center">
-                <div className="p-6 text-gray-400 hover:text-black transition-all cursor-pointer" onClick={onClose}>
-                    <ChevronLeft fontSize={16} />
+                <div
+                    className="px-4 pt-5 pb-4 text-gray-400 hover:text-black transition-all cursor-pointer"
+                    onClick={onClose}
+                >
+                    <ChevronLeft fontSize={24} />
                 </div>
             </div>
             <div className="px-6 bg-white flex flex-col items-start justify-start">
