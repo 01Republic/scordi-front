@@ -17,18 +17,21 @@ export default function LandingPage() {
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
                     <Link
                         href="/users/login"
+                        prefetch={false}
                         className="px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         로그인
                     </Link>
                     <Link
                         href="https://blog.scordi.io"
+                        prefetch={false}
                         className="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                     >
                         블로그
                     </Link>
                     <Link
                         href="/products"
+                        prefetch={false}
                         className="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                     >
                         SaaS 컬렉션
