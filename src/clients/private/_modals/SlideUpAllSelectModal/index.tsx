@@ -84,21 +84,25 @@ export const SlideUpAllSelectModal = <T,>(props: SlideUpAllSelectModalProps<T>) 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
             <div className="flex items-center">
-                <div className="p-6 text-gray-400 hover:text-black transition-all cursor-pointer" onClick={onClose}>
-                    <ChevronLeft fontSize={16} />
+                <div
+                    className="px-4 pt-5 pb-4 text-gray-400 hover:text-black transition-all cursor-pointer"
+                    onClick={onClose}
+                >
+                    <ChevronLeft fontSize={24} />
                 </div>
             </div>
             <div className="px-6 bg-white flex flex-col items-start justify-start">
                 {titleCaption && <p className="text-12 text-scordi">{titleCaption}</p>}
                 <div className="w-full flex items-center justify-between">
                     <h3 className="text-18">{title}</h3>
-
-                    {items.length > 0 && (
-                        <button className="btn-white btn-sm" onClick={handleSelectAll}>
+                </div>
+                {items.length > 0 && (
+                    <div className="w-full flex justify-end">
+                        <button className="link link-primary no-underline text-14" onClick={handleSelectAll}>
                             {isAllSelect ? '선택취소' : '전체선택'}
                         </button>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
 
             <div className="relative w-[calc(100%-3rem)] mx-6 mt-6">

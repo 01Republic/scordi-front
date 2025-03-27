@@ -70,8 +70,11 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
             <div className="flex items-center">
-                <div className="p-6 text-gray-400 hover:text-black transition-all cursor-pointer" onClick={onClose}>
-                    <ChevronLeft fontSize={16} />
+                <div
+                    className="px-4 pt-5 pb-4 text-gray-400 hover:text-black transition-all cursor-pointer"
+                    onClick={onClose}
+                >
+                    <ChevronLeft fontSize={24} />
                 </div>
             </div>
             <div className="px-6 bg-white flex items-center justify-between">
@@ -95,11 +98,11 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
                             />
                         ))}
                     </LoadableBox>
-                    {Button && <Button />}
                 </div>
             </div>
 
-            <div className="px-6 pb-4">
+            <div className="flex flex-col gap-2 px-6 pb-4">
+                {Button && <Button />}
                 {!selectedIds.length ? (
                     <button type="button" className="btn btn-scordi btn-block btn-disabled2">
                         {ctaInactiveText || '항목을 선택해주세요'}

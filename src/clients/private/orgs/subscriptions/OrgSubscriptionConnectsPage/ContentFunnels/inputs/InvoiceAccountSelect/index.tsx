@@ -89,12 +89,13 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
 
     const CreateInvoiceAccountButton = () => {
         return (
-            <div
+            <button
+                type="button"
                 onClick={() => setIsCreateMethodModalOpen(true)}
-                className="btn btn-white w-full flex items-center justify-center py-1 mt-1"
+                className="btn btn-white btn-block flex items-center justify-center"
             >
-                <p>청구서 메일 추가</p>
-            </div>
+                청구서 메일 추가
+            </button>
         );
     };
 
