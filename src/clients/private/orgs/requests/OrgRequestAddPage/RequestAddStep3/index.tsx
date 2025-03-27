@@ -6,6 +6,7 @@ import {Checkbox} from '^public/components/ui/checkbox';
 import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage';
 import {DatePicker} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3/DatePicker';
 import {TimePicker} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3/TimePicker';
+import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 
 export const RequestAddStep3 = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);
@@ -26,26 +27,12 @@ export const RequestAddStep3 = () => {
             <div className={'space-y-5'}>
                 <div className={'text-18 font-medium'}>내가 받을 알림 설정</div>
                 <div className="flex items-center space-x-2">
-                    <Checkbox id="alarmForMe" />
-                    <label
-                        htmlFor="alarmForMe"
-                        className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        개별 응답자가 답변 제출 시 알림 받기
-                    </label>
+                    <CheckboxWithLabel id={'alarmForMe'} label={'개별 응답자가 답변 제출 시 알림 받기'} />
                 </div>
             </div>
             <div className={'space-y-5'}>
                 <div className={'text-18 font-medium'}>응답자에게 발송되는 알림 설정</div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="alarmForMember" />
-                    <label
-                        htmlFor="alarmForMember"
-                        className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        요청 생성 시 모든 응답자들에게 알림 주기
-                    </label>
-                </div>
+                <CheckboxWithLabel id={'alarmForMember'} label={'요청 생성 시 모든 응답자들에게 알림 주기'} />
             </div>
             <div className={'space-y-5'}>
                 <div className={'text-18 font-medium'}>제출 마감일 설정</div>
