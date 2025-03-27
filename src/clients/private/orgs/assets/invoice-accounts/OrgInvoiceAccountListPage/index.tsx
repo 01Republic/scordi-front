@@ -68,7 +68,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 청구서 수신 메일이 없어요."
+                emptyMessage="조회된 청구서 메일이 없어요."
                 EmptyButtons={() => <AddInvoiceAccountModal reload={refresh} />}
             >
                 <ListTable
