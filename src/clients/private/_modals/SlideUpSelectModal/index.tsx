@@ -98,11 +98,11 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
                             />
                         ))}
                     </LoadableBox>
-                    {Button && <Button />}
                 </div>
             </div>
 
-            <div className="px-6 pb-4">
+            <div className="flex flex-col gap-2 px-6 pb-4">
+                {Button && <Button />}
                 {!selectedIds.length ? (
                     <button type="button" className="btn btn-scordi btn-block btn-disabled2">
                         {ctaInactiveText || '항목을 선택해주세요'}
