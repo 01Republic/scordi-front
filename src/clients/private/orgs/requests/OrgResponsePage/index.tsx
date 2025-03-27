@@ -1,15 +1,15 @@
 import {Label} from '^public/components/ui/label';
-import {Input} from '^public/components/ui/input';
 import {Button} from '^public/components/ui/button';
 import {Textarea} from '^public/components/ui/textarea';
-import {Checkbox} from '^public/components/ui/checkbox';
 import React from 'react';
 import {Card} from '^public/components/ui/card';
 import {SubscriptionItemOfResponse} from '^clients/private/orgs/requests/OrgResponsePage/SubscriptionItemOfResponse';
+import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
+import {InputWithLabel} from '^public/components/mixed/InputWithLabel';
 
 export const OrgResponsePage = () => {
     return (
-        <div className={'bg-gray-50 p-10 space-y-8 h-lvh'}>
+        <div className={'bg-gray-50 p-10 space-y-8 min-h-lvh'}>
             <div className={'text-xl font-bold text-gray-900'}>요청의 제목과 내용을 입력해 주세요</div>
             <Card className={'bg-white p-5'}>
                 <div className={'text-16 text-gray-800'}>
@@ -20,18 +20,14 @@ export const OrgResponsePage = () => {
                     감사합니다.
                 </div>
             </Card>
-            <div className="grid w-full items-center gap-2 max-w-md">
-                <Label htmlFor="title">응답자 이름</Label>
-                <Input type="text" id="title" placeholder="요청 제목" className={'bg-white'} />
-            </div>
-            <div className="grid w-full items-center gap-2 max-w-md">
-                <Label htmlFor="title">이메일 계정</Label>
-                <Input type="text" id="title" placeholder="요청 제목" className={'bg-white'} />
-            </div>
-            <div className="grid w-full items-center gap-2 max-w-md">
-                <Label htmlFor="title">팀</Label>
-                <Input type="text" id="title" placeholder="요청 제목" className={'bg-white'} />
-            </div>
+            <InputWithLabel id={'name'} label={'응답자 이름'} placeholder={'응답자 이름 입력'} className={'max-w-md'} />
+            <InputWithLabel
+                id={'email'}
+                label={'이메일 계정'}
+                placeholder={'이메일 계정 입력'}
+                className={'max-w-md'}
+            />
+            <InputWithLabel id={'team'} label={'팀'} placeholder={'팀 이름 입력'} className={'max-w-md'} />
             <div>구독중인 서비스</div>
             <Card className={'p-5 bg-white'}>
                 <SubscriptionItemOfResponse />
@@ -40,24 +36,8 @@ export const OrgResponsePage = () => {
             </Card>
             <div className="grid w-full items-center gap-2">
                 <Label htmlFor="email">새롭게 이용 중인 구독 서비스가 있나요?</Label>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="alarmForMember" />
-                    <label
-                        htmlFor="alarmForMember"
-                        className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        예
-                    </label>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="alarmForMember" />
-                    <label
-                        htmlFor="alarmForMember"
-                        className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        아니오
-                    </label>
-                </div>
+                <CheckboxWithLabel id={'checkNewSubscription'} label={'예'} />
+                <CheckboxWithLabel id={'uncheckNewSubscription'} label={'아니오'} />
             </div>
             <div className="grid w-full items-center gap-2">
                 <Label htmlFor="email">추가적으로 궁금한 점이 있으신가요?</Label>
