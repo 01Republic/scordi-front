@@ -2,8 +2,6 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {WithChildren} from '^types/global.type';
 import {MainPageRoute} from '^pages/index';
 import {TastingPageRoute} from '^pages/tasting';
-import {PostListPageRoute} from '^pages/posts';
-import {ProductListPageRoute} from '^pages/products';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
 import {Img} from '^components/ui/Img';
