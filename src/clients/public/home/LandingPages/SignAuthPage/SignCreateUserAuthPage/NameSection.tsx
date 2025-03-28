@@ -17,6 +17,7 @@ export const NameSection = memo((props: NameSectionProps) => {
         <label htmlFor="이름" className="block relative">
             <div className="relative">
                 <input
+                    type="text"
                     disabled
                     readOnly
                     onClick={() => setIsActive(true)}

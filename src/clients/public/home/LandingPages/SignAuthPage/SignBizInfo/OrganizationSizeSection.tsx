@@ -37,7 +37,7 @@ export const OrganizationSizeSection = () => {
             <label htmlFor="조직 규모" className="block relative">
                 <div className="relative">
                     <input
-                        type="organizationSize"
+                        type="text"
                         readOnly
                         onClick={() => {
                             setIsActive(!isActive);

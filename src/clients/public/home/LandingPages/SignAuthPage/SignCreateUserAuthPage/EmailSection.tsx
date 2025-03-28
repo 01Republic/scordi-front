@@ -17,6 +17,7 @@ export const EmailSection = memo((props: EmailSectionProps) => {
         <label htmlFor="이메일" className="block relative">
             <div className="relative">
                 <input
+                    type="text"
                     disabled
                     readOnly
                     onClick={() => setIsActive(true)}
