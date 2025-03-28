@@ -1,4 +1,6 @@
+import {useState} from 'react';
 import {useRouter} from 'next/router';
+import cn from 'classnames';
 import {useRecoilValue} from 'recoil';
 import {Check} from 'lucide-react';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
@@ -8,12 +10,20 @@ import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLanding
 
 export const SuccessSign = () => {
     const {currentUser} = useCurrentUser();
+    const [isLoading, setIsLoading] = useState(false);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
+
     const url = (() => {
         if (!currentUser) return '#';
         const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
         return OrgMainPageRoute.path(id);
     })();
+
+    const onClick = async () => {
+        setIsLoading(true);
+        await router.push(url);
+        setIsLoading(false);
+    };
 
     const router = useRouter();
     return (
@@ -30,10 +40,10 @@ export const SuccessSign = () => {
                     </div>
                     <button
                         type="button" //
-                        onClick={() => router.push(url)}
-                        className="btn btn-scordi w-full text-18"
+                        onClick={onClick}
+                        className={cn('btn btn-scordi w-full text-18', isLoading && 'link_to-loading')}
                     >
-                        스코디 바로가기
+                        {isLoading ? '' : '스코디 바로가기'}
                     </button>
                 </section>
             </article>

@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
-import {OrgCreatePageRoute} from '^pages/orgs/new';
 import {AlertCircle} from 'lucide-react';
-import {SignBizInfoPageRoute} from '^pages/sign/bizInfo';
+import {OrgCreatePageRoute} from '^pages/orgs/new';
 
 export const OrgEmptyPage = memo(function OrgEmptyPage() {
     return (
@@ -24,7 +23,7 @@ export const OrgEmptyPage = memo(function OrgEmptyPage() {
                     <br />
 
                     <LinkTo
-                        href={SignBizInfoPageRoute.path()}
+                        href={OrgCreatePageRoute.path()}
                         className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300 no-animation btn-animation"
                     >
                         워크스페이스 생성하기

@@ -18,8 +18,10 @@ export const StepButton = (props: StepButtonProps) => {
             onClick={!disabled ? undefined : onClick}
             className={cn(
                 'w-full flex items-center justify-center rounded-lg btn',
-                isPending
-                    ? 'link_to-loading'
+                isPending && buttonWhite
+                    ? 'link_to-loading btn-white'
+                    : isPending
+                    ? 'link_to-loading btn-scordi'
                     : !disabled
                     ? 'bg-neutral-100 text-neutral-300 pointer-events-none'
                     : buttonWhite

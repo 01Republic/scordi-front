@@ -27,6 +27,7 @@ export const OrganizationNameSection = (props: OrganizationNameSectionProps) => 
             <label htmlFor="워크스페이스명" className="block relative">
                 <div className="relative">
                     <input
+                        type="text"
                         disabled={isDisabled}
                         readOnly={isDisabled}
                         onClick={() => setIsActive(true)}

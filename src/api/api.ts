@@ -5,8 +5,6 @@ import {UserSignUpPageRoute} from '^pages/users/signup';
 import {toast} from 'react-hot-toast';
 import {ProductListPageRoute} from '^pages/products';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
-import {PostListPageRoute} from '^pages/posts';
-import {PostDetailPageRoute} from '^pages/posts/[id]';
 import {appEnv} from '^config/environments';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
@@ -54,8 +52,6 @@ const IgnoreSignCheckPagePathList = () => [
     UserSignUpPageRoute.pathname,
     ProductListPageRoute.pathname,
     ProductDetailPageRoute.pathname,
-    PostListPageRoute.pathname,
-    PostDetailPageRoute.pathname,
 ];
 
 function printRequest(config: AxiosRequestConfig<any>, singleLine = true) {

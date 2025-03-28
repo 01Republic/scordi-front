@@ -64,79 +64,75 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
 
     return (
         <>
-            <section className="grid grid-cols-4 items-center justify-center gap-3">
-                <div className={cn(!isCodeConfirmed ? 'col-span-3' : 'col-span-4')}>
-                    <label htmlFor="전화번호" className="block relative">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                readOnly={isCodeConfirmed}
-                                disabled={isCodeConfirmed}
-                                onClick={() => setIsActive(true)}
-                                onBlur={(e) => {
-                                    registerOnBlur(e);
-                                    if (!phone) {
-                                        setIsActive(false);
-                                    }
-                                }}
-                                onChange={(e) => {
-                                    e.target.value = e.target.value.replace(/[^0-9-]/g, '');
-                                    registerOnChange(e);
-                                }}
-                                {...restRegister}
-                                className={cn(
-                                    'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
-                                    {
-                                        'bg-gray-100': isCodeConfirmed,
-                                        'bg-white': !isCodeConfirmed,
-                                        'border-red-400 focus:outline-red-400': errors.phone,
-                                        'border-neutral-300 focus:outline-primaryColor-900': !errors.phone,
-                                    },
-                                )}
-                            />
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
-                            </div>
-                            <div
-                                className={cn(
-                                    'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                                    isActive || phone ? 'flex-col top-2 text-xs' : 'items-center inset-y-0 text-14',
-                                )}
-                            >
-                                <span className="w-full flex items-center justify-center">
-                                    전화번호
-                                    <Dot
-                                        className={cn('text-[#f57453] text-lg', isActive || phone ? 'hidden' : 'flex')}
-                                    />
-                                </span>
-                            </div>
-                        </div>
-                        {isCodeConfirmed && (
-                            <div className="absolute inset-y-0 flex items-center right-4">
-                                <Check className=" text-emerald-400 text-18" />
-                            </div>
-                        )}
-                    </label>
-                </div>
-                {!isCodeConfirmed && (
-                    <button
-                        type="button"
-                        onClick={onCodeSend}
+            <label htmlFor="전화번호" className="block relative">
+                <div className="relative">
+                    <input
+                        type="text"
+                        readOnly={isCodeConfirmed}
+                        disabled={isCodeConfirmed}
+                        onClick={() => setIsActive(true)}
+                        onBlur={(e) => {
+                            registerOnBlur(e);
+                            if (!phone) {
+                                setIsActive(false);
+                            }
+                        }}
+                        onChange={(e) => {
+                            e.target.value = e.target.value.replace(/[^0-9-]/g, '');
+                            registerOnChange(e);
+                        }}
+                        {...restRegister}
                         className={cn(
-                            'col-span-1 btn',
-                            disabled
-                                ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
-                                : isCodeSent && !isCodeConfirmed
-                                ? 'btn-white'
-                                : 'bg-primaryColor-900 text-white',
+                            'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                            {
+                                'bg-gray-100': isCodeConfirmed,
+                                'bg-white': !isCodeConfirmed,
+                                'border-red-400 focus:outline-red-400': errors.phone,
+                                'border-neutral-300 focus:outline-primaryColor-900': !errors.phone,
+                            },
+                        )}
+                    />
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
+                    </div>
+                    <div
+                        className={cn(
+                            'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
+                            isActive || phone ? 'flex-col top-2 text-xs' : 'items-center inset-y-0 text-14',
                         )}
                     >
-                        <p className="whitespace-nowrap">
-                            {isCodeSent && !isCodeConfirmed ? '인증 재요청' : '인증 요청'}
-                        </p>
-                    </button>
+                        <span className="w-full flex items-center justify-center">
+                            전화번호
+                            <Dot className={cn('text-[#f57453] text-lg', isActive || phone ? 'hidden' : 'flex')} />
+                        </span>
+                    </div>
+                </div>
+                {isCodeConfirmed ? (
+                    <div className="absolute inset-y-0 flex items-center right-4">
+                        <Check className=" text-emerald-400 text-18" />
+                    </div>
+                ) : (
+                    <div className="absolute inset-y-0 flex items-center right-4 ">
+                        <button
+                            type="button"
+                            onClick={onCodeSend}
+                            className={cn(
+                                'btn btn-sm',
+                                disabled
+                                    ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                    : isCodeSent && !isCodeConfirmed
+                                    ? 'btn-white'
+                                    : 'btn-scordi text-white',
+                            )}
+                        >
+                            <p className="whitespace-nowrap">
+                                {isCodeSent && !isCodeConfirmed ? '인증 재요청' : '인증 요청'}
+                            </p>
+                        </button>
+                    </div>
                 )}
-            </section>
+            </label>
+
             {errors.phone && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
                     <TriangleAlert className="text-red-400" />
