@@ -17,7 +17,7 @@ export const StepProgress = memo((props: StepProgressProps) => {
 
     return (
         <div className="w-full flex flex-col gap-2 sticky top-0 pt-[40px] bg-white z-[2]">
-            <div className="flex justify-end">
+            <div className="flex justify-start">
                 {/* progress counter */}
                 <div className="flex items-center justify-center text-16 text-gray-400 tracking-[0.5px]">
                     {currentStep}/{totalLength}
