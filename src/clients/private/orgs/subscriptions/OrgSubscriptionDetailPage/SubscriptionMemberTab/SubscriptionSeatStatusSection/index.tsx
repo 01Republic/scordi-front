@@ -14,7 +14,7 @@ export const SubscriptionSeatStatusSection = memo(() => {
             {/* 이용중인 시트 */}
             <AssignedSeatCounter />
 
-            {/* 구매한 계정 */}
+            {/* 구매된 시트 */}
             <PaidSeatCounter />
 
             {/* 이번달 회수(예정) 계정 */}
