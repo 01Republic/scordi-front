@@ -118,7 +118,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     onPrev={() => setStep(prev)}
                     onNext={() => setStep(next)}
                     isValid={true}
-                    nextButtonText={invoiceAccountData.invoiceAccountIds.length === 0 ? undefined : '건너뛰기'}
+                    nextButtonText={invoiceAccountData.invoiceAccountIds.length === 0 ? '건너뛰기' : undefined}
                 />
             );
         case Steps.TeamMembers:
