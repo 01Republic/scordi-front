@@ -40,7 +40,7 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['정보', '결제', '멤버']}
+                        tabs={['정보', '결제', '시트']}
                     />
                 </div>
 
