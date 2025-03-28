@@ -9,6 +9,8 @@ import {ApiErrorResponse} from '^api/api';
 import {debounce} from 'lodash';
 import {useGoogleLoginForWorkspaceConnect} from '../useGoogleLoginForWorkspaceConnect';
 import {ChevronLeft} from 'lucide-react';
+import {LinkTo} from '^components/util/LinkTo';
+import {ChannelTalk_Url} from '^config/constants';
 
 interface TeamMemberCreateAutoModalProps {
     isOpened: boolean;
@@ -160,9 +162,14 @@ export const TeamMemberCreateAutoModal = memo((props: TeamMemberCreateAutoModalP
                             <button className="btn bg-gray-200 text-gray-500" onClick={onClose}>
                                 돌아가기
                             </button>
-                            <button className="btn btn-scordi btn-block" onClick={() => launch(onRetry)}>
-                                다시시도
-                            </button>
+                            <LinkTo
+                                href={ChannelTalk_Url}
+                                target="_blank"
+                                className="btn btn-scordi btn-block"
+                                displayLoading={false}
+                            >
+                                문의하기
+                            </LinkTo>
                         </div>
                     )}
                     {false && (
