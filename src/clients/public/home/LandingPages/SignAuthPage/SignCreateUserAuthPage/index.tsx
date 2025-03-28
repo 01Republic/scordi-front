@@ -5,7 +5,6 @@ import {FormProvider, useForm} from 'react-hook-form';
 import {googleTokenDataAtom} from '^atoms/common';
 import {CreateUserRequestDto} from '^models/User/types';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
-import {SignBizInfoPageRoute} from '^pages/sign/bizInfo';
 import {SignUserDetailRoute} from '^pages/sign/detail';
 import {
     useCreateUserAuth,
@@ -19,6 +18,7 @@ import {EmailSection} from './EmailSection';
 import {PhoneNumberSection} from './PhoneNumberSection';
 import {JobSection} from './JopSection';
 import {AgreeTermModal} from './AgreeTermModal';
+import {OrgCreatePageRoute} from '^pages/orgs/new';
 
 export const SignCreateUserAuthPage = () => {
     const {mutate, isPending} = useCreateUserAuth();
@@ -87,7 +87,7 @@ export const SignCreateUserAuthPage = () => {
             const login = (redirectPath: string) => {
                 loginMutate(accessToken, {
                     onSuccess: () => {
-                        router.replace(redirectPath);
+                        router.push(redirectPath);
                     },
                 });
             };
@@ -121,7 +121,7 @@ export const SignCreateUserAuthPage = () => {
                 mutate(
                     {data: userData, accessToken},
                     {
-                        onSuccess: () => login(SignBizInfoPageRoute.path()),
+                        onSuccess: () => login(OrgCreatePageRoute.path()),
                     },
                 );
             }
