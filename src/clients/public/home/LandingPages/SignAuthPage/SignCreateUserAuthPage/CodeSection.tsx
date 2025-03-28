@@ -63,90 +63,83 @@ export const CodeSection = memo((props: CodeSectionProps) => {
 
     return (
         <>
-            <section className="grid grid-cols-4 items-center justify-center gap-3">
-                <div className="col-span-3">
-                    <label htmlFor="인증번호" className="block relative">
-                        <div className="relative">
-                            <input
-                                type="number"
-                                onClick={() => setIsActive(true)}
-                                onBlur={(e) => {
-                                    registerOnBlur(e);
-                                    if (!code) {
-                                        setIsActive(false);
-                                    }
-                                }}
-                                onChange={(e) => {
-                                    registerOnChange(e);
-                                    const value = e.target.value;
-                                    if (Number(value) > 6) {
-                                        e.target.value = e.target.value.slice(0, 6);
-                                    }
-                                }}
-                                {...restRegister}
-                                className={cn(
-                                    'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
-                                    errors.code
-                                        ? 'border-red-400 focus:outline-red-400'
-                                        : 'border-neutral-300 focus:outline-primaryColor-900',
-                                )}
-                            />
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <KeyRound className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-18" />
-                            </div>
-                            <div
-                                className={cn(
-                                    'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
-                                    isActive || code
-                                        ? 'flex-col top-1 text-xs'
-                                        : 'items-center inset-y-0 text-md text-14',
-                                )}
-                            >
-                                <span className="w-full flex items-center justify-center">
-                                    인증번호
-                                    <Dot
-                                        className={cn('text-[#f57453] text-lg', isActive || code ? 'hidden' : 'flex')}
-                                    />
-                                </span>
-                            </div>
+            <label htmlFor="인증번호" className="block relative">
+                <div className="relative">
+                    <input
+                        type="number"
+                        onClick={() => setIsActive(true)}
+                        onBlur={(e) => {
+                            registerOnBlur(e);
+                            if (!code) {
+                                setIsActive(false);
+                            }
+                        }}
+                        onChange={(e) => {
+                            registerOnChange(e);
+                            const value = e.target.value;
+                            if (Number(value) > 6) {
+                                e.target.value = e.target.value.slice(0, 6);
+                            }
+                        }}
+                        {...restRegister}
+                        className={cn(
+                            'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                            errors.code
+                                ? 'border-red-400 focus:outline-red-400'
+                                : 'border-neutral-300 focus:outline-primaryColor-900',
+                        )}
+                    />
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <KeyRound className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-18" />
+                    </div>
+                    <div
+                        className={cn(
+                            'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
+                            isActive || code ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-md text-14',
+                        )}
+                    >
+                        <span className="w-full flex items-center justify-center">
+                            인증번호
+                            <Dot className={cn('text-[#f57453] text-lg', isActive || code ? 'hidden' : 'flex')} />
+                        </span>
+                    </div>
 
-                            <div className="absolute inset-y-0 flex items-center right-4 text-sm text-neutral-900">
-                                <Timer
-                                    sec={3 * 60}
-                                    onFinish={({reset}) => {
-                                        const confirmMessage = '인증 번호가 만료되었습니다.\n새 인증 번호를 보낼까요?';
+                    <div className="absolute inset-y-0 flex gap-2 items-center right-4 text-sm text-neutral-900">
+                        <Timer
+                            sec={3 * 60}
+                            onFinish={({reset}) => {
+                                const confirmMessage = '인증 번호가 만료되었습니다.\n새 인증 번호를 보낼까요?';
 
-                                        const isOkClicked = confirm(confirmMessage);
-                                        if (isOkClicked) {
-                                            codeSentMutate({phoneNumber});
-                                            setValue('code', '');
-                                            setIsCodeConfirmed(false);
-                                            reset();
-                                        } else {
-                                            setIsCodeSent(false);
-                                            setValue('code', '');
-                                            setIsCodeConfirmed(false);
-                                        }
-                                    }}
-                                    resettable
-                                />
-                            </div>
-                        </div>
-                    </label>
+                                const isOkClicked = confirm(confirmMessage);
+                                if (isOkClicked) {
+                                    codeSentMutate({phoneNumber});
+                                    setValue('code', '');
+                                    setIsCodeConfirmed(false);
+                                    reset();
+                                } else {
+                                    setIsCodeSent(false);
+                                    setValue('code', '');
+                                    setIsCodeConfirmed(false);
+                                }
+                            }}
+                            resettable
+                        />
+                        <button
+                            type="button"
+                            onClick={onCodeConfirm}
+                            className={cn(
+                                'btn btn-sm',
+                                disabled
+                                    ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                    : 'bg-primaryColor-900 text-white',
+                            )}
+                        >
+                            <p className="whitespace-nowrap">인증 확인</p>
+                        </button>
+                    </div>
                 </div>
-                <button
-                    type="button"
-                    onClick={onCodeConfirm}
-                    className={cn(
-                        'col-span-1 btn',
-                        disabled
-                            ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
-                            : 'bg-primaryColor-900 text-white',
-                    )}
-                >
-                    <p className="whitespace-nowrap">인증 확인</p>
-                </button>
-            </section>
+            </label>
+
             {errors.code && (
                 <section className="flex items-center gap-1 text-red-400 w-full justify-start -mt-1">
                     <TriangleAlert className="text-red-400" />
