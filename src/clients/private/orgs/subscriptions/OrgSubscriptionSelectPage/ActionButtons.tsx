@@ -14,20 +14,20 @@ export const ActionButtons = memo(function ActionButtons() {
 
     return (
         <div className="flex items-center justify-between">
-            <button className="btn gap-3 items-center px-7" onClick={() => router.back()}>
-                <ChevronLeft />
+            <button className="btn gap-3 items-center px-6" onClick={() => router.back()}>
+                <ChevronLeft className="size-5" />
                 <span>이전</span>
             </button>
 
             <LinkTo
                 href={OrgSubscriptionConnectsPageRoute.path(orgId)}
-                className={`btn btn-scordi gap-3 items-center px-7 ${
+                className={`btn btn-scordi gap-3 items-center px-6 ${
                     size === 0 ? 'btn-disabled !bg-scordi !text-white opacity-40' : ''
                 }`}
                 loadingOnBtn
             >
                 <span>다음</span>
-                <ChevronRight />
+                <ChevronRight className="size-5" />
             </LinkTo>
         </div>
     );

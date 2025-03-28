@@ -31,7 +31,7 @@ export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage
                                     displayLoading={false}
                                     target="_blank"
                                 >
-                                    <HelpCircle fontSize={16} />
+                                    <HelpCircle className="size-4" />
                                     <span>찾으시는 앱이 없나요?</span>
                                 </LinkTo>
                             </div>
