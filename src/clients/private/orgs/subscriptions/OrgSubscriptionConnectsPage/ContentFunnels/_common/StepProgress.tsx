@@ -17,15 +17,7 @@ export const StepProgress = memo((props: StepProgressProps) => {
 
     return (
         <div className="w-full flex flex-col gap-2 sticky top-0 pt-[40px] bg-white z-[2]">
-            <div className="flex items-center justify-between">
-                {/* tab */}
-                <div className="flex items-center gap-3">
-                    <StepProgressItem text="구독 정보" active />
-                    <StepProgressItem text="이용 멤버" />
-                    <StepProgressItem text="담당자 & 파트너십 (선택)" />
-                    <StepProgressItem text="등록 완료" last />
-                </div>
-
+            <div className="flex justify-end">
                 {/* progress counter */}
                 <div className="flex items-center justify-center text-16 text-gray-400 tracking-[0.5px]">
                     {currentStep}/{totalLength}
@@ -33,7 +25,8 @@ export const StepProgress = memo((props: StepProgressProps) => {
             </div>
 
             <progress
-                className="transition-all progress progress-primary h-[4px] bg-gray-100"
+                className="transition-all progress progress-primary h-[4px] bg-gray-100
+                [&::-webkit-progress-value]:bg-primaryColor-900"
                 max={totalLength}
                 value={currentStep}
             />
