@@ -8,7 +8,7 @@ import {connectGoogleAdmin} from '^models/TeamMember';
 import {ApiErrorResponse} from '^api/api';
 import {debounce} from 'lodash';
 import {useGoogleLoginForWorkspaceConnect} from '../useGoogleLoginForWorkspaceConnect';
-import {ChevronLeft} from 'lucide-react';
+import {ChevronLeft, AlertCircle} from 'lucide-react';
 import {LinkTo} from '^components/util/LinkTo';
 import {ChannelTalk_Url} from '^config/constants';
 
@@ -88,18 +88,20 @@ export const TeamMemberCreateAutoModal = memo((props: TeamMemberCreateAutoModalP
             modalClassName="rounded-none sm:rounded-t-box"
         >
             <header>
-                <div>
+                <div className="w-full h-full">
                     <div className="mb-4">
                         <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                     </div>
 
-                    <div className="mb-4 flex items-center justify-between">
-                        <img
-                            src="https://seeklogo.com/images/G/google-admin-logo-A220604CE8-seeklogo.com.png"
-                            alt="google admin logo"
-                            className="w-[48px] bg-white"
-                        />
-                    </div>
+                    {isLoading && !errorMsg && (
+                        <div className="mb-4 flex items-center justify-between">
+                            <img
+                                src="https://seeklogo.com/images/G/google-admin-logo-A220604CE8-seeklogo.com.png"
+                                alt="google admin logo"
+                                className="w-[48px] bg-white"
+                            />
+                        </div>
+                    )}
 
                     {/* 로딩 전 (소셜로그인 진행중) */}
                     {!isLoading && !errorMsg && (
@@ -122,6 +124,7 @@ export const TeamMemberCreateAutoModal = memo((props: TeamMemberCreateAutoModalP
                     {/* 연동 중 에러 */}
                     {!isLoading && errorMsg && (
                         <div className="mb-12">
+                            <AlertCircle className="text-red-500 btn-animation hover:rotate-[360deg] size-12 mb-4" />
                             <h2 className="font-bold text-xl leading-tight text-red-500">앗 조치가 필요해요</h2>
                             <h2 className="text-lg mb-4">
                                 {errorMsg.includes('Invalid grant') ? '토큰 유효시간이 만료되었어요 💦' : errorMsg}
