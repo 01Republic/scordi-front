@@ -8,35 +8,39 @@ import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPa
 import {useRouter} from 'next/router';
 import {InputWithLabel} from '^public/components/mixed/InputWithLabel';
 import React from 'react';
+import {ChevronDown, ChevronRight} from 'lucide-react';
 
 export const RequestAddStep1 = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);
     const router = useRouter();
 
-    const onCancel = () => {
-        router.back();
-    };
-
-    const onNext = () => {
-        setStep(step + 1);
-    };
+    const onNext = () => setStep(step + 1);
 
     return (
-        <Card className={'bg-white p-10 space-y-10'}>
-            <div className={'text-xl font-bold text-gray-900'}>요청의 제목과 내용을 입력해 주세요</div>
-            <InputWithLabel id={'title'} label={'제목'} placeholder={'요청 제목'} />
-            <div className="grid w-full items-center gap-2">
-                <Label htmlFor="description">설명</Label>
-                <Textarea id="description" placeholder="요청 설명" className={'min-h-40'} />
+        <Card className={'bg-white mb-4'}>
+            <div
+                className={
+                    'px-9 py-5 flex items-center justify-start space-x-2 text-xl font-bold text-gray-900 cursor-pointer'
+                }
+                onClick={() => setStep(1)}
+            >
+                {step === 1 ? <ChevronDown /> : <ChevronRight />}
+                <span>1. 제목과 내용 작성</span>
             </div>
-            <div className={'flex justify-end space-x-4'}>
-                <Button size={'xl'} variant={'gray'} onClick={onCancel}>
-                    취소
-                </Button>
-                <Button size={'xl'} variant={'scordi'} onClick={onNext}>
-                    다음
-                </Button>
-            </div>
+            {step === 1 && (
+                <div className={'p-9 space-y-10 border-t'}>
+                    <InputWithLabel id={'title'} label={'제목'} placeholder={'요청 제목'} />
+                    <div className="grid w-full items-center gap-2">
+                        <Label htmlFor="description">설명</Label>
+                        <Textarea id="description" placeholder="요청 설명" className={'min-h-40'} />
+                    </div>
+                    <div className={'flex justify-center space-x-4'}>
+                        <Button size={'xl'} variant={'scordi'} onClick={onNext} className={'w-64'}>
+                            다음
+                        </Button>
+                    </div>
+                </div>
+            )}
         </Card>
     );
 };

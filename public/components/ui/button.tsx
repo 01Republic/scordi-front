@@ -10,6 +10,7 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 scordi: 'bg-scordi text-white shadow hover:bg-primary/90',
+                scordiGhost: 'bg-white text-scordi hover:bg-gray-50',
                 gray: 'bg-gray-300 text-black shadow hover:bg-primary/90',
                 grayOutline: 'bg-gray-100 text-black hover:bg-primary/90 border',
                 default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',

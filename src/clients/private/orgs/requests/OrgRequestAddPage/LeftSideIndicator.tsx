@@ -6,11 +6,11 @@ interface LeftSideIndicatorProps {
 }
 
 export const LeftSideIndicator = (props: LeftSideIndicatorProps) => {
-    const stepHeight = `${((props.step - 1) / 3) * 100}%`;
+    const stepHeight = `${((props.step - 1) / 2) * 100}%`;
 
     return (
         <div className="flex flex-col items-center p-6 w-52">
-            <h2 className="text-2xl font-bold text-gray-900 mb-16">요청 추가하기</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-12">요청 추가하기</h2>
             <div className="flex flex-col gap-8 relative">
                 {leftSideIndicatorSteps.map((step) => (
                     <div className="flex items-center relative z-10">
@@ -42,6 +42,5 @@ export const LeftSideIndicator = (props: LeftSideIndicatorProps) => {
 const leftSideIndicatorSteps = [
     {step: 1, text: '제목 및 내용 작성'},
     {step: 2, text: '요청할 대상 선택'},
-    {step: 3, text: '설정'},
-    {step: 4, text: '요약 및 확인'},
+    {step: 3, text: '제출 마감일 설정'},
 ];

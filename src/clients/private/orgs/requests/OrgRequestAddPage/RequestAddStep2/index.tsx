@@ -1,45 +1,27 @@
 import {Button} from '^public/components/ui/button';
 import {Card} from '^public/components/ui/card';
-import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {InputSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage';
 import {useTeamMembers} from '^models/TeamMember';
 import {debounce} from 'lodash';
-import {AddTeamMemberModal} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/AddTeamMemberModal';
-import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
-import {TeamMemberTableHeader} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/TeamMemberTableHeader';
-import {TeamMemberTableRow} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/TeamMemberTableRow';
 import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {TeamMemberForRequestTableHeader} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep2/TeamMemberForRequestTableHeader';
-import {TeamMemberForRequestTableRow} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep2/TeamMemberForRequestTableRow';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {Plus, RefreshCcw, RefreshCw} from 'lucide-react';
+import {ChevronDown, ChevronRight} from 'lucide-react';
 import SlackIcon from '^public/logo/icons/ic_slack.png';
 import GoogleIcon from '^public/logo/icons/ic_google.png';
+import GmailIcon from '^public/logo/icons/ic_gmail.png';
 import Image from 'next/image';
+import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
+import {cn} from '^public/lib/utils';
+import {Checkbox} from '^public/components/ui/checkbox';
 
 export const RequestAddStep2 = () => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const [step, setStep] = useRecoilState(requestAddStepAtom);
-    const [toAllMembers, setToAllMembers] = React.useState(true);
-    const {
-        search,
-        result,
-        isLoading,
-        isEmptyResult,
-        isNotLoaded,
-        query,
-        searchAndUpdateCounter,
-        movePage,
-        changePageSize,
-        reload,
-        resetPage,
-        orderBy,
-    } = useTeamMembers();
+    const {search, result, query, searchAndUpdateCounter} = useTeamMembers();
     const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
     const teamMembers = result.items;
 
@@ -55,14 +37,10 @@ export const RequestAddStep2 = () => {
         return search({
             ...query,
             keyword: keyword || undefined,
-            page: 1,
+            page: 0,
             itemsPerPage: 30,
         });
     }, 500);
-
-    const refresh = () => {
-        search({...query, keyword: undefined, page: 1, itemsPerPage: 30}, false, true);
-    };
 
     const onPrevious = () => {
         setStep(step - 1);
@@ -72,6 +50,20 @@ export const RequestAddStep2 = () => {
         setStep(step + 1);
     };
 
+    const checkTeamMember = (teamMemberId: number) => {
+        setSelectedMembers((prev) =>
+            prev.includes(teamMemberId) ? prev.filter((id) => id !== teamMemberId) : [...prev, teamMemberId],
+        );
+    };
+
+    const checkAllMembers = () => {
+        if (selectedMembers.length === teamMembers.length) {
+            setSelectedMembers([]);
+        } else {
+            setSelectedMembers(teamMembers.map((member) => member.id));
+        }
+    };
+
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
@@ -79,93 +71,78 @@ export const RequestAddStep2 = () => {
     }, [orgId, router.isReady]);
 
     return (
-        <Card className={'bg-white p-10 space-y-10'}>
-            <div className={'text-xl font-bold text-gray-900'}>요청의 제목과 내용을 입력해 주세요</div>
-            <div>
-                기본적으론 이메일과 슬랙 중에 연동된 플랫폼으로 요청이 전송돼요.
-                <br />
-                이메일과 슬랙 둘 다 연동되어 있지 않다면, 해당 구성원에게는 요청을 전송할 수 없어요.
+        <Card className={'bg-white mb-4'}>
+            <div
+                className={
+                    'px-9 py-5 flex items-center justify-start space-x-2 text-xl font-bold text-gray-900 cursor-pointer'
+                }
+                onClick={() => setStep(2)}
+            >
+                {step === 2 ? <ChevronDown /> : <ChevronRight />}
+                <span>2. 요청할 대상 선택</span>
             </div>
-            <InputSection>
-                <ButtonGroupRadio
-                    onChange={(option) => {
-                        setToAllMembers(option.value);
-                    }}
-                    defaultValue={toAllMembers}
-                    options={[
-                        {label: '모든 구성원 선택', value: true},
-                        {label: '직접 선택', value: false},
-                    ]}
-                />
-            </InputSection>
-            {!toAllMembers && (
-                <div className={'overflow-x-scroll'}>
-                    <div className={'flex justify-between items-center mb-4'}>
-                        <div className={'flex space-x-2 items-center'}>
-                            <ListPageSearchInput onSearch={onSearch} placeholder={'구성원 검색'} />
-                            <span className={'text-sm text-gray800'}>n명 선택됨</span>
-                        </div>
-                        <div className={'flex space-x-2'}>
-                            <Button size={'sm'} variant={'grayOutline'} onClick={onPrevious}>
-                                <Image src={SlackIcon} alt={'google'} width={20} height={20} />
-                                <RefreshCcw size={30} />
-                            </Button>
-                            <Button size={'sm'} variant={'grayOutline'} onClick={onPrevious}>
-                                <Image src={GoogleIcon} alt={'google'} width={20} height={20} />
-                                <RefreshCcw size={20} />
-                            </Button>
-                            <Button size={'sm'} variant={'scordi'} onClick={onPrevious}>
-                                <Plus /> 구성원 추가
-                            </Button>
-                        </div>
+            {step === 2 && (
+                <div className={'p-9 space-y-10 border-t'}>
+                    <div>
+                        기본적으론 이메일과 슬랙 중에 연동된 플랫폼으로 요청이 전송돼요.
+                        <br />
+                        이메일과 슬랙 둘 다 연동되어 있지 않다면, 해당 구성원에게는 요청을 전송할 수 없어요.
                     </div>
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => (
-                            <TeamMemberForRequestTableHeader
-                                orderBy={orderBy}
-                                allSelected={
-                                    selectedMembers.length > 0 && selectedMembers.length === teamMembers.length
-                                }
-                                onAllSelect={() =>
-                                    setSelectedMembers((prev) =>
-                                        prev.length === teamMembers.length ? [] : teamMembers.map((item) => item.id),
-                                    )
-                                }
-                            />
-                        )}
-                        Row={({item}) => (
-                            <TeamMemberForRequestTableRow
-                                teamMember={item}
-                                reload={reload}
-                                selected={selectedMembers.includes(item.id)}
-                                onSelect={(value: boolean) =>
-                                    setSelectedMembers((prev) =>
-                                        value ? [...prev, item.id] : prev.filter((v) => v !== item.id),
-                                    )
-                                }
-                            />
-                        )}
-                    />
-                    <div className="flex justify-end my-4">
-                        <ListTablePaginator
-                            pagination={result.pagination}
-                            movePage={movePage}
-                            onChangePerPage={changePageSize}
-                            unit="개"
-                        />
+
+                    <div className={'space-y-2'}>
+                        <div className={'flex justify-between items-center'}>
+                            <div className={'flex space-x-2 items-center'}>
+                                <Button size={'sm'} variant={'scordiGhost'} onClick={checkAllMembers}>
+                                    전체선택 {selectedMembers.length === teamMembers.length ? '해제' : ''}
+                                </Button>
+                            </div>
+                            <div className={'flex items-center space-x-1 text-sm'}>
+                                <span>불러오기:</span>
+                                <Button size={'sm'} variant={'scordiGhost'} onClick={onPrevious}>
+                                    <Image src={SlackIcon} alt={'google'} width={20} height={20} />
+                                    슬랙
+                                </Button>
+                                <Button size={'sm'} variant={'scordiGhost'} onClick={onPrevious}>
+                                    <Image src={GoogleIcon} alt={'google'} width={20} height={20} />
+                                    구글 워크스페이스
+                                </Button>
+                            </div>
+                        </div>
+                        <ListPageSearchInput onSearch={onSearch} placeholder={'구성원 검색'} />
+                        <div className={'text-right text-sm'}>{selectedMembers.length}명 선택됨</div>
+                    </div>
+
+                    <div className={'grid grid-cols-2 gap-2'}>
+                        {result.items.map((teamMember) => (
+                            <div
+                                key={teamMember.id}
+                                className={cn(
+                                    'p-5 border rounded-md flex items-center justify-between cursor-pointer',
+                                    selectedMembers.includes(teamMember.id)
+                                        ? 'border-scordi bg-scordi-50'
+                                        : 'border-gray-200 bg-gray-50',
+                                )}
+                                onClick={() => checkTeamMember(teamMember.id)}
+                            >
+                                <div className={'flex items-center justify-start space-x-1'}>
+                                    <Checkbox checked={selectedMembers.includes(teamMember.id)} />
+                                    <TeamMemberProfileOption item={teamMember} />
+                                </div>
+                                <div className={'flex items-center justify-start space-x-3'}>
+                                    <Image src={SlackIcon} alt={'slack'} width={28} />
+                                    <Image src={GmailIcon} alt={'gmail'} width={28} />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className={'flex justify-center space-x-4'}>
+                        <Button size={'xl'} variant={'scordi'} onClick={onNext} className={'w-64'}>
+                            다음
+                        </Button>
                     </div>
                 </div>
             )}
-            <div className={'flex justify-end space-x-4'}>
-                <Button size={'xl'} variant={'gray'} onClick={onPrevious}>
-                    뒤로
-                </Button>
-                <Button size={'xl'} variant={'scordi'} onClick={onNext}>
-                    다음
-                </Button>
-            </div>
         </Card>
     );
 };
