@@ -49,6 +49,7 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
                     <CardNumberInput
                         type="password"
                         form={form}
+                        minLength={3}
                         name="cardNumberFourth"
                         onChange={(e) => {
                             handleInputChange(e, 'cardExpirationMonth');
@@ -65,10 +66,11 @@ interface CardNumberInputProps {
     form: UseFormReturn<DPayRequestFormDto>;
     name: FieldPath<DPayRequestFormDto>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
+    minLength?: number;
 }
 
 const CardNumberInput = (props: CardNumberInputProps) => {
-    const {type, form, name, onChange} = props;
+    const {type, form, name, minLength = 4, onChange} = props;
 
     return (
         <label>
@@ -77,7 +79,7 @@ const CardNumberInput = (props: CardNumberInputProps) => {
                 {...form.register(name, {
                     required: '카드번호를 다시 확인해주세요.',
                     minLength: {
-                        value: 4,
+                        value: minLength,
                         message: '카드번호를 다시 확인해주세요',
                     },
                     onChange,
