@@ -25,7 +25,7 @@ interface TeamMemberStatusDropdownProps {
 const changeLevel = (id: number, level: MembershipLevel) => {
     return membershipApi
         .update(id, {level})
-        .then(() => plainToast.success('권한을 변경했어요'))
+        .then(() => plainToast.success('권한을 변경했어요.'))
         .catch((err) => plainToast.error(err.response.data.message));
 };
 
