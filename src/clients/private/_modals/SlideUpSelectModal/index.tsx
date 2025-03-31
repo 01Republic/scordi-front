@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {LoadableBox} from '^components/util/loading';
+import {LoadableBox, Spinner} from '^components/util/loading';
 import {toast} from 'react-hot-toast';
-import {ChevronLeft} from 'lucide-react';
+import {ChevronLeft, Inbox} from 'lucide-react';
 
 interface SlideUpSelectModalProps<T> {
     /**
@@ -32,12 +32,20 @@ interface SlideUpSelectModalProps<T> {
     ctaInactiveText?: string;
     ctaActiveText?: string;
     successMessage?: string;
+    emptyText?: string;
 }
 
 export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
     const {isOpened, onClose, onOpened: _onOpened, onClosed: _onClosed, onCreate, onSubmit: _onSubmit} = props;
     const {isLoading = false, items = [], Row, getId, Button} = props;
-    const {titleCaption = '', title, ctaInactiveText = '', ctaActiveText = '', successMessage = '연결했어요.'} = props;
+    const {
+        titleCaption = '',
+        title,
+        ctaInactiveText = '',
+        ctaActiveText = '',
+        successMessage = '연결했어요.',
+        emptyText,
+    } = props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
     const onOpened = () => _onOpened && _onOpened();
@@ -87,17 +95,30 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
             </div>
 
             <div className="px-6 pt-6">
-                <div className="-mx-6 px-6 sm:max-h-[60vh] sm:min-h-[40vh] overflow-auto no-scrollbar">
-                    <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
-                        {items.map((item, i) => (
-                            <Row
-                                key={i}
-                                item={item}
-                                onClick={(selected) => toggleSelect(getId(selected))}
-                                isSelected={selectedIds.includes(getId(item))}
-                            />
-                        ))}
-                    </LoadableBox>
+                <div className="flex flex-col -mx-6 px-6 sm:max-h-[60vh] sm:min-h-[40vh] overflow-auto no-scrollbar">
+                    {items.length === 0 ? (
+                        <section className="w-full flex flex-1 flex-col justify-center items-center">
+                            {isLoading ? (
+                                <Spinner size={30} posY="center" />
+                            ) : (
+                                <section className="w-full flex flex-1 flex-col justify-center items-center gap-4">
+                                    <Inbox className="size-[34px] text-gray-400" />
+                                    <span className="text-base text-gray-400 font-semibold">{emptyText}</span>
+                                </section>
+                            )}
+                        </section>
+                    ) : (
+                        <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
+                            {items.map((item, i) => (
+                                <Row
+                                    key={i}
+                                    item={item}
+                                    onClick={(selected) => toggleSelect(getId(selected))}
+                                    isSelected={selectedIds.includes(getId(item))}
+                                />
+                            ))}
+                        </LoadableBox>
+                    )}
                 </div>
             </div>
 
