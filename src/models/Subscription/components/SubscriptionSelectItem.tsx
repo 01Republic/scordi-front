@@ -31,9 +31,10 @@ export const SubscriptionSelectItem = memo((props: SubscriptionSelectItemProps) 
             <div className="flex items-center">
                 <button className="relative">
                     <Check
-                        fontSize={16}
-                        strokeWidth={0.3}
-                        className={isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'}
+                        strokeWidth={3}
+                        className={`text-20 ${
+                            isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'
+                        }`}
                     />
                     {/*{isSelected ? (*/}
                     {/*    <CheckCircle size={24} strokeWidth={0.3} className="text-indigo-500" />*/}
