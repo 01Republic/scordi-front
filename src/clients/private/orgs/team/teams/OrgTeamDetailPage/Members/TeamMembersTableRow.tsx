@@ -55,7 +55,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
         confirmed(deleteConfirm())
             .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
-            .then(() => toast.success('삭제했습니다'))
+            .then(() => toast.success('연결을 해제했어요.'))
             .then(() => reload && reload())
             .catch(errorToast);
     };
