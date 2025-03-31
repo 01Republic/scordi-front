@@ -49,7 +49,7 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
         ).then((res) => {
             if (res.isConfirmed) {
                 teamInvoiceAccountApi.destroy(orgId, teamInvoiceAccount.id).then(() => {
-                    toast.success('삭제했습니다');
+                    toast.success('연결을 해제했어요.');
                     reload && reload();
                 });
             }

@@ -12,29 +12,32 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
-import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {errorToast} from '^api/api';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {ArrowRight} from 'lucide-react';
+import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
+import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
 
 export const JoinPageBody = memo(() => {
     return (
-        <div className="flex items-center justify-center" style={{height: '100vh'}}>
-            <div className="m-auto text-center min-w-[400px]">
-                <h1
-                    className="mb-1 text-gradient-color"
-                    style={{background: 'linear-gradient(to right, #5c5fee, #a5a6f5)'}}
-                >
-                    초대를 받으셨군요!
-                </h1>
-                <p className="mb-5 text-14 font-semibold text-gray-500">
-                    소프트웨어 구독관리에 더 이상 시간 쓰지 마세요
-                </p>
-                <div className="pb-20">
+        <NewLandingPageLayout pageName="joinpage" hideNav>
+            <div className="flex items-center justify-center" style={{height: '100vh'}}>
+                <div className="flex flex-col items-center justify-center w-[400px] gap-5">
+                    <section className="flex flex-col items-center justify-center gap-1">
+                        <h1
+                            className="text-gradient-color"
+                            style={{background: 'linear-gradient(to right, #5c5fee, #a5a6f5)'}}
+                        >
+                            초대를 받으셨군요!
+                        </h1>
+                        <p className="text-14 font-semibold text-gray-500">
+                            소프트웨어 구독관리에 더 이상 시간 쓰지 마세요
+                        </p>
+                    </section>
                     <InvitedGoogleLoginButton />
                 </div>
             </div>
-        </div>
+        </NewLandingPageLayout>
     );
 });
 
@@ -83,7 +86,7 @@ const InvitedGoogleLoginButton = memo(() => {
             } else {
                 // 가입된 회원이 아닌 경우. 전화번호 인증 페이지로 이동
                 console.log('// 가입된 회원이 아닌 경우. 전화번호 인증 페이지로 이동');
-                router.push(SignPhoneAuthPageRoute.path());
+                router.push(SignAuthCreateUserPageRoute.path());
             }
             // // 초대된 멤버와 멤버십 데이터를 초대 롼료 상태로 올바르게 업데이트 합니다.
             // if (isFromInviteLink) {
@@ -103,7 +106,7 @@ const InvitedGoogleLoginButton = memo(() => {
                 className="btn-block justify-start relative"
                 buttonText={
                     <span>
-                        Google 계정으로 시작하기{' '}
+                        Google 계정으로 시작하기
                         <span className="absolute right-4">
                             <ArrowRight />
                         </span>
@@ -118,6 +121,7 @@ const InvitedGoogleLoginButton = memo(() => {
                                 const lines = [`선택하신 계정(${tokenData.email})은 초대받은 계정이 아닙니다.`];
                                 throw new Error(lines.join('\n'));
                             }
+                            localStorage.setItem('googleTokenData', JSON.stringify(tokenData));
                             return onSuccess(tokenData.accessToken);
                         })
                         .catch(errorToast);

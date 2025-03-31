@@ -44,6 +44,7 @@ export const BankAccountAddCreditCardModal = memo((props: BankAccountAddCreditCa
             ctaInactiveText="카드 선택"
             ctaActiveText="%n개의 선택된 카드 연결하기"
             successMessage="카드를 연결했어요."
+            emptyText="연결할 결제수단이 없어요"
         />
     );
 });

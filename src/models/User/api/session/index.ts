@@ -1,5 +1,11 @@
 import {
+    CreateOrganizationRequestDto,
+    CreateUserDetailRequestDto,
     CreateUserDeviceRequestDto,
+    CreateUserRequestDto,
+    CreateUserResponseDto,
+    SendPhoneAuthMessageDto,
+    UserGoogleSocialSignUpInvitedRequestDto,
     UserSocialSignUpInvitedRequestDto,
     UsersWebpushRegisterDto,
     UsersWebpushTestDto,
@@ -16,6 +22,9 @@ import {api} from '^api/api';
 import axios from 'axios';
 import {GoogleSignedUserData} from '^models/User/atom';
 import {oneDtoOf} from '^types/utils/response-of';
+import {OrganizationDto} from '^models/Organization/type';
+import {useRecoilValue} from 'recoil';
+import {googleTokenDataAtom} from '^atoms/common';
 
 export const userSessionApi = {
     index: () => {
@@ -82,4 +91,54 @@ export const postUserWebpushTest = () => {
 
 export const createInvitedUser = (data: UserSocialSignUpInvitedRequestDto) => {
     return api.post<UserDto>('/users/invitation', data);
+};
+
+// 회원가입 플로우 개선 후 API
+export const SignUserApi = {
+    /* 회원가입 */
+    createUser: (data: CreateUserRequestDto, accessToken?: string) => {
+        const url = '/users/v2';
+        const headers = accessToken ? {'X-GOOGLE-TOKEN': accessToken} : {};
+        return api.post<CreateUserResponseDto>(url, data, {headers});
+    },
+
+    /* 초대 유저 회원가입 */
+    invitedCreateUser: (data: UserGoogleSocialSignUpInvitedRequestDto, accessToken: string) => {
+        const url = `/users/social/google/invited`;
+        return api.post<UserDto>(url, data, {
+            headers: {'X-GOOGLE-TOKEN': accessToken},
+        });
+    },
+
+    /* 핸드폰 인증번호 요청 */
+    postPhoneAuthSession: (data: SendPhoneAuthMessageDto) => {
+        const url = '/users/auth/phone-auth-session';
+        return api.post<boolean>(url, data);
+    },
+
+    /* 핸드폰 인증번호 확인 */
+    patchPhoneAuthSession: (data: SendPhoneAuthMessageDto) => {
+        const url = '/users/auth/phone-auth-session';
+        return api.patch<boolean>(url, data);
+    },
+
+    /* 로그인 */
+    login: (accessToken: string) => {
+        const url = '/users/session/social/google';
+        return api.get(url, {
+            headers: {'X-GOOGLE-TOKEN': accessToken},
+        });
+    },
+
+    /* 조직 생성 (워크스페이스명, 회사정보) */
+    createOrganization: (data: CreateOrganizationRequestDto) => {
+        const url = '/organizations';
+        return api.post<OrganizationDto>(url, data);
+    },
+
+    /* 유저 상세 정보 생성 (유입경로) */
+    createUserDetail: (data: CreateUserDetailRequestDto, userId: number) => {
+        const url = `/users/${userId}/detail`;
+        return api.post(url, data);
+    },
 };

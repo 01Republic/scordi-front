@@ -26,7 +26,7 @@ export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
                     <span>유효기간</span>
                     <small className="ml-2">예) 02/27</small>
                 </p>
-                <section className="grid grid-cols-5 gap-2 mt-2">
+                <section className="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-2">
                     <label htmlFor="cardExpirationMonth">
                         <NumberTextInput
                             placeholder="MM"

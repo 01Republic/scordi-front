@@ -85,11 +85,13 @@ export const ListingOptionsContainer = <T,>(props: ListingOptionsContainerProps<
 
             <ContainerBody entries={options} isLoading={isLoading}>
                 {options.map((option, i) => {
+                    const beforeOption: T | undefined = options[i - 1];
                     // @ts-ignore
-                    const isDifferentType = options[i - 1] && options[i - 1].constructor !== option.constructor;
+                    const isDifferentType = !!beforeOption && beforeOption.constructor !== option.constructor;
                     const isCreditCard = option instanceof CreditCardDto;
                     const isBankAccount = option instanceof BankAccountDto;
                     const isFirstChild = i === 0;
+
                     return (
                         <>
                             {isDifferentType && <hr className={'my-3'} />}

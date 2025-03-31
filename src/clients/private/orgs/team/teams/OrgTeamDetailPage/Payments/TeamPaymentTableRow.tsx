@@ -51,7 +51,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
         ).then((res) => {
             if (res.isConfirmed) {
                 creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
-                    toast.success('삭제했습니다');
+                    toast.success('연결을 해제했어요.');
                     reload && reload();
                 });
             }

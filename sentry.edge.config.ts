@@ -4,9 +4,11 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from '@sentry/nextjs';
+import {deployEnv} from '^config/environments';
 
-if (process.env.NEXT_PUBLIC_APP_ENV === 'production') {
+if (deployEnv === 'production' || deployEnv === 'staging') {
     Sentry.init({
+        environment: deployEnv,
         dsn: 'https://92e1cc608c794d3482a377ed860d7010@o1068306.ingest.sentry.io/4505594818002944',
 
         // Adjust this value in production, or use tracesSampler for greater control

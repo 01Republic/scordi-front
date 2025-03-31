@@ -1,6 +1,7 @@
 import {useEffect, useSyncExternalStore} from 'react';
 import {atom, RecoilState, useSetRecoilState} from 'recoil';
 import {NextRouter, useRouter} from 'next/router';
+import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
 
 // Ex: const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
 export const useRouterIdParamState = (idParamNameOrValue: string | number, atom: RecoilState<number>) => {
@@ -104,4 +105,9 @@ export const codefAccountIdParamState = atom({
 export const bankAccountIdParamState = atom({
     key: 'bankAccountIdParamState',
     default: NaN,
+});
+
+export const googleTokenDataAtom = atom<GoogleTokenDataDto | null>({
+    key: 'googleTokenData',
+    default: null,
 });

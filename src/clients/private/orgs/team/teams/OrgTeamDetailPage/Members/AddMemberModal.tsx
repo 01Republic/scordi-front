@@ -62,6 +62,7 @@ export const AddMemberModal = memo((props: AddMemberModalProps) => {
             ctaInactiveText="이용중인 구성원을 선택해주세요."
             ctaActiveText="%n명의 이용중인 구성원 연결하기"
             successMessage="선택한 구성원을 연결했어요."
+            emptyText="연결할 구성원이 없어요"
         />
     );
 });

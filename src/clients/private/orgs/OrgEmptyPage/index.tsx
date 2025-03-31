@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
-import {OrgCreatePageRoute} from '^pages/orgs/new';
 import {AlertCircle} from 'lucide-react';
+import {OrgCreatePageRoute} from '^pages/orgs/new';
 
 export const OrgEmptyPage = memo(function OrgEmptyPage() {
     return (

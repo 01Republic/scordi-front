@@ -28,7 +28,7 @@ export const DetachableOptionItem = <T,>(props: DetachableOptionItemProps<T>) =>
                             onClick={() => detachRequest(option)}
                         >
                             <button className="btn btn-2xs btn-square shadow rounded-[4px] !bg-white border-gray-300">
-                                <Minus fontSize={18} className="text-gray-400" strokeWidth={10} />
+                                <Minus fontSize={18} className="text-gray-400" strokeWidth={2} />
                             </button>
                         </div>
                     </Tippy>

@@ -40,7 +40,7 @@ export const InvoiceAccountScopeHandler = memo(function () {
                 active={usingStatus === InvoiceAccountUsingStatus.Expired}
                 onClick={() => searchResource(InvoiceAccountUsingStatus.Expired)}
             >
-                만료
+                만료됨
             </ListPage.ScopeButton>
         </div>
     );

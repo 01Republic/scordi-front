@@ -23,6 +23,7 @@ import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {serviceHost} from '^config/environments';
 import {plainToInstance} from 'class-transformer';
 import {sendSlackNotificationApi} from '^api/utils.api';
+import {undef} from '^utils/array';
 
 export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
@@ -30,7 +31,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
     const form = useForm<DPayRequestFormDto>();
-    const plan = plans[0];
+    const plan = undef(plans[0]);
 
     const onSubmit = debounce((data: DPayRequestFormDto) => {
         const formData = plainToInstance(DPayRequestFormDto, data);
@@ -69,7 +70,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
             {!resultPayment ? (
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
                     {currentStep === 0 && (
-                        <UserInfoSection form={form} nextStep={nextStep}>
+                        <UserInfoSection form={form} nextStep={nextStep} plan={plan}>
                             <Title text="환영합니다!" desc="모임 전, 참가비를 결제해주세요." />
                             <PlanList plans={plans} form={form} />
                         </UserInfoSection>

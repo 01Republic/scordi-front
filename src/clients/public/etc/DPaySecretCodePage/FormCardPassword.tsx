@@ -22,7 +22,7 @@ export const FormCardPassword = memo((props: FormCardPasswordProps) => {
         <div className="w-full">
             <label htmlFor="cardPassword" className="flex flex-col gap-2">
                 <span>카드 비밀번호 (앞 2자리) </span>
-                <div className="grid grid-cols-5">
+                <div className="grid grid-cols-3 sm:grid-cols-5">
                     <NumberTextInput
                         type="password"
                         {...register('cardPassword', {

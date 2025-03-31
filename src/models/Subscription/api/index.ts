@@ -112,5 +112,11 @@ export const subscriptionApi = {
             const url = `${controllerPath}/seats/${id}`;
             return api.delete(url).then(oneDtoOf(SubscriptionSeatDto));
         },
+
+        destroyAll(orgId: number, subscriptionId: number, ids: number[]) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats`;
+            return api.delete(url, {params: {ids}});
+        },
     },
 };

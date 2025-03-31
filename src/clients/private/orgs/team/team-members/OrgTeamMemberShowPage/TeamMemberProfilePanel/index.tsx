@@ -70,13 +70,6 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                     >
                         <Mail fontSize={14} />
                     </ContactButton>
-
-                    <div>
-                        <button className="btn btn-sm !outline-0 gap-0.5 items-center !bg-white border !border-slate-300 cursor-default rounded-md transition-all pl-[6px] no-animation">
-                            <Circle fontSize={24} className="text-green-500 relative top-[1px]" />
-                            <span>재직중</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

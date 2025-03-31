@@ -18,9 +18,9 @@ export const AssignedSeatCounter = memo(() => {
 
     return (
         <StatusCard
-            title={'현재 할당된 계정'}
+            title="이용중인 시트"
             titleValue={count.toLocaleString()}
-            icon={<User size={20} className="h-full w-full p-[6px] text-white" />}
+            icon={<User className="size-6 text-white" />}
             iconColor={'bg-purple-400'}
         />
     );

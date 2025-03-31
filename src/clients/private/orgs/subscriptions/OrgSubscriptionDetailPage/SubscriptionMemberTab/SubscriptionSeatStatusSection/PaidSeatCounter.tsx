@@ -17,9 +17,9 @@ export const PaidSeatCounter = memo(() => {
 
     return (
         <StatusCard
-            title="구매한 계정"
+            title="구매된 시트"
             titleValue={count.toLocaleString()}
-            icon={<UserPlus size={20} className="h-full w-full p-[6px] text-white" />}
+            icon={<UserPlus className="size-6 text-white" />}
             iconColor="bg-orange-400"
         />
     );

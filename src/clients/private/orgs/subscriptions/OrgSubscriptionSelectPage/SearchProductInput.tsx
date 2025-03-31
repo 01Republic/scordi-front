@@ -29,7 +29,7 @@ export const SearchProductInput = memo(function SearchProductInput() {
     return (
         <div className="relative mb-6">
             <div className="absolute top-0 bottom-0 w-[50px] flex items-center justify-center">
-                <Search size={16} className="text-gray-500 opacity-50" />
+                <Search className="text-gray-500 opacity-50 size-6" />
             </div>
 
             <input
