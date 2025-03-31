@@ -1,42 +1,45 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {Card} from '^public/components/ui/card';
-import {Button, buttonVariants} from '^public/components/ui/button';
+import {Button} from '^public/components/ui/button';
 import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage';
 import {DatePicker} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3/DatePicker';
 import {TimePicker} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3/TimePicker';
 import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 import {ChevronDown, ChevronRight} from 'lucide-react';
 import {confirm2, confirmed} from '^components/util/dialog';
-import {codefAccountAdminApi} from '^models/CodefAccount/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '^public/components/ui/alert-dialog';
+import {useRouter} from 'next/router';
+import {OrgRequestListPageRoute} from '^pages/orgs/[id]/requests';
+import {orgIdParamState} from '^atoms/common';
 
 export const RequestAddStep3 = () => {
+    const router = useRouter();
     const [step, setStep] = useRecoilState(requestAddStepAtom);
     const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [time, setTime] = React.useState<string | undefined>(undefined);
+    const orgId = useRecoilValue(orgIdParamState);
 
     const onNext = () => {
         setStep(step + 1);
     };
 
     const onSubmit = () => {
-        const syncConfirm = () => confirm2('새 요청을 생성하고 알림을 보낼까요?', 'adf');
+        const syncConfirm = () =>
+            confirm2(
+                '새 요청을 생성하고 알림을 보낼까요?',
+                '요청 대상자들에게 지금 바로 알림이 보내져요.',
+                'question',
+                {
+                    cancelButtonText: '돌아가기',
+                    confirmButtonText: '생성 완료하기',
+                },
+            );
         return confirmed(syncConfirm())
             .then(() => null)
-            .then(() => toast.success('패치 완료'))
+            .then(() => toast.success('요청이 전송되었습니다.'))
+            .then(() => router.push(OrgRequestListPageRoute.path(orgId)))
             .catch(errorToast);
     };
 
@@ -79,33 +82,9 @@ export const RequestAddStep3 = () => {
                     </div>
 
                     <div className={'flex justify-center space-x-4'}>
-                        <AlertDialog>
-                            <AlertDialogTrigger>
-                                <Button size={'xl'} variant={'scordi'} className={'w-64'}>
-                                    완료
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent
-                                className={
-                                    'fixed top-1/2 left-1/2 w-[90vw] bg-white max-w-md -translate-x-1/2 -translate-y-1/2'
-                                }
-                            >
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>새 요청을 생성하고 알림을 보낼까요?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        요청 대상자들에게 지금 바로 알림이 보내져요.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel className={buttonVariants({variant: 'gray'})}>
-                                        돌아가기
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction className={buttonVariants({variant: 'scordi'})}>
-                                        생성 완료하기
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <Button size={'xl'} variant={'scordi'} onClick={onSubmit} className={'w-64'}>
+                            완료
+                        </Button>
                     </div>
                 </div>
             )}

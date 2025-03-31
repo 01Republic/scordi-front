@@ -6,10 +6,14 @@ import {Card} from '^public/components/ui/card';
 import {SubscriptionItemOfResponse} from '^clients/private/orgs/requests/OrgResponsePage/SubscriptionItemOfResponse';
 import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 import {InputWithLabel} from '^public/components/mixed/InputWithLabel';
+import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
+import {SelectTeamId} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
+import {cn} from '^public/lib/utils';
+import {Input} from '^public/components/ui/input';
 
 export const OrgResponsePage = () => {
     return (
-        <div className={'bg-gray-50 p-10 space-y-8 min-h-lvh'}>
+        <div className={'bg-gray-50 p-10 space-y-8 min-h-lvh max-w-screen-md mx-auto'}>
             <div className={'text-xl font-bold text-gray-900'}>요청의 제목과 내용을 입력해 주세요</div>
             <Card className={'bg-white p-5'}>
                 <div className={'text-16 text-gray-800'}>
@@ -20,29 +24,32 @@ export const OrgResponsePage = () => {
                     감사합니다.
                 </div>
             </Card>
-            <InputWithLabel id={'name'} label={'응답자 이름'} placeholder={'응답자 이름 입력'} className={'max-w-md'} />
-            <InputWithLabel
-                id={'email'}
-                label={'이메일 계정'}
-                placeholder={'이메일 계정 입력'}
-                className={'max-w-md'}
-            />
-            <InputWithLabel id={'team'} label={'팀'} placeholder={'팀 이름 입력'} className={'max-w-md'} />
+
+            <InputWithLabel id={'name'} label={'응답자 이름'} placeholder={'응답자 이름 입력'} />
+            <InputWithLabel id={'email'} label={'이메일 계정'} placeholder={'이메일 계정 입력'} />
+            <div className={cn('flex flex-col space-y-2')}>
+                <Label>팀</Label>
+                <TeamSelect onSelect={(selectedTeam) => console.log(selectedTeam)} />
+            </div>
+
             <div>구독중인 서비스</div>
             <Card className={'p-5 bg-white'}>
                 <SubscriptionItemOfResponse />
                 <SubscriptionItemOfResponse />
                 <SubscriptionItemOfResponse />
             </Card>
+
             <div className="grid w-full items-center gap-2">
                 <Label htmlFor="email">새롭게 이용 중인 구독 서비스가 있나요?</Label>
                 <CheckboxWithLabel id={'checkNewSubscription'} label={'예'} />
-                <CheckboxWithLabel id={'uncheckNewSubscription'} label={'아니오'} />
+                <CheckboxWithLabel id={'uncheckNewSubscription'} label={'아니오'} checked={true} />
             </div>
+
             <div className="grid w-full items-center gap-2">
                 <Label htmlFor="email">추가적으로 궁금한 점이 있으신가요?</Label>
                 <Textarea id="description" placeholder="요청 설명" className={'bg-white min-h-40'} />
             </div>
+
             <div className={'flex justify-end space-x-4'}>
                 <Button size={'xl'} variant={'scordi'}>
                     작성 완료
