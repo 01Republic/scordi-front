@@ -2,6 +2,7 @@ import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {toast} from 'react-hot-toast';
+import cn from 'classnames';
 import {subscriptionApi} from '^models/Subscription/api';
 import {selectedTeamMembersAtom} from './inputs/TeamMemberSelect/atom';
 import {
@@ -195,9 +196,11 @@ const StepButtons = memo((props: Props) => {
                 )}
                 {onNext && (
                     <button
-                        className={`btn w-40 text-16 btn-scordi ${
-                            isValid ? '' : 'btn-disabled !bg-gray-100 !text-gray-300 border-0'
-                        }`}
+                        className={cn('btn w-40 text-16 ', {
+                            'btn-white': nextButtonText === '건너뛰기',
+                            'btn-scordi': isValid,
+                            'btn-disabled !bg-gray-100 !text-gray-300 border-0': !isValid,
+                        })}
                         onClick={() => isValid && onNext()}
                     >
                         {nextButtonText}
