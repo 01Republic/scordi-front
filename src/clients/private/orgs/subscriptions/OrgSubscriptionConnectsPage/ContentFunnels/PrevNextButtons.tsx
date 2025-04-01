@@ -196,7 +196,7 @@ const StepButtons = memo((props: Props) => {
                 {onNext && (
                     <button
                         className={`btn w-40 text-16 btn-scordi ${
-                            isValid ? '' : 'btn-disabled !bg-scordi !text-white opacity-30'
+                            isValid ? '' : 'btn-disabled !bg-gray-100 !text-gray-300 border-0'
                         }`}
                         onClick={() => isValid && onNext()}
                     >
