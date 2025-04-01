@@ -46,6 +46,8 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     };
 
     const onChangeScopeHandler = (status: SubscriptionSeatStatus | null) => {
+        setSelectedMembers([]);
+
         if (!status) {
             search({
                 order: {id: 'DESC'},
