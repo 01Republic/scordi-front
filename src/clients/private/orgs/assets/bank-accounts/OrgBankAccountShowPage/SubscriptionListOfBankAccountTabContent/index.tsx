@@ -9,12 +9,15 @@ import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/
 import {BankAccountAddSubscriptionModal} from './BankAccountAddSubscriptionModal';
 import {SubscriptionTableRowOfBankAccount} from './SubscriptionTableRowOfBankAccount';
 import {SubscriptionTableHeaderOfBankAccount} from './SubscriptionTableHeaderOfBankAccount';
-import {Plus, RotateCw} from 'lucide-react';
+import {HelpCircle, Plus, RotateCw} from 'lucide-react';
+import {New_SaaS_Request_Form_Url} from '^config/constants';
+import {NoSubscriptionFoundModal} from '^clients/private/_modals/NoSubscriptionFoundModal';
 
 export const SubscriptionListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
     const {isManuallyCreated} = useCurrentCodefCard();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
+    const [isNoSubscriptionFoundModalOpen, setIsNoSubscriptionFoundModalOpen] = useState(false);
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useSubscriptionListOfBankAccount();
 
@@ -71,17 +74,14 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
                         </Tippy>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        {isManuallyCreated && (
-                            <button
-                                className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
-                                onClick={() => setAddSubscriptionModalOpened(true)}
-                            >
-                                <Plus />
-                                <span>구독 연결하기</span>
-                            </button>
-                        )}
-                    </div>
+                    <button
+                        type="button"
+                        onClick={() => setIsNoSubscriptionFoundModalOpen(true)}
+                        className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
+                    >
+                        <HelpCircle className="size-4 fill-gray-500 text-white" />
+                        <span>찾는 구독이 없나요?</span>
+                    </button>
                 </div>
 
                 {isEmptyResult ? (
@@ -107,6 +107,10 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
                     reload();
                 }}
                 bankAccountId={currentBankAccount.id}
+            />
+            <NoSubscriptionFoundModal
+                isOpened={isNoSubscriptionFoundModalOpen}
+                onClose={() => setIsNoSubscriptionFoundModalOpen(false)}
             />
         </section>
     );
