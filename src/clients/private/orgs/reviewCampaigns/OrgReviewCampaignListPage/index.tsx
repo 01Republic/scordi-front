@@ -9,7 +9,7 @@ import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {RequestItemCard} from './RequestItemCard';
 import {RequestScopeHandler} from './RequestScopeHandler';
-import {OrgRequestAddPageRoute} from '^pages/orgs/[id]/reviewCampaigns/add';
+import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
 
 const data = [
     {
@@ -95,7 +95,7 @@ export const OrgReviewCampaignListPage = () => {
     const AddRequestButton = () => (
         <div>
             <LinkTo
-                href={OrgRequestAddPageRoute.path(orgId)}
+                href={OrgReviewCampaignNewPageRoute.path(orgId)}
                 className="btn btn-scordi gap-2 no-animation btn-animation"
                 loadingOnBtn
             >

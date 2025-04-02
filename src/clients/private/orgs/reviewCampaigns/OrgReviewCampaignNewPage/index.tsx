@@ -11,7 +11,7 @@ export const requestAddStepAtom = atom<number>({
     default: 1,
 });
 
-export const OrgRequestAddPage = () => {
+export const OrgReviewCampaignNewPage = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);
 
     return (

@@ -4,11 +4,11 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgRequestAddPage} from '^clients/private/orgs/reviewCampaigns/OrgRequestAddPage';
+import {OrgReviewCampaignNewPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage';
 
-export const OrgRequestAddPageRoute = pathRoute({
-    pathname: '/orgs/[id]/reviewCampaigns/add',
-    path: (orgId: number) => pathReplace(OrgRequestAddPageRoute.pathname, {id: orgId}),
+export const OrgReviewCampaignNewPageRoute = pathRoute({
+    pathname: '/orgs/[id]/reviewCampaigns/new',
+    path: (orgId: number) => pathReplace(OrgReviewCampaignNewPageRoute.pathname, {id: orgId}),
 });
 
 export const getStaticPaths = async () => ({
@@ -31,5 +31,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgRequestAddPage />;
+    return <OrgReviewCampaignNewPage />;
 }
