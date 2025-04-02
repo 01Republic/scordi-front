@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {debounce} from 'lodash';
 import {plainToInstance} from 'class-transformer';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
@@ -43,6 +42,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [createCreditCardDto, setCreateRequestFormData] = useRecoilState(createCreditCardDtoAtom);
     const resetFormData = useResetRecoilState(createCreditCardDtoAtom);
+    const [isLoading, setIsLoading] = useState(false);
 
     const setFormData = (data: Partial<CreateCreditCardDto>) => {
         setCreateRequestFormData((f) => ({...f, ...data}));
@@ -68,7 +68,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
         cardCompanyData ? setStep(Step.setInfo) : setClientType(undefined);
     };
 
-    const onSubmit = debounce(() => {
+    const onSubmit = async () => {
         if (!orgId) return;
         const formData = plainToInstance(UnSignedCreditCardFormData, createCreditCardDto);
 
@@ -82,8 +82,10 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
             return;
         }
 
+        setIsLoading(true);
+
         setStep(Step.creating);
-        creditCardApi
+        await creditCardApi
             .create(orgId, formData.toCreateDto())
             .then(() => delay(2000))
             .then(() => toast.success('카드를 추가했어요.'))
@@ -96,7 +98,9 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
                 setStep(Step.setInfo);
                 errorToast(e);
             });
-    }, 500);
+
+        setIsLoading(false);
+    };
 
     return (
         <>
@@ -134,7 +138,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
                     </FadeUp>
 
                     {/* 폼 작성 */}
-                    <FadeUp show={cardCompany && step === Step.setInfo} delay="delay-[50ms]">
+                    <FadeUp show={cardCompany && step === Step.setInfo} delay="delay-[50ms]" className="h-full">
                         {cardCompany && (
                             <InputCardFormDataStep
                                 cardCompany={cardCompany}
@@ -144,6 +148,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
                                     setStep(Step.companySelect);
                                 }}
                                 onSubmit={onSubmit}
+                                isLoading={isLoading}
                             />
                         )}
                     </FadeUp>

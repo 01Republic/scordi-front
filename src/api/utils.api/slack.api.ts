@@ -2,7 +2,7 @@ import {api} from '^api/api';
 
 class SlackNotificationField {
     label!: string;
-    value!: string;
+    value!: string | number;
 }
 
 class SlackNotificationActionButton {
@@ -12,6 +12,7 @@ class SlackNotificationActionButton {
 
 export class SlackNotificationContent {
     title!: string; // 제목
+    description?: string; // 설명
     fields!: SlackNotificationField[]; // 내용
     buttons?: SlackNotificationActionButton[]; // 액션버튼
 }

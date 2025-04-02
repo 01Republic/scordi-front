@@ -123,12 +123,11 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             </td>
 
             {/* 계정부여(예정)일 ~ 계정회수(예정)일 */}
-            <td className={` ${hoverBgColor} ${loadingStyle}`}>
+            <td className={`flex items-center text-gray-400 ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
                     containerClassName="min-w-[220px] relative"
-                    inputClassName="input px-1.5 py-1 rounded-md w-full input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
-                    toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
-                    toggleIcon={() => <MinusCircle />}
+                    inputClassName="input px-1.5 py-1 rounded-md w-full input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0"
+                    toggleClassName="hidden"
                     useRange={true}
                     placeholder={`${seat.startAt ? yyyy_mm_dd(seat.startAt) : ''} ~ ${
                         seat.finishAt ? yyyy_mm_dd(seat.finishAt) : ''
@@ -141,6 +140,15 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                         return update({startAt: newValue?.startDate, finishAt: newValue?.endDate});
                     }}
                 />
+                <button
+                    type="button"
+                    onClick={() => {
+                        setSeatDateValue({startDate: null, endDate: null});
+                        update({startAt: null, finishAt: null});
+                    }}
+                >
+                    <MinusCircle />
+                </button>
             </td>
 
             {/* 비고 */}

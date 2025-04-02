@@ -20,9 +20,7 @@ import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/
 import {PageSEO, SEO} from '^components/SEO';
 import {DPaySecretCodePageRoute} from '^pages/direct-pay/[secretCode]';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
-import {serviceHost} from '^config/environments';
 import {plainToInstance} from 'class-transformer';
-import {sendSlackNotificationApi} from '^api/utils.api';
 import {undef} from '^utils/array';
 
 export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
@@ -41,10 +39,6 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
             .catch((e: ApiError) => {
                 const msg = e.response?.data?.message;
                 if (msg) toast.error(msg.replace('[토스페이먼츠] ', ''));
-                return sendSlackNotificationApi({
-                    title: '[D-PAY] 결제 실패 알림 (발신: 디페이 프론트)',
-                    fields: [{label: '내용', value: JSON.stringify(e.stack, null, 4)}],
-                });
             });
     }, 500);
 

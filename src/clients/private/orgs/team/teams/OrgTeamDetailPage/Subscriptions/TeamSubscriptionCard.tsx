@@ -17,7 +17,7 @@ export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
     const memberMaxLength = 3;
 
     return (
-        <li className="w-full border bg-white rounded-lg flex items-center">
+        <li className="w-full border bg-white rounded-lg flex items-center shadow-xl hover:shadow-2xl">
             <LinkTo
                 href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
                 className="w-full flex items-center justify-between p-4"

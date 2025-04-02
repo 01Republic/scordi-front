@@ -22,7 +22,7 @@ export const ActionButtons = memo(function ActionButtons() {
             <LinkTo
                 href={OrgSubscriptionConnectsPageRoute.path(orgId)}
                 className={`btn btn-scordi gap-3 items-center px-6 ${
-                    size === 0 ? 'btn-disabled !bg-scordi !text-white opacity-40' : ''
+                    size === 0 ? 'btn-disabled !bg-gray-100 !text-gray-300 border-0' : ''
                 }`}
                 loadingOnBtn
             >
