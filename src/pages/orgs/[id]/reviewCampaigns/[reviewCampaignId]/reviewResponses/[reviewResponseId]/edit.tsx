@@ -6,15 +6,15 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgResponsePage} from '^clients/private/orgs/reviewCampaigns/OrgResponsePage';
 import {useCurrentOrg} from '^models/Organization/hook';
 
-export const OrgResponsePageRoute = pathRoute({
-    pathname: '/orgs/[id]/reviewCampaigns/[reviewCampaignId]/response',
-    path: (orgId: number, reviewCampaignId: number) =>
-        pathReplace(OrgResponsePageRoute.pathname, {id: orgId, reviewCampaignId}),
+export const OrgReviewResponseEditPageRoute = pathRoute({
+    pathname: '/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit',
+    path: (orgId: number, reviewCampaignId: number, reviewResponseId: number) =>
+        pathReplace(OrgReviewResponseEditPageRoute.pathname, {id: orgId, reviewCampaignId, reviewResponseId}),
     // resourcePath: (resource: SubscriptionDto) => OrgResponsePageRoute.path(resource.organizationId, resource.id),
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {id: '1', reviewCampaignId: '1'}}],
+    paths: [{params: {id: '1', reviewCampaignId: '1', reviewResponseId: '1'}}],
     fallback: true,
 });
 
