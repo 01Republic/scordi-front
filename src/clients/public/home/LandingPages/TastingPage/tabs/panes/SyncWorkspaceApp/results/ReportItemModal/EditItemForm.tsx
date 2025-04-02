@@ -2,11 +2,11 @@ import React, {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useEffect, u
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useId} from 'react-id-generator';
-import {CgArrowsExchangeAlt} from 'react-icons/cg';
 import {isEditModeState} from './atom';
 import {subjectReportProductItem, useReportInDemo} from '../../atom';
 import {RecurringType, ReportItemFormDataDto} from '../../dto/report-item-form.dto';
 import {CurrencyCode} from '^models/Money';
+import {ArrowUpDown} from 'lucide-react';
 
 const isDefined = <T,>(v: T | undefined, callback?: (v: T) => any) => {
     return callback ? typeof v !== 'undefined' && callback(v) : typeof v !== 'undefined';
@@ -191,7 +191,7 @@ export const EditItemForm = memo(function EditItemForm() {
                                     })
                                 }
                             >
-                                <CgArrowsExchangeAlt size={24} className="mr-2" />
+                                <ArrowUpDown className="mr-2" />
                                 {currencyType === CurrencyCode.KRW && '달러'}
                                 {currencyType === CurrencyCode.USD && '원'}
                             </button>

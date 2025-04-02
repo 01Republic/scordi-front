@@ -2,12 +2,12 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {BottomNavItem} from '^v3/share/BottomNavMobile/BottomNavItem';
-import {FaGear, FaHouse, FaKey, FaRegCalendarCheck, FaUsers} from 'react-icons/fa6';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {V3OrgBillingHistoriesPageRoute} from '^pages/v3/orgs/[orgId]/billingHistories';
 import {V3OrgAccountListPageRoute} from '^pages/v3/orgs/[orgId]/accounts';
 import {V3OrgTeamsPageRoute} from '^pages/v3/orgs/[orgId]/teams';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
+import {CalendarCheck, Home, Key, Settings, Users} from 'lucide-react';
 
 export enum BottomTabIndex {
     HOME,
@@ -30,11 +30,11 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
     const height = 60;
     const voidLink = 'javascript:void(0)';
     const tabs = [
-        {text: '홈', Icon: FaHouse, href: orgId ? V3OrgHomePageRoute.path(orgId) : voidLink},
-        {text: '일정', Icon: FaRegCalendarCheck, href: orgId ? V3OrgBillingHistoriesPageRoute.path(orgId) : voidLink},
-        {text: '계정', Icon: FaKey, href: orgId ? V3OrgAccountListPageRoute.path(orgId) : voidLink},
-        {text: '멤버', Icon: FaUsers, href: orgId ? V3OrgTeamsPageRoute.path(orgId) : voidLink},
-        {text: '관리', Icon: FaGear, href: orgId ? V3OrgSettingsOrgPageRoute.path(orgId) : voidLink},
+        {text: '홈', Icon: Home, href: orgId ? V3OrgHomePageRoute.path(orgId) : voidLink},
+        {text: '일정', Icon: CalendarCheck, href: orgId ? V3OrgBillingHistoriesPageRoute.path(orgId) : voidLink},
+        {text: '계정', Icon: Key, href: orgId ? V3OrgAccountListPageRoute.path(orgId) : voidLink},
+        {text: '멤버', Icon: Users, href: orgId ? V3OrgTeamsPageRoute.path(orgId) : voidLink},
+        {text: '관리', Icon: Settings, href: orgId ? V3OrgSettingsOrgPageRoute.path(orgId) : voidLink},
     ];
 
     const tabCount = tabs.length;

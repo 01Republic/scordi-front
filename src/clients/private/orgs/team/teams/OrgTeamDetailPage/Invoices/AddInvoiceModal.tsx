@@ -58,6 +58,7 @@ export const AddInvoiceModal = memo((props: AddInvoiceModalProps) => {
             ctaInactiveText="청구서 메일을 선택해주세요."
             ctaActiveText="%n개의 선택된 청구서 메일 연결하기"
             successMessage="선택한 청구서 메일을 연결했어요."
+            emptyText="연결할 청구서 메일이 없어요"
         />
     );
 });

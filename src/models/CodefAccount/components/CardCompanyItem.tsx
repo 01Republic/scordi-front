@@ -1,6 +1,6 @@
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import React, {memo} from 'react';
-import {FaChevronRight} from 'react-icons/fa6';
+import {ChevronRight} from 'lucide-react';
 
 interface CardCompanyItemProps {
     cardCompanyData: CardAccountsStaticData;
@@ -23,7 +23,7 @@ export const CardCompanyItem = memo((props: CardCompanyItemProps) => {
                 <p className="text-14">{displayName}</p>
             </div>
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import {
     invoiceAccountsOfSubscription,
     invoiceAccountsSearchAtom,
 } from '../atom';
+import {toast} from 'react-toastify';
 
 export const useInvoiceAccounts = () => useInvoiceAccountsV3(invoiceAccountListAtom);
 
@@ -34,6 +35,14 @@ const useInvoiceAccountsV3 = (
         getId: 'id',
         mergeMode,
     });
+};
+
+export const deleteInvoiceAccount = async (invoiceAccountId: number, subscriptionId: number) => {
+    return invoiceAccountApi.subscriptionsApi
+        .destroy(invoiceAccountId, subscriptionId)
+        .then(() => toast.success('삭제했습니다.'))
+        .then((res) => res)
+        .catch((err) => toast.error(err.message));
 };
 
 export * from './useInvoiceAccountCreate';

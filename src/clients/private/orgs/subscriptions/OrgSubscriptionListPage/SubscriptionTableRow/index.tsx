@@ -3,7 +3,6 @@ import {toast} from 'react-hot-toast';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
-import {IoIosMore} from 'react-icons/io';
 import {Dropdown} from '^v3/share/Dropdown';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {
@@ -14,12 +13,13 @@ import {
 } from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {
-    SubscriptionProfile,
-    PayMethodSelect,
-    MemberCount,
-    SubscriptionUsingStatusTag,
     LatestPayAmount,
+    MemberCount,
     NextComputedBillingDateText,
+    PayMethodSelect,
+    PayMethodSelectType,
+    SubscriptionProfile,
+    SubscriptionUsingStatusTag,
 } from '^models/Subscription/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -29,6 +29,9 @@ import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[su
 import {currentUserAtom} from '^models/User/atom';
 import {useRecoilValue} from 'recoil';
 import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {MoreHorizontal} from 'lucide-react';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -140,11 +143,18 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/* 결제수단 */}
             <td className="pl-3 py-0">
                 <PayMethodSelect
+                    payMethodSelectType={PayMethodSelectType.BOTH}
                     subscription={subscription}
                     onChange={reload}
                     ValueComponent={(props) => {
                         const {value} = props;
-                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                        return typeof value === 'string' ? (
+                            <p>{value}</p>
+                        ) : value instanceof CreditCardDto ? (
+                            <CreditCardProfileCompact item={value} />
+                        ) : (
+                            <BankAccountProfileCompact item={value} />
+                        );
                     }}
                 />
             </td>
@@ -167,7 +177,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* Actions */}
             <td className="cursor-pointer">
-                <Dropdown placement="bottom-end" Trigger={() => <IoIosMore fontSize={20} />}>
+                <Dropdown placement="bottom-end" Trigger={() => <MoreHorizontal fontSize={20} />}>
                     {({hide}) => (
                         <ul
                             className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"

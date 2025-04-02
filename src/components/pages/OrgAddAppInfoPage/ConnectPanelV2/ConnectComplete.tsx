@@ -6,13 +6,13 @@ import {
     FetchedProfileDto,
 } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
-import {IoSaveOutline} from '@react-icons/all-files/io5/IoSaveOutline';
 import {createSubscription} from '^models/Subscription/api';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
 import {useCallback} from 'react';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {Save} from 'lucide-react';
 
 interface ConnectCompleteProps {
     protoApp: ProductDto;
@@ -129,7 +129,7 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
 
                         <div>
                             <button className="btn btn-lg btn-secondary text-white gap-4" onClick={onClickHandler}>
-                                <IoSaveOutline size={24} />
+                                <Save size={24} />
                                 연동 사항 저장하기
                             </button>
                         </div>

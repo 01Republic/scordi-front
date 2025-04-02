@@ -4,7 +4,6 @@ import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import Tippy from '@tippyjs/react';
-import {FiMinusCircle} from '^components/react-icons';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
@@ -13,6 +12,7 @@ import {toast} from 'react-hot-toast';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {errorToast} from '^api/api';
 import {debounce} from 'lodash';
+import {MinusCircle} from 'lucide-react';
 
 interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;
@@ -55,7 +55,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
         confirmed(deleteConfirm())
             .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
-            .then(() => toast.success('삭제했습니다'))
+            .then(() => toast.success('연결을 해제했어요.'))
             .then(() => reload && reload())
             .catch(errorToast);
     };
@@ -123,7 +123,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
                 <div className="flex items-center justify-end">
                     <Tippy content="팀에서 제외">
                         <div>
-                            <FiMinusCircle
+                            <MinusCircle
                                 fontSize={24}
                                 className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
                                 onClick={onDelete}

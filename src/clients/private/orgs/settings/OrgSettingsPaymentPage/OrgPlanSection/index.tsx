@@ -1,5 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {MdRefresh} from 'react-icons/md';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {SelectPlanModal} from '^clients/private/_modals/SelectPlanModal';
 import {SettingsPaymentSection} from '../SettingsPaymentSection';
@@ -7,6 +6,7 @@ import {OrgScordiSubscriptionItem} from './OrgScordiSubscriptionItem';
 import {OrgScheduledSubscriptionList} from './OrgScheduledSubscriptionList';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
+import {RotateCw} from 'lucide-react';
 
 interface OrgPlanSectionProps {
     orgId: number;
@@ -40,7 +40,7 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                     <div className="flex items-center gap-2">
                         <div>현재 플랜 정보</div>
                         <div>
-                            <MdRefresh
+                            <RotateCw
                                 fontSize={14}
                                 className={`cursor-pointer ${isLoading ? 'animate-spin' : ''}`}
                                 onClick={() => reload(orgId)}

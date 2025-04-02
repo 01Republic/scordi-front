@@ -1,6 +1,6 @@
 import {ValueComponent} from '../type';
-import {IoIosRemove} from 'react-icons/io';
 import Tippy from '@tippyjs/react';
+import {Minus} from 'lucide-react';
 
 interface DetachableOptionItemProps<T> {
     option: T;
@@ -28,7 +28,7 @@ export const DetachableOptionItem = <T,>(props: DetachableOptionItemProps<T>) =>
                             onClick={() => detachRequest(option)}
                         >
                             <button className="btn btn-2xs btn-square shadow rounded-[4px] !bg-white border-gray-300">
-                                <IoIosRemove fontSize={18} className="text-gray-400" strokeWidth={10} />
+                                <Minus fontSize={18} className="text-gray-400" strokeWidth={2} />
                             </button>
                         </div>
                     </Tippy>

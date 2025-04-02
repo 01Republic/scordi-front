@@ -12,13 +12,11 @@
     "deploy:production": "bash tasks/deploy.production.sh"
   },
   "dependencies": {
-    "@babel/plugin-proposal-decorators": "^7.22.15",
     "@googleapis/docs": "^2.0.1",
     "@headlessui/react": "^1.6.6",
     "@measured-im/browser": "^1.3.1",
     "@mona-health/react-input-mask": "^3.0.3",
     "@popperjs/core": "^2.11.8",
-    "@react-icons/all-files": "^4.1.0",
     "@react-oauth/google": "^0.7.0",
     "@sentry/nextjs": "^7.77.0",
     "@slack/web-api": "^7.8.0",
@@ -38,7 +36,7 @@
     "@types/web-push": "^3.3.2",
     "animate.css": "^4.1.1",
     "aos": "^2.3.4",
-    "axios": "^1.7.7",
+    "axios": "^1.8.4",
     "chart.js": "^3.9.1",
     "class-transformer": "^0.5.1",
     "classnames": "^2.5.1",
@@ -50,15 +48,18 @@
     "env-cmd": "^10.1.0",
     "es6-shim": "^0.35.8",
     "firebase": "^9.17.2",
+    "form-data": "^4.0.2",
     "fs": "^0.0.1-security",
     "google-auth-library": "^8.7.0",
     "googleapis": "^118.0.0",
     "i18next": "^22.5.0",
     "js-base64": "^3.7.5",
     "lodash": "^4.17.21",
-    "next": "14.2.18",
+    "lucide-react": "^0.477.0",
+    "next": "14.2.26",
     "next-i18next": "^13.2.2",
     "pluralize": "^8.0.0",
+    "prop-types": "^15.8.1",
     "qs": "^6.11.0",
     "react": "18.2.0",
     "react-calendar": "4.0.0",
@@ -72,7 +73,6 @@
     "react-hook-form": "7.34.2",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^12.3.1",
-    "react-icons": "^5.4.0",
     "react-id-generator": "^3.0.2",
     "react-loading-icons": "^1.1.0",
     "react-loading-skeleton": "^3.5.0",
@@ -92,6 +92,7 @@
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.7.2",
     "sweetalert2-react-content": "^5.0.7",
+    "tippy.js": "^6.3.7",
     "use-local-storage": "^3.0.0",
     "web-push": "^3.5.0",
     "xlsx": "^0.18.5"
@@ -100,6 +101,7 @@
     "@ky-is/tailwindcss-plugin-width-height": "^1.0.0",
     "@types/node": "18.0.3",
     "@types/pluralize": "^0.0.33",
+    "@types/prop-types": "^15.7.14",
     "@types/react": "18.0.15",
     "@types/react-calendar": "^3.5.3",
     "@types/react-copy-to-clipboard": "^5.0.4",
@@ -110,7 +112,7 @@
     "@typescript-eslint/parser": "^5.35.1",
     "autoprefixer": "^10.4.7",
     "eslint": "8.19.0",
-    "eslint-config-next": "12.2.2",
+    "eslint-config-next": "14.2.26",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "postcss": "^8.4.40",
@@ -120,10 +122,9 @@
     "typescript": "^4.9.5"
   },
   "volta": {
-    "node": "20.10.0",
-    "yarn": "1.22.22"
+    "node": "20.10.0"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
   "resolutions": {
     "styled-components": "^5",
     "@types/react": "18.0.15"

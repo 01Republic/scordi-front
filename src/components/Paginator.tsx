@@ -1,10 +1,5 @@
 import React, {memo} from 'react';
-import {
-    MdKeyboardArrowLeft,
-    MdKeyboardArrowRight,
-    MdKeyboardDoubleArrowLeft,
-    MdKeyboardDoubleArrowRight,
-} from 'react-icons/md';
+import {ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from 'lucide-react';
 
 interface PaginatorProps {
     className?: string;
@@ -24,10 +19,10 @@ export const Paginator = memo((props: PaginatorProps) => {
     return (
         <div className={`btn-group ${className}`}>
             <button className="btn" onClick={() => currentPage !== 1 && onClick(1)}>
-                <MdKeyboardDoubleArrowLeft />
+                <ChevronsLeft />
             </button>
             <button className="btn" onClick={() => currentPage !== 1 && onClick(currentPage - 1)}>
-                <MdKeyboardArrowLeft />
+                <ChevronLeft />
             </button>
 
             {pageList.map((pageNum, i) => (
@@ -41,10 +36,10 @@ export const Paginator = memo((props: PaginatorProps) => {
             ))}
 
             <button className="btn" onClick={() => currentPage !== totalPage && onClick(currentPage + 1)}>
-                <MdKeyboardArrowRight />
+                <ChevronRight />
             </button>
             <button className="btn" onClick={() => currentPage !== totalPage && onClick(totalPage)}>
-                <MdKeyboardDoubleArrowRight />
+                <ChevronsRight />
             </button>
         </div>
     );

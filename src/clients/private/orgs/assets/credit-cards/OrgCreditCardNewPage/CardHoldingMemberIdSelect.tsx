@@ -1,12 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
-import {FaCaretDown} from 'react-icons/fa6';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {CardAttrSelectPropsType} from './CardAttrSelectProps.type';
+import {ChevronDown} from 'lucide-react';
 
 export const CardHoldingMemberIdSelect = memo((props: CardAttrSelectPropsType<number>) => {
-    const {defaultValue, isLoading = false} = props;
+    const {defaultValue, isLoading = false, onChange} = props;
     const {result} = useTeamMembers();
     const [holdingMember, setHoldingMember] = useState<TeamMemberDto | undefined>(() => {
         return defaultValue ? result.items.find((member) => member.id === defaultValue) : undefined;
@@ -23,13 +23,14 @@ export const CardHoldingMemberIdSelect = memo((props: CardAttrSelectPropsType<nu
                 <TeamMemberSelectColumn
                     onChange={(member) => {
                         setHoldingMember(member);
+                        if (onChange) onChange(member?.id);
                     }}
                     optionListBoxTitle="소지자를 변경할까요?"
                     detachableOptionBoxTitle="현재 소지자"
                     className="flex-auto"
                     defaultValue={holdingMember}
                 />
-                <FaCaretDown fontSize={12} className="text-gray-500" />
+                <ChevronDown fontSize={12} className="text-gray-500" />
             </div>
             <span></span>
         </FormControl>

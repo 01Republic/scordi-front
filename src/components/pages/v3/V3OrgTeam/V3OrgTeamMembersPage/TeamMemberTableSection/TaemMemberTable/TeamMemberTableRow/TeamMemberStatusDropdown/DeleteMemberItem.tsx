@@ -1,11 +1,13 @@
 import React, {memo, useState} from 'react';
-import {FaRegTrashAlt} from 'react-icons/fa';
+import {useRouter} from 'next/router';
 import {currentTeamMemberState, teamMemberApi, TeamMemberDto, useTeamMember} from '^models/TeamMember';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {CgSpinner} from 'react-icons/cg';
 import {confirm2} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {useSetRecoilState} from 'recoil';
+import {Loader, Trash2} from 'lucide-react';
+import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
+import {useOrgIdParam} from '^atoms/common';
 
 interface DeleteMemberItemProps {
     reload: () => any;
@@ -13,8 +15,10 @@ interface DeleteMemberItemProps {
 }
 
 export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
+    const orgId = useOrgIdParam();
     const setTeamMember = useSetRecoilState(currentTeamMemberState);
     const {reload, teamMember} = props;
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
     const onClick = async () => {
@@ -33,8 +37,8 @@ export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
         setIsLoading(true);
         teamMemberApi
             .destroy(teamMember.organizationId, teamMember.id)
+            .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
             .then(() => toast.success('구성원을 삭제했어요.'))
-            .then(() => reload())
             .then(() => setTeamMember(null))
             .finally(() => setIsLoading(false));
     };
@@ -43,10 +47,10 @@ export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
         <MoreDropdownListItem onClick={() => !isLoading && onClick()}>
             <div className="flex items-center gap-3 w-full text-red-500 py-1">
                 {isLoading ? (
-                    <CgSpinner size={20} className="animate-spin btn-disabled mx-auto" />
+                    <Loader size={20} className="animate-spin btn-disabled mx-auto" />
                 ) : (
                     <>
-                        <FaRegTrashAlt size={12} />
+                        <Trash2 size={12} />
                         <p>멤버 삭제하기</p>
                     </>
                 )}

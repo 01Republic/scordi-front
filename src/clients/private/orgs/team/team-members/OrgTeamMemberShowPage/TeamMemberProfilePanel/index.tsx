@@ -1,6 +1,4 @@
 import React, {memo} from 'react';
-import {GoDotFill} from 'react-icons/go';
-import {HiOutlineMail, HiOutlinePhone} from 'react-icons/hi';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {useCurrentTeamMember} from '../atom';
@@ -9,6 +7,7 @@ import {ContactButton} from '^clients/private/_components/rest-pages/ShowPage/Co
 import {useRouter} from 'next/router';
 import {OrgTeamDetailPageRoute} from '^pages/orgs/[id]/teams/[teamId]';
 import {TeamDto} from '^models/Team/type';
+import {Circle, Mail, Phone} from 'lucide-react';
 
 export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
     const {currentTeamMember} = useCurrentTeamMember();
@@ -60,7 +59,7 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                         disabled={!currentTeamMember.phone}
                         className={currentTeamMember.phone ? '' : 'btn-disabled !border-opacity-70'}
                     >
-                        <HiOutlinePhone fontSize={14} />
+                        <Phone fontSize={14} />
                     </ContactButton>
 
                     <ContactButton
@@ -69,15 +68,8 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                         disabled={!currentTeamMember.email}
                         className={currentTeamMember.email ? '' : 'btn-disabled !border-opacity-70'}
                     >
-                        <HiOutlineMail fontSize={14} />
+                        <Mail fontSize={14} />
                     </ContactButton>
-
-                    <div>
-                        <button className="btn btn-sm !outline-0 gap-0.5 items-center !bg-white border !border-slate-300 cursor-default rounded-md transition-all pl-[6px] no-animation">
-                            <GoDotFill fontSize={24} className="text-green-500 relative top-[1px]" />
-                            <span>재직중</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

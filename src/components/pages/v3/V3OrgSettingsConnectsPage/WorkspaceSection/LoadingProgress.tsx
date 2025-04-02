@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
-import {PiSpinnerGapThin} from 'react-icons/pi';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
+import {Loader} from 'lucide-react';
 
 export const LoadingProgress = memo(() => {
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
@@ -21,7 +21,7 @@ export const LoadingProgress = memo(() => {
             </Container>
 
             <Container size="sm" className="flex justify-center py-8">
-                <PiSpinnerGapThin size={60} className="animate-spin text-scordi-500 m-auto" />
+                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
             </Container>
         </div>
     );

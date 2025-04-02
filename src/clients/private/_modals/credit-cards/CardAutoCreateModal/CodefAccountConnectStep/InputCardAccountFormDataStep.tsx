@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {FaChevronLeft} from 'react-icons/fa6';
 import {OutLink} from '^components/OutLink';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {ChevronLeft} from 'lucide-react';
 
 interface InputCardAccountFormDataStepProps {
     cardCompany: CardAccountsStaticData;
@@ -24,7 +24,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex-grow flex flex-col items-stretch h-full">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
@@ -44,7 +44,9 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
                 </ul>
 
                 <label>
-                    <p className="text-12 text-gray-500 mb-1.5">{cardCompany.displayName} 홈페이지 아이디</p>
+                    <p className="text-12 text-gray-500 mb-1.5">
+                        {cardCompany.displayName} 홈페이지 아이디 <span className="text-red-500"> *</span>
+                    </p>
                     <input
                         id="account-id"
                         type="text"
@@ -57,7 +59,10 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
                 </label>
 
                 <label>
-                    <p className="text-12 text-gray-500 mb-1.5">{cardCompany.displayName} 홈페이지 비밀번호</p>
+                    <p className="text-12 text-gray-500 mb-1.5">
+                        {cardCompany.displayName} 홈페이지 비밀번호
+                        <span className="text-red-500"> *</span>
+                    </p>
                     <input
                         id="account-pw"
                         type="password"
@@ -77,9 +82,10 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
             <div className="py-4 mt-auto">
                 <button
                     type="submit"
+                    disabled={form.watch('id') === '' || form.watch('password') === '' || isLoading}
                     className={`btn btn-block btn-scordi ${
                         isLoading ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
-                    } no-animation btn-animation`}
+                    } disabled:border-gray-300 no-animation btn-animation`}
                 >
                     불러오기
                 </button>

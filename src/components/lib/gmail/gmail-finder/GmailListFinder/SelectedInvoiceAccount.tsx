@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {IoIosClose} from 'react-icons/io';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {X} from 'lucide-react';
 
 interface SelectedInvoiceAccountProps {
     invoiceAccount?: InvoiceAccountDto;
@@ -20,7 +20,7 @@ export const SelectedInvoiceAccount = memo((props: SelectedInvoiceAccountProps) 
                         <div className="text-gray-400 group-hover:text-gray-800 transition-all">
                             {invoiceAccount.email}
                         </div>
-                        <IoIosClose size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
+                        <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                     </div>
                 </div>
             ) : (

@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FaPlus} from 'react-icons/fa6';
 import {useUnmount} from '^hooks/useUnmount';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -10,6 +9,7 @@ import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDe
 import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/AddMemberModal';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {Plus} from 'lucide-react';
 
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
@@ -47,7 +47,7 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
                         className="btn btn-square btn-scordi animate-none btn-animation"
                         onClick={() => setIsOpened(true)}
                     >
-                        <FaPlus fontSize={20} />
+                        <Plus fontSize={20} />
                     </button>
                 </div>
             </div>
@@ -85,9 +85,11 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
             <AddMemberModal
                 isOpened={isOpened}
                 onClose={() => {
-                    reload();
-                    reloadParent();
                     setIsOpened(false);
+                }}
+                onCreate={() => {
+                    setIsOpened(false);
+                    reload();
                 }}
             />
         </>

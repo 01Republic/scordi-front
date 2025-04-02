@@ -1,78 +1,78 @@
-@import "../variables/all";
-@import "../functions/color";
-@import "../variables/grid";
+@import '../variables/all';
+@import '../functions/color';
+@import '../variables/grid';
 
 // 뷰포트 사이즈를 모바일에 맞게 (것 처럼 보이는) 컴포넌트를 조정합니다.
 .viewport {
-  //background-color: #333d4b;
+    //background-color: #333d4b;
 
-  //$max-width: map-get($breakpoints, 'sm'); // 640px
-  $max-width: 580px;
+    //$max-width: map-get($breakpoints, 'sm'); // 640px
+    $max-width: 580px;
 
-  .layout,
-  [data-component="TopNavMobileContainer"],
-  [data-component="ModalLikeTopbar"],
-  [data-component="BottomNavMobile"],
-  [data-component="BottomNavMobileBackdrop"],
-  div[class*="modal-open"] {
-    max-width: $max-width;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  [class*="btn-floating"] {
-    $btn-original-floating-right-size: 2.5rem;
-
-    @media (min-width: $max-width) {
-      right: calc(50% - (#{$max-width} / 2) + #{$btn-original-floating-right-size});
+    .layout,
+    [data-component='TopNavMobileContainer'],
+    [data-component='ModalLikeTopbar'],
+    [data-component='BottomNavMobile'],
+    [data-component='BottomNavMobileBackdrop'],
+    div[class*='modal-open'] {
+        max-width: $max-width;
+        margin-left: auto;
+        margin-right: auto;
     }
-  }
 
-  .layout {
-    @apply shadow-2xl;
-  }
+    [class*='btn-floating'] {
+        $btn-original-floating-right-size: 2.5rem;
+
+        @media (min-width: $max-width) {
+            right: calc(50% - (#{$max-width} / 2) + #{$btn-original-floating-right-size});
+        }
+    }
+
+    .layout {
+        @apply shadow-2xl;
+    }
 }
 
 .layout {
-  background-color: #f9fafb;
-  min-height: 100vh;
+    background-color: #f9fafb;
+    min-height: 100vh;
 }
 
 .gnb {
-  box-shadow: 0 4px 22px rgba(0,0,0,.04);
+    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.04);
 }
 
 .greeting {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.5;
-    margin-left: 1.75rem;
-  }
+    h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.5;
+        margin-left: 1.75rem;
+    }
 }
 
 .panel_table {
-  width: 100%;
-  display: inline-grid;
-
-  table {
     width: 100%;
+    display: inline-grid;
 
-    :where(th, td) {
-      padding: 0.5rem;
-      font-size: $text-xs-size;
-      line-height: $text-xs-line-height;
-    }
+    table {
+        width: 100%;
 
-    :where(th) {
-      background-color: $color-base-100;
-      font-weight: 600;
-      color: $color-gray-500;
+        :where(th, td) {
+            padding: 0.5rem;
+            font-size: $text-xs-size;
+            line-height: $text-xs-line-height;
+        }
+
+        :where(th) {
+            background-color: $color-base-100;
+            font-weight: 600;
+            color: $color-gray-500;
+        }
     }
-  }
 }

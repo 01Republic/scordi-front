@@ -1,6 +1,6 @@
 import {DefaultButtonProps} from '^components/v2/ui/buttons/types';
 import React from 'react';
-import {FaTrash} from '@react-icons/all-files/fa/FaTrash';
+import {Trash} from 'lucide-react';
 
 export const DeleteButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>) => {
     const {href, target, onClick, className = '', active = false, disabled = false, size} = props;
@@ -17,7 +17,7 @@ export const DeleteButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'
             onClick={onClick}
             style={props.style}
         >
-            <FaTrash />
+            <Trash />
             {props.text && <span className="ml-1">{props.text}</span>}
         </button>
     );

@@ -2,13 +2,11 @@ import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {isOpenNewTeamMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal/atom';
 import {isOpenInviteOrgMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
-import {BsPlus} from 'react-icons/bs';
-import {FaPlus} from 'react-icons/fa6';
 import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {HiLink, HiOutlineEnvelope, HiOutlineUser} from 'react-icons/hi2';
 import {serviceHost} from '^config/environments';
+import {Link, Mail, Plus, User} from 'lucide-react';
 
 export enum ButtonTypes {
     TextBtn = 'textBtn',
@@ -55,7 +53,7 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
                     {/*Plus Button*/}
                     {type === ButtonTypes.PlusBtn && (
                         <button tabIndex={0} className={`btn btn-lg btn-scordi btn-circle z-10 ${className}`}>
-                            <BsPlus size={48} />
+                            <Plus size={48} />
                         </button>
                     )}
 
@@ -72,7 +70,7 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
                             tabIndex={0}
                             className="btn btn-scordi m-1 gap-2 whitespace-nowrap flex-nowrap mt-8 md:mt-0 btn-lg md:btn-md w-full md:w-auto"
                         >
-                            {text} <FaPlus />
+                            {text} <Plus />
                         </button>
                     )}
 
@@ -82,18 +80,18 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
                     >
                         <li onClick={inviteOrgMemberModalShow}>
                             <span>
-                                <HiOutlineEnvelope /> 이메일로 초대하기
+                                <Mail /> 이메일로 초대하기
                             </span>
                         </li>
                         <li onClick={onCopy}>
                             <span>
-                                <HiLink />
+                                <Link />
                                 초대링크 복사하기
                             </span>
                         </li>
                         <li onClick={newTeamMemberModalShow}>
                             <span>
-                                <HiOutlineUser />
+                                <User />
                                 직접 등록하기
                             </span>
                         </li>

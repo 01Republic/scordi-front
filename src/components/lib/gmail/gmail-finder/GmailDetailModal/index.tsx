@@ -1,9 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {toast} from 'react-hot-toast';
-import {CgChevronDoubleRight} from '@react-icons/all-files/cg/CgChevronDoubleRight';
-import {CgArrowsExpandLeft} from '@react-icons/all-files/cg/CgArrowsExpandLeft';
-import {CgChevronUp} from '@react-icons/all-files/cg/CgChevronUp';
-import {CgChevronDown} from '@react-icons/all-files/cg/CgChevronDown';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
@@ -14,6 +10,7 @@ import {InvoiceAccountDto, attachmentClickHandler, GmailContentReadableDto} from
 import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
 import {GmailListNavigator} from '../GmailListFinder/useGmailListNavigator';
 import {GmailContentDisplayByType} from '../GmailDetailPage/GmailContentDisplay';
+import {ChevronDown, ChevronUp, ChevronsRight, Expand} from 'lucide-react';
 
 interface GmailDetailModalProps {
     invoiceAccount?: InvoiceAccountDto;
@@ -44,9 +41,9 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
         const shortcut = (evt: KeyboardEvent) => {
             if (evt.metaKey && evt.key === 'Enter') return onOpen();
 
-            if (evt.ctrlKey && evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail(email);
+            if (evt.ctrlKey && evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail();
             if (evt.ctrlKey && evt.key === 'J' && navigator?.goLastOfPage) return navigator.goLastOfPage();
-            if (evt.ctrlKey && evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail(email);
+            if (evt.ctrlKey && evt.key === 'k' && navigator?.goPrevEmail) return navigator.goPrevEmail();
             if (evt.ctrlKey && evt.key === 'K' && navigator?.goFirstOfPage) return navigator.goFirstOfPage();
             if (evt.ctrlKey && evt.key === '<' && navigator?.goPrevPage) return navigator.goPrevPage();
             if (evt.ctrlKey && evt.key === '>' && navigator?.goNextPage) return navigator.goNextPage();
@@ -68,7 +65,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                             onClick={onClose}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
                         >
-                            <CgChevronDoubleRight size={16} className="scale-[1.5]" />
+                            <ChevronsRight size={16} className="scale-[1.5]" />
                         </button>
                     </Tip>
                     <Tip text="전체 페이지로 열기" subtext="⌘↵">
@@ -76,7 +73,7 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                             onClick={onOpen}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
                         >
-                            <CgArrowsExpandLeft size={16} />
+                            <Expand size={16} />
                         </button>
                     </Tip>
                 </div>
@@ -86,20 +83,20 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
                 <div className="flex items-center">
                     <Tip text="이전" subtext="Ctrl+K">
                         <button
-                            onClick={() => navigator?.goPrevEmail(email!)}
+                            onClick={() => navigator?.goPrevEmail()}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
                             disabled={!navigator?.prevEmail && !navigator?.prevPageToken}
                         >
-                            <CgChevronUp size={16} className="scale-[1.5]" />
+                            <ChevronUp size={16} className="scale-[1.5]" />
                         </button>
                     </Tip>
                     <Tip text="다음" subtext="Ctrl+J">
                         <button
-                            onClick={() => navigator?.goNextEmail(email!)}
+                            onClick={() => navigator?.goNextEmail()}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
                             disabled={!navigator?.nextEmail && !navigator?.nextPageToken}
                         >
-                            <CgChevronDown size={16} className="scale-[1.5]" />
+                            <ChevronDown size={16} className="scale-[1.5]" />
                         </button>
                     </Tip>
                 </div>

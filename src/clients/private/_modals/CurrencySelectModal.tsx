@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {FaCheck} from 'react-icons/fa6';
 import {CurrencyCode, CurrencyInfoWithExchangeRate} from '^models/Money';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
+import {Check} from 'lucide-react';
 
 interface CurrencySelectModalProps extends ModalProps {
     entries?: CurrencyInfoWithExchangeRate[];
@@ -37,9 +37,7 @@ export const CurrencySelectModal = memo((props: CurrencySelectModalProps) => {
                                 </p>
                             )}
                         </div>
-                        <div>
-                            {defaultValue && defaultValue === currency.code && <FaCheck className="text-scordi" />}
-                        </div>
+                        <div>{defaultValue && defaultValue === currency.code && <Check className="text-scordi" />}</div>
                     </div>
                 ))}
             </div>

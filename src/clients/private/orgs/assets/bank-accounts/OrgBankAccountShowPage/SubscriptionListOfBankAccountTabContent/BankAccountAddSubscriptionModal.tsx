@@ -41,6 +41,7 @@ export const BankAccountAddSubscriptionModal = memo((props: BankAccountAddSubscr
             ctaInactiveText="구독 선택"
             ctaActiveText="%n개의 선택된 구독 연결하기"
             successMessage="선택한 구독을 연결했어요."
+            emptyText="연결할 구독 없어요"
         />
     );
 });

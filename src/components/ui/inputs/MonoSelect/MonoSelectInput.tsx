@@ -1,8 +1,7 @@
 import React, {memo} from 'react';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
-import {FaTimes} from 'react-icons/fa';
-import {FaCaretDown} from 'react-icons/fa6';
 import {ReactNodeElement} from '^types/global.type';
+import {ChevronDown, X} from 'lucide-react';
 
 interface MonoSelectInputProps<Option> {
     id?: string;
@@ -12,6 +11,7 @@ interface MonoSelectInputProps<Option> {
     getLabel?: (option: Option) => ReactNodeElement;
     placeholder?: ReactNodeElement;
     clearOption?: () => any;
+    readonly?: boolean;
 }
 
 export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) => {
@@ -23,6 +23,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
         getLabel = (v) => <>{v}</>,
         placeholder,
         clearOption,
+        readonly = false,
     } = props;
 
     return (
@@ -31,7 +32,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
             tabIndex={0}
             className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
             onKeyDown={enterToSpace(() => openModal && openModal())}
-            onClick={() => openModal && openModal()}
+            onClick={() => !readonly && openModal && openModal()}
         >
             {!selectedOption && placeholder ? (
                 <div className="text-gray-400">{placeholder}</div>
@@ -41,7 +42,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
 
             <div className="flex items-center gap-4">
                 {selectedOption && clearable && (
-                    <FaTimes
+                    <X
                         size={16}
                         className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
                         onClick={(e) => {
@@ -51,7 +52,7 @@ export const MonoSelectInput = <Option,>(props: MonoSelectInputProps<Option>) =>
                         }}
                     />
                 )}
-                <FaCaretDown size={14} className="text-gray-400" />
+                <ChevronDown size={14} className="text-gray-400" />
             </div>
         </div>
     );

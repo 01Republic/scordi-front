@@ -8,18 +8,33 @@ import {useListOf} from '^hooks/useResource';
 interface TeamMemberSelectableSectionProps {
     gridCols?: number;
     filter?: (teamMember: any) => boolean;
+    isAllSelectTeamMember?: boolean;
 }
 
-export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSection(
-    props: TeamMemberSelectableSectionProps,
-) {
-    const {gridCols = 2, filter} = props;
+export const TeamMemberSelectableSection = memo((props: TeamMemberSelectableSectionProps) => {
+    const {gridCols = 2, filter, isAllSelectTeamMember} = props;
     const {isLoading, result, search} = useTeamMemberListInCreateSubscription();
     const {list, add, remove} = useListOf(selectedTeamMembersAtom, {getKey: 'id'});
 
     useEffect(() => {
         search({});
     }, []);
+
+    useEffect(() => {
+        if (isAllSelectTeamMember) {
+            result.items.forEach((teamMember) => {
+                if (!list.some((m) => m.id === teamMember.id)) {
+                    add(teamMember);
+                }
+            });
+        } else {
+            result.items.forEach((teamMember) => {
+                if (list.some((m) => m.id === teamMember.id)) {
+                    remove(teamMember);
+                }
+            });
+        }
+    }, [isAllSelectTeamMember]);
 
     return (
         <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
@@ -37,7 +52,9 @@ export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSec
                                 <TeamMemberSelectableItem
                                     key={i}
                                     teamMember={teamMember}
-                                    onClick={() => (selected ? remove(teamMember) : add(teamMember))}
+                                    onClick={() => {
+                                        selected ? remove(teamMember) : add(teamMember);
+                                    }}
                                     selected={selected}
                                 />
                             );

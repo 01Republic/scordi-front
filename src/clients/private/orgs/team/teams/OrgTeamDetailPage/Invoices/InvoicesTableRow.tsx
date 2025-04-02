@@ -6,7 +6,6 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import Tippy from '@tippyjs/react';
-import {FiMinusCircle} from '^components/react-icons';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {toast} from 'react-hot-toast';
@@ -14,6 +13,7 @@ import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[
 import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
 import {confirm2} from '^components/util/dialog';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {MinusCircle} from 'lucide-react';
 
 interface InvoicesTableRowProps {
     teamInvoiceAccount: TeamInvoiceAccountDto;
@@ -49,7 +49,7 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
         ).then((res) => {
             if (res.isConfirmed) {
                 teamInvoiceAccountApi.destroy(orgId, teamInvoiceAccount.id).then(() => {
-                    toast.success('삭제했습니다');
+                    toast.success('연결을 해제했어요.');
                     reload && reload();
                 });
             }
@@ -108,7 +108,7 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
                 <div className="flex items-center justify-end">
                     <Tippy content="팀에서 제외">
                         <div>
-                            <FiMinusCircle
+                            <MinusCircle
                                 fontSize={24}
                                 className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
                                 onClick={onDelete}

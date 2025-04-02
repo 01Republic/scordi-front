@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ProductDto} from '^models/Product/type';
 import {ProductAvatarImg} from '^v3/share/ProductAvatar';
-import {FaTimes} from 'react-icons/fa';
+import {X} from 'lucide-react';
 
 interface SelectedProductItemProps {
     product: ProductDto;
@@ -27,7 +27,7 @@ export const SelectedProductItem = memo((props: SelectedProductItemProps) => {
                     className="transition-all text-gray-400 hover:text-gray-500 btn-animation"
                     onClick={() => unSelect(product)}
                 >
-                    <FaTimes size={12} />
+                    <X size={12} />
                 </div>
 
                 <div className="flex items-center gap-2">

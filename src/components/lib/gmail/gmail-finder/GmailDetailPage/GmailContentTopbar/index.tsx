@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Tip} from '^admin/share/Tip';
-import {BsCodeSlash} from '@react-icons/all-files/bs/BsCodeSlash';
+import {Code} from 'lucide-react';
 
 interface GmailContentTopbarProps {
     viewMode: 'parsed' | 'rawData';
@@ -20,7 +20,7 @@ export const GmailContentTopbar = memo((props: GmailContentTopbarProps) => {
                         }`}
                         onClick={() => changeViewMode()}
                     >
-                        <BsCodeSlash />
+                        <Code />
                     </button>
                 </Tip>
             </div>

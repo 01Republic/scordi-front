@@ -28,9 +28,17 @@ export class DPayRequestFormDto extends CreateScordiPaymentWithCustomerKeyReques
     //
     agree: boolean;
 
+    // 비고
+    etc?: string;
+
     toRequestDto() {
-        const {cardNumberFirst, cardNumberSecond, cardNumberThird, cardNumberFourth, agree, ...data} = this;
+        const {cardNumberFirst, cardNumberSecond, cardNumberThird, cardNumberFourth, agree, etc, ...data} = this;
         data.cardNumber = cardNumberFirst + cardNumberSecond + cardNumberThird + cardNumberFourth;
+
+        if (etc) {
+            data.customerName = `${data.customerName} - ${etc}`;
+        }
+
         return plainToInstance(CreateScordiPaymentWithCustomerKeyRequestDto, data);
     }
 }

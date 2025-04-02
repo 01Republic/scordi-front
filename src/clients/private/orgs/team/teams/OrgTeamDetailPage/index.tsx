@@ -88,9 +88,15 @@ interface TeamNavItemProps {
 const TeamNavItem = memo((props: TeamNavItemProps) => {
     return (
         <div className={`relative pb-2 px-2`}>
-            <button onClick={props.onClick} className={`font-medium text-15 text-gray-800 hover:text-scordi-500`}>
+            <button
+                onClick={props.onClick}
+                className={`font-medium text-15 text-gray-800 hover:text-scordi-500 ${
+                    props.isActive ? 'text-scordi-500' : ''
+                }`}
+            >
                 {props.text}
             </button>
+
             <span
                 className={`absolute top-full left-0 right-0 ${
                     props.isActive ? 'h-[2px]' : 'h-0'

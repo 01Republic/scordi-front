@@ -7,7 +7,7 @@ import {ScordiPaymentHeader} from './ScordiPaymentHeader';
 import {ScordiPaymentItem} from './ScordiPaymentItem';
 import {LinkTo} from '^components/util/LinkTo';
 import {ChannelTalk_Url} from '^config/constants';
-import {IoIosHelpCircle} from 'react-icons/io';
+import {HelpCircle} from 'lucide-react';
 
 interface OrgPaymentsSectionProps {
     orgId: number;
@@ -42,7 +42,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
             //                 target="_blank"
             //                 displayLoading={false}
             //             >
-            //                 <IoIosHelpCircle fontSize={18} className="relative top-[0px]" />
+            //                 <HelpCircle fontSize={18} className="relative top-[0px]" />
             //                 <span>취소/환불을 원하시나요?</span>
             //             </LinkTo>
             //         )}

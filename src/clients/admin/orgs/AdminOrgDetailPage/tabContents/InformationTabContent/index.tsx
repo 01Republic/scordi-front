@@ -8,9 +8,9 @@ import {organizationAdminApi, organizationApi} from '^models/Organization/api';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {MdRefresh} from 'react-icons/md';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
+import {RotateCw} from 'lucide-react';
 
 export const InformationTabContent = memo(() => {
     const [org, setOrg] = useRecoilState(adminOrgDetail);
@@ -122,7 +122,7 @@ export const InformationTabContent = memo(() => {
                                         className="btn btn-scordi btn-sm btn-circle"
                                         onClick={() => updateCounterCache()}
                                     >
-                                        <MdRefresh
+                                        <RotateCw
                                             fontSize={16}
                                             className={`cursor-pointer ${isLoading ? 'animate-spin' : ''}`}
                                         />

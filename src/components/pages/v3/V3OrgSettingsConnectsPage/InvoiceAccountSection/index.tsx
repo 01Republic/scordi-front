@@ -4,10 +4,10 @@ import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
-import {AiOutlinePlus} from '@react-icons/all-files/ai/AiOutlinePlus';
 import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
 import {useModal} from '^v3/share/modals';
 import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
+import {Plus} from 'lucide-react';
 
 export const InvoiceAccountSection = memo(() => {
     const {result, search: getInvoiceAccounts, movePage, query} = useInvoiceAccounts();
@@ -28,7 +28,7 @@ export const InvoiceAccountSection = memo(() => {
                 <button onClick={open} className="btn btn-scordi">
                     <span>추가하기</span>
                     <span className="ml-2">
-                        <AiOutlinePlus />
+                        <Plus />
                     </span>
                 </button>
             }

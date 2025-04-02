@@ -1,12 +1,12 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {isTermModalOpenedState} from './BetaSignPhoneAuthPage.atom';
-import {RiCloseLine} from '^components/react-icons';
 import {termsUrl} from '^config/environments';
 import {UseFormReturn} from 'react-hook-form';
 import {UserSocialSignUpRequestDto} from '^models/User/types';
 import {toast} from 'react-toastify';
 import {useTranslation} from 'next-i18next';
+import {X} from 'lucide-react';
 
 export interface TermModalProps {
     form: UseFormReturn<UserSocialSignUpRequestDto, any>;
@@ -133,7 +133,7 @@ export const TermModal = memo((props: TermModalProps) => {
                     </div>
 
                     <div className="text-xl absolute right-5 top-7 cursor-pointer" onClick={onCloseModal}>
-                        <RiCloseLine />
+                        <X />
                     </div>
                     <div className="modal-action">
                         <button className="btn btn-block btn-scordi-500" onClick={confirmBtnClick}>

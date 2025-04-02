@@ -8,11 +8,11 @@ import {CreditCardProfileOption2, UsingStatusTag} from '^models/CreditCard/compo
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
-import {FiMinusCircle} from '^components/react-icons';
 import {teamIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {MinusCircle} from 'lucide-react';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -51,7 +51,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
         ).then((res) => {
             if (res.isConfirmed) {
                 creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
-                    toast.success('삭제했습니다');
+                    toast.success('연결을 해제했어요.');
                     reload && reload();
                 });
             }
@@ -117,7 +117,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
                 <div className="flex items-center justify-end">
                     <Tippy content="팀에서 제외">
                         <div>
-                            <FiMinusCircle
+                            <MinusCircle
                                 fontSize={24}
                                 className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
                                 onClick={onDelete}

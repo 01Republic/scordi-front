@@ -51,6 +51,7 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
             ctaInactiveText="결제수단을 선택해주세요."
             ctaActiveText="%n개의 선택된 결제수단 연결하기"
             successMessage="선택한 결제수단을 연결했어요."
+            emptyText="연결할 결제수단이 없어요"
         />
     );
 });

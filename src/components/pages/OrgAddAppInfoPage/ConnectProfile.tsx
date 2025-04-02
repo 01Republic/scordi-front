@@ -1,6 +1,6 @@
-import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
 import React from 'react';
 import {ProductDto} from '^models/Product/type';
+import {Zap} from 'lucide-react';
 
 interface ConnectProfileProps {
     protoApp: ProductDto;
@@ -17,7 +17,7 @@ export const ConnectProfile = ({protoApp}: ConnectProfileProps) => {
                 className="bg-white rounded-xl p-3 shadow"
             />
             {/*<button className="btn btn-secondary btn-block text-lg gap-2">*/}
-            {/*  <IoFlash /> Connect App*/}
+            {/*  <Zap /> Connect App*/}
             {/*</button>*/}
         </div>
     );

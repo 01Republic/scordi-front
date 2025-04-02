@@ -7,9 +7,9 @@ import {SelectedStatusSection} from './SelectedStatusSection';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {LinkTo} from '^components/util/LinkTo';
-import {IoIosHelpCircle} from 'react-icons/io';
 import Tippy from '@tippyjs/react';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import {HelpCircle} from 'lucide-react';
 
 export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage() {
     return (
@@ -31,7 +31,7 @@ export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage
                                     displayLoading={false}
                                     target="_blank"
                                 >
-                                    <IoIosHelpCircle fontSize={16} />
+                                    <HelpCircle className="size-4" />
                                     <span>찾으시는 앱이 없나요?</span>
                                 </LinkTo>
                             </div>

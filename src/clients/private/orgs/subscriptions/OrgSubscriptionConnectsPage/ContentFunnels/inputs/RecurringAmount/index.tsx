@@ -3,6 +3,7 @@ import {useRecoilState} from 'recoil';
 import {inputTextToCurrencyFormat} from '^utils/input-helper';
 import {CurrencyCode} from '^models/Money';
 import {createSubscriptionFormData} from '../../atom';
+import {ChevronDown} from 'lucide-react';
 
 interface RecurringAmountProps {
     defaultValue?: number;
@@ -56,7 +57,7 @@ RecurringAmount.displayName = 'RecurringAmount';
 //                 onClick={() => setCurrencyModalOpened(true)}
 //             >
 //                 <div>{selectedCurrency.unit}</div>
-//                 <FaCaretDown size={14} className="text-gray-400" />
+//                 <ChevronDown size={14} className="text-gray-400" />
 //             </div>
 //
 //             <CurrencySelectModal

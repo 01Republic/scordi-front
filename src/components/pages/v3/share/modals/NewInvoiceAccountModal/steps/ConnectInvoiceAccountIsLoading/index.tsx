@@ -1,6 +1,5 @@
 import {memo, useEffect, useState} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
-import {PiSpinnerGapThin} from 'react-icons/pi';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
 import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
@@ -12,6 +11,7 @@ import {
     InvoiceAccount,
 } from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useAlert} from '^hooks/useAlert';
+import {Loader} from 'lucide-react';
 
 interface ConnectInvoiceAccountIsLoadingProps {
     onFinish?: () => any;
@@ -72,7 +72,7 @@ export const ConnectInvoiceAccountIsLoading = memo((props: ConnectInvoiceAccount
             </Container>
 
             <Container size="sm" className="flex justify-center py-8">
-                <PiSpinnerGapThin size={60} className="animate-spin text-scordi-500 m-auto" />
+                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
             </Container>
         </div>
     );

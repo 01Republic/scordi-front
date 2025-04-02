@@ -1,9 +1,7 @@
 import {memo} from 'react';
-import {ExcelIcon} from '^components/react-icons';
-import {IoMdClose} from '@react-icons/all-files/io/IoMdClose';
-import {FaRegTrashAlt} from '@react-icons/all-files/fa/FaRegTrashAlt';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {parseFileSizeText} from '^utils/file';
+import {FileSpreadsheet, Trash2, X} from 'lucide-react';
 
 interface FileItemProps {
     file: File;
@@ -26,7 +24,7 @@ export const FileItem = memo((props: FileItemProps) => {
             } rounded-lg overflow-hidden`}
         >
             <div className="bg-gray-50 p-4">
-                <ExcelIcon fontSize={24} />
+                <FileSpreadsheet fontSize={24} />
             </div>
 
             <div className="flex-1 pl-4">
@@ -47,7 +45,7 @@ export const FileItem = memo((props: FileItemProps) => {
                     isLoading || !errorMsg ? 'text-gray-500 hover:text-black' : 'text-red-500 hover:text-red-700'
                 } transition-all cursor-pointer`}
             >
-                <FaRegTrashAlt fontSize={14} className="" />
+                <Trash2 fontSize={14} className="" />
             </div>
         </div>
     );

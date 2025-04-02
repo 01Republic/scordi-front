@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
-import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -18,6 +17,7 @@ import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
 import {CurrencyToggle} from '^tasting/CurrencyToggle';
 import {errorToast} from '^api/api';
+import {Plus} from 'lucide-react';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -27,7 +27,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const onReady = () => {
         search({
             where: {organizationId: orgId},
-            relations: ['master', 'teamMembers', 'creditCard'],
+            relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
             order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
         });
     };
@@ -48,7 +48,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 className="btn btn-scordi gap-2 no-animation btn-animation"
                 loadingOnBtn
             >
-                <FaPlus />
+                <Plus />
                 <span>구독 추가</span>
             </LinkTo>
         </div>

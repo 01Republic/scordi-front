@@ -2,13 +2,11 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {WithChildren} from '^types/global.type';
 import {MainPageRoute} from '^pages/index';
 import {TastingPageRoute} from '^pages/tasting';
-import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
-import {PostListPageRoute} from '^pages/posts';
-import {ProductListPageRoute} from '^pages/products';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
 import {Img} from '^components/ui/Img';
 import ScordiLogo from '^public/images/logo/scordi/logo-black-transparent-2.png';
+import {Menu} from 'lucide-react';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -103,7 +101,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             tabIndex={0}
                             className="btn sm:btn-outline !bg-white !border-none sm:border-gray-400 text-gray-500 sm:hidden"
                         >
-                            <FiMenu size={20} />
+                            <Menu size={20} />
                         </label>
                         <ul
                             tabIndex={0}

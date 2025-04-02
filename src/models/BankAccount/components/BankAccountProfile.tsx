@@ -1,13 +1,12 @@
 import React, {memo} from 'react';
-import {FaRegCreditCard} from 'react-icons/fa6';
 import {getColor, palette} from '^components/util/palette';
 import {Avatar} from '^components/Avatar';
 import {NextImage} from '^components/NextImage';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
-import {RiBankFill} from '@react-icons/all-files/ri/RiBankFill';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {Building, CreditCard} from 'lucide-react';
 
 /**
  * 계좌 프로필 : 기본
@@ -67,7 +66,7 @@ interface BankAccountProfileOptionProps {
 //             {bankAccount ? (
 //                 <>
 //                     <Avatar className="w-7">
-//                         <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+//                         <CreditCard size={20} className="h-full w-full p-[6px]" />
 //                     </Avatar>
 //
 //                     <div className="flex flex-col gap-0.5 overflow-hidden text-left">
@@ -118,7 +117,7 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
                         {company ? (
                             <img src={company.logo} alt={company.displayName || ''} />
                         ) : (
-                            <RiBankFill size={20} className="h-full w-full p-[6px]" />
+                            <Building size={20} className="h-full w-full p-[6px]" />
                         )}
                     </Avatar>
 
@@ -160,7 +159,7 @@ export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactP
     const {item: bankAccount, className = ''} = props;
     if (!bankAccount) return <div className="text-13 text-gray-300">비어있음</div>;
 
-    const bank = bankAccount.bank;
+    const company = bankAccount.company;
 
     return (
         <div
@@ -168,17 +167,17 @@ export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactP
             className={`h-[20px] flex gap-1.5 items-center max-w-sm ${className}`}
         >
             <Avatar className="w-[20px] h-[20px] text-12 relative">
-                {bank ? (
-                    // TODO: 로고 이미지
-                    // <NextImage src={company.logo} alt={company.displayName} fill />
-                    <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
+                {company ? (
+                    <NextImage src={company?.logo} alt={company?.displayName} fill />
                 ) : (
-                    <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
+                    <CreditCard size={12} className="h-full w-full p-1 text-gray-400" />
                 )}
             </Avatar>
 
             <div className="flex items-center text-14 leading-none whitespace-nowrap overflow-hidden">
-                <span className="truncate">{bankAccount.alias}</span>
+                <span className="truncate">
+                    {bankAccount.alias} {bankAccount.displayNumber && `(${bankAccount.endNumber()})`}
+                </span>
             </div>
         </div>
     );

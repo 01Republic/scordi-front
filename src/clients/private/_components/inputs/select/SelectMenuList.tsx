@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {components, MenuListProps} from 'react-select';
 import {Option} from '^components/util/react-select';
-import {CgSpinner} from 'react-icons/cg';
+import {Loader} from 'lucide-react';
 
 interface SelectMenuListProps extends MenuListProps<Option, false> {}
 
@@ -18,7 +18,7 @@ export const SelectMenuList = memo((props: SelectMenuListProps) => {
                         <div>
                             {isLoading && (
                                 <div className="animate-spin">
-                                    <CgSpinner fontSize={12} />
+                                    <Loader fontSize={12} />
                                 </div>
                             )}
                         </div>

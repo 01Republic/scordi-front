@@ -1,7 +1,5 @@
 import React, {Dispatch, SetStateAction, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
-import {IoChevronBackOutline} from '@react-icons/all-files/io5/IoChevronBackOutline';
 import {AxiosError, AxiosResponse} from 'axios';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {ProductDto} from '^models/Product/type';
@@ -14,6 +12,7 @@ import {ErrorResponseDto} from '^components/ApplicationConnectStage/dto/error.re
 import {Scrapping} from '^components/ApplicationConnectStage/Scrapping';
 import {ConnectMethod} from './SelectConnectMethod';
 import {ConnectOrg} from './ConnectOrg';
+import {ChevronLeft, Zap} from 'lucide-react';
 
 interface ConnectLoginFormProps {
     protoApp: ProductDto;
@@ -132,11 +131,11 @@ export const ConnectLoginForm = (props: ConnectLoginFormProps) => {
                                         className="btn btn-ghost border-[#dbd6e1] gap-2"
                                         onClick={() => setConnectMethod(undefined)}
                                     >
-                                        <IoChevronBackOutline /> 처음으로
+                                        <ChevronLeft /> 처음으로
                                     </button>
 
                                     <button className="btn btn-secondary text-lg gap-2">
-                                        <IoFlash /> Connect App
+                                        <Zap /> Connect App
                                     </button>
                                 </div>
                             </ContentPanelItem>

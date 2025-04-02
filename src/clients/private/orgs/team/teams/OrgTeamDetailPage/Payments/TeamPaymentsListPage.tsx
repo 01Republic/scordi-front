@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FaPlus} from 'react-icons/fa6';
 import {teamIdParamState} from '^atoms/common';
 import {useUnmount} from '^hooks/useUnmount';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
@@ -11,6 +10,7 @@ import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabCon
 import {AddPaymentModal} from './AddPaymentModal';
 import {TeamPaymentTableRow} from './TeamPaymentTableRow';
 import {TeamPaymentTableHeader} from './TeamPaymentTableHeader';
+import {Plus} from 'lucide-react';
 
 export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
@@ -48,7 +48,7 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
                         className="btn btn-square btn-scordi animate-none btn-animation"
                         onClick={() => setIsOpened(true)}
                     >
-                        <FaPlus fontSize={20} />
+                        <Plus fontSize={20} />
                     </button>
                 </div>
             </div>

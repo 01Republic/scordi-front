@@ -14,6 +14,8 @@ export const DPaySecretCodePaymentListPageRoute = pathRoute({
     path: (secretCode: string) => pathReplace(DPaySecretCodePaymentListPageRoute.pathname, {secretCode}),
 });
 
+export const SUPER_ACCESS_CODE = 'scordi' as const;
+
 export default function Page() {
     const router = useRouter();
     const secretCode = parseQueryValue(router.query['secretCode']);
@@ -24,7 +26,7 @@ export default function Page() {
     function parseToken(access_code: string, secret_code: string) {
         if (!access_code || !secret_code) return;
 
-        if (access_code === 'scordi') return setAccessPermit(true);
+        if (access_code === SUPER_ACCESS_CODE) return setAccessPermit(true);
 
         try {
             const decrypted = cryptoUtil.decryptUri(access_code);

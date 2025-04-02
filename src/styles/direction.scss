@@ -1,7 +1,12 @@
-@import "./functions/generic";
+@import './functions/generic';
 
-$direction-value-map: (rtl: rtl, ltr: ltr, initial: initial, inherit: inherit);
+$direction-value-map: (
+    rtl: rtl,
+    ltr: ltr,
+    initial: initial,
+    inherit: inherit,
+);
 
 @each $abbrev, $value in $direction-value-map {
-  @include make-generic-class('direction', $abbrev, 'direction', $value);
+    @include make-generic-class('direction', $abbrev, 'direction', $value);
 }

@@ -3,6 +3,7 @@ import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
 import {SubscriptionSelectItem} from '^models/Subscription/components/SubscriptionSelectItem';
 import {useAddableSubscriptionsOfCreditCard} from '^models/Subscription/hook';
 import {subscriptionApi} from '^models/Subscription/api';
+import {ChevronLeft} from 'lucide-react';
 
 interface CreditCardAddSubscriptionModalProps {
     creditCardId: number;
@@ -41,13 +42,14 @@ export const CreditCardAddSubscriptionModal = memo((props: CreditCardAddSubscrip
             ctaInactiveText="구독 선택"
             ctaActiveText="%n개의 선택된 구독 연결하기"
             successMessage="선택한 구독을 연결했어요."
+            emptyText="연결할 구독이 없어요"
         />
     );
     // return (
     //     <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
     //         <div className="flex items-center">
     //             <div className="p-6 text-gray-400 hover:text-black transition-all cursor-pointer" onClick={onClose}>
-    //                 <FaChevronLeft fontSize={16} />
+    //                 <ChevronLeft fontSize={16} />
     //             </div>
     //         </div>
     //         <div className="px-6 bg-white flex items-center justify-between">

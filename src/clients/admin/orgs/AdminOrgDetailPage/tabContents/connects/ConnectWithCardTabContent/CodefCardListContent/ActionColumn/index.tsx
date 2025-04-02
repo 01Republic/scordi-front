@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {IoMdMore} from 'react-icons/io';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FetchBillingHistoriesItem} from './FetchBillingHistoriesItem';
@@ -8,6 +7,7 @@ import {CreateCreditCardItem} from './CreateCreditCardItem';
 import {PatchAllForCodefCardItem} from './PatchAllForCodefCardItem';
 import {RemoveAllOfCodefCardItem} from './RemoveAllOfCodefCardItem';
 import {PatchSubscriptionsByCodefCardItem} from './PatchSubscriptionsByCodefCardItem';
+import {MoreHorizontal} from 'lucide-react';
 
 interface CodefCardRowActionColumnProps {
     codefCard: CodefCardDto;
@@ -27,7 +27,7 @@ export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnPro
             placement="bottom-end"
             Trigger={() => (
                 <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
-                    <IoMdMore fontSize={16} />
+                    <MoreHorizontal fontSize={16} />
                 </button>
             )}
         >

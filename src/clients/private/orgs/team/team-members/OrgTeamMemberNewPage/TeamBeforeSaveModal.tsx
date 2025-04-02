@@ -1,9 +1,7 @@
 import React, {memo, ReactNode} from 'react';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {IconType} from '@react-icons/all-files';
-import {FaChevronRight} from 'react-icons/fa6';
-import {FcDataRecovery, FcInvite} from 'react-icons/fc';
+import {LucideIcon} from 'lucide-react';
 import {CreateTeamMemberDto, teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {useOrgIdParam} from '^atoms/common';
 import {toast} from 'react-hot-toast';
@@ -12,6 +10,7 @@ import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
+import {ChevronRight, DatabaseBackup, Mail} from 'lucide-react';
 
 interface BeforeSaveModalProps extends ModalProps {
     dto: CreateTeamMemberDto;
@@ -47,7 +46,7 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
 
             <div className="py-4 flex flex-col gap-3">
                 <MethodOption
-                    Icon={FcInvite}
+                    Icon={Mail}
                     title="초대하기"
                     desc="구성원 회사메일로 초대장을 전송해요."
                     onClick={() => {
@@ -59,7 +58,7 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
                     }}
                 />
                 <MethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="초대 없이 추가하기"
                     desc="[설정 > 멤버관리] 에서 나중에 초대할 수 있어요."
                     onClick={() => {
@@ -75,7 +74,7 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
 TeamBeforeSaveModal.displayName = 'BeforeSaveModal';
 
 interface Props {
-    Icon: IconType;
+    Icon: LucideIcon;
     title: string;
     desc: ReactNode;
     onClick: () => any;
@@ -99,7 +98,7 @@ const MethodOption = memo((props: Props) => {
             </div>
 
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

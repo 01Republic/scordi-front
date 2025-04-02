@@ -1,9 +1,9 @@
 import {TeamMemberDto} from '^models/TeamMember';
 import React, {memo} from 'react';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {FaQuestion} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
 import {WithChildren} from '^types/global.type';
+import {HelpCircle} from 'lucide-react';
 
 interface TeamMemberProfileProps extends WithChildren {
     item: TeamMemberDto;
@@ -67,7 +67,7 @@ export const TeamMemberProfileOption = memo((props: TeamMemberProfileOptionProps
                 <TeamMemberAvatar teamMember={teamMember} className="w-7 h-7" />
             ) : (
                 <Avatar className="w-7">
-                    <FaQuestion size={24} className="h-full w-full p-[6px]" />
+                    <HelpCircle size={24} className="h-full w-full p-[6px]" />
                 </Avatar>
             )}
 

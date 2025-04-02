@@ -32,7 +32,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                 ...permittedValues,
                 isCreditCard: typeof isCreditCard === 'undefined' ? undefined : isCreditCard === 'true',
                 isPersonal: typeof isPersonal === 'undefined' ? undefined : isPersonal === 'true',
-                holdingMemberId: typeof holdingMemberId === 'undefined' ? undefined : Number(holdingMemberId),
+                holdingMemberId: holdingMemberId === '' ? null : Number(holdingMemberId),
             };
         },
     });
@@ -62,14 +62,15 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
             return;
         }
 
-        if (!month || !year) {
-            toast.error('유효기간 입력이 완료되지 않았습니다');
-            return;
-        }
-        if (year.length != 4 || month.length != 2) {
-            toast.error('유효기간 입력이 올바르지 않습니다');
-            return;
-        }
+        // if (!month || !year) {
+        //     toast.error('유효기간 입력이 완료되지 않았습니다');
+        //     return;
+        // }
+        // if (year.length != 4 || month.length != 2) {
+        //     toast.error('유효기간 입력이 올바르지 않습니다');
+        //     return;
+        // }
+
         const expiry = `${month}${year.slice(2, 4)}`;
 
         data.expiry = expiry;
@@ -271,6 +272,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 <CardHoldingMemberIdSelect
                                     isLoading={isLoading}
                                     defaultValue={formData.holdingMemberId || undefined}
+                                    onChange={(holdingMemberId) => setFormValue({holdingMemberId})}
                                 />
                                 <FormControl label="비고">
                                     <input

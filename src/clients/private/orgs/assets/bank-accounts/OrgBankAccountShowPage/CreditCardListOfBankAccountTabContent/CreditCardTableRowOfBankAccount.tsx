@@ -9,7 +9,9 @@ import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {errorToast} from '^api/api';
 import Tippy from '@tippyjs/react';
-import {BsDashCircle} from '@react-icons/all-files/bs/BsDashCircle';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {MinusCircle} from 'lucide-react';
 
 interface CreditCardTableRowOfBankAccountProps {
     creditCard: CreditCardDto;
@@ -54,11 +56,15 @@ export const CreditCardTableRowOfBankAccount = memo((props: CreditCardTableRowOf
 
     const expiry = creditCard.decryptSign().expiry;
 
+    const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
+
     return (
         <tr className="table-fixed">
-            {/* 구독명 */}
+            {/* 카드명 */}
             <td>
-                <CreditCardProfileOption2 item={creditCard} />
+                <OpenButtonColumn href={showPagePath}>
+                    <CreditCardProfileOption2 item={creditCard} />
+                </OpenButtonColumn>
             </td>
 
             {/* 종류(신용/체크) */}
@@ -127,7 +133,7 @@ export const CreditCardTableRowOfBankAccount = memo((props: CreditCardTableRowOf
                                 disconnect();
                             }}
                         >
-                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                            <MinusCircle className="" size={24} strokeWidth={0.3} />
                         </button>
                     </Tippy>
                 </div>

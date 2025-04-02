@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {FaCheck} from 'react-icons/fa6';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
+import {Check} from 'lucide-react';
 
 interface InvoiceAccountSelectItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -21,10 +21,11 @@ export const InvoiceAccountSelectItem = memo((props: InvoiceAccountSelectItemPro
 
             <div className="flex items-center">
                 <button className="relative">
-                    <FaCheck
-                        fontSize={16}
-                        strokeWidth={0.3}
-                        className={isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'}
+                    <Check
+                        strokeWidth={3}
+                        className={`text-20 ${
+                            isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'
+                        }`}
                     />
                 </button>
             </div>

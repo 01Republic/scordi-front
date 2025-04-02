@@ -1,5 +1,4 @@
 import {memo, useState} from 'react';
-import {FaBell, FaPlus} from 'react-icons/fa6';
 import {useCurrentUser} from '^models/User/hook';
 import {WorkspaceDropdown} from './WorkspaceDropdown';
 import {ProfileDropdown} from './ProfileDropdown';
@@ -9,10 +8,10 @@ import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
 import {t_membershipLevel} from '^models/Membership/types';
-import {GiSadCrab} from 'react-icons/gi';
 import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentMembership} from '^models/Membership/hook';
+import {Bell, Frown, Plus} from 'lucide-react';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -49,7 +48,7 @@ export const OrgTopBar = memo(() => {
 
             {/* @ts-ignore */}
             <marquee className={`w-[20rem] ${isHovered ? '' : 'hidden'}`} direction="right">
-                <GiSadCrab className="text-red-600" fontSize={20} />
+                <Frown className="text-red-600" fontSize={20} />
                 {/* @ts-ignore */}
             </marquee>
 
@@ -63,13 +62,13 @@ export const OrgTopBar = memo(() => {
                         disabled={!currentOrg}
                         loadingOnBtn
                     >
-                        <FaPlus />
+                        <Plus />
                         <span>구독 등록하기</span>
                     </LinkTo>
                 </div>
 
                 <div className="text-gray-400 transition-all hover:text-scordi-500 cursor-pointer">
-                    <FaBell size={20} className="" />
+                    <Bell className="size-5" />
                 </div>
 
                 <div>

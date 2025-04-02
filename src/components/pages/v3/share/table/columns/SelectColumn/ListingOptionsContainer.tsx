@@ -5,6 +5,8 @@ import {CreatableItem} from '^v3/share/table/columns/SelectColumn/CreatableItem'
 import {ValueComponent} from './type';
 import {ContainerHeader} from '^v3/share/table/columns/SelectColumn/ContainerHeader';
 import {ContainerBody} from '^v3/share/table/columns/SelectColumn/ContainerBody';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 interface ListingOptionsContainerProps<T> {
     value: T | undefined;
@@ -82,18 +84,36 @@ export const ListingOptionsContainer = <T,>(props: ListingOptionsContainerProps<
             <ContainerHeader title={boxTitle} className="mb-[8px]" />
 
             <ContainerBody entries={options} isLoading={isLoading}>
-                {options.map((option, i) => (
-                    <OptionItem
-                        key={i}
-                        option={option}
-                        selectedOption={value}
-                        clickOption={clickOption}
-                        ValueComponent={ValueComponent}
-                        valueOfOption={valueOfOption}
-                        className={optionWrapperClass}
-                        destroyRequest={destroyOption}
-                    />
-                ))}
+                {options.map((option, i) => {
+                    const beforeOption: T | undefined = options[i - 1];
+                    // @ts-ignore
+                    const isDifferentType = !!beforeOption && beforeOption.constructor !== option.constructor;
+                    const isCreditCard = option instanceof CreditCardDto;
+                    const isBankAccount = option instanceof BankAccountDto;
+                    const isFirstChild = i === 0;
+
+                    return (
+                        <>
+                            {isDifferentType && <hr className={'my-3'} />}
+                            {(isFirstChild || isDifferentType) && (
+                                <ContainerHeader
+                                    title={isCreditCard ? '카드' : isBankAccount ? '계좌' : ''}
+                                    className={'mb-1'}
+                                />
+                            )}
+                            <OptionItem
+                                key={i}
+                                option={option}
+                                selectedOption={value}
+                                clickOption={clickOption}
+                                ValueComponent={ValueComponent}
+                                valueOfOption={valueOfOption}
+                                className={optionWrapperClass}
+                                destroyRequest={destroyOption}
+                            />
+                        </>
+                    );
+                })}
 
                 {onCreate && searchKeyword && !options.find((o) => keywordFilter(o, searchKeyword)) && (
                     <CreatableItem onClick={() => createOption(searchKeyword)}>

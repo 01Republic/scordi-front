@@ -6,6 +6,7 @@ import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {InvoiceAccountProfileCompact, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {EmptyValue} from '../../EmptyValue';
+import {InvoiceAccountSelectForTableView} from '^models/InvoiceAccount/components/InvoiceAccountSelectForTableView';
 
 interface SubscriptionInvoiceAccountProps {
     isEditMode?: boolean;
@@ -21,14 +22,24 @@ export const SubscriptionInvoiceAccount = memo((props: SubscriptionInvoiceAccoun
     return (
         <FormControl label="청구서메일">
             {isEditMode ? (
-                <div className={'mb-[-40px]'}>
-                    <InvoiceAccountSelect
-                        defaultValue={subscription.invoiceAccounts?.[0]}
-                        onSelect={(invoiceAccount) => {
-                            form.setValue('invoiceAccountId', invoiceAccount?.id);
+                <div className="flex items-center input border-gray-200 bg-gray-100 ">
+                    <InvoiceAccountSelectForTableView
+                        defaultValue={subscription.invoiceAccounts}
+                        onChange={(invoiceAccounts) => {
+                            const newInvoiceAccounts = invoiceAccounts || [];
+                            form.setValue(
+                                'invoiceAccountIdsForMulti',
+                                newInvoiceAccounts.map((invoiceAccount) => invoiceAccount.id),
+                            );
                         }}
-                        placeholder={<EmptyValue />}
-                        getLabel={(option) => <InvoiceAccountProfileCompact invoiceAccount={option} />}
+                        ValueComponent={(props) => {
+                            const {value} = props;
+                            return typeof value === 'string' ? (
+                                <p>{value}</p>
+                            ) : (
+                                <InvoiceAccountProfileCompact invoiceAccount={value} />
+                            );
+                        }}
                     />
                 </div>
             ) : (
@@ -50,7 +61,7 @@ export const SubscriptionInvoiceAccount = memo((props: SubscriptionInvoiceAccoun
                                     }
                                 >
                                     <div className="text-gray-500 text-13 cursor-pointer">
-                                        외 {subscription.invoiceAccounts?.length - 1}개
+                                        &nbsp; 외 {subscription.invoiceAccounts?.length - 1}개
                                     </div>
                                 </Tippy>
                             )}

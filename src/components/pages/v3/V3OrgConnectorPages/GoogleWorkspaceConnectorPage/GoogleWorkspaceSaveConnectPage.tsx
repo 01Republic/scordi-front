@@ -6,12 +6,12 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {useAlert} from '^hooks/useAlert';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {ProductItem} from '^tasting/tabs/panes/SyncWorkspaceApp/results/ProductItemList/ProductItem';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {useCurrentOrg} from '^models/Organization/hook';
+import {ArrowLeft, ArrowRight} from 'lucide-react';
 
 export const GoogleWorkspaceSaveConnectPage = memo(function GoogleWorkspaceSaveConnectPage() {
     const router = useRouter();
@@ -78,7 +78,7 @@ export const GoogleWorkspaceSaveConnectPage = memo(function GoogleWorkspaceSaveC
                         onClick={routerBack}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <FaArrowLeft /> 처음으로
+                        <ArrowLeft /> 처음으로
                     </LinkTo>
                 </div>
 

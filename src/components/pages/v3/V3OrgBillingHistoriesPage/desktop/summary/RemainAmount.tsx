@@ -5,9 +5,9 @@ import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {monthlyBillingScheduleAtom, monthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {monthlyRemainAmountAtom} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthlyRemainAmount';
-import {FcClock} from 'react-icons/fc';
 import {useBillingSchedulesV3} from '^models/BillingSchedule/hook';
 import {BillingScheduleManager} from '^models/BillingSchedule/manager';
+import {Clock} from 'lucide-react';
 
 export const RemainAmount = memo(function RemainAmount() {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
@@ -27,7 +27,7 @@ export const RemainAmount = memo(function RemainAmount() {
     return (
         <div className="stat bg-white shadow rounded-box" onClick={() => open()}>
             <div className="stat-figure">
-                <FcClock size={40} />
+                <Clock size={40} />
             </div>
             <div className="stat-title">결제예정</div>
             <div className="stat-value text-3xl text-info">

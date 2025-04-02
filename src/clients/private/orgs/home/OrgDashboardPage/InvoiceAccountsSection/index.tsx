@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {GoMail} from 'react-icons/go';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
 import {unitFormat} from '^utils/number';
@@ -17,6 +16,7 @@ import {swalHTML} from '^components/util/dialog';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {EmptyTableLayout} from '../EmptyTableLayout';
+import {Mail} from 'lucide-react';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -36,7 +36,7 @@ export const InvoiceAccountsSection = () => {
             <>
                 <EmptyTableLayout
                     title="청구서 메일"
-                    Icon={() => <GoMail />}
+                    Icon={() => <Mail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
                 {/*청구서 수신 메일 계정 추가*/}

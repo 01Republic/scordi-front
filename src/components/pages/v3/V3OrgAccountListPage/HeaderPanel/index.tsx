@@ -4,7 +4,7 @@ import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountList
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ProductSelector} from '^v3/share/modals/AccountListModal/ProductSelector';
 import {useAccounts} from '^models/Account/hook';
-import {FcLock} from '^components/react-icons';
+import {Lock} from 'lucide-react';
 
 export const HeaderPanel = memo(() => {
     const {result: pagedAccounts} = useAccounts();
@@ -19,7 +19,7 @@ export const HeaderPanel = memo(() => {
             <MobileSection.Padding>
                 <div className="flex items-center space-x-2 mb-2">
                     <h3 className="h2 flex-1 flex gap-2 items-center">
-                        <FcLock /> {title}
+                        <Lock /> {title}
                     </h3>
                 </div>
                 <div className="flex pt-6 px-1.5">

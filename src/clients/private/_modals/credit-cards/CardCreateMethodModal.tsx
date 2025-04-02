@@ -1,8 +1,7 @@
 import React, {memo} from 'react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {FaChevronRight} from 'react-icons/fa6';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
+import {ChevronRight, Database, DatabaseBackup} from 'lucide-react';
 
 export enum CardCreateMethod {
     // (자동) 카드사 계정 연동
@@ -26,7 +25,7 @@ export const CardCreateMethodModal = memo((props: CardCreateMethodModalProps) =>
 
             <div className="py-4 flex flex-col gap-3">
                 <CardCreateMethodOption
-                    Icon={FcDataBackup}
+                    Icon={Database}
                     title="결제내역 불러오기"
                     desc="카드사 로그인으로 한 번에 불러와요."
                     onClick={() => {
@@ -35,7 +34,7 @@ export const CardCreateMethodModal = memo((props: CardCreateMethodModalProps) =>
                     }}
                 />
                 <CardCreateMethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 추가하기"
                     desc="카드 정보를 입력한 뒤 추가해요."
                     onClick={() => {
@@ -50,7 +49,7 @@ export const CardCreateMethodModal = memo((props: CardCreateMethodModalProps) =>
 CardCreateMethodModal.displayName = 'CardCreateMethodModal';
 
 interface Props {
-    Icon: IconType;
+    Icon: LucideIcon;
     title: string;
     desc: string;
     onClick: () => any;
@@ -64,9 +63,7 @@ export const CardCreateMethodOption = (props: Props) => {
             className="flex items-center -mx-3 px-3 py-3 rounded-box cursor-pointer group hover:bg-scordi-50 transition-all"
             onClick={onClick}
         >
-            <div className="">
-                <Icon size={24} />
-            </div>
+            <Icon />
 
             <div className="flex-auto px-3">
                 <p className="text-14">{title}</p>
@@ -74,7 +71,7 @@ export const CardCreateMethodOption = (props: Props) => {
             </div>
 
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

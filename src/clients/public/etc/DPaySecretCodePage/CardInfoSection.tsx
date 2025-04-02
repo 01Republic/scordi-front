@@ -9,8 +9,10 @@ import {FormExpiryDate} from './FormExpiryDate';
 import {FormBirthDay} from './FormBirthDay';
 import {FormBusinessNumber} from './FormBusinessNumber';
 import {FormCardPassword} from './FormCardPassword';
-import {emailValid} from '^utils/input-helper';
+import {CTASection} from './CTASection';
 import {CTAButton} from './CTAButton';
+import {emailValid} from '^utils/input-helper';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface CardInfoSectionProps extends WithChildren {
     prevStep: () => void;
@@ -32,7 +34,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
         if ((data.cardNumberFirst || '').length !== 4) return false;
         if ((data.cardNumberSecond || '').length !== 4) return false;
         if ((data.cardNumberThird || '').length !== 4) return false;
-        if (![4, 5].includes((data.cardNumberFourth || '').length)) return false;
+        if (![3, 4, 5].includes((data.cardNumberFourth || '').length)) return false;
         if ((data.cardExpirationMonth || '').length !== 2) return false;
         if ((data.cardExpirationYear || '').length !== 2) return false;
         if ((data.cardPassword || '').length !== 2) return false;
@@ -49,7 +51,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
             <section className="w-full sm:w-1/3">{children}</section>
 
             <section className="w-full sm:w-2/3 h-full">
-                <div className="flex flex-col h-full justify-between text-sm">
+                <div className="flex flex-col sm:h-full sm:justify-between text-sm">
                     <section className="flex flex-col gap-5">
                         <article className="flex flex-col">
                             <div className="flex items-center gap-8 sm:gap-8">
@@ -113,26 +115,45 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                             </div>
                         </article>
                         <FormCardNumber form={form} />
-                        <FormExpiryDate form={form} />
-                        <FormCardPassword form={form} />
+
+                        <div className="flex flex-row sm:flex-col sm:gap-5">
+                            <FormExpiryDate form={form} />
+                            <FormCardPassword form={form} />
+                        </div>
                         {isPersonal ? <FormBirthDay register={register} /> : <FormBusinessNumber register={register} />}
                     </section>
-                    <div className="mt-10">
-                        <label className="mb-6">
-                            <input type="checkbox" {...register('agree', {required: true})} />
-                            <span className="ml-2">[필수] 서비스 이용 약관, 개인정보 처리 동의</span>
-                        </label>
 
-                        {isPending ? (
-                            <section className="mt-6">
-                                <CTAButton text="결제 요청 중 ..." disabled />
-                            </section>
-                        ) : (
-                            <section className="flex gap-2 mt-6">
-                                <CTAButton text="이전" onClick={prevStep} />
-                                <CTAButton text="결제하기" type="submit" disabled={!isValid} />
-                            </section>
-                        )}
+                    <div className="mt-5 sm:mt-10">
+                        <div className="mb-6 flex items-center justify-between">
+                            <label className="flex items-center">
+                                <input type="checkbox" {...register('agree', {required: true})} />
+                                <span className="ml-2">[필수] 개인정보 처리 동의</span>
+                            </label>
+
+                            <LinkTo
+                                text="(열기)"
+                                href="https://01republic.notion.site/D-Pay-1b41aa2520df80a2808cdc9036e05e30"
+                                target="_blank"
+                                passHref
+                                className="text-12 text-gray-400 hover:text-gray-500 transition-all pb-[1px]"
+                                displayLoading={false}
+                            />
+                        </div>
+
+                        {/*<section className="w-full h-24 sm:hidden" />*/}
+
+                        <CTASection>
+                            {isPending ? (
+                                <section className="">
+                                    <CTAButton text="결제 요청 중 ..." disabled />
+                                </section>
+                            ) : (
+                                <section className="flex gap-2">
+                                    <CTAButton text="이전" onClick={prevStep} />
+                                    <CTAButton text="결제하기" type="submit" disabled={!isValid} />
+                                </section>
+                            )}
+                        </CTASection>
                     </div>
                 </div>
             </section>

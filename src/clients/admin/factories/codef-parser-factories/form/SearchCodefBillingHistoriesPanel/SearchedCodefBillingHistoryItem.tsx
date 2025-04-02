@@ -3,8 +3,8 @@ import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {hh_mm, yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {FaCaretDown, FaCheck, FaEyeSlash} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react';
+import {Check, ChevronDown, EyeOff} from 'lucide-react';
 
 interface SearchedCodefBillingHistoryItemProps {
     data: CodefBillingHistoryDto;
@@ -49,7 +49,7 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
                 </div>
                 <div className="">
                     {!preventHidden && (
-                        <FaEyeSlash
+                        <EyeOff
                             onClick={() => setIsHidden(true)}
                             className="text-gray-400 hover:text-red-500 transition-all cursor-pointer"
                         />
@@ -59,7 +59,7 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
             <div className={`col-span-3 flex items-center justify-end ${status && 'opacity-50 line-through'}`}>
                 {codefBillingHistory.billingHistoryId && (
                     <div data-tip="파서로 연동된 결제내역" className="tooltip tooltip-primary">
-                        <FaCheck className="text-green-400 mr-1 cursor-pointer" />
+                        <Check className="text-green-400 mr-1 cursor-pointer" />
                     </div>
                 )}
                 <span>{finalPrice}</span> <small>({currency})</small>{' '}

@@ -27,7 +27,7 @@ export const useGmailListNavigator = (config: GmailListNavigatorConfig) => {
     const currentPageIndex = pageTokens.findIndex((token) => token === params.pageToken);
     const currentPageNum = currentPageIndex + 1;
     const prevPageToken = pageTokens[currentPageIndex - 1];
-    const nextPageToken = data?.nextPageToken;
+    const nextPageToken = pageTokens[currentPageIndex + 1] || data?.nextPageToken;
 
     // Email Values
     const getSubject = (email?: GmailContentReadableDto) => email?.metadata.subject;
@@ -67,8 +67,7 @@ export const useGmailListNavigator = (config: GmailListNavigatorConfig) => {
         if (newFirstEmail) setFirstEmail(newFirstEmail);
     }, [messages, firstEmail, currentPageIndex, beforePageIndex]);
 
-    const goPrevEmail = (email: GmailContentReadableDto) => {
-        // const target = messages[indexOf(email) - 1];
+    const goPrevEmail = () => {
         if (prevEmail) {
             setCurrentEmail(prevEmail);
         } else {
@@ -76,8 +75,7 @@ export const useGmailListNavigator = (config: GmailListNavigatorConfig) => {
         }
     };
 
-    const goNextEmail = (email: GmailContentReadableDto) => {
-        // const target = messages[indexOf(email) + 1];
+    const goNextEmail = () => {
         if (nextEmail) {
             setCurrentEmail(nextEmail);
         } else {

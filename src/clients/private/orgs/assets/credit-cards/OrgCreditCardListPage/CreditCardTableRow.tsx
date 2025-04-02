@@ -1,6 +1,11 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
-import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
+import {
+    CreditCardDto,
+    CreditCardUsingStatus,
+    t_creditCardUsingStatus,
+    UpdateCreditCardDto,
+} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
 import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';

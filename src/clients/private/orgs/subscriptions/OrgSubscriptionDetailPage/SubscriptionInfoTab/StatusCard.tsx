@@ -15,7 +15,7 @@ export const StatusCard = memo((props: StatusCardProps) => {
                 <div className="text-gray-600">{title}</div>
                 <div className="text-2xl font-medium max-w-[150px]">{titleValue}</div>
             </div>
-            <div className={` rounded-full p-2 ${iconColor} w-16 h-16`}>{icon}</div>
+            <div className={`size-16 rounded-full flex items-center justify-center ${iconColor}`}>{icon}</div>
         </div>
     );
 });

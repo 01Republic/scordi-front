@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {FaChevronRight} from 'react-icons/fa6';
-import {IconType} from '@react-icons/all-files';
+import {LucideIcon} from 'lucide-react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {ChevronRight, Database, DatabaseBackup} from 'lucide-react';
 
 export enum InvoiceAccountCreateMethod {
     // (자동) 지메일 계정 연동
@@ -35,13 +34,13 @@ export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreate
                     }}
                 >
                     <CreateMethodOption
-                        Icon={FcDataBackup}
+                        Icon={Database}
                         title="청구서 메일 불러오기"
                         desc="구글 로그인으로 한 번에 불러와요."
                     />
                 </GoogleGmailOAuthButton>
                 <CreateMethodOption
-                    Icon={FcDataRecovery}
+                    Icon={DatabaseBackup}
                     title="직접 추가하기"
                     desc="이메일 주소를 입력한 뒤 추가해요."
                     onClick={() => {
@@ -55,7 +54,7 @@ export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreate
 });
 
 interface Props {
-    Icon: IconType;
+    Icon: LucideIcon;
     title: string;
     desc: string;
     onClick?: () => any;
@@ -69,9 +68,7 @@ export const CreateMethodOption = (props: Props) => {
             className="flex items-center -mx-3 px-3 py-3 rounded-box cursor-pointer group hover:bg-scordi-50 transition-all"
             onClick={onClick}
         >
-            <div className="">
-                <Icon size={24} />
-            </div>
+            <Icon />
 
             <div className="flex-auto px-3">
                 <p className="text-14">{title}</p>
@@ -79,7 +76,7 @@ export const CreateMethodOption = (props: Props) => {
             </div>
 
             <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
+                <ChevronRight className="text-gray-400 group-hover:text-black transition-all" />
             </div>
         </div>
     );

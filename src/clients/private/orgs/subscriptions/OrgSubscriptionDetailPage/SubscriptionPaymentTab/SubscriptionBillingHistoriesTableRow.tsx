@@ -1,14 +1,17 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
-import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {CreditCardProfileCompact, CreditCardProfileOption2} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
-import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
+import {InvoiceAccountProfile, InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
 import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/button/BillingHistoryAttachmentShowButton';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -17,6 +20,7 @@ interface SubscriptionBillingHistoriesTableRowProps {
 
 export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBillingHistoriesTableRowProps) => {
     const {billingHistory, reload} = props;
+    const {organizationId} = billingHistory;
 
     const update = async (dto: UpdateBillingHistoryRequestDto) => {
         const {id, organizationId: orgId} = billingHistory;
@@ -53,7 +57,11 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
             {/* 연결된 결제수단 */}
             <td>
                 {billingHistory.creditCard ? (
-                    <CreditCardProfileCompact item={billingHistory.creditCard} />
+                    <OpenButtonColumn
+                        href={OrgCreditCardShowPageRoute.path(organizationId, billingHistory.creditCard.id)}
+                    >
+                        <CreditCardProfileCompact item={billingHistory.creditCard} />
+                    </OpenButtonColumn>
                 ) : (
                     <EmptyValue />
                 )}
@@ -62,7 +70,14 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
             {/* 연결된 청구서 수신 메일 */}
             <td>
                 {billingHistory.invoiceApp?.invoiceAccount ? (
-                    <InvoiceAccountProfileCompact invoiceAccount={billingHistory.invoiceApp?.invoiceAccount} />
+                    <OpenButtonColumn
+                        href={OrgInvoiceAccountShowPageRoute.path(
+                            organizationId,
+                            billingHistory.invoiceApp?.invoiceAccount.id,
+                        )}
+                    >
+                        <InvoiceAccountProfileCompact invoiceAccount={billingHistory.invoiceApp?.invoiceAccount} />
+                    </OpenButtonColumn>
                 ) : (
                     <EmptyValue />
                 )}

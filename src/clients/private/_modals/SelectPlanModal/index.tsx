@@ -1,5 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
@@ -15,6 +14,8 @@ import {organizationApi} from '^models/Organization/api';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {oneDtoOf} from '^types/utils/response-of';
 import {OrganizationDto} from '^models/Organization/type';
+import {ChannelTalk_Url} from '^config/constants';
+import {X} from 'lucide-react';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -91,6 +92,17 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         _onSuccess();
     };
 
+    const onClickScordiPlanCard = (plan: ScordiPlanDto) => {
+        // Custom 플랜 구분
+        const isCustomPlan = plan.id === 6 || plan.name === 'Custom';
+
+        if (isCustomPlan) {
+            window.open(ChannelTalk_Url, '_blank');
+        } else {
+            setSelectedPlan(plan);
+        }
+    };
+
     return (
         <>
             <TossPaymentAuthCallbackProvider
@@ -116,7 +128,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                 onClick={onClose}
                                 className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200"
                             >
-                                <IoClose size={32} />
+                                <X size={32} />
                             </button>
                         </div>
 
@@ -136,13 +148,13 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                             key={plan.id}
                                             scordiPlan={plan}
                                             scordiSubscriptions={scordiSubscriptions}
-                                            onClick={() => setSelectedPlan(plan)}
+                                            onClick={() => onClickScordiPlanCard(plan)}
                                         />
                                     ) : (
                                         <ScordiPlanCard
                                             key={plan.id}
                                             scordiPlan={plan}
-                                            onClick={() => setSelectedPlan(plan)}
+                                            onClick={() => onClickScordiPlanCard(plan)}
                                         />
                                     );
                                 })}

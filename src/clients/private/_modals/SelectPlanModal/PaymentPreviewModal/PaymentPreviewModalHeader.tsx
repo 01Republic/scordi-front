@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {IoClose} from '@react-icons/all-files/io5/IoClose';
+import {X} from 'lucide-react';
 
 interface PaymentPreviewModalHeaderProps {
     className?: string;
@@ -21,7 +21,7 @@ export const PaymentPreviewModalHeader = memo((props: PaymentPreviewModalHeaderP
                     onClick={onClose}
                     className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200"
                 >
-                    <IoClose size={32} />
+                    <X size={32} />
                 </button>
             </div>
         </header>

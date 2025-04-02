@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {firstDayOfMonth, lastDayOfMonth} from '^utils/dateTime';
-import {BiCaretLeft, BiCaretRight} from 'react-icons/bi';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {useBillingSchedulesV3} from '^models/BillingSchedule/hook';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 export const asStartDate = (date: Date) => firstDayOfMonth(date).toISOString();
 export const asEndDate = (date: Date) => lastDayOfMonth(date).toISOString();
@@ -40,11 +40,11 @@ export const MonthHandler = memo(() => {
         <div className="flex mb-4">
             <div className="flex items-center justify-between cursor-pointer no-selectable">
                 <span className={`pr-2 -ml-1.5 ${!prevAvailable() && 'text-slate-300'}`} onClick={prevMonth}>
-                    <BiCaretLeft size={20} />
+                    <ChevronLeft size={20} />
                 </span>
                 <span className="text-[16px] font-semibold">{focusedMonth ? focusedMonth.getMonth() + 1 : '?'}월</span>
                 <span className={`pl-2 ${!nextAvailable() && 'text-slate-300'}`} onClick={nextMonth}>
-                    <BiCaretRight size={20} />
+                    <ChevronRight size={20} />
                 </span>
             </div>
         </div>

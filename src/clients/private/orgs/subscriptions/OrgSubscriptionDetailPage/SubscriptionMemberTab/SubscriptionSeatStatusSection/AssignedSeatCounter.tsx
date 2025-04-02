@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {RiUser3Fill} from 'react-icons/ri';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useSeatCounter} from '^models/SubscriptionSeat/hook/useSeatCounter';
 import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
 import {StatusCard} from '../../SubscriptionInfoTab/StatusCard';
 import {useCurrentSubscription} from '../../atom';
+import {User} from 'lucide-react';
 
 export const useAssignedSeatCounter = (subscription: SubscriptionDto | null) => {
     return useSeatCounter(subscription, {
@@ -18,9 +18,9 @@ export const AssignedSeatCounter = memo(() => {
 
     return (
         <StatusCard
-            title={'현재 할당된 계정'}
+            title="이용중인 시트"
             titleValue={count.toLocaleString()}
-            icon={<RiUser3Fill size={20} className="h-full w-full p-[6px] text-white" />}
+            icon={<User className="size-6 text-white" />}
             iconColor={'bg-purple-400'}
         />
     );

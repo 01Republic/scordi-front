@@ -1,14 +1,11 @@
 import React, {Dispatch, SetStateAction, useMemo, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import {ContentPanelItem} from '^layouts/ContentLayout/ContentPanel';
-import {AiOutlineCloudUpload} from '@react-icons/all-files/ai/AiOutlineCloudUpload';
 import {ApplicationConnectApi} from '^api/applicationConnect.api';
 import {errorNotify} from '^utils/toast-notify';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
-import {IoTrash} from '@react-icons/all-files/io5/IoTrash';
-import {IoClose} from '@react-icons/all-files/io5/IoClose';
-
+import {Trash, Upload, X} from 'lucide-react';
 const baseStyle = {
     flex: 1,
     display: 'flex',
@@ -92,14 +89,14 @@ export function InvoiceDropZone<T>(props: InvoiceDropZoneProps) {
                     {isLoading ? (
                         <>
                             <p>
-                                <AiOutlineCloudUpload size={30} />
+                                <Upload size={30} />
                             </p>
                             <em>업로드 중 ...</em>
                         </>
                     ) : (
                         <>
                             <p>
-                                <AiOutlineCloudUpload size={30} />
+                                <Upload size={30} />
                             </p>
                             <p>파일을 끌어다 여기에 놓으세요.</p>
                         </>
@@ -161,7 +158,7 @@ export function InvoiceDropZone<T>(props: InvoiceDropZoneProps) {
                                                   removeInvoice(i);
                                               }}
                                           >
-                                              <IoClose size={20} />
+                                              <X size={20} />
                                           </button>
                                       </div>
                                   </div>

@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {FaConciergeBell} from 'react-icons/fa';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
+import {Bell} from 'lucide-react';
 
 export const ProductListHeader = memo(() => {
     return (
@@ -23,7 +23,7 @@ export const ProductListHeader = memo(() => {
                         displayLoading={false}
                         target="_blank"
                     >
-                        <FaConciergeBell />
+                        <Bell />
                         <span>미등록 서비스 제보하기</span>
                     </LinkTo>
                 </div>

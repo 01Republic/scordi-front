@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {HiLink, HiOutlineEnvelope} from 'react-icons/hi2';
+import {Link, Mail} from 'lucide-react';
 
 export enum InviteStatus {
     Email,
@@ -22,8 +22,8 @@ export const InviteButton = memo((props: InviteButtonProps) => {
             className="btn btn-lg shadow-sm border border-gray-200 gap-5 bg-white justify-start"
         >
             <div className="rounded-lg p-3 bg-scordi-500 text-white">
-                {type === InviteStatus.Email && <HiOutlineEnvelope size={22} />}
-                {type === InviteStatus.Link && <HiLink size={22} />}
+                {type === InviteStatus.Email && <Mail size={22} />}
+                {type === InviteStatus.Link && <Link size={22} />}
             </div>
 
             <div className="text-start">

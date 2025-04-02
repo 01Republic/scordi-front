@@ -32,7 +32,7 @@ export const DeleteInvoiceAccountItem = memo(function DeleteInvoiceAccountItem()
 
 function confirmDestroy() {
     return confirm2(
-        '청구서 메일을 삭제할까요?1',
+        '청구서 메일을 삭제할까요?',
         <p>
             이 작업은 취소할 수 없습니다.
             <br />

@@ -1,11 +1,10 @@
 import React, {memo, useState} from 'react';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {FaTrashAlt} from '@react-icons/all-files/fa/FaTrashAlt';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {IoMdRefresh} from '^components/react-icons';
+import {RotateCw, Trash2} from 'lucide-react';
 
 interface BillingHistoryDeleteButtonProps {
     billingHistory: BillingHistoryDto;
@@ -41,9 +40,9 @@ export const BillingHistoryDeleteButton = memo((props: BillingHistoryDeleteButto
     return (
         <button className="btn btn-sm btn-square btn-white no-animation btn-animation" onClick={onClick}>
             {isLoading ? (
-                <IoMdRefresh fontSize={16} className="animated animate-spin" />
+                <RotateCw fontSize={16} className="animated animate-spin" />
             ) : (
-                <FaTrashAlt fontSize={16} className="text-error" />
+                <Trash2 fontSize={16} className="text-error" />
             )}
         </button>
     );

@@ -1,11 +1,10 @@
 import React, {memo} from 'react';
-import {BsInfoCircle} from 'react-icons/bs';
 import {MoneyDto} from '^models/Money';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {BiError} from 'react-icons/bi';
 import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
+import {AlertCircle, Info} from 'lucide-react';
 
 interface PriceTextProps {
     billingHistory: BillingHistoryDto;
@@ -60,7 +59,7 @@ const PriceTextInfo = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
     return (
         <div className="flex items-end gap-2">
             <span className="text-scordi-light relative -top-[4px]">
-                <BsInfoCircle />
+                <Info />
             </span>
             {payAmount && (
                 <div className="text-gray-300">
@@ -94,7 +93,7 @@ const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto}) => {
     return (
         <div className="flex items-end gap-2">
             <span className="text-error relative -top-[4px]">
-                <BiError />
+                <AlertCircle />
             </span>
             <div className="text-gray-300">
                 <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>

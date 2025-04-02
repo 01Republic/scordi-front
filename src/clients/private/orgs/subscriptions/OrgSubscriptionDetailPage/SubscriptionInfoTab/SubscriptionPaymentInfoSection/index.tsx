@@ -5,6 +5,7 @@ import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {CurrencyCode} from '^models/Money';
 import {subscriptionApi} from '^models/Subscription/api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CardSection} from '^clients/private/_components/CardSection';
 import {useCurrentSubscription} from '../../atom';
@@ -16,7 +17,8 @@ import {SubscriptionSeats} from './SubscriptionSeats';
 import {SubscriptionCreditCard} from './SubscriptionCreditCard';
 import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
 import {SubscriptionStartAt} from './SubscriptionStartAt';
-import {SubscriptionFinishAt} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/SubscriptionFinishAt';
+import {SubscriptionFinishAt} from './SubscriptionFinishAt';
+import {SubscriptionBankAccount} from './SubscriptionBankAccount';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -26,6 +28,16 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
 
     if (!subscription) return null;
+
+    const removeInvoiceAccount = () => {
+        if (!subscription.invoiceAccounts) return;
+        const defaultInvoiceAccountIds = subscription.invoiceAccounts.map((invoiceAccount) => invoiceAccount.id);
+        const selectAccountIds = form.getValues('invoiceAccountIdsForMulti') || [];
+        const removedIds = defaultInvoiceAccountIds.filter((id) => !selectAccountIds.includes(id));
+        const addedIds = selectAccountIds.filter((id) => !defaultInvoiceAccountIds.includes(id));
+
+        return {removedIds, addedIds};
+    };
 
     const currentSeatCount = subscription.subscriptionSeats?.length || 0;
     const currentAssignedSeatCount = subscription.subscriptionSeats?.filter((seat) => seat.teamMemberId).length || 0;
@@ -54,7 +66,24 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                 );
             }
 
-            await subscriptionApi.update(subscription.id, dto);
+            const removedIds = removeInvoiceAccount()?.removedIds;
+            const addedIds = removeInvoiceAccount()?.addedIds;
+            if (removedIds && removedIds.length > 0) {
+                await Promise.all(
+                    removedIds.map((invoiceAccountId) =>
+                        invoiceAccountApi.subscriptionsApi.destroy(invoiceAccountId, id),
+                    ),
+                );
+            }
+
+            if (addedIds && addedIds.length > 0) {
+                await Promise.all(
+                    addedIds.map((invoiceAccountId) => invoiceAccountApi.subscriptionsApi.create(invoiceAccountId, id)),
+                );
+            }
+
+            const {invoiceAccountIdsForMulti, ...dtoWithoutInvoiceAccountIdsForMulti} = dto;
+            await subscriptionApi.update(subscription.id, dtoWithoutInvoiceAccountIdsForMulti);
             await reload();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
@@ -95,6 +124,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                     currentAssignedSeatCount={currentAssignedSeatCount}
                 />
                 <SubscriptionCreditCard isEditMode={isEditMode} form={form} />
+                <SubscriptionBankAccount isEditMode={isEditMode} form={form} />
                 <SubscriptionInvoiceAccount isEditMode={isEditMode} form={form} />
             </CardSection.Form>
         </CardSection.Base>
