@@ -1,7 +1,7 @@
 import React from 'react';
+import {ChevronDown} from 'lucide-react';
 import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/popover';
 import {Button} from '^public/components/ui/button';
-import {ChevronDown} from 'lucide-react';
 
 interface TimePickerProps {
     onSelect?: (time: string) => void;

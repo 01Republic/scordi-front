@@ -6,7 +6,8 @@ interface LeftSideIndicatorProps {
 }
 
 export const LeftSideIndicator = (props: LeftSideIndicatorProps) => {
-    const stepHeight = `${((props.step - 1) / 2) * 100}%`;
+    const {step} = props;
+    const stepHeight = `${((step - 1) / 2) * 100}%`;
 
     return (
         <div className="flex flex-col items-center p-6 w-52">

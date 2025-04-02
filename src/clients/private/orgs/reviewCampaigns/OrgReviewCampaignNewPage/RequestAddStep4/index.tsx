@@ -1,13 +1,13 @@
+import React from 'react';
+import {useRecoilState} from 'recoil';
+import {X} from 'lucide-react';
 import {Card} from '^public/components/ui/card';
 import {Input} from '^public/components/ui/input';
 import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
-import {useRecoilState} from 'recoil';
-import {requestAddStepAtom} from './index';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
-import React from 'react';
 import {useTeamMembers} from '^models/TeamMember';
-import {X} from 'lucide-react';
+import {requestAddStepAtom} from '../atom';
 
 export const RequestAddStep4 = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);

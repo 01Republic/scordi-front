@@ -1,21 +1,21 @@
-import {Button} from '^public/components/ui/button';
-import {Card} from '^public/components/ui/card';
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {requestAddStepAtom} from '../index';
-import {useTeamMembers} from '^models/TeamMember';
-import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
+import Image from 'next/image';
+import {debounce} from 'lodash';
 import {ChevronDown, ChevronRight} from 'lucide-react';
+import {cn} from '^public/lib/utils';
+import {Checkbox} from '^public/components/ui/checkbox';
 import SlackIcon from '^public/logo/icons/ic_slack.png';
 import GoogleIcon from '^public/logo/icons/ic_google.png';
 import GmailIcon from '^public/logo/icons/ic_gmail.png';
-import Image from 'next/image';
+import {Button} from '^public/components/ui/button';
+import {Card} from '^public/components/ui/card';
+import {orgIdParamState} from '^atoms/common';
+import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
+import {useTeamMembers} from '^models/TeamMember';
 import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-import {cn} from '^public/lib/utils';
-import {Checkbox} from '^public/components/ui/checkbox';
+import {requestAddStepAtom} from '../atom';
 
 export const RequestAddStep2 = () => {
     const router = useRouter();

@@ -1,14 +1,13 @@
+import React from 'react';
+import {useRouter} from 'next/router';
+import {useRecoilState} from 'recoil';
+import {ChevronDown, ChevronRight} from 'lucide-react';
 import {Card} from '^public/components/ui/card';
-import {Input} from '^public/components/ui/input';
 import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
 import {Label} from '^public/components/ui/label';
-import {useRecoilState} from 'recoil';
-import {requestAddStepAtom} from './index';
-import {useRouter} from 'next/router';
 import {InputWithLabel} from '^public/components/mixed/InputWithLabel';
-import React from 'react';
-import {ChevronDown, ChevronRight} from 'lucide-react';
+import {requestAddStepAtom} from '../atom';
 
 export const RequestAddStep1 = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);

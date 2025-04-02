@@ -1,5 +1,5 @@
-import {Checkbox} from '^public/components/ui/checkbox';
 import React from 'react';
+import {Checkbox} from '^public/components/ui/checkbox';
 
 export const SubscriptionItemOfResponse = () => {
     return (

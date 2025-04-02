@@ -1,15 +1,11 @@
-import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import React from 'react';
+import {useRecoilState} from 'recoil';
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {requestAddStepAtom} from './atom';
 import {LeftSideIndicator} from './LeftSideIndicator';
 import {RequestAddStep1} from './RequestAddStep1';
 import {RequestAddStep2} from './RequestAddStep2';
 import {RequestAddStep3} from './RequestAddStep3';
-import {atom, useRecoilState} from 'recoil';
-
-export const requestAddStepAtom = atom<number>({
-    key: 'requestAddStep',
-    default: 1,
-});
 
 export const OrgReviewCampaignNewPage = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);
