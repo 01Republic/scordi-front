@@ -6,7 +6,7 @@ import {CardAttrSelectPropsType} from './CardAttrSelectProps.type';
 import {ChevronDown} from 'lucide-react';
 
 export const CardHoldingMemberIdSelect = memo((props: CardAttrSelectPropsType<number>) => {
-    const {defaultValue, isLoading = false, onChange} = props;
+    const {defaultValue, isLoading = false} = props;
     const {result} = useTeamMembers();
     const [holdingMember, setHoldingMember] = useState<TeamMemberDto | undefined>(() => {
         return defaultValue ? result.items.find((member) => member.id === defaultValue) : undefined;
@@ -23,7 +23,6 @@ export const CardHoldingMemberIdSelect = memo((props: CardAttrSelectPropsType<nu
                 <TeamMemberSelectColumn
                     onChange={(member) => {
                         setHoldingMember(member);
-                        if (onChange) onChange(member?.id);
                     }}
                     optionListBoxTitle="소지자를 변경할까요?"
                     detachableOptionBoxTitle="현재 소지자"

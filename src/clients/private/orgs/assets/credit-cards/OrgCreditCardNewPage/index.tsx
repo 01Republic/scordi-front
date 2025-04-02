@@ -272,7 +272,6 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 <CardHoldingMemberIdSelect
                                     isLoading={isLoading}
                                     defaultValue={formData.holdingMemberId || undefined}
-                                    onChange={(holdingMemberId) => setFormValue({holdingMemberId})}
                                 />
                                 <FormControl label="비고">
                                     <input
