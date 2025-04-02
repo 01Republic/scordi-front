@@ -15,12 +15,12 @@ import {orgIdParamState} from '^atoms/common';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useTeamMembers} from '^models/TeamMember';
 import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-import {requestAddStepAtom} from '../atom';
+import {reviewCampaignCreateStepAtom} from '../atom';
 
 export const RequestAddStep2 = () => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
-    const [step, setStep] = useRecoilState(requestAddStepAtom);
+    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
     const {search, result, query, searchAndUpdateCounter} = useTeamMembers();
     const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
     const teamMembers = result.items;

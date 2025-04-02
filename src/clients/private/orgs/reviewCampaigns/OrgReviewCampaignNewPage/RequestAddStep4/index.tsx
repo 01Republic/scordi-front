@@ -7,10 +7,10 @@ import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
 import {useTeamMembers} from '^models/TeamMember';
-import {requestAddStepAtom} from '../atom';
+import {reviewCampaignCreateStepAtom} from '../atom';
 
 export const RequestAddStep4 = () => {
-    const [step, setStep] = useRecoilState(requestAddStepAtom);
+    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
     /* TODO: api 교체 */
     const {result} = useTeamMembers();
 

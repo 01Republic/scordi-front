@@ -7,10 +7,10 @@ import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
 import {Label} from '^public/components/ui/label';
 import {InputWithLabel} from '^public/components/mixed/InputWithLabel';
-import {requestAddStepAtom} from '../atom';
+import {reviewCampaignCreateStepAtom} from '../atom';
 
 export const RequestAddStep1 = () => {
-    const [step, setStep] = useRecoilState(requestAddStepAtom);
+    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
     const router = useRouter();
 
     const onNext = () => setStep((s) => s + 1);

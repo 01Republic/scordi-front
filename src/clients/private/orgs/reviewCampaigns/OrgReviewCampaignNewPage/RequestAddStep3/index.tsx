@@ -10,13 +10,13 @@ import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {orgIdParamState} from '^atoms/common';
-import {requestAddStepAtom} from '../atom';
+import {reviewCampaignCreateStepAtom} from '../atom';
 import {DatePicker} from './DatePicker';
 import {TimePicker} from './TimePicker';
 
 export const RequestAddStep3 = () => {
     const router = useRouter();
-    const [step, setStep] = useRecoilState(requestAddStepAtom);
+    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
     const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [time, setTime] = React.useState<string | undefined>(undefined);
     const orgId = useRecoilValue(orgIdParamState);

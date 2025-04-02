@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 
-export const requestAddStepAtom = atom<number>({
-    key: 'requestAddStep',
+export const reviewCampaignCreateStepAtom = atom<number>({
+    key: 'reviewCampaignCreateStepAtom',
     default: 1,
 });
