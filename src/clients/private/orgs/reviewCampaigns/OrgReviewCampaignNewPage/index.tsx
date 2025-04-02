@@ -1,14 +1,14 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {requestAddStepAtom} from './atom';
+import {reviewCampaignCreateStepAtom} from './atom';
 import {LeftSideIndicator} from './LeftSideIndicator';
 import {RequestAddStep1} from './RequestAddStep1';
 import {RequestAddStep2} from './RequestAddStep2';
 import {RequestAddStep3} from './RequestAddStep3';
 
 export const OrgReviewCampaignNewPage = () => {
-    const [step, setStep] = useRecoilState(requestAddStepAtom);
+    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
 
     return (
         <MainLayout>
