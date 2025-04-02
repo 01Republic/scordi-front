@@ -7,7 +7,7 @@ import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
 import {Input} from '^public/components/ui/input';
 
-export const OrgResponsePage = () => {
+export const OrgReviewResponseEditPage = () => {
     return (
         <div style={{backgroundColor: '#EFEFFD'}}>
             <div className={'space-y-5 min-h-lvh max-w-screen-sm mx-auto py-20'}>

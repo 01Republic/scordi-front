@@ -3,7 +3,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {OrgResponsePage} from '^clients/private/orgs/reviewCampaigns/OrgResponsePage';
+import {OrgReviewResponseEditPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewResponseEditPage';
 import {useCurrentOrg} from '^models/Organization/hook';
 
 export const OrgReviewResponseEditPageRoute = pathRoute({
@@ -55,7 +55,7 @@ export default function Page() {
         //         })
         //     }
         // >
-        <OrgResponsePage />
+        <OrgReviewResponseEditPage />
         // </ShowRoutingPage>
     );
 }
