@@ -1,9 +1,9 @@
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import React from 'react';
-import {LeftSideIndicator} from '^clients/private/orgs/requests/OrgRequestAddPage/LeftSideIndicator';
-import {RequestAddStep1} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep1';
-import {RequestAddStep2} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep2';
-import {RequestAddStep3} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3';
+import {LeftSideIndicator} from './LeftSideIndicator';
+import {RequestAddStep1} from './RequestAddStep1';
+import {RequestAddStep2} from './RequestAddStep2';
+import {RequestAddStep3} from './RequestAddStep3';
 import {atom, useRecoilState} from 'recoil';
 
 export const requestAddStepAtom = atom<number>({

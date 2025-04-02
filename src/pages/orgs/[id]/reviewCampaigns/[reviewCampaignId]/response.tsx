@@ -2,24 +2,19 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
-import {subscriptionApi} from '^models/Subscription/api';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {OrgSubscriptionDetailPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage';
-import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {OrgResponsePage} from '^clients/private/orgs/requests/OrgResponsePage';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {OrgResponsePage} from '^clients/private/orgs/reviewCampaigns/OrgResponsePage';
 import {useCurrentOrg} from '^models/Organization/hook';
 
 export const OrgResponsePageRoute = pathRoute({
-    pathname: '/orgs/[id]/requests/[requestId]/response',
-    path: (orgId: number, requestId: number) =>
-        pathReplace(OrgResponsePageRoute.pathname, {id: orgId, requestId: requestId}),
+    pathname: '/orgs/[id]/reviewCampaigns/[reviewCampaignId]/response',
+    path: (orgId: number, reviewCampaignId: number) =>
+        pathReplace(OrgResponsePageRoute.pathname, {id: orgId, reviewCampaignId}),
     // resourcePath: (resource: SubscriptionDto) => OrgResponsePageRoute.path(resource.organizationId, resource.id),
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {id: '1', requestId: '1'}}],
+    paths: [{params: {id: '1', reviewCampaignId: '1'}}],
     fallback: true,
 });
 

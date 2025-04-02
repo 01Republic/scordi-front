@@ -3,7 +3,7 @@ import {Input} from '^public/components/ui/input';
 import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
 import {useRecoilState} from 'recoil';
-import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage/index';
+import {requestAddStepAtom} from './index';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
 import React from 'react';
 import {useTeamMembers} from '^models/TeamMember';
@@ -14,9 +14,7 @@ export const RequestAddStep4 = () => {
     /* TODO: api 교체 */
     const {result} = useTeamMembers();
 
-    const onPrevious = () => {
-        setStep(step - 1);
-    };
+    const onPrevious = () => setStep((s) => s - 1);
 
     return (
         <Card className={'bg-white p-10 space-y-10'}>

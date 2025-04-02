@@ -2,7 +2,7 @@ import {Button} from '^public/components/ui/button';
 import {Card} from '^public/components/ui/card';
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage';
+import {requestAddStepAtom} from '../index';
 import {useTeamMembers} from '^models/TeamMember';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
@@ -42,13 +42,8 @@ export const RequestAddStep2 = () => {
         });
     }, 500);
 
-    const onPrevious = () => {
-        setStep(step - 1);
-    };
-
-    const onNext = () => {
-        setStep(step + 1);
-    };
+    const onPrevious = () => setStep((s) => s - 1);
+    const onNext = () => setStep((s) => s + 1);
 
     const checkTeamMember = (teamMemberId: number) => {
         setSelectedMembers((prev) =>

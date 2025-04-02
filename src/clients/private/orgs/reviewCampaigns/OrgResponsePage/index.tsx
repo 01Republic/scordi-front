@@ -2,7 +2,7 @@ import {Button} from '^public/components/ui/button';
 import {Textarea} from '^public/components/ui/textarea';
 import React from 'react';
 import {Card} from '^public/components/ui/card';
-import {SubscriptionItemOfResponse} from '^clients/private/orgs/requests/OrgResponsePage/SubscriptionItemOfResponse';
+import {SubscriptionItemOfResponse} from './SubscriptionItemOfResponse';
 import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
 import {Input} from '^public/components/ui/input';

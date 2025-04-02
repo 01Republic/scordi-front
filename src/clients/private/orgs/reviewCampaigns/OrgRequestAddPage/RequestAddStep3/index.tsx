@@ -2,16 +2,16 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {Card} from '^public/components/ui/card';
 import {Button} from '^public/components/ui/button';
-import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage';
-import {DatePicker} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3/DatePicker';
-import {TimePicker} from '^clients/private/orgs/requests/OrgRequestAddPage/RequestAddStep3/TimePicker';
+import {requestAddStepAtom} from '../index';
+import {DatePicker} from './DatePicker';
+import {TimePicker} from './TimePicker';
 import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 import {ChevronDown, ChevronRight} from 'lucide-react';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useRouter} from 'next/router';
-import {OrgRequestListPageRoute} from '^pages/orgs/[id]/requests';
+import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {orgIdParamState} from '^atoms/common';
 
 export const RequestAddStep3 = () => {
@@ -21,9 +21,7 @@ export const RequestAddStep3 = () => {
     const [time, setTime] = React.useState<string | undefined>(undefined);
     const orgId = useRecoilValue(orgIdParamState);
 
-    const onNext = () => {
-        setStep(step + 1);
-    };
+    const onNext = () => setStep((s) => s + 1);
 
     const onSubmit = () => {
         const syncConfirm = () =>
@@ -39,7 +37,7 @@ export const RequestAddStep3 = () => {
         return confirmed(syncConfirm())
             .then(() => null)
             .then(() => toast.success('요청이 전송되었습니다.'))
-            .then(() => router.push(OrgRequestListPageRoute.path(orgId)))
+            .then(() => router.push(OrgReviewCampaignListPageRoute.path(orgId)))
             .catch(errorToast);
     };
 

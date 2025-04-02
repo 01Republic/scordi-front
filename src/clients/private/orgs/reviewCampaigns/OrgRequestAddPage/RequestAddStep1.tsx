@@ -4,7 +4,7 @@ import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
 import {Label} from '^public/components/ui/label';
 import {useRecoilState} from 'recoil';
-import {requestAddStepAtom} from '^clients/private/orgs/requests/OrgRequestAddPage/index';
+import {requestAddStepAtom} from './index';
 import {useRouter} from 'next/router';
 import {InputWithLabel} from '^public/components/mixed/InputWithLabel';
 import React from 'react';
@@ -14,7 +14,7 @@ export const RequestAddStep1 = () => {
     const [step, setStep] = useRecoilState(requestAddStepAtom);
     const router = useRouter();
 
-    const onNext = () => setStep(step + 1);
+    const onNext = () => setStep((s) => s + 1);
 
     return (
         <Card className={'bg-white mb-4'}>

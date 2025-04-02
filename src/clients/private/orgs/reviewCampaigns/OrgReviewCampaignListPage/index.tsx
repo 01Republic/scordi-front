@@ -7,9 +7,9 @@ import {LinkTo} from '^components/util/LinkTo';
 import {Plus} from 'lucide-react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
-import {RequestItemCard} from '^clients/private/orgs/requests/OrgRequestListPage/RequestItemCard';
-import {RequestScopeHandler} from '^clients/private/orgs/requests/OrgRequestListPage/RequestScopeHandler';
-import {OrgRequestAddPageRoute} from '^pages/orgs/[id]/requests/add';
+import {RequestItemCard} from './RequestItemCard';
+import {RequestScopeHandler} from './RequestScopeHandler';
+import {OrgRequestAddPageRoute} from '^pages/orgs/[id]/reviewCampaigns/add';
 
 const data = [
     {
@@ -70,7 +70,7 @@ const data = [
     },
 ];
 
-export const OrgRequestListPage = () => {
+export const OrgReviewCampaignListPage = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const {search, result, query, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy, reload} =
         useSubscriptionTableListAtom();
