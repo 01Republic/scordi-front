@@ -9,7 +9,7 @@ import {useUnmount} from '^hooks/useUnmount';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {NextPageContext} from 'next';
-import {useDPayPlanList} from '^clients/public/etc/DPaySecretCodePage/hook';
+import {useDPayPlans} from '^clients/public/etc/DPaySecretCodePage/hook';
 import {scordiPlanApi} from '^models/_scordi/ScordiPlan/api';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {plainToInstance} from 'class-transformer';
@@ -19,10 +19,11 @@ export const DPaySecretCodePageRoute = pathRoute({
     path: (secretCode: string) => pathReplace(DPaySecretCodePageRoute.pathname, {secretCode}),
 });
 
-export default function Page({secretCode, plans}: {secretCode: string; plans: ScordiPlanDto[]}) {
+export default function Page({secretCode}: {secretCode: string}) {
     const router = useRouter();
     // const secretCode = parseQueryValue(router.query['secretCode']);
     const setSecretCode = useSetRecoilState(secretCodeParamsAtom);
+    const {data} = useDPayPlans(secretCode);
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -37,7 +38,7 @@ export default function Page({secretCode, plans}: {secretCode: string; plans: Sc
 
     if (!secretCode) return <></>;
 
-    return <DPaySecretCodePage plans={plainToInstance(ScordiPlanDto, plans || [])} />;
+    return <DPaySecretCodePage plans={plainToInstance(ScordiPlanDto, data)} />;
 }
 
 // SSR 파트

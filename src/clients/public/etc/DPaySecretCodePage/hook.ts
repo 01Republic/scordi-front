@@ -2,6 +2,7 @@ import {useRecoilState} from 'recoil';
 import {FindAllScordiPlanQueryDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 import {scordiPlanApi} from '^models/_scordi/ScordiPlan/api';
 import {dPayPlansAtom, dPayPlansCurrentStepTypeAtom, dPayPlansIsLoadingAtom, dPayPlansQueryAtom} from './atom';
+import {useQuery} from '@tanstack/react-query';
 
 export const useDPayPlanList = () => {
     const [isLoading, setIsLoading] = useRecoilState(dPayPlansIsLoadingAtom);
@@ -45,3 +46,18 @@ export const useDPayPlanList = () => {
         switchStepType,
     };
 };
+
+export function useDPayPlans(secretCode: string) {
+    return useQuery({
+        queryKey: ['useDPayPlans', secretCode],
+        queryFn: () =>
+            scordiPlanApi
+                .index({
+                    where: {secretCode, isActive: true},
+                    itemsPerPage: 0,
+                })
+                .then((res) => res.data || []),
+        enabled: !!secretCode,
+        initialData: [],
+    });
+}
