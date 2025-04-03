@@ -204,7 +204,7 @@ export default function OrgReviewCampaignDetailChangesPage() {
 
                     <div className="space-y-2">
                         {approvalItems.map((item) => (
-                            <ChangesItem />
+                            <ChangesItem key={item.id} />
                         ))}
                     </div>
                 </div>
