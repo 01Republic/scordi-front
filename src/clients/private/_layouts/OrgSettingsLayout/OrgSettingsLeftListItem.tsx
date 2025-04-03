@@ -7,13 +7,14 @@ interface OrgSettingLeftListItemProps {
     Icon: LucideIcon;
     name: string;
     href: string;
+    forceActive?: string;
 }
 
 export const OrgSettingLeftListItem = memo(function (props: OrgSettingLeftListItemProps) {
-    const {Icon, name, href} = props;
+    const {Icon, name, href, forceActive = ''} = props;
     const router = useRouter();
 
-    const isActive = href === router.asPath;
+    const isActive = (forceActive ? forceActive === name : false) || href === router.asPath;
 
     return (
         <LinkTo

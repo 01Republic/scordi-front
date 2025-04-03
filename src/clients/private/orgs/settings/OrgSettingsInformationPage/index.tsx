@@ -18,6 +18,7 @@ export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPa
                 active: true,
                 href: OrgSettingsInformationPageRoute.path(orgId),
             }}
+            ignoreCardWrap
         >
             <OrgBasicInfoSection orgId={orgId} />
             <SubscriptionInfoSection orgId={orgId} />
