@@ -11,6 +11,8 @@ import {
     useQueue,
 } from '^models/CodefCard/hooks/useCodefCardSyncQueue';
 import {confirm2} from '^components/util/dialog';
+import {useQuery} from '@tanstack/react-query';
+import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 
 // export const isCodefCardSyncRunningAtom = atom({
 //     key: 'isCodefCardSyncRunningAtom',
@@ -179,3 +181,12 @@ function catchError(err: ApiError) {
     toast.error(apiError.message);
     console.error(apiError);
 }
+
+// new 코드에프 카드 상세 조회
+export const useGetCodefCardDetail = (orgId: number, cardId?: number) => {
+    return useQuery({
+        queryKey: ['codefCard', cardId],
+        queryFn: () => codefCardApi.show(orgId, cardId as number).then((res) => res.data),
+        enabled: !!cardId || !!orgId,
+    });
+};
