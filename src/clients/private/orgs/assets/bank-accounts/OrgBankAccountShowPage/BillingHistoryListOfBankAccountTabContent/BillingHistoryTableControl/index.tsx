@@ -1,7 +1,7 @@
-import React, {memo} from 'react';
-import {useCurrentCreditCardSync} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import React, {memo, useState} from 'react';
+import {FileSpreadsheet} from 'lucide-react';
 import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
-import {RotateCw} from 'lucide-react';
+import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
 
 export const BillingHistoryTableControl = memo(() => {
     return (
@@ -10,24 +10,30 @@ export const BillingHistoryTableControl = memo(() => {
 
             <div>
                 <div className="flex items-center gap-2">
-                    <SyncRecentBillingHistoryButton />
+                    <ExcelUploadButton />
                 </div>
             </div>
         </div>
     );
 });
 
-export const SyncRecentBillingHistoryButton = memo(() => {
-    const {startSync, isSyncRunning} = useCurrentCreditCardSync();
-
-    const onClick = () => {
-        startSync();
-    };
+export const ExcelUploadButton = memo(() => {
+    const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
 
     return (
-        <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`} onClick={onClick}>
-            <RotateCw fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
-            <span>최신내역 불러오기</span>
-        </button>
+        <>
+            <button
+                type="button"
+                onClick={() => setIsExcelUploadModalOpen(true)}
+                className="btn btn-sm btn-white gap-2"
+            >
+                <FileSpreadsheet fontSize={14} />
+                <span>엑셀로 등록하기</span>
+            </button>
+            <BankAccountExcelUploadModal
+                isOpened={isExcelUploadModalOpen}
+                onClose={() => setIsExcelUploadModalOpen(false)}
+            />
+        </>
     );
 });
