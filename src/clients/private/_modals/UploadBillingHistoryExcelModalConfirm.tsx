@@ -32,7 +32,11 @@ export const UploadBillingHistoryExcelModalConfirm = (props: UploadBillingHistor
                     <span>스코디에 엑셀 파일을 업로드 해주세요.</span>
                     <span>카드사 정책으로 인해 불러오지 못한 구독도 모두 확인할 수 있어요.</span>
                 </div>
-                <button type="button" onClick={onClick} className="btn btn-scordi btn-md text-15">
+                <button
+                    type="button"
+                    onClick={onClick}
+                    className="btn btn-scordi btn-md text-15 flex items-center gap-1"
+                >
                     <Sparkles />
                     엑셀로 구독 불러오기
                 </button>
