@@ -19,4 +19,8 @@ export class IntegrationSlackWorkspaceDto {
 
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
     @TypeCast(() => IntegrationSlackMemberDto) slackMembers?: IntegrationSlackMemberDto[]; // 슬랙 유저
+
+    get workspaceName() {
+        return this.authorizedResponse.team?.name;
+    }
 }

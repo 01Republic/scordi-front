@@ -2,17 +2,21 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
+import {OrgIntegrationSlackWorkspaceDetailPage} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgSettingsIntegrationsPage} from '^clients/private/orgs/settings/integrations/OrgSettingsIntegrationsPage';
 
-export const OrgSettingsIntegrationsPageRoute = pathRoute({
-    pathname: '/orgs/[id]/settings/integrations',
-    path: (orgId: number) => pathReplace(OrgSettingsIntegrationsPageRoute.pathname, {id: orgId}),
+export const OrgIntegrationSlackWorkspaceDetailPageRoute = pathRoute({
+    pathname: '/orgs/[id]/settings/integrations/slack/[slackWorkspaceId]',
+    path: (orgId: number, slackWorkspaceId: number) =>
+        pathReplace(OrgIntegrationSlackWorkspaceDetailPageRoute.pathname, {
+            id: orgId,
+            slackWorkspaceId,
+        }),
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {id: '1'}}],
+    paths: [{params: {id: '1', slackWorkspaceId: '1'}}],
     fallback: true,
 });
 
@@ -31,5 +35,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgSettingsIntegrationsPage />;
+    return <OrgIntegrationSlackWorkspaceDetailPage />;
 }

@@ -8,6 +8,7 @@ import {toast} from 'react-hot-toast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useIntegrationWorkspaceInSettingPage} from '^models/IntegrationWorkspace/hook';
+import {OrgIntegrationSlackWorkspaceDetailPageRoute} from '^pages/orgs/[id]/settings/integrations/slack/[slackWorkspaceId]';
 
 interface IntegrationSlackProps {
     //
@@ -16,20 +17,17 @@ interface IntegrationSlackProps {
 export const IntegrationSlack = memo((props: IntegrationSlackProps) => {
     const {} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const {refetch, findSlack} = useIntegrationWorkspaceInSettingPage(orgId);
+    const {refetch, findSlack, isLoading} = useIntegrationWorkspaceInSettingPage(orgId);
     const slackConfig = findSlack();
-
-    const onClick = () => {
-        //
-    };
 
     return (
         <IntegrationProviderItem
             id="slack"
             name="슬랙"
             logo={SlackLogo}
+            disabled={isLoading}
             isInstalled={!!slackConfig}
-            onClick={onClick}
+            href={slackConfig ? OrgIntegrationSlackWorkspaceDetailPageRoute.path(orgId, slackConfig.id) : undefined}
             install={debounce(() => slackScordiOauthApi.authorize(orgId), 500)}
             onAuthorized={async (data: OauthV2AccessResponse) => {
                 console.log('data', data);

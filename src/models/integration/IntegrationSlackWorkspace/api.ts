@@ -12,6 +12,12 @@ export const integrationSlackWorkspaceApi = {
         return api.get(url).then(paginatedDtoOf(IntegrationSlackWorkspaceDto));
     },
 
+    // 연결된 워크스페이스 상세
+    show(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/slack/workspaces/${id}`;
+        return api.get(url).then(oneDtoOf(IntegrationSlackWorkspaceDto));
+    },
+
     // 연결된 워크스페이스 최신화
     update(orgId: number, id: number) {
         const url = `/organizations/${orgId}/slack/workspaces/${id}`;

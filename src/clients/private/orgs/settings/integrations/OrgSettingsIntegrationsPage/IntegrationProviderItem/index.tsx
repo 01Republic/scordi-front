@@ -5,21 +5,24 @@ import {InstalledStatusBadge} from './InstalledStatusBadge';
 import {IntegrationProviderItemButton} from './IntegrationProviderItemButton';
 import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
+import {LinkProps} from 'next/dist/client/link';
 
 interface IntegrationProviderItemProps {
     id: string;
     name: string;
     logo: ImageProps['src'];
     isInstalled: boolean;
-    onClick: () => any;
+    onClick?: () => any;
+    href?: LinkProps['href'];
     install: () => any;
     onAuthorized: (data: any) => any;
     onSuccess?: (data: any) => any;
     onFailure?: (error: {message: any; error: string}) => any;
+    disabled?: boolean;
 }
 
 export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps) => {
-    const {id, logo, name, isInstalled, onClick} = props;
+    const {id, logo, name, isInstalled, href, onClick, disabled = false} = props;
     const {
         install,
         onAuthorized,
@@ -63,9 +66,9 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
                     </div>
                 </div>
             </div>
-            <div className="ml-auto">
+            <div className={`ml-auto ${disabled ? 'pointer-event-none opacity-40' : ''}`}>
                 {isInstalled ? (
-                    <IntegrationProviderItemButton isInstalled={isInstalled} onClick={onClick} />
+                    <IntegrationProviderItemButton isInstalled={isInstalled} href={href} onClick={onClick} />
                 ) : (
                     <IntegrationProviderItemButton isInstalled={isInstalled} onClick={install} />
                 )}
