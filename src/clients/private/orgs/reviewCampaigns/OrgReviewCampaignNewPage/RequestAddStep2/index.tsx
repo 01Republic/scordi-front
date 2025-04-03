@@ -74,11 +74,11 @@ export const RequestAddStep2 = () => {
                         <div className={'flex justify-end items-center'}>
                             <div className={'flex items-center space-x-1 text-sm'}>
                                 <span>불러오기:</span>
-                                <Button size={'sm'} variant={'ghost'} onClick={onPrevious}>
+                                <Button size={'sm'} variant={'ghostGray'} onClick={onPrevious}>
                                     <Image src={SlackIcon} alt={'Slack'} width={20} height={20} />
                                     Slack
                                 </Button>
-                                <Button size={'sm'} variant={'ghost'} onClick={onPrevious}>
+                                <Button size={'sm'} variant={'ghostGray'} onClick={onPrevious}>
                                     <Image src={GoogleIcon} alt={'Google Workspace'} width={20} height={20} />
                                     Google Workspace
                                 </Button>
