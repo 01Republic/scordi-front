@@ -7,88 +7,36 @@ import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/ne
 import {LinkTo} from '^components/util/LinkTo';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
-import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {RequestItemCard} from './RequestItemCard';
 import {RequestScopeHandler} from './RequestScopeHandler';
-
-const data = [
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 17,
-        goal: 100,
-    },
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 50,
-        goal: 100,
-    },
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 84,
-        goal: 100,
-    },
-    {
-        status: '완료',
-        date: '2025년 1월 24일 완료',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 30,
-        goal: 100,
-    },
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 30,
-        goal: 100,
-    },
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 30,
-        goal: 100,
-    },
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 30,
-        goal: 100,
-    },
-    {
-        status: '진행 중',
-        date: '2025년 1월 24일 생성',
-        title: '요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목 요청 제목',
-        progress: 30,
-        goal: 100,
-    },
-];
+import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
+import {reviewCampaignListAtom} from '^models/ReviewCampaign/atom';
+import {Button} from '^public/components/ui/button';
+import {useRouter} from 'next/router';
 
 export const OrgReviewCampaignListPage = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, query, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy, reload} =
-        useSubscriptionTableListAtom();
+    const {search, result, query, movePage} = useReviewCampaigns(reviewCampaignListAtom);
+    const campaigns = result.items;
+    const router = useRouter();
 
     const onReady = () => {
         search({
             where: {organizationId: orgId},
-            relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
-            order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+            relations: ['organization', 'author'],
+            itemsPerPage: 9,
+            order: {finishAt: 'DESC'},
         });
     };
 
+    /* TODO: 검색어 처리 */
     const onSearch = debounce((keyword?: string) => {
         return search({
             ...query,
             keyword: keyword || undefined,
             page: 1,
-            itemsPerPage: 30,
+            itemsPerPage: 9,
+            order: {finishAt: 'DESC'},
         });
     }, 500);
 
@@ -114,29 +62,31 @@ export const OrgReviewCampaignListPage = () => {
             ScopeHandler={RequestScopeHandler}
             onSearch={onSearch}
         >
-            {data.length === 0 && (
-                <div className="flex flex-col justify-center items-center h-80 text-gray-400 bg-white border rounded-lg">
+            {campaigns.length === 0 && (
+                <div className="flex flex-col justify-center items-center h-80 text-gray-400 bg-white border rounded-lg space-y-4 text-12">
                     현재 추가된 요청이 없네요
-                    <br />
-                    새 요청을 추가하시겠어요?
-                    <AddRequestButton />
+                    <br />새 요청을 추가하시겠어요?
+                    <Button
+                        variant={'scordi'}
+                        size={'sm'}
+                        onClick={() => router.push(OrgReviewCampaignNewPageRoute.path(orgId))}
+                        className={'gap-2'}
+                    >
+                        <Plus />
+                        <span>요청 추가하기</span>
+                    </Button>
                 </div>
             )}
-            {data.length > 0 && (
+            {campaigns.length > 0 && (
                 <>
                     <div className={'grid grid-cols-3 gap-4'}>
-                        {data.map((item, index) => (
-                            <RequestItemCard key={index} {...item} />
+                        {campaigns.map((item, index) => (
+                            <RequestItemCard key={index} item={item} />
                         ))}
                     </div>
                     {/* 하단 페이지네이션 */}
                     <div className="flex justify-end my-10">
-                        <ListTablePaginator
-                            pagination={result.pagination}
-                            movePage={movePage}
-                            onChangePerPage={changePageSize}
-                            unit="개"
-                        />
+                        <ListTablePaginator pagination={result.pagination} movePage={movePage} unit="개" />
                     </div>
                 </>
             )}
