@@ -5,6 +5,7 @@ import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integrations';
 import {IntegrationSlack} from './IntegrationSlack';
 import {IntegrationGoogleWorkspace} from './IntegrationGoogleWorkspace';
+import {toast} from 'react-hot-toast';
 
 export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrationsPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -18,16 +19,15 @@ export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrations
             }}
             ignoreCardWrap
         >
-            <div className="pt-2 mb-6">
-                <h3 className="text-xl font-semibold">서비스 연동</h3>
-            </div>
-
             <ul className="bg-white border rounded-lg">
                 <li className="border-b last-of-type:border-none">
                     <IntegrationSlack />
                 </li>
 
-                <li className="border-b last-of-type:border-none">
+                <li
+                    className="border-b last-of-type:border-none opacity-30"
+                    onClick={() => toast('준비중인 기능입니다.')}
+                >
                     <IntegrationGoogleWorkspace />
                 </li>
             </ul>

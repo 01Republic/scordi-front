@@ -18,39 +18,18 @@ interface OrgSettingsLayoutProps extends WithChildren {
 }
 
 export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSettingsLayoutProps) {
-    const {children, ignoreCardWrap = false} = props;
+    const {children, breadcrumbPath, ignoreCardWrap = false} = props;
     const orgId = useOrgIdParam();
 
     return (
         <MainLayout>
             <MainContainer>
-                <Breadcrumb paths={['설정', props.breadcrumbPath]} />
-                <div className={'grid grid-cols-4 gap-4 mt-4'}>
-                    <div className={'grid grid-cols-5 gap-4 mt-4'}>
-                        {/* 메뉴 영역 */}
-                        <div className={'col-span-1 flex flex-col gap-4'}>
-                            <OrgSettingsLeftListBox title="일반">
-                                <OrgSettingLeftListItem
-                                    Icon={Building}
-                                    name={'워크스페이스 정보'}
-                                    href={OrgSettingsInformationPageRoute.path(orgId)}
-                                />
-                                <OrgSettingLeftListItem
-                                    Icon={CreditCard}
-                                    name={'구독 및 결제'}
-                                    href={OrgSettingsPaymentPageRoute.path(orgId)}
-                                />
-                                <OrgSettingLeftListItem
-                                    Icon={Users}
-                                    name={'멤버 관리'}
-                                    href={OrgSettingsMemberPageRoute.path(orgId)}
-                                />
-                            </OrgSettingsLeftListBox>
-                        </div>
-                    </div>
+                <Breadcrumb paths={['설정', breadcrumbPath]} />
 
+                <div className={'grid grid-cols-5 gap-4 mt-4'}>
+                    {/* 메뉴 영역 */}
                     <div className={'col-span-1'}>
-                        <div className={'card border rounded-lg bg-white p-6 mb-6'}>
+                        <div className={''}>
                             <div className={'pt-2 px-4 text-12 text-gray-400 mb-2'}>일반</div>
                             <div className={'text-sm mb-4'}>
                                 <OrgSettingLeftListItem
@@ -73,7 +52,7 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                                     href={OrgSettingsMemberPageRoute.path(orgId)}
                                 />
 
-                                <OrgSettingLeftListItem Icon={WalletMinimal} name={'자산 연결'} href="#" />
+                                {/*<OrgSettingLeftListItem Icon={WalletMinimal} name={'자산 연결'} href="#" />*/}
 
                                 <OrgSettingLeftListItem
                                     Icon={Grid2x2Plus}
@@ -85,9 +64,14 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                     </div>
 
                     {ignoreCardWrap ? (
-                        <div className="col-span-3">{children}</div>
+                        <div className="col-span-4 px-6">
+                            <div className="text-xl font-bold mb-4">
+                                {typeof breadcrumbPath === 'string' ? breadcrumbPath : breadcrumbPath.text}
+                            </div>
+                            <div className="flex flex-col gap-6 mb-8">{children}</div>
+                        </div>
                     ) : (
-                        <div className="col-span-3 card border rounded-lg bg-white p-6">
+                        <div className="col-span-4 card border rounded-lg bg-white p-6">
                             <div className={'mb-8'}>{children}</div>
                         </div>
                     )}
