@@ -1,7 +1,8 @@
 import React, {memo, useState} from 'react';
-import {FileSpreadsheet} from 'lucide-react';
+import Image from 'next/image';
 import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
 import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
+import excelIcon from 'src/images/icon/excelIcon.png';
 
 export const BillingHistoryTableControl = memo(() => {
     return (
@@ -27,7 +28,7 @@ export const ExcelUploadButton = memo(() => {
                 onClick={() => setIsExcelUploadModalOpen(true)}
                 className="btn btn-sm btn-white gap-2"
             >
-                <FileSpreadsheet fontSize={14} />
+                <Image src={excelIcon} alt="excelIcon" width={14} height={14} priority />
                 <span>엑셀로 등록하기</span>
             </button>
             <BankAccountExcelUploadModal
