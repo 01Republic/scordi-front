@@ -1,29 +1,52 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {ChevronDown, ChevronRight} from 'lucide-react';
 import {Card} from '^public/components/ui/card';
 import {Button} from '^public/components/ui/button';
-import {CheckboxWithLabel} from '^public/components/mixed/CheckboxWithLabel';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {orgIdParamState} from '^atoms/common';
-import {reviewCampaignCreateStepAtom} from '../atom';
+import {
+    createReviewCampaignRequestAtom,
+    defaultCreateReviewCampaignRequestDto,
+    reviewCampaignCreateStepAtom,
+} from '../atom';
 import {DatePicker} from './DatePicker';
 import {TimePicker} from './TimePicker';
+import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 
 export const RequestAddStep3 = () => {
     const router = useRouter();
     const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
+    const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
     const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [time, setTime] = React.useState<string | undefined>(undefined);
     const orgId = useRecoilValue(orgIdParamState);
 
-    const onNext = () => setStep((s) => s + 1);
+    const onSubmit = async () => {
+        if (!formData.title) {
+            toast.error('제목을 입력해주세요.');
+            return false;
+        }
 
-    const onSubmit = () => {
+        if (!formData.description) {
+            toast.error('설명을 입력해주세요.');
+            return false;
+        }
+
+        if (date && time) {
+            const [hours, minutes] = time.split(':').map(Number);
+            date.setHours(hours, minutes);
+
+            setFormData((prev) => ({
+                ...prev,
+                finishAt: date,
+            }));
+        }
+
         const syncConfirm = () =>
             confirm2(
                 '새 요청을 생성하고 알림을 보낼까요?',
@@ -35,9 +58,14 @@ export const RequestAddStep3 = () => {
                 },
             );
         return confirmed(syncConfirm())
-            .then(() => null)
-            .then(() => toast.success('요청이 전송되었습니다.'))
-            .then(() => router.push(OrgReviewCampaignListPageRoute.path(orgId)))
+            .then(() => reviewCampaignApi.create(orgId, formData))
+            .then(() => {
+                toast.success('요청이 전송되었습니다.');
+                setFormData(defaultCreateReviewCampaignRequestDto);
+                setStep(1);
+                /* TODO: 요청 상세 페이지로 이동해야 함 */
+                router.push(OrgReviewCampaignListPageRoute.path(orgId));
+            })
             .catch(errorToast);
     };
 
@@ -54,33 +82,22 @@ export const RequestAddStep3 = () => {
             </div>
             {step === 3 && (
                 <div className={'p-9 space-y-10 border-t'}>
-                    <div className={'text-xl font-bold text-gray-900'}>요청 관련 설정을 선택해 주세요</div>
-
-                    <div className={'space-y-5'}>
-                        <div className={'text-18 font-medium'}>내가 받을 알림 설정</div>
-                        <div className="flex items-center space-x-2">
-                            <CheckboxWithLabel id={'alarmForMe'} label={'개별 응답자가 답변 제출 시 알림 받기'} />
-                        </div>
-                    </div>
-
-                    <div className={'space-y-5'}>
-                        <div className={'text-18 font-medium'}>응답자에게 발송되는 알림 설정</div>
-                        <CheckboxWithLabel id={'alarmForMember'} label={'요청 생성 시 모든 응답자들에게 알림 주기'} />
-                    </div>
-
-                    <div className={'space-y-5'}>
-                        <div className={'text-18 font-medium'}>제출 마감일 설정</div>
-                        <div className={'space-y-2'}>
-                            <div className={'text-gray-500 text-14'}>마감일은 추후 변경 가능합니다.</div>
-                            <div className={'flex space-x-4 items-center'}>
-                                <DatePicker date={date} onSelect={setDate} />
-                                <TimePicker time={time} onSelect={setTime} />
-                            </div>
+                    <div className={'space-y-2'}>
+                        <div className={'text-gray-500 text-14'}>마감일은 추후 변경 가능합니다.</div>
+                        <div className={'flex space-x-4 items-center'}>
+                            <DatePicker date={date} onSelect={setDate} />
+                            <TimePicker time={time} onSelect={setTime} />
                         </div>
                     </div>
 
                     <div className={'flex justify-center space-x-4'}>
-                        <Button size={'xl'} variant={'scordi'} onClick={onSubmit} className={'w-64'}>
+                        <Button
+                            size={'xl'}
+                            variant={'scordi'}
+                            onClick={onSubmit}
+                            className={'w-64'}
+                            disabled={date === undefined || time === undefined}
+                        >
                             완료
                         </Button>
                     </div>

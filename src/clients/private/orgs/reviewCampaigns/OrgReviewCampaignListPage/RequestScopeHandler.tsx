@@ -1,37 +1,40 @@
 import {memo, useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
-import {SubscriptionUsingStatus, t_SubscriptionUsingStatus} from '^models/Subscription/types';
+import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
+import {reviewCampaignListAtom} from '^models/ReviewCampaign/atom';
 
 export const RequestScopeHandler = memo(function () {
-    const {query, search} = useSubscriptionTableListAtom();
-    const [activeStatus, setActiveUsingStatus] = useState<SubscriptionUsingStatus>();
+    const {search, query} = useReviewCampaigns(reviewCampaignListAtom);
+    const [active, setActive] = useState<number>(0);
 
-    const searchResource = (usingStatus?: SubscriptionUsingStatus) => {
-        if (usingStatus === activeStatus) return;
-        setActiveUsingStatus(usingStatus);
-        search({...query, usingStatus, page: 1});
+    const searchResource = (type: number) => {
+        setActive(type);
+        switch (type) {
+            case 0:
+                search({...query, where: {}, page: 1});
+                break;
+            case 1:
+                /* TODO: 진행중 상태인 요청 필터링 */
+                search({...query, where: {finishAt: new Date()}, page: 1});
+                break;
+            case 2:
+                /* TODO: 완료 상태인 요청 필터링 */
+                search({...query, where: {finishAt: new Date()}, page: 1});
+                break;
+        }
     };
 
     return (
         <div className="flex items-center gap-2">
-            <ListPage.ScopeButton active={activeStatus === undefined} onClick={() => searchResource()}>
+            <ListPage.ScopeButton active={active === 0} onClick={() => searchResource(0)}>
                 전체
             </ListPage.ScopeButton>
-            {[
-                SubscriptionUsingStatus.NONE,
-                SubscriptionUsingStatus.FREE,
-                SubscriptionUsingStatus.PAID,
-                SubscriptionUsingStatus.QUIT,
-            ].map((usingStatus, i) => (
-                <ListPage.ScopeButton
-                    key={i}
-                    active={activeStatus === usingStatus}
-                    onClick={() => searchResource(usingStatus)}
-                >
-                    {t_SubscriptionUsingStatus(usingStatus)}
-                </ListPage.ScopeButton>
-            ))}
+            <ListPage.ScopeButton active={active === 1} onClick={() => searchResource(1)}>
+                진행 중
+            </ListPage.ScopeButton>
+            <ListPage.ScopeButton active={active === 2} onClick={() => searchResource(2)}>
+                완료
+            </ListPage.ScopeButton>
         </div>
     );
 });

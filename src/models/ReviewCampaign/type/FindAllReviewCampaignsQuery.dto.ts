@@ -3,4 +3,5 @@ import {ReviewCampaignDto} from './ReviewCampaign.dto';
 
 export class FindAllReviewCampaignsQueryDto extends FindAllQueryDto<ReviewCampaignDto> {
     //
+    keyword?: string;
 }
