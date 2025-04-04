@@ -19,6 +19,23 @@ export class TopLineBannerDto {
     onClick?: () => void | null;
 }
 
+export type PageFlashTheme = 'notice' | 'waring' | 'danger' | 'basicInfo' | 'thanksTo';
+export type PageFlashType = 'text' | 'button' | 'link';
+
+export class PageFlashDto {
+    id: number | null;
+    text: string;
+    type: PageFlashType;
+    theme: PageFlashTheme;
+    icon?: ReactNode | null;
+    animation?: boolean | null;
+    fixed?: boolean | null;
+    closeButton?: boolean | null;
+    timeout?: number | null;
+    url?: string | null;
+    onClick?: () => void | null;
+}
+
 export class FindAllTopLineBannersQueryDto extends FindAllQueryDto<TopLineBannerDto> {
     //
 }
