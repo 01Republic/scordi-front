@@ -13,6 +13,7 @@ import {
 import {confirm2} from '^components/util/dialog';
 import {useQuery} from '@tanstack/react-query';
 import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
+import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
 
 // export const isCodefCardSyncRunningAtom = atom({
 //     key: 'isCodefCardSyncRunningAtom',
@@ -182,11 +183,11 @@ function catchError(err: ApiError) {
     console.error(apiError);
 }
 
-// new 코드에프 카드 상세 조회
-export const useGetCodefCardDetail = (orgId: number, cardId?: number) => {
+// new 코드에프 카드 결제내역조회
+export const useGetCodefCardHistory = (orgId: number, cardId?: number, params?: FindAllCardHistoryQueryDto) => {
     return useQuery({
         queryKey: ['codefCard', cardId],
-        queryFn: () => codefCardApi.show(orgId, cardId as number).then((res) => res.data),
+        queryFn: () => codefCardApi.histories(orgId, cardId as number).then((res) => res.data),
         enabled: !!cardId || !!orgId,
     });
 };
