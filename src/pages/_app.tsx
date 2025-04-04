@@ -48,7 +48,6 @@ function MyApp(props: Props) {
                     transition={Slide}
                 />
                 <div id="dropdown-portal" />
-                <div id="top-line-banner-portal" />
                 <Toaster
                     containerStyle={{bottom: '15vh'}}
                     toastOptions={{
