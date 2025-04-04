@@ -1,12 +1,11 @@
 import {memo, ReactNode, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import cn from 'classnames';
-import {LinkTo} from '^components/util/LinkTo';
-import {currentOrgAtom} from '^models/Organization/atom';
 import {PencilLine, X, TriangleAlert, CircleAlert, Heart} from 'lucide-react';
-import {LineBannerTheme, PageFlashTheme, PageFlashType} from '^models/TopLineBanner/type';
-import {topLineBannerAtom} from '^atoms/common';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {LinkTo} from '^components/util/LinkTo';
 import {PageFlashPortal} from '^components/util/TopLineBannerPortal';
+import {PageFlashTheme, PageFlashType} from '^models/TopLineBanner/type';
 
 interface PageFlashProps {
     id: number;
