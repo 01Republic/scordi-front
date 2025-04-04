@@ -19,7 +19,7 @@ export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListPro
     const orgId = useIdParam('id');
     const workspaceId = useIdParam('slackWorkspaceId');
     // const {data: workspace} = useSlackWorkspaceInDetailPage();
-    const {data: result} = useSlackMembersInDetailPage({
+    const {data: result, refetch} = useSlackMembersInDetailPage({
         relations: ['teamMember'],
         order: {isDeleted: 'ASC', id: 'DESC'},
         itemsPerPage: 0,
@@ -43,7 +43,7 @@ export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListPro
             {/* Panel Body */}
             <div className="flex flex-col">
                 {items.map((item, i) => (
-                    <SlackWorkspaceMemberRow item={item} key={i} />
+                    <SlackWorkspaceMemberRow key={i} item={item} reload={() => refetch()} />
                 ))}
             </div>
         </div>

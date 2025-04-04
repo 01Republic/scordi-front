@@ -6,10 +6,11 @@ import {SlackWorkspaceMemberMoreDropdown} from './SlackWorkspaceMemberMoreDropdo
 
 interface SlackWorkspaceMemberRowProps {
     item: IntegrationSlackMemberDto;
+    reload?: () => any;
 }
 
 export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps) => {
-    const {item} = props;
+    const {item, reload} = props;
 
     return (
         <div
@@ -32,7 +33,7 @@ export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps
                 </div>
 
                 <div className="flex items-center">
-                    <SlackWorkspaceMemberMoreDropdown item={item} />
+                    <SlackWorkspaceMemberMoreDropdown item={item} reload={reload} />
                 </div>
             </div>
         </div>

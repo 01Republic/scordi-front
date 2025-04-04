@@ -1,5 +1,5 @@
 import {api} from '^api/api';
-import {listDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {IntegrationSlackMemberDto} from './type/IntegrationSlackMember.dto';
 import {FindAllIntegrationSlackMemberQueryDto} from './type/FindAllIntegrationSlackMember.query.dto';
 
@@ -17,5 +17,11 @@ export const integrationSlackMemberApi = {
     create(orgId: number, workspaceId: number) {
         const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members`;
         return api.post(url).then(listDtoOf(IntegrationSlackMemberDto));
+    },
+
+    // 슬랙 멤버 제거
+    destroy(orgId: number, workspaceId: number, id: number) {
+        const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members/${id}`;
+        return api.delete(url).then(oneDtoOf(IntegrationSlackMemberDto));
     },
 };
