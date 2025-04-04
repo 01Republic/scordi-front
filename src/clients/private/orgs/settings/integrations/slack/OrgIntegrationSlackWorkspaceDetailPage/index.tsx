@@ -4,6 +4,7 @@ import {orgIdParamState, useIdParam} from '^atoms/common';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {SlackWorkspaceDetailPageHeader} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceDetailPageHeader';
 import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlackWorkspace/hook';
+import {SlackWorkspaceMemberList} from './SlackWorkspaceMemberList';
 
 export const OrgIntegrationSlackWorkspaceDetailPage = memo(function OrgIntegrationSlackWorkspaceDetailPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -21,10 +22,12 @@ export const OrgIntegrationSlackWorkspaceDetailPage = memo(function OrgIntegrati
                 <SlackWorkspaceDetailPageHeader />
 
                 {/* tabs */}
-                <div></div>
+                <div className="w-full border border-b border-gray-200 mt-8"></div>
 
                 {/* tab-body */}
-                <div></div>
+                <div>
+                    <SlackWorkspaceMemberList />
+                </div>
             </div>
         </OrgSettingsLayout>
     );
