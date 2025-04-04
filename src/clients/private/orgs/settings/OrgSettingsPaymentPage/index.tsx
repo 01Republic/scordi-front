@@ -17,6 +17,7 @@ export const OrgSettingsPaymentPage = memo(function () {
                 active: true,
                 href: OrgSettingsPaymentPageRoute.path(orgId),
             }}
+            ignoreCardWrap
         >
             {/*현재 플랜 정보*/}
             <OrgPlanSection orgId={orgId} />

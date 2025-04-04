@@ -10,6 +10,7 @@ import {TopNavBarDropdownContent} from './TopNavBarDropdownContent';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
+// import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
@@ -31,6 +32,7 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
             {name: '결제현황', Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
         ],
     },
+    // {name: '업무', routeProps: OrgReviewCampaignListPageRoute},
     {
         name: '팀',
         items: [

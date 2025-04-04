@@ -6,6 +6,7 @@ import {LinkTo} from '^components/util/LinkTo';
 
 interface SettingsPaymentSectionProps extends WithChildren {
     title: ReactNodeElement;
+    titleNoMargin?: boolean;
     right?: ReactNodeElement;
     buttonText?: string;
     buttonOnClick?: () => any;
@@ -13,11 +14,12 @@ interface SettingsPaymentSectionProps extends WithChildren {
 }
 
 export const SettingsPaymentSection = memo((props: SettingsPaymentSectionProps) => {
-    const {title, right, buttonText, buttonOnClick, isLoading = false, children} = props;
+    const {title, titleNoMargin = false, right, buttonText, buttonOnClick, isLoading = false, children} = props;
 
     return (
         <OrgSettingsCardSection
             title={title}
+            titleNoMargin={titleNoMargin}
             right={
                 right
                     ? right

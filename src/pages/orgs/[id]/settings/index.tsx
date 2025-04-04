@@ -4,7 +4,6 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgSubscriptionListPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage';
 import {OrgSettingsInformationPage} from '^clients/private/orgs/settings/OrgSettingsInformationPage';
 
 export const OrgSettingsInformationPageRoute = pathRoute({

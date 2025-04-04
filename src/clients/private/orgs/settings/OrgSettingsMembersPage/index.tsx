@@ -47,6 +47,7 @@ export const OrgSettingsMembersPage = memo(function () {
                 active: true,
                 href: OrgSettingsMemberPageRoute.path(orgId),
             }}
+            ignoreCardWrap
         >
             <OrgSettingsCardSection>
                 <div className={'flex items-center justify-between pb-4'}>

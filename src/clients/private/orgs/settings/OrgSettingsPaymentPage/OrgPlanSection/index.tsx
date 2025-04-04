@@ -48,6 +48,7 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                         </div>
                     </div>
                 }
+                titleNoMargin={!currentSubscription}
                 buttonText="플랜 변경"
                 buttonOnClick={() => setIsSelectPlanModalOpened(true)}
                 isLoading={isLoading}

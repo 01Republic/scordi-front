@@ -3,16 +3,17 @@ import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 interface OrgSettingsCardSectionProps extends WithChildren {
     title?: ReactNodeElement;
+    titleNoMargin?: boolean;
     right?: ReactNodeElement;
 }
 
 export const OrgSettingsCardSection = memo((props: OrgSettingsCardSectionProps) => {
-    const {title, right, children} = props;
+    const {title, titleNoMargin = false, right, children} = props;
 
     return (
         <div className={'card border rounded-lg bg-white p-6'}>
             {title && (
-                <div className={'flex justify-between items-center mb-4'}>
+                <div className={`flex justify-between items-center ${titleNoMargin ? '' : 'mb-4'}`}>
                     <div className={'font-bold'}>{title}</div>
 
                     {right}
