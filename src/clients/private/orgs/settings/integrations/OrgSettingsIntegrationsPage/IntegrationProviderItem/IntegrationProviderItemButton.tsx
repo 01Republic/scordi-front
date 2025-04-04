@@ -1,8 +1,7 @@
 import {memo} from 'react';
-import {BsGear} from '@react-icons/all-files/bs/BsGear';
 import {LinkTo} from '^components/util/LinkTo';
-import {TbPlugConnected} from 'react-icons/tb';
 import {LinkProps} from 'next/dist/client/link';
+import {Cog, Unplug} from 'lucide-react';
 
 interface IntegrationProviderItemButtonProps {
     isInstalled: boolean;
@@ -19,7 +18,7 @@ export const IntegrationProviderItemButton = memo((props: IntegrationProviderIte
             onClick={onClick}
             className={`btn btn-sm gap-2 no-animation btn-animation ${isInstalled ? 'btn-white' : 'btn-scordi shadow'}`}
         >
-            {isInstalled ? <BsGear /> : <TbPlugConnected />}
+            {isInstalled ? <Cog /> : <Unplug />}
             {isInstalled ? <span>세부설정</span> : <span>연동하기</span>}
         </LinkTo>
     );
