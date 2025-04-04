@@ -94,7 +94,11 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         </div>
                     </div>
                 )}
-                {activeTabIndex == 1 && <BillingHistoryListOfCreditCardTabContent />}
+                {activeTabIndex == 1 && (
+                    <BillingHistoryListOfCreditCardTabContent
+                        excelUploadModalClose={() => setIsExcelUploadModalOpen(true)}
+                    />
+                )}
                 {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
                 <BillingHistoryExcelUploadModal
                     isOpened={isExcelUploadModalOpen}
