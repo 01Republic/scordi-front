@@ -32,7 +32,7 @@ export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListPro
     return (
         <div className="border border-gray-200 rounded-lg overflow-hidden mt-8">
             {/* Panel Head */}
-            <div className="py-3 px-6 bg-gray-100/50 border border-b border-gray-200">
+            <div className="py-3 px-6 bg-gray-100/50 border-b border-gray-200">
                 <div className="flex items-center">
                     <div className="font-semibold text-12">MEMBERS in slack</div>
                     <div className="text-14 mx-2">&middot;</div>

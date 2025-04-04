@@ -15,7 +15,7 @@ export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps
     return (
         <div
             onClick={() => console.log(item)}
-            className={`py-3 px-6 border border-b border-gray-100 bg-white flex flex-row items-center ${
+            className={`py-3 px-6 border-b border-gray-100 bg-white flex flex-row items-center ${
                 !item.isActive ? 'text-gray-300 !bg-gray-100/25' : ''
             }`}
         >

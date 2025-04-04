@@ -4,6 +4,8 @@ import SlackLogo from '^public/logo/icons/ic_slack.png';
 import {ChevronLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlackWorkspace/hook';
+import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hook';
+import {SlackWorkspaceMembersSyncButton} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceDetailPageHeader/SlackWorkspaceMembersSyncButton';
 
 interface SlackWorkspaceDetailPageHeaderProps {
     //
@@ -13,6 +15,11 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
     const {} = props;
     const router = useRouter();
     const {data: workspace} = useSlackWorkspaceInDetailPage();
+    const {refetch} = useSlackMembersInDetailPage({
+        relations: ['teamMember'],
+        order: {isDeleted: 'ASC', id: 'DESC'},
+        itemsPerPage: 0,
+    });
 
     return (
         <div className="flex items-center">
@@ -52,9 +59,8 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
 
             {/* Right-side button group */}
             <div>
-                {/* disconnect button */}
                 <div>
-                    <button className="btn btn-sm btn-gray">연동 끊기</button>
+                    <SlackWorkspaceMembersSyncButton workspace={workspace} reload={() => refetch()} />
                 </div>
             </div>
         </div>
