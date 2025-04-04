@@ -24,8 +24,6 @@ export class FindAllTopLineBannersQueryDto extends FindAllQueryDto<TopLineBanner
 }
 
 export function getCreditCardPolicyDuration(company: string): string {
-    console.log('company', company);
-
     const oneYear = ['BC', '수협', '제주', '광주', '전북', '국민', '우리', '하나', 'NH', '씨티'];
     const sixMonth = ['신한'];
     const threeMonth = ['삼성', '롯데', '현대'];
