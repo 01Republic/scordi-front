@@ -50,19 +50,13 @@ export const OrgReviewResponseEditPage = () => {
                 </Card>
 
                 <Card className={'bg-white px-7 py-6 space-y-5'}>
-                    <div className={'text-16 font-medium'}>구독중인 서비스</div>
+                    <div className={'text-16 font-medium'}>
+                        구독중인 서비스 <span className={'text-red-400'}>*</span>
+                    </div>
                     <div>
                         <SubscriptionItemOfResponse />
                         <SubscriptionItemOfResponse />
                         <SubscriptionItemOfResponse />
-                    </div>
-                </Card>
-
-                <Card className={'bg-white px-7 py-6 space-y-5'}>
-                    <div className="grid w-full items-center space-y-3">
-                        <div className={'text-16 font-medium'}>새롭게 이용 중인 구독 서비스가 있나요?</div>
-                        <CheckboxWithLabel id={'checkNewSubscription'} label={'예'} />
-                        <CheckboxWithLabel id={'uncheckNewSubscription'} label={'아니오'} checked={true} />
                     </div>
                 </Card>
 
