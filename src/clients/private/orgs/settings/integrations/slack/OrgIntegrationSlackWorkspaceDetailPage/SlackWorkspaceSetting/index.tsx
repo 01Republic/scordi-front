@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlackWorkspace/hook';
-import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hook';
+import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hooks';
 import {SyncSection} from './SyncSection';
 import {RemoveWorkspaceSection} from './RemoveWorkspaceSection';
 

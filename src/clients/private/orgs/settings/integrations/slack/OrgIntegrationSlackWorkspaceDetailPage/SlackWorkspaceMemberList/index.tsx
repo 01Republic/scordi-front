@@ -3,7 +3,7 @@ import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlac
 import {useIdParam} from '^atoms/common';
 import {useQuery} from '@tanstack/react-query';
 import {integrationSlackMemberApi} from '^models/integration/IntegrationSlackMember/api';
-import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hook';
+import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hooks';
 import {NextImage} from '^components/NextImage';
 import {unitFormat} from '^utils/number';
 import {ChevronDown, X} from 'lucide-react';

@@ -1,9 +1,9 @@
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {useIdParam} from '^atoms/common';
-import {FindAllIntegrationSlackMemberQueryDto} from './type/FindAllIntegrationSlackMember.query.dto';
-import {integrationSlackMemberApi} from './api';
 import {Paginated} from '^types/utils/paginated.dto';
+import {integrationSlackMemberApi} from '../api';
+import {FindAllIntegrationSlackMemberQueryDto} from '../type/FindAllIntegrationSlackMember.query.dto';
 
 export const useSlackMembersInDetailPage = (params: FindAllIntegrationSlackMemberQueryDto) => {
     const [_params, setParams] = useState(params);

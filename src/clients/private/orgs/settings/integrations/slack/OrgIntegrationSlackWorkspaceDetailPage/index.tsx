@@ -3,14 +3,12 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState, useIdParam} from '^atoms/common';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {useTabs} from '^components/util/tabs';
-import {SlackWorkspaceDetailPageHeader} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceDetailPageHeader';
-import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlackWorkspace/hook';
+import {SlackWorkspaceDetailPageHeader} from './SlackWorkspaceDetailPageHeader';
 import {slackWorkspaceDetailPageTab} from './slackWorkspaceDetailPageTab';
 
 export const OrgIntegrationSlackWorkspaceDetailPage = memo(function OrgIntegrationSlackWorkspaceDetailPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const workspaceId = useIdParam('slackWorkspaceId');
-    const {data: workspace} = useSlackWorkspaceInDetailPage();
     const {TabNav, CurrentTabPane} = useTabs(slackWorkspaceDetailPageTab);
 
     return (
