@@ -1,24 +1,26 @@
-import React from 'react';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
-import {pathRoute, pathReplace} from '^types/pageRoute.type';
-import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {OrgReviewResponseEditPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewResponseEditPage';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {
+    orgIdParamState,
+    useRouterIdParamState
+} from '^atoms/common';
+import { OrgReviewResponseEditPage } from '^clients/private/orgs/reviewCampaigns/OrgReviewResponseEditPage';
+import { useCurrentOrg } from '^models/Organization/hook';
+import { pathReplace, pathRoute } from '^types/pageRoute.type';
+import { v3CommonRequires } from '^types/utils/18n.type';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const OrgReviewResponseEditPageRoute = pathRoute({
     pathname: '/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit',
     path: (orgId: number, reviewCampaignId: number, reviewResponseId: number) =>
-        pathReplace(OrgReviewResponseEditPageRoute.pathname, {id: orgId, reviewCampaignId, reviewResponseId}),
+        pathReplace(OrgReviewResponseEditPageRoute.pathname, { id: orgId, reviewCampaignId, reviewResponseId }),
     // resourcePath: (resource: SubscriptionDto) => OrgResponsePageRoute.path(resource.organizationId, resource.id),
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {id: '1', reviewCampaignId: '1', reviewResponseId: '1'}}],
+    paths: [{ params: { id: '1', reviewCampaignId: '1', reviewResponseId: '1' } }],
     fallback: true,
 });
 
-export const getStaticProps = async ({locale}: any) => ({
+export const getStaticProps = async ({ locale }: any) => ({
     props: {
         // Will be passed to the page component as props
         ...(await serverSideTranslations(locale, [
@@ -34,28 +36,6 @@ export default function Page() {
     if (!orgId || isNaN(orgId)) return <></>;
 
     return (
-        // <ShowRoutingPage
-        //     subjectIdParamKey="subscriptionId"
-        //     subjectIdParamAtom={subscriptionIdParamState}
-        //     subjectAtom={subscriptionSubjectAtom}
-        //     endpoint={(subjectId) =>
-        //         subscriptionApi.show(subjectId, {
-        //             relations: [
-        //                 'organization',
-        //                 'teamMembers',
-        //                 'vendorContracts',
-        //                 'vendorContracts.vendorCompany',
-        //                 'vendorContracts.vendorManager',
-        //                 'invoiceAccounts',
-        //                 'invoiceAccounts.googleTokenData',
-        //                 'billingHistories',
-        //                 'subscriptionSeats',
-        //                 'bankAccount',
-        //             ],
-        //         })
-        //     }
-        // >
         <OrgReviewResponseEditPage />
-        // </ShowRoutingPage>
     );
 }
