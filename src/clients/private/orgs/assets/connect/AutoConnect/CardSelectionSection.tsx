@@ -7,7 +7,7 @@ export const CardSelectionSection = ({
     onSelect,
     onSelectAll
 }: {
-    selectedCards: string[];
+    selectedCards: CardAccountsStaticData[];
     onSelect: (card: CardAccountsStaticData) => void;
     onSelectAll: () => void;
 }) => {
@@ -28,7 +28,7 @@ export const CardSelectionSection = ({
                         key={card.param}
                         logo={card.logo}
                         title={card.displayName}
-                        isSelected={selectedCards.includes(card.param)}
+                        isSelected={selectedCards.some((c) => c.param === card.param)}
                         onClick={() => onSelect(card)}
                     />
                 ))}

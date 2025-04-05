@@ -7,7 +7,7 @@ export const BankSelectionSection = ({
     onSelect,
     onSelectAll
 }: {
-    selectedBanks: string[];
+    selectedBanks: BankAccountsStaticData[];
     onSelect: (bank: BankAccountsStaticData) => void;
     onSelectAll: () => void;
 }) => {
@@ -28,7 +28,7 @@ export const BankSelectionSection = ({
                         key={bank.param}
                         logo={bank.logo}
                         title={bank.displayName}
-                        isSelected={selectedBanks.includes(bank.param)}
+                        isSelected={selectedBanks.some((b) => b.param === bank.param)}
                         onClick={() => onSelect(bank)}
                     />
                 ))}

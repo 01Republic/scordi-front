@@ -1,11 +1,11 @@
 import { orgIdParamState, useRouterIdParamState } from '^atoms/common';
-import { SelectAutoOrManualPage } from '^clients/private/orgs/assets/connect';
+import { AutoConnectPage } from '^clients/private/orgs/assets/connect/AutoConnect';
 import { useCurrentOrg } from '^models/Organization/hook';
 import { pathReplace, pathRoute } from '^types/pageRoute.type';
 
-export const OrgAssetsConnectPageRoute = pathRoute({
-    pathname: '/orgs/[id]/assets/connect',
-    path: (orgId: number) => pathReplace(OrgAssetsConnectPageRoute.pathname, { id: orgId }),
+export const OrgConnectAutoPageRoute = pathRoute({
+    pathname: '/orgs/[id]/assets/connect/auto',
+    path: (orgId: number) => pathReplace(OrgConnectAutoPageRoute.pathname, { id: orgId }),
 });
 
 export default function Page() {
@@ -14,5 +14,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <SelectAutoOrManualPage />;
+    return <AutoConnectPage orgId={orgId} />;
 }
