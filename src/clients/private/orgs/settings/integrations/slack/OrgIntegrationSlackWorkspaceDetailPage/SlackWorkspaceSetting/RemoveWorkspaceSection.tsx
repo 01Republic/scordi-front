@@ -59,7 +59,7 @@ export const RemoveWorkspaceSection = memo((props: RemoveWorkspaceSectionProps) 
 
             <div>
                 <button
-                    className={`btn gap-2 !border-none bg-red-400 hover:bg-red-500 text-white no-animation btn-animation ${
+                    className={`btn btn-sm gap-2 !border-none bg-red-400 hover:bg-red-500 text-white no-animation btn-animation ${
                         isLoading ? 'pointer-events-none opacity-40' : ''
                     }`}
                     onClick={onClick}
