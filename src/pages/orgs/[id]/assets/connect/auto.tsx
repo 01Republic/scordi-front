@@ -14,5 +14,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <AutoConnectPage orgId={orgId} />;
+    return <AutoConnectPage />;
 }

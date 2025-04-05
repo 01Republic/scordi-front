@@ -9,8 +9,8 @@ export const OrgConnectManualPageRoute = pathRoute({
 
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    if (!orgId) return null;
+    if (!orgId) return <></>;
 
-    return <ManualConnectPage orgId={orgId} />;
+    return <ManualConnectPage />;
 }
 
