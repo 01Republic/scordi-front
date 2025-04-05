@@ -15,11 +15,7 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
     const {} = props;
     const router = useRouter();
     const {data: workspace} = useSlackWorkspaceInDetailPage();
-    const {refetch} = useSlackMembersInDetailPage({
-        relations: ['teamMember'],
-        order: {isDeleted: 'ASC', id: 'DESC'},
-        itemsPerPage: 0,
-    });
+    const {refetch} = useSlackMembersInDetailPage();
 
     return (
         <div className="flex items-center">

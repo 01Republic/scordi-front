@@ -10,11 +10,7 @@ interface SlackWorkspaceSettingProps {
 
 export const SlackWorkspaceSetting = memo((props: SlackWorkspaceSettingProps) => {
     const {data: workspace, refetch: reloadWorkspace} = useSlackWorkspaceInDetailPage();
-    const {refetch: reloadSlackMembers} = useSlackMembersInDetailPage({
-        relations: ['teamMember'],
-        order: {isDeleted: 'ASC', id: 'DESC'},
-        itemsPerPage: 0,
-    });
+    const {refetch: reloadSlackMembers} = useSlackMembersInDetailPage();
 
     const reload = async () => {
         reloadSlackMembers();
