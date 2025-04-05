@@ -14,12 +14,10 @@ export const RequestScopeHandler = memo(function () {
                 search({...query, where: {}, page: 1});
                 break;
             case 1:
-                /* TODO: 진행중 상태인 요청 필터링 */
-                search({...query, where: {finishAt: new Date()}, page: 1});
+                search({...query, where: {closedAt: 'NULL'}, page: 1});
                 break;
             case 2:
-                /* TODO: 완료 상태인 요청 필터링 */
-                search({...query, where: {finishAt: new Date()}, page: 1});
+                search({...query, where: {closedAt: {op: 'not', val: 'NULL'}}, page: 1});
                 break;
         }
     };
