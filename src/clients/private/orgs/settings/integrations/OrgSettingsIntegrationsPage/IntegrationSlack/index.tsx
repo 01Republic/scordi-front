@@ -28,7 +28,9 @@ export const IntegrationSlack = memo((props: IntegrationSlackProps) => {
             disabled={isLoading}
             isInstalled={!!slackConfig}
             href={slackConfig ? OrgIntegrationSlackWorkspaceDetailPageRoute.path(orgId, slackConfig.id) : undefined}
-            install={debounce(() => slackScordiOauthApi.authorize(orgId), 500)}
+            install={debounce(() => {
+                window.open(slackScordiOauthApi.authUrl(orgId), '_blank');
+            }, 500)}
             onAuthorized={async (data: OauthV2AccessResponse) => {
                 console.log('data', data);
                 await refetch();
