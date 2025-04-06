@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {NextImage} from '^components/NextImage';
-import SlackLogo from '^public/logo/icons/ic_slack.png';
-import {ChevronLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
+import {ChevronLeft} from 'lucide-react';
+import SlackLogo from '^public/logo/icons/ic_slack.png';
+import {NextImage} from '^components/NextImage';
 import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlackWorkspace/hook';
-import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hook';
-import {SlackWorkspaceMembersSyncButton} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceDetailPageHeader/SlackWorkspaceMembersSyncButton';
+import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hooks';
+import {SlackWorkspaceMembersSyncButton} from './SlackWorkspaceMembersSyncButton';
 
 interface SlackWorkspaceDetailPageHeaderProps {
     //
@@ -15,11 +15,7 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
     const {} = props;
     const router = useRouter();
     const {data: workspace} = useSlackWorkspaceInDetailPage();
-    const {refetch} = useSlackMembersInDetailPage({
-        relations: ['teamMember'],
-        order: {isDeleted: 'ASC', id: 'DESC'},
-        itemsPerPage: 0,
-    });
+    const {refetch} = useSlackMembersInDetailPage();
 
     return (
         <div className="flex items-center">
@@ -58,7 +54,12 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
             </div>
 
             {/* Right-side button group */}
-            <div>
+            <div className="flex items-center gap-3">
+                <div>
+                    <div className="text-gray-400 text-14 font-medium" onClick={() => console.log(workspace)}>
+                        ID: {workspace?.uid}
+                    </div>
+                </div>
                 <div>
                     <SlackWorkspaceMembersSyncButton workspace={workspace} reload={() => refetch()} />
                 </div>
