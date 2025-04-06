@@ -1,18 +1,18 @@
-import React, {useEffect, useRef} from 'react';
-import {Input} from '^public/components/ui/input';
-import {cn} from '^public/lib/utils';
-import {TeamMemberDto} from '^models/TeamMember';
-import {TeamMemberSelectItem} from './TeamMemberSelectItem';
-import {Button} from '^public/components/ui/button';
-import {useRecoilState} from 'recoil';
-import {createReviewCampaignRequestAtom} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/atom';
+import { createReviewCampaignRequestAtom } from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/atom';
+import { TeamMemberDto } from '^models/TeamMember';
+import { Button } from '^public/components/ui/button';
+import { Input } from '^public/components/ui/input';
+import { cn } from '^public/lib/utils';
+import React, { useEffect, useRef } from 'react';
+import { useRecoilState } from 'recoil';
+import { TeamMemberSelectItem } from './TeamMemberSelectItem';
 
 interface TeamMemberSearchProps {
     teamMembers: TeamMemberDto[];
     onSelectMember: (member: TeamMemberDto) => void;
 }
 
-export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, onSelectMember}) => {
+export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({ teamMembers, onSelectMember }) => {
     const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [keyword, setKeyword] = React.useState<string>('');
@@ -56,23 +56,22 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, 
                 />
                 <div
                     className={cn(
-                        'absolute w-full border border-gray-300 bg-white overflow-y-auto mt-1 rounded-md shadow-lg h-80',
+                        'absolute w-full border border-gray-300 bg-white overflow-y-auto mt-1 rounded-md shadow-lg h-80 z-10',
                         isShow ? '' : 'hidden',
                     )}
                 >
                     {teamMembers.length === formData.teamMemberIds.length && (
                         <div className={'py-32 text-center text-gray-500'}>선택 가능한 구성원이 없습니다.</div>
                     )}
-                    {filteredTeamMembers.map((teamMember) => {
-                        if (formData.teamMemberIds.includes(teamMember.id)) return <></>;
-                        return (
+                    {filteredTeamMembers
+                        .filter(teamMember => !formData.teamMemberIds.includes(teamMember.id))
+                        .map(teamMember => (
                             <TeamMemberSelectItem
                                 key={teamMember.id}
                                 teamMember={teamMember}
                                 onSelect={onSelectMember}
                             />
-                        );
-                    })}
+                        ))}
                 </div>
             </div>
             <div className={'flex justify-between items-center text-sm'}>
