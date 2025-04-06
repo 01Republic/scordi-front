@@ -1,6 +1,7 @@
 import { orgIdParamState, useRouterIdParamState } from "^atoms/common";
 import { MainLayout } from "^clients/private/_layouts/MainLayout";
 import { MainContainer } from "^clients/private/_layouts/MainLayout/MainContainer";
+import { OrgConnectAuthPageRoute } from "^pages/orgs/[id]/assets/connect/auth";
 import { OrgConnectAutoPageRoute } from "^pages/orgs/[id]/assets/connect/auto";
 import { OrgConnectManualPageRoute } from "^pages/orgs/[id]/assets/connect/manual";
 import { Button } from "^public/components/ui/button";
@@ -43,8 +44,11 @@ export const SelectAutoOrManualPage = () => {
                         <Button variant={'scordi'} size={'lg'} className="w-full" onClick={() => router.push(OrgConnectAutoPageRoute.path(orgId))}>
                             공동인증서로 한번에 연동
                         </Button>
-                        <Button variant={'gray'} size={'lg'} className="w-full" onClick={() => router.push(OrgConnectManualPageRoute.path(orgId))}>
+                        <Button variant={'gray'} size={'lg'} className="w-full" onClick={() => router.push(OrgConnectAuthPageRoute.path(orgId))}>
                             홈페이지 로그인으로 개별 연동
+                        </Button>
+                        <Button variant={'outline'} size={'lg'} className="w-full" onClick={() => router.push(OrgConnectManualPageRoute.path(orgId))}>
+                            수동으로 추가 (나중에 삭제)
                         </Button>
                     </div>
                 </div>
