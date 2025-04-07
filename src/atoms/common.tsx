@@ -1,8 +1,7 @@
-import {ReactNode, useEffect, useSyncExternalStore} from 'react';
+import {useEffect, useSyncExternalStore} from 'react';
 import {atom, RecoilState, useSetRecoilState} from 'recoil';
 import {NextRouter, useRouter} from 'next/router';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
-import {LineBannerTheme, LineBannerType, TopLineBannerDto} from '^models/TopLineBanner/type';
 
 // Ex: const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
 export const useRouterIdParamState = (idParamNameOrValue: string | number, atom: RecoilState<number>) => {
@@ -111,21 +110,4 @@ export const bankAccountIdParamState = atom({
 export const googleTokenDataAtom = atom<GoogleTokenDataDto | null>({
     key: 'googleTokenData',
     default: null,
-});
-
-export const topLineBannerAtom = atom<TopLineBannerDto | null>({
-    key: 'topLineBannerAtom',
-    default: {
-        id: null,
-        text: '',
-        type: 'text',
-        theme: 'notice',
-        icon: null,
-        animation: null,
-        fixed: null,
-        closeButton: null,
-        timeout: null,
-        url: null,
-        onClick: () => null,
-    },
 });
