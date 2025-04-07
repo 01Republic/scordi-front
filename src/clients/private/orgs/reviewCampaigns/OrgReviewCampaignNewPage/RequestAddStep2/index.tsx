@@ -30,7 +30,7 @@ export const RequestAddStep2 = () => {
 
     const onReady = () => {
         searchAndUpdateCounter({
-            relations: ['teams'],
+            relations: ['teams', 'slackMember',],
             order: { id: 'DESC' },
             updateCounterCacheColumn: 'subscriptionCount',
             itemsPerPage: 0,
@@ -147,7 +147,7 @@ export const RequestAddStep2 = () => {
                     <div className={'grid grid-cols-2 gap-2'}>
                         {teamMembers
                             .filter((teamMember) => formData.teamMemberIds.includes(teamMember.id))
-                            .map((teamMember) => (
+                            .map((teamMember: TeamMemberDto) => (
                                 <SelectedTeamMemberListItem
                                     key={teamMember.id}
                                     teamMember={teamMember}
