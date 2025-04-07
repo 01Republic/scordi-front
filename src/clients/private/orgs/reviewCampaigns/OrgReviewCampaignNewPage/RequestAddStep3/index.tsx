@@ -1,29 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useRouter} from 'next/router';
-import {toast} from 'react-hot-toast';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {ChevronDown, ChevronRight} from 'lucide-react';
-import {Card} from '^public/components/ui/card';
-import {Button} from '^public/components/ui/button';
-import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
+import {toast} from 'react-hot-toast';
+import {orgIdParamState} from '^atoms/common';
+import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
-import {orgIdParamState} from '^atoms/common';
+import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {
     createReviewCampaignRequestAtom,
     defaultCreateReviewCampaignRequestDto,
-    reviewCampaignCreateStepAtom,
+    useReviewCampaignCreateStep,
 } from '../atom';
+import {StepCard, StepCardBody, StepSubmitButton} from '../components';
 import {DatePicker} from './DatePicker';
 import {TimePicker} from './TimePicker';
-import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 
 export const RequestAddStep3 = () => {
     const router = useRouter();
-    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
+    const {getStep, setFoldStep, resetSteps} = useReviewCampaignCreateStep();
     const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
     const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [time, setTime] = React.useState<string | undefined>(undefined);
+    const step = getStep(3);
+    const [isLoading, setIsLoading] = useState(false);
     const orgId = useRecoilValue(orgIdParamState);
 
     const onSubmit = async () => {
@@ -57,52 +57,46 @@ export const RequestAddStep3 = () => {
                     confirmButtonText: '생성 완료하기',
                 },
             );
+
         return confirmed(syncConfirm())
-            .then(() => reviewCampaignApi.create(orgId, formData))
-            .then(() => {
+            .then(() => setIsLoading(true))
+            .then(() => reviewCampaignApi.create(orgId, formData).then((res) => res.data))
+            .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
                 setFormData(defaultCreateReviewCampaignRequestDto);
-                setStep(1);
-                /* TODO: 요청 상세 페이지로 이동해야 함 */
-                router.push(OrgReviewCampaignListPageRoute.path(orgId));
+                resetSteps();
+                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
             })
-            .catch(errorToast);
+            .catch(errorToast)
+            .finally(() => setIsLoading(false));
     };
 
     return (
-        <Card className={'bg-white mb-4'}>
-            <div
-                className={
-                    'px-9 py-5 flex items-center justify-start space-x-2 text-xl font-bold text-gray-900 cursor-pointer'
-                }
-                onClick={() => setStep(3)}
-            >
-                {step === 3 ? <ChevronDown /> : <ChevronRight />}
-                <span>3. 제출 마감일 설정</span>
-            </div>
-            {step === 3 && (
-                <div className={'p-9 space-y-10 border-t'}>
-                    <div className={'space-y-2'}>
-                        <div className={'text-gray-500 text-14'}>마감일은 추후 변경 가능합니다.</div>
-                        <div className={'flex space-x-4 items-center'}>
-                            <DatePicker date={date} onSelect={setDate} />
-                            <TimePicker time={time} onSelect={setTime} />
-                        </div>
-                    </div>
-
-                    <div className={'flex justify-center space-x-4'}>
-                        <Button
-                            size={'xl'}
-                            variant={'scordi'}
-                            onClick={onSubmit}
-                            className={'w-64'}
-                            disabled={date === undefined || time === undefined}
-                        >
-                            완료
-                        </Button>
+        <StepCard
+            title="3. 제출 마감일 설정"
+            isHidden={!!step?.hidden}
+            isCurrent={!!step?.isFocused}
+            isFolded={!!step?.folded}
+            setIsFolded={(isFolded) => setFoldStep(3, isFolded)}
+        >
+            <StepCardBody>
+                <div className={'space-y-2'}>
+                    <div className={'text-gray-500 text-14'}>마감일은 추후 변경 가능합니다.</div>
+                    <div className={'flex space-x-4 items-center'}>
+                        <DatePicker date={date} onSelect={setDate} />
+                        <TimePicker time={time} onSelect={setTime} />
                     </div>
                 </div>
-            )}
-        </Card>
+
+                <div className={'flex justify-center space-x-4'}>
+                    <StepSubmitButton
+                        text="완료"
+                        onClick={onSubmit}
+                        disabled={date === undefined || time === undefined}
+                        isLoading={isLoading}
+                    />
+                </div>
+            </StepCardBody>
+        </StepCard>
     );
 };
