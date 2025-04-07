@@ -20,6 +20,8 @@ export const OrgReviewCampaignListPage = () => {
     const campaigns = result.items;
     const router = useRouter();
 
+    console.log(campaigns);
+
     const onReady = () => {
         search({
             where: {organizationId: orgId},
