@@ -1,11 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useSetRecoilState} from 'recoil';
-import {topLineBannerAtom, useOrgIdParam} from '^atoms/common';
-import {pick} from '^types/utils/one-of-list.type';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
-import {useGetCodefCardHistory} from '^models/CodefCard/hooks/useCodefCardSync';
-import {getCreditCardPolicyDuration} from '^models/TopLineBanner/type';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {UploadBillingHistoryExcelModalConfirm} from '^clients/private/_modals/UploadBillingHistoryExcelModalConfirm';
@@ -14,42 +9,13 @@ import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTa
 import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
+import {CreditCardPageFlashHandler} from 'src/clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CreditCardPageFlashHandler';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
-    const {result} = useCodefCardsOfCreditCardShow();
-    const currentCodefCard = pick(result.items[0]);
-    const codefCardHistory = useGetCodefCardHistory(orgId, 55);
-    const setTopLineBanner = useSetRecoilState(topLineBannerAtom);
+
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
-
-    const cardCompany = currentCodefCard?.resCardName || '';
-    const duration = getCreditCardPolicyDuration(cardCompany);
-    const topLineBannerText = `카드사 정책으로 인해 최근 ${duration} 내역만 불러왔어요. 엑셀로 결제내역을 등록해주세요!`;
-
-    const onClick = () => {
-        setIsExcelModalConfirmOpen(true);
-    };
-
-    console.log('codefCardDetail', codefCardHistory.data);
-    console.log('currentCodefCard', currentCodefCard?.id);
-
-    useEffect(() => {
-        if (!codefCardHistory || !currentCodefCard) return;
-
-        if (currentCodefCard) {
-            setTopLineBanner({
-                text: topLineBannerText,
-                id: currentCodefCard.id,
-                theme: 'waring',
-                type: 'button',
-                closeButton: true,
-                onClick: onClick,
-            });
-        }
-    }, [currentCodefCard]);
-
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
@@ -60,6 +26,9 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                 {text: '카드 상세', active: true},
             ]}
         >
+            {/* 페이지플래시 핸들러 */}
+            <CreditCardPageFlashHandler uploadExcelModalConfirmOpen={() => setIsExcelModalConfirmOpen(true)} />
+
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
                     <CreditCardProfilePanel />
@@ -100,10 +69,14 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                     />
                 )}
                 {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
+
+                {/* 결제내역 엑셀 업로드 모달 */}
                 <BillingHistoryExcelUploadModal
                     isOpened={isExcelUploadModalOpen}
                     onClose={() => setIsExcelUploadModalOpen(false)}
                 />
+
+                {/* 결제내역 엑셀 업로드 모달 컨펌 */}
                 <UploadBillingHistoryExcelModalConfirm
                     isOpened={isExcelModalConfirmOpen}
                     onClose={() => setIsExcelModalConfirmOpen(false)}
