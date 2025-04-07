@@ -1,8 +1,10 @@
-import { cn } from '^public/lib/utils';
-import { Card } from '^public/components/ui/card';
-import { Badge } from '^public/components/ui/badge';
-import { Progress } from '^public/components/ui/progress';
+import { LinkTo } from '^components/util/LinkTo';
 import { ReviewCampaignDto } from '^models/ReviewCampaign/type/ReviewCampaign.dto';
+import { OrgReviewCampaignDetailPageRoute } from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
+import { Badge } from '^public/components/ui/badge';
+import { Card } from '^public/components/ui/card';
+import { Progress } from '^public/components/ui/progress';
+import { cn } from '^public/lib/utils';
 import { intlDateLong } from '^utils/dateTime';
 
 interface RequestItemCardProps {
@@ -65,41 +67,43 @@ export const RequestItemCard = ({ item }: RequestItemCardProps) => {
     const dateText = getDateText(item, isFinished);
 
     return (
-        <Card className="p-7 space-y-5 bg-white hover:shadow-lg cursor-pointer">
-            <div className="flex justify-between items-center">
-                <Badge 
-                    className={cn(
-                        'text-white px-2',
-                        getBadgeColor(isFinished, isClosed)
-                    )}
-                >
-                    {statusText}
-                </Badge>
-                <div className={cn('text-sm', getTextColor(isClosed))}>
-                    {dateText}
+        <LinkTo href={OrgReviewCampaignDetailPageRoute.path(item.organizationId, item.id)}>
+            <Card className="p-7 space-y-5 bg-white hover:shadow-lg cursor-pointer">
+                <div className="flex justify-between items-center">
+                    <Badge
+                        className={cn(
+                            'text-white px-2',
+                            getBadgeColor(isFinished, isClosed)
+                        )}
+                    >
+                        {statusText}
+                    </Badge>
+                    <div className={cn('text-sm', getTextColor(isClosed))}>
+                        {dateText}
+                    </div>
                 </div>
-            </div>
-            
-            <div className={cn('text-md line-clamp-2', getTextColor(isClosed))}>
-                {item.title}
-            </div>
-            
-            <div className="space-y-1">
-                <div className={cn('text-sm', getTextColor(isClosed))}>
-                    제출 현황 ({item.submittedResponseCount}명/{item.totalResponseCount}명)
+
+                <div className={cn('text-md line-clamp-2', getTextColor(isClosed))}>
+                    {item.title}
                 </div>
-                <div
-                    className="flex items-center justify-between gap-4 font-medium"
-                    style={{ color: progressColor }}
-                >
-                    <Progress
-                        value={progressPercent}
-                        className="h-4 bg-gray-100"
-                        indicatorStyle={{ backgroundColor: progressColor }}
-                    />
-                    {progressPercent}%
+
+                <div className="space-y-1">
+                    <div className={cn('text-sm', getTextColor(isClosed))}>
+                        제출 현황 ({item.submittedResponseCount}명/{item.totalResponseCount}명)
+                    </div>
+                    <div
+                        className="flex items-center justify-between gap-4 font-medium"
+                        style={{ color: progressColor }}
+                    >
+                        <Progress
+                            value={progressPercent}
+                            className="h-4 bg-gray-100"
+                            indicatorStyle={{ backgroundColor: progressColor }}
+                        />
+                        {progressPercent}%
+                    </div>
                 </div>
-            </div>
-        </Card>
+            </Card>
+        </LinkTo>
     );
 };
