@@ -12,6 +12,9 @@ export class ReviewCampaignDto {
     authorId: number | null; // 작성자 FK
     title: string; // 요청 제목
     description: string; // 요청 내용
+    totalResponseCount: number; // 총 대상 응답 수
+    submittedResponseCount: number; // 총 제출된 대상 응답 수
+    notSubmittedResponseCount: number; // 총 미제출된 대상 응답 수
     @TypeCast(() => Date) startAt: Date; // 시작일시
     @TypeCast(() => Date) finishAt: Date; // 마감일시
     @TypeCast(() => Date) approvedAt: Date | null; // 승인완료일시
