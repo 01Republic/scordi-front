@@ -1,10 +1,11 @@
+import { memo } from "react";
 
 interface BusinessTypeSectionProps {
     isPersonal: boolean;
     setIsPersonal: (value: boolean) => void;
 }
 
-export const BusinessTypeSection = ({ isPersonal, setIsPersonal }: BusinessTypeSectionProps) => {
+export const BusinessTypeSection = memo(({ isPersonal, setIsPersonal }: BusinessTypeSectionProps) => {
     return (
         <section className="relative mb-12">
             <div className="mb-4">
@@ -45,4 +46,6 @@ export const BusinessTypeSection = ({ isPersonal, setIsPersonal }: BusinessTypeS
             </div>
         </section>
     );
-}; 
+});
+
+BusinessTypeSection.displayName = 'BusinessTypeSection';

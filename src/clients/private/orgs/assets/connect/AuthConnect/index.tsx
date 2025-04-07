@@ -5,11 +5,11 @@ import { SlideUpModal } from "^components/modals/_shared/SlideUpModal";
 import { ConnectMethodCard } from "^components/pages/v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard";
 import { CardAccountsStaticData } from "^models/CodefAccount/card-accounts-static-data";
 import { CreateCreditCardDto } from "^models/CreditCard/type";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BusinessTypeSection } from "../ManualConnect/BusinessTypeSection";
 
-export const AuthConnectPage = () => {
+export const AuthConnectPage = memo(() => {
     const [isPersonal, setIsPersonal] = useState(false);
     const cardForm = useForm<CreateCreditCardDto>();
     const [selectedCard, setSelectedCard] = useState<CardAccountsStaticData | null>(null);
@@ -70,4 +70,6 @@ export const AuthConnectPage = () => {
             </MainContainer>
         </MainLayout>
     );
-};
+});
+
+AuthConnectPage.displayName = 'AuthConnectPage';

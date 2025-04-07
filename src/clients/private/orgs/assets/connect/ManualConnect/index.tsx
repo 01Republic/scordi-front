@@ -4,13 +4,13 @@ import { CreateBankAccountRequestDto } from "^models/BankAccount/type";
 import { BankAccountsStaticData } from "^models/CodefAccount/bank-account-static-data";
 import { CardAccountsStaticData } from "^models/CodefAccount/card-accounts-static-data";
 import { CreateCreditCardDto } from "^models/CreditCard/type";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BankSelectionSection } from "./BankSelectionSection";
 import { BusinessTypeSection } from "./BusinessTypeSection";
 import { CardSelectionSection } from "./CardSelectionSection";
 
-export const ManualConnectPage = () => {
+export const ManualConnectPage = memo(() => {
     const [isPersonal, setIsPersonal] = useState(false);
     const bankForm = useForm<CreateBankAccountRequestDto>();
     const cardForm = useForm<CreateCreditCardDto>();
@@ -50,4 +50,6 @@ export const ManualConnectPage = () => {
             </MainContainer>
         </MainLayout>
     );
-};
+});
+
+ManualConnectPage.displayName = 'ManualConnectPage';

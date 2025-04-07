@@ -171,4 +171,6 @@ export const BankSelectionSection = memo(function BankSelectionSection({ onSelec
             </FadeUp>
         </section>
     );
-}); 
+});
+
+BankSelectionSection.displayName = 'BankSelectionSection';

@@ -249,4 +249,6 @@ export const CardSelectionSection = memo(function CardSelectionSection({ onSelec
             </FadeUp>
         </section>
     );
-}); 
+});
+
+CardSelectionSection.displayName = 'CardSelectionSection';

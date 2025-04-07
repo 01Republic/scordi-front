@@ -6,9 +6,11 @@ import { OrgConnectAutoPageRoute } from "^pages/orgs/[id]/assets/connect/auto";
 import { Button } from "^public/components/ui/button";
 import { Checkbox } from "^public/components/ui/checkbox";
 import { Label } from "^public/components/ui/label";
-import router from "next/router";
+import { useRouter } from "next/router";
+import { memo } from "react";
 
-export const SelectAutoOrManualPage = () => {
+export const SelectAutoOrManualPage = memo(() => {
+    const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
 
     return (
@@ -51,4 +53,6 @@ export const SelectAutoOrManualPage = () => {
             </MainContainer>
         </MainLayout>
     );
-};
+});
+
+SelectAutoOrManualPage.displayName = 'SelectAutoOrManualPage';
