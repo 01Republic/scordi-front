@@ -1,5 +1,6 @@
 import { orgIdParamState, useRouterIdParamState } from "^atoms/common";
 import { ManualConnectPage } from "^clients/private/orgs/assets/connect/ManualConnect";
+import { useCurrentOrg } from "^models/Organization/hook";
 import { pathReplace, pathRoute } from '^types/pageRoute.type';
 
 export const OrgConnectManualPageRoute = pathRoute({
@@ -9,7 +10,9 @@ export const OrgConnectManualPageRoute = pathRoute({
 
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    if (!orgId) return <></>;
+    useCurrentOrg(orgId);
+
+    if (!orgId || isNaN(orgId)) return <></>;
 
     return <ManualConnectPage />;
 }
