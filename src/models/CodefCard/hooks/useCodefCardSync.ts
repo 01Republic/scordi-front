@@ -1,9 +1,9 @@
 import {toast} from 'react-hot-toast';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {ApiError} from '^api/api';
 import {codefCardApi} from '^models/CodefCard/api';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {atom, useRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
     codefCardSyncQueueAtom,
     CodefCardSyncRunningItem,
@@ -11,9 +11,6 @@ import {
     useQueue,
 } from '^models/CodefCard/hooks/useCodefCardSyncQueue';
 import {confirm2} from '^components/util/dialog';
-import {useQuery} from '@tanstack/react-query';
-import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
-import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
 
 // export const isCodefCardSyncRunningAtom = atom({
 //     key: 'isCodefCardSyncRunningAtom',
@@ -182,12 +179,3 @@ function catchError(err: ApiError) {
     toast.error(apiError.message);
     console.error(apiError);
 }
-
-// new 코드에프 카드 결제내역조회
-export const useGetCodefCardHistory = (orgId: number, cardId?: number, params?: FindAllCardHistoryQueryDto) => {
-    return useQuery({
-        queryKey: ['codefCard', cardId],
-        queryFn: () => codefCardApi.histories(orgId, cardId as number).then((res) => res.data),
-        enabled: !!cardId || !!orgId,
-    });
-};
