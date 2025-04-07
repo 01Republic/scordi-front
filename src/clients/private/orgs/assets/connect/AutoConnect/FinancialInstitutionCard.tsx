@@ -8,12 +8,9 @@ interface FinancialInstitutionCardProps {
     onClick: () => void;
 }
 
-export const FinancialInstitutionCard = memo(({
-    logo,
-    title,
-    isSelected,
-    onClick,
-}: FinancialInstitutionCardProps) => {
+export const FinancialInstitutionCard = memo((props: FinancialInstitutionCardProps) => {
+    const { logo, title, isSelected, onClick } = props;
+
     return (
         <div
             className={`card card-body p-6 bg-base-100 shadow-xl transition box-border no-selectable hover:shadow-2xl cursor-pointer ${isSelected ? '!border !border-scordi !bg-scordi-50' : '!border !border-white !bg-white'

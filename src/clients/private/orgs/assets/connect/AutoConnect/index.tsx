@@ -1,13 +1,20 @@
+import { orgIdParamState } from '^atoms/common';
 import { MainLayout } from '^clients/private/_layouts/MainLayout';
 import { MainContainer } from '^clients/private/_layouts/MainLayout/MainContainer';
 import { BankAccountsStaticData } from '^models/CodefAccount/bank-account-static-data';
 import { CardAccountsStaticData } from '^models/CodefAccount/card-accounts-static-data';
+import { OrgConnectAutoSubscriptionPageRoute } from '^pages/orgs/[id]/assets/connect/auto/subscription';
+import { Button } from '^public/components/ui/button';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { BusinessTypeSection } from '../ManualConnect/BusinessTypeSection';
 import { BankSelectionSection } from './BankSelectionSection';
 import { CardSelectionSection } from './CardSelectionSection';
 
 export const AutoConnectPage = () => {
+    const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
     const [isPersonal, setIsPersonal] = useState(false);
     const [selectedBanks, setSelectedBanks] = useState<BankAccountsStaticData[]>([]);
     const [selectedCards, setSelectedCards] = useState<CardAccountsStaticData[]>([]);
@@ -64,7 +71,18 @@ export const AutoConnectPage = () => {
                     onSelectAll={handleSelectAllCards}
                 />
 
+                <div className="flex justify-center my-20">
+                    <Button variant="scordi" size="lg" className="w-64"
+                        onClick={() => {
+                            router.push(OrgConnectAutoSubscriptionPageRoute.path(orgId));
+                        }}
+                    >
+                        다음
+                    </Button>
+                </div>
             </MainContainer>
         </MainLayout>
     );
 };
+
+AutoConnectPage.displayName = 'AutoConnectPage';

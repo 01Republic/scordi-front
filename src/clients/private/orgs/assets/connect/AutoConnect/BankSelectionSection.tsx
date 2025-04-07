@@ -1,19 +1,19 @@
 import { BankAccountsStaticData } from "^models/CodefAccount/bank-account-static-data";
+import { memo } from "react";
 import { FinancialInstitutionCard } from './FinancialInstitutionCard';
 import { SelectAllToggle } from './SelectAllToggle';
 
-export const BankSelectionSection = ({
-    selectedBanks,
-    onSelect,
-    onSelectAll
-}: {
+interface BankSelectionSectionProps {
     selectedBanks: BankAccountsStaticData[];
     onSelect: (bank: BankAccountsStaticData) => void;
     onSelectAll: () => void;
-}) => {
+}
+
+export const BankSelectionSection = memo((props: BankSelectionSectionProps) => {
+    const { selectedBanks, onSelect, onSelectAll } = props;
     const banks = BankAccountsStaticData.findByPersonal(false);
     return (
-        <div>
+        <div className="mb-12">
             <div className="flex items-center justify-between py-4">
                 <h2 className="leading-none text-xl font-semibold mb-2">은행</h2>
                 <SelectAllToggle
@@ -35,4 +35,6 @@ export const BankSelectionSection = ({
             </div>
         </div>
     );
-}; 
+});
+
+BankSelectionSection.displayName = 'BankSelectionSection';
