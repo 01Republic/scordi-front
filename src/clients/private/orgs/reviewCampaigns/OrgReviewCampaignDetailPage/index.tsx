@@ -28,6 +28,8 @@ export default function OrgReviewCampaignDetailPage() {
         return '진행 중';
     })();
 
+    console.log(reviewCampaign);
+
     const progressValue = reviewCampaign?.submittedResponseCount
         ? Math.round((reviewCampaign.submittedResponseCount / reviewCampaign.totalResponseCount) * 100)
         : 0;
