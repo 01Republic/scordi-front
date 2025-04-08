@@ -8,7 +8,7 @@ import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer'
 import {BankSelectionSectionForSubscription} from './BankSelectionSectionForSubscription';
 import {BusinessTypeSectionForSubscription} from './BusinessTypeSectionForSubscription';
 import {CardSelectionSectionForSubscription} from './CardSelectionSectionForSubscription';
-import ClappingHands from '/src/images/ClappingHands.png';
+import ClappingHands from '^images/clappingHands.png';
 
 export const OrgAssetCreateSubscriptionPage = memo(() => {
     const [step, setStep] = useState(1);

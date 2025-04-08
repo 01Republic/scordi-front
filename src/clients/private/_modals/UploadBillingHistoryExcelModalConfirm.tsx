@@ -1,6 +1,6 @@
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {X, Sparkles} from 'lucide-react';
-import excelIcon from 'src/images/icon/excelIcon.png';
+import excelIcon from '^images/icon/excelIcon.png';
 import Image from 'next/image';
 
 interface UploadBillingHistoryExcelModalConfirmProps {
