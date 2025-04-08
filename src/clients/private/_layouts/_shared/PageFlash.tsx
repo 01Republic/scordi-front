@@ -27,7 +27,7 @@ export const PageFlash = memo((props: PageFlashProps) => {
 
     const {id, text, type = 'text', theme = 'notice'} = props;
     const {url, onClick} = props;
-    const {animation, icon, fixed, closeButton, timeout} = props;
+    const {animation = false, icon, fixed = false, closeButton = false, timeout} = props;
 
     // useEffect(() => {
     //     if (!timeout) return;
@@ -43,11 +43,9 @@ export const PageFlash = memo((props: PageFlashProps) => {
         <PageFlashPortal>
             <div
                 id={`topLineBanner-${id}`}
-                className={cn('w-full h-[3rem] top-0 left-0 overflow-hidden transition-all duration-500', {
-                    '!h-[3rem]': isOpen,
-                    'absolute top-0 z-[999]': fixed,
-                    relative: !fixed,
-                })}
+                className={`w-full top-0 left-0 overflow-hidden transition-all duration-500 ${
+                    isOpen ? 'h-[3rem]' : 'h-0'
+                } ${fixed ? 'absolute top-0 z-[999]' : 'relative'}`}
             >
                 <div
                     className={cn(

@@ -4,12 +4,12 @@ import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {UploadBillingHistoryExcelModalConfirm} from '^clients/private/_modals/UploadBillingHistoryExcelModalConfirm';
-import {BillingHistoryExcelUploadModal} from '../OrgCreditCardShowPage/CreditCardModals/BillingHistoryExcelUploadModal';
+import {BillingHistoryExcelUploadModal} from './CreditCardModals/BillingHistoryExcelUploadModal';
 import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTabContent} from './tab-panes';
 import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
-import {CreditCardPageFlashHandler} from 'src/clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CreditCardPageFlashHandler';
+import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();

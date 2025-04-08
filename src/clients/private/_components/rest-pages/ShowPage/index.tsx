@@ -23,7 +23,7 @@ export const ShowPage = memo((props: ShowPageProps) => {
 
     return (
         <MainLayout>
-            <div id="page-flash" className="relative h-0 overflow-visible" />
+            <div id="page-flash" className="relative" />
             <MainContainer>
                 {breadcrumb && <Breadcrumb paths={breadcrumb} />}
                 {children}
