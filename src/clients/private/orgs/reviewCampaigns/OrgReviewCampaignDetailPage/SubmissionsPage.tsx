@@ -18,6 +18,7 @@ import {ChevronDown, MoreVertical, Search} from 'lucide-react';
 import {Spinner} from '^components/util/loading';
 import {reviewResponseApi} from '^models/ReviewResponse/api';
 import {cn} from '^public/lib/utils';
+import toast from 'react-hot-toast';
 
 export default function OrgReviewCampaignDetailSubmissionsPage() {
     const router = useRouter();
@@ -36,9 +37,18 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
     const handleResend = async (responseId: number) => {
         try {
             await reviewResponseApi.resend(orgId, reviewCampaignId, responseId);
-            // refresh();
+            toast.success('알림이 재전송되었습니다.');
         } catch (error) {
-            console.error('Failed to resend:', error);
+            toast.error('알림 재전송에 실패했습니다.');
+        }
+    };
+
+    const handleRemove = async (responseId: number) => {
+        try {
+            await reviewResponseApi.destroy(orgId, reviewCampaignId, responseId);
+            toast.success('응답이 삭제되었습니다.');
+        } catch (error) {
+            toast.error('응답 삭제에 실패했습니다.');
         }
     };
 
@@ -203,9 +213,21 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                                                 </Button>
 
                                                 {!response.submittedAt && (
-                                                    <Button variant="ghost" size="icon">
-                                                        <MoreVertical className="h-5 w-5" />
-                                                    </Button>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button variant="ghost" size="icon">
+                                                                <MoreVertical className="h-5 w-5" />
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="start" className="bg-white">
+                                                            <DropdownMenuItem
+                                                                className="cursor-pointer hover:bg-gray-100"
+                                                                onClick={() => handleRemove(response.id)}
+                                                            >
+                                                                삭제
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
                                                 )}
                                             </div>
                                         </div>
