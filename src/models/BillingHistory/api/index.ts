@@ -101,13 +101,3 @@ export const appBillingHistoryApi = {
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 };
-
-export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {
-    params.itemsPerPage = 1;
-    return billingHistoryApi.index(params).then(async (res) => {
-        params.itemsPerPage = res.data.pagination.totalItemCount;
-        if (params.itemsPerPage === 0) return [];
-        const result = await billingHistoryApi.index(params);
-        return result.data.items;
-    });
-};
