@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import Tippy from '@tippyjs/react';
 import {orgIdParamState} from '^atoms/common';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -9,14 +8,19 @@ import {BillingHistoryTableControl} from './BillingHistoryTableControl';
 import {BillingHistoryTableHeaderOfCreditCard} from './BillingHistoryTableHeaderOfCreditCard';
 import {BillingHistoryRowOfCreditCard} from './BillingHistoryRowOfCreditCard';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {SubscriptionDto} from '^models/Subscription/types';
 import {confirm2, confirmed} from '^components/util/dialog';
-import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 
-export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHistoryListOfCreditCardTabContent() {
+interface BillingHistoryListOfCreditCardTabContentProps {
+    excelUploadModalClose: () => void;
+}
+
+export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHistoryListOfCreditCardTabContent(
+    props: BillingHistoryListOfCreditCardTabContentProps,
+) {
+    const {excelUploadModalClose} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const {currentCreditCard} = useCurrentCreditCard();
     const {isLoading, isEmptyResult, isNotLoaded, search, result, reload, movePage, changePageSize, orderBy} =
@@ -72,7 +76,7 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
                 hideTopPaginator
                 hideBottomPaginator={totalItemCount === 0}
             >
-                <BillingHistoryTableControl />
+                <BillingHistoryTableControl excelUploadModalClose={excelUploadModalClose} />
                 {isEmptyResult ? (
                     <EmptyTable message="결제된 내역이 없어요." />
                 ) : (

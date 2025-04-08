@@ -43,7 +43,7 @@ export const SuccessSign = () => {
                         onClick={onClick}
                         className={cn('btn btn-scordi w-full text-18', isLoading && 'link_to-loading')}
                     >
-                        {isLoading ? '' : '스코디 바로가기'}
+                        {isLoading ? '' : '구독 관리 시작하기'}
                     </button>
                 </section>
             </article>

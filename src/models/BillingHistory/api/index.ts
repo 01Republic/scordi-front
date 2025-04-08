@@ -13,6 +13,8 @@ import {
     UpdateBillingHistoryRequestDto,
 } from '^models/BillingHistory/type';
 import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
+import {UploadFileDto} from '^api/file.api';
+import {AxiosProgressEvent} from 'axios';
 
 const NAMESPACE = 'billing_histories';
 
@@ -77,6 +79,13 @@ export const billingHistoryApi = {
             return api.get(url, {params}).then(listDtoOf(BillingHistoriesMonthlySumBySubscriptionDto));
         },
     },
+
+    creditCardApi: {
+        createByExcel: (orgId: number, creditCardId: number, file: FormData) => {
+            const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/by-excel`;
+            return api.post<void>(url, file);
+        },
+    },
 };
 
 export const appBillingHistoryApi = {
@@ -100,14 +109,4 @@ export const appBillingHistoryApi = {
         const url = `/${NAMESPACE}/v2/${billingHistoryId}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
-};
-
-export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {
-    params.itemsPerPage = 1;
-    return billingHistoryApi.index(params).then(async (res) => {
-        params.itemsPerPage = res.data.pagination.totalItemCount;
-        if (params.itemsPerPage === 0) return [];
-        const result = await billingHistoryApi.index(params);
-        return result.data.items;
-    });
 };
