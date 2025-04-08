@@ -45,7 +45,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, 
 
     return (
         <>
-            <div className={'w-full relative'} ref={wrapperRef}>
+            <div className="w-full relative bg-white z-50" ref={wrapperRef}>
                 <Input
                     type={'text'}
                     id={'search'}
@@ -63,16 +63,16 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, 
                     {teamMembers.length === formData.teamMemberIds.length && (
                         <div className={'py-32 text-center text-gray-500'}>선택 가능한 구성원이 없습니다.</div>
                     )}
-                    {filteredTeamMembers.map((teamMember) => {
-                        if (formData.teamMemberIds.includes(teamMember.id)) return <></>;
-                        return (
-                            <TeamMemberSelectItem
-                                key={teamMember.id}
-                                teamMember={teamMember}
-                                onSelect={onSelectMember}
-                            />
-                        );
-                    })}
+                    {filteredTeamMembers.map(
+                        (teamMember) =>
+                            !formData.teamMemberIds.includes(teamMember.id) && (
+                                <TeamMemberSelectItem
+                                    key={teamMember.id}
+                                    teamMember={teamMember}
+                                    onSelect={onSelectMember}
+                                />
+                            ),
+                    )}
                 </div>
             </div>
             <div className={'flex justify-between items-center text-sm'}>

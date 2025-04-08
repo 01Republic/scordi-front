@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import Image from 'next/image';
@@ -7,17 +7,16 @@ import GoogleIcon from '^public/logo/icons/ic_google.png';
 import {Button} from '^public/components/ui/button';
 import {orgIdParamState} from '^atoms/common';
 import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
-import {createReviewCampaignRequestAtom, reviewCampaignCreateStepAtom, useReviewCampaignCreateStep} from '../atom';
+import {createReviewCampaignRequestAtom, useReviewCampaignCreateStep} from '../atom';
 import {SelectedTeamMemberListItem} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/RequestAddStep2/SelectedTeamMemberListItem';
 import {TeamMemberSearch} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/RequestAddStep2/TeamMemberSearch';
-import {InputLabel, StepCard, StepCardBody, StepSubmitButton} from '../components';
+import {StepCard, StepCardBody, StepSubmitButton} from '../components';
 
 export const RequestAddStep2 = () => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {getStep, setFoldStep, changeStep} = useReviewCampaignCreateStep();
     const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
-    const [isFolded, setIsFolded] = useState(false);
     const {result, searchAndUpdateCounter} = useTeamMembers();
     const step = getStep(2);
     const teamMembers = result.items;
@@ -30,9 +29,6 @@ export const RequestAddStep2 = () => {
             itemsPerPage: 0,
         });
     };
-
-    // const onPrevious = () => setStep((s) => s - 1);
-    // const onNext = () => setStep((s) => s + 1);
 
     const removeSelectedMember = (member: TeamMemberDto) => {
         setFormData((prev) => ({
@@ -89,17 +85,17 @@ export const RequestAddStep2 = () => {
                     <TeamMemberSearch teamMembers={teamMembers} onSelectMember={onSelectMember} />
                 </div>
 
-                <div className={'grid grid-cols-2 gap-2'}>
-                    {teamMembers.map((teamMember, i) => {
-                        if (!formData.teamMemberIds.includes(teamMember.id)) return <></>;
-                        return (
-                            <SelectedTeamMemberListItem
-                                key={i}
-                                teamMember={teamMember}
-                                onRemove={removeSelectedMember}
-                            />
-                        );
-                    })}
+                <div className="grid grid-cols-2 gap-2">
+                    {teamMembers.map(
+                        (teamMember) =>
+                            formData.teamMemberIds.includes(teamMember.id) && (
+                                <SelectedTeamMemberListItem
+                                    key={teamMember.id}
+                                    teamMember={teamMember}
+                                    onRemove={removeSelectedMember}
+                                />
+                            ),
+                    )}
                 </div>
 
                 <div className={'flex justify-center space-x-4'}>
