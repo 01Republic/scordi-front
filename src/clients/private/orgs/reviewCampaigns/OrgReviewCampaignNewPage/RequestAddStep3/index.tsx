@@ -37,15 +37,18 @@ export const RequestAddStep3 = () => {
             return false;
         }
 
-        if (date && time) {
-            const [hours, minutes] = time.split(':').map(Number);
-            date.setHours(hours, minutes);
-
-            setFormData((prev) => ({
-                ...prev,
-                finishAt: date,
-            }));
+        if (!date || !time) {
+            toast.error('마감일 및 시간을 입력해주세요.');
+            return false;
         }
+
+        const [hours, minutes] = time.split(':').map(Number);
+        date.setHours(hours, minutes);
+
+        setFormData((prev) => ({
+            ...prev,
+            finishAt: date,
+        }));
 
         const syncConfirm = () =>
             confirm2(

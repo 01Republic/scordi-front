@@ -4,12 +4,12 @@ import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/pop
 import {Button} from '^public/components/ui/button';
 
 interface TimePickerProps {
-    onSelect?: (time: string) => void;
+    onSelect: (time: string) => void;
     time?: string;
 }
 
 export const TimePicker = (props: TimePickerProps) => {
-    const {time, onSelect = () => null} = props;
+    const {time, onSelect} = props;
 
     const times = Array.from({length: 24}, (_, h) =>
         ['00', '30'].map((m) => `${String(h).padStart(2, '0')}:${m}`),

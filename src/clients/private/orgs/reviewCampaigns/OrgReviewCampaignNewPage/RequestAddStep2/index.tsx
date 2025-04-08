@@ -42,7 +42,6 @@ export const RequestAddStep2 = () => {
     };
 
     const onSelectMember = (member: TeamMemberDto) => {
-        console.log('onSelectMember', member);
         setFormData((prev) => ({
             ...prev,
             teamMemberIds: [...prev.teamMemberIds, member.id],

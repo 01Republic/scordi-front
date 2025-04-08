@@ -25,8 +25,6 @@ export const OrgReviewCampaignListPage = () => {
     });
     const campaigns = result.items;
 
-    console.log(campaigns);
-
     /* TODO: 검색어 처리 */
     const onSearch = debounce((keyword?: string) => {
         return search((q) => ({
