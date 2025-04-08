@@ -56,15 +56,7 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
     const countPending = reviewResponses ? reviewResponses.length - countSubmitted : 0;
     const totalCount = reviewResponses?.length || 0;
 
-    if (isLoading) {
-        return (
-            <OrgReviewCampaignDetailLayout>
-                <div className="flex justify-center items-center p-8">
-                    <Spinner />
-                </div>
-            </OrgReviewCampaignDetailLayout>
-        );
-    }
+    if (isLoading) return null;
 
     return (
         <OrgReviewCampaignDetailLayout>
