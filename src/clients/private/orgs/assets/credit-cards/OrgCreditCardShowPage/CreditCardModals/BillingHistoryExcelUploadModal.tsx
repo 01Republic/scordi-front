@@ -1,24 +1,53 @@
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {ChevronLeft} from 'lucide-react';
+import cn from 'classnames';
 import {ExcelUploader} from '^clients/private/_modals/team-members/TeamMemberCreateByExcelModal/ExcelUploader';
 import React, {useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {useBillingHistoryListOfCreditCard, useCreateCreditCardBillingHistoryByExcel} from '^models/BillingHistory/hook';
+import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {errorToast} from '^api/api';
+import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
 
 interface BillingHistoryExcelUploadModalProps {
     isOpened: boolean;
-    onClose: () => any;
-    onCreate?: () => any;
+    onClose: () => void;
+    onCreate?: () => void;
 }
 
 export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadModalProps) => {
     const {isOpened, onClose, onCreate} = props;
     const orgId = useRecoilValue(orgIdParamState);
+    const {currentCreditCard} = useCurrentCreditCard();
     const [file, setFile] = useState<File>();
     const [errorMsg, setErrorMsg] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const {reload: reloadBillingHistoryListOfCreditCard} = useBillingHistoryListOfCreditCard();
+    const {reload: reloadSubscriptionListOfCreditCard} = useSubscriptionListOfCreditCard();
 
-    const onSubmit = () => {};
+    const {mutate, isPending} = useCreateCreditCardBillingHistoryByExcel();
+
+    if (!currentCreditCard) return <></>;
+
+    const onSubmit = () => {
+        if (!orgId || !currentCreditCard.id || !file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+        mutate(
+            {orgId, creditCardId: currentCreditCard.id, file: formData},
+            {
+                onSuccess: () => {
+                    reloadBillingHistoryListOfCreditCard();
+                    reloadSubscriptionListOfCreditCard();
+                    onCreate && onCreate();
+                },
+                onError: (error: any) => {
+                    errorToast(error);
+                },
+            },
+        );
+    };
 
     return (
         <SlideUpModal
@@ -66,7 +95,7 @@ export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadM
                                 <ExcelUploader
                                     onChange={setFile}
                                     onReset={() => setErrorMsg('')}
-                                    isLoading={isLoading}
+                                    isLoading={isPending}
                                     errorMsg={errorMsg}
                                 />
                             </div>
@@ -77,11 +106,11 @@ export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadM
                         <button
                             type="button"
                             onClick={onSubmit}
-                            className={`btn btn-block ${
-                                !file || isLoading
-                                    ? 'btn-gray !text-gray-500 pointer-events-none !opacity-50'
-                                    : 'btn-scordi'
-                            } no-animation btn-animation`}
+                            className={cn('btn btn-block no-animation btn-animation', {
+                                'link_to-loading btn-scordi': isPending,
+                                'btn-gray !text-gray-500 pointer-events-none !opacity-50': !file,
+                                'btn-scordi': file,
+                            })}
                         >
                             추가하기
                         </button>
