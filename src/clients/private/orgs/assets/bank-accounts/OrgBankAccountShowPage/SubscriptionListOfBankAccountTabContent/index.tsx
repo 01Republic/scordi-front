@@ -11,13 +11,13 @@ import {SubscriptionTableRowOfBankAccount} from './SubscriptionTableRowOfBankAcc
 import {SubscriptionTableHeaderOfBankAccount} from './SubscriptionTableHeaderOfBankAccount';
 import {HelpCircle, Plus, RotateCw} from 'lucide-react';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
-import {NoSubscriptionFoundModal} from '^clients/private/_modals/NoSubscriptionFoundModal';
+import {BankDataFetchingIssueModal} from '^clients/private/_modals/BankDataFetchingIssueModal';
 
 export const SubscriptionListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
     const {isManuallyCreated} = useCurrentCodefCard();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
-    const [isNoSubscriptionFoundModalOpen, setIsNoSubscriptionFoundModalOpen] = useState(false);
+    const [isBankDataFetchingIssueModalOpen, setBankDataFetchingIssueModalOpen] = useState(false);
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useSubscriptionListOfBankAccount();
 
@@ -76,7 +76,7 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
 
                     <button
                         type="button"
-                        onClick={() => setIsNoSubscriptionFoundModalOpen(true)}
+                        onClick={() => setBankDataFetchingIssueModalOpen(true)}
                         className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
                     >
                         <HelpCircle className="size-4 fill-gray-500 text-white" />
@@ -108,9 +108,9 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
                 }}
                 bankAccountId={currentBankAccount.id}
             />
-            <NoSubscriptionFoundModal
-                isOpened={isNoSubscriptionFoundModalOpen}
-                onClose={() => setIsNoSubscriptionFoundModalOpen(false)}
+            <BankDataFetchingIssueModal
+                isOpened={isBankDataFetchingIssueModalOpen}
+                onClose={() => setBankDataFetchingIssueModalOpen(false)}
             />
         </section>
     );

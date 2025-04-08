@@ -9,7 +9,7 @@ import {CreditCardSubscriptionTableHeader} from './CreditCardSubscriptionTableHe
 import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
 import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
 import {HelpCircle, Plus, RotateCw} from 'lucide-react';
-import {NoSubscriptionFoundModal} from '^clients/private/_modals/NoSubscriptionFoundModal';
+import {BankDataFetchingIssueModal} from '^clients/private/_modals/BankDataFetchingIssueModal';
 
 export const SubscriptionListOfCreditCardTabContent = memo(() => {
     const {currentCreditCard} = useCurrentCreditCard();
@@ -106,7 +106,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                 }}
                 creditCardId={currentCreditCard.id}
             />
-            <NoSubscriptionFoundModal
+            <BankDataFetchingIssueModal
                 isOpened={isNoSubscriptionFoundModalOpen}
                 onClose={() => setIsNoSubscriptionFoundModalOpen(false)}
             />

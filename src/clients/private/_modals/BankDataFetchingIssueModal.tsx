@@ -7,7 +7,7 @@ interface NoSubscriptionFoundModalProps {
     onClose: () => void;
 }
 
-export const NoSubscriptionFoundModal = (props: NoSubscriptionFoundModalProps) => {
+export const BankDataFetchingIssueModal = (props: NoSubscriptionFoundModalProps) => {
     const {isOpened, onClose} = props;
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
@@ -25,12 +25,12 @@ export const NoSubscriptionFoundModal = (props: NoSubscriptionFoundModalProps) =
                         </div>
                         <div className="flex items-start gap-1">
                             <Dot className="stroke-[10] shrink-0 mt-1" />
-                            카드 : 만지 정지 해지된 카드, 재발급 이전 카드, 사업체 명의가 아닌 카드, 최근 3개월 이내
+                            카드 : 만기 정지 해지된 카드, 재발급 이전 카드, 사업체 명의가 아닌 카드, 최근 3개월 이내
                             결제내역만 불러오는 카드사의 경우
                         </div>
                     </div>
                 </div>
-                <button type="button" onClick={onClose} className="btn btn-md bg-gray-200 text-gray-500 text-15">
+                <button type="button" onClick={onClose} className="btn btn-md bg-gray-200 text-gray-500">
                     닫기
                 </button>
             </section>
