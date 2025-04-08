@@ -64,10 +64,10 @@ export const PageFlash = memo((props: PageFlashProps) => {
                         <button
                             type="button"
                             onClick={onClick}
-                            className="w-full flex items-center justify-center gap-1 text-18"
+                            className="w-full h-full flex items-center justify-center gap-1"
                         >
                             {displayIcon}
-                            <p dangerouslySetInnerHTML={{__html: text}} />
+                            <p className="text-14" dangerouslySetInnerHTML={{__html: text}} />
                         </button>
                     )}
 
@@ -87,7 +87,7 @@ export const PageFlash = memo((props: PageFlashProps) => {
                     ) : (
                         <X
                             size={14}
-                            className="absolute right-10 top-1/2 transform -translate-y-1/2 text-white cursor-pointer"
+                            className="absolute right-10 top-0 bottom-0 m-auto text-white cursor-pointer"
                             onClick={() => setIsOpen(false)}
                         />
                     )}
