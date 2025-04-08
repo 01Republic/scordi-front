@@ -9,21 +9,20 @@ export const useReviewCampaigns = (orgId: number, params: FindAllReviewCampaigns
     const [query, setQuery] = useState(params);
     const queryResult = useQuery({
         queryKey: ['useReviewCampaigns', orgId, query],
-        queryFn: () => reviewCampaignApi.index(orgId, params).then((res) => res.data),
+        queryFn: () => reviewCampaignApi.index(orgId, query).then((res) => res.data),
         enabled: !!orgId,
         initialData: Paginated.init(),
     });
 
-    const search = setQuery;
-    const movePage = (page: number, append = false) => {
-        return search((q) => ({...q, page}));
+    const movePage = (page: number) => {
+        return setQuery((q) => ({...q, page}));
     };
 
     return {
         ...queryResult,
         query,
         result: queryResult.data,
-        search,
+        search: setQuery,
         movePage,
     };
 };

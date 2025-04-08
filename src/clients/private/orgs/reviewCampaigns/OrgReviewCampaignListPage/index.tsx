@@ -1,8 +1,7 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {Plus} from 'lucide-react';
-import {orgIdParamState, useIdParam} from '^atoms/common';
+import {useIdParam} from '^atoms/common';
 import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
 import {LinkTo} from '^components/util/LinkTo';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -10,14 +9,14 @@ import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {RequestItemCard} from './RequestItemCard';
 import {RequestScopeHandler} from './RequestScopeHandler';
 import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
-import {reviewCampaignListAtom} from '^models/ReviewCampaign/atom';
 import {Button} from '^public/components/ui/button';
 import {useRouter} from 'next/router';
+import {Spinner} from '^components/util/loading';
 
 export const OrgReviewCampaignListPage = () => {
     const router = useRouter();
     const orgId = useIdParam('id');
-    const {search, result, movePage} = useReviewCampaigns(orgId, {
+    const {search, result, movePage, isFetching} = useReviewCampaigns(orgId, {
         where: {organizationId: orgId},
         relations: ['organization', 'author'],
         itemsPerPage: 9,
@@ -25,7 +24,6 @@ export const OrgReviewCampaignListPage = () => {
     });
     const campaigns = result.items;
 
-    /* TODO: 검색어 처리 */
     const onSearch = debounce((keyword?: string) => {
         return search((q) => ({
             ...q,
@@ -57,7 +55,21 @@ export const OrgReviewCampaignListPage = () => {
             ScopeHandler={RequestScopeHandler}
             onSearch={onSearch}
         >
-            {campaigns.length === 0 && (
+            {isFetching ? (
+                <Spinner />
+            ) : campaigns.length > 0 ? (
+                <>
+                    <div className={'grid grid-cols-3 gap-4'}>
+                        {campaigns.map((item, index) => (
+                            <RequestItemCard key={index} item={item} />
+                        ))}
+                    </div>
+                    {/* 하단 페이지네이션 */}
+                    <div className="flex justify-end my-10">
+                        <ListTablePaginator pagination={result.pagination} movePage={movePage} unit="개" />
+                    </div>
+                </>
+            ) : (
                 <div className="flex flex-col justify-center items-center h-80 text-gray-400 bg-white border rounded-lg space-y-4 text-12">
                     현재 추가된 요청이 없네요
                     <br />새 요청을 추가하시겠어요?
@@ -71,19 +83,6 @@ export const OrgReviewCampaignListPage = () => {
                         <span>요청 추가하기</span>
                     </Button>
                 </div>
-            )}
-            {campaigns.length > 0 && (
-                <>
-                    <div className={'grid grid-cols-3 gap-4'}>
-                        {campaigns.map((item, index) => (
-                            <RequestItemCard key={index} item={item} />
-                        ))}
-                    </div>
-                    {/* 하단 페이지네이션 */}
-                    <div className="flex justify-end my-10">
-                        <ListTablePaginator pagination={result.pagination} movePage={movePage} unit="개" />
-                    </div>
-                </>
             )}
         </ListPage>
     );
