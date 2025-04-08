@@ -13,6 +13,8 @@ import {
     UpdateBillingHistoryRequestDto,
 } from '^models/BillingHistory/type';
 import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
+import {UploadFileDto} from '^api/file.api';
+import {AxiosProgressEvent} from 'axios';
 
 const NAMESPACE = 'billing_histories';
 
@@ -75,6 +77,13 @@ export const billingHistoryApi = {
             const params = {organizationId: orgId, year};
             const url = `/billing_histories/status/monthly-sum`;
             return api.get(url, {params}).then(listDtoOf(BillingHistoriesMonthlySumBySubscriptionDto));
+        },
+    },
+
+    creditCardApi: {
+        createByExcel: (orgId: number, creditCardId: number, file: FormData) => {
+            const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/by-excel`;
+            return api.post<void>(url, file);
         },
     },
 };
