@@ -1,14 +1,14 @@
-import { useOrgIdParam } from '^atoms/common';
-import { ListPage } from '^clients/private/_components/rest-pages/ListPage';
-import { ListTable, ListTableContainer } from '^clients/private/_components/table/ListTable';
+import {memo} from 'react';
+import {debounce} from 'lodash';
+import {useOrgIdParam} from '^atoms/common';
+import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
-import { useCreditCardListForListPage } from '^models/CreditCard/hook';
-import { debounce } from 'lodash';
-import { memo } from 'react';
-import { AddAssetDropdown } from '../../connect/AddAssetDropdown';
-import { CreditCardScopeHandler } from './CreditCardScopeHandler';
-import { CreditCardTableHeader } from './CreditCardTableHeader';
-import { CreditCardTableRow } from './CreditCardTableRow';
+import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {AddAssetDropdown} from '../../create-steps/AddAssetDropdown';
+import {CreditCardScopeHandler} from './CreditCardScopeHandler';
+import {CreditCardTableHeader} from './CreditCardTableHeader';
+import {CreditCardTableRow} from './CreditCardTableRow';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useOrgIdParam();
@@ -27,7 +27,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     } = useCreditCardListForListPage();
 
     const onReady = () => {
-        search({ where: { organizationId }, order: { id: 'DESC' } });
+        search({where: {organizationId}, order: {id: 'DESC'}});
     };
 
     const onSearch = debounce((keyword?: string) => {
@@ -40,14 +40,14 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     }, 500);
 
     const refresh = () => {
-        search({ ...query, keyword: undefined, page: 1, itemsPerPage: 30 }, false, true);
+        search({...query, keyword: undefined, page: 1, itemsPerPage: 30}, false, true);
     };
 
     return (
         <ListPage
             onReady={onReady}
             onUnmount={() => reset()}
-            breadcrumb={['자산', '결제수단', { text: '카드', active: true }]}
+            breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             Title={() => <TitleScopeHandler />}
             Buttons={() => <AddAssetDropdown />}
             ScopeHandler={CreditCardScopeHandler}
@@ -69,7 +69,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <CreditCardTableHeader orderBy={orderBy} />}
-                    Row={({ item }) => <CreditCardTableRow creditCard={item} reload={reload} />}
+                    Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
                 />
             </ListTableContainer>
         </ListPage>

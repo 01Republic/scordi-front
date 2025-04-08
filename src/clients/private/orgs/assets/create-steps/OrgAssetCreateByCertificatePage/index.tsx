@@ -1,17 +1,20 @@
-import { MainLayout } from "^clients/private/_layouts/MainLayout";
-import { MainContainer } from "^clients/private/_layouts/MainLayout/MainContainer";
-import { NextImage } from "^components/NextImage";
-import { BankAccountsStaticData } from "^models/CodefAccount/bank-account-static-data";
-import { CardAccountsStaticData } from "^models/CodefAccount/card-accounts-static-data";
-import { Button } from "^public/components/ui/button";
-import { memo, useState } from "react";
-import { BankSelectionSectionForSubscription } from "./BankSelectionSectionForSubscription";
-import { BusinessTypeSectionForSubscription } from "./BusinessTypeSectionForSubscription";
-import { CardSelectionSectionForSubscription } from "./CardSelectionSectionForSubscription";
-import ClappingHands from "/src/images/ClappingHands.png";
+import {useState} from 'react';
+import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {OrgAssetsCreateSubscriptionPageRoute} from '^pages/orgs/[id]/assets/new/by-certificate/subscription';
+import {Button} from '^public/components/ui/button';
+import {MainLayout} from '^clients/private/_layouts/MainLayout';
+import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer';
+import {BusinessTypeSection} from '../common/BusinessTypeSection';
+import {BankSelectionSection} from './BankSelectionSection';
+import {CardSelectionSection} from './CardSelectionSection';
 
-export const AutoConnectSubscriptionPage = memo(() => {
-    const [step, setStep] = useState(1);
+export const OrgAssetCreateByCertificatePage = () => {
+    const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
     const [isPersonal, setIsPersonal] = useState(false);
     const [selectedBanks, setSelectedBanks] = useState<BankAccountsStaticData[]>([]);
     const [selectedCards, setSelectedCards] = useState<CardAccountsStaticData[]>([]);
@@ -51,43 +54,28 @@ export const AutoConnectSubscriptionPage = memo(() => {
     return (
         <MainLayout>
             <MainContainer>
-                {step === 1 && (
-                    <div className="mb-12 space-y-2">
-                        <NextImage src={ClappingHands} alt="clapping hands" width={60} height={60} />
-                        <div className="text-2xl font-bold">자산 연동이 완료 되었어요</div>
-                    </div>
-                )}
+                <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />
 
-                {step === 2 && (
-                    <BusinessTypeSectionForSubscription
-                        isPersonal={isPersonal}
-                        setIsPersonal={setIsPersonal}
-                    />
-                )}
-
-                <BankSelectionSectionForSubscription
+                <BankSelectionSection
                     onSelect={handleSelectBank}
                     selectedBanks={selectedBanks}
                     onSelectAll={handleSelectAllBanks}
-                    canSelect={step === 2}
                 />
 
-                <CardSelectionSectionForSubscription
+                <CardSelectionSection
                     onSelect={handleSelectCard}
                     selectedCards={selectedCards}
                     onSelectAll={handleSelectAllCards}
-                    canSelect={step === 2}
                 />
 
-                <div className="flex justify-center">
+                <div className="flex justify-center my-20">
                     <Button
                         variant="scordi"
                         size="lg"
                         className="w-64"
                         onClick={() => {
-                            setStep(step === 1 ? step + 1 : step - 1);
+                            router.push(OrgAssetsCreateSubscriptionPageRoute.path(orgId));
                         }}
-                        disabled={step === 2 && (selectedBanks.length === 0 || selectedCards.length === 0)}
                     >
                         다음
                     </Button>
@@ -95,6 +83,6 @@ export const AutoConnectSubscriptionPage = memo(() => {
             </MainContainer>
         </MainLayout>
     );
-});
+};
 
-AutoConnectSubscriptionPage.displayName = 'AutoConnectSubscriptionPage';
+OrgAssetCreateByCertificatePage.displayName = 'OrgAssetCreateByCertificatePage';

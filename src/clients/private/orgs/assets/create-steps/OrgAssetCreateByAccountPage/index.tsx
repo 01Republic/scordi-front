@@ -1,15 +1,15 @@
-import { MainLayout } from "^clients/private/_layouts/MainLayout";
-import { MainContainer } from "^clients/private/_layouts/MainLayout/MainContainer";
-import { InputCardFormDataStep } from "^clients/private/_modals/credit-cards/CardManualCreateModal/InputCardFormDataStep";
-import { SlideUpModal } from "^components/modals/_shared/SlideUpModal";
-import { ConnectMethodCard } from "^components/pages/v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard";
-import { CardAccountsStaticData } from "^models/CodefAccount/card-accounts-static-data";
-import { CreateCreditCardDto } from "^models/CreditCard/type";
-import { memo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { BusinessTypeSection } from "../ManualConnect/BusinessTypeSection";
+import {memo, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CreateCreditCardDto} from '^models/CreditCard/type';
+import {MainLayout} from '^clients/private/_layouts/MainLayout';
+import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer';
+import {InputCardFormDataStep} from '^clients/private/_modals/credit-cards/CardManualCreateModal/InputCardFormDataStep';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {BusinessTypeSection} from '../common/BusinessTypeSection';
+import {ConnectMethodCard} from '../common/ConnectMethodCard';
 
-export const AuthConnectPage = memo(() => {
+export const OrgAssetCreateByAccountPage = memo(() => {
     const [isPersonal, setIsPersonal] = useState(false);
     const cardForm = useForm<CreateCreditCardDto>();
     const [selectedCard, setSelectedCard] = useState<CardAccountsStaticData | null>(null);
@@ -28,10 +28,7 @@ export const AuthConnectPage = memo(() => {
     return (
         <MainLayout>
             <MainContainer>
-                <BusinessTypeSection
-                    isPersonal={isPersonal}
-                    setIsPersonal={setIsPersonal}
-                />
+                <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />
 
                 <h2 className="leading-none text-xl font-semibold mb-4">카드</h2>
                 <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -55,21 +52,22 @@ export const AuthConnectPage = memo(() => {
                     modalClassName="rounded-none sm:rounded-t-box"
                 >
                     <div className="absolute inset-0 p-6">
-                        {selectedCard && <InputCardFormDataStep
-                            cardCompany={selectedCard!}
-                            onBack={() => {
-                                setSelectedCard(null);
-                                setIsOpened(false);
-                            }}
-                            onSubmit={() => { }}
-                            isLoading={false}
-                        />}
+                        {selectedCard && (
+                            <InputCardFormDataStep
+                                cardCompany={selectedCard!}
+                                onBack={() => {
+                                    setSelectedCard(null);
+                                    setIsOpened(false);
+                                }}
+                                onSubmit={() => {}}
+                                isLoading={false}
+                            />
+                        )}
                     </div>
                 </SlideUpModal>
-
             </MainContainer>
         </MainLayout>
     );
 });
 
-AuthConnectPage.displayName = 'AuthConnectPage';
+OrgAssetCreateByAccountPage.displayName = 'OrgAssetCreateByAccountPage';

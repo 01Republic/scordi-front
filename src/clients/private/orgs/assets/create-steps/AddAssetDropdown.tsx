@@ -1,15 +1,15 @@
-import { useOrgIdParam } from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {
     ListPageDropdown,
     ListPageDropdownButton,
     ListPageDropdownMenu,
     MethodOption,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
-import { OrgAssetsConnectPageRoute } from '^pages/orgs/[id]/assets/connect';
-import { OrgConnectManualPageRoute } from '^pages/orgs/[id]/assets/connect/manual';
-import { Database, DatabaseBackup } from 'lucide-react';
-import { useRouter } from 'next/router';
-import { memo } from 'react';
+import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
+import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
+import {Database, DatabaseBackup} from 'lucide-react';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
 
 export const AddAssetDropdown = memo(() => {
     const router = useRouter();
@@ -24,14 +24,14 @@ export const AddAssetDropdown = memo(() => {
                     Icon={Database}
                     title="자산내역 불러오기"
                     desc="은행, 카드사 로그인으로 한 번에 불러와요"
-                    onClick={() => router.push(OrgAssetsConnectPageRoute.path(orgId))}
+                    onClick={() => router.push(OrgAssetsCreateMethodSelectPageRoute.path(orgId))}
                 />
 
                 <MethodOption
                     Icon={DatabaseBackup}
                     title="직접 추가하기"
                     desc="자산 정보를 입력한 뒤 추가해요"
-                    onClick={() => router.push(OrgConnectManualPageRoute.path(orgId))}
+                    onClick={() => router.push(OrgAssetsCreateByManualPageRoute.path(orgId))}
                 />
             </ListPageDropdownMenu>
         </ListPageDropdown>

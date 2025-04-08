@@ -1,9 +1,9 @@
-import { MainContainer, MainLayout } from "^clients/private/_layouts/MainLayout";
-import { NextImage } from "^components/NextImage";
-import { memo } from "react";
-import ClappingHands from "/src/images/ClappingHands.png";
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {NextImage} from '^components/NextImage';
+import {memo} from 'react';
+import ClappingHands from '/src/images/ClappingHands.png';
 
-export const AutoConnectCompletePage = memo(() => {
+export const OrgAssetCreateCompletePage = memo(() => {
     return (
         <MainLayout>
             <MainContainer>
@@ -16,4 +16,4 @@ export const AutoConnectCompletePage = memo(() => {
     );
 });
 
-AutoConnectCompletePage.displayName = 'AutoConnectCompletePage';
+OrgAssetCreateCompletePage.displayName = 'OrgAssetCreateCompletePage';

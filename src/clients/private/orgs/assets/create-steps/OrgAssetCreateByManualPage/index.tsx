@@ -1,16 +1,16 @@
-import { MainLayout } from "^clients/private/_layouts/MainLayout";
-import { MainContainer } from "^clients/private/_layouts/MainLayout/MainContainer";
-import { CreateBankAccountRequestDto } from "^models/BankAccount/type";
-import { BankAccountsStaticData } from "^models/CodefAccount/bank-account-static-data";
-import { CardAccountsStaticData } from "^models/CodefAccount/card-accounts-static-data";
-import { CreateCreditCardDto } from "^models/CreditCard/type";
-import { memo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { BankSelectionSection } from "./BankSelectionSection";
-import { BusinessTypeSection } from "./BusinessTypeSection";
-import { CardSelectionSection } from "./CardSelectionSection";
+import {memo, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {CreateBankAccountRequestDto} from '^models/BankAccount/type';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CreateCreditCardDto} from '^models/CreditCard/type';
+import {MainLayout} from '^clients/private/_layouts/MainLayout';
+import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer';
+import {BusinessTypeSection} from '../common/BusinessTypeSection';
+import {BankSelectionSection} from './BankSelectionSection';
+import {CardSelectionSection} from './CardSelectionSection';
 
-export const ManualConnectPage = memo(() => {
+export const OrgAssetCreateByManualPage = memo(() => {
     const [isPersonal, setIsPersonal] = useState(false);
     const bankForm = useForm<CreateBankAccountRequestDto>();
     const cardForm = useForm<CreateCreditCardDto>();
@@ -21,10 +21,7 @@ export const ManualConnectPage = memo(() => {
         <MainLayout>
             <MainContainer>
                 {!selectedCard && !selectedBank && (
-                    <BusinessTypeSection
-                        isPersonal={isPersonal}
-                        setIsPersonal={setIsPersonal}
-                    />
+                    <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />
                 )}
 
                 {!selectedCard && (
@@ -46,10 +43,9 @@ export const ManualConnectPage = memo(() => {
                         isPersonal={isPersonal}
                     />
                 )}
-
             </MainContainer>
         </MainLayout>
     );
 });
 
-ManualConnectPage.displayName = 'ManualConnectPage';
+OrgAssetCreateByManualPage.displayName = 'OrgAssetCreateByManualPage';
