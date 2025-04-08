@@ -21,13 +21,20 @@ export const CreditCardPageFlashHandler = (props: CreditCardPageFlashHandlerProp
 
     const {data: oldestCodefBillingHistory, isError} = useOldestCodefBillingHistory(orgId, codefId);
 
+    const isShowPageFlash =
+        !!currentCodefCard &&
+        !isError &&
+        !!oldestCodefBillingHistory &&
+        !!oldestCodefBillingHistory.usedAt &&
+        !!currentCodefCard.resIssueDate &&
 
-    if (!currentCodefCard || !oldestCodefBillingHistory || isError) return <></>;
+    if (!isShowPageFlash) return <></>;
 
-    const codefCardResIssueDate = yyyy_mm(dayjs(currentCodefCard.resIssueDate, 'YYYYMM').toDate());
-    const oldestCodefBillingHistoryDate = yyyy_mm(oldestCodefBillingHistory.usedAt);
+    const codefCardResIssueYearMonth = dayjs(currentCodefCard.resIssueDate, 'YYYYMM').format('YYYY년 MM월');
+    const oldestCodefBillingHistoryYearMonth = yyyy_mm(oldestCodefBillingHistory.usedAt, '년', '월');
 
-    if (codefCardResIssueDate === oldestCodefBillingHistoryDate) return <></>;
+    // TODO. codef 카드 최초 발급일자(년,월) / codef 결제내역 중 가장 오래된 결제일(년,월) 비교하는 것은 정확한 정보가 아니기 때문에 개선 필요
+    if (codefCardResIssueYearMonth === oldestCodefBillingHistoryYearMonth) return <></>;
 
     const cardCompany = currentCodefCard?.resCardName || '';
     const duration = getCreditCardPolicyDuration(cardCompany);
