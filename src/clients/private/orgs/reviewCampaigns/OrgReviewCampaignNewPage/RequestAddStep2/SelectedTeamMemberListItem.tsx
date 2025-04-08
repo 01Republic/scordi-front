@@ -12,7 +12,7 @@ export const SelectedTeamMemberListItem = (props: SelectedTeamMemberListItemProp
     const {teamMember, onRemove} = props;
 
     return (
-        <div className={'p-4 bg-gray-50 rounded-md flex items-center justify-between'}>
+        <div className="p-4 bg-gray-50 rounded-md flex items-center justify-between">
             <div className="flex-1 min-w-0">
                 <TeamMemberProfile item={teamMember} />
             </div>

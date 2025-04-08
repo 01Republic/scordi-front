@@ -1,15 +1,21 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
+import {UploadBillingHistoryExcelModalConfirm} from '^clients/private/_modals/UploadBillingHistoryExcelModalConfirm';
+import {BillingHistoryExcelUploadModal} from './CreditCardModals/BillingHistoryExcelUploadModal';
+import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTabContent} from './tab-panes';
 import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
-import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTabContent} from './tab-panes';
+import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
+    const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
+    const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
+    const [isSuccessUploadExcel, setIsSuccessUploadExcel] = useState(false);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
@@ -20,6 +26,12 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                 {text: '카드 상세', active: true},
             ]}
         >
+            {/* 페이지플래시 핸들러 */}
+            <CreditCardPageFlashHandler
+                uploadExcelModalConfirmOpen={() => setIsExcelModalConfirmOpen(true)}
+                isSuccessUploadExcel={isSuccessUploadExcel}
+            />
+
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
                     <CreditCardProfilePanel />
@@ -54,8 +66,32 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         </div>
                     </div>
                 )}
-                {activeTabIndex == 1 && <BillingHistoryListOfCreditCardTabContent />}
+                {activeTabIndex == 1 && (
+                    <BillingHistoryListOfCreditCardTabContent
+                        excelUploadModalClose={() => setIsExcelUploadModalOpen(true)}
+                    />
+                )}
                 {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
+
+                {/* 결제내역 엑셀 업로드 모달 */}
+                <BillingHistoryExcelUploadModal
+                    isOpened={isExcelUploadModalOpen}
+                    onClose={() => setIsExcelUploadModalOpen(false)}
+                    onCreate={() => {
+                        setIsSuccessUploadExcel(true);
+                        setIsExcelUploadModalOpen(false);
+                    }}
+                />
+
+                {/* 결제내역 엑셀 업로드 모달 컨펌 */}
+                <UploadBillingHistoryExcelModalConfirm
+                    isOpened={isExcelModalConfirmOpen}
+                    onClose={() => setIsExcelModalConfirmOpen(false)}
+                    onClick={() => {
+                        setIsExcelUploadModalOpen(true);
+                        setIsExcelModalConfirmOpen(false);
+                    }}
+                />
             </main>
         </ShowPage>
     );

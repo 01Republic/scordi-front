@@ -68,27 +68,3 @@ export const useConfirmCode = () => {
         }
     });
 };
-
-// new 인증번호 발급
-export const useCodeSend = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation<boolean, Error, SendPhoneAuthMessageDto>({
-        mutationFn: (data) => postPhoneAuthSession(data).then((response) => response.data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['sendCode']});
-        },
-    });
-};
-
-// new 인증번호 확인
-export const useCodeConfirm = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation<boolean, Error, SendPhoneAuthMessageDto>({
-        mutationFn: (data) => patchPhoneAuthSession(data).then((response) => response.data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['sendCode']});
-        },
-    });
-};

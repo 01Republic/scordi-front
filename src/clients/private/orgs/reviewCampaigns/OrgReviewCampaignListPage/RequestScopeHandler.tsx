@@ -2,9 +2,16 @@ import {memo, useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
 import {reviewCampaignListAtom} from '^models/ReviewCampaign/atom';
+import {useIdParam} from '^atoms/common';
 
 export const RequestScopeHandler = memo(function () {
-    const {search, query} = useReviewCampaigns(reviewCampaignListAtom);
+    const orgId = useIdParam('id');
+    const {search, query} = useReviewCampaigns(orgId, {
+        where: {organizationId: orgId},
+        relations: ['organization', 'author'],
+        itemsPerPage: 9,
+        order: {finishAt: 'DESC'},
+    });
     const [active, setActive] = useState<number>(0);
 
     const searchResource = (type: number) => {

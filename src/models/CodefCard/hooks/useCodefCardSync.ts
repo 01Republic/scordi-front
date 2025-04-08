@@ -1,9 +1,9 @@
 import {toast} from 'react-hot-toast';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {ApiError} from '^api/api';
 import {codefCardApi} from '^models/CodefCard/api';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {atom, useRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
     codefCardSyncQueueAtom,
     CodefCardSyncRunningItem,

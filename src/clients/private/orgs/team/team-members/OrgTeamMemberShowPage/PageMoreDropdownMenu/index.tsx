@@ -1,21 +1,21 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {toast} from 'react-hot-toast';
+import {ArrowUpDown, LogOut} from 'lucide-react';
+import {debounce} from 'lodash';
 import {currentUserAtom} from '^models/User/atom';
 import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
 import {plainToast} from '^hooks/useToast';
+import {useSendInviteEmail} from '^models/TeamMember';
+import {errorToast} from '^api/api';
+import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
 import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
 import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
 import {StatusButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/StatusButton';
+import {DeleteMembershipItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMembershipItem';
 import {useCurrentTeamMember} from '../atom';
-import {useSendInviteEmail} from '^models/TeamMember';
-import {debounce} from 'lodash';
-import {errorToast} from '^api/api';
-import {Dropdown} from '^v3/share/Dropdown';
-import {ArrowUpDown, LogOut} from 'lucide-react';
 
 const changeLevel = (id: number, level: MembershipLevel) => {
     return membershipApi
@@ -120,12 +120,7 @@ export const PageMoreDropdownMenu = memo(() => {
                             <DeleteMemberItem reload={reload} teamMember={teamMember} />
                         )}
                         {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
-                            <MoreDropdownListItem onClick={() => toast('준비중입니다.')}>
-                                <div className="flex items-center gap-3 w-full text-red-500 py-1">
-                                    <LogOut size={12} />
-                                    <p>워크스페이스에서 내보내기</p>
-                                </div>
-                            </MoreDropdownListItem>
+                            <DeleteMembershipItem teamMember={teamMember} reload={reload} />
                         )}
                     </ul>
                 );

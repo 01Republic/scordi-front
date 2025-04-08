@@ -4,12 +4,12 @@ import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/pop
 import {Button} from '^public/components/ui/button';
 
 interface TimePickerProps {
-    onSelect?: (time: string) => void;
+    onSelect: (time: string) => void;
     time?: string;
 }
 
 export const TimePicker = (props: TimePickerProps) => {
-    const {time, onSelect = () => null} = props;
+    const {time, onSelect} = props;
 
     const times = Array.from({length: 24}, (_, h) =>
         ['00', '30'].map((m) => `${String(h).padStart(2, '0')}:${m}`),
@@ -21,10 +21,10 @@ export const TimePicker = (props: TimePickerProps) => {
                 <Button
                     variant="outline"
                     className={
-                        'w-48 h-12 bg-gray-50 flex justify-between text-left font-normal items-center text-gray-500'
+                        'w-24 h-12 bg-gray-50 flex justify-between text-left font-normal items-center text-gray-500'
                     }
                 >
-                    {time ? time : '시간 선택'}
+                    {time ? time : '시간'}
                     <ChevronDown size={14} className="text-gray-400" />
                 </Button>
             </PopoverTrigger>

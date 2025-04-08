@@ -26,6 +26,9 @@ import {
     getBillingHistoryQuery,
 } from '../atom';
 import {usePagedResource2} from '^hooks/usePagedResource/usePagedResource2';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {ErrorResponse} from '^models/User/types';
+import {UploadFileDto} from '^api/file.api';
 
 export const useBillingHistoriesV3 = () => useBillingHistories(billingHistoriesAtom);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -219,5 +222,19 @@ const useAppBillingHistories = (
         useOrgId: false,
         mergeMode,
         getId: 'id',
+    });
+};
+
+export const useCreateCreditCardBillingHistoryByExcel = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation<void, ErrorResponse, {orgId: number; creditCardId: number; file: FormData}>({
+        mutationFn: ({orgId, creditCardId, file}) =>
+            billingHistoryApi.creditCardApi //
+                .createByExcel(orgId, creditCardId, file)
+                .then((response) => response.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['creditCardBillingHistory']});
+        },
     });
 };
