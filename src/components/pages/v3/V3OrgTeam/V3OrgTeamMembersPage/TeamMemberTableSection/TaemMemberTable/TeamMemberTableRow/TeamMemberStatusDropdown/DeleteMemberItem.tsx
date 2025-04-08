@@ -1,13 +1,14 @@
 import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
-import {currentTeamMemberState, teamMemberApi, TeamMemberDto, useTeamMember} from '^models/TeamMember';
-import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {confirm2} from '^components/util/dialog';
-import {toast} from 'react-hot-toast';
 import {useSetRecoilState} from 'recoil';
+import {toast} from 'react-hot-toast';
 import {Loader, Trash2} from 'lucide-react';
-import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {useOrgIdParam} from '^atoms/common';
+import {errorToast} from '^api/api';
+import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
+import {currentTeamMemberState, teamMemberApi, TeamMemberDto} from '^models/TeamMember';
+import {confirm2} from '^components/util/dialog';
+import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 
 interface DeleteMemberItemProps {
     reload: () => any;
@@ -39,7 +40,9 @@ export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
             .destroy(teamMember.organizationId, teamMember.id)
             .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
             .then(() => toast.success('구성원을 삭제했어요.'))
+            .then(() => reload && reload())
             .then(() => setTeamMember(null))
+            .catch(errorToast)
             .finally(() => setIsLoading(false));
     };
 

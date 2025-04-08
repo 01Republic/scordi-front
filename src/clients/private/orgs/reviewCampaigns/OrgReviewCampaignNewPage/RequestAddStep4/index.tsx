@@ -1,5 +1,4 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
 import {X} from 'lucide-react';
 import {Card} from '^public/components/ui/card';
 import {Input} from '^public/components/ui/input';
@@ -7,14 +6,10 @@ import {Textarea} from '^public/components/ui/textarea';
 import {Button} from '^public/components/ui/button';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
 import {useTeamMembers} from '^models/TeamMember';
-import {reviewCampaignCreateStepAtom} from '../atom';
 
 export const RequestAddStep4 = () => {
-    const [step, setStep] = useRecoilState(reviewCampaignCreateStepAtom);
     /* TODO: api 교체 */
     const {result} = useTeamMembers();
-
-    const onPrevious = () => setStep((s) => s - 1);
 
     return (
         <Card className={'bg-white p-10 space-y-10'}>
@@ -46,7 +41,7 @@ export const RequestAddStep4 = () => {
                 </div>
             </div>
             <div className={'flex justify-end space-x-4'}>
-                <Button size={'xl'} variant={'gray'} onClick={onPrevious}>
+                <Button size={'xl'} variant={'gray'}>
                     뒤로
                 </Button>
                 <Button size={'xl'} variant={'scordi'}>

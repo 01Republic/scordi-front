@@ -1,5 +1,6 @@
 import React, {memo, ReactNode, useEffect} from 'react';
 import {atom, RecoilState, useRecoilState} from 'recoil';
+import {WithChildren} from '^types/global.type';
 
 export const tabIndexState = atom({
     key: 'Content/NavTabIndex',
@@ -14,10 +15,20 @@ export interface ContentTabNavProps {
     // true 로 선택된 경우 다른 페이지로 이탈했다가 다시 돌아왔을 때 탭 선택을 초기화 합니다.
     // default: true
     resetIndex?: boolean;
+
+    TabNav?: (props: {} & WithChildren) => JSX.Element;
+
+    Tab?: (props: {
+        tabName: React.ReactNode;
+        i: number;
+        active: boolean;
+        tabIndex: number;
+        onClick: () => any;
+    }) => JSX.Element;
 }
 
 export const ContentTabNav = memo((props: ContentTabNavProps) => {
-    const {tabs, recoilState, resetIndex = true} = props;
+    const {tabs, recoilState, resetIndex = true, TabNav = DefaultTabNav, Tab = DefaultTab} = props;
     const [tabIndex, setTabIndex] = useRecoilState(recoilState || tabIndexState);
     const tabClickHandler = (i: number) => setTabIndex(i);
 
@@ -29,16 +40,39 @@ export const ContentTabNav = memo((props: ContentTabNavProps) => {
     }, []);
 
     return (
-        <div className="ContentLayout--NavTabs tabs mb-5">
+        <TabNav>
             {tabs.map((tabName, i) => (
-                <a
+                <Tab
                     key={i}
-                    className={`tab tab-bordered ${tabIndex === i && 'tab-active'}`}
+                    tabName={tabName}
+                    i={i}
+                    active={tabIndex === i}
+                    tabIndex={tabIndex}
                     onClick={() => tabClickHandler(i)}
-                >
-                    <span className="capitalize">{tabName}</span>
-                </a>
+                />
             ))}
-        </div>
+        </TabNav>
     );
 });
+
+const DefaultTabNav = (props: {} & WithChildren) => {
+    const {children} = props;
+
+    return <div className="ContentLayout--NavTabs tabs mb-5">{children}</div>;
+};
+
+const DefaultTab = (props: {
+    tabName: React.ReactNode;
+    i: number;
+    active: boolean;
+    tabIndex: number;
+    onClick: () => any;
+}) => {
+    const {tabName, active, onClick} = props;
+
+    return (
+        <a className={`tab tab-bordered ${active && 'tab-active'}`} onClick={onClick}>
+            <span className="capitalize">{tabName}</span>
+        </a>
+    );
+};

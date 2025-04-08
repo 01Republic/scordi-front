@@ -21,10 +21,10 @@ export const TimePicker = (props: TimePickerProps) => {
                 <Button
                     variant="outline"
                     className={
-                        'w-48 h-12 bg-gray-50 flex justify-between text-left font-normal items-center text-gray-500'
+                        'w-24 h-12 bg-gray-50 flex justify-between text-left font-normal items-center text-gray-500'
                     }
                 >
-                    {time ? time : '시간 선택'}
+                    {time ? time : '시간'}
                     <ChevronDown size={14} className="text-gray-400" />
                 </Button>
             </PopoverTrigger>
