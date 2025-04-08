@@ -10,10 +10,11 @@ import {yyyy_mm} from '^utils/dateTime';
 
 interface CreditCardPageFlashHandlerProps {
     uploadExcelModalConfirmOpen: () => void;
+    isSuccessUploadExcel: boolean;
 }
 
 export const CreditCardPageFlashHandler = (props: CreditCardPageFlashHandlerProps) => {
-    const {uploadExcelModalConfirmOpen} = props;
+    const {uploadExcelModalConfirmOpen, isSuccessUploadExcel} = props;
     const orgId = useOrgIdParam();
     const {result} = useCodefCardsOfCreditCardShow();
     const currentCodefCard = pick(result.items[0]);
@@ -27,6 +28,7 @@ export const CreditCardPageFlashHandler = (props: CreditCardPageFlashHandlerProp
         !!oldestCodefBillingHistory &&
         !!oldestCodefBillingHistory.usedAt &&
         !!currentCodefCard.resIssueDate &&
+        !isSuccessUploadExcel;
 
     if (!isShowPageFlash) return <></>;
 

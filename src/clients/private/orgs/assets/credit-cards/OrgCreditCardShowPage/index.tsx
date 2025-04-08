@@ -13,9 +13,9 @@ import {CreditCardPageFlashHandler} from 'src/clients/private/orgs/assets/credit
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
-
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
+    const [isSuccessUploadExcel, setIsSuccessUploadExcel] = useState(false);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
@@ -27,7 +27,10 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
             ]}
         >
             {/* 페이지플래시 핸들러 */}
-            <CreditCardPageFlashHandler uploadExcelModalConfirmOpen={() => setIsExcelModalConfirmOpen(true)} />
+            <CreditCardPageFlashHandler
+                uploadExcelModalConfirmOpen={() => setIsExcelModalConfirmOpen(true)}
+                isSuccessUploadExcel={isSuccessUploadExcel}
+            />
 
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
@@ -74,6 +77,10 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                 <BillingHistoryExcelUploadModal
                     isOpened={isExcelUploadModalOpen}
                     onClose={() => setIsExcelUploadModalOpen(false)}
+                    onCreate={() => {
+                        setIsSuccessUploadExcel(true);
+                        setIsExcelUploadModalOpen(false);
+                    }}
                 />
 
                 {/* 결제내역 엑셀 업로드 모달 컨펌 */}
