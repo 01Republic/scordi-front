@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import PushPin from '/src/images/pushpin.png';
+import PushPin from '^images/pushpin.png';
 import {useOrgIdParam} from '^atoms/common';
 import {TeamDto} from '^models/Team/type';
 import {OrgTeamDetailPageRoute} from '^pages/orgs/[id]/teams/[teamId]';

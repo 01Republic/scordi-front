@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import Image from 'next/image';
 import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
 import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
-import excelIcon from 'src/images/icon/excelIcon.png';
+import excelIcon from '^images/icon/excelIcon.png';
 
 export const BillingHistoryTableControl = memo(() => {
     return (

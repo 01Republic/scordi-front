@@ -1,15 +1,14 @@
-import React, {memo} from 'react';
+import {memo} from 'react';
 import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {AddAssetDropdown} from '../../create-steps/AddAssetDropdown';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
-import {AddCreditCardDropdown} from './AddCreditCardDropdown';
-import {AddCreditCardModal} from './AddCreditCardModal';
-import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useOrgIdParam();
@@ -50,7 +49,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => <AddCreditCardDropdown reload={refresh} />}
+            Buttons={() => <AddAssetDropdown />}
             ScopeHandler={CreditCardScopeHandler}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
@@ -64,7 +63,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddCreditCardModal reload={refresh} />}
+                EmptyButtons={() => <AddAssetDropdown />}
             >
                 <ListTable
                     items={result.items}

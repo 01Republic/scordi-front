@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {MainPageRoute} from '^pages/index';
 import {ErrorLayout} from './ErrorLayout';
 import Image from 'next/image';
-import whiteBgLogo from 'src/images/whiteBgLogo.png';
+import whiteBgLogo from '^images/whiteBgLogo.png';
 import {getToken} from '^api/api';
 import {LinkTo} from '^components/util/LinkTo';
 
