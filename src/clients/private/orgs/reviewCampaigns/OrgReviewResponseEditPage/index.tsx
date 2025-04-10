@@ -1,26 +1,26 @@
-import { getToken } from '^api/api';
+import {getToken} from '^api/api';
 import {
     orgIdParamState,
     reviewCampaignIdParamState,
     reviewResponseIdParamState,
     useRouterIdParamState,
 } from '^atoms/common';
-import { reviewResponseApi } from '^models/ReviewResponse/api';
-import { useReviewRequest } from '^models/ReviewResponse/hook';
-import { ReviewResponseDto } from '^models/ReviewResponse/type/ReviewResponse.dto';
-import { useCurrentUser } from '^models/User/hook';
-import { OrgReviewResponseCompletePageRoute } from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
-import { Button } from '^public/components/ui/button';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useRecoilValue } from 'recoil';
-import { ExpiredResponseView } from './ExpiredResponseView';
-import { ReviewCampaignHeader } from './ReviewCampaignHeader';
-import { ReviewInquiryForm } from './ReviewInquiryForm';
-import { ReviewRespondentForm } from './ReviewRespondentForm';
-import { ReviewSubscriptionList } from './ReviewSubscriptionList';
-import { SubmittedResponseView } from './SubmittedResponseView';
+import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {useReviewRequest} from '^models/ReviewResponse/hook';
+import {ReviewResponseDto} from '^models/ReviewResponse/type/ReviewResponse.dto';
+import {useCurrentUser} from '^models/User/hook';
+import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
+import {Button} from '^public/components/ui/button';
+import {useRouter} from 'next/router';
+import React, {useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
+import {useRecoilValue} from 'recoil';
+import {ExpiredResponseView} from './ExpiredResponseView';
+import {ReviewCampaignHeader} from './ReviewCampaignHeader';
+import {ReviewInquiryForm} from './ReviewInquiryForm';
+import {ReviewRespondentForm} from './ReviewRespondentForm';
+import {ReviewSubscriptionList} from './ReviewSubscriptionList';
+import {SubmittedResponseView} from './SubmittedResponseView';
 
 export type FormInputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -42,15 +42,15 @@ const getInitialFormData = (orgId: number, reviewCampaignId: number): ReviewResp
 
 export const OrgReviewResponseEditPage = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const { currentUser } = useCurrentUser();
-    const { responseData } = useReviewRequest();
+    const {currentUser} = useCurrentUser();
+    const {responseData} = useReviewRequest();
     const router = useRouter();
     const reviewCampaignId = useRouterIdParamState('reviewCampaignId', reviewCampaignIdParamState);
     const reviewResponseId = useRouterIdParamState('reviewResponseId', reviewResponseIdParamState);
     const token = getToken();
 
     const [formData, setFormData] = useState<ReviewResponseDto>(
-        getInitialFormData(Number(orgId), Number(reviewCampaignId))
+        getInitialFormData(Number(orgId), Number(reviewCampaignId)),
     );
 
     useEffect(() => {
@@ -85,7 +85,7 @@ export const OrgReviewResponseEditPage = () => {
     };
 
     const handleInputChange = (e: FormInputChangeEvent) => {
-        const { id, value } = e.target;
+        const {id, value} = e.target;
         setFormData((prev) => ({
             ...prev,
             [id]: value,
@@ -93,7 +93,7 @@ export const OrgReviewResponseEditPage = () => {
     };
 
     const handleTeamSelect = (selectedTeam: any) => {
-        setFormData((prev) => ({ ...prev, team: selectedTeam }));
+        setFormData((prev) => ({...prev, team: selectedTeam}));
     };
 
     if (!responseData) return null;
@@ -115,10 +115,7 @@ export const OrgReviewResponseEditPage = () => {
                 />
 
                 {!currentUser && (
-                    <ReviewRespondentForm
-                        onInputChange={handleInputChange}
-                        onTeamSelect={handleTeamSelect}
-                    />
+                    <ReviewRespondentForm onInputChange={handleInputChange} onTeamSelect={handleTeamSelect} />
                 )}
 
                 <ReviewSubscriptionList subscriptions={responseData?.campaign?.subscriptions || []} />
