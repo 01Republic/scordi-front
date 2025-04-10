@@ -1,10 +1,9 @@
-import React from 'react';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
-import {pathRoute, pathReplace} from '^types/pageRoute.type';
-import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgReviewResponseEditPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewResponseEditPage';
 import {useCurrentOrg} from '^models/Organization/hook';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
+import {v3CommonRequires} from '^types/utils/18n.type';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
 export const OrgReviewResponseEditPageRoute = pathRoute({
     pathname: '/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit',
@@ -33,29 +32,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return (
-        // <ShowRoutingPage
-        //     subjectIdParamKey="subscriptionId"
-        //     subjectIdParamAtom={subscriptionIdParamState}
-        //     subjectAtom={subscriptionSubjectAtom}
-        //     endpoint={(subjectId) =>
-        //         subscriptionApi.show(subjectId, {
-        //             relations: [
-        //                 'organization',
-        //                 'teamMembers',
-        //                 'vendorContracts',
-        //                 'vendorContracts.vendorCompany',
-        //                 'vendorContracts.vendorManager',
-        //                 'invoiceAccounts',
-        //                 'invoiceAccounts.googleTokenData',
-        //                 'billingHistories',
-        //                 'subscriptionSeats',
-        //                 'bankAccount',
-        //             ],
-        //         })
-        //     }
-        // >
-        <OrgReviewResponseEditPage />
-        // </ShowRoutingPage>
-    );
+    return <OrgReviewResponseEditPage />;
 }

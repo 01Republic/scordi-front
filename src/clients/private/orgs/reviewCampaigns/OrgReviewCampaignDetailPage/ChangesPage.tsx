@@ -87,13 +87,7 @@ export default function OrgReviewCampaignDetailChangesPage() {
         });
     };
 
-    if (!reviewCampaign) {
-        return (
-            <OrgReviewCampaignDetailLayout>
-                <div>Loading...</div>
-            </OrgReviewCampaignDetailLayout>
-        );
-    }
+    if (!reviewCampaign) return null;
 
     return (
         <OrgReviewCampaignDetailLayout>

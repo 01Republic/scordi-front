@@ -19,6 +19,10 @@ import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCa
 import {Spinner} from '^components/util/loading';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
+import {reviewCampaignApi} from '^models/ReviewCampaign/api';
+import {confirm2, confirmed} from '^components/util/dialog';
+import toast from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 export default function OrgReviewCampaignDetailLayout({children}: {children: React.ReactNode}) {
     const pathname = useRouter().pathname;
@@ -31,6 +35,14 @@ export default function OrgReviewCampaignDetailLayout({children}: {children: Rea
             return false;
         }
         return pathname.endsWith(path);
+    };
+
+    const handleConfirm = async () => {
+        const sync = () => confirm2('변경사항을 모두 승인하시겠습니까?');
+        confirmed(sync())
+            .then(() => reviewCampaignApi.approve(orgId, reviewCampaignId))
+            .then(() => toast.success('변경사항이 모두 승인되었습니다.'))
+            .catch(errorToast);
     };
 
     if (!reviewCampaign) {
@@ -49,7 +61,6 @@ export default function OrgReviewCampaignDetailLayout({children}: {children: Rea
         <MainLayout>
             <MainContainer>
                 <div className="container mx-auto py-6 max-w-7xl">
-                    {/* Breadcrumb */}
                     <Breadcrumb className="mb-4">
                         <BreadcrumbList>
                             <BreadcrumbItem>
@@ -62,13 +73,13 @@ export default function OrgReviewCampaignDetailLayout({children}: {children: Rea
                         </BreadcrumbList>
                     </Breadcrumb>
 
-                    {/* Header */}
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold">{reviewCampaign.title}</h1>
-                        <Button className="bg-primaryColor-900 text-white">변경사항 승인하기</Button>
+                        <Button className="bg-primaryColor-900 text-white" onClick={handleConfirm}>
+                            변경사항 승인하기
+                        </Button>
                     </div>
 
-                    {/* Navigation Menu */}
                     <div className="mb-8">
                         <nav className="border-b flex">
                             <Link

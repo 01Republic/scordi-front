@@ -56,15 +56,7 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
     const countPending = reviewResponses ? reviewResponses.length - countSubmitted : 0;
     const totalCount = reviewResponses?.length || 0;
 
-    if (isLoading) {
-        return (
-            <OrgReviewCampaignDetailLayout>
-                <div className="flex justify-center items-center p-8">
-                    <Spinner />
-                </div>
-            </OrgReviewCampaignDetailLayout>
-        );
-    }
+    if (isLoading) return null;
 
     return (
         <OrgReviewCampaignDetailLayout>
@@ -184,51 +176,43 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                                                         : '미발송'}
                                                 </span>
 
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            variant="outline"
-                                                            className={
-                                                                !response.submittedAt
-                                                                    ? 'bg-primaryColor-900 text-white hover:bg-primaryColor-900/90'
-                                                                    : ''
-                                                            }
-                                                        >
-                                                            {response.submittedAt ? '제출완료' : '미제출'}{' '}
-                                                            <ChevronDown className="ml-2 h-4 w-4" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end" className="bg-white">
-                                                        <DropdownMenuItem>미제출</DropdownMenuItem>
-                                                        <DropdownMenuItem>제출완료</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
+                                                <div
+                                                    className={cn(
+                                                        'bg-primaryColor-900 text-white w-24 px-4 py-2 rounded-md text-center',
+                                                        response.submittedAt &&
+                                                            'bg-white text-gray-900 border border-gray-200',
+                                                    )}
+                                                >
+                                                    {response.submittedAt ? '제출완료' : '미제출'}
+                                                </div>
 
                                                 <Button
                                                     variant="outline"
-                                                    className="border-gray-200"
+                                                    className="border-gray-200 w-24"
                                                     onClick={() => !response.submittedAt && handleResend(response.id)}
                                                 >
                                                     {!response.submittedAt ? '재전송' : '응답 확인'}
                                                 </Button>
 
-                                                {!response.submittedAt && (
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="icon">
-                                                                <MoreVertical className="h-5 w-5" />
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="start" className="bg-white">
-                                                            <DropdownMenuItem
-                                                                className="cursor-pointer hover:bg-gray-100"
-                                                                onClick={() => handleRemove(response.id)}
-                                                            >
-                                                                삭제
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
-                                                )}
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon">
+                                                            <MoreVertical className="h-5 w-5" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent
+                                                        align="start"
+                                                        className="bg-white"
+                                                        onCloseAutoFocus={(e) => e.preventDefault()}
+                                                    >
+                                                        <DropdownMenuItem
+                                                            className="cursor-pointer hover:bg-gray-100"
+                                                            onClick={() => handleRemove(response.id)}
+                                                        >
+                                                            삭제
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </div>
                                         </div>
                                     ))}

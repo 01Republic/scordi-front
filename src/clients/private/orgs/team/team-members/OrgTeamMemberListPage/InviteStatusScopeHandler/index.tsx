@@ -1,8 +1,8 @@
-import React, {memo, useState} from 'react';
+import {useState} from 'react';
 import {TeamMemberInviteStatus, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
-export const InviteStatusScopeHandler = memo(function InviteStatusScopeHandler() {
+export function InviteStatusScopeHandler() {
     const {search, query} = useTeamMembersInTeamMembersTable();
     const [memberStatus, setMemberStatus] = useState(TeamMemberInviteStatus.All);
 
@@ -44,4 +44,4 @@ export const InviteStatusScopeHandler = memo(function InviteStatusScopeHandler()
             </ListPage.ScopeButton>
         </div>
     );
-});
+}

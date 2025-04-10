@@ -52,7 +52,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
             Buttons={() => <AddBankAccountDropdown reload={refresh} />}
-            ScopeHandler={BankAccountScopeHandler}
+            ScopeHandler={<BankAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >

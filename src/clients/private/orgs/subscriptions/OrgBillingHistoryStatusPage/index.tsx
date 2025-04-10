@@ -39,7 +39,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             searchInputPosition="right-of-scopes"
             scopeWrapperClass="!items-start"
             searchInputPlaceholder="서비스명 검색"
-            ScopeHandler={() =>
+            ScopeHandler={
                 viewUnit === BillingCycleOptions.Monthly ? (
                     <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />
                 ) : (

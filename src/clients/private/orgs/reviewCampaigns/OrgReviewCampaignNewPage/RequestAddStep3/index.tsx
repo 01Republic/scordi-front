@@ -43,12 +43,6 @@ export const RequestAddStep3 = () => {
         }
 
         const [hours, minutes] = time.split(':').map(Number);
-        date.setHours(hours, minutes);
-
-        setFormData((prev) => ({
-            ...prev,
-            finishAt: date,
-        }));
 
         const syncConfirm = () =>
             confirm2(
@@ -63,7 +57,14 @@ export const RequestAddStep3 = () => {
 
         return confirmed(syncConfirm())
             .then(() => setIsLoading(true))
-            .then(() => reviewCampaignApi.create(orgId, formData).then((res) => res.data))
+            .then(() =>
+                reviewCampaignApi
+                    .create(orgId, {
+                        ...formData,
+                        finishAt: new Date(date.setHours(hours, minutes)),
+                    })
+                    .then((res) => res.data),
+            )
             .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
                 setFormData(defaultCreateReviewCampaignRequestDto);
