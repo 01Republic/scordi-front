@@ -52,7 +52,7 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
             breadcrumb={['팀', {text: '구성원', active: true}]}
             titleText="구성원"
             Buttons={() => <AddTeamMemberDropdown reload={refresh} />}
-            ScopeHandler={InviteStatusScopeHandler}
+            ScopeHandler={<InviteStatusScopeHandler />}
             searchInputPlaceholder="이름, 팀, 연락처 검색"
             onSearch={onSearch}
         >

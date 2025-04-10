@@ -55,7 +55,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
             breadcrumb={['자산', {text: '청구서 메일', active: true}]}
             titleText="청구서 메일"
             Buttons={() => <AddInvoiceAccountDropdown reload={refresh} />}
-            ScopeHandler={InvoiceAccountScopeHandler}
+            ScopeHandler={<InvoiceAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
