@@ -1,6 +1,4 @@
-import cn from 'classnames';
 import {Dot} from 'lucide-react';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {BasicModal} from '^components/modals/_shared/BasicModal';
 
 interface NoSubscriptionFoundModalProps {
