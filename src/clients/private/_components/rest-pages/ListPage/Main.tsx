@@ -16,7 +16,7 @@ interface ListPageProps extends WithChildren {
     titleText?: ReactNode;
     Title?: ReactComponentLike;
     Buttons?: ReactComponentLike;
-    ScopeHandler?: ReactComponentLike;
+    ScopeHandler?: ReactNode;
     onSearch?: (keyword?: string) => any;
     searchInputPlaceholder?: string;
     searchInputPosition?: 'start-of-buttons' | 'end-of-buttons' | 'right-of-scopes';
@@ -74,7 +74,7 @@ export const ListPageMain = memo((props: ListPageProps) => {
 
                 {(onDownload || ScopeHandler || searchInputPosition === 'right-of-scopes') && (
                     <div className={`flex items-center justify-between mb-8 ${scopeWrapperClass}`}>
-                        {ScopeHandler ? <ScopeHandler /> : <div />}
+                        {ScopeHandler ? ScopeHandler : <div />}
                         <div className={'flex space-x-2'}>
                             {onDownload && (
                                 <button

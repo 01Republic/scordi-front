@@ -1,30 +1,35 @@
-import {memo, useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
-import {reviewCampaignListAtom} from '^models/ReviewCampaign/atom';
-import {useIdParam} from '^atoms/common';
+import {Dispatch, SetStateAction, useState} from 'react';
+import {FindAllReviewCampaignsQueryDto} from '^models/ReviewCampaign/type/FindAllReviewCampaignsQuery.dto';
 
-export const RequestScopeHandler = memo(function () {
-    const orgId = useIdParam('id');
-    const {search, query} = useReviewCampaigns(orgId, {
-        where: {organizationId: orgId},
-        relations: ['organization', 'author'],
-        itemsPerPage: 9,
-        order: {finishAt: 'DESC'},
-    });
-    const [active, setActive] = useState<number>(0);
+export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<FindAllReviewCampaignsQueryDto>>}) {
+    const [active, setActive] = useState(0);
 
     const searchResource = (type: number) => {
-        setActive(type);
         switch (type) {
             case 0:
-                search({...query, where: {}, page: 1});
+                setActive(0);
+                search((prev) => ({...prev, where: {}, page: 1}));
                 break;
             case 1:
-                search({...query, where: {closedAt: 'NULL'}, page: 1});
+                setActive(1);
+                search((prev) => ({
+                    ...prev,
+                    where: {
+                        finishAt: {op: 'lte', val: new Date()},
+                    },
+                    page: 1,
+                }));
                 break;
             case 2:
-                search({...query, where: {closedAt: {op: 'not', val: 'NULL'}}, page: 1});
+                setActive(2);
+                search((prev) => ({
+                    ...prev,
+                    where: {
+                        finishAt: {op: 'mte', val: 'null'},
+                    },
+                    page: 1,
+                }));
                 break;
         }
     };
@@ -42,4 +47,4 @@ export const RequestScopeHandler = memo(function () {
             </ListPage.ScopeButton>
         </div>
     );
-});
+}

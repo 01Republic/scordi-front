@@ -34,25 +34,23 @@ export const OrgReviewCampaignListPage = () => {
         }));
     }, 500);
 
-    const AddRequestButton = () => (
-        <div>
-            <LinkTo
-                href={OrgReviewCampaignNewPageRoute.path(orgId)}
-                className="btn btn-scordi gap-2 no-animation btn-animation"
-                loadingOnBtn
-            >
-                <Plus />
-                <span>추가하기</span>
-            </LinkTo>
-        </div>
-    );
-
     return (
         <ListPage
             breadcrumb={['업무', {text: '요청', active: true}]}
             titleText="요청 리스트"
-            Buttons={() => <AddRequestButton />}
-            ScopeHandler={RequestScopeHandler}
+            Buttons={() => (
+                <div>
+                    <LinkTo
+                        href={OrgReviewCampaignNewPageRoute.path(orgId)}
+                        className="btn btn-scordi gap-2 no-animation btn-animation"
+                        loadingOnBtn
+                    >
+                        <Plus />
+                        <span>추가하기</span>
+                    </LinkTo>
+                </div>
+            )}
+            ScopeHandler={<RequestScopeHandler search={search} />}
             onSearch={onSearch}
         >
             {isFetching ? (
