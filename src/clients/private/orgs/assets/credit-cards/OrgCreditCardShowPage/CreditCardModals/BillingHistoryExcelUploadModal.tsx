@@ -9,6 +9,7 @@ import {useBillingHistoryListOfCreditCard, useCreateCreditCardBillingHistoryByEx
 import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {errorToast} from '^api/api';
 import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
+import {toast} from 'react-hot-toast';
 
 interface BillingHistoryExcelUploadModalProps {
     isOpened: boolean;
@@ -29,6 +30,8 @@ export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadM
 
     if (!currentCreditCard) return <></>;
 
+    const endNumber = currentCreditCard.secretInfo?.number4;
+
     const onSubmit = () => {
         if (!orgId || !currentCreditCard.id || !file) return;
 
@@ -37,9 +40,10 @@ export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadM
         mutate(
             {orgId, creditCardId: currentCreditCard.id, file: formData},
             {
-                onSuccess: () => {
-                    reloadBillingHistoryListOfCreditCard();
-                    reloadSubscriptionListOfCreditCard();
+                onSuccess: async () => {
+                    await reloadBillingHistoryListOfCreditCard();
+                    await reloadSubscriptionListOfCreditCard();
+                    toast.success(`${endNumber} 카드에 결제내역을 엑셀로 등록했어요.`);
                     onCreate && onCreate();
                 },
                 onError: (error: any) => {
