@@ -1,9 +1,9 @@
-import {memo, useState} from 'react';
+import {useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {SubscriptionUsingStatus, t_SubscriptionUsingStatus} from '^models/Subscription/types';
 
-export const SubscriptionScopeHandler = memo(function () {
+export function SubscriptionScopeHandler() {
     const {query, search} = useSubscriptionTableListAtom();
     const [activeStatus, setActiveUsingStatus] = useState<SubscriptionUsingStatus>();
 
@@ -34,4 +34,4 @@ export const SubscriptionScopeHandler = memo(function () {
             ))}
         </div>
     );
-});
+}

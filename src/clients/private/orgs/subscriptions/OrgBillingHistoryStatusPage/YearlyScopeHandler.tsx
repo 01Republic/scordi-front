@@ -1,4 +1,3 @@
-import React, {memo} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
 interface YearlyScopeHandlerProps {
@@ -7,7 +6,7 @@ interface YearlyScopeHandlerProps {
     onChange?: (year: number) => any;
 }
 
-export const YearlyScopeHandler = memo((props: YearlyScopeHandlerProps) => {
+export function YearlyScopeHandler(props: YearlyScopeHandlerProps) {
     const {years, value, onChange} = props;
 
     return (
@@ -23,5 +22,4 @@ export const YearlyScopeHandler = memo((props: YearlyScopeHandlerProps) => {
             ))}
         </div>
     );
-});
-YearlyScopeHandler.displayName = 'YearlyScopeHandler';
+}

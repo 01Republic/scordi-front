@@ -3,7 +3,7 @@ type PrimitiveTypeOf<V> = V | 'NULL';
 type FindOptionsWherePlainValue<V> = V extends object ? FindOptionsWhere<V> : PrimitiveTypeOf<V>;
 
 type FindOptionsWhereOperateObj<V> = {
-    op: 'not';
+    op: 'not' | 'mt' | 'lt' | 'lte' | 'mte';
     val: FindOptionsWherePlainValue<V>;
 };
 

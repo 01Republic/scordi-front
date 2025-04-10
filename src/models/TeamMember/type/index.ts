@@ -1,14 +1,15 @@
-import {OrganizationDto} from '^models/Organization/type';
-import {TeamDto} from '^models/Team/type';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {TypeCast} from '^types/utils/class-transformer';
-import {MembershipDto} from 'src/models/Membership/types';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {PartialType} from '^types/utils/partial-type';
-import {getColor} from '^components/util/palette';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {BankAccountDto} from '^models/BankAccount/type';
+import { getColor } from '^components/util/palette';
+import { BankAccountDto } from '^models/BankAccount/type';
+import { CreditCardDto } from '^models/CreditCard/type';
+import { IntegrationSlackMemberDto } from '^models/integration/IntegrationSlackMember/type/IntegrationSlackMember.dto';
+import { InvoiceAccountDto } from '^models/InvoiceAccount/type';
+import { OrganizationDto } from '^models/Organization/type';
+import { SubscriptionDto } from '^models/Subscription/types';
+import { TeamDto } from '^models/Team/type';
+import { TypeCast } from '^types/utils/class-transformer';
+import { FindAllQueryDto } from '^types/utils/findAll.query.dto';
+import { PartialType } from '^types/utils/partial-type';
+import { MembershipDto } from 'src/models/Membership/types';
 
 export * from './CreateGoogleAdminTeamMembersRequestDto';
 
@@ -42,6 +43,7 @@ export class TeamMemberDto {
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 보유 중인 카드
     @TypeCast(() => BankAccountDto) bankAccounts?: BankAccountDto[]; // 담당 중인 계좌
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[]; // 담당중인 인보이스 계정
+    @TypeCast(() => IntegrationSlackMemberDto) slackMember?: IntegrationSlackMemberDto; // 슬랙 멤버 정보
 
     get user() {
         return this.membership?.user;
