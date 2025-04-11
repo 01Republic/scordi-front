@@ -1,20 +1,16 @@
-import {getToken} from '^api/api';
-import {
-    orgIdParamState,
-    reviewCampaignIdParamState,
-    reviewResponseIdParamState,
-    useRouterIdParamState,
-} from '^atoms/common';
-import {reviewResponseApi} from '^models/ReviewResponse/api';
-import {useReviewRequest} from '^models/ReviewResponse/hook';
-import {ReviewResponseDto} from '^models/ReviewResponse/type/ReviewResponse.dto';
-import {useCurrentUser} from '^models/User/hook';
-import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
-import {Button} from '^public/components/ui/button';
-import {useRouter} from 'next/router';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {toast} from 'react-toastify';
 import {useRecoilValue} from 'recoil';
+import {useRouter} from 'next/router';
+import {useForm} from 'react-hook-form';
+import {getToken} from '^api/api';
+import {orgIdParamState, useIdParam} from '^atoms/common';
+import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {useReviewRequest} from '^models/ReviewResponse/hook';
+import {useCurrentUser} from '^models/User/hook';
+import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
+import {Button} from '^public/components/ui/button';
 import {ExpiredResponseView} from './ExpiredResponseView';
 import {ReviewCampaignHeader} from './ReviewCampaignHeader';
 import {ReviewInquiryForm} from './ReviewInquiryForm';
@@ -22,61 +18,28 @@ import {ReviewRespondentForm} from './ReviewRespondentForm';
 import {ReviewSubscriptionList} from './ReviewSubscriptionList';
 import {SubmittedResponseView} from './SubmittedResponseView';
 
-export type FormInputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
-
-const getInitialFormData = (orgId: number, reviewCampaignId: number): ReviewResponseDto => ({
-    id: 0,
-    organizationId: orgId,
-    campaignId: reviewCampaignId,
-    teamMemberId: null,
-    respondentName: '',
-    respondentEmail: '',
-    respondentTeamId: null,
-    lastSentAt: null,
-    submittedAt: null,
-    otherSubscriptionComment: '',
-    inquiry: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-});
-
 export const OrgReviewResponseEditPage = () => {
     const orgId = useRecoilValue(orgIdParamState);
+    const campaignId = useIdParam('reviewCampaignId');
+    const id = useIdParam('reviewResponseId');
     const {currentUser} = useCurrentUser();
-    const {responseData} = useReviewRequest();
-    const router = useRouter();
-    const reviewCampaignId = useRouterIdParamState('reviewCampaignId', reviewCampaignIdParamState);
-    const reviewResponseId = useRouterIdParamState('reviewResponseId', reviewResponseIdParamState);
     const token = getToken();
+    const {data: response} = useReviewRequest(orgId, campaignId, id, token || '');
+    const router = useRouter();
 
-    const [formData, setFormData] = useState<ReviewResponseDto>(
-        getInitialFormData(Number(orgId), Number(reviewCampaignId)),
-    );
+    const form = useForm<UpdateReviewResponseRequestDto>({
+        defaultValues: {
+            respondentName: response?.respondentName,
+            respondentEmail: response?.respondentEmail,
+            respondentTeamId: response?.respondentTeamId,
+        },
+    });
 
-    useEffect(() => {
-        if (currentUser) {
-            const currentMembership = currentUser.findMembershipByOrgId(Number(orgId));
-            const currentTeam = currentMembership?.teamMember?.teams?.[0];
-            setFormData((prev) => ({
-                ...prev,
-                respondentName: currentUser.name || '',
-                respondentEmail: currentUser.email || '',
-                respondentTeamId: currentTeam?.id || null,
-            }));
-        }
-    }, [currentUser, orgId]);
-
-    const handleSubmit = () => {
+    const onSubmit = (data: UpdateReviewResponseRequestDto) => {
         reviewResponseApi
-            .submit(Number(orgId), Number(reviewCampaignId), Number(reviewResponseId), token || '')
+            .submit(orgId, campaignId, id, token || '', data)
             .then(() => {
-                router.push(
-                    OrgReviewResponseCompletePageRoute.path(
-                        Number(orgId),
-                        Number(reviewCampaignId),
-                        Number(reviewResponseId),
-                    ),
-                );
+                return router.push(OrgReviewResponseCompletePageRoute.path(orgId, campaignId, id));
             })
             .catch((error) => {
                 toast.error('응답 제출 중 오류가 발생했습니다.');
@@ -84,51 +47,38 @@ export const OrgReviewResponseEditPage = () => {
             });
     };
 
-    const handleInputChange = (e: FormInputChangeEvent) => {
-        const {id, value} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [id]: value,
-        }));
-    };
+    if (!response) return <></>;
 
-    const handleTeamSelect = (selectedTeam: any) => {
-        setFormData((prev) => ({...prev, team: selectedTeam}));
-    };
-
-    if (!responseData) return null;
-
-    if (responseData.campaign?.finishAt && responseData.campaign.finishAt < new Date()) {
+    // 응답 마감시간 초과
+    if (response.campaign?.finishAt && response.campaign.finishAt < new Date()) {
         return <ExpiredResponseView />;
     }
 
-    if (responseData.submittedAt) {
-        return <SubmittedResponseView />;
-    }
+    if (response.submittedAt) return <SubmittedResponseView />;
 
     return (
-        <div className="bg-[#EFEFFD]">
-            <div className="space-y-5 min-h-lvh max-w-screen-sm mx-auto py-20">
-                <ReviewCampaignHeader
-                    title={responseData?.campaign?.title}
-                    description={responseData?.campaign?.description}
-                />
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="bg-[#EFEFFD]">
+                <div className="space-y-5 min-h-lvh max-w-screen-sm mx-auto py-20">
+                    <ReviewCampaignHeader
+                        title={response?.campaign?.title}
+                        description={response?.campaign?.description}
+                    />
 
-                {!currentUser && (
-                    <ReviewRespondentForm onInputChange={handleInputChange} onTeamSelect={handleTeamSelect} />
-                )}
+                    {!currentUser && <ReviewRespondentForm form={form} />}
 
-                <ReviewSubscriptionList subscriptions={responseData?.campaign?.subscriptions || []} />
+                    <ReviewSubscriptionList subscriptions={response?.campaign?.subscriptions || []} />
 
-                <ReviewInquiryForm onInputChange={handleInputChange} />
+                    <ReviewInquiryForm form={form} />
 
-                <div className="grid w-full items-center">
-                    <Button size="xl" variant="scordi" onClick={handleSubmit}>
-                        작성 완료
-                    </Button>
-                    <div className="text-gray-400 text-center py-3 text-12">powered by scordi</div>
+                    <div className="grid w-full items-center">
+                        <Button size="xl" variant="scordi" type="submit">
+                            작성 완료
+                        </Button>
+                        <div className="text-gray-400 text-center py-3 text-12">powered by scordi</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     );
 };

@@ -40,26 +40,10 @@ export const useReviewResponse = (orgId: number, campaignId: number, id: number,
     });
 };
 
-export const useReviewRequest = () => {
-    const [responseData, setResponseData] = useState<ReviewResponseDto | undefined>(undefined);
-    const orgId = useRecoilValue(orgIdParamState);
-    const reviewCampaignId = useRouterIdParamState('reviewCampaignId', reviewCampaignIdParamState);
-    const reviewResponseId = useRouterIdParamState('reviewResponseId', reviewResponseIdParamState);
-    const token = getToken();
-
-    useEffect(() => {
-        console.log('useEffect triggered');
-        if (orgId && reviewCampaignId && reviewResponseId) {
-            reviewResponseApi
-                .show(orgId, Number(reviewCampaignId), Number(reviewResponseId), token || '')
-                .then((response) => {
-                    setResponseData(response.data);
-                })
-                .catch((error) => {
-                    console.error('에러 발생:', error);
-                });
-        }
-    }, [orgId, reviewCampaignId, reviewResponseId]);
-
-    return {responseData};
+export const useReviewRequest = (orgId: number, campaignId: number, id: number, token: string) => {
+    return useQuery({
+        queryKey: ['useReviewRequest', orgId, campaignId, id, token],
+        queryFn: () => reviewResponseApi.show(orgId, campaignId, id, token).then((res) => res.data),
+        enabled: !!orgId && !!campaignId && !!id && !!token,
+    });
 };

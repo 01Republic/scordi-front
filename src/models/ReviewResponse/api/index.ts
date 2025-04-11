@@ -56,10 +56,10 @@ export const reviewResponseApi = {
      * - Public (로그인 체크 대신 헤더 유효성으로 체크)
      */
     // submitToken: string
-    submit(orgId: number, campaignId: number, id: number, verifyToken: string) {
+    submit(orgId: number, campaignId: number, id: number, verifyToken: string, data: UpdateReviewResponseRequestDto) {
         const url = `/organizations/${orgId}/review_campaigns/${campaignId}/responses/${id}`;
         const headers = {'x-scordi-verify-token': verifyToken};
-        return api.post(url, undefined, {headers}).then(oneDtoOf(ReviewResponseDto));
+        return api.post(url, data, {headers}).then(oneDtoOf(ReviewResponseDto));
     },
 
     /**
