@@ -10,7 +10,7 @@ export const BankDataFetchingIssueModal = (props: NoSubscriptionFoundModalProps)
     const {isOpened, onClose} = props;
     return (
         <BasicModal open={isOpened} onClose={onClose}>
-            <section className="modal-box max-w-lg flex flex-col justify-between gap-5 keep-all">
+            <section className="modal-box p-8 max-w-lg flex flex-col justify-between gap-5 keep-all">
                 <div className="flex flex-col gap-3">
                     <p className="font-semibold text-24">찾는 구독이 없나요?</p>
                     <p className="text-16 font-medium text-gray-400">

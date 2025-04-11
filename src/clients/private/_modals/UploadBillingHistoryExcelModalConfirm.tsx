@@ -13,7 +13,7 @@ export const UploadBillingHistoryExcelModalConfirm = (props: UploadBillingHistor
     const {isOpened, onClose, onClick} = props;
     return (
         <BasicModal open={isOpened} onClose={onClose}>
-            <div className="modal-box relative max-w-lg flex flex-col justify-between gap-5 py-10 px-5">
+            <div className="modal-box relative max-w-lg flex flex-col justify-between gap-5 p-8">
                 <X
                     onClick={onClose}
                     className="absolute top-5 right-5 size-6 text-gray-300 hover:text-gray-200 cursor-pointer"
@@ -32,7 +32,7 @@ export const UploadBillingHistoryExcelModalConfirm = (props: UploadBillingHistor
                     카드사 정책으로 인해 불러오지 못한 구독도 모두 확인할 수 있어요.
                 </p>
 
-                <section className="flex justify-center">
+                <section className="flex justify-center pt-4">
                     <button type="button" onClick={onClick} className="btn btn-scordi gap-1 w-1/2">
                         <Sparkles />
                         <span>엑셀로 구독 불러오기</span>
