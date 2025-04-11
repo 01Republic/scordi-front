@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {useReviewResponses} from '^models/ReviewResponse/hook';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useIdParam} from '^atoms/common';
 import OrgReviewCampaignDetailLayout from './layout';
 import {format} from 'date-fns';
 import {Button} from '^public/components/ui/button';
@@ -19,20 +19,20 @@ import {Spinner} from '^components/util/loading';
 import {reviewResponseApi} from '^models/ReviewResponse/api';
 import {cn} from '^public/lib/utils';
 import toast from 'react-hot-toast';
+import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 
 export default function OrgReviewCampaignDetailSubmissionsPage() {
-    const router = useRouter();
-    const reviewCampaignId = parseInt(router.query.reviewCampaignId as string, 10);
     const orgId = useRecoilValue(orgIdParamState);
-    const [params, setParams] = useState({page: 1, relations: ['teamMember']});
-    const {data, isLoading} = useReviewResponses(orgId, reviewCampaignId, params);
-    const reviewResponses = data?.items || [];
-    const pagination = data?.pagination;
-
-    const [filter, setFilter] = useState({
-        search: '',
-        status: 'all',
+    const reviewCampaignId = useIdParam('reviewCampaignId');
+    const {data: reviewCampaign} = useReviewCampaign(orgId, reviewCampaignId);
+    const {data, isLoading, params, search, nextPage} = useReviewResponses(orgId, reviewCampaignId, {
+        page: 1,
+        relations: ['teamMember'],
     });
+    const {items: reviewResponses, pagination} = data;
+
+    const [filter, setFilter] = useState<'all' | 'pending' | 'submitted'>('all');
+    const tabs = ['all', 'pending', 'submitted'] as const;
 
     const handleResend = async (responseId: number) => {
         try {
@@ -52,11 +52,12 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
         }
     };
 
-    const countSubmitted = reviewResponses?.filter((r) => r.submittedAt).length || 0;
-    const countPending = reviewResponses ? reviewResponses.length - countSubmitted : 0;
-    const totalCount = reviewResponses?.length || 0;
+    if (!reviewCampaign) return <></>;
+    if (isLoading) return <></>;
 
-    if (isLoading) return null;
+    const totalCount = reviewCampaign.totalResponseCount;
+    const countSubmitted = reviewCampaign.submittedResponseCount;
+    const countPending = reviewCampaign.notSubmittedResponseCount;
 
     return (
         <OrgReviewCampaignDetailLayout>
@@ -64,22 +65,22 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                 {/* Sidebar */}
                 <div className="w-[240px] mr-5">
                     <div className="space-y-2 text-sm">
-                        {['all', 'pending', 'submitted'].map((tab) => (
+                        {tabs.map((tab) => (
                             <div
                                 key={tab}
                                 className={cn(
                                     'relative h-8 flex items-center rounded-md hover:bg-gray-200 px-2 py-1.5 cursor-pointer',
-                                    filter.status === tab && 'bg-primaryColor-bg',
+                                    filter === tab && 'bg-primaryColor-bg',
                                 )}
-                                onClick={() => setFilter({...filter, status: tab})}
+                                onClick={() => setFilter(tab)}
                             >
-                                {filter.status === tab && (
+                                {filter === tab && (
                                     <div className="absolute left-0 inset-y-1 w-1 bg-primaryColor-900 rounded-full"></div>
                                 )}
                                 <div
                                     className={cn(
                                         'font-medium ml-2',
-                                        filter.status === tab ? 'text-primaryColor-900' : 'text-gray-700',
+                                        filter === tab ? 'text-primaryColor-900' : 'text-gray-700',
                                     )}
                                 >
                                     {tab === 'all'
@@ -97,17 +98,9 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                 <div className="flex-1 p-4 pt-0">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-medium text-base">
-                            {filter.status === 'all'
-                                ? '전체'
-                                : filter.status === 'submitted'
-                                ? '제출완료자'
-                                : '미제출자'}{' '}
+                            {filter === 'all' ? '전체' : filter === 'submitted' ? '제출완료자' : '미제출자'}{' '}
                             <span className="text-primaryColor-900">
-                                {filter.status === 'all'
-                                    ? totalCount
-                                    : filter.status === 'submitted'
-                                    ? countSubmitted
-                                    : countPending}
+                                {filter === 'all' ? totalCount : filter === 'submitted' ? countSubmitted : countPending}
                             </span>
                         </h3>
 
@@ -116,8 +109,11 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                             <Input
                                 placeholder="이름 또는 이메일로 검색"
                                 className="pl-8"
-                                value={filter.search}
-                                onChange={(e) => setFilter({...filter, search: e.target.value})}
+                                value={params.keyword}
+                                onChange={(e) => {
+                                    const keyword = e.target.value.trim();
+                                    return search((query) => ({...query, keyword}));
+                                }}
                             />
                         </div>
                     </div>
@@ -126,17 +122,17 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                         <div className="flex justify-center items-center p-8">
                             <Spinner />
                         </div>
-                    ) : reviewResponses?.length === 0 ? (
+                    ) : reviewResponses.length === 0 ? (
                         <div className="text-center p-8 text-gray-500">제출 응답이 없습니다.</div>
                     ) : (
                         <div className="border rounded-lg overflow-hidden mt-4 bg-white">
                             <div className="divide-y">
                                 {reviewResponses
-                                    ?.filter(
+                                    .filter(
                                         (response) =>
-                                            filter.status === 'all' ||
-                                            (filter.status === 'submitted' && response.submittedAt) ||
-                                            (filter.status === 'pending' && !response.submittedAt),
+                                            filter === 'all' ||
+                                            (filter === 'submitted' && response.submittedAt) ||
+                                            (filter === 'pending' && !response.submittedAt),
                                     )
                                     .map((response) => (
                                         <div
@@ -162,19 +158,7 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                                             </div>
 
                                             <div className="flex items-center space-x-3">
-                                                <span>
-                                                    {response.submittedAt
-                                                        ? `${format(
-                                                              new Date(response.submittedAt),
-                                                              'yyyy-MM-dd HH:mm',
-                                                          )}에 제출됨`
-                                                        : response.lastSentAt
-                                                        ? `${format(
-                                                              new Date(response.lastSentAt),
-                                                              'yyyy-MM-dd HH:mm',
-                                                          )}에 알림`
-                                                        : '미발송'}
-                                                </span>
+                                                <span>{response.statusText}</span>
 
                                                 <div
                                                     className={cn(
@@ -220,12 +204,9 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
                         </div>
                     )}
 
-                    {pagination && pagination?.currentPage < pagination?.totalPage && (
+                    {pagination.currentPage < pagination.totalPage && (
                         <div className="flex items-center justify-center mt-4">
-                            <Button
-                                variant="outline"
-                                onClick={() => setParams((prev) => ({...prev, page: prev.page + 1}))}
-                            >
+                            <Button variant="outline" onClick={() => nextPage()}>
                                 더 보기
                             </Button>
                         </div>

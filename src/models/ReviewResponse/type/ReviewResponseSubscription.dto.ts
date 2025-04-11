@@ -13,7 +13,7 @@ export class ReviewResponseSubscriptionDto {
     subscriptionId: number;
     isUsedBefore: boolean; // 기존 이용상태 (as-is)
     usingStatus: ReviewResponseSubscriptionUsingStatus | null; // 이용상태 응답 (to-be)
-    submittedAt?: Date | null; // 제출된 시각 (aliased) | undef: response join 안했을 때 / null: 제출안됨 / Date: 제출시각
+    @TypeCast(() => Date) submittedAt?: Date | null; // 제출된 시각 (aliased) | undef: response join 안했을 때 / null: 제출안됨 / Date: 제출시각
     @TypeCast(() => ReviewResponseDto) response?: ReviewResponseDto;
     @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto; // 응답자 (aliased)
     @TypeCast(() => ReviewCampaignSubscriptionDto) campaignSubscription?: ReviewCampaignSubscriptionDto;

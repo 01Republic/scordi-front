@@ -2,6 +2,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {OrganizationDto} from '^models/Organization/type';
 import {ReviewCampaignDto} from '^models/ReviewCampaign/type/ReviewCampaign.dto';
 import {TeamMemberDto} from '^models/TeamMember';
+import {format} from 'date-fns';
 
 /**
  * 요청 캠페인 응답지
@@ -25,4 +26,11 @@ export class ReviewResponseDto {
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
     @TypeCast(() => ReviewCampaignDto) campaign?: ReviewCampaignDto; // 요청 캠페인
     @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto; // 응답자
+
+    get statusText() {
+        const yyyyMMDdHHMm = 'yyyy-MM-dd HH:mm';
+        if (this.submittedAt) return `${format(this.submittedAt, yyyyMMDdHHMm)}에 제출됨`;
+        if (this.lastSentAt) return `${format(this.lastSentAt, yyyyMMDdHHMm)}에 알림`;
+        return '미발송';
+    }
 }

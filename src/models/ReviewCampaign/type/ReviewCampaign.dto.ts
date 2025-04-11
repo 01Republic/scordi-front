@@ -25,4 +25,17 @@ export class ReviewCampaignDto {
 
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
     @TypeCast(() => MembershipDto) author?: MembershipDto; // 작성자
+
+    get currentStatusText() {
+        if (!this) return '';
+
+        const now = new Date();
+        if (this.finishAt && this.finishAt < now) {
+            return '마감';
+        }
+        if (this.closedAt && now >= this.closedAt) {
+            return '완료';
+        }
+        return '진행 중';
+    }
 }

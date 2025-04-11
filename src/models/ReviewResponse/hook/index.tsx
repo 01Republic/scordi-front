@@ -14,11 +14,22 @@ import {ReviewResponseDto} from '^models/ReviewResponse/type/ReviewResponse.dto'
 import {Paginated} from '^types/utils/paginated.dto';
 
 export const useReviewResponses = (orgId: number, campaignId: number, params: FindAllReviewResponsesQueryDto) => {
-    return useQuery<Paginated<ReviewResponseDto>>({
+    const [_params, setParams] = useState(params);
+    const queryResult = useQuery<Paginated<ReviewResponseDto>>({
         queryKey: ['reviewResponses', orgId, campaignId, params],
         queryFn: () => reviewResponseApi.index(orgId, campaignId, params).then((res) => res.data),
         enabled: !!orgId && !!campaignId,
+        initialData: Paginated.init(),
     });
+
+    const nextPage = () => setParams((prev) => ({...prev, page: (prev.page || 0) + 1}));
+
+    return {
+        ...queryResult,
+        params: _params,
+        search: setParams,
+        nextPage,
+    };
 };
 
 export const useReviewResponse = (orgId: number, campaignId: number, id: number, verifyToken: string) => {

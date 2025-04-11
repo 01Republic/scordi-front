@@ -3,7 +3,7 @@ import {Badge} from '^public/components/ui/badge';
 import {Card} from '^public/components/ui/card';
 import {Avatar, AvatarFallback} from '^public/components/ui/avatar';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useIdParam} from '^atoms/common';
 import OrgReviewCampaignDetailLayout from './layout';
 import {useRouter} from 'next/router';
 import {format} from 'date-fns';
@@ -11,22 +11,11 @@ import {Progress} from '^public/components/ui/progress';
 import {cn} from '^public/lib/utils';
 
 export default function OrgReviewCampaignDetailPage() {
-    const reviewCampaignId = useRouter().query.reviewCampaignId as string;
+    const reviewCampaignId = useIdParam('reviewCampaignId');
     const orgId = useRecoilValue(orgIdParamState);
-    const {data: reviewCampaign} = useReviewCampaign(orgId, parseInt(reviewCampaignId, 10));
+    const {data: reviewCampaign} = useReviewCampaign(orgId, reviewCampaignId);
 
-    const currentStatus = (() => {
-        if (!reviewCampaign) return '';
-
-        const now = new Date();
-        if (reviewCampaign.finishAt && reviewCampaign.finishAt < now) {
-            return '마감';
-        }
-        if (reviewCampaign.closedAt && now >= reviewCampaign.closedAt) {
-            return '완료';
-        }
-        return '진행 중';
-    })();
+    const currentStatus = reviewCampaign?.currentStatusText || '';
 
     const progressValue = reviewCampaign?.submittedResponseCount
         ? Math.round((reviewCampaign.submittedResponseCount / reviewCampaign.totalResponseCount) * 100)
@@ -36,7 +25,7 @@ export default function OrgReviewCampaignDetailPage() {
     const progressTextColor =
         progressValue < 20 ? 'text-red-500' : progressValue < 80 ? 'text-red-500' : 'text-green-500';
 
-    if (!reviewCampaign) return null;
+    if (!reviewCampaign) return <></>;
 
     return (
         <OrgReviewCampaignDetailLayout>
