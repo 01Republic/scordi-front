@@ -79,7 +79,7 @@ export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadM
                                 <div>
                                     <a
                                         className="link link-primary underline-offset-2"
-                                        href="/templates/스코디_카드_엑셀구독등록양식.xlsx"
+                                        href="/templates/스코디_승인내역대량등록_양식.xlsx"
                                         download
                                     >
                                         엑셀 양식을 다운로드
