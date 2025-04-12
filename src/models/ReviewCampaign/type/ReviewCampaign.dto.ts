@@ -38,4 +38,8 @@ export class ReviewCampaignDto {
         }
         return '진행 중';
     }
+
+    isOverdue() {
+        return this.finishAt && this.finishAt < new Date();
+    }
 }

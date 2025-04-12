@@ -26,7 +26,6 @@ export const OrgReviewResponseEditPage = () => {
     const token = getToken();
     const {data: response} = useReviewRequest(orgId, campaignId, id, token || '');
     const router = useRouter();
-
     const form = useForm<UpdateReviewResponseRequestDto>();
 
     useEffect(() => {
@@ -36,13 +35,12 @@ export const OrgReviewResponseEditPage = () => {
         form.setValue('respondentEmail', response.respondentEmail);
         form.setValue('respondentTeamId', response.respondentTeamId);
         form.setValue('inquiry', response.inquiry || undefined);
-        form.setValue(
-            'subscriptions',
-            (response.subscriptions || []).map((sub) => ({
-                subscriptionId: sub.subscriptionId,
-                usingStatus: sub.usingStatus,
-            })),
-        );
+        const subscriptions = (response.subscriptions || []).map((sub) => ({
+            id: sub.id,
+            subscriptionId: sub.subscriptionId,
+            usingStatus: sub.usingStatus,
+        }));
+        form.setValue('subscriptions', subscriptions);
     }, [response]);
 
     const onSubmit = (data: UpdateReviewResponseRequestDto) => {
@@ -59,12 +57,11 @@ export const OrgReviewResponseEditPage = () => {
 
     if (!response) return <></>;
 
-    // 응답 마감시간 초과
-    if (response.campaign?.finishAt && response.campaign.finishAt < new Date()) {
-        return <ExpiredResponseView />;
-    }
-
+    // 제출 완료
     if (response.submittedAt) return <SubmittedResponseView />;
+
+    // 응답 마감시간 초과
+    if (response.campaign?.isOverdue()) return <ExpiredResponseView />;
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)}>
