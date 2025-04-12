@@ -1,19 +1,19 @@
-import {useRecoilValue} from 'recoil';
-import {Badge} from '^public/components/ui/badge';
-import {Card} from '^public/components/ui/card';
-import {Avatar, AvatarFallback} from '^public/components/ui/avatar';
-import {useReviewCampaign} from '^models/ReviewCampaign/hook';
-import {orgIdParamState, useIdParam} from '^atoms/common';
+import { useRecoilValue } from 'recoil';
+import { Badge } from '^public/components/ui/badge';
+import { Card } from '^public/components/ui/card';
+import { Avatar, AvatarFallback } from '^public/components/ui/avatar';
+import { useReviewCampaign } from '^models/ReviewCampaign/hook';
+import { orgIdParamState, useIdParam } from '^atoms/common';
 import OrgReviewCampaignDetailLayout from './layout';
-import {useRouter} from 'next/router';
-import {format} from 'date-fns';
-import {Progress} from '^public/components/ui/progress';
-import {cn} from '^public/lib/utils';
+import { useRouter } from 'next/router';
+import { format } from 'date-fns';
+import { Progress } from '^public/components/ui/progress';
+import { cn } from '^public/lib/utils';
 
 export default function OrgReviewCampaignDetailPage() {
     const reviewCampaignId = useIdParam('reviewCampaignId');
     const orgId = useRecoilValue(orgIdParamState);
-    const {data: reviewCampaign} = useReviewCampaign(orgId, reviewCampaignId);
+    const { data: reviewCampaign } = useReviewCampaign(orgId, reviewCampaignId);
 
     const currentStatus = reviewCampaign?.currentStatusText || '';
 
@@ -34,7 +34,7 @@ export default function OrgReviewCampaignDetailPage() {
                 <div className="md:col-span-2">
                     <h2 className="text-lg font-medium mb-4">본문 내용</h2>
                     <Card className="p-6 bg-white">
-                        <div className="space-y-4">{reviewCampaign?.description || ''}</div>
+                        <div className="space-y-4 whitespace-pre-wrap">{reviewCampaign?.description || ''}</div>
                     </Card>
                 </div>
 
