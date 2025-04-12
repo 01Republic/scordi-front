@@ -28,8 +28,8 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
         progressValue < 20 ? 'text-red-500' : progressValue < 80 ? 'text-red-500' : 'text-green-500';
 
     return (
-        <LinkTo href={OrgReviewCampaignDetailPageRoute.path(item.organizationId, item.id)}>
-            <Card className="p-7 space-y-5 bg-white hover:shadow-lg cursor-pointer">
+        <LinkTo href={OrgReviewCampaignDetailPageRoute.path(item.organizationId, item.id)} displayLoading={false}>
+            <Card className="p-7 space-y-5 bg-white hover:shadow-lg cursor-pointer transition-all">
                 <div className={'flex justify-between items-center'}>
                     <Badge className={cn('text-white px-2', badgeColor)}>{statusText}</Badge>
                     <div className={cn(`text-sm`, isFinished ? 'text-gray-300' : 'text-slate-800')}>

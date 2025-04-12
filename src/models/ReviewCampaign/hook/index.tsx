@@ -28,9 +28,17 @@ export const useReviewCampaigns = (orgId: number, params: FindAllReviewCampaigns
 };
 
 export const useReviewCampaign = (orgId: number, id: number) => {
-    return useQuery<ReviewCampaignDto>({
+    return useQuery({
         queryKey: ['reviewCampaign', orgId, id],
         queryFn: () => reviewCampaignApi.show(orgId, id).then((res) => res.data),
+        enabled: !!orgId && !!id,
+    });
+};
+
+export const useReviewCampaignAuthor = (orgId: number, id: number) => {
+    return useQuery({
+        queryKey: ['useReviewCampaignAuthor', orgId, id],
+        queryFn: () => reviewCampaignApi.author(orgId, id).then((res) => res.data),
         enabled: !!orgId && !!id,
     });
 };

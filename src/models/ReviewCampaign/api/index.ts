@@ -9,6 +9,7 @@ import {
     FindAllReviewCampaignSubscriptionsQueryDto,
 } from '^models/ReviewCampaign/type';
 import {ReviewResponseSubscriptionDto, FindAllReviewResponseSubscriptionsQueryDto} from '^models/ReviewResponse/type';
+import {TeamMemberDto} from '^models/TeamMember';
 
 /**
  * [요청] 요청 캠페인 API
@@ -48,6 +49,12 @@ export const reviewCampaignApi = {
     destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/review_campaigns/${id}`;
         return api.delete(url).then(oneDtoOf(ReviewCampaignDto));
+    },
+
+    // 요청 캠페인 요청자 조회
+    author(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/review_campaigns/${id}/author`;
+        return api.get(url).then(oneDtoOf(TeamMemberDto));
     },
 
     // 캠페인이 요청하는 대상 구독
