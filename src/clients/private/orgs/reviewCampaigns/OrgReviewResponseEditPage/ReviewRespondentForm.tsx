@@ -3,13 +3,14 @@ import {Input} from '^public/components/ui/input';
 import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
 import {UseFormReturn} from 'react-hook-form';
 import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {CardSection} from './CardSection';
 
 interface ReviewRespondentFormProps {
     form: UseFormReturn<UpdateReviewResponseRequestDto, any>;
 }
 
 export const ReviewRespondentForm = ({form}: ReviewRespondentFormProps) => (
-    <Card className="bg-white px-7 py-6 space-y-5">
+    <CardSection>
         <div className="grid grid-cols-2 gap-5">
             <div className="flex flex-col space-y-2">
                 <div className="text-16 font-medium">
@@ -46,5 +47,5 @@ export const ReviewRespondentForm = ({form}: ReviewRespondentFormProps) => (
                 {...form.register('respondentEmail')}
             />
         </div>
-    </Card>
+    </CardSection>
 );

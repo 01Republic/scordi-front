@@ -1,5 +1,5 @@
-import React from 'react';
-import {toast} from 'react-toastify';
+import React, {useEffect} from 'react';
+import {toast} from 'react-hot-toast';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
@@ -27,13 +27,23 @@ export const OrgReviewResponseEditPage = () => {
     const {data: response} = useReviewRequest(orgId, campaignId, id, token || '');
     const router = useRouter();
 
-    const form = useForm<UpdateReviewResponseRequestDto>({
-        defaultValues: {
-            respondentName: response?.respondentName,
-            respondentEmail: response?.respondentEmail,
-            respondentTeamId: response?.respondentTeamId,
-        },
-    });
+    const form = useForm<UpdateReviewResponseRequestDto>();
+
+    useEffect(() => {
+        if (!response) return;
+
+        form.setValue('respondentName', response.respondentName);
+        form.setValue('respondentEmail', response.respondentEmail);
+        form.setValue('respondentTeamId', response.respondentTeamId);
+        form.setValue('inquiry', response.inquiry || undefined);
+        form.setValue(
+            'subscriptions',
+            (response.subscriptions || []).map((sub) => ({
+                subscriptionId: sub.subscriptionId,
+                usingStatus: sub.usingStatus,
+            })),
+        );
+    }, [response]);
 
     const onSubmit = (data: UpdateReviewResponseRequestDto) => {
         reviewResponseApi
@@ -59,7 +69,7 @@ export const OrgReviewResponseEditPage = () => {
     return (
         <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="bg-[#EFEFFD]">
-                <div className="space-y-5 min-h-lvh max-w-screen-sm mx-auto py-20">
+                <div className="space-y-5 min-h-lvh max-w-screen-sm mx-auto px-4 py-8 sm:py-20">
                     <ReviewCampaignHeader
                         title={response?.campaign?.title}
                         description={response?.campaign?.description}
@@ -67,7 +77,10 @@ export const OrgReviewResponseEditPage = () => {
 
                     {!currentUser && <ReviewRespondentForm form={form} />}
 
-                    <ReviewSubscriptionList subscriptions={response?.campaign?.subscriptions || []} />
+                    <ReviewSubscriptionList
+                        form={form}
+                        campaignSubscriptions={response.campaign?.subscriptions || []}
+                    />
 
                     <ReviewInquiryForm form={form} />
 

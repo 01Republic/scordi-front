@@ -1,25 +1,46 @@
-import {Card} from '^public/components/ui/card';
+import {UseFormReturn} from 'react-hook-form';
+import {ReviewResponseSubscriptionDto, UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {CardSection} from './CardSection';
 import {SubscriptionItemOfResponse} from './SubscriptionItemOfResponse';
 
 interface ReviewSubscriptionListProps {
-    subscriptions: any[];
+    form: UseFormReturn<UpdateReviewResponseRequestDto, any>;
+    campaignSubscriptions: ReviewCampaignSubscriptionDto[];
 }
 
-export const ReviewSubscriptionList = ({subscriptions}: ReviewSubscriptionListProps) => (
-    <Card className="bg-white px-7 py-6 space-y-5">
-        <div className="text-16 font-medium">
-            구독중인 서비스 <span className="text-red-400">*</span>
-        </div>
-        <div>
-            {subscriptions.map((subscription, index) => (
-                <SubscriptionItemOfResponse
-                    key={index}
-                    subscription={subscription}
-                    onChange={(value) => {
-                        console.log(value);
-                    }}
-                />
-            ))}
-        </div>
-    </Card>
-);
+export const ReviewSubscriptionList = (props: ReviewSubscriptionListProps) => {
+    const {form, campaignSubscriptions} = props;
+
+    const responseSubscriptionForms = form.watch('subscriptions') || [];
+
+    return (
+        <CardSection title="구독중인 서비스" required>
+            <div>
+                {responseSubscriptionForms.map((responseSubscriptionForm, i) => {
+                    const {subscriptionId} = responseSubscriptionForm;
+                    const campaignSubscription = campaignSubscriptions.find((s) => s.subscriptionId === subscriptionId);
+
+                    if (!campaignSubscription) return <></>;
+
+                    return (
+                        <SubscriptionItemOfResponse
+                            key={i}
+                            responseSubscription={responseSubscriptionForm}
+                            campaignSubscription={campaignSubscription}
+                            onChange={(usingStatus) => {
+                                const subscriptions = form.getValues('subscriptions') || [];
+                                const newSubs = subscriptions.map((sub) => {
+                                    if (sub.subscriptionId != responseSubscriptionForm.subscriptionId) return sub;
+                                    console.log({...sub, usingStatus});
+                                    return {...sub, usingStatus};
+                                });
+                                form.setValue('subscriptions', newSubs);
+                            }}
+                        />
+                    );
+                })}
+            </div>
+        </CardSection>
+    );
+};
