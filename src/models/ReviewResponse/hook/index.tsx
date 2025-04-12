@@ -1,12 +1,4 @@
-import {getToken} from '^api/api';
-import {
-    orgIdParamState,
-    reviewCampaignIdParamState,
-    reviewResponseIdParamState,
-    useRouterIdParamState,
-} from '^atoms/common';
-import {useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {reviewResponseApi} from '^models/ReviewResponse/api';
 import {FindAllReviewResponsesQueryDto} from '^models/ReviewResponse/type/FindAllReviewResponsesQuery.dto';
@@ -15,9 +7,9 @@ import {Paginated} from '^types/utils/paginated.dto';
 
 export const useReviewResponses = (orgId: number, campaignId: number, params: FindAllReviewResponsesQueryDto) => {
     const [_params, setParams] = useState(params);
-    const queryResult = useQuery<Paginated<ReviewResponseDto>>({
-        queryKey: ['reviewResponses', orgId, campaignId, params],
-        queryFn: () => reviewResponseApi.index(orgId, campaignId, params).then((res) => res.data),
+    const queryResult = useQuery({
+        queryKey: ['reviewResponses', orgId, campaignId, _params],
+        queryFn: () => reviewResponseApi.index(orgId, campaignId, _params).then((res) => res.data),
         enabled: !!orgId && !!campaignId,
         initialData: Paginated.init(),
     });

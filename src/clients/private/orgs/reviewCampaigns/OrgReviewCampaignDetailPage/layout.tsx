@@ -47,61 +47,59 @@ export const OrgReviewCampaignDetailLayout = memo((props: WithChildren) => {
     return (
         <MainLayout>
             <MainContainer>
-                <div className="container mx-auto py-6 max-w-7xl">
-                    <Breadcrumb className="mb-4">
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href={OrgReviewCampaignListPageRoute.path(orgId)}>업무</BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbPage className="text-primaryColor-900 font-medium">요청 상세</BreadcrumbPage>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
+                <Breadcrumb className="mb-4">
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href={OrgReviewCampaignListPageRoute.path(orgId)}>업무</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage className="text-primaryColor-900 font-medium">요청 상세</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
 
-                    <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
-                        <Button className="bg-primaryColor-900 text-white" onClick={handleConfirm}>
-                            변경사항 승인하기
-                        </Button>
-                    </div>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
+                    <Button className="bg-primaryColor-900 text-white" onClick={handleConfirm}>
+                        변경사항 승인하기
+                    </Button>
+                </div>
 
-                    <div className="mb-8">
-                        <nav className="border-b flex">
-                            <Link
-                                href={OrgReviewCampaignDetailPageRoute.path(orgId, id)}
-                                className={cn(
-                                    'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                    isActive('') && 'border-primaryColor-900 text-primaryColor-900',
-                                )}
-                            >
-                                개요
-                            </Link>
-                            <Link
-                                href={OrgReviewCampaignDetailSubmissionsPageRoute.path(orgId, id)}
-                                className={cn(
-                                    'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                    isActive('submissions') && 'border-primaryColor-900 text-primaryColor-900',
-                                )}
-                            >
-                                제출현황
-                            </Link>
-                            <Link
-                                href={OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)}
-                                className={cn(
-                                    'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                    isActive('changes') && 'border-primaryColor-900 text-primaryColor-900',
-                                )}
-                            >
-                                변경사항
-                            </Link>
-                        </nav>
+                <div className="mb-8">
+                    <nav className="border-b flex">
+                        <Link
+                            href={OrgReviewCampaignDetailPageRoute.path(orgId, id)}
+                            className={cn(
+                                'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
+                                isActive('') && 'border-primaryColor-900 text-primaryColor-900',
+                            )}
+                        >
+                            개요
+                        </Link>
+                        <Link
+                            href={OrgReviewCampaignDetailSubmissionsPageRoute.path(orgId, id)}
+                            className={cn(
+                                'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
+                                isActive('submissions') && 'border-primaryColor-900 text-primaryColor-900',
+                            )}
+                        >
+                            제출현황
+                        </Link>
+                        <Link
+                            href={OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)}
+                            className={cn(
+                                'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
+                                isActive('changes') && 'border-primaryColor-900 text-primaryColor-900',
+                            )}
+                        >
+                            변경사항
+                        </Link>
+                    </nav>
 
-                        <LoadableBox isLoading={!reviewCampaign} loadingType={2} noPadding spinnerPos="center">
-                            {children}
-                        </LoadableBox>
-                    </div>
+                    <LoadableBox isLoading={!reviewCampaign} loadingType={2} noPadding spinnerPos="center">
+                        {children}
+                    </LoadableBox>
                 </div>
             </MainContainer>
         </MainLayout>

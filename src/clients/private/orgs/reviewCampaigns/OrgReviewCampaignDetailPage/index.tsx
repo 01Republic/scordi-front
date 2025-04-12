@@ -1,4 +1,3 @@
-import {useRecoilValue} from 'recoil';
 import {Card} from '^public/components/ui/card';
 import {useReviewCampaign, useReviewCampaignAuthor} from '^models/ReviewCampaign/hook';
 import {orgIdParamState, useIdParam} from '^atoms/common';

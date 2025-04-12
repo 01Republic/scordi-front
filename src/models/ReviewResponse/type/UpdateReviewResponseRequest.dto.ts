@@ -18,5 +18,5 @@ export class UpdateReviewResponseRequestDto extends PartialType(CreateReviewResp
 
     // 구독 응답 목록
     @TypeCast(() => UpdateReviewResponseSubscriptionRequestDto)
-    subscriptions: UpdateReviewResponseSubscriptionRequestDto[];
+    subscriptions?: UpdateReviewResponseSubscriptionRequestDto[];
 }

@@ -1,0 +1,119 @@
+import {useIdParam} from '^atoms/common';
+import {useReviewCampaign} from '^models/ReviewCampaign/hook';
+import {useReviewResponses} from '^models/ReviewResponse/hook';
+import {memo, useState} from 'react';
+import {Search} from 'lucide-react';
+import {Spinner} from '^components/util/loading';
+import {Button} from '^public/components/ui/button';
+import {OrgReviewCampaignDetailLayout} from '../layout';
+import {SubmissionsPageSideBar} from './SubmissionsPageSideBar';
+import {ReviewResponseItem} from './ReviewResponseItem';
+
+export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
+    const orgId = useIdParam('id');
+    const id = useIdParam('reviewCampaignId');
+    const {data: reviewCampaign} = useReviewCampaign(orgId, id);
+    const {
+        data: {items: reviewResponses, pagination},
+        isLoading,
+        params,
+        search,
+        nextPage,
+        refetch,
+    } = useReviewResponses(orgId, id, {
+        relations: ['teamMember'],
+        page: 1,
+    });
+
+    const [currentTab, setCurrentTab] = useState<'all' | 'pending' | 'submitted'>('all');
+
+    return (
+        <OrgReviewCampaignDetailLayout>
+            <div className="flex mt-6">
+                {/* Sidebar */}
+                <SubmissionsPageSideBar
+                    reviewCampaign={reviewCampaign}
+                    currentTab={currentTab}
+                    onTabChange={(tab) => {
+                        setCurrentTab(tab);
+                        switch (tab) {
+                            case 'submitted':
+                                return search((prev) => ({
+                                    ...prev,
+                                    where: {submittedAt: {op: 'not', val: 'NULL'}},
+                                }));
+                            case 'pending':
+                                return search((prev) => ({
+                                    ...prev,
+                                    where: {submittedAt: 'NULL'},
+                                }));
+                            case 'all':
+                            default:
+                                return search((prev) => ({
+                                    ...prev,
+                                    where: {},
+                                }));
+                        }
+                    }}
+                />
+
+                {/* Main Content */}
+                <div className="flex-1 p-4 pt-0">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="font-medium text-base">
+                            <span>
+                                {currentTab === 'all' && '전체'}
+                                {currentTab === 'submitted' && '제출완료자'}
+                                {currentTab === 'pending' && '미제출자'}
+                            </span>
+                            <span className="text-primaryColor-900 ml-2.5">
+                                {pagination.totalItemCount.toLocaleString()}
+                            </span>
+                        </h3>
+
+                        <div className="relative">
+                            <Search className="absolute left-2.5 top-0 bottom-0 my-auto h-4 w-4 text-gray-500" />
+                            <input
+                                placeholder="이름 또는 이메일로 검색"
+                                className="input input-bordered input-sm pl-8"
+                                value={params.keyword}
+                                onChange={(e) => {
+                                    const keyword = e.target.value.trim();
+                                    return search((query) => ({...query, keyword}));
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    {isLoading ? (
+                        <div className="flex justify-center items-center p-8">
+                            <Spinner />
+                        </div>
+                    ) : reviewResponses.length === 0 ? (
+                        <div className="text-center p-8 text-gray-500">제출 응답이 없습니다.</div>
+                    ) : (
+                        <div className="border rounded-lg overflow-hidden mt-4 bg-white">
+                            <div className="divide-y">
+                                {reviewResponses.map((response) => (
+                                    <ReviewResponseItem
+                                        key={response.id}
+                                        response={response}
+                                        reload={() => refetch()}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {pagination.currentPage < pagination.totalPage && (
+                        <div className="flex items-center justify-center mt-4">
+                            <Button variant="outline" onClick={() => nextPage()}>
+                                더 보기
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </OrgReviewCampaignDetailLayout>
+    );
+});
