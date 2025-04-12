@@ -5,53 +5,58 @@ import {Progress} from '^public/components/ui/progress';
 import {ReviewCampaignDto} from '^models/ReviewCampaign/type/ReviewCampaign.dto';
 import {LinkTo} from '^components/util/LinkTo';
 import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
+import {unitFormat} from '^utils/number';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface RequestItemCardProps {
     item: ReviewCampaignDto;
 }
 
 export const RequestItemCard = (props: RequestItemCardProps) => {
-    const {item} = props;
+    const {item: reviewCampaign} = props;
+    const {organizationId, id} = reviewCampaign;
 
-    const isFinished = item.finishAt.getTime() < new Date().getTime();
-
-    const statusText = isFinished ? '완료' : '진행중';
-
-    const badgeColor = isFinished ? 'bg-gray-300' : 'bg-black';
-
-    const progressValue = item.submittedResponseCount
-        ? Math.round((item.submittedResponseCount / item.totalResponseCount) * 100)
-        : 0;
-    const progressBackgroundColor =
-        progressValue < 20 ? 'bg-red-500' : progressValue < 80 ? 'bg-orange-500' : 'bg-green-500';
-    const progressTextColor =
-        progressValue < 20 ? 'text-red-500' : progressValue < 80 ? 'text-red-500' : 'text-green-500';
+    const isFinished = reviewCampaign.isOverdue();
+    // const badgeColor = isFinished ? 'bg-gray-300' : 'bg-black';
+    const currentStatus = reviewCampaign.currentStatus;
+    const progressValue = reviewCampaign.progressValue;
+    const [progressBgColor, progressTextColor] = reviewCampaign.progressColors;
 
     return (
-        <LinkTo href={OrgReviewCampaignDetailPageRoute.path(item.organizationId, item.id)} displayLoading={false}>
+        <LinkTo href={OrgReviewCampaignDetailPageRoute.path(organizationId, id)} displayLoading={false}>
             <Card className="p-7 space-y-5 bg-white hover:shadow-lg cursor-pointer transition-all">
                 <div className={'flex justify-between items-center'}>
-                    <Badge className={cn('text-white px-2', badgeColor)}>{statusText}</Badge>
-                    <div className={cn(`text-sm`, isFinished ? 'text-gray-300' : 'text-slate-800')}>
+                    <TagUI className={currentStatus.bgColor} noMargin>
+                        {currentStatus.text}
+                    </TagUI>
+                    {/*<Badge className={cn('text-white px-2', badgeColor)}>{currentStatus.text}</Badge>*/}
+                    <div
+                        className={cn(
+                            `text-sm`,
+                            currentStatus.textColor,
+                            // isFinished ? 'text-gray-300' : 'text-slate-800',
+                        )}
+                    >
                         {isFinished
-                            ? `${item.finishAt.toLocaleDateString()} 완료`
-                            : `${item.createdAt.toLocaleDateString()} 생성`}
+                            ? `${reviewCampaign.finishAt.toLocaleDateString()} 완료`
+                            : `${reviewCampaign.createdAt.toLocaleDateString()} 생성`}
                     </div>
                 </div>
 
                 <div className={cn('text-md line-clamp-2', isFinished ? 'text-gray-300' : 'text-slate-900')}>
-                    {item.title}
+                    {reviewCampaign.title}
                 </div>
 
                 <div className={'space-y-1'}>
-                    <div
-                        className={cn('text-sm', isFinished ? 'text-gray-300' : 'text-slate-800')}
-                    >{`제출 현황 (${item.submittedResponseCount}명 / ${item.totalResponseCount}명)`}</div>
+                    <div className={cn('text-sm', isFinished ? 'text-gray-300' : 'text-slate-800')}>
+                        제출 현황 ({unitFormat(reviewCampaign.submittedResponseCount, '명')} /
+                        {unitFormat(reviewCampaign.totalResponseCount, '명')})
+                    </div>
                     <div className={cn(`flex items-center justify-between gap-4 font-medium`)}>
                         <Progress
                             value={progressValue}
-                            className={'h-4 bg-gray-100'}
-                            indicatorClassName={cn(isFinished ? 'bg-gray-100' : progressBackgroundColor)}
+                            className={'h-2 bg-gray-100'}
+                            indicatorClassName={cn(isFinished ? 'bg-gray-100' : progressBgColor)}
                         />
                         <span
                             className={cn('text-sm', isFinished ? 'text-gray-300' : progressTextColor)}

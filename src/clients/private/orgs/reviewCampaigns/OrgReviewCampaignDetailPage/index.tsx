@@ -20,11 +20,7 @@ export default function OrgReviewCampaignDetailPage() {
 
     const currentStatus = reviewCampaign.currentStatus;
     const progressValue = reviewCampaign.progressValue;
-    const [progressBgColor, progressTextColor] = (() => {
-        if (progressValue < 20) return ['bg-red-500', 'text-red-500'];
-        if (progressValue < 80) return ['bg-orange-500', 'text-red-500'];
-        return ['bg-green-500', 'text-green-500'];
-    })();
+    const [progressBgColor, progressTextColor] = reviewCampaign.progressColors;
 
     return (
         <OrgReviewCampaignDetailLayout>
@@ -54,11 +50,9 @@ export default function OrgReviewCampaignDetailPage() {
 
                             <div className="flex justify-between items-center">
                                 <span className="text-muted-foreground">상태</span>
-                                {currentStatus && (
-                                    <TagUI className={currentStatus.bgColor} noMargin>
-                                        {currentStatus.text}
-                                    </TagUI>
-                                )}
+                                <TagUI className={currentStatus.bgColor} noMargin>
+                                    {currentStatus.text}
+                                </TagUI>
                             </div>
 
                             <div className="flex justify-between items-center">
