@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {useReviewResponses} from '^models/ReviewResponse/hook';
 import {orgIdParamState, useIdParam} from '^atoms/common';
-import OrgReviewCampaignDetailLayout from './layout';
+import {OrgReviewCampaignDetailLayout} from './layout';
 import {format} from 'date-fns';
 import {Button} from '^public/components/ui/button';
 import {Avatar, AvatarFallback} from '^public/components/ui/avatar';
@@ -52,12 +52,11 @@ export default function OrgReviewCampaignDetailSubmissionsPage() {
         }
     };
 
-    if (!reviewCampaign) return <></>;
-    if (isLoading) return <></>;
+    // if (!reviewCampaign) return <></>;
 
-    const totalCount = reviewCampaign.totalResponseCount;
-    const countSubmitted = reviewCampaign.submittedResponseCount;
-    const countPending = reviewCampaign.notSubmittedResponseCount;
+    const totalCount = reviewCampaign?.totalResponseCount;
+    const countSubmitted = reviewCampaign?.submittedResponseCount;
+    const countPending = reviewCampaign?.notSubmittedResponseCount;
 
     return (
         <OrgReviewCampaignDetailLayout>

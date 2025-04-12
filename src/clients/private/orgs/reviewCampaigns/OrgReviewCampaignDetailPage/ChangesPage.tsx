@@ -1,14 +1,12 @@
-'use client';
-
 import {useState, useEffect} from 'react';
 import {Checkbox} from '^public/components/ui/checkbox';
 import {Progress} from '^public/components/ui/progress';
-import OrgReviewCampaignDetailLayout from './layout';
+import {OrgReviewCampaignDetailLayout} from './layout';
 import ChangesItem from './ChangesItem';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useIdParam} from '^atoms/common';
 
 interface ApprovalItem {
     id: string;
@@ -18,10 +16,9 @@ interface ApprovalItem {
 }
 
 export default function OrgReviewCampaignDetailChangesPage() {
-    const router = useRouter();
-    const reviewCampaignId = parseInt(router.query.reviewCampaignId as string, 10);
-    const orgId = useRecoilValue(orgIdParamState);
-    const {data: reviewCampaign} = useReviewCampaign(orgId, reviewCampaignId);
+    const orgId = useIdParam('id');
+    const id = useIdParam('reviewCampaignId');
+    const {data: reviewCampaign} = useReviewCampaign(orgId, id);
 
     const [approvalItems, setApprovalItems] = useState<ApprovalItem[]>([]);
     const [progress, setProgress] = useState(0);
@@ -87,14 +84,14 @@ export default function OrgReviewCampaignDetailChangesPage() {
         });
     };
 
-    if (!reviewCampaign) return null;
+    // if (!reviewCampaign) return <></>;
 
     return (
         <OrgReviewCampaignDetailLayout>
             <div className="flex mt-6">
                 <div className="w-[240px] mr-5">
                     <div className="space-y-2 text-sm">
-                        {reviewCampaign.subscriptions?.map((sub) => {
+                        {reviewCampaign?.subscriptions?.map((sub) => {
                             const subscriptionNamePart = sub.subscriptionName ? ` - ${sub.subscriptionName}` : '';
                             return (
                                 <div
@@ -127,7 +124,7 @@ export default function OrgReviewCampaignDetailChangesPage() {
                             </div>
                             <label
                                 htmlFor="confirm-all"
-                                className="cursor-pointer text-sm border border-gray-300 bg-gray-50 rounded-lg py-1 px-2 space-x-2 flex items-center 
+                                className="cursor-pointer text-sm border border-gray-300 bg-gray-50 rounded-lg py-1 px-2 space-x-2 flex items-center
                                     has-[:checked]:text-primaryColor-900 has-[:checked]:border-primaryColor-900"
                             >
                                 <Checkbox
