@@ -12,12 +12,15 @@ export const SelectedTeamMemberListItem = (props: SelectedTeamMemberListItemProp
     const {teamMember, onRemove} = props;
 
     return (
-        <div className="p-4 bg-gray-50 rounded-md flex items-center justify-between">
-            <div className="flex-1 min-w-0">
+        <div
+            className="px-4 py-3 bg-gray-50 rounded-md group flex items-center justify-between cursor-pointer hover:shadow-lg transition-all"
+            onClick={() => onRemove(teamMember)}
+        >
+            <div className="">
                 <TeamMemberProfile item={teamMember} />
             </div>
-            <div className="shrink-0 cursor-pointer ml-2 text-28" onClick={() => onRemove(teamMember)}>
-                <X />
+            <div className="text-gray-400 group-hover:text-gray-700 transition-all">
+                <X fontSize={16} />
             </div>
         </div>
     );

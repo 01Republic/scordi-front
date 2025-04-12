@@ -3,7 +3,7 @@ import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
 import {orgIdParamState} from '^atoms/common';
 import {teamMemberApi} from '../api';
-import {TeamMemberDto, UpdateTeamMemberDto} from '../type';
+import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../type';
 import {
     teamMemberLoadingState,
     currentTeamMemberState,
@@ -17,6 +17,9 @@ import {
     addableTeamMemberListInAddTeamMemberModal,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
+import {useQuery} from '@tanstack/react-query';
+import {Paginated} from '^types/utils/paginated.dto';
+import {useState} from 'react';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -30,6 +33,18 @@ export const useTeamMembers = () => {
     };
 
     return {...methods, isExist, createByName};
+};
+
+export const useTeamMembersInReviewCampaignCreate = (orgId: number, params: FindAllTeamMemberQueryDto) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: ['useTeamMembersInReviewCampaignCreate', orgId, query],
+        queryFn: () => teamMemberApi.index(orgId, query).then((res) => res.data),
+        enabled: !!orgId,
+        initialData: Paginated.init(),
+    });
+
+    return {...queryResult};
 };
 
 // 대시보드 / 멤버 목록

@@ -1,23 +1,25 @@
-import {useRecoilState} from 'recoil';
+import {UseFormReturn} from 'react-hook-form';
 import {Input} from '^public/components/ui/input';
 import {Textarea} from '^public/components/ui/textarea';
-import {createReviewCampaignRequestAtom, useReviewCampaignCreateStep} from '../atom';
+import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
+import {useReviewCampaignCreateStep} from '../atom';
 import {InputLabel, StepCard, StepCardBody, StepSubmitButton} from '../components';
 
-export const RequestAddStep1 = () => {
+export const RequestAddStep1 = ({form}: {form: UseFormReturn<CreateReviewCampaignRequestDto, any>}) => {
     const {getStep, setFoldStep, changeStep} = useReviewCampaignCreateStep();
-    const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
     const step = getStep(1);
+    const title = form.watch('title');
+    const description = form.watch('description');
 
-    const validTitle = (val: string) => {
-        const value = `${val || ''}`.trim();
+    const validTitle = () => {
+        const value = `${title || ''}`.trim();
         if (value.length === 0) return false; // required
         if (value.length > 30) return false; // maxLength
         return true;
     };
 
-    const validDescription = (val: string) => {
-        const value = `${val || ''}`.trim();
+    const validDescription = () => {
+        const value = `${description || ''}`.trim();
         if (value.length === 0) return false; // required
         if (value.length > 200) return false; // maxLength
         return true;
@@ -38,12 +40,8 @@ export const RequestAddStep1 = () => {
                         type="text"
                         id="title"
                         placeholder="제목을 입력해주세요."
-                        className="bg-white"
-                        defaultValue={formData.title}
-                        onChange={(e) => {
-                            const title = e.target.value;
-                            setFormData((prev) => ({...prev, title}));
-                        }}
+                        className={`bg-white`}
+                        {...form.register('title')}
                     />
                 </div>
 
@@ -51,13 +49,9 @@ export const RequestAddStep1 = () => {
                     <InputLabel required>요청 내용</InputLabel>
                     <Textarea
                         id="description"
-                        placeholder="최대 200자 입력"
+                        placeholder={`최대 200자 입력`}
                         rows={8}
-                        defaultValue={formData.description}
-                        onChange={(e) => {
-                            const description = e.target.value;
-                            setFormData((prev) => ({...prev, description}));
-                        }}
+                        {...form.register('description')}
                     />
                 </div>
 
@@ -67,7 +61,7 @@ export const RequestAddStep1 = () => {
                             setFoldStep(1, true);
                             changeStep(2);
                         }}
-                        disabled={!validTitle(formData.title) || !validDescription(formData.description)}
+                        disabled={!validTitle() || !validDescription()}
                     />
                 </div>
             </StepCardBody>

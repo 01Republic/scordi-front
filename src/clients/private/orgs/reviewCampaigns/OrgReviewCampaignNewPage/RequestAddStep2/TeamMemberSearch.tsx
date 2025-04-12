@@ -6,28 +6,30 @@ import {cn} from '^public/lib/utils';
 import React, {useEffect, useRef} from 'react';
 import {useRecoilState} from 'recoil';
 import {TeamMemberSelectItem} from './TeamMemberSelectItem';
+import {UseFormReturn} from 'react-hook-form';
+import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
 
 interface TeamMemberSearchProps {
+    form: UseFormReturn<CreateReviewCampaignRequestDto, any>;
     teamMembers: TeamMemberDto[];
     onSelectMember: (member: TeamMemberDto) => void;
 }
 
-export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, onSelectMember}) => {
-    const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
+export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMembers, onSelectMember}) => {
+    // const [selectedIds] = useRecoilState(createReviewCampaignRequestAtom);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [keyword, setKeyword] = React.useState<string>('');
     const [isShow, setIsShow] = React.useState<boolean>(false);
+    const selectedIds = form.watch('teamMemberIds') || [];
 
     const filteredTeamMembers = keyword
         ? teamMembers.filter((member) => member.name && member.name.includes(keyword))
         : teamMembers;
 
     const selectAllMembers = () => {
-        const allMembersSelected = formData.teamMemberIds.length === teamMembers.length;
-        setFormData((prev) => ({
-            ...prev,
-            teamMemberIds: allMembersSelected ? [] : teamMembers.map((member) => member.id),
-        }));
+        const allSelected = selectedIds.length === teamMembers.length;
+        const teamMemberIds = teamMembers.map(({id}) => id);
+        form.setValue('teamMemberIds', allSelected ? [] : teamMemberIds);
     };
 
     useEffect(() => {
@@ -60,12 +62,12 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, 
                         isShow ? '' : 'hidden',
                     )}
                 >
-                    {teamMembers.length === formData.teamMemberIds.length && (
+                    {teamMembers.length === selectedIds.length && (
                         <div className={'py-32 text-center text-gray-500'}>선택 가능한 구성원이 없습니다.</div>
                     )}
                     {filteredTeamMembers.map(
                         (teamMember) =>
-                            !formData.teamMemberIds.includes(teamMember.id) && (
+                            !selectedIds.includes(teamMember.id) && (
                                 <TeamMemberSelectItem
                                     key={teamMember.id}
                                     teamMember={teamMember}
@@ -76,9 +78,9 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({teamMembers, 
                 </div>
             </div>
             <div className={'flex justify-between items-center text-sm'}>
-                <div className={'ml-1'}>{formData.teamMemberIds.length}명 선택됨</div>
+                <div className={'ml-1'}>{selectedIds.length}명 선택됨</div>
                 <Button size={'sm'} variant={'scordiGhost'} onClick={selectAllMembers}>
-                    전체선택 {formData.teamMemberIds.length === teamMembers.length ? '해제' : ''}
+                    전체선택 {selectedIds.length === teamMembers.length ? '해제' : ''}
                 </Button>
             </div>
         </>

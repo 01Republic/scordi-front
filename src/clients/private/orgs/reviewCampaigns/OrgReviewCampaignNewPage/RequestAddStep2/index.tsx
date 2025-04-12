@@ -1,78 +1,62 @@
-import {orgIdParamState} from '^atoms/common';
+import Image from 'next/image';
+import {useRecoilState} from 'recoil';
+import {UseFormReturn} from 'react-hook-form';
+import {useIdParam} from '^atoms/common';
 import {SelectedTeamMemberListItem} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/RequestAddStep2/SelectedTeamMemberListItem';
-import {useToast} from '^hooks/useToast';
-import {integrationSlackMemberApi} from '^models/integration/IntegrationSlackMember/api';
+import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
 import {integrationSlackWorkspaceApi} from '^models/integration/IntegrationSlackWorkspace/api';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
+import {TeamMemberDto, useTeamMembers, useTeamMembersInReviewCampaignCreate} from '^models/TeamMember';
 import {Button} from '^public/components/ui/button';
 import GoogleIcon from '^public/logo/icons/ic_google.png';
 import SlackIcon from '^public/logo/icons/ic_slack.png';
-import Image from 'next/image';
-import {useRouter} from 'next/router';
-import {useEffect} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
 import {createReviewCampaignRequestAtom, useReviewCampaignCreateStep} from '../atom';
 import {StepCard, StepCardBody, StepSubmitButton} from '../components';
 import {TeamMemberSearch} from './TeamMemberSearch';
+import {toast} from 'react-hot-toast';
+import {IntegrationSlackWorkspaceDto} from '^models/integration/IntegrationSlackWorkspace/type/IntegrationSlackWorkspace.dto';
+import {slackScordiOauthApi} from '^models/_slack-bot/api';
+import {isDefinedValue, uniq} from '^utils/array';
 
-export const RequestAddStep2 = () => {
-    const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
+const getSlack = async (orgId: number): Promise<IntegrationSlackWorkspaceDto | undefined> => {
+    const res = await integrationSlackWorkspaceApi.index(orgId);
+    return res.data.items[0] || undefined;
+};
+
+export const RequestAddStep2 = ({form}: {form: UseFormReturn<CreateReviewCampaignRequestDto, any>}) => {
+    const orgId = useIdParam('id');
     const {getStep, setFoldStep, changeStep} = useReviewCampaignCreateStep();
-    const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
-    const {result, searchAndUpdateCounter} = useTeamMembers();
-    const teamMembers = result.items;
-    const {toast} = useToast();
+    const {
+        data: {items: teamMembers},
+        refetch,
+    } = useTeamMembersInReviewCampaignCreate(orgId, {
+        relations: ['teams', 'slackMember'],
+        order: {id: 'DESC'},
+        updateCounterCacheColumn: 'subscriptionCount',
+        itemsPerPage: 0,
+    });
     const {currentOrg} = useCurrentOrg(orgId);
     const step = getStep(2);
+    const selectedTeamMembers = (form.watch('teamMemberIds') || [])
+        .map((id) => teamMembers.find((t) => t.id === id))
+        .filter(isDefinedValue);
 
-    const onReady = () => {
-        searchAndUpdateCounter({
-            relations: ['teams', 'slackMember'],
-            order: {id: 'DESC'},
-            updateCounterCacheColumn: 'subscriptionCount',
-            itemsPerPage: 0,
-        });
+    const selectMember = (member: TeamMemberDto) => {
+        const oldVal = form.getValues('teamMemberIds') || [];
+        const newVal = [...oldVal, member.id];
+        form.setValue('teamMemberIds', newVal);
     };
 
-    const onSelectMember = (member: TeamMemberDto) => {
-        setFormData((prev) => ({
-            ...prev,
-            teamMemberIds: [...prev.teamMemberIds, member.id],
-        }));
+    const unSelectMember = (member: TeamMemberDto) => {
+        const oldVal = form.getValues('teamMemberIds') || [];
+        const newVal = oldVal.filter((val) => val !== member.id);
+        form.setValue('teamMemberIds', newVal);
     };
 
-    const removeSelectedMember = (member: TeamMemberDto) => {
-        setFormData((prev) => ({
-            ...prev,
-            teamMemberIds: prev.teamMemberIds.filter((id) => id !== member.id),
-        }));
-    };
-
-    const onLoadSlackMembers = () => {
-        integrationSlackWorkspaceApi.index(orgId).then((res) => {
-            const workspace = res.data.items[0];
-            if (!workspace) {
-                toast.error('연결된 슬랙 워크스페이스가 없습니다.');
-                return;
-            }
-
-            integrationSlackMemberApi.index(orgId, workspace.id, {itemsPerPage: 0}).then((res) => {
-                const slackMembers = res.data.items;
-                const newMemberIds = slackMembers
-                    .map((member) => member.teamMemberId)
-                    .filter((id): id is number => id !== null);
-
-                setFormData((prev) => ({
-                    ...prev,
-                    teamMemberIds: Array.from(new Set([...prev.teamMemberIds, ...newMemberIds])),
-                }));
-
-                toast.success('슬랙에서 팀 멤버들을 불러왔어요.');
-            });
-        });
+    const onLoadSlackMembers = async () => {
+        const workspace = await getSlack(orgId);
+        if (!workspace) window.open(slackScordiOauthApi.authUrl(orgId), '_blank');
     };
 
     const onLoadGoogleMembers = () => {
@@ -84,15 +68,8 @@ export const RequestAddStep2 = () => {
         organizationConnectGoogleWorkspaceApi
             .sync(orgId)
             .then((res) => {
-                const googleMembers = res.data;
-                const newMemberIds = googleMembers.map((member) => member.id).filter((id): id is number => id !== null);
-
-                setFormData((prev) => ({
-                    ...prev,
-                    teamMemberIds: Array.from(new Set([...prev.teamMemberIds, ...newMemberIds])),
-                }));
-
-                toast.success('구글 워크스페이스에서 팀 멤버들을 불러왔어요.');
+                // const googleMembers = res.data;
+                refetch().then(() => toast.success('구글 워크스페이스에서 팀 멤버들을 불러왔어요.'));
             })
             .catch((error) => {
                 if (error.response?.status === 422) {
@@ -102,12 +79,6 @@ export const RequestAddStep2 = () => {
                 }
             });
     };
-
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-        if (!router.isReady) return;
-        onReady && onReady();
-    }, [orgId, router.isReady]);
 
     return (
         <StepCard
@@ -135,20 +106,17 @@ export const RequestAddStep2 = () => {
                         </div>
                     </div>
 
-                    <TeamMemberSearch teamMembers={teamMembers} onSelectMember={onSelectMember} />
+                    <TeamMemberSearch form={form} teamMembers={teamMembers} onSelectMember={selectMember} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                    {teamMembers.map(
-                        (teamMember) =>
-                            formData.teamMemberIds.includes(teamMember.id) && (
-                                <SelectedTeamMemberListItem
-                                    key={teamMember.id}
-                                    teamMember={teamMember}
-                                    onRemove={removeSelectedMember}
-                                />
-                            ),
-                    )}
+                    {selectedTeamMembers.map((teamMember) => (
+                        <SelectedTeamMemberListItem
+                            key={teamMember.id}
+                            teamMember={teamMember}
+                            onRemove={unSelectMember}
+                        />
+                    ))}
                 </div>
 
                 <div className={'flex justify-center space-x-4'}>
@@ -157,7 +125,7 @@ export const RequestAddStep2 = () => {
                             setFoldStep(2, true);
                             changeStep(3);
                         }}
-                        disabled={formData.teamMemberIds.length === 0}
+                        disabled={selectedTeamMembers.length === 0}
                     />
                 </div>
             </StepCardBody>
