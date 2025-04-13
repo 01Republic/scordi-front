@@ -2,7 +2,7 @@ import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import OrgReviewCampaignDetailChangesPage from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ChangesPage';
+import {OrgReviewCampaignDetailChangesPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ChangesPage';
 
 export const OrgReviewCampaignDetailChangesPageRoute = pathRoute({
     pathname: '/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes',

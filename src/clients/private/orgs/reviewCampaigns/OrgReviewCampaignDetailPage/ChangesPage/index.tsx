@@ -1,12 +1,10 @@
-import {useState, useEffect} from 'react';
-import {Checkbox} from '^public/components/ui/checkbox';
-import {Progress} from '^public/components/ui/progress';
-import {OrgReviewCampaignDetailLayout} from './layout';
-import ChangesItem from './ChangesItem';
+import {useIdParam} from '^atoms/common';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState, useIdParam} from '^atoms/common';
+import {memo, useEffect, useState} from 'react';
+import {Progress} from '^public/components/ui/progress';
+import {Checkbox} from '^public/components/ui/checkbox';
+import {OrgReviewCampaignDetailLayout} from '../layout';
+import ChangesItem from './ChangesItem';
 
 interface ApprovalItem {
     id: string;
@@ -15,7 +13,7 @@ interface ApprovalItem {
     isConfirmed?: boolean;
 }
 
-export default function OrgReviewCampaignDetailChangesPage() {
+export const OrgReviewCampaignDetailChangesPage = memo(() => {
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
     const {data: reviewCampaign} = useReviewCampaign(orgId, id);
@@ -149,4 +147,4 @@ export default function OrgReviewCampaignDetailChangesPage() {
             </div>
         </OrgReviewCampaignDetailLayout>
     );
-}
+});
