@@ -8,9 +8,12 @@ export const useAdminCodefBillingHistories = () => useCodefBillingHistoriesAdmin
 
 // 코드에프카드 - 가장 오래된 결제내역 단건 조회
 export const useOldestCodefBillingHistory = (orgId: number, codefId?: number) => {
-    return useQuery<CodefBillingHistoryDto, Error>({
+    return useQuery({
         queryKey: ['oldest-codef-billing-history', orgId, codefId],
-        queryFn: () => codefBillingHistoriesApi.index(orgId, codefId!).then((res) => res.data),
+        queryFn: async () => {
+            if (!codefId) return;
+            return codefBillingHistoriesApi.index(orgId, codefId).then((res) => res.data);
+        },
         enabled: !!orgId && !!codefId,
     });
 };
