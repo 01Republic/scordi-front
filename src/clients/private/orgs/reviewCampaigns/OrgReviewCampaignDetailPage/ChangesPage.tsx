@@ -84,10 +84,8 @@ export default function OrgReviewCampaignDetailChangesPage() {
         });
     };
 
-    // if (!reviewCampaign) return <></>;
-
     return (
-        <OrgReviewCampaignDetailLayout>
+        <OrgReviewCampaignDetailLayout containerFluid>
             <div className="flex mt-6">
                 <div className="w-[240px] mr-5">
                     <div className="space-y-2 text-sm">

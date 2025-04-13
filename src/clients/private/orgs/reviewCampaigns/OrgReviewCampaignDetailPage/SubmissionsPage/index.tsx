@@ -28,8 +28,8 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
     const [currentTab, setCurrentTab] = useState<'all' | 'pending' | 'submitted'>('all');
 
     return (
-        <OrgReviewCampaignDetailLayout>
-            <div className="flex mt-6">
+        <OrgReviewCampaignDetailLayout containerFluid>
+            <div className="flex mt-6 gap-8">
                 {/* Sidebar */}
                 <SubmissionsPageSideBar
                     reviewCampaign={reviewCampaign}
@@ -58,7 +58,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                 />
 
                 {/* Main Content */}
-                <div className="flex-1 p-4 pt-0">
+                <div className="flex-1">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-medium text-base">
                             <span>

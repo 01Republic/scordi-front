@@ -17,7 +17,7 @@ export const SubmissionsPageSideBar = memo((props: SubmissionsPageSideBarProps) 
     const countPending = reviewCampaign?.notSubmittedResponseCount || 0;
 
     return (
-        <div className="w-[240px] mr-5">
+        <div className="w-[240px]">
             <div className="space-y-2 text-sm">
                 {tabs.map((tab) => (
                     <div

@@ -25,8 +25,14 @@ import {errorToast} from '^api/api';
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 
-export const OrgReviewCampaignDetailLayout = memo((props: WithChildren) => {
-    const {children} = props;
+interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
+    className?: string;
+    containerFluid?: boolean;
+}
+
+export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetailLayoutProps) => {
+    const {className = '', containerFluid = false, children} = props;
+
     const router = useRouter();
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
@@ -46,7 +52,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: WithChildren) => {
 
     return (
         <MainLayout>
-            <MainContainer>
+            <MainContainer className={className} containerFluid={containerFluid}>
                 <Breadcrumb className="mb-4">
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -61,7 +67,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: WithChildren) => {
 
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
-                    <Button className="bg-primaryColor-900 text-white" onClick={handleConfirm}>
+                    <Button className="bg-scordi text-white" onClick={handleConfirm}>
                         변경사항 승인하기
                     </Button>
                 </div>
@@ -70,28 +76,27 @@ export const OrgReviewCampaignDetailLayout = memo((props: WithChildren) => {
                     <nav className="border-b flex">
                         <Link
                             href={OrgReviewCampaignDetailPageRoute.path(orgId, id)}
-                            className={cn(
-                                'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                isActive('') && 'border-primaryColor-900 text-primaryColor-900',
-                            )}
+                            className={`px-4 py-2 border-b-2 border-transparent text-14 font-medium transition-all ${
+                                isActive('') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
+                            }`}
                         >
                             개요
                         </Link>
                         <Link
                             href={OrgReviewCampaignDetailSubmissionsPageRoute.path(orgId, id)}
-                            className={cn(
-                                'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                isActive('submissions') && 'border-primaryColor-900 text-primaryColor-900',
-                            )}
+                            className={`px-4 py-2 border-b-2 border-transparent text-14 font-medium transition-all ${
+                                isActive('submissions')
+                                    ? 'border-scordi text-scordi'
+                                    : 'text-gray-500 hover:text-scordi'
+                            }`}
                         >
                             제출현황
                         </Link>
                         <Link
                             href={OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)}
-                            className={cn(
-                                'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                isActive('changes') && 'border-primaryColor-900 text-primaryColor-900',
-                            )}
+                            className={`px-4 py-2 border-b-2 border-transparent text-14 font-medium transition-all ${
+                                isActive('changes') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
+                            }`}
                         >
                             변경사항
                         </Link>
