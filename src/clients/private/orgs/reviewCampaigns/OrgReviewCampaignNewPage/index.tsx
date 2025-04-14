@@ -15,6 +15,7 @@ import {errorToast} from '^api/api';
 import {useIdParam} from '^atoms/common';
 import {useResetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
+import {dayAfter} from '^utils/dateTime';
 
 export const OrgReviewCampaignNewPage = () => {
     const router = useRouter();
@@ -26,7 +27,7 @@ export const OrgReviewCampaignNewPage = () => {
         defaultValues: {
             title: '',
             description: '',
-            finishAt: new Date(),
+            finishAt: dayAfter(7),
             teamMemberIds: [],
         },
     });
