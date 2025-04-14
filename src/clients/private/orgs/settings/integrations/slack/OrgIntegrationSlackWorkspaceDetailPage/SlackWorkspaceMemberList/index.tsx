@@ -24,7 +24,7 @@ export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListPro
                         onChange={(isDeleted) => {
                             return search((p) => {
                                 const {where} = p;
-                                return {...p, where: {...where, isDeleted}};
+                                return {...p, where: {...where, isDeleted}, page: 1};
                             });
                         }}
                     />
