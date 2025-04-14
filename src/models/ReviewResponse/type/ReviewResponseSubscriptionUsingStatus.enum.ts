@@ -7,8 +7,8 @@ export enum ReviewResponseSubscriptionUsingStatus {
 
 export function t_reviewResponseSubscriptionUsingStatus(value: ReviewResponseSubscriptionUsingStatus) {
     return {
-        [ReviewResponseSubscriptionUsingStatus.IN_USE]: '사용',
-        [ReviewResponseSubscriptionUsingStatus.NO_USE]: '미사용',
-        [ReviewResponseSubscriptionUsingStatus.DONT_KNOW]: '모름',
+        [ReviewResponseSubscriptionUsingStatus.IN_USE]: '써요',
+        [ReviewResponseSubscriptionUsingStatus.NO_USE]: '안써요',
+        [ReviewResponseSubscriptionUsingStatus.DONT_KNOW]: '몰라요',
     }[value];
 }
