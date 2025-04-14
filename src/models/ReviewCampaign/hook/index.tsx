@@ -1,7 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {FindAllReviewCampaignsQueryDto} from '^models/ReviewCampaign/type/FindAllReviewCampaignsQuery.dto';
-import {ReviewCampaignDto} from '^models/ReviewCampaign/type/ReviewCampaign.dto';
 import {useState} from 'react';
 import {Paginated} from '^types/utils/paginated.dto';
 
