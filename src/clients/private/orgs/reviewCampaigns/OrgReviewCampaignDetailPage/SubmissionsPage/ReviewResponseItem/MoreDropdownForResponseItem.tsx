@@ -10,22 +10,25 @@ import {MoreVertical} from 'lucide-react';
 import {ReviewResponseDto} from '^models/ReviewResponse/type';
 import {reviewResponseApi} from '^models/ReviewResponse/api';
 import toast from 'react-hot-toast';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {errorToast} from '^api/api';
 
 interface MoreDropdownForResponseItemProps {
     response: ReviewResponseDto;
+    reload: () => void;
 }
 
 export const MoreDropdownForResponseItem = memo((props: MoreDropdownForResponseItemProps) => {
-    const {response} = props;
+    const {response, reload} = props;
     const {organizationId: orgId, campaignId: id, id: responseId} = response;
 
     const onRemoveClick = async () => {
-        try {
-            await reviewResponseApi.destroy(orgId, id, responseId);
-            toast.success('응답이 삭제되었습니다.');
-        } catch (error) {
-            toast.error('응답 삭제에 실패했습니다.');
-        }
+        const sync = () => confirm2('응답을 삭제하시겠습니까?');
+        confirmed(sync())
+            .then(() => reviewResponseApi.destroy(orgId, id, responseId))
+            .then(() => toast.success('응답이 삭제되었습니다.'))
+            .catch(errorToast)
+            .finally(() => reload());
     };
 
     return (

@@ -45,7 +45,7 @@ export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
 
                 <ResendButton response={response} reload={reload} />
 
-                <MoreDropdownForResponseItem response={response} />
+                <MoreDropdownForResponseItem response={response} reload={reload} />
             </div>
         </div>
     );
