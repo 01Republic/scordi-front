@@ -17,11 +17,11 @@ export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
     const {response, reload} = props;
 
     return (
-        <div className="flex items-center p-4 text-sm">
-            <div>{response.teamMember && <TeamMemberProfile item={response.teamMember} />}</div>
+        <div className="flex items-center p-4 text-sm gap-x-6 md:gap-x-12">
+            <div className="basis-80">{response.teamMember && <TeamMemberProfile item={response.teamMember} />}</div>
 
-            <div className="flex-1 flex items-center justify-around">
-                <div className="flex items-center gap-1 md:w-[100px] justify-center">
+            <div className="flex-1 flex items-center justify-between">
+                <div className="flex items-center gap-1 md:w-[100px]">
                     {response.teamMember?.email && (
                         <div className="relative border rounded-full w-6 h-6 p-[2px]">
                             <div className="relative w-full h-full">
@@ -37,7 +37,7 @@ export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
                         </div>
                     )}
                 </div>
-                <div className="md:w-[190px] text-center">{response.statusText}</div>
+                <div className="md:w-[190px] text-right">{response.statusText}</div>
             </div>
 
             <div className="ml-auto flex items-center gap-3">
