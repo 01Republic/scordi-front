@@ -11,7 +11,7 @@ interface SlackWorkspaceMemberListProps {
 }
 
 export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListProps) => {
-    const {data: result, search, isFetching, refetch, prevPage, nextPage} = useSlackMembersInDetailPage();
+    const {data: result, search, params, isFetching, refetch, prevPage, nextPage} = useSlackMembersInDetailPage();
 
     return (
         <div>
@@ -20,6 +20,7 @@ export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListPro
 
                 <div className="flex items-center gap-3">
                     <ActiveMemberFilter
+                        defaultChecked={!params.where?.isDeleted}
                         onChange={(isDeleted) => {
                             return search((p) => {
                                 const {where} = p;
