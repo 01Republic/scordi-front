@@ -24,9 +24,13 @@ export const OrgReviewResponseEditPage = () => {
     const id = useIdParam('reviewResponseId');
     const {currentUser} = useCurrentUser();
     const token = getToken();
-    const {data: response} = useReviewRequest(orgId, campaignId, id, token || '');
+    const {data: response, isError} = useReviewRequest(orgId, campaignId, id, token || '');
     const router = useRouter();
     const form = useForm<UpdateReviewResponseRequestDto>();
+
+    useEffect(() => {
+        if (isError && !response) router.replace('/404');
+    }, [isError, response]);
 
     useEffect(() => {
         if (!response) return;
