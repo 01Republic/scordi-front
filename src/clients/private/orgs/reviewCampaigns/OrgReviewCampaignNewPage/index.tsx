@@ -22,6 +22,7 @@ export const OrgReviewCampaignNewPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const resetSteps = useResetRecoilState(reviewCampaignCreateStepAtom);
     const form = useForm<CreateReviewCampaignRequestDto>({
+        mode: 'all',
         defaultValues: {
             title: '',
             description: '',

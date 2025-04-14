@@ -37,4 +37,4 @@ export const StepCard = memo((props: StepCardProps) => {
 });
 StepCard.displayName = 'StepCard';
 
-export const StepCardBody = ({children}: WithChildren) => <div className={'p-9 space-y-10 border-t'}>{children}</div>;
+export const StepCardBody = ({children}: WithChildren) => <div className={'p-9 space-y-6 border-t'}>{children}</div>;
