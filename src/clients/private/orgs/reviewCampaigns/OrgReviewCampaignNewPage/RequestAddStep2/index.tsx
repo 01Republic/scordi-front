@@ -95,11 +95,11 @@ export const RequestAddStep2 = ({form}: {form: UseFormReturn<CreateReviewCampaig
                     <div className={'flex justify-end items-center'}>
                         <div className={'flex items-center space-x-1 text-sm'}>
                             <span>불러오기:</span>
-                            <Button size={'sm'} variant={'ghostGray'} onClick={onLoadSlackMembers}>
+                            <Button type="button" size={'sm'} variant={'ghostGray'} onClick={onLoadSlackMembers}>
                                 <Image src={SlackIcon} alt={'Slack'} width={20} height={20} />
                                 Slack
                             </Button>
-                            <Button size={'sm'} variant={'ghostGray'} onClick={onLoadGoogleMembers}>
+                            <Button type="button" size={'sm'} variant={'ghostGray'} onClick={onLoadGoogleMembers}>
                                 <Image src={GoogleIcon} alt={'Google Workspace'} width={20} height={20} />
                                 Google Workspace
                             </Button>
@@ -121,6 +121,7 @@ export const RequestAddStep2 = ({form}: {form: UseFormReturn<CreateReviewCampaig
 
                 <div className={'flex justify-center space-x-4'}>
                     <StepSubmitButton
+                        type="button"
                         onClick={() => {
                             setFoldStep(2, true);
                             changeStep(3);

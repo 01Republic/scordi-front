@@ -57,6 +57,7 @@ export const RequestAddStep1 = ({form}: {form: UseFormReturn<CreateReviewCampaig
 
                 <div className={'flex justify-center space-x-4'}>
                     <StepSubmitButton
+                        type="button"
                         onClick={() => {
                             setFoldStep(1, true);
                             changeStep(2);

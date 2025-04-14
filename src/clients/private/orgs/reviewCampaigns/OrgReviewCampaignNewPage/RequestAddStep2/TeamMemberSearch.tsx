@@ -79,7 +79,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
             </div>
             <div className={'flex justify-between items-center text-sm'}>
                 <div className={'ml-1'}>{selectedIds.length}명 선택됨</div>
-                <Button size={'sm'} variant={'scordiGhost'} onClick={selectAllMembers}>
+                <Button type="button" size={'sm'} variant={'scordiGhost'} onClick={selectAllMembers}>
                     전체선택 {selectedIds.length === teamMembers.length ? '해제' : ''}
                 </Button>
             </div>
