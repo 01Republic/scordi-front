@@ -1,5 +1,6 @@
 import * as CryptoJS from 'crypto-js';
 import {networkSignKey} from '^config/environments';
+import {cipherTextOn} from '^components/util/cipher-text';
 
 export const cryptoUtil = {
     encrypt(message: string, key = networkSignKey) {
@@ -35,4 +36,10 @@ export class CryptoService {
     decrypt(value: string, key = networkSignKey) {
         return cryptoUtil.decrypt(value, key);
     }
+}
+
+export function encryptValue(text: string, salt = ''): string {
+    const secret = networkSignKey + salt;
+    const cipherText = cipherTextOn(secret);
+    return cipherText.encrypt(text);
 }

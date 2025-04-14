@@ -15,10 +15,7 @@ import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-com
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {ApiErrorResponse} from '^api/api';
 import {useForm} from 'react-hook-form';
-import {
-    CreateAccountRequestDto,
-    encryptCodefAccountPassword,
-} from '^models/CodefAccount/type/create-account.request.dto';
+import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
@@ -26,6 +23,7 @@ import {plainToast as toast} from '^hooks/useToast';
 import {useCodefAccountsAlreadyIs} from '^models/CodefAccount/hook';
 import {OutLink} from '^components/OutLink';
 import {ArrowLeft} from 'lucide-react';
+import {encryptValue} from '^utils/crypto';
 
 export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -79,7 +77,7 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                 clientType: connectMethod.clientType,
                 loginType: connectMethod.loginType,
                 id: dto.id,
-                password: encryptCodefAccountPassword(dto.password, dto.id),
+                password: encryptValue(dto.password, dto.id),
             })
             .then((res) => {
                 return redirectTo(res.data.accessList[0]);
