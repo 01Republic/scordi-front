@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {plainToast as toast} from '^hooks/useToast';
 import {CodefAccountDto} from '../type/CodefAccountDto';
-import {CreateAccountRequestDto, encryptCodefAccountPassword} from '../type/create-account.request.dto';
+import {CreateAccountRequestDto} from '../type/create-account.request.dto';
 import {CodefCardCompanyCode, CodefCustomerType, CodefRequestBusinessType} from '../type/enums';
 import {useCodefAccountsAlreadyIs} from '../hook';
 import {codefAccountApi} from '^models/CodefAccount/api';
@@ -12,6 +12,7 @@ import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-accoun
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {debounce} from 'lodash';
 import {lastOf} from '^utils/array';
+import {encryptValue} from '^utils/crypto';
 
 interface CreateCodefAccountOption {
     redirectTo?: (codefAccount: CodefAccountDto) => any;
@@ -64,7 +65,7 @@ export function useCreateCodefAccount(option?: CreateCodefAccountOption) {
                 clientType: connectMethod.clientType,
                 loginType: connectMethod.loginType,
                 id: dto.id,
-                password: encryptCodefAccountPassword(dto.password, dto.id),
+                password: encryptValue(dto.password, dto.id),
             })
             .then((res) => {
                 const [account] = lastOf(res.data.accessList, 1);
