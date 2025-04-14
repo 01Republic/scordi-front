@@ -3,8 +3,8 @@ import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackM
 import {LoadableBox} from '^components/util/loading';
 import {SlackWorkspaceMemberRow} from './SlackWorkspaceMemberRow';
 import {SlackWorkspaceMemberListHeader} from './SlackWorkspaceMemberListHeader';
-import {SlackMemberListSearchInput} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceMemberList/SlackMemberListSearchInput';
-import {ActiveMemberFilter} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceMemberList/ActiveMemberFilter';
+import {SlackMemberListSearchInput} from './SlackMemberListSearchInput';
+import {ActiveMemberFilter} from './ActiveMemberFilter';
 
 interface SlackWorkspaceMemberListProps {
     //
