@@ -5,6 +5,7 @@ import {Progress} from '^public/components/ui/progress';
 import {Checkbox} from '^public/components/ui/checkbox';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import ChangesItem from './ChangesItem';
+import {ChangesPageSidebar} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ChangesPage/ChangesPageSidebar';
 
 interface ApprovalItem {
     id: string;
@@ -84,27 +85,11 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
 
     return (
         <OrgReviewCampaignDetailLayout containerFluid>
-            <div className="flex mt-6">
-                <div className="w-[240px] mr-5">
-                    <div className="space-y-2 text-sm">
-                        {reviewCampaign?.subscriptions?.map((sub) => {
-                            const subscriptionNamePart = sub.subscriptionName ? ` - ${sub.subscriptionName}` : '';
-                            return (
-                                <div
-                                    key={sub.subscriptionId}
-                                    className="flex items-center space-x-2 rounded-md hover:bg-gray-200 px-2 py-1.5"
-                                >
-                                    <span className="font-medium text-gray-700">
-                                        {sub.productName}
-                                        {subscriptionNamePart}
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+            <div className="flex mt-6 gap-8">
+                {/* Sidebar */}
+                <ChangesPageSidebar reviewCampaign={reviewCampaign} />
 
-                <div className="w-full">
+                <div className="flex-1">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold">승인 대기중 ({totalSteps - currentStep})</h2>
                         <div className="flex items-center space-x-4">
