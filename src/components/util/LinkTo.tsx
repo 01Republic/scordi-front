@@ -1,4 +1,12 @@
-import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo, MouseEventHandler, useEffect, useState} from 'react';
+import {
+    AnchorHTMLAttributes,
+    forwardRef,
+    HTMLAttributeAnchorTarget,
+    memo,
+    MouseEventHandler,
+    useEffect,
+    useState,
+} from 'react';
 import Link from 'next/link';
 import {LinkProps} from 'next/dist/client/link';
 import {useRouter} from 'next/router';
@@ -19,7 +27,7 @@ export interface LinkToProps extends Partial<LinkProps & WithChildren> {
     noFollow?: boolean;
 }
 
-export const LinkTo = memo((props: LinkToProps) => {
+export const LinkTo = forwardRef<HTMLAnchorElement, LinkToProps>((props, ref) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
     const {
@@ -45,7 +53,14 @@ export const LinkTo = memo((props: LinkToProps) => {
 
     if (target === '_blank') {
         return (
-            <Link className={className} href={href} onClick={onClick} onContextMenu={onContextMenu} target={target}>
+            <Link
+                ref={ref}
+                className={className}
+                href={href}
+                onClick={onClick}
+                onContextMenu={onContextMenu}
+                target={target}
+            >
                 {children || text}
             </Link>
         );
@@ -53,7 +68,14 @@ export const LinkTo = memo((props: LinkToProps) => {
 
     if (onClick) {
         return (
-            <a className={className} onClick={onClick} onContextMenu={onContextMenu} target={target} rel={rel}>
+            <a
+                ref={ref}
+                className={className}
+                onClick={onClick}
+                onContextMenu={onContextMenu}
+                target={target}
+                rel={rel}
+            >
                 {children || text}
             </a>
         );
@@ -63,7 +85,7 @@ export const LinkTo = memo((props: LinkToProps) => {
         if (displayLoading) {
             const loadingClass = loadingClassName || (loadingOnBtn ? 'link_to-loading' : 'link_to-clicked');
             return (
-                <a className={`${className} ${loadingClass}`} target={target} rel={rel}>
+                <a ref={ref} className={`${className} ${loadingClass}`} target={target} rel={rel}>
                     {children || text}
                 </a>
             );
@@ -72,6 +94,7 @@ export const LinkTo = memo((props: LinkToProps) => {
 
     return (
         <Link
+            ref={ref}
             href={disabled ? '' : href}
             target={target}
             className={`${className}`}

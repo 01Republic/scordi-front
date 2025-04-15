@@ -13,10 +13,11 @@ interface SubscriptionItemOfResponseProps {
     responseSubscription: UpdateReviewResponseSubscriptionRequestDto;
     campaignSubscription: ReviewCampaignSubscriptionDto;
     onChange: (value: ReviewResponseSubscriptionUsingStatus) => void;
+    readonly?: boolean;
 }
 
 export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfResponseProps) => {
-    const {responseSubscription, campaignSubscription, onChange} = props;
+    const {responseSubscription, campaignSubscription, onChange, readonly = false} = props;
     const {productName, productImage} = campaignSubscription;
 
     const handleTabChange = (value: ReviewResponseSubscriptionUsingStatus) => {
@@ -61,8 +62,13 @@ export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfRespons
                             <TabsTrigger
                                 key={i}
                                 value={value}
-                                className={`min-w-20 data-[state=active]:bg-[#5C5FEE] data-[state=active]:text-white`}
-                                onClick={() => handleTabChange(value)}
+                                className={`min-w-20 data-[state=active]:bg-[#5C5FEE] data-[state=active]:text-white ${
+                                    readonly ? 'pointer-events-none opacity-70' : ''
+                                }`}
+                                onClick={() => {
+                                    if (readonly) return;
+                                    handleTabChange(value);
+                                }}
                             >
                                 {t_reviewResponseSubscriptionUsingStatus(value)}
                             </TabsTrigger>
