@@ -3,7 +3,6 @@ import {useCurrentUser} from '^models/User/hook';
 import {WorkspaceDropdown} from './WorkspaceDropdown';
 import {ProfileDropdown} from './ProfileDropdown';
 import {LinkTo} from '^components/util/LinkTo';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
@@ -12,6 +11,7 @@ import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/Expire
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentMembership} from '^models/Membership/hook';
 import {Bell, Frown, Plus} from 'lucide-react';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -55,7 +55,7 @@ export const OrgTopBar = memo(() => {
             <div className="ml-auto flex items-center gap-8">
                 <div className="hidden sm:block">
                     <LinkTo
-                        href={currentOrg ? OrgSubscriptionSelectPageRoute.path(currentOrg.id) : '#'}
+                        href={currentOrg ? OrgSubscriptionConnectionPageRoute.path(currentOrg.id) : '#'}
                         className={`btn btn-sm btn-scordi gap-2 no-animation btn-animation ${
                             !currentOrg ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
                         }`}
