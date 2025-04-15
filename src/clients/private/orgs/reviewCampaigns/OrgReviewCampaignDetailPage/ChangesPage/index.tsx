@@ -35,12 +35,12 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
             return;
         }
 
-        const mappedItems = subscriptions.map((sub) => {
+        const mappedItems = subscriptions.map((sub, idx) => {
             const subscriptionNamePart = sub.subscriptionName ? ` - ${sub.subscriptionName}` : '';
             return {
                 id: String(sub.subscriptionId),
                 serviceName: `${sub.productName}${subscriptionNamePart}`,
-                isExpanded: false,
+                isExpanded: idx === 0,
                 isConfirmed: false,
             };
         });
@@ -51,9 +51,9 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
         setProgress(0);
     }, [reviewCampaign]);
 
-    const toggleExpand = (id: string) => {
+    const toggleExpand = (id: string, value?: boolean) => {
         setApprovalItems((prev) =>
-            prev.map((item) => (item.id === id ? {...item, isExpanded: !item.isExpanded} : item)),
+            prev.map((item) => (item.id === id ? {...item, isExpanded: value ?? !item.isExpanded} : item)),
         );
     };
 
@@ -87,7 +87,7 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
         <OrgReviewCampaignDetailLayout containerFluid>
             <div className="flex mt-6 gap-8">
                 {/* Sidebar */}
-                <ChangesPageSidebar reviewCampaign={reviewCampaign} />
+                <ChangesPageSidebar reviewCampaign={reviewCampaign} toggleExpand={toggleExpand} />
 
                 <div className="flex-1">
                     <div className="flex justify-between items-center mb-4">
@@ -120,12 +120,13 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
 
                     <div className="space-y-2">
                         {approvalItems.map((item) => (
-                            <ChangesItem
-                                key={item.id}
-                                approvalItem={item}
-                                toggleExpand={toggleExpand}
-                                toggleConfirm={toggleConfirm}
-                            />
+                            <div key={item.id} id={`sub-${item.id}`}>
+                                <ChangesItem
+                                    approvalItem={item}
+                                    toggleExpand={toggleExpand}
+                                    toggleConfirm={toggleConfirm}
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>

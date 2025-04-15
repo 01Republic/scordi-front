@@ -14,7 +14,6 @@ import Link from 'next/link';
 import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
-import {LoadableBox} from '^components/util/loading';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
@@ -46,7 +45,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
         confirmed(sync())
             .then(() => reviewCampaignApi.approve(orgId, id))
             .then(() => toast.success('변경사항이 모두 승인되었습니다.'))
-            .then(() => router.push(OrgReviewCampaignDetailPageRoute.path(orgId, id)))
+            .then(() => router.push(OrgReviewCampaignListPageRoute.path(orgId)))
             .catch(errorToast);
     };
 
@@ -102,9 +101,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                         </Link>
                     </nav>
 
-                    <LoadableBox isLoading={!reviewCampaign} loadingType={2} noPadding spinnerPos="center">
-                        {children}
-                    </LoadableBox>
+                    {children}
                 </div>
             </MainContainer>
         </MainLayout>

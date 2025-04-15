@@ -46,7 +46,7 @@ export default function ChangesItem({
     toggleConfirm,
 }: {
     approvalItem: ApprovalItem;
-    toggleExpand: (id: string) => void;
+    toggleExpand: (id: string, value?: boolean) => void;
     toggleConfirm: (id: string, value: boolean) => void;
 }) {
     const {id, serviceName, isExpanded = false, isConfirmed = false} = approvalItem;
