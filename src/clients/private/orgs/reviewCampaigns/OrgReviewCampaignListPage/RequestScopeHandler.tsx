@@ -4,8 +4,9 @@ import {FindAllReviewCampaignsQueryDto} from '^models/ReviewCampaign/type/FindAl
 
 enum Scope {
     ALL,
-    In_PROGRESS,
-    FINISHED,
+    IN_PROGRESS,
+    OVERDUE,
+    CLOSED,
 }
 
 export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<FindAllReviewCampaignsQueryDto>>}) {
@@ -17,24 +18,29 @@ export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<F
             case Scope.ALL:
                 search((prev) => ({...prev, where: {}, page: 1}));
                 break;
-            case Scope.In_PROGRESS:
+            case Scope.OVERDUE:
+                search((prev) => ({
+                    ...prev,
+                    where: {finishAt: {op: 'lt', val: new Date()}},
+                    page: 1,
+                }));
+                break;
+            case Scope.CLOSED:
                 search((prev) => ({
                     ...prev,
                     where: {
-                        // 시작일시가 현재보다 작고
-                        startAt: {op: 'lte', val: new Date()},
-                        // 종료가 안된것
-                        closedAt: 'NULL',
+                        closedAt: {op: 'mte', val: new Date()},
                     },
                     page: 1,
                 }));
                 break;
-            case Scope.FINISHED:
+            case Scope.IN_PROGRESS:
                 search((prev) => ({
                     ...prev,
                     where: {
-                        // 종료가 된것
-                        closedAt: {op: 'not', val: 'NULL'},
+                        startAt: {op: 'lte', val: new Date()},
+                        finishAt: {op: 'mt', val: new Date()},
+                        closedAt: 'NULL',
                     },
                     page: 1,
                 }));
@@ -48,12 +54,15 @@ export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<F
                 전체
             </ListPage.ScopeButton>
             <ListPage.ScopeButton
-                active={active === Scope.In_PROGRESS}
-                onClick={() => searchResource(Scope.In_PROGRESS)}
+                active={active === Scope.IN_PROGRESS}
+                onClick={() => searchResource(Scope.IN_PROGRESS)}
             >
                 진행 중
             </ListPage.ScopeButton>
-            <ListPage.ScopeButton active={active === Scope.FINISHED} onClick={() => searchResource(Scope.FINISHED)}>
+            <ListPage.ScopeButton active={active === Scope.OVERDUE} onClick={() => searchResource(Scope.OVERDUE)}>
+                마감
+            </ListPage.ScopeButton>
+            <ListPage.ScopeButton active={active === Scope.CLOSED} onClick={() => searchResource(Scope.CLOSED)}>
                 완료
             </ListPage.ScopeButton>
         </div>
