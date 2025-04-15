@@ -40,6 +40,16 @@ module.exports = {
                     800: '#7D7FF1',
                     900: '#5C5FEE',
                 },
+                neutralColor: {
+                    50: '#FAFAFA',
+                    100: '#F1F2F4',
+                    300: '#E6E6E6',
+                    500: '#D6D6D6',
+                    600: '#A6A6A6',
+                    700: '#7D7C78',
+                    800: '#37352F',
+                    900: '#000000',
+                },
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 card: {
