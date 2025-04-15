@@ -1,19 +1,21 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {ChevronRight} from 'lucide-react';
-import {formatRelative, formatDistance} from 'date-fns';
+import {formatRelative} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {MembershipDto, t_membershipLevel} from '^models/Membership/types';
 import {LinkTo} from '^components/util/LinkTo';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {orgListAltModeAtom} from './atom';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface OrgItemProps {
     membership: MembershipDto;
+    isLastVisited: boolean;
 }
 
 export const OrgItem = memo((props: OrgItemProps) => {
-    const {membership} = props;
+    const {membership, isLastVisited} = props;
     const isAltMode = useRecoilValue(orgListAltModeAtom);
     const orgId = membership.organizationId;
     const org = membership.organization;
@@ -36,7 +38,12 @@ export const OrgItem = memo((props: OrgItemProps) => {
                     </div>
                 )}
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-4">
+                {isLastVisited && (
+                    <TagUI className="bg-green-200" noMargin>
+                        최근 방문
+                    </TagUI>
+                )}
                 <ChevronRight />
             </div>
         </LinkTo>

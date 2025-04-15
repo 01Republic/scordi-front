@@ -42,7 +42,11 @@ export const OrgListPage = memo(function OrgListPage() {
 
                     <div className="w-full max-w-lg mx-auto flex flex-col gap-3">
                         {items.map((membership) => (
-                            <OrgItem key={membership.id} membership={membership} />
+                            <OrgItem
+                                key={membership.id}
+                                membership={membership}
+                                isLastVisited={membership.organizationId === currentUser?.lastSignedOrgId}
+                            />
                         ))}
                     </div>
 
