@@ -14,7 +14,7 @@ export const StepButton = (props: StepButtonProps) => {
 
     return (
         <button
-            type="button"
+            // type="button"
             onClick={!disabled ? undefined : onClick}
             className={cn(
                 'w-full flex items-center justify-center rounded-lg btn',

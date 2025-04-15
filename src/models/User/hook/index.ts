@@ -12,6 +12,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
+import {OrgListPageRoute} from '^pages/orgs';
 
 type AxiosErrorData = {
     status: number;
@@ -105,14 +106,17 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
     };
 
     const getLoginRedirectPath = (user: UserDto) => {
-        // org check
-        // org ? 대시보드로 이동
-        // : search페이지로 이동
-        if (user.lastSignedOrgId) {
-            return OrgMainPageRoute.path(user.lastSignedOrgId);
-        } else {
-            return OrgEmptyPageRoute.path();
-        }
+        const {memberships = []} = user;
+        const [membership] = memberships;
+
+        // 여러개의 워크스페이스에 속해있는 경우 => 선택페이지로 이동
+        if (memberships.length > 1) return OrgListPageRoute.path();
+
+        // 하나의 워크스페이스에 속해 있는 경우 => 그 워크스페이스 홈으로 이동
+        if (membership) return OrgMainPageRoute.path(membership.organizationId);
+
+        // 조직이 아직 생성되지 않은 사용자
+        return OrgEmptyPageRoute.path();
     };
 
     const loginRedirect = (user: UserDto) => router.push(getLoginRedirectPath(user));

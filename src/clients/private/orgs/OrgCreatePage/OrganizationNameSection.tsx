@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {Tag, Dot, TriangleAlert} from 'lucide-react';
 import cn from 'classnames';
-import {CreateOrganizationRequestDto} from '^models/User/types';
+import {CreateOrganizationRequestDto} from '^models/Organization/type';
 
 interface OrganizationNameSectionProps {
     setStep?: (val: number) => void;

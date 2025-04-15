@@ -7,8 +7,11 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentUser} from '^models/User/hook';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
+import {useIdParam} from '^atoms/common';
 
 export const SuccessSign = () => {
+    const router = useRouter();
+    const createdOrgId: number | undefined = useIdParam('orgId');
     const {currentUser} = useCurrentUser();
     const [isLoading, setIsLoading] = useState(false);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
@@ -16,7 +19,7 @@ export const SuccessSign = () => {
     const url = (() => {
         if (!currentUser) return '#';
         const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
-        return OrgMainPageRoute.path(id);
+        return OrgMainPageRoute.path(createdOrgId || id);
     })();
 
     const onClick = async () => {
@@ -25,7 +28,6 @@ export const SuccessSign = () => {
         setIsLoading(false);
     };
 
-    const router = useRouter();
     return (
         <NewLandingPageLayout pageName="AdditionalInfoPage" hideNav>
             <article className="flex flex-col items-center justify-center gap-10 w-[380px]">

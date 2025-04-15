@@ -4,7 +4,7 @@ import {ChevronDown, Dot} from 'lucide-react';
 import {TriangleAlert} from 'lucide-react';
 import {LaptopMinimal} from 'lucide-react';
 import cn from 'classnames';
-import {CreateOrganizationRequestDto} from '^models/User/types';
+import {CreateOrganizationRequestDto} from '^models/Organization/type';
 import organizationSizeData from './organizationSize.json';
 
 export const OrganizationSizeSection = () => {

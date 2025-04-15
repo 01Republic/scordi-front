@@ -6,7 +6,8 @@ import {useCurrentUser} from '^models/User/hook';
 import {useMembershipInHeader} from '^models/Membership/hook';
 import {LoadableBox} from '^components/util/loading';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {ChevronDown} from 'lucide-react';
+import {ChevronDown, Plus} from 'lucide-react';
+import {OrgCreatePageRoute} from '^pages/orgs/new';
 
 interface WorkspaceDropdownProps {
     //
@@ -67,7 +68,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     <li key={i}>
                                         <LinkTo
                                             href={orgPath}
-                                            className={`hover:bg-scordi-50 hover:text-scordi-600 ${
+                                            className={`hover:bg-scordi-50 hover:text-scordi-600 transition-all ${
                                                 isCurrent ? 'bg-scordi-50 text-scordi-600' : 'cursor-pointer'
                                             }`}
                                         >
@@ -76,6 +77,15 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     </li>
                                 );
                             })}
+                            <li>
+                                <LinkTo
+                                    href={OrgCreatePageRoute.path()}
+                                    className={`hover:bg-scordi-50 text-scordi-600 cursor-pointer transition-all flex items-center gap-2`}
+                                >
+                                    <Plus />
+                                    <span>새 워크스페이스 만들기</span>
+                                </LinkTo>
+                            </li>
                         </ul>
                     </LoadableBox>
                 );

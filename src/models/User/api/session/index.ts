@@ -1,5 +1,4 @@
 import {
-    CreateOrganizationRequestDto,
     CreateUserDetailRequestDto,
     CreateUserDeviceRequestDto,
     CreateUserRequestDto,
@@ -22,9 +21,6 @@ import {api} from '^api/api';
 import axios from 'axios';
 import {GoogleSignedUserData} from '^models/User/atom';
 import {oneDtoOf} from '^types/utils/response-of';
-import {OrganizationDto} from '^models/Organization/type';
-import {useRecoilValue} from 'recoil';
-import {googleTokenDataAtom} from '^atoms/common';
 
 export const userSessionApi = {
     index: () => {
@@ -128,12 +124,6 @@ export const SignUserApi = {
         return api.get(url, {
             headers: {'X-GOOGLE-TOKEN': accessToken},
         });
-    },
-
-    /* 조직 생성 (워크스페이스명, 회사정보) */
-    createOrganization: (data: CreateOrganizationRequestDto) => {
-        const url = '/organizations';
-        return api.post<OrganizationDto>(url, data);
     },
 
     /* 유저 상세 정보 생성 (유입경로) */

@@ -1,80 +1,58 @@
-import React, {memo} from 'react';
-import {useForm} from 'react-hook-form';
-import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
-import {CreateOrganizationRequestDto} from '^models/Organization/type';
-import {organizationApi} from '^models/Organization/api';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {errorToast} from '^api/api';
+import {FormProvider, useForm} from 'react-hook-form';
+import {SignUserDetailRoute} from '^pages/sign/detail';
+import {StepButton} from '^clients/public/home/LandingPages/SignAuthPage/StepButton';
+import {CreateOrganizationRequestDto} from '^models/Organization/type';
+import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
+import {useCreateOrganization} from '^models/Organization/hook';
+import {OrganizationNameSection} from './OrganizationNameSection';
+import {BusinessRegistrationNumberSection} from './BusinessRegistrationNumberSection';
+import {OrganizationSizeSection} from './OrganizationSizeSection';
 
-export const OrgCreatePage = memo(function OrgCreatePage() {
-    const form = useForm<CreateOrganizationRequestDto>();
+export const OrgCreatePage = memo(() => {
     const router = useRouter();
+    const {mutate, isPending} = useCreateOrganization();
+    const form = useForm<CreateOrganizationRequestDto>({
+        mode: 'all',
+    });
 
-    const onSubmit = (dto: CreateOrganizationRequestDto) => {
-        const createConfirm = () => confirm2('워크스페이스를 생성할까요?');
+    useEffect(() => {
+        localStorage.removeItem('googleTokenData');
+    }, []);
 
-        return confirmed(createConfirm())
-            .then(() => organizationApi.create(dto))
-            .then((res) => res.data)
-            .then((org) => router.push(OrgMainPageRoute.path(org.id)))
-            .catch(errorToast);
+    const onNext = () => {
+        form.handleSubmit((data: CreateOrganizationRequestDto) => {
+            mutate(data, {
+                onSuccess: ({id: orgId}) => {
+                    router.push(SignUserDetailRoute.path() + `?orgId=${orgId}`);
+                },
+            });
+        })();
     };
 
     return (
-        <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-            <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
-                <h1
-                    className="text-3xl sm:text-4xl font-bold leading-loose"
-                    onClick={() => {
-                        console.log(form.getValues());
-                    }}
-                >
-                    <span className="block mb-2">워크스페이스의 이름은</span>
-                    <span className="block">무엇으로 할까요?</span>
-                </h1>
-
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <div className="p-4">
-                        <div className="mx-auto mb-14">
-                            {/* 워크스페이스 이름 설정 */}
-                            <div className="form-control relative mb-6">
-                                <input
-                                    type="text"
-                                    className={`input sm:input-lg input-bordered flex-grow`}
-                                    {...form.register('name')}
-                                    placeholder="회사명을 입력해주세요."
-                                    required
-                                    onKeyUp={(e) => {
-                                        if (e.key === 'Enter') {
-                                            form.watch('name');
-                                        }
-                                    }}
-                                />
-                            </div>
+        <BaseLayout outOfWorkspace>
+            <main className="w-full h-screen flex items-center justify-center">
+                <FormProvider {...form}>
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
+                            <span className="text-28 font-bold text-neutral-900">회사 정보를 입력해주세요</span>
+                            <section className="w-full flex flex-col gap-3">
+                                <OrganizationNameSection />
+                                <BusinessRegistrationNumberSection />
+                                <OrganizationSizeSection />
+                            </section>
+                            <StepButton
+                                text="계속"
+                                disabled={form.formState.isValid}
+                                onClick={onNext}
+                                isPending={isPending}
+                            />
                         </div>
-
-                        {form.watch('name') ? (
-                            <button
-                                type="submit"
-                                className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
-                                // disabled={!form.watch('phone') || !codeConfirmed || isLoading}
-                                // onClick={() => agreeModalOnConfirm()}
-                            >
-                                {form.watch('name')} (으)로 시작하기
-                            </button>
-                        ) : (
-                            <button
-                                className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
-                                disabled
-                            >
-                                시작하기
-                            </button>
-                        )}
-                    </div>
-                </form>
-            </div>
-        </LandingPageLayout>
+                    </form>
+                </FormProvider>
+            </main>
+        </BaseLayout>
     );
 });
