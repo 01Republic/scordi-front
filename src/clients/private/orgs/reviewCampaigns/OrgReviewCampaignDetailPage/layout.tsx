@@ -14,7 +14,6 @@ import Link from 'next/link';
 import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
-import {LoadableBox} from '^components/util/loading';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
@@ -102,9 +101,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                         </Link>
                     </nav>
 
-                    <LoadableBox isLoading={!reviewCampaign} loadingType={2} noPadding spinnerPos="center">
-                        {children}
-                    </LoadableBox>
+                    {children}
                 </div>
             </MainContainer>
         </MainLayout>
