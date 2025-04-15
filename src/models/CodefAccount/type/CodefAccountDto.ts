@@ -11,6 +11,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {CodefConnectedIdentityDto} from '^models/CodefConnectedIdentity/type/CodefConnectedIdentityDto';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {OrganizationDto} from '^models/Organization/type';
 
 /** [Codef] 계정 */
 export class CodefAccountDto {
@@ -18,7 +19,10 @@ export class CodefAccountDto {
     id: number;
 
     // 커넥티드 아이디 FK
-    connectedIdentityId: number;
+    connectedIdentityId: number | null;
+
+    // 조직 FK
+    orgId: number;
 
     // 국가코드 (한국 : KR)
     countryCode: string;
@@ -48,10 +52,12 @@ export class CodefAccountDto {
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 
     @TypeCast(() => CodefConnectedIdentityDto) connectedIdentity?: CodefConnectedIdentityDto; // 커넥티드 아이디
+    @TypeCast(() => OrganizationDto) org?: OrganizationDto; // 조직
     @TypeCast(() => CodefCardDto) codefCards?: CodefCardDto[]; // 등록된 카드
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 등록된 카드
 
     get profile() {
+        if (!this.connectedIdentityId) return `${this.company ? `${this.company} ` : ''}(엑셀등록 가계정)`;
         return `${this.company} (${t_codefCustomerType(this.clientType)})`;
     }
 }

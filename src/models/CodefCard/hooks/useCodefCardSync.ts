@@ -11,6 +11,8 @@ import {
     useQueue,
 } from '^models/CodefCard/hooks/useCodefCardSyncQueue';
 import {confirm2} from '^components/util/dialog';
+import {useOldestCodefBillingHistory} from '^models/CodefBillingHistory/hook';
+import {useQueryClient} from '@tanstack/react-query';
 
 // export const isCodefCardSyncRunningAtom = atom({
 //     key: 'isCodefCardSyncRunningAtom',
@@ -19,6 +21,7 @@ import {confirm2} from '^components/util/dialog';
 
 export function useCodefCardSync() {
     const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
+    const queryClient = useQueryClient();
 
     const syncCard = async (orgId: number, codefCard: CodefCardDto) => {
         if (!orgId || isNaN(orgId)) return;
@@ -30,6 +33,11 @@ export function useCodefCardSync() {
                 toast.success(`${codefCard.number4} 동기화 완료!`);
                 return res;
             })
+            .then((res) =>
+                queryClient //
+                    .invalidateQueries({queryKey: ['oldest-codef-billing-history', orgId, codefCard.id]})
+                    .then(() => res),
+            )
             .catch(catchError)
             .finally(() => setIsSyncRunning(false));
     };

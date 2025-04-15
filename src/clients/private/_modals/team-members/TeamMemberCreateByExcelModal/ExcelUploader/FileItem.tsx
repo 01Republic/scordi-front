@@ -14,7 +14,8 @@ export const FileItem = memo((props: FileItemProps) => {
     const {file, remove, isLoading = false, errorMsg} = props;
 
     const removeHandler = () => {
-        confirmed(confirm2('이 파일을 제거할까요?')).then(remove).catch(console.log);
+        // confirmed(confirm2('이 파일을 제거할까요?')).then(remove).catch(console.log);
+        remove();
     };
 
     return (

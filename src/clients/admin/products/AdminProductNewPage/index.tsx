@@ -7,11 +7,12 @@ import {AdminProductsPageRoute} from '^pages/admin/products';
 import {AdminDetailPageLayout} from '^admin/layouts/DetailPageLayout';
 import {ProductForm} from '^admin/products/form/ProductForm';
 import {AdminProductPageRoute} from '^pages/admin/products/[id]';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {AxiosError} from 'axios';
 import {useRecoilValue} from 'recoil';
 import {isSubmitBlockedAtom} from '^admin/products/form/atom';
 import {AdminPageContainer} from '^admin/layouts';
+import {errorToast} from '^api/api';
 
 export const AdminProductNewPage = memo(() => {
     const router = useRouter();
@@ -31,7 +32,9 @@ export const AdminProductNewPage = memo(() => {
                 const message = errorResponse.response?.data?.message;
                 if (Array.isArray(message) && message.find((msg: string) => msg.includes('unique value'))) {
                     toast.error('중복값이 존재합니다.');
+                    return;
                 }
+                errorToast(errorResponse);
             });
     };
 

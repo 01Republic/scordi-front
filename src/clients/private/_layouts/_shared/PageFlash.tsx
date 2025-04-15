@@ -8,7 +8,7 @@ import {PageFlashPortal} from '^components/util/TopLineBannerPortal';
 import {PageFlashTheme, PageFlashType} from '^models/TopLineBanner/type';
 
 interface PageFlashProps {
-    id: number;
+    id: string;
     text: string;
     type: PageFlashType;
     theme: PageFlashTheme;

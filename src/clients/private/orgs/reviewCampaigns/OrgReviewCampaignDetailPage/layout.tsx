@@ -1,5 +1,4 @@
 import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {Button} from '^public/components/ui/button';
 import {
     Breadcrumb,
@@ -10,100 +9,104 @@ import {
     BreadcrumbSeparator,
 } from '^public/components/ui/breadcrumb';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import Link from 'next/link';
 import {cn} from '^public/lib/utils';
+import {useIdParam} from '^atoms/common';
+import Link from 'next/link';
 import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
-import {orgIdParamState} from '^atoms/common';
 import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
-import {Spinner} from '^components/util/loading';
+import {LoadableBox, Spinner} from '^components/util/loading';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
+import {reviewCampaignApi} from '^models/ReviewCampaign/api';
+import {confirm2, confirmed} from '^components/util/dialog';
+import toast from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {memo} from 'react';
+import {WithChildren} from '^types/global.type';
 
-export default function OrgReviewCampaignDetailLayout({children}: {children: React.ReactNode}) {
-    const pathname = useRouter().pathname;
-    const reviewCampaignId = parseInt(useRouter().query.reviewCampaignId as string, 10);
-    const orgId = useRecoilValue(orgIdParamState);
-    const {data: reviewCampaign} = useReviewCampaign(orgId, reviewCampaignId);
+interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
+    className?: string;
+    containerFluid?: boolean;
+}
 
-    const isActive = (path: string) => {
-        if (path === '' && (pathname.endsWith('submissions') || pathname.endsWith('changes'))) {
-            return false;
-        }
-        return pathname.endsWith(path);
+export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetailLayoutProps) => {
+    const {className = '', containerFluid = false, children} = props;
+
+    const router = useRouter();
+    const orgId = useIdParam('id');
+    const id = useIdParam('reviewCampaignId');
+    const {data: reviewCampaign} = useReviewCampaign(orgId, id);
+
+    const isActive = (path: '' | 'submissions' | 'changes') => router.pathname.endsWith(path === '' ? ']' : path);
+
+    const handleConfirm = async () => {
+        if (!isActive('changes')) return router.push(OrgReviewCampaignDetailChangesPageRoute.path(orgId, id));
+
+        const sync = () => confirm2('변경사항을 모두 승인하시겠습니까?');
+        confirmed(sync())
+            .then(() => reviewCampaignApi.approve(orgId, id))
+            .then(() => toast.success('변경사항이 모두 승인되었습니다.'))
+            .catch(errorToast);
     };
-
-    if (!reviewCampaign) {
-        return (
-            <MainLayout>
-                <MainContainer>
-                    <div className="container mx-auto py-6 max-w-7xl">
-                        <Spinner />
-                    </div>
-                </MainContainer>
-            </MainLayout>
-        );
-    }
 
     return (
         <MainLayout>
-            <MainContainer>
-                <div className="container mx-auto py-6 max-w-7xl">
-                    {/* Breadcrumb */}
-                    <Breadcrumb className="mb-4">
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href={OrgReviewCampaignListPageRoute.path(orgId)}>업무</BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbPage className="text-primaryColor-900 font-medium">요청 상세</BreadcrumbPage>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
+            <MainContainer className={className} containerFluid={containerFluid}>
+                <Breadcrumb className="mb-4">
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href={OrgReviewCampaignListPageRoute.path(orgId)}>업무</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage className="text-primaryColor-900 font-medium">요청 상세</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
 
-                    {/* Header */}
-                    <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-3xl font-bold">{reviewCampaign.title}</h1>
-                        <Button className="bg-primaryColor-900 text-white">변경사항 승인하기</Button>
-                    </div>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
+                    <Button className="bg-scordi text-white" onClick={handleConfirm}>
+                        변경사항 승인하기
+                    </Button>
+                </div>
 
-                    {/* Navigation Menu */}
-                    <div className="mb-8">
-                        <nav className="border-b flex">
-                            <Link
-                                href={OrgReviewCampaignDetailPageRoute.path(orgId, reviewCampaignId)}
-                                className={cn(
-                                    'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                    isActive('') && 'border-primaryColor-900 text-primaryColor-900',
-                                )}
-                            >
-                                개요
-                            </Link>
-                            <Link
-                                href={OrgReviewCampaignDetailSubmissionsPageRoute.path(orgId, reviewCampaignId)}
-                                className={cn(
-                                    'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                    isActive('submissions') && 'border-primaryColor-900 text-primaryColor-900',
-                                )}
-                            >
-                                제출현황
-                            </Link>
-                            <Link
-                                href={OrgReviewCampaignDetailChangesPageRoute.path(orgId, reviewCampaignId)}
-                                className={cn(
-                                    'px-4 py-2 border-b-2 border-transparent text-sm font-medium',
-                                    isActive('changes') && 'border-primaryColor-900 text-primaryColor-900',
-                                )}
-                            >
-                                변경사항
-                            </Link>
-                        </nav>
+                <div className="mb-8">
+                    <nav className="border-b flex">
+                        <Link
+                            href={OrgReviewCampaignDetailPageRoute.path(orgId, id)}
+                            className={`px-4 py-2 border-b-2 border-transparent text-14 font-medium transition-all ${
+                                isActive('') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
+                            }`}
+                        >
+                            개요
+                        </Link>
+                        <Link
+                            href={OrgReviewCampaignDetailSubmissionsPageRoute.path(orgId, id)}
+                            className={`px-4 py-2 border-b-2 border-transparent text-14 font-medium transition-all ${
+                                isActive('submissions')
+                                    ? 'border-scordi text-scordi'
+                                    : 'text-gray-500 hover:text-scordi'
+                            }`}
+                        >
+                            제출현황
+                        </Link>
+                        <Link
+                            href={OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)}
+                            className={`px-4 py-2 border-b-2 border-transparent text-14 font-medium transition-all ${
+                                isActive('changes') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
+                            }`}
+                        >
+                            변경사항
+                        </Link>
+                    </nav>
 
+                    <LoadableBox isLoading={!reviewCampaign} loadingType={2} noPadding spinnerPos="center">
                         {children}
-                    </div>
+                    </LoadableBox>
                 </div>
             </MainContainer>
         </MainLayout>
     );
-}
+});

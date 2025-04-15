@@ -1,9 +1,9 @@
-import {memo, useState} from 'react';
+import {useState} from 'react';
 import {InvoiceAccountUsingStatus} from '^models/InvoiceAccount/type';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
-export const InvoiceAccountScopeHandler = memo(function () {
+export function InvoiceAccountScopeHandler() {
     const {query, search} = useInvoiceAccounts();
     const [usingStatus, setUsingStatus] = useState<InvoiceAccountUsingStatus>();
 
@@ -44,4 +44,4 @@ export const InvoiceAccountScopeHandler = memo(function () {
             </ListPage.ScopeButton>
         </div>
     );
-});
+}

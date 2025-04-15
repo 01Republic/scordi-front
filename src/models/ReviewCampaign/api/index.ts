@@ -1,9 +1,15 @@
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {ReviewCampaignDto} from '^models/ReviewCampaign/type/ReviewCampaign.dto';
-import {FindAllReviewCampaignsQueryDto} from '../type/FindAllReviewCampaignsQuery.dto';
-import {CreateReviewCampaignRequestDto} from '../type/CreateReviewCampaignRequest.dto';
-import {UpdateReviewCampaignRequestDto} from '../type/UpdateReviewCampaignRequest.dto';
+import {
+    ReviewCampaignDto,
+    FindAllReviewCampaignsQueryDto,
+    CreateReviewCampaignRequestDto,
+    UpdateReviewCampaignRequestDto,
+    ReviewCampaignSubscriptionDto,
+    FindAllReviewCampaignSubscriptionsQueryDto,
+} from '^models/ReviewCampaign/type';
+import {ReviewResponseSubscriptionDto, FindAllReviewResponseSubscriptionsQueryDto} from '^models/ReviewResponse/type';
+import {TeamMemberDto} from '^models/TeamMember';
 
 /**
  * [요청] 요청 캠페인 API
@@ -39,9 +45,31 @@ export const reviewCampaignApi = {
         // return api.patch(url, dto).then(oneDtoOf(ReviewCampaignDto));
     },
 
-    // 요청 캠페인 삭제d
+    // 요청 캠페인 삭제
     destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/review_campaigns/${id}`;
         return api.delete(url).then(oneDtoOf(ReviewCampaignDto));
+    },
+
+    // 요청 캠페인 요청자 조회
+    author(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/review_campaigns/${id}/author`;
+        return api.get(url).then(oneDtoOf(TeamMemberDto));
+    },
+
+    // 캠페인이 요청하는 대상 구독
+    subscriptions: {
+        index(orgId: number, id: number, params: FindAllReviewCampaignSubscriptionsQueryDto) {
+            const url = `/organizations/${orgId}/review_campaigns/${id}/subscriptions`;
+            return api.get(url, {params}).then(paginatedDtoOf(ReviewCampaignSubscriptionDto));
+        },
+    },
+
+    // 요청 캠페인 응답지의 구독 응답
+    responseSubscriptions: {
+        index(orgId: number, id: number, params: FindAllReviewResponseSubscriptionsQueryDto) {
+            const url = `/organizations/${orgId}/review_campaigns/${id}/response_subscriptions`;
+            return api.get(url, {params}).then(paginatedDtoOf(ReviewResponseSubscriptionDto));
+        },
     },
 };

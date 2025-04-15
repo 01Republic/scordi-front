@@ -10,12 +10,13 @@ import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
 import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
+import {useCreditCardPageFlashForExcelUpload} from './CreditCardPageFlashHandler/atom';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
+    const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
-    const [isSuccessUploadExcel, setIsSuccessUploadExcel] = useState(false);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
@@ -27,10 +28,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
             ]}
         >
             {/* 페이지플래시 핸들러 */}
-            <CreditCardPageFlashHandler
-                uploadExcelModalConfirmOpen={() => setIsExcelModalConfirmOpen(true)}
-                isSuccessUploadExcel={isSuccessUploadExcel}
-            />
+            <CreditCardPageFlashHandler uploadExcelModalConfirmOpen={() => setIsExcelModalConfirmOpen(true)} />
 
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
@@ -78,7 +76,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                     isOpened={isExcelUploadModalOpen}
                     onClose={() => setIsExcelUploadModalOpen(false)}
                     onCreate={() => {
-                        setIsSuccessUploadExcel(true);
+                        setIsShowPageFlash(false);
                         setIsExcelUploadModalOpen(false);
                     }}
                 />

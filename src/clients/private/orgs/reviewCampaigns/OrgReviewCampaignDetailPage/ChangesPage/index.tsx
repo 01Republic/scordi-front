@@ -1,14 +1,11 @@
-'use client';
-
-import {useState, useEffect} from 'react';
-import {Checkbox} from '^public/components/ui/checkbox';
-import {Progress} from '^public/components/ui/progress';
-import OrgReviewCampaignDetailLayout from './layout';
-import ChangesItem from './ChangesItem';
+import {useIdParam} from '^atoms/common';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {memo, useEffect, useState} from 'react';
+import {Progress} from '^public/components/ui/progress';
+import {Checkbox} from '^public/components/ui/checkbox';
+import {OrgReviewCampaignDetailLayout} from '../layout';
+import ChangesItem from './ChangesItem';
+import {ChangesPageSidebar} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ChangesPage/ChangesPageSidebar';
 
 interface ApprovalItem {
     id: string;
@@ -17,11 +14,10 @@ interface ApprovalItem {
     isConfirmed?: boolean;
 }
 
-export default function OrgReviewCampaignDetailChangesPage() {
-    const router = useRouter();
-    const reviewCampaignId = parseInt(router.query.reviewCampaignId as string, 10);
-    const orgId = useRecoilValue(orgIdParamState);
-    const {data: reviewCampaign} = useReviewCampaign(orgId, reviewCampaignId);
+export const OrgReviewCampaignDetailChangesPage = memo(() => {
+    const orgId = useIdParam('id');
+    const id = useIdParam('reviewCampaignId');
+    const {data: reviewCampaign} = useReviewCampaign(orgId, id);
 
     const [approvalItems, setApprovalItems] = useState<ApprovalItem[]>([]);
     const [progress, setProgress] = useState(0);
@@ -87,37 +83,13 @@ export default function OrgReviewCampaignDetailChangesPage() {
         });
     };
 
-    if (!reviewCampaign) {
-        return (
-            <OrgReviewCampaignDetailLayout>
-                <div>Loading...</div>
-            </OrgReviewCampaignDetailLayout>
-        );
-    }
-
     return (
-        <OrgReviewCampaignDetailLayout>
-            <div className="flex mt-6">
-                <div className="w-[240px] mr-5">
-                    <div className="space-y-2 text-sm">
-                        {reviewCampaign.subscriptions?.map((sub) => {
-                            const subscriptionNamePart = sub.subscriptionName ? ` - ${sub.subscriptionName}` : '';
-                            return (
-                                <div
-                                    key={sub.subscriptionId}
-                                    className="flex items-center space-x-2 rounded-md hover:bg-gray-200 px-2 py-1.5"
-                                >
-                                    <span className="font-medium text-gray-700">
-                                        {sub.productName}
-                                        {subscriptionNamePart}
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+        <OrgReviewCampaignDetailLayout containerFluid>
+            <div className="flex mt-6 gap-8">
+                {/* Sidebar */}
+                <ChangesPageSidebar reviewCampaign={reviewCampaign} />
 
-                <div className="w-full">
+                <div className="flex-1">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold">승인 대기중 ({totalSteps - currentStep})</h2>
                         <div className="flex items-center space-x-4">
@@ -133,7 +105,7 @@ export default function OrgReviewCampaignDetailChangesPage() {
                             </div>
                             <label
                                 htmlFor="confirm-all"
-                                className="cursor-pointer text-sm border border-gray-300 bg-gray-50 rounded-lg py-1 px-2 space-x-2 flex items-center 
+                                className="cursor-pointer text-sm border border-gray-300 bg-gray-50 rounded-lg py-1 px-2 space-x-2 flex items-center
                                     has-[:checked]:text-primaryColor-900 has-[:checked]:border-primaryColor-900"
                             >
                                 <Checkbox
@@ -160,4 +132,4 @@ export default function OrgReviewCampaignDetailChangesPage() {
             </div>
         </OrgReviewCampaignDetailLayout>
     );
-}
+});

@@ -1,77 +1,41 @@
-import React, {useState} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {toast} from 'react-hot-toast';
-import {orgIdParamState} from '^atoms/common';
-import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
-import {errorToast} from '^api/api';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {reviewCampaignApi} from '^models/ReviewCampaign/api';
-import {
-    createReviewCampaignRequestAtom,
-    defaultCreateReviewCampaignRequestDto,
-    useReviewCampaignCreateStep,
-} from '../atom';
+import React, {useEffect, useState} from 'react';
+import {UseFormReturn} from 'react-hook-form';
+import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
+import {useReviewCampaignCreateStep} from '../atom';
 import {StepCard, StepCardBody, StepSubmitButton} from '../components';
 import {DatePicker} from './DatePicker';
 import {TimePicker} from './TimePicker';
+import {dayAfter} from '^utils/dateTime';
 
-export const RequestAddStep3 = () => {
-    const router = useRouter();
-    const {getStep, setFoldStep, resetSteps} = useReviewCampaignCreateStep();
-    const [formData, setFormData] = useRecoilState(createReviewCampaignRequestAtom);
-    const [date, setDate] = React.useState<Date | undefined>(undefined);
-    const [time, setTime] = React.useState<string | undefined>(undefined);
+interface Props {
+    form: UseFormReturn<CreateReviewCampaignRequestDto, any>;
+    isLoading?: boolean;
+}
+
+export const RequestAddStep3 = ({form, isLoading}: Props) => {
+    const {getStep, setFoldStep} = useReviewCampaignCreateStep();
+    const [date, setDate] = useState<Date | undefined>(dayAfter(7));
+    const [time, setTime] = useState<string>('10:00');
     const step = getStep(3);
-    const [isLoading, setIsLoading] = useState(false);
-    const orgId = useRecoilValue(orgIdParamState);
+    const {errors} = form.formState;
+    const finishAt = form.watch('finishAt');
 
-    const onSubmit = async () => {
-        if (!formData.title) {
-            toast.error('제목을 입력해주세요.');
-            return false;
-        }
+    useEffect(() => {
+        setFinishAt(date, time);
+    }, [date, time]);
 
-        if (!formData.description) {
-            toast.error('설명을 입력해주세요.');
-            return false;
-        }
-
-        if (!date || !time) {
-            toast.error('마감일 및 시간을 입력해주세요.');
-            return false;
-        }
-
+    const setFinishAt = (date: Date | undefined, time: string) => {
+        if (!date || !time) return false;
+        const finishAt = new Date(date);
         const [hours, minutes] = time.split(':').map(Number);
-        date.setHours(hours, minutes);
-
-        setFormData((prev) => ({
-            ...prev,
-            finishAt: date,
-        }));
-
-        const syncConfirm = () =>
-            confirm2(
-                '새 요청을 생성하고 알림을 보낼까요?',
-                '요청 대상자들에게 지금 바로 알림이 보내져요.',
-                'question',
-                {
-                    cancelButtonText: '돌아가기',
-                    confirmButtonText: '생성 완료하기',
-                },
-            );
-
-        return confirmed(syncConfirm())
-            .then(() => setIsLoading(true))
-            .then(() => reviewCampaignApi.create(orgId, formData).then((res) => res.data))
-            .then((campaign) => {
-                toast.success('요청이 전송되었습니다.');
-                setFormData(defaultCreateReviewCampaignRequestDto);
-                resetSteps();
-                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
-            })
-            .catch(errorToast)
-            .finally(() => setIsLoading(false));
+        finishAt.setHours(hours, minutes);
+        if (finishAt.getTime() <= new Date().getTime()) {
+            form.setError('finishAt', {type: 'range', message: '과거 시점은 선택할 수 없어요.'});
+        } else {
+            form.clearErrors('finishAt');
+        }
+        form.setValue('finishAt', finishAt);
+        return true;
     };
 
     return (
@@ -83,19 +47,22 @@ export const RequestAddStep3 = () => {
             setIsFolded={(isFolded) => setFoldStep(3, isFolded)}
         >
             <StepCardBody>
-                <div className={'space-y-2'}>
-                    <div className={'text-gray-500 text-14'}>마감일은 추후 변경 가능합니다.</div>
+                <div className={'flex flex-col gap-2'}>
+                    <div className={'text-gray-500 text-14'} onClick={() => console.log(form.getValues())}>
+                        마감일은 추후 변경 가능합니다.
+                    </div>
                     <div className={'flex space-x-4 items-center'}>
-                        <DatePicker date={date} onSelect={setDate} />
+                        <DatePicker date={finishAt} onSelect={setDate} disabled={{before: new Date()}} />
                         <TimePicker time={time} onSelect={setTime} />
                     </div>
+                    <p className="text-error text-12">{errors.finishAt?.message}&nbsp;</p>
                 </div>
 
                 <div className={'flex justify-center space-x-4'}>
                     <StepSubmitButton
+                        type="submit"
                         text="완료"
-                        onClick={onSubmit}
-                        disabled={date === undefined || time === undefined}
+                        disabled={!!errors.finishAt?.message}
                         isLoading={isLoading}
                     />
                 </div>

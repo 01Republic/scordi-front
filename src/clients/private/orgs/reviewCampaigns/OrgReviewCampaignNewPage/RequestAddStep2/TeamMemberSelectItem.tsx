@@ -1,9 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import SlackIcon from '^public/logo/icons/ic_slack.png';
-import GmailIcon from '^public/logo/icons/ic_gmail.png';
-import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^components/pages/v3/share/TeamMemberAvatar';
+import {TeamMemberDto} from '^models/TeamMember';
+import GmailIcon from '^public/logo/icons/ic_gmail.png';
+import SlackIcon from '^public/logo/icons/ic_slack.png';
+import Image from 'next/image';
 
 interface TeamMemberSelectItemProps {
     teamMember: TeamMemberDto;
@@ -31,8 +30,8 @@ export const TeamMemberSelectItem = (props: TeamMemberSelectItemProps) => {
                 </div>
             </div>
             <div className={'flex items-center justify-start space-x-3'}>
-                <Image src={SlackIcon} alt={'slack'} width={16} />
-                <Image src={GmailIcon} alt={'gmail'} width={16} />
+                {teamMember.slackMember && <Image src={SlackIcon} alt={'slack'} width={16} />}
+                {teamMember.email && <Image src={GmailIcon} alt={'gmail'} width={16} />}
             </div>
         </div>
     );

@@ -1,47 +1,61 @@
-import {memo, useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
-import {reviewCampaignListAtom} from '^models/ReviewCampaign/atom';
-import {useIdParam} from '^atoms/common';
+import {Dispatch, SetStateAction, useState} from 'react';
+import {FindAllReviewCampaignsQueryDto} from '^models/ReviewCampaign/type/FindAllReviewCampaignsQuery.dto';
 
-export const RequestScopeHandler = memo(function () {
-    const orgId = useIdParam('id');
-    const {search, query} = useReviewCampaigns(orgId, {
-        where: {organizationId: orgId},
-        relations: ['organization', 'author'],
-        itemsPerPage: 9,
-        order: {finishAt: 'DESC'},
-    });
-    const [active, setActive] = useState<number>(0);
+enum Scope {
+    ALL,
+    In_PROGRESS,
+    FINISHED,
+}
 
-    const searchResource = (type: number) => {
+export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<FindAllReviewCampaignsQueryDto>>}) {
+    const [active, setActive] = useState(Scope.ALL);
+
+    const searchResource = (type: Scope) => {
         setActive(type);
         switch (type) {
-            case 0:
-                search({...query, where: {}, page: 1});
+            case Scope.ALL:
+                search((prev) => ({...prev, where: {}, page: 1}));
                 break;
-            case 1:
-                /* TODO: 진행중 상태인 요청 필터링 */
-                search({...query, where: {finishAt: new Date()}, page: 1});
+            case Scope.In_PROGRESS:
+                search((prev) => ({
+                    ...prev,
+                    where: {
+                        // 시작일시가 현재보다 작고
+                        startAt: {op: 'lte', val: new Date()},
+                        // 종료가 안된것
+                        closedAt: 'NULL',
+                    },
+                    page: 1,
+                }));
                 break;
-            case 2:
-                /* TODO: 완료 상태인 요청 필터링 */
-                search({...query, where: {finishAt: new Date()}, page: 1});
+            case Scope.FINISHED:
+                search((prev) => ({
+                    ...prev,
+                    where: {
+                        // 종료가 된것
+                        closedAt: {op: 'not', val: 'NULL'},
+                    },
+                    page: 1,
+                }));
                 break;
         }
     };
 
     return (
         <div className="flex items-center gap-2">
-            <ListPage.ScopeButton active={active === 0} onClick={() => searchResource(0)}>
+            <ListPage.ScopeButton active={active === Scope.ALL} onClick={() => searchResource(Scope.ALL)}>
                 전체
             </ListPage.ScopeButton>
-            <ListPage.ScopeButton active={active === 1} onClick={() => searchResource(1)}>
+            <ListPage.ScopeButton
+                active={active === Scope.In_PROGRESS}
+                onClick={() => searchResource(Scope.In_PROGRESS)}
+            >
                 진행 중
             </ListPage.ScopeButton>
-            <ListPage.ScopeButton active={active === 2} onClick={() => searchResource(2)}>
+            <ListPage.ScopeButton active={active === Scope.FINISHED} onClick={() => searchResource(Scope.FINISHED)}>
                 완료
             </ListPage.ScopeButton>
         </div>
     );
-});
+}

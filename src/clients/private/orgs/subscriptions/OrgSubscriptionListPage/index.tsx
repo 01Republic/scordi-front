@@ -86,7 +86,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <AddSubscriptionButton />
                 </div>
             )}
-            ScopeHandler={SubscriptionScopeHandler}
+            ScopeHandler={<SubscriptionScopeHandler />}
             onSearch={onSearch}
             // searchInputPosition="start-of-buttons"
         >

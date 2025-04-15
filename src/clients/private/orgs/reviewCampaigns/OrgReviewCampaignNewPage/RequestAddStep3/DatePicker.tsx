@@ -5,14 +5,16 @@ import {ChevronDown} from 'lucide-react';
 import {Button} from '^public/components/ui/button';
 import {Calendar} from '^public/components/ui/calendar';
 import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/popover';
+import {DayPickerSingleProps} from 'react-day-picker';
 
 interface DatePickerProps {
     onSelect: (date: Date | undefined) => void;
     date?: Date;
+    disabled?: DayPickerSingleProps['disabled'];
 }
 
 export const DatePicker = (props: DatePickerProps) => {
-    const {date, onSelect} = props;
+    const {date, onSelect, disabled} = props;
 
     return (
         <Popover>
@@ -29,7 +31,7 @@ export const DatePicker = (props: DatePickerProps) => {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-white" align="start">
-                <Calendar mode="single" selected={date} onSelect={onSelect} initialFocus />
+                <Calendar mode="single" selected={date} onSelect={onSelect} disabled={disabled} initialFocus />
             </PopoverContent>
         </Popover>
     );

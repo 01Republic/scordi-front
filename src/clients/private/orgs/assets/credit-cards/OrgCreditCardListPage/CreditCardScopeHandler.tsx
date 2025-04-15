@@ -1,9 +1,9 @@
-import {memo, useState} from 'react';
+import {useState} from 'react';
 import {CreditCardUsingStatus} from '^models/CreditCard/type';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
-export const CreditCardScopeHandler = memo(function () {
+export function CreditCardScopeHandler() {
     const {query, search} = useCreditCardListForListPage();
     const [usingStatus, setUsingStatus] = useState<CreditCardUsingStatus>();
 
@@ -44,4 +44,4 @@ export const CreditCardScopeHandler = memo(function () {
             </ListPage.ScopeButton>
         </div>
     );
-});
+}

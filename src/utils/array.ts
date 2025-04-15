@@ -21,3 +21,5 @@ export const firstOf = <T>(arr: T[], n = 1) => arr.slice(0, n);
 export const lastOf = <T>(arr: T[], n = 1) => firstOf(reverseArr(arr), n).reverse();
 
 export const undef = <T>(d: T): T | undefined => d;
+
+export const isDefinedValue = <T>(value: T | undefined | null): value is T => !!value;

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import {CreditCardProfileCompact, CreditCardProfileOption2} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {BillingHistoryDto, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, BillingHistoryStatus, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
@@ -39,10 +39,17 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
         }
     };
 
+    const payFail = billingHistory.about === BillingHistoryStatus.PayFail;
+    const paidAtDate = payFail
+        ? yyyy_mm_dd(billingHistory.issuedAt)
+        : billingHistory.paidAt
+        ? yyyy_mm_dd(billingHistory.paidAt)
+        : '';
+
     return (
         <tr className="group">
             {/* 카드 프로필 */}
-            <td className={'text-14'}>{billingHistory.paidAt ? yyyy_mm_dd(billingHistory.paidAt) : ''}</td>
+            <td className={'text-14'}>{paidAtDate}</td>
 
             {/* 상태 */}
             <td>
