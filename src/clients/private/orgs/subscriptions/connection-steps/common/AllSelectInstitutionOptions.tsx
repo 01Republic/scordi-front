@@ -14,7 +14,7 @@ export const AllSelectInstitutionOptions = memo((props: AllSelectInstitutionOpti
             onClick={onClick}
             className="text-16 text-primaryColor-900 font-medium link link-primary no-underline"
         >
-            {isAllSelected ? '전체 선택 해제' : '전체 선택'}
+            {isAllSelected ? '선택 취소' : '전체 선택'}
         </button>
     );
 });
