@@ -14,7 +14,6 @@ export default function ChangesPageSidebar(props: ChangesPageSidebarProps) {
     const scrollToSection = (subscriptionId: string) => {
         const element = document.getElementById(`sub-${subscriptionId}`);
         if (element) {
-            console.log('Scrolling to section:', `sub-${subscriptionId}`);
             setActiveId(`sub-${subscriptionId}`);
             toggleExpand(subscriptionId, true);
             const headerOffset = 100;
