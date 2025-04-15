@@ -45,7 +45,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
         confirmed(sync())
             .then(() => reviewCampaignApi.approve(orgId, id))
             .then(() => toast.success('변경사항이 모두 승인되었습니다.'))
-            .then(() => router.push(OrgReviewCampaignDetailPageRoute.path(orgId, id)))
+            .then(() => router.push(OrgReviewCampaignListPageRoute.path(orgId)))
             .catch(errorToast);
     };
 
