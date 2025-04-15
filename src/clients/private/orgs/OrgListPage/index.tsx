@@ -1,16 +1,20 @@
 import {memo} from 'react';
+import {useSetRecoilState} from 'recoil';
+import {Plus} from 'lucide-react';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 import {useMembershipInHeader2} from '^models/Membership/hook';
 import {useCurrentUser} from '^models/User/hook';
 import {OrgItem} from '^clients/private/orgs/OrgListPage/OrgItem';
 import {OrgCreatePageRoute} from '^pages/orgs/new';
-import {Plus} from 'lucide-react';
 import {LinkTo} from '^components/util/LinkTo';
 import {BaseNav} from '^clients/private/_layouts/BaseLayout/BaseNav';
+import {useKeyPressIn} from '^hooks/useEventListener';
+import {orgListAltModeAtom} from './atom';
 
 export const OrgListPage = memo(function OrgListPage() {
+    const setAltMode = useSetRecoilState(orgListAltModeAtom);
     const {currentUser} = useCurrentUser();
-    const {data, search, isLoading} = useMembershipInHeader2(currentUser?.id, {
+    const {data, search, isSuccess} = useMembershipInHeader2(currentUser?.id, {
         relations: ['organization'],
         where: {userId: currentUser?.id},
         includeAdmin: true,
@@ -19,6 +23,13 @@ export const OrgListPage = memo(function OrgListPage() {
     });
 
     const {items, pagination} = data;
+
+    useKeyPressIn({
+        deps: [currentUser?.id, isSuccess],
+        activated: (evt) => evt.ctrlKey && evt.shiftKey && evt.altKey,
+        listener: [() => setAltMode(true), () => setAltMode(false)],
+        enable: !!currentUser?.id && isSuccess,
+    });
 
     return (
         <BaseLayout outOfWorkspace>

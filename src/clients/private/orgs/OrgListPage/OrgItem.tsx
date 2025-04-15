@@ -1,12 +1,12 @@
 import {memo} from 'react';
-import {MembershipDto, t_membershipLevel} from '^models/Membership/types';
+import {useRecoilValue} from 'recoil';
 import {ChevronRight} from 'lucide-react';
-import {LinkTo} from '^components/util/LinkTo';
-import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {formatRelative, formatDistance} from 'date-fns';
 import {ko} from 'date-fns/locale';
+import {MembershipDto, t_membershipLevel} from '^models/Membership/types';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {orgListAltModeAtom} from './atom';
 
 interface OrgItemProps {
     membership: MembershipDto;
@@ -14,6 +14,7 @@ interface OrgItemProps {
 
 export const OrgItem = memo((props: OrgItemProps) => {
     const {membership} = props;
+    const isAltMode = useRecoilValue(orgListAltModeAtom);
     const orgId = membership.organizationId;
     const org = membership.organization;
 
@@ -25,13 +26,15 @@ export const OrgItem = memo((props: OrgItemProps) => {
         >
             <div className="flex flex-col items-start">
                 <div>{membership.organization.name}</div>
-                <div className="flex items-center gap-2 text-gray-400 text-12">
-                    {/*<div>{org.createdAt.toISOString()}</div>*/}
-                    {/*<div>{new Date().toISOString()}</div>*/}
-                    <div>{formatRelative(org.createdAt, new Date(), {locale: ko})} 에 생성됨</div>
-                    <div>&middot;</div>
-                    <div>{t_membershipLevel(membership.level)}</div>
-                </div>
+                {isAltMode && (
+                    <div className="flex items-center gap-2 text-gray-400 text-12">
+                        {/*<div>{org.createdAt.toISOString()}</div>*/}
+                        {/*<div>{new Date().toISOString()}</div>*/}
+                        <div>{formatRelative(org.createdAt, new Date(), {locale: ko})} 에 생성됨</div>
+                        <div>&middot;</div>
+                        <div>{t_membershipLevel(membership.level)}</div>
+                    </div>
+                )}
             </div>
             <div className="ml-auto">
                 <ChevronRight />
