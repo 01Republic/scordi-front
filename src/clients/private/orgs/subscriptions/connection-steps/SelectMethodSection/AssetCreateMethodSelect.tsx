@@ -13,7 +13,7 @@ export const AssetCreateMethodSelect = memo(() => {
                 <section className="flex gap-3 items-center">
                     <ShieldCheck className="text-white fill-orange-400 size-16 stroke-1" />
                     <div className="text-14 font-normal text-neutral-500">
-                        데이터 암호와 통신 <br />
+                        데이터 암호화 통신 <br />
                         KISA 보안점검
                     </div>
                 </section>
