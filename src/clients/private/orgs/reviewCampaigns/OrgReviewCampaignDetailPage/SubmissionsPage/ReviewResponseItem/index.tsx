@@ -7,6 +7,7 @@ import {MoreDropdownForResponseItem} from './MoreDropdownForResponseItem';
 import Image from 'next/image';
 import SlackIcon from '^public/logo/icons/ic_slack.png';
 import GmailIcon from '^public/logo/icons/ic_gmail.png';
+import {ShowResponseButton} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/SubmissionsPage/ReviewResponseItem/ShowResponseButton';
 
 interface ReviewResponseItemProps {
     response: ReviewResponseDto;
@@ -37,13 +38,17 @@ export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
                         </div>
                     )}
                 </div>
-                <div className="md:w-[190px] text-right">{response.statusText}</div>
+                <div className="md:w-[190px] text-right whitespace-nowrap">{response.statusText}</div>
             </div>
 
             <div className="ml-auto flex items-center gap-3">
                 <SubmitStatusHandler response={response} reload={reload} />
 
-                <ResendButton response={response} reload={reload} />
+                {response.submittedAt ? (
+                    <ShowResponseButton response={response} />
+                ) : (
+                    <ResendButton response={response} reload={reload} />
+                )}
 
                 <MoreDropdownForResponseItem response={response} reload={reload} />
             </div>

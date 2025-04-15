@@ -20,7 +20,7 @@ import {ReviewSubscriptionList} from './ReviewSubscriptionList';
 import {SubmittedResponseView} from './SubmittedResponseView';
 
 export const OrgReviewResponseEditPage = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useIdParam('id');
     const campaignId = useIdParam('reviewCampaignId');
     const id = useIdParam('reviewResponseId');
     const {currentUser} = useCurrentUser();

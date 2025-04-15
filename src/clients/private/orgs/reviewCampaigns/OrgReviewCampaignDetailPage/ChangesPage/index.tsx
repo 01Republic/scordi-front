@@ -5,7 +5,7 @@ import {Progress} from '^public/components/ui/progress';
 import {Checkbox} from '^public/components/ui/checkbox';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import ChangesItem from './ChangesItem';
-import ChangesPageSidebar from './ChangesPageSidebar';
+import {ChangesPageSidebar} from './ChangesPageSidebar';
 
 interface ApprovalItem {
     id: string;

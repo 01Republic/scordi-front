@@ -19,7 +19,7 @@ export const V3OrgAppShowPageRoute = pathRoute({
 });
 
 export const getStaticPaths = async () => ({
-    paths: [],
+    paths: [{params: {orgId: '1', appId: '1'}}],
     fallback: 'blocking',
 });
 

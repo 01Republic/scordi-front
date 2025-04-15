@@ -10,7 +10,15 @@ import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 
 export class CreateOrganizationRequestDto {
-    name: string;
+    name: string; // 조직명
+
+    @TypeCast(() => CreateOrganizationBizInfoRequestDto)
+    bizInfo?: CreateOrganizationBizInfoRequestDto; // 사업자 정보
+}
+
+export class CreateOrganizationBizInfoRequestDto {
+    bizNo?: string; // 사업자등록번호
+    employeeScale?: string; // 조직규모
 }
 
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {

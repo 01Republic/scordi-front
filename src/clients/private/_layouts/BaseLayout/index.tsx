@@ -5,11 +5,11 @@ import {AOSProvider} from '^clients/public/home/LandingPages/components';
 import {AccessibleUserProvider} from './AccessibleUserProvider';
 
 interface BaseLayoutProps extends WithChildren {
-    //
+    outOfWorkspace?: boolean;
 }
 
 export const BaseLayout = memo((props: BaseLayoutProps) => {
-    const {children} = props;
+    const {outOfWorkspace = false, children} = props;
 
     useEffect(() => {
         AOS.init({duration: 300});
@@ -17,7 +17,7 @@ export const BaseLayout = memo((props: BaseLayoutProps) => {
 
     return (
         <AOSProvider>
-            <AccessibleUserProvider>{children}</AccessibleUserProvider>
+            {outOfWorkspace ? children : <AccessibleUserProvider>{children}</AccessibleUserProvider>}
         </AOSProvider>
     );
 });

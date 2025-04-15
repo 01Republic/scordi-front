@@ -3,6 +3,9 @@ import {Slot} from '@radix-ui/react-slot';
 import {cva, type VariantProps} from 'class-variance-authority';
 
 import {cn} from '^public/lib/utils';
+import {LinkTo, LinkToProps} from '^components/util/LinkTo';
+import Link from 'next/link';
+import {LinkProps} from 'next/dist/client/link';
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -52,4 +55,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = 'Button';
 
-export {Button, buttonVariants};
+export interface ButtonLinkProps extends VariantProps<typeof buttonVariants>, LinkToProps {
+    // asChild?: boolean;
+}
+
+const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>((props, ref) => {
+    const {className, variant, size, ...res} = props;
+    // const Comp = asChild ? Slot : Link;
+    return <LinkTo ref={ref} className={cn(buttonVariants({variant, size, className}))} {...res} />;
+});
+ButtonLink.displayName = 'ButtonLink';
+
+export {Button, ButtonLink, buttonVariants};

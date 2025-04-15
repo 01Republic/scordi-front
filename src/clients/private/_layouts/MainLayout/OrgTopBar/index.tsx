@@ -11,7 +11,7 @@ import {t_membershipLevel} from '^models/Membership/types';
 import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentMembership} from '^models/Membership/hook';
-import {Bell, Frown, Plus} from 'lucide-react';
+import {Bell, Plus, Snail} from 'lucide-react';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -48,7 +48,7 @@ export const OrgTopBar = memo(() => {
 
             {/* @ts-ignore */}
             <marquee className={`w-[20rem] ${isHovered ? '' : 'hidden'}`} direction="right">
-                <Frown className="text-red-600" fontSize={20} />
+                <Snail className="text-red-600" fontSize={20} />
                 {/* @ts-ignore */}
             </marquee>
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {useAlert} from '^hooks/useAlert';
@@ -6,8 +6,10 @@ import {getToken} from '^api/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {currentOrgAtom, currentOrgIsLoadingAtom, getCurrentOrgQueryAtom, getOrgQuery} from '^models/Organization/atom';
 import {organizationApi} from '^models/Organization/api';
-import {OrganizationDto} from '^models/Organization/type';
+import {CreateOrganizationRequestDto, OrganizationDto} from '^models/Organization/type';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {ErrorResponse} from '^models/User/types';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);
 
@@ -83,4 +85,15 @@ export const useCurrentOrg2 = () => {
     const currentOrg = useRecoilValue(currentOrgAtom);
 
     return {currentOrg};
+};
+
+// organization 생성
+export const useCreateOrganization = () => {
+    const queryClient = useQueryClient();
+    return useMutation<OrganizationDto, ErrorResponse, CreateOrganizationRequestDto>({
+        mutationFn: (data) => organizationApi.create(data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['createOrganization']});
+        },
+    });
 };
