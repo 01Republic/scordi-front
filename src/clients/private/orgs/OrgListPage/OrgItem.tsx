@@ -26,8 +26,8 @@ export const OrgItem = memo((props: OrgItemProps) => {
             <div className="flex flex-col items-start">
                 <div>{membership.organization.name}</div>
                 <div className="flex items-center gap-2 text-gray-400 text-12">
-                    <div>{org.createdAt.toISOString()}</div>
-                    <div>{new Date().toISOString()}</div>
+                    {/*<div>{org.createdAt.toISOString()}</div>*/}
+                    {/*<div>{new Date().toISOString()}</div>*/}
                     <div>{formatRelative(org.createdAt, new Date(), {locale: ko})} 에 생성됨</div>
                     <div>&middot;</div>
                     <div>{t_membershipLevel(membership.level)}</div>
