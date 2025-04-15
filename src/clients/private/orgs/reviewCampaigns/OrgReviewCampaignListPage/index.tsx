@@ -1,17 +1,16 @@
-import React from 'react';
+import {useIdParam} from '^atoms/common';
+import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
+import {LinkTo} from '^components/util/LinkTo';
+import {Spinner} from '^components/util/loading';
+import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
+import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
 import {debounce} from 'lodash';
 import {Plus} from 'lucide-react';
-import {useIdParam} from '^atoms/common';
-import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
-import {LinkTo} from '^components/util/LinkTo';
-import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
+import {useRouter} from 'next/router';
 import {RequestItemCard} from './RequestItemCard';
 import {RequestScopeHandler} from './RequestScopeHandler';
-import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
-import {Button} from '^public/components/ui/button';
-import {useRouter} from 'next/router';
-import {Spinner} from '^components/util/loading';
 
 export const OrgReviewCampaignListPage = () => {
     const router = useRouter();
@@ -46,7 +45,7 @@ export const OrgReviewCampaignListPage = () => {
                         loadingOnBtn
                     >
                         <Plus />
-                        <span>추가하기</span>
+                        <span>새 요청 만들기</span>
                     </LinkTo>
                 </div>
             )}
@@ -69,17 +68,19 @@ export const OrgReviewCampaignListPage = () => {
                 </>
             ) : (
                 <div className="flex flex-col justify-center items-center h-80 text-gray-400 bg-white border rounded-lg space-y-4 text-12">
-                    현재 추가된 요청이 없네요
-                    <br />새 요청을 추가하시겠어요?
-                    <Button
-                        variant={'scordi'}
-                        size={'sm'}
-                        onClick={() => router.push(OrgReviewCampaignNewPageRoute.path(orgId))}
-                        className={'gap-2'}
-                    >
-                        <Plus />
-                        <span>요청 추가하기</span>
-                    </Button>
+                    <EmptyTable
+                        message={`현재 추가된 요청이 없네요\n새 요청을 추가하시겠어요?`}
+                        Buttons={() => (
+                            <button
+                                tabIndex={0}
+                                className="btn btn-scordi gap-2 mb-1 no-animation btn-animation"
+                                onClick={() => router.push(OrgReviewCampaignNewPageRoute.path(orgId))}
+                            >
+                                <Plus />
+                                <span className="mr-1.5">새 요청 만들기</span>
+                            </button>
+                        )}
+                    />
                 </div>
             )}
         </ListPage>

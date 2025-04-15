@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react';
-import {toast} from 'react-hot-toast';
-import {useRecoilValue} from 'recoil';
-import {useRouter} from 'next/router';
-import {useForm} from 'react-hook-form';
 import {getToken} from '^api/api';
 import {orgIdParamState, useIdParam} from '^atoms/common';
 import {reviewResponseApi} from '^models/ReviewResponse/api';
 import {useReviewRequest} from '^models/ReviewResponse/hook';
-import {useCurrentUser} from '^models/User/hook';
 import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {useCurrentUser} from '^models/User/hook';
 import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
 import {Button} from '^public/components/ui/button';
+import {LoaderCircle} from 'lucide-react';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
 import {ExpiredResponseView} from './ExpiredResponseView';
 import {ReviewCampaignHeader} from './ReviewCampaignHeader';
 import {ReviewInquiryForm} from './ReviewInquiryForm';
@@ -27,6 +28,7 @@ export const OrgReviewResponseEditPage = () => {
     const {data: response, isError} = useReviewRequest(orgId, campaignId, id, token || '');
     const router = useRouter();
     const form = useForm<UpdateReviewResponseRequestDto>();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (isError && !response) router.replace('/404');
@@ -48,6 +50,7 @@ export const OrgReviewResponseEditPage = () => {
     }, [response]);
 
     const onSubmit = (data: UpdateReviewResponseRequestDto) => {
+        setIsLoading(true);
         reviewResponseApi
             .submit(orgId, campaignId, id, token || '', data)
             .then(() => {
@@ -56,6 +59,9 @@ export const OrgReviewResponseEditPage = () => {
             .catch((error) => {
                 toast.error('응답 제출 중 오류가 발생했습니다.');
                 console.error(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -86,8 +92,8 @@ export const OrgReviewResponseEditPage = () => {
                     <ReviewInquiryForm form={form} />
 
                     <div className="grid w-full items-center">
-                        <Button size="xl" variant="scordi" type="submit">
-                            작성 완료
+                        <Button size="xl" variant="scordi" type="submit" disabled={isLoading}>
+                            {isLoading ? <LoaderCircle className="animate-spin" strokeWidth="4px" /> : '작성 완료'}
                         </Button>
                         <div className="text-gray-400 text-center py-3 text-12">powered by scordi</div>
                     </div>

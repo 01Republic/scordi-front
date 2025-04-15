@@ -1,7 +1,7 @@
-import React, {ButtonHTMLAttributes, memo} from 'react';
-import {ReactNodeElement} from '^types/global.type';
 import {Button} from '^public/components/ui/button';
+import {ReactNodeElement} from '^types/global.type';
 import {LoaderCircle} from 'lucide-react';
+import {ButtonHTMLAttributes, memo} from 'react';
 
 interface StepSubmitButtonProps {
     type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
@@ -18,7 +18,7 @@ export const StepSubmitButton = memo((props: StepSubmitButtonProps) => {
         <Button
             size="xl"
             type={type}
-            variant={isLoading ? 'gray' : `scordi`}
+            variant={isLoading || disabled ? 'gray' : `scordi`}
             className={`w-64`}
             onClick={onClick}
             disabled={disabled}

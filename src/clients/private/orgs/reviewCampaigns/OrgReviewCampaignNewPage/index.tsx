@@ -50,12 +50,12 @@ export const OrgReviewCampaignNewPage = () => {
 
         const syncConfirm = () =>
             confirm2(
-                '새 요청을 생성하고 알림을 보낼까요?',
-                '요청 대상자들에게 지금 바로 알림이 보내져요.',
-                'question',
+                '요청을 만들고 알림을 보낼까요?',
+                '요청을 만들면 즉시 대상자에게 알림이 가요.\n요청 대상자로 선택된 구성원에게 요청 알림을 보낼까요?',
+                undefined,
                 {
-                    cancelButtonText: '돌아가기',
-                    confirmButtonText: '생성 완료하기',
+                    cancelButtonText: '취소',
+                    confirmButtonText: '확인',
                 },
             );
 
