@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
@@ -7,10 +7,17 @@ import {BusinessTypeSelector} from '../../common/BusinessTypeSelector';
 import {BankSelector} from '../../common/BankSelector';
 import {CardSelector} from '../../common/CardSelector';
 import {NextStepButton} from '../../common/NextStepButton';
+import {CertificateLinkModal} from '^clients/private/orgs/subscriptions/connection-steps/selectInstitutionsSection/ByCertificatePage/CertificateLinkModal';
+import {CertificateSetupModal} from '^clients/private/orgs/subscriptions/connection-steps/selectInstitutionsSection/ByCertificatePage/CertificateSetupModal';
 
 export const ByCertificatePage = memo(() => {
     const {reset} = useFormContext<CreateAccountRequestDto>();
-    const onclick = () => {};
+    const [isCertificateLinkModalOpen, setCertificateLinkModalOpen] = useState(false);
+    const [isCertificateSetupModalOpen, setCertificateSetupModalOpen] = useState(false);
+    const onclick = () => {
+        // setCertificateLinkModalOpen(true);
+        setCertificateSetupModalOpen(true);
+    };
 
     return (
         <PureLayout>
@@ -30,6 +37,14 @@ export const ByCertificatePage = memo(() => {
                     <NextStepButton onClick={onclick} />
                 </section>
             </article>
+            <CertificateLinkModal
+                isOpen={isCertificateLinkModalOpen}
+                onClose={() => setCertificateLinkModalOpen(false)}
+            />
+            <CertificateSetupModal
+                isOpen={isCertificateSetupModalOpen}
+                onClose={() => setCertificateSetupModalOpen(false)}
+            />
         </PureLayout>
     );
 });
