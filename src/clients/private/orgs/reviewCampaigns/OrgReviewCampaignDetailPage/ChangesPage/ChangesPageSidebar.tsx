@@ -7,7 +7,7 @@ interface ChangesPageSidebarProps {
     toggleExpand: (id: string, value?: boolean) => void;
 }
 
-export default function ChangesPageSidebar(props: ChangesPageSidebarProps) {
+export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
     const {reviewCampaign, toggleExpand} = props;
     const [activeId, setActiveId] = useState<string | null>(null);
 
