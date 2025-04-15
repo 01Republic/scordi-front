@@ -31,15 +31,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
         });
     }, [currentOrg, currentUser]);
 
-    if (!currentOrg) return <></>;
-
-    if (result.pagination.totalItemCount === 1) {
-        return (
-            <div className="font-medium cursor-default flex items-center gap-0.5">
-                <span>{currentOrg?.name}</span>
-            </div>
-        );
-    }
+    // if (!currentOrg) return <></>;
 
     return (
         <Dropdown
@@ -77,10 +69,10 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     </li>
                                 );
                             })}
-                            <li>
+                            <li className="sticky bottom-0 border-t">
                                 <LinkTo
                                     href={OrgCreatePageRoute.path()}
-                                    className={`hover:bg-scordi-50 text-scordi-600 cursor-pointer transition-all flex items-center gap-2`}
+                                    className={`bg-white hover:bg-scordi-50 text-scordi-600 cursor-pointer transition-all flex items-center gap-2`}
                                 >
                                     <Plus />
                                     <span>새 워크스페이스 만들기</span>
