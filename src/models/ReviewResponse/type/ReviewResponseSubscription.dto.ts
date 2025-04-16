@@ -36,4 +36,12 @@ export class ReviewResponseSubscriptionDto {
             [DONT_KNOW]: filter(DONT_KNOW),
         };
     }
+
+    get usingStatusFormValue() {
+        if (this.usingStatus) return this.usingStatus;
+
+        return this.isUsedBefore
+            ? ReviewResponseSubscriptionUsingStatus.IN_USE
+            : ReviewResponseSubscriptionUsingStatus.NO_USE;
+    }
 }

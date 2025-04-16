@@ -1,17 +1,16 @@
+import {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
+import {useForm} from 'react-hook-form';
+import {LoaderCircle} from 'lucide-react';
+import {toast} from 'react-hot-toast';
 import {getToken} from '^api/api';
-import {orgIdParamState, useIdParam} from '^atoms/common';
-import {reviewResponseApi} from '^models/ReviewResponse/api';
-import {useReviewRequest} from '^models/ReviewResponse/hook';
-import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
-import {useCurrentUser} from '^models/User/hook';
+import {useIdParam} from '^atoms/common';
 import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
 import {Button} from '^public/components/ui/button';
-import {LoaderCircle} from 'lucide-react';
-import {useRouter} from 'next/router';
-import {useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast';
-import {useRecoilValue} from 'recoil';
+import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {useReviewRequest} from '^models/ReviewResponse/hook';
+import {ReviewResponseSubscriptionUsingStatus, UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {useCurrentUser} from '^models/User/hook';
 import {ExpiredResponseView} from './ExpiredResponseView';
 import {ReviewCampaignHeader} from './ReviewCampaignHeader';
 import {ReviewInquiryForm} from './ReviewInquiryForm';
@@ -44,7 +43,7 @@ export const OrgReviewResponseEditPage = () => {
         const subscriptions = (response.subscriptions || []).map((sub) => ({
             id: sub.id,
             subscriptionId: sub.subscriptionId,
-            usingStatus: sub.usingStatus,
+            usingStatus: sub.usingStatusFormValue,
         }));
         form.setValue('subscriptions', subscriptions);
     }, [response]);
@@ -95,7 +94,10 @@ export const OrgReviewResponseEditPage = () => {
                         <Button size="xl" variant="scordi" type="submit" disabled={isLoading}>
                             {isLoading ? <LoaderCircle className="animate-spin" strokeWidth="4px" /> : '작성 완료'}
                         </Button>
-                        <div className="text-gray-400 text-center py-3 text-12">powered by scordi</div>
+                        <div className="text-gray-400 text-center py-3 text-12">
+                            <span onClick={() => console.log(form.getValues())}>p</span>owered by scord
+                            <span onClick={() => console.log(response)}>i</span>
+                        </div>
                     </div>
                 </div>
             </div>
