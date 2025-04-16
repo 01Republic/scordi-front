@@ -24,7 +24,7 @@ export const ByCertificatePage = memo(() => {
     return (
         <PureLayout>
             {isShowLoadingScreen ? (
-                <LoadingScreen />
+                <LoadingScreen onComplete={() => setIsShowLoadingScreen(false)} />
             ) : (
                 <>
                     <article className="w-full flex flex-col gap-20">
