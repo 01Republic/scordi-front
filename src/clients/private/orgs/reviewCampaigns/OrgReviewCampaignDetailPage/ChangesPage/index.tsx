@@ -18,6 +18,14 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
                         const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
                         window.scrollTo({top: offsetPosition, behavior: 'smooth'});
+
+                        const toggleClassList = ['!border-indigo-500', '!bg-indigo-50', 'bg-opacity-10'];
+                        toggleClassList.forEach((toggleClass) => {
+                            element.classList.add(toggleClass);
+                            setTimeout(() => {
+                                element.classList.remove(toggleClass);
+                            }, 3000);
+                        });
                     }}
                 />
 

@@ -1,8 +1,10 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {cn} from '^public/lib/utils';
 import {useIdParam} from '^atoms/common';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
+import {Avatar} from '^components/Avatar';
+import {HelpCircle} from 'lucide-react';
 
 interface ChangesPageSidebarProps {
     onSelect: (campaignSub: ReviewCampaignSubscriptionDto) => any;
@@ -43,7 +45,18 @@ export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
                                     isActive ? 'text-scordi' : 'text-gray-700'
                                 }`}
                             >
-                                <div className="">{campaignSub.title}</div>
+                                <div className="flex items-center gap-2">
+                                    <Avatar
+                                        className="w-[20px]"
+                                        src={campaignSub.productImage}
+                                        alt={campaignSub.productName}
+                                        draggable={false}
+                                        loading="lazy"
+                                    >
+                                        <HelpCircle size={20} className="text-gray-300 h-full w-full p-[6px]" />
+                                    </Avatar>
+                                    <div>{campaignSub.title}</div>
+                                </div>
                                 <div className="ml-auto">
                                     {/*<div className="bg-white border min-w-[22px] flex items-center justify-center rounded-lg" />*/}
                                 </div>

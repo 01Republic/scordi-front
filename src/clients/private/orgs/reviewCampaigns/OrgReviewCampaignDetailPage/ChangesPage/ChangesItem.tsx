@@ -16,7 +16,7 @@ interface ChangesItemProps {
     campaignSubscription: ReviewCampaignSubscriptionDto;
     responseSubscriptions: ReviewResponseSubscriptionDto[];
     isConfirmed: boolean;
-    toggleConfirm: (campaignSubscription: ReviewCampaignSubscriptionDto, value: boolean) => any;
+    toggleConfirm: (confirmed: boolean) => any;
 }
 
 /**
@@ -32,7 +32,11 @@ export function ChangesItem(props: ChangesItemProps) {
     }, [isConfirmed]);
 
     return (
-        <div className="border rounded-lg bg-white">
+        <div
+            id={campaignSubscription.domId}
+            tabIndex={0}
+            className="group border rounded-lg bg-white transition-all focus:border-indigo-500 focus:bg-indigo-50 focus:bg-opacity-10"
+        >
             <div className="flex items-center justify-between p-2">
                 <div className="flex flex-1 items-center gap-2 cursor-pointer" onClick={() => setIsExpanded((v) => !v)}>
                     <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} />
@@ -42,56 +46,51 @@ export function ChangesItem(props: ChangesItemProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <CheckBoxButton
-                        checked={isConfirmed}
-                        onChange={(checked) => toggleConfirm(campaignSubscription, checked)}
-                    >
+                    <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>
                         <span className="font-medium">확인 완료</span>
                     </CheckBoxButton>
                 </div>
             </div>
 
-            {isExpanded && (
-                <div className="p-4 border-t">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        {[
-                            ReviewResponseSubscriptionUsingStatus.IN_USE,
-                            ReviewResponseSubscriptionUsingStatus.NO_USE,
-                            ReviewResponseSubscriptionUsingStatus.DONT_KNOW,
-                        ].map((usingStatus, i) => {
-                            const title = t_reviewResponseSubscriptionUsingStatus(usingStatus);
-                            const [bgColor, textColor] = c_reviewResponseSubscriptionUsingStatus(usingStatus);
-                            const responseSubs = groupedResponseSubs[usingStatus];
+            <div className={`h-0 ${isExpanded ? '!h-[initial]' : ''} overflow-hidden transition-all`}>
+                <div className="p-4 border-t grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {[
+                        ReviewResponseSubscriptionUsingStatus.IN_USE,
+                        ReviewResponseSubscriptionUsingStatus.NO_USE,
+                        ReviewResponseSubscriptionUsingStatus.DONT_KNOW,
+                    ].map((usingStatus, i) => {
+                        const title = t_reviewResponseSubscriptionUsingStatus(usingStatus);
+                        const [bgColor, textColor] = c_reviewResponseSubscriptionUsingStatus(usingStatus);
+                        const responseSubs = groupedResponseSubs[usingStatus];
 
-                            // 칸반의 한 열
-                            return (
-                                <div
-                                    key={i}
-                                    className={`bg-${bgColor} bg-opacity-30 rounded-lg p-2.5`}
-                                    onDragEnter={(e) => {
-                                        console.log('Drag Enter', title, e.target);
-                                    }}
-                                >
-                                    <div className="flex items-center mb-4 space-x-2">
-                                        <TagUI className={`bg-${bgColor} text-${textColor}`} noMargin>
-                                            {title}
-                                        </TagUI>
-                                        <span className={`text-12 text-${textColor} font-medium`}>
-                                            {responseSubs.length}
-                                        </span>
-                                    </div>
-
-                                    <div className="space-y-2.5">
-                                        {responseSubs.map((responseSub) => (
-                                            <ResponseSubCard key={responseSub.id} responseSub={responseSub} />
-                                        ))}
-                                    </div>
+                        // 칸반의 한 열
+                        return (
+                            <div
+                                key={i}
+                                className={`bg-${bgColor} bg-opacity-30 rounded-lg p-2.5`}
+                                onDragEnter={(e) => {
+                                    console.log('Drag Enter', title, e.target);
+                                }}
+                            >
+                                <div className="flex items-center mb-4 space-x-2">
+                                    <TagUI className={`bg-${bgColor} text-${textColor}`} noMargin>
+                                        {title}
+                                    </TagUI>
+                                    <span className={`text-12 text-${textColor} font-medium`}>
+                                        {responseSubs.length}
+                                    </span>
                                 </div>
-                            );
-                        })}
-                    </div>
+
+                                <div className="space-y-2.5">
+                                    {responseSubs.map((responseSub) => (
+                                        <ResponseSubCard key={responseSub.id} responseSub={responseSub} />
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
-            )}
+            </div>
         </div>
     );
 }
