@@ -42,7 +42,7 @@ export const reviewCampaignApi = {
     // TODO: 요청 캠페인 최종 승인
     approve(orgId: number, id: number) {
         const url = `/organizations/${orgId}/review_campaigns/${id}/approve`;
-        // return api.patch(url, dto).then(oneDtoOf(ReviewCampaignDto));
+        return api.patch(url).then(oneDtoOf(ReviewCampaignDto));
     },
 
     // 요청 캠페인 삭제
