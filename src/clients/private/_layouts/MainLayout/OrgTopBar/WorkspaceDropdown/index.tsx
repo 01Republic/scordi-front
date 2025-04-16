@@ -45,13 +45,15 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
             )}
             Content={({visible, show, hide}) => {
                 if (!currentUser) return <></>;
+                if (!currentOrg) return <></>;
 
                 const {items, pagination} = result;
+                const memberships = items.filter((it) => it.organizationId !== currentOrg.id);
 
                 return (
                     <LoadableBox isLoading={isLoading} noPadding loadingType={2}>
                         <ul className="p-0 text-13 shadow-xl menu dropdown-content z-[1] bg-base-100 border rounded-md max-h-[300px] block overflow-y-auto no-scrollbar">
-                            {items.map((membership, i) => {
+                            {memberships.map((membership, i) => {
                                 const orgId = membership.organizationId;
                                 const orgName = membership.organization.name;
                                 const orgPath = OrgMainPageRoute.path(orgId);
