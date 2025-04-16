@@ -10,11 +10,17 @@ export const RequestAddStep1 = ({form}: {form: UseFormReturn<CreateReviewCampaig
     const step = getStep(1);
     const title = form.watch('title');
     const description = form.watch('description');
+    const {errors} = form.formState;
 
     const validTitle = () => {
         const value = `${title || ''}`.trim();
-        if (value.length === 0) return false; // required
-        if (value.length > 30) return false; // maxLength
+        // form.trigger('title');
+        if (value.length === 0) {
+            return false; // required
+        }
+        if (value.length > 30) {
+            return false; // maxLength
+        }
         return true;
     };
 
@@ -40,23 +46,33 @@ export const RequestAddStep1 = ({form}: {form: UseFormReturn<CreateReviewCampaig
                         type="text"
                         id="title"
                         placeholder="제목을 입력해주세요."
-                        className={`bg-white`}
-                        {...form.register('title')}
+                        className={`bg-white ${errors.title?.message ? '!ring-1 !ring-error' : ''}`}
+                        {...form.register('title', {
+                            required: {value: true, message: '필수 입력 사항입니다.'},
+                            maxLength: {value: 30, message: '30자 이내로 입력해주세요.'},
+                        })}
                     />
+                    <p className="text-error text-12">{errors.title?.message}&nbsp;</p>
                 </div>
 
-                <div className="grid w-full items-center gap-2">
+                <div className="flex flex-col gap-2">
                     <InputLabel required>요청 내용</InputLabel>
                     <Textarea
                         id="description"
-                        placeholder={`최대 200자 입력`}
+                        placeholder="내용을 입력해주세요."
                         rows={8}
-                        {...form.register('description')}
+                        className={`bg-white ${errors.description?.message ? '!ring-1 !ring-error' : ''}`}
+                        {...form.register('description', {
+                            required: {value: true, message: '필수 입력 사항입니다.'},
+                            maxLength: {value: 200, message: '200자 이내로 입력해주세요.'},
+                        })}
                     />
+                    <p className="text-error text-12">{errors.description?.message}&nbsp;</p>
                 </div>
 
                 <div className={'flex justify-center space-x-4'}>
                     <StepSubmitButton
+                        type="button"
                         onClick={() => {
                             setFoldStep(1, true);
                             changeStep(2);

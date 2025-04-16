@@ -83,7 +83,10 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 {/* 불러온 카드명 */}
                 <div className="col-span-2 flex items-center justify-between">
                     <div className="whitespace-nowrap overflow-hidden">
-                        <span className={isSleep ? sleepStyleClass : ''}>{codefCard.resCardName}</span>
+                        <span className={isSleep ? sleepStyleClass : ''}>
+                            {!account.connectedIdentityId ? <b>[by 엑셀] </b> : ''}
+                            {codefCard.resCardName}
+                        </span>
                     </div>
 
                     <div className="hidden group-hover:flex">

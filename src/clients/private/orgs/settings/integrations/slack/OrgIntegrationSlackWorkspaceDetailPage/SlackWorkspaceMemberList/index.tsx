@@ -3,15 +3,15 @@ import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackM
 import {LoadableBox} from '^components/util/loading';
 import {SlackWorkspaceMemberRow} from './SlackWorkspaceMemberRow';
 import {SlackWorkspaceMemberListHeader} from './SlackWorkspaceMemberListHeader';
-import {SlackMemberListSearchInput} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceMemberList/SlackMemberListSearchInput';
-import {ActiveMemberFilter} from '^clients/private/orgs/settings/integrations/slack/OrgIntegrationSlackWorkspaceDetailPage/SlackWorkspaceMemberList/ActiveMemberFilter';
+import {SlackMemberListSearchInput} from './SlackMemberListSearchInput';
+import {ActiveMemberFilter} from './ActiveMemberFilter';
 
 interface SlackWorkspaceMemberListProps {
     //
 }
 
 export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListProps) => {
-    const {data: result, search, isFetching, refetch, prevPage, nextPage} = useSlackMembersInDetailPage();
+    const {data: result, search, params, isFetching, refetch, prevPage, nextPage} = useSlackMembersInDetailPage();
 
     return (
         <div>
@@ -20,10 +20,11 @@ export const SlackWorkspaceMemberList = memo((props: SlackWorkspaceMemberListPro
 
                 <div className="flex items-center gap-3">
                     <ActiveMemberFilter
+                        defaultChecked={!params.where?.isDeleted}
                         onChange={(isDeleted) => {
                             return search((p) => {
                                 const {where} = p;
-                                return {...p, where: {...where, isDeleted}};
+                                return {...p, where: {...where, isDeleted}, page: 1};
                             });
                         }}
                     />

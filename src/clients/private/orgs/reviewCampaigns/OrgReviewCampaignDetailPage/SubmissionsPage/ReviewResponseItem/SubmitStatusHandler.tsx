@@ -6,6 +6,8 @@ import {reviewResponseApi} from '^models/ReviewResponse/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {Spinner} from '^components/util/loading';
+import {ArrowRightLeft} from 'lucide-react';
+import {Button} from '^public/components/ui/button';
 
 interface SubmitStatusHandlerProps {
     response: ReviewResponseDto;
@@ -31,30 +33,35 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
     return (
         <MoreDropdown
             Trigger={() => (
-                <div
-                    className={cn(
-                        'w-24 px-4 py-2 rounded-md text-center cursor-pointer shadow',
-                        isLoading ? 'bg-gray-50 pointer-events-none opacity-40' : '',
-                        response.submittedAt
-                            ? 'bg-white text-gray-900 border border-gray-200'
-                            : 'bg-primaryColor-900 text-white',
-                    )}
+                <Button
+                    variant={response.submittedAt ? 'outline' : 'scordi'}
+                    className={`border-gray-200 w-24 !outline-none cursor-pointer shadow hover:shadow-lg transition-all ${
+                        isLoading ? 'pointer-events-none opacity-40' : ''
+                    }`}
                 >
-                    {isLoading ? <Spinner /> : response.submittedAt ? '제출완료' : '미제출'}
-                </div>
+                    {isLoading ? <Spinner /> : response.submittedAt ? '제출 완료' : '미제출'}
+                </Button>
             )}
-            offset={[0, 0]}
-            placement="bottom"
+            offset={[0, 5]}
+            placement="bottom-end"
         >
             {({hide}) => (
-                <MoreDropdown.Content>
+                <MoreDropdown.Content className={`!min-w-[initial] w-24 !py-0.5 ${isLoading ? 'hidden' : ''}`}>
                     {response.submittedAt ? (
-                        <MoreDropdown.MenuItem className="" onClick={() => update({submittedAt: null}, hide)}>
-                            미제출
+                        <MoreDropdown.MenuItem
+                            className="flex items-center gap-2"
+                            onClick={() => update({submittedAt: null}, hide)}
+                        >
+                            <ArrowRightLeft />
+                            <span>미제출</span>
                         </MoreDropdown.MenuItem>
                     ) : (
-                        <MoreDropdown.MenuItem className="" onClick={() => update({submittedAt: new Date()}, hide)}>
-                            제출완료
+                        <MoreDropdown.MenuItem
+                            className="flex items-center gap-2"
+                            onClick={() => update({submittedAt: new Date()}, hide)}
+                        >
+                            <ArrowRightLeft />
+                            <span>제출완료</span>
                         </MoreDropdown.MenuItem>
                     )}
                 </MoreDropdown.Content>

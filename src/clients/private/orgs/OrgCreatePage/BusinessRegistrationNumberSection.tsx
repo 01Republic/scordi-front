@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {Building, TriangleAlert, Dot} from 'lucide-react';
 import cn from 'classnames';
-import {CreateOrganizationRequestDto} from '^models/User/types';
+import {CreateOrganizationRequestDto} from '^models/Organization/type';
 
 export const BusinessRegistrationNumberSection = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
@@ -27,8 +27,8 @@ export const BusinessRegistrationNumberSection = () => {
             value: validBizNoRegex,
             message: '사업자등록번호 형식이 올바르지 않습니다. (예: 000-00-00000)',
         },
-        validate: (value) => {
-            const digits = value.replace(/-/g, '');
+        validate: (value = '') => {
+            const digits = value.replace(/\D/g, '');
             return digits.length === 10 || '사업자등록번호는 숫자 10자리여야 합니다.';
         },
     });

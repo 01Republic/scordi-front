@@ -7,6 +7,7 @@ import {FindAllIntegrationSlackMemberQueryDto} from '../type/FindAllIntegrationS
 
 const defaultParams: FindAllIntegrationSlackMemberQueryDto = {
     relations: ['teamMember'],
+    where: {isDeleted: false},
     order: {isDeleted: 'ASC', id: 'DESC'},
     itemsPerPage: 15,
 };

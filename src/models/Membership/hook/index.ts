@@ -1,5 +1,5 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {membershipApi, myMembershipApi} from '^models/Membership/api';
 import {currentUserAtom, currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {
@@ -13,6 +13,8 @@ import {
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
 import {orgIdParamState} from '^atoms/common';
+import {useQuery} from '@tanstack/react-query';
+import {Paginated} from '^types/utils/paginated.dto';
 
 // 팀멤버 초대모달 / 이미 가입된 유저인지 확인
 export const useMembershipInInviteModal = () => useMemberships(membershipInInviteModalAtom);
@@ -25,6 +27,22 @@ export const useMembershipInHeader = (mergeMode = false) =>
         mergeMode,
         getId: 'id',
     });
+
+export const useMembershipInHeader2 = (userId: number | undefined, params: FindAllMembershipQuery = {}) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: ['useMembershipInHeader2', userId, params],
+        queryFn: () => myMembershipApi.index(params).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!userId,
+    });
+
+    return {
+        query,
+        search: setQuery,
+        ...queryResult,
+    };
+};
 
 // membershipTable
 export const useMembershipInMembershipTable = () => useMemberships(membershipInMembershipTable);

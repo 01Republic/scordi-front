@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
-import {ReactComponentLike} from 'prop-types';
 import {Inbox} from 'lucide-react';
+import {ReactComponentLike} from 'prop-types';
+import {memo} from 'react';
 
 interface EmptyTableProps {
     Icon?: () => JSX.Element;
@@ -16,7 +16,7 @@ export const EmptyTable = memo((props: EmptyTableProps) => {
     return (
         <div className={'flex flex-col items-center justify-center py-16'}>
             <p className={'text-2xl text-slate-200 mb-4'}>{Icon && <Icon />}</p>
-            <p className="text-16 font-semibold text-gray-400 mb-1.5">{message}</p>
+            <p className="text-16 font-semibold text-gray-400 mb-1.5 whitespace-pre-line">{message}</p>
 
             {Buttons && (
                 <div className={'py-4'}>

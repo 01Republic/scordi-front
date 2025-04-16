@@ -23,7 +23,7 @@ export const CodefAccountListContent = memo(function (props: TabPaneProps) {
         if (!org) return;
         search({
             relations: ['connectedIdentity', 'codefCards', 'creditCards'],
-            where: {connectedIdentity: {organizationId: org.id}},
+            where: {orgId: org.id},
             order: {id: 'DESC'},
         });
         setSelectedCodefAccount(undefined);

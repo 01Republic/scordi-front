@@ -30,8 +30,8 @@ export class ReviewResponseDto {
 
     get statusText() {
         const yyyyMMDdHHMm = 'yyyy-MM-dd HH:mm';
-        if (this.submittedAt) return `${format(this.submittedAt, yyyyMMDdHHMm)}에 제출됨`;
-        if (this.lastSentAt) return `${format(this.lastSentAt, yyyyMMDdHHMm)}에 알림`;
+        if (this.submittedAt) return `${format(this.submittedAt, yyyyMMDdHHMm)} 에 제출됨 ✅`;
+        if (this.lastSentAt) return `${format(this.lastSentAt, yyyyMMDdHHMm)} 에 알림 📣`;
         return '미발송';
     }
 }

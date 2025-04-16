@@ -1,13 +1,13 @@
-import { createReviewCampaignRequestAtom } from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/atom';
-import { TeamMemberDto } from '^models/TeamMember';
-import { Button } from '^public/components/ui/button';
-import { Input } from '^public/components/ui/input';
-import { cn } from '^public/lib/utils';
-import React, { useEffect, useRef } from 'react';
-import { useRecoilState } from 'recoil';
-import { TeamMemberSelectItem } from './TeamMemberSelectItem';
-import { UseFormReturn } from 'react-hook-form';
-import { CreateReviewCampaignRequestDto } from '^models/ReviewCampaign/type';
+import {createReviewCampaignRequestAtom} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/atom';
+import {TeamMemberDto} from '^models/TeamMember';
+import {Button} from '^public/components/ui/button';
+import {Input} from '^public/components/ui/input';
+import {cn} from '^public/lib/utils';
+import React, {useEffect, useRef} from 'react';
+import {useRecoilState} from 'recoil';
+import {TeamMemberSelectItem} from './TeamMemberSelectItem';
+import {UseFormReturn} from 'react-hook-form';
+import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
 
 interface TeamMemberSearchProps {
     form: UseFormReturn<CreateReviewCampaignRequestDto, any>;
@@ -15,7 +15,7 @@ interface TeamMemberSearchProps {
     onSelectMember: (member: TeamMemberDto) => void;
 }
 
-export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({ form, teamMembers, onSelectMember }) => {
+export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMembers, onSelectMember}) => {
     // const [selectedIds] = useRecoilState(createReviewCampaignRequestAtom);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [keyword, setKeyword] = React.useState<string>('');
@@ -28,7 +28,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({ form, teamMe
 
     const selectAllMembers = () => {
         const allSelected = selectedIds.length === teamMembers.length;
-        const teamMemberIds = teamMembers.map(({ id }) => id);
+        const teamMemberIds = teamMembers.map(({id}) => id);
         form.setValue('teamMemberIds', allSelected ? [] : teamMemberIds);
     };
 
@@ -79,7 +79,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({ form, teamMe
             </div>
             <div className={'flex justify-between items-center text-sm'}>
                 <div className={'ml-1'}>{selectedIds.length}명 선택됨</div>
-                <Button size={'sm'} variant={'scordiWhite'} onClick={selectAllMembers}>
+                <Button type="button" size={'sm'} variant={'scordiGhost'} onClick={selectAllMembers}>
                     전체선택 {selectedIds.length === teamMembers.length ? '해제' : ''}
                 </Button>
             </div>

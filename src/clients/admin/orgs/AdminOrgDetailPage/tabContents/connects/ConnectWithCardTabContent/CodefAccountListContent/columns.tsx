@@ -66,7 +66,9 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
         {
             th: '방식(계정/인증서)',
             className: 'text-12',
-            render: (account: CodefAccountDto) => <div>{t_codefLoginType(account.loginType)}</div>,
+            render: (account: CodefAccountDto) => (
+                <div>{!account.connectedIdentityId ? `(엑셀등록 가계정)` : t_codefLoginType(account.loginType)}</div>
+            ),
         },
         // {
         //     th: '로그인구분',
@@ -140,9 +142,11 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
                             )}
                         >
                             <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
-                                <MoreDropdown.MenuItem onClick={syncCodefCardsOfAccount}>
-                                    [코드에프] 카드 상태 동기화
-                                </MoreDropdown.MenuItem>
+                                {account.connectedIdentityId && (
+                                    <MoreDropdown.MenuItem onClick={syncCodefCardsOfAccount}>
+                                        [코드에프] 카드 상태 동기화
+                                    </MoreDropdown.MenuItem>
+                                )}
                                 <MoreDropdown.MenuItem onClick={removeAccount}>이 계정 삭제</MoreDropdown.MenuItem>
                             </div>
                         </MoreDropdown>

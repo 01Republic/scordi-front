@@ -45,7 +45,7 @@ export const reviewCampaignApi = {
         // return api.patch(url, dto).then(oneDtoOf(ReviewCampaignDto));
     },
 
-    // 요청 캠페인 삭제d
+    // 요청 캠페인 삭제
     destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/review_campaigns/${id}`;
         return api.delete(url).then(oneDtoOf(ReviewCampaignDto));

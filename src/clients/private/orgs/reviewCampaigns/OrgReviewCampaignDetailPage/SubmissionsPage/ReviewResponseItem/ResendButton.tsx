@@ -29,10 +29,12 @@ export const ResendButton = memo((props: ResendButtonProps) => {
     return (
         <Button
             variant="outline"
-            className={`border-gray-200 w-24 ${isLoading ? 'pointer-events-none opacity-40' : ''}`}
-            onClick={() => !response.submittedAt && handleResend(response.id)}
+            className={`border-gray-200 w-24 !outline-none cursor-pointer shadow hover:shadow-lg transition-all ${
+                isLoading ? 'pointer-events-none opacity-40' : ''
+            }`}
+            onClick={() => handleResend(response.id)}
         >
-            {isLoading ? <Spinner /> : !response.submittedAt ? '재전송' : '응답 확인'}
+            {isLoading ? <Spinner /> : '재전송'}
         </Button>
     );
 });

@@ -12,7 +12,11 @@ export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownP
     const {item, children} = props;
 
     return (
-        <div className="border border-gray-100 rounded-lg bg-gray-100 py-1 pl-1 pr-4 w-full hover:bg-gray-200/90 transition-all cursor-pointer flex items-center justify-between">
+        <div
+            className={`border border-gray-100 rounded-lg bg-gray-100 py-1 pl-1 pr-4 w-full ${
+                !item.isDeleted ? 'hover:bg-gray-200/90 cursor-pointer' : 'pointer-events-none'
+            } transition-all flex items-center justify-between`}
+        >
             <div>
                 {item.teamMemberId ? (
                     item.teamMember ? (
@@ -25,9 +29,9 @@ export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownP
                 )}
             </div>
 
-            <div className="">
-                <ChevronDown />
-            </div>
+            {/*<div className="">*/}
+            {/*    <ChevronDown />*/}
+            {/*</div>*/}
         </div>
     );
 });

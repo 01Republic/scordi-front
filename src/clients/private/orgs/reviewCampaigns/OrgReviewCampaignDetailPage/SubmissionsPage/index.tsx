@@ -8,6 +8,8 @@ import {Button} from '^public/components/ui/button';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import {SubmissionsPageSideBar} from './SubmissionsPageSideBar';
 import {ReviewResponseItem} from './ReviewResponseItem';
+import {SubmissionSidebarTab, t_SubmissionsSidebarTab} from './SubmissionSidebarTab.enum';
+import {FindAllReviewResponsesQueryDto} from '^models/ReviewResponse/type';
 
 export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
     const orgId = useIdParam('id');
@@ -21,11 +23,12 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
         nextPage,
         refetch,
     } = useReviewResponses(orgId, id, {
-        relations: ['teamMember'],
+        relations: ['teamMember', 'teamMember.slackMember'],
         page: 1,
     });
 
-    const [currentTab, setCurrentTab] = useState<'all' | 'pending' | 'submitted'>('all');
+    const [currentTab, setCurrentTab] = useState<SubmissionSidebarTab>(SubmissionSidebarTab.All);
+    const searchWhere = (where?: FindAllReviewResponsesQueryDto['where']) => search((prev) => ({...prev, where}));
 
     return (
         <OrgReviewCampaignDetailLayout containerFluid>
@@ -37,22 +40,13 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                     onTabChange={(tab) => {
                         setCurrentTab(tab);
                         switch (tab) {
-                            case 'submitted':
-                                return search((prev) => ({
-                                    ...prev,
-                                    where: {submittedAt: {op: 'not', val: 'NULL'}},
-                                }));
-                            case 'pending':
-                                return search((prev) => ({
-                                    ...prev,
-                                    where: {submittedAt: 'NULL'},
-                                }));
-                            case 'all':
+                            case SubmissionSidebarTab.Submitted:
+                                return searchWhere({submittedAt: {op: 'not', val: 'NULL'}});
+                            case SubmissionSidebarTab.Pending:
+                                return searchWhere({submittedAt: 'NULL'});
+                            case SubmissionSidebarTab.All:
                             default:
-                                return search((prev) => ({
-                                    ...prev,
-                                    where: {},
-                                }));
+                                return searchWhere({});
                         }
                     }}
                 />
@@ -61,11 +55,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                 <div className="flex-1">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-medium text-base">
-                            <span>
-                                {currentTab === 'all' && '전체'}
-                                {currentTab === 'submitted' && '제출완료자'}
-                                {currentTab === 'pending' && '미제출자'}
-                            </span>
+                            <span>{t_SubmissionsSidebarTab(currentTab)}</span>
                             <span className="text-primaryColor-900 ml-2.5">
                                 {pagination.totalItemCount.toLocaleString()}
                             </span>
