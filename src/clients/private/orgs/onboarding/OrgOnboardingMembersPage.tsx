@@ -1,8 +1,15 @@
+import {orgIdParamState} from '^atoms/common';
+import {Connectors, OrgConnectorDetailPageRoute} from '^pages/orgs/[id]/connects/[connectorName]';
 import {Button} from '^public/components/ui/button';
+import {useRouter} from 'next/router';
 import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {OnboadingLayout} from './OnboadingLayout';
 
 export const OrgOnboardingMembersPage = memo(() => {
+    const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
+
     return (
         <OnboadingLayout
             step={2}
@@ -15,7 +22,7 @@ export const OrgOnboardingMembersPage = memo(() => {
                         variant="scordiWhite"
                         size="xl"
                         onClick={() => {
-                            /* TODO: 구글 워크스페이스로 불러오기 */
+                            router.push(OrgConnectorDetailPageRoute.path(orgId, Connectors.googleWorkspace));
                         }}
                     >
                         <img
@@ -29,7 +36,7 @@ export const OrgOnboardingMembersPage = memo(() => {
                         variant="scordiWhite"
                         size="xl"
                         onClick={() => {
-                            /* TODO: 슬랙으로 불러오기 */
+                            router.push(OrgConnectorDetailPageRoute.path(orgId, Connectors.slack));
                         }}
                     >
                         <img
@@ -43,7 +50,7 @@ export const OrgOnboardingMembersPage = memo(() => {
                         variant="scordiWhite"
                         size="xl"
                         onClick={() => {
-                            /* TODO: 엑셀 대량 등록으로 불러오기 */
+                            router.push(OrgConnectorDetailPageRoute.path(orgId, Connectors.excel));
                         }}
                     >
                         <img

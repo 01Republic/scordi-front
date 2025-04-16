@@ -1,21 +1,21 @@
-import { orgIdParamState, useRouterIdParamState } from '^atoms/common';
-import { OrgOnboardingRequestPage } from '^clients/private/orgs/onboarding/OrgOnboardingRequestPage';
-import { useCurrentOrg } from '^models/Organization/hook';
-import { pathReplace, pathRoute } from '^types/pageRoute.type';
-import { v3CommonRequires } from '^types/utils/18n.type';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {OrgOnboardingRequestPage} from '^clients/private/orgs/onboarding/OrgOnboardingRequestPage';
+import {useCurrentOrg} from '^models/Organization/hook';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
+import {v3CommonRequires} from '^types/utils/18n.type';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
 export const OrgOnboardingRequestPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/request',
-    path: (orgId: number) => pathReplace(OrgOnboardingRequestPageRoute.pathname, { id: orgId }),
+    path: (orgId: number) => pathReplace(OrgOnboardingRequestPageRoute.pathname, {id: orgId}),
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{ params: { id: '1' } }],
+    paths: [{params: {id: '1'}}],
     fallback: true,
 });
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({locale}: any) => ({
     props: {
         // Will be passed to the page component as props
         ...(await serverSideTranslations(locale, [
