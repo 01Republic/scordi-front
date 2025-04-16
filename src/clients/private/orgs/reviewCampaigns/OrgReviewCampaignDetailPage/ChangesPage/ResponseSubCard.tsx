@@ -21,10 +21,12 @@ export const ResponseSubCard = ({responseSub}: ResponseSubCardProps) => {
     return (
         <Card className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer" draggable>
             <div className="flex items-center gap-2">
-                <Avatar className="w-[20px] h-[20px]">
+                <Avatar className="w-[24px] h-[24px]">
                     <AvatarImage src={teamMember?.profileImgUrl || ''} alt={teamMember?.name} />
-                    <AvatarFallback className={`${avatarColor} text-10`}>
-                        {name ? name.substring(0, 1).toUpperCase() : '?'}
+                    <AvatarFallback className={`${avatarColor}`}>
+                        <span className="w-full h-full flex items-center justify-center text-white text-12">
+                            {name ? name.substring(0, 1).toUpperCase() : '?'}
+                        </span>
                     </AvatarFallback>
                 </Avatar>
                 <div className="font-medium">{name || '알 수 없음'}</div>

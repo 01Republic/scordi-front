@@ -53,7 +53,7 @@ export function ChangesItem(props: ChangesItemProps) {
                 </div>
             </div>
 
-            <div className={`max-h-0 ${isExpanded ? '!max-h-screen' : ''} overflow-hidden transition-all`}>
+            <div className={`max-h-0 ${isExpanded ? '!max-h-screen' : ''} overflow-hidden transition-all duration-500`}>
                 <div className="p-4 border-t grid grid-cols-1 md:grid-cols-3 gap-3">
                     {[
                         ReviewResponseSubscriptionUsingStatus.IN_USE,
