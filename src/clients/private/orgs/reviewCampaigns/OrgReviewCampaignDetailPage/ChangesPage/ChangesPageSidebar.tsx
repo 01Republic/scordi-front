@@ -1,59 +1,56 @@
-import {useEffect, useState} from 'react';
-import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
+import {useState} from 'react';
 import {cn} from '^public/lib/utils';
+import {useIdParam} from '^atoms/common';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
 
 interface ChangesPageSidebarProps {
-    reviewCampaign?: ReviewCampaignDto;
-    toggleExpand: (id: string, value?: boolean) => void;
+    onSelect: (campaignSub: ReviewCampaignSubscriptionDto) => any;
 }
 
 export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
-    const {reviewCampaign, toggleExpand} = props;
-    const [activeId, setActiveId] = useState<string | null>(null);
-
-    const scrollToSection = (subscriptionId: string) => {
-        const element = document.getElementById(`sub-${subscriptionId}`);
-        if (element) {
-            setActiveId(`sub-${subscriptionId}`);
-            toggleExpand(subscriptionId, true);
-            const headerOffset = 100;
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth',
-            });
-        }
-    };
-
-    useEffect(() => {
-        if (reviewCampaign?.subscriptions?.length) {
-            setActiveId(`sub-${reviewCampaign.subscriptions[0].subscriptionId}`);
-        }
-    }, [reviewCampaign]);
+    const {onSelect} = props;
+    const orgId = useIdParam('id');
+    const id = useIdParam('reviewCampaignId');
+    const {
+        data: {items: campaignSubscriptions, pagination},
+    } = useReviewCampaignSubscriptions(orgId, id, {
+        order: {subscriptionId: 'DESC'},
+        itemsPerPage: 0,
+    });
+    const [selectedCampaignSub, setSelectedCampaignSub] = useState<ReviewCampaignSubscriptionDto>();
 
     return (
         <div className="w-[240px] sticky top-4">
             <div className="space-y-2 text-sm">
-                {reviewCampaign?.subscriptions?.map((sub) => (
-                    <div
-                        key={sub.subscriptionId}
-                        onClick={() => scrollToSection(sub.subscriptionId.toString())}
-                        className={cn(
-                            'relative flex items-center space-x-2 rounded-md px-2 py-1.5 cursor-pointer transition-colors hover:bg-gray-200 text-gray-700',
-                            activeId === `sub-${sub.subscriptionId}` && 'bg-scordi-light-100 text-scordi font-medium',
-                        )}
-                    >
-                        {activeId === `sub-${sub.subscriptionId}` && (
-                            <div className="absolute left-0 inset-y-1 w-1 bg-scordi rounded-full" />
-                        )}
-                        <span>
-                            {sub.productName}
-                            {sub.subscriptionName ? ` - ${sub.subscriptionName}` : ''}
-                        </span>
-                    </div>
-                ))}
+                {campaignSubscriptions.map((campaignSub, i) => {
+                    const isActive = selectedCampaignSub ? selectedCampaignSub.id === campaignSub.id : i === 0;
+                    return (
+                        <div
+                            key={campaignSub.id}
+                            onClick={() => {
+                                setSelectedCampaignSub(campaignSub);
+                                onSelect(campaignSub);
+                            }}
+                            className={cn(
+                                'relative h-8 flex items-center rounded-md px-2 py-1.5 cursor-pointer transition-all btn-animation',
+                                isActive ? 'bg-scordi-light-100' : 'hover:bg-scordi-50',
+                            )}
+                        >
+                            {isActive && <div className="absolute left-0 inset-y-1 w-1 bg-scordi rounded-full" />}
+                            <div
+                                className={`w-full flex items-center ml-2 font-medium ${
+                                    isActive ? 'text-scordi' : 'text-gray-700'
+                                }`}
+                            >
+                                <div className="">{campaignSub.title}</div>
+                                <div className="ml-auto">
+                                    {/*<div className="bg-white border min-w-[22px] flex items-center justify-center rounded-lg" />*/}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

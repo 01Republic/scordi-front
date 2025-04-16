@@ -12,3 +12,13 @@ export function t_reviewResponseSubscriptionUsingStatus(value: ReviewResponseSub
         [ReviewResponseSubscriptionUsingStatus.DONT_KNOW]: '몰라요',
     }[value];
 }
+
+export function c_reviewResponseSubscriptionUsingStatus(
+    value: ReviewResponseSubscriptionUsingStatus,
+): [string, string] {
+    return {
+        [ReviewResponseSubscriptionUsingStatus.IN_USE]: ['green-200', 'green-800'] as [string, string],
+        [ReviewResponseSubscriptionUsingStatus.NO_USE]: ['red-200', 'red-800'] as [string, string],
+        [ReviewResponseSubscriptionUsingStatus.DONT_KNOW]: ['orange-200', 'orange-800'] as [string, string],
+    }[value];
+}

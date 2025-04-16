@@ -1,114 +1,89 @@
+import {useEffect, useState} from 'react';
 import {ChevronDown} from 'lucide-react';
-import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar';
-import {Badge} from '^public/components/ui/badge';
-import {Card} from '^public/components/ui/card';
 import {Checkbox} from '^public/components/ui/checkbox';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {
+    ReviewResponseSubscriptionDto,
+    ReviewResponseSubscriptionUsingStatus,
+    t_reviewResponseSubscriptionUsingStatus,
+    c_reviewResponseSubscriptionUsingStatus,
+} from '^models/ReviewResponse/type';
+import {ResponseSubCard} from './ResponseSubCard';
+import {CheckBoxButton} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ChangesPage/CheckBoxButton';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
-interface CategoryUser {
-    name: string;
-    email: string;
-    team: string;
-    teamColor: string;
-    avatar?: string;
+interface ChangesItemProps {
+    campaignSubscription: ReviewCampaignSubscriptionDto;
+    responseSubscriptions: ReviewResponseSubscriptionDto[];
+    isConfirmed: boolean;
+    toggleConfirm: (campaignSubscription: ReviewCampaignSubscriptionDto, value: boolean) => any;
 }
 
-interface ApprovalItem {
-    id: string;
-    serviceName: string;
-    isExpanded?: boolean;
-    isConfirmed?: boolean;
-}
+/**
+ * 승인을 위한 구독별 칸반보드
+ */
+export function ChangesItem(props: ChangesItemProps) {
+    const {campaignSubscription, responseSubscriptions, isConfirmed, toggleConfirm} = props;
+    const [isExpanded, setIsExpanded] = useState(!isConfirmed);
+    const groupedResponseSubs = ReviewResponseSubscriptionDto.groupByUsingStatus(responseSubscriptions);
 
-const CATEGORIES = [
-    {
-        name: '사용 추가된 계정',
-        count: 0,
-        color: 'bg-green-100 text-green-800',
-        users: [] as CategoryUser[],
-    },
-    {
-        name: '해지 필요 계정',
-        count: 0,
-        color: 'bg-red-100 text-red-800',
-        users: [] as CategoryUser[],
-    },
-    {
-        name: '미분류 계정',
-        count: 0,
-        color: 'bg-amber-100 text-amber-800',
-        users: [] as CategoryUser[],
-    },
-];
-
-export default function ChangesItem({
-    approvalItem,
-    toggleExpand,
-    toggleConfirm,
-}: {
-    approvalItem: ApprovalItem;
-    toggleExpand: (id: string, value?: boolean) => void;
-    toggleConfirm: (id: string, value: boolean) => void;
-}) {
-    const {id, serviceName, isExpanded = false, isConfirmed = false} = approvalItem;
-
-    const AccountCard = ({user}: {user: CategoryUser}) => (
-        <Card className="p-4 border rounded-lg bg-white text-sm space-y-2">
-            <div className="flex items-center gap-2">
-                <Avatar className="h-5 w-5">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="bg-primaryColor-900 text-white">
-                        {user.name.substring(0, 1)}
-                    </AvatarFallback>
-                </Avatar>
-                <div className="font-medium">{user.name}</div>
-            </div>
-            <div className="text-gray-400 text-xs">{user.email}</div>
-            <Badge className={`px-1 py-0.5 text-xs ${user.teamColor}`}>{user.team}</Badge>
-        </Card>
-    );
+    useEffect(() => {
+        setIsExpanded(!isConfirmed);
+    }, [isConfirmed]);
 
     return (
-        <div className="border rounded-2xl bg-white px-2 py-1.5">
-            <div className="flex items-center justify-between">
-                <div className="flex flex-1 items-center gap-2 cursor-pointer" onClick={() => toggleExpand(id)}>
+        <div className="border rounded-lg bg-white">
+            <div className="flex items-center justify-between p-2">
+                <div className="flex flex-1 items-center gap-2 cursor-pointer" onClick={() => setIsExpanded((v) => !v)}>
                     <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} />
                     <div className="flex items-center gap-2">
-                        <span className="font-medium text-sm">{serviceName}</span>
+                        <span className="font-medium text-14">{campaignSubscription.title}</span>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <label
-                        htmlFor={`confirm-${id}`}
-                        className="cursor-pointer text-sm border border-gray-300 bg-gray-50 rounded-lg py-2 px-3 space-x-2 flex items-center
-                       has-[:checked]:text-primaryColor-900 has-[:checked]:border-primaryColor-900"
+                    <CheckBoxButton
+                        checked={isConfirmed}
+                        onChange={(checked) => toggleConfirm(campaignSubscription, checked)}
                     >
-                        <Checkbox
-                            id={`confirm-${id}`}
-                            checked={isConfirmed}
-                            onCheckedChange={(checked) => toggleConfirm(id, Boolean(checked))}
-                        />
-                        <span className="text-gray-700 font-medium">확인 완료</span>
-                    </label>
+                        <span className="font-medium">확인 완료</span>
+                    </CheckBoxButton>
                 </div>
             </div>
 
             {isExpanded && (
-                <div className="p-2">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                        {CATEGORIES.map((category, idx) => {
+                <div className="p-4 border-t">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        {[
+                            ReviewResponseSubscriptionUsingStatus.IN_USE,
+                            ReviewResponseSubscriptionUsingStatus.NO_USE,
+                            ReviewResponseSubscriptionUsingStatus.DONT_KNOW,
+                        ].map((usingStatus, i) => {
+                            const title = t_reviewResponseSubscriptionUsingStatus(usingStatus);
+                            const [bgColor, textColor] = c_reviewResponseSubscriptionUsingStatus(usingStatus);
+                            const responseSubs = groupedResponseSubs[usingStatus];
+
+                            // 칸반의 한 열
                             return (
-                                <div key={idx} className={`${category.color} rounded-lg p-2`}>
+                                <div
+                                    key={i}
+                                    className={`bg-${bgColor} bg-opacity-30 rounded-lg p-2.5`}
+                                    onDragEnter={(e) => {
+                                        console.log('Drag Enter', title, e.target);
+                                    }}
+                                >
                                     <div className="flex items-center mb-4 space-x-2">
-                                        <span className={`text-xs font-medium px-2 py-1 rounded-md ${category.color}`}>
-                                            {category.name}
+                                        <TagUI className={`bg-${bgColor} text-${textColor}`} noMargin>
+                                            {title}
+                                        </TagUI>
+                                        <span className={`text-12 text-${textColor} font-medium`}>
+                                            {responseSubs.length}
                                         </span>
-                                        <span className="font-medium">{category.count}</span>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        {category.users.map((user, i) => (
-                                            <AccountCard key={i} user={user} />
+                                    <div className="space-y-2.5">
+                                        {responseSubs.map((responseSub) => (
+                                            <ResponseSubCard key={responseSub.id} responseSub={responseSub} />
                                         ))}
                                     </div>
                                 </div>

@@ -58,6 +58,7 @@ export function useList<T>(initialState: T[] | (() => T[]), option: UseListOfOpt
 
     return {
         list,
+        setList,
         add,
         remove,
         clearList,

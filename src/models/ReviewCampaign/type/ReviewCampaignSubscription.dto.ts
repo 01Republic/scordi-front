@@ -21,4 +21,12 @@ export class ReviewCampaignSubscriptionDto {
     // 구독
     @TypeCast(() => SubscriptionDto)
     subscription?: SubscriptionDto;
+
+    get domId() {
+        return `sub-${this.id}`;
+    }
+
+    get title() {
+        return `${this.productName} ${this.subscriptionName ? `- ${this.subscriptionName}` : ''}`;
+    }
 }
