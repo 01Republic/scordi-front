@@ -15,6 +15,7 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 interface ChangesItemProps {
     campaignSubscription: ReviewCampaignSubscriptionDto;
     responseSubscriptions: ReviewResponseSubscriptionDto[];
+    isFocused: boolean;
     isConfirmed: boolean;
     toggleConfirm: (confirmed: boolean) => any;
 }
@@ -23,7 +24,7 @@ interface ChangesItemProps {
  * 승인을 위한 구독별 칸반보드
  */
 export function ChangesItem(props: ChangesItemProps) {
-    const {campaignSubscription, responseSubscriptions, isConfirmed, toggleConfirm} = props;
+    const {campaignSubscription, responseSubscriptions, isFocused, isConfirmed, toggleConfirm} = props;
     const [isExpanded, setIsExpanded] = useState(!isConfirmed);
     const groupedResponseSubs = ReviewResponseSubscriptionDto.groupByUsingStatus(responseSubscriptions);
 
@@ -31,12 +32,12 @@ export function ChangesItem(props: ChangesItemProps) {
         setIsExpanded(!isConfirmed);
     }, [isConfirmed]);
 
+    useEffect(() => {
+        if (isFocused) setIsExpanded(true);
+    }, [isFocused]);
+
     return (
-        <div
-            id={campaignSubscription.domId}
-            tabIndex={0}
-            className="group border rounded-lg bg-white transition-all focus:border-indigo-500 focus:bg-indigo-50 focus:bg-opacity-10"
-        >
+        <div id={campaignSubscription.domId} tabIndex={0} className="group border rounded-lg bg-white transition-all">
             <div className="flex items-center justify-between p-2">
                 <div className="flex flex-1 items-center gap-2 cursor-pointer" onClick={() => setIsExpanded((v) => !v)}>
                     <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} />
@@ -52,7 +53,7 @@ export function ChangesItem(props: ChangesItemProps) {
                 </div>
             </div>
 
-            <div className={`h-0 ${isExpanded ? '!h-[initial]' : ''} overflow-hidden transition-all`}>
+            <div className={`max-h-0 ${isExpanded ? '!max-h-screen' : ''} overflow-hidden transition-all`}>
                 <div className="p-4 border-t grid grid-cols-1 md:grid-cols-3 gap-3">
                     {[
                         ReviewResponseSubscriptionUsingStatus.IN_USE,

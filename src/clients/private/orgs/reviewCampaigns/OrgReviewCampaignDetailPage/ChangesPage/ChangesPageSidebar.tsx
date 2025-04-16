@@ -7,11 +7,12 @@ import {Avatar} from '^components/Avatar';
 import {HelpCircle} from 'lucide-react';
 
 interface ChangesPageSidebarProps {
+    selectedCampaignSub?: ReviewCampaignSubscriptionDto;
     onSelect: (campaignSub: ReviewCampaignSubscriptionDto) => any;
 }
 
 export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
-    const {onSelect} = props;
+    const {selectedCampaignSub, onSelect} = props;
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
     const {
@@ -20,7 +21,6 @@ export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
         order: {subscriptionId: 'DESC'},
         itemsPerPage: 0,
     });
-    const [selectedCampaignSub, setSelectedCampaignSub] = useState<ReviewCampaignSubscriptionDto>();
 
     return (
         <div className="w-[240px] sticky top-4">
@@ -30,10 +30,7 @@ export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
                     return (
                         <div
                             key={campaignSub.id}
-                            onClick={() => {
-                                setSelectedCampaignSub(campaignSub);
-                                onSelect(campaignSub);
-                            }}
+                            onClick={() => onSelect(campaignSub)}
                             className={cn(
                                 'relative h-8 flex items-center rounded-md px-2 py-1.5 cursor-pointer transition-all btn-animation',
                                 isActive ? 'bg-scordi-light-100' : 'hover:bg-scordi-50',

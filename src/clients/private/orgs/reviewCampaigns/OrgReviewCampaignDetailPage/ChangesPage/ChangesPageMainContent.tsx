@@ -7,7 +7,12 @@ import {useReviewCampaignSubscriptions, useReviewResponseSubscriptions} from '^m
 import {ChangesItem} from './ChangesItem';
 import {CheckBoxButton} from './CheckBoxButton';
 
-export const ChangesPageMainContent = memo(() => {
+interface ChangesPageMainContentProps {
+    selectedCampaignSub?: ReviewCampaignSubscriptionDto;
+}
+
+export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) => {
+    const {selectedCampaignSub} = props;
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
     const {
@@ -74,6 +79,7 @@ export const ChangesPageMainContent = memo(() => {
                             key={campaignSub.id}
                             campaignSubscription={campaignSub}
                             responseSubscriptions={entries}
+                            isFocused={!!selectedCampaignSub && selectedCampaignSub.id === campaignSub.id}
                             isConfirmed={confirmedSubs.some((sub) => sub.id === campaignSub.id)}
                             toggleConfirm={(checked) => {
                                 checked ? addConfirmedSubs(campaignSub) : removeConfirmedSubs(campaignSub);

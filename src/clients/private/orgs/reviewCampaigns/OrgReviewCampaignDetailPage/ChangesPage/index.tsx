@@ -1,15 +1,21 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import {ChangesPageSidebar} from './ChangesPageSidebar';
 import {ChangesPageMainContent} from './ChangesPageMainContent';
 
 export const OrgReviewCampaignDetailChangesPage = memo(() => {
+    const [selectedCampaignSub, setSelectedCampaignSub] = useState<ReviewCampaignSubscriptionDto>();
+
     return (
         <OrgReviewCampaignDetailLayout containerFluid>
             <div className="flex mt-6 gap-8">
                 {/* Sidebar */}
                 <ChangesPageSidebar
+                    selectedCampaignSub={selectedCampaignSub}
                     onSelect={(campaignSub) => {
+                        setSelectedCampaignSub(campaignSub);
+
                         const element = document.getElementById(campaignSub.domId);
                         if (!element) return;
 
@@ -30,7 +36,7 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
                 />
 
                 {/* MainContent */}
-                <ChangesPageMainContent />
+                <ChangesPageMainContent selectedCampaignSub={selectedCampaignSub} />
             </div>
         </OrgReviewCampaignDetailLayout>
     );
