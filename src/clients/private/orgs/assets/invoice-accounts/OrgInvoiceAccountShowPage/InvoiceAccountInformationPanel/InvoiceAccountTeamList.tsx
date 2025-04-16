@@ -12,10 +12,10 @@ export const InvoiceAccountTeamList = memo((props: InvoiceAccountTeamProps) => {
 
     return (
         <label className="grid grid-cols-4 gap-4">
-            <div className="flex items-center justify-start text-14 text-gray-400">팀</div>
+            <div className="flex items-start leading-[28px] justify-start text-14 text-gray-400">팀</div>
 
             <div className="col-span-3">
-                <div className={`w-full flex items-center h-[32px] gap-1`}>
+                <div className={`w-full flex items-center flex-wrap min-h-[32px] gap-1`}>
                     {defaultValue?.length ? (
                         defaultValue.map((teamInvoiceAccount, i) => (
                             <TeamTag key={i} id={teamInvoiceAccount.teamId} name={teamInvoiceAccount.team?.name} />
