@@ -8,7 +8,7 @@ import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {ImgHTMLAttributes, memo} from 'react';
 import {useSetRecoilState} from 'recoil';
-import {SafeBadge} from '../ExcelConnectorPage/SafeBadge';
+import {SafeBadge} from '../SafeBadge';
 import {googleWorkspaceAccessTokenAtom} from './atom';
 
 export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBeforeConnectPage() {

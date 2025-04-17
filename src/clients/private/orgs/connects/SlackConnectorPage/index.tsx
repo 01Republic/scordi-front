@@ -6,8 +6,8 @@ import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {ImgHTMLAttributes, memo} from 'react';
 import {useSetRecoilState} from 'recoil';
-import {SafeBadge} from '../ExcelConnectorPage/SafeBadge';
 import {googleWorkspaceAccessTokenAtom} from '../GoogleWorkspaceConnectorPage/atom';
+import {SafeBadge} from '../SafeBadge';
 
 export const SlackConnectorPage = memo(function SlackConnectorPage() {
     const router = useRouter();
