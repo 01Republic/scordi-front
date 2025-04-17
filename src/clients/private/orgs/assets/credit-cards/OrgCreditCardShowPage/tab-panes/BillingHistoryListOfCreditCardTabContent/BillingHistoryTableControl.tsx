@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import Image from 'next/image';
-import excelIcon from 'src/images/icon/excelIcon.png';
+import excelIcon from '^images/icon/excelIcon.png';
 import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
 
 interface BillingHistoryTableControlProps {

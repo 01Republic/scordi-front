@@ -3,7 +3,6 @@ import {useCurrentUser} from '^models/User/hook';
 import {WorkspaceDropdown} from './WorkspaceDropdown';
 import {ProfileDropdown} from './ProfileDropdown';
 import {LinkTo} from '^components/util/LinkTo';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
@@ -11,7 +10,8 @@ import {t_membershipLevel} from '^models/Membership/types';
 import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentMembership} from '^models/Membership/hook';
-import {Bell, Plus, Snail} from 'lucide-react';
+import {Bell, Frown, Plus} from 'lucide-react';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -48,14 +48,14 @@ export const OrgTopBar = memo(() => {
 
             {/* @ts-ignore */}
             <marquee className={`w-[20rem] ${isHovered ? '' : 'hidden'}`} direction="right">
-                <Snail className="text-red-600" fontSize={20} />
+                <Frown className="text-red-600" fontSize={20} />
                 {/* @ts-ignore */}
             </marquee>
 
             <div className="ml-auto flex items-center gap-8">
                 <div className="hidden sm:block">
                     <LinkTo
-                        href={currentOrg ? OrgSubscriptionSelectPageRoute.path(currentOrg.id) : '#'}
+                        href={currentOrg ? OrgSubscriptionConnectionPageRoute.path(currentOrg.id) : '#'}
                         className={`btn btn-sm btn-scordi gap-2 no-animation btn-animation ${
                             !currentOrg ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
                         }`}

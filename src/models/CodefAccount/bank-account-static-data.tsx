@@ -30,6 +30,10 @@ export class BankAccountsStaticData {
         });
     }
 
+    static findByClientType(clientType: CodefCustomerType) {
+        return this.all().filter((data) => data.clientType === clientType);
+    }
+
     static findOne(param?: string) {
         return this.all().find((data) => data.param === param);
     }
