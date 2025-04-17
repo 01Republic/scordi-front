@@ -65,7 +65,7 @@ const statusList = {
         textColor: '',
     },
     inProgress: {
-        text: '진행 중',
+        text: '진행중',
         bgColor: 'bg-orange-200',
         textColor: '',
     },
