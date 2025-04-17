@@ -33,7 +33,10 @@ export const OrgReviewCampaignNewPage = () => {
     });
 
     useEffect(() => {
-        return () => resetSteps();
+        return () => {
+            form.reset();
+            resetSteps();
+        };
     }, []);
 
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
@@ -65,8 +68,7 @@ export const OrgReviewCampaignNewPage = () => {
 
         return confirmed(syncConfirm())
             .then(() => setIsLoading(true))
-            .then(() => reviewCampaignApi.create(orgId, data))
-            .then((res) => res.data)
+            .then(() => reviewCampaignApi.create(orgId, data).then((res) => res.data))
             .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
                 form.reset();
