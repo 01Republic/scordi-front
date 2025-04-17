@@ -22,7 +22,7 @@ export const DeleteReviewCampaignItem = memo((props: DeleteReviewCampaignItemPro
 
         confirmed(confirmDestroy())
             .then(() => reviewCampaignApi.destroy(organizationId, id))
-            .then(() => toast.success('삭제 성공'))
+            .then(() => toast.success('요청을 삭제했어요.'))
             .then(() => router.replace(OrgReviewCampaignListPageRoute.path(organizationId)))
             .catch(errorToast);
     };
