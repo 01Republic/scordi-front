@@ -71,9 +71,7 @@ export const OrgReviewCampaignNewPage = () => {
             .then(() => reviewCampaignApi.create(orgId, data).then((res) => res.data))
             .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
-                form.reset();
-                resetSteps();
-                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
+                return router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
             })
             .catch(errorToast)
             .finally(() => setIsLoading(false));
