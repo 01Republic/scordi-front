@@ -1,5 +1,4 @@
 import {useRouter} from 'next/router';
-import {Button} from '^public/components/ui/button';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -16,12 +15,9 @@ import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/revi
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
-import {reviewCampaignApi} from '^models/ReviewCampaign/api';
-import {confirm2, confirmed} from '^components/util/dialog';
-import toast from 'react-hot-toast';
-import {errorToast} from '^api/api';
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
+import {ReviewCampaignControl} from './ReviewCampaignControl';
 
 interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
     className?: string;
@@ -38,17 +34,6 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
 
     const isActive = (path: '' | 'submissions' | 'changes') => router.pathname.endsWith(path === '' ? ']' : path);
 
-    const handleConfirm = async () => {
-        if (!isActive('changes')) return router.push(OrgReviewCampaignDetailChangesPageRoute.path(orgId, id));
-
-        const sync = () => confirm2('변경사항을 모두 승인하시겠습니까?');
-        confirmed(sync())
-            .then(() => reviewCampaignApi.approve(orgId, id))
-            .then(() => toast.success('변경사항이 모두 승인되었습니다.'))
-            .then(() => router.push(OrgReviewCampaignListPageRoute.path(orgId)))
-            .catch(errorToast);
-    };
-
     return (
         <MainLayout>
             <MainContainer className={className} containerFluid={containerFluid}>
@@ -64,11 +49,10 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                     </BreadcrumbList>
                 </Breadcrumb>
 
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center mb-6">
                     <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
-                    <Button className="bg-scordi text-white" onClick={handleConfirm}>
-                        변경사항 승인하기
-                    </Button>
+
+                    <ReviewCampaignControl reviewCampaign={reviewCampaign} />
                 </div>
 
                 <div className="mb-8">
