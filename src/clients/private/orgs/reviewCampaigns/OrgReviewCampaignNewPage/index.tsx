@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
@@ -31,6 +31,10 @@ export const OrgReviewCampaignNewPage = () => {
             teamMemberIds: [],
         },
     });
+
+    useEffect(() => {
+        return () => resetSteps();
+    }, []);
 
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
         if (!data.title) {
