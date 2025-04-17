@@ -41,7 +41,7 @@ export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) =>
 
     return (
         <div className="ml-auto flex items-center gap-2">
-            <Button className="bg-scordi text-white" onClick={handleConfirm}>
+            <Button id="review-campaign-confirm-btn" className="bg-scordi text-white" onClick={handleConfirm}>
                 변경사항 승인하기
             </Button>
 

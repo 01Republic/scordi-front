@@ -6,6 +6,7 @@ import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {useReviewCampaignSubscriptions, useReviewResponseSubscriptions} from '^models/ReviewCampaign/hook';
 import {ChangesItem} from './ChangesItem';
 import {CheckBoxButton} from './CheckBoxButton';
+import {ChangesPageContentTitle} from './ChangesPageContentTitle';
 
 interface ChangesPageMainContentProps {
     selectedCampaignSub?: ReviewCampaignSubscriptionDto;
@@ -39,16 +40,7 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
         <div className="flex-1">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium text-base">
-                    {leftCount ? (
-                        <span>
-                            승인 대기중 (<b className="text-scordi">{leftCount.toLocaleString()}개</b> 남았어요)
-                        </span>
-                    ) : (
-                        <span>
-                            거의 다 끝났어요! <b className="text-scordi">변경사항 승인하기</b> 버튼을 눌러 저장해주세요
-                            💁‍♀️
-                        </span>
-                    )}
+                    <ChangesPageContentTitle totalCount={totalCount} leftCount={leftCount} />
                 </h3>
                 <div className="flex items-center space-x-4">
                     <div className="flex flex-col items-center">
