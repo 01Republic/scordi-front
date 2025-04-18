@@ -8,9 +8,13 @@ import React from 'react';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;
+    onDragStart: () => any;
+    onDragEnd: () => any;
 }
 
-export const ResponseSubCard = ({responseSub}: ResponseSubCardProps) => {
+export const ResponseSubCard = (props: ResponseSubCardProps) => {
+    const {responseSub, onDragStart, onDragEnd} = props;
+
     const teamMember = responseSub.teamMember;
     const id = teamMember?.id || 0;
     const name = teamMember?.name || '';
@@ -19,7 +23,14 @@ export const ResponseSubCard = ({responseSub}: ResponseSubCardProps) => {
     const team = teamMember?.team;
 
     return (
-        <Card className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer" draggable>
+        <Card
+            className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer"
+            draggable
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onDragEnter={(e) => e.stopPropagation()}
+            onDrop={(e) => e.stopPropagation()}
+        >
             <div className="flex items-center gap-2">
                 <Avatar className="w-[24px] h-[24px]">
                     <AvatarImage src={teamMember?.profileImgUrl || ''} alt={teamMember?.name} />

@@ -4,7 +4,7 @@ import {useListControl} from '^hooks/useResource';
 import {Progress} from '^public/components/ui/progress';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {useReviewCampaignSubscriptions, useReviewResponseSubscriptions} from '^models/ReviewCampaign/hook';
-import {ChangesItem} from './ChangesItem';
+import {CampaignSubBoard} from './CampaignSubBoard';
 import {CheckBoxButton} from './CheckBoxButton';
 import {ChangesPageContentTitle} from './ChangesPageContentTitle';
 
@@ -18,12 +18,14 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
     const id = useIdParam('reviewCampaignId');
     const {
         data: {items: campaignSubs, pagination},
+        refetch: refetchReviewCampaignSubscriptions,
     } = useReviewCampaignSubscriptions(orgId, id, {
         order: {subscriptionId: 'DESC'},
         itemsPerPage: 0,
     });
     const {
         data: {items: responseSubs},
+        refetch: refetchReviewResponseSubscriptions,
     } = useReviewResponseSubscriptions(orgId, id, {
         relations: ['response', 'teamMember'],
         itemsPerPage: 0,
@@ -35,6 +37,10 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
     const confirmedCount = confirmedSubs.length;
     const leftCount = totalCount - confirmedCount;
     const progress = totalCount > 0 ? Math.round((confirmedCount / totalCount) * 100) : 0;
+
+    const reload = () => {
+        return Promise.all([refetchReviewCampaignSubscriptions(), refetchReviewResponseSubscriptions()]);
+    };
 
     return (
         <div className="flex-1">
@@ -65,9 +71,12 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
             <div className="space-y-2">
                 {campaignSubs.map((campaignSub) => {
                     const subId = campaignSub.subscriptionId;
-                    const entries = responseSubs.filter((sub) => sub.subscriptionId === subId);
+                    const entries = responseSubs.filter((sub) => {
+                        // return sub.subscriptionId === subId && sub.submittedAt; // 미제출을 숨기려면 이걸 쓴다.
+                        return sub.subscriptionId === subId;
+                    });
                     return (
-                        <ChangesItem
+                        <CampaignSubBoard
                             key={campaignSub.id}
                             campaignSubscription={campaignSub}
                             responseSubscriptions={entries}
@@ -76,6 +85,7 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
                             toggleConfirm={(checked) => {
                                 checked ? addConfirmedSubs(campaignSub) : removeConfirmedSubs(campaignSub);
                             }}
+                            reload={reload}
                         />
                     );
                 })}
