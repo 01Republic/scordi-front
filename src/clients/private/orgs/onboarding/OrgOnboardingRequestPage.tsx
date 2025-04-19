@@ -14,28 +14,20 @@ export const OrgOnboardingRequestPage = memo(() => {
     return (
         <OnboadingLayout
             step={3}
-            title={`구성원에게 \n이용 중인\n구독을 조사해요`}
+            title={`구성원에게 이용 중인\n구독을 조사해요`}
             description={`실사용 여부를 파악해서 \n쓰지 않는 구독을 정리해요`}
             image="/images/examples/ex_request.png"
+            onSkip={() => router.push(OrgMainPageRoute.path(orgId))}
             button={
                 <div className="flex flex-col gap-4">
                     <Button
-                        variant="scordiWhite"
-                        size="xl"
+                        variant="scordi"
+                        size="xxl"
                         onClick={() => {
                             router.push(OrgReviewCampaignNewPageRoute.path(orgId));
                         }}
                     >
-                        시작하기
-                    </Button>
-                    <Button
-                        variant="scordiGhost"
-                        size="xl"
-                        onClick={() => {
-                            router.push(OrgMainPageRoute.path(orgId));
-                        }}
-                    >
-                        건너뛰기
+                        설문 요청하기
                     </Button>
                 </div>
             }
