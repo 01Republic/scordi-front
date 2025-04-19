@@ -16,7 +16,7 @@ export const OnboadingLayout = memo<OnboadingLayoutProps>(
         return (
             <div className="flex justify-between h-lvh bg-scordi">
                 {/* 좌측 메뉴 영역 */}
-                <div className="w-[540px] bg-gray-50">
+                <div className="min-w-[540px] bg-gray-50">
                     <div className="flex items-center justify-between gap-10 p-8">
                         {onBack ? (
                             <div
