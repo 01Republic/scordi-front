@@ -24,7 +24,7 @@ export const OrgOnboardingRequestPage = memo(() => {
                         variant="scordi"
                         size="xxl"
                         onClick={() => {
-                            router.push(OrgReviewCampaignNewPageRoute.path(orgId));
+                            router.push(OrgReviewCampaignNewPageRoute.path(orgId, {type: 'onboarding'}));
                         }}
                     >
                         설문 요청하기

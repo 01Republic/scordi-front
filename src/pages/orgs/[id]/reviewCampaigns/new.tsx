@@ -1,14 +1,13 @@
-import React from 'react';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {OrgReviewCampaignNewPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgReviewCampaignNewPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
 export const OrgReviewCampaignNewPageRoute = pathRoute({
     pathname: '/orgs/[id]/reviewCampaigns/new',
-    path: (orgId: number) => pathReplace(OrgReviewCampaignNewPageRoute.pathname, {id: orgId}),
+    path: (orgId: number, query?: Record<string, string>) =>
+        pathReplace(OrgReviewCampaignNewPageRoute.pathname, {id: orgId}, query),
 });
 
 export const getStaticPaths = async () => ({
@@ -27,7 +26,6 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    useCurrentOrg(orgId);
 
     if (!orgId || isNaN(orgId)) return <></>;
 

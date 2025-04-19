@@ -1,12 +1,12 @@
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {OrgOnboardingSubscriptionPage} from '^clients/private/orgs/onboarding/OrgOnboardingSubscriptionPage';
+import {OrgOnboardingCompletePage} from '^clients/private/orgs/onboarding/OrgOnboardingCompletePage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
-export const OrgOnboardingSubscriptionPageRoute = pathRoute({
-    pathname: '/orgs/[id]/onboarding/subscription',
-    path: (orgId: number) => pathReplace(OrgOnboardingSubscriptionPageRoute.pathname, {id: orgId}),
+export const OrgOnboardingCompletePageRoute = pathRoute({
+    pathname: '/orgs/[id]/onboarding/complete',
+    path: (orgId: number) => pathReplace(OrgOnboardingCompletePageRoute.pathname, {id: orgId}),
 });
 
 export const getStaticPaths = async () => ({
@@ -25,5 +25,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgOnboardingSubscriptionPage />;
+    return <OrgOnboardingCompletePage />;
 }

@@ -1,4 +1,4 @@
-import {ArrowLeft} from 'lucide-react';
+import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {memo} from 'react';
 
 interface OnboadingLayoutProps {
@@ -18,17 +18,7 @@ export const OnboadingLayout = memo<OnboadingLayoutProps>(
                 {/* 좌측 메뉴 영역 */}
                 <div className="min-w-[540px] bg-gray-50">
                     <div className="flex items-center justify-between gap-10 p-8">
-                        {onBack ? (
-                            <div
-                                className="flex items-center gap-2 hover:cursor-pointer hover:text-scordi-500"
-                                onClick={onBack}
-                            >
-                                <ArrowLeft className="w-6 h-6" />
-                                뒤로가기
-                            </div>
-                        ) : (
-                            <div />
-                        )}
+                        {onBack ? <BackButton /> : <div />}
                         {onSkip && (
                             <div
                                 className="flex items-center gap-2 hover:cursor-pointer hover:text-scordi-500"
