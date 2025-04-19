@@ -4,8 +4,6 @@ import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
-import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
-import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {dayAfter} from '^utils/dateTime';
 import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
@@ -18,6 +16,7 @@ import {LeftSideIndicator} from './LeftSideIndicator';
 import {RequestAddStep1} from './RequestAddStep1';
 import {RequestAddStep2} from './RequestAddStep2';
 import {RequestAddStep3} from './RequestAddStep3';
+import {RequestComplete} from './RequestComplete';
 
 export const OrgReviewCampaignNewPage = () => {
     const router = useRouter();
@@ -34,6 +33,8 @@ export const OrgReviewCampaignNewPage = () => {
         },
     });
     const {type} = router.query;
+    const [isComplete, setIsComplete] = useState(false);
+    const [createdCampaign, setCreatedCampaign] = useState<any>(null);
 
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
         if (!data.title) {
@@ -70,18 +71,18 @@ export const OrgReviewCampaignNewPage = () => {
                 toast.success('요청이 전송되었습니다.');
                 form.reset();
                 resetSteps();
-
-                if (type === 'onboarding') {
-                    router.push(OrgOnboardingRequestPageRoute.path(orgId));
-                } else {
-                    router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
-                }
+                setCreatedCampaign(campaign);
+                setIsComplete(true);
             })
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     };
 
     const RequestForm = () => {
+        if (isComplete) {
+            return <RequestComplete orgId={orgId} campaignId={createdCampaign.id} type={type as string} />;
+        }
+
         return (
             <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-12">새 요청 만들기</h2>
