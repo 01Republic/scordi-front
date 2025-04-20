@@ -22,7 +22,7 @@ export const OrgReviewResponseEditPage = () => {
     const orgId = useIdParam('id');
     const campaignId = useIdParam('reviewCampaignId');
     const id = useIdParam('reviewResponseId');
-    const {currentUser} = useCurrentUser();
+    const {currentUser} = useCurrentUser(null);
     const token = getToken();
     const {data: response, isError} = useReviewRequest(orgId, campaignId, id, token || '');
     const router = useRouter();
