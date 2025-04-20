@@ -14,7 +14,6 @@ export const OrgReviewCampaignListPage = () => {
     const {search, result, movePage, isFetching} = useReviewCampaigns(orgId, {
         where: {organizationId: orgId},
         relations: ['organization', 'author'],
-        itemsPerPage: 9,
         order: {finishAt: 'DESC'},
     });
     const campaigns = result.items;
@@ -24,7 +23,6 @@ export const OrgReviewCampaignListPage = () => {
             ...q,
             keyword,
             page: 1,
-            itemsPerPage: 9,
             order: {finishAt: 'DESC'},
         }));
     }, 500);

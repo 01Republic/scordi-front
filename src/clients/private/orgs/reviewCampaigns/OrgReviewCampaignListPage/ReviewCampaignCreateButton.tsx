@@ -22,7 +22,16 @@ export const ReviewCampaignCreateButton = memo((props: ReviewCampaignCreateButto
     });
 
     const noSubscriptionHaveAlert = () => {
-        const openConfirm = () => confirm2('요청을 시작하기 전에 구독을 먼저 불러와야 해요.');
+        const openConfirm = () =>
+            confirm2(
+                <span className="text-xl">구성원에게 구독 사용여부 응답을 요청할 수 없어요.</span>,
+                <div className="text-16">
+                    <div>요청을 시작하기 전, 구독을 먼저 불러와야 해요.</div>
+                    <div>불러온 구독을 기준으로 구성원에게 실사용여부를 파악할 수 있어요.</div>
+                    <br />
+                    <div>구독을 먼저 불러올까요?</div>
+                </div>,
+            );
 
         confirmed(openConfirm())
             .then(() => router.push(OrgSubscriptionListPageRoute.path(orgId)))

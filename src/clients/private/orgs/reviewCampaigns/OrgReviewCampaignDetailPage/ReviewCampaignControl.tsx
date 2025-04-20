@@ -31,7 +31,17 @@ export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) =>
     const handleConfirm = async () => {
         if (!isActive('changes')) return router.push(OrgReviewCampaignDetailChangesPageRoute.path(orgId, id));
 
-        const sync = () => confirm2('변경사항을 모두 승인하시겠습니까?');
+        const sync = () =>
+            confirm2(
+                <span className="text-xl">응답을 기반으로 구독현황을 업데이트 할까요?</span>,
+                <div className="text-16">
+                    <div>구성원의 구독 사용 변경사항을 모두 확인해주세요.</div>
+                    <div>전체 확인 완료 되었다면 승인할 수 있어요.</div>
+                    <div>승인 이후에는 구독리스트 현황을 업데이트 해요.</div>
+                    <br />
+                    <div>그럼 변경사항을 모두 승인할까요? </div>
+                </div>,
+            );
         confirmed(sync())
             .then(() => reviewCampaignApi.approve(orgId, id))
             .then(() => toast.success('변경사항이 모두 승인되었습니다.'))
