@@ -79,7 +79,7 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                                         subscriptionId: dragItem.subscriptionId,
                                         usingStatus,
                                     })
-                                    .then(() => toast.success('변경했어요'))
+                                    .then(() => toast.success('변경했어요.'))
                                     .then(() => reload())
                                     .catch(errorToast);
                             }}
