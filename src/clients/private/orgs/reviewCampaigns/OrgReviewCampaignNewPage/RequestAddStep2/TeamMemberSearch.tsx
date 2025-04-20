@@ -47,7 +47,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
 
     return (
         <>
-            <div className="w-full relative bg-white z-50" ref={wrapperRef}>
+            <div className="w-full relative bg-white z-10" ref={wrapperRef}>
                 <Input
                     type={'text'}
                     id={'search'}
@@ -58,7 +58,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
                 />
                 <div
                     className={cn(
-                        'absolute w-full border border-gray-300 bg-white overflow-y-auto mt-1 rounded-md shadow-lg h-80 z-10',
+                        'absolute w-full border border-gray-300 bg-white overflow-y-auto mt-1 rounded-md shadow-lg h-80 z-3',
                         isShow ? '' : 'hidden',
                     )}
                 >
