@@ -1,14 +1,12 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {LinkTo} from '^components/util/LinkTo';
-import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
-import {userSocialGoogleApi} from '^api/social-google.api';
-import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
-import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
-import {AxiosError} from 'axios';
 import {ApiError} from '^api/api';
+import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
-import {ArrowLeft, Loader} from 'lucide-react';
+import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
+import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
+import {memo, useEffect, useState} from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import LoadingScreen from '../../subscriptions/connection-steps/selectInstitutionsSection/ByCertificatePage/LoadingScreen';
+import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
@@ -84,36 +82,40 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
     }, [accessToken]);
 
     return (
-        <div className="py-10 px-12">
-            <header className="mb-12">
-                <div className="mb-12">
-                    <LinkTo
-                        onClick={routerBack}
-                        className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
-                    >
-                        <ArrowLeft /> 뒤로가기
-                    </LinkTo>
-                </div>
-
-                <div className="mb-4 flex items-center justify-between">
-                    <img
-                        src="https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/192px.svg"
-                        alt="google workspace logo"
-                        className="avatar w-[48px] h-[48px] bg-white"
-                    />
-                </div>
-
-                <div className="mb-12 animate-pulse">
-                    <h1 className="text-3xl mb-4">{title}</h1>
-                    <h2 className="text-xl mb-4">{desc}</h2>
-
-                    <br />
-                </div>
-            </header>
-
-            <section className="py-8">
-                <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
-            </section>
+        <div className="h-lvh flex flex-col items-center justify-center">
+            <LoadingScreen message="입력한 정보를 기반으로\n구성원을 불러오고 있어요" onComplete={() => {}} />
         </div>
+
+        // <div className="py-10 px-12">
+        //     <header className="mb-12">
+        //         <div className="mb-12">
+        //             <LinkTo
+        //                 onClick={routerBack}
+        //                 className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
+        //             >
+        //                 <ArrowLeft /> 뒤로가기
+        //             </LinkTo>
+        //         </div>
+
+        //         <div className="mb-4 flex items-center justify-between">
+        //             <img
+        //                 src="https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/192px.svg"
+        //                 alt="google workspace logo"
+        //                 className="avatar w-[48px] h-[48px] bg-white"
+        //             />
+        //         </div>
+
+        //         <div className="mb-12 animate-pulse">
+        //             <h1 className="text-3xl mb-4">{title}</h1>
+        //             <h2 className="text-xl mb-4">{desc}</h2>
+
+        //             <br />
+        //         </div>
+        //     </header>
+
+        //     <section className="py-8">
+        //         <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
+        //     </section>
+        // </div>
     );
 });

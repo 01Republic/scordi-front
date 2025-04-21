@@ -1,14 +1,18 @@
 import {ApiError, errorToast} from '^api/api';
 import {teamMemberApi} from '^models/TeamMember/api';
-import {TeamMemberDto} from '^models/TeamMember/type';
 import {useState} from 'react';
 import {toast} from 'react-toastify';
+
+interface NewMember {
+    name: string;
+    email: string;
+}
 
 export type ExcelUploadState = {
     isLoading: boolean;
     isComplete: boolean;
     errorMsg: string;
-    data?: TeamMemberDto[];
+    data?: NewMember[];
 };
 
 export const useExcelUpload = (orgId: number) => {
@@ -21,7 +25,7 @@ export const useExcelUpload = (orgId: number) => {
 
     const resetState = () => setState({isLoading: false, isComplete: false, errorMsg: '', data: undefined});
 
-    const uploadExcel = async (file: File): Promise<TeamMemberDto[]> => {
+    const uploadExcel = async (file: File): Promise<NewMember[]> => {
         if (!file) return [];
 
         setState((prev: ExcelUploadState) => ({...prev, isLoading: true}));
@@ -32,8 +36,12 @@ export const useExcelUpload = (orgId: number) => {
             })
             .then((response) => {
                 toast.success(`엑셀 양식에 작성된 구성원을 모두 추가했어요.`);
-                setState((prev: ExcelUploadState) => ({...prev, errorMsg: '', data: response.data, isComplete: true}));
-                return response.data;
+                const newMembers = response.data.map((member) => ({
+                    name: member.name,
+                    email: member.email || '',
+                }));
+                setState((prev: ExcelUploadState) => ({...prev, errorMsg: '', data: newMembers, isComplete: true}));
+                return newMembers;
             })
             .catch((e) => {
                 const error = e as ApiError;
