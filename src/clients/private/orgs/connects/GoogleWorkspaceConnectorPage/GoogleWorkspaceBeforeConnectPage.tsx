@@ -1,10 +1,9 @@
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import {BackButton} from '^components/BackButton';
 import {OutLink} from '^components/OutLink';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {LinkTo} from '^components/util/LinkTo';
 import {googleOAuth} from '^config/environments';
 import {WithChildren} from '^types/global.type';
-import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {ImgHTMLAttributes, memo} from 'react';
 import {useSetRecoilState} from 'recoil';
@@ -19,12 +18,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
         <div className="py-16 px-12">
             <header className="fixed mb-12">
                 <div className="mb-12">
-                    <LinkTo
-                        onClick={() => router.back()}
-                        className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
-                    >
-                        <ArrowLeft /> 뒤로가기
-                    </LinkTo>
+                    <BackButton />
                 </div>
 
                 <div className="mb-4 flex items-center justify-between">

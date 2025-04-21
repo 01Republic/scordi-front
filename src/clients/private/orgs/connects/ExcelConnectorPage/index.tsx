@@ -1,7 +1,8 @@
 import {orgIdParamState} from '^atoms/common';
+import {TeamMemberDto} from '^models/TeamMember/type';
 import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
 import {useRouter} from 'next/router';
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import LoadingScreen from '../../subscriptions/connection-steps/selectInstitutionsSection/ByCertificatePage/LoadingScreen';
 import {ConnectingResultScreen} from '../ConnectingResultScreen';
@@ -13,13 +14,19 @@ export const ExcelConnectorPage = memo(function ExcelConnectorPage() {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {state, uploadExcel, resetState} = useExcelUpload(orgId);
+    const [newMembers, setNewMembers] = useState<TeamMemberDto[]>([]);
 
     if (state.errorMsg) {
         return <ErrorScreen errorMsg={state.errorMsg} onReset={resetState} />;
     }
 
     if (state.isComplete) {
-        return <ConnectingResultScreen onNext={() => router.push(OrgOnboardingRequestPageRoute.path(orgId))} />;
+        return (
+            <ConnectingResultScreen
+                onNext={() => router.push(OrgOnboardingRequestPageRoute.path(orgId))}
+                newMembers={newMembers}
+            />
+        );
     }
 
     if (state.isLoading) {
@@ -35,5 +42,15 @@ export const ExcelConnectorPage = memo(function ExcelConnectorPage() {
         );
     }
 
-    return <ExcelBeforeConnectPage onSubmit={uploadExcel} />;
+    const handleSubmit = (file: File) => {
+        uploadExcel(file)
+            .then((members) => {
+                setNewMembers(members);
+            })
+            .catch((error) => {
+                console.error('엑셀 업로드 실패:', error);
+            });
+    };
+
+    return <ExcelBeforeConnectPage onSubmit={handleSubmit} />;
 });
