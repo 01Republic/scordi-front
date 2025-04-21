@@ -120,6 +120,20 @@ module.exports = {
                 md: 'calc(var(--radius) - 2px)',
                 sm: 'calc(var(--radius) - 4px)',
             },
+            keyframes: {
+                'slide-left-infinite': {
+                    '0%': {transform: 'translateX(0)'},
+                    '100%': {transform: 'translateX(-100%)'},
+                },
+                'infinite-scroll': {
+                    '0%': {transform: 'translateX(0)'},
+                    '100%': {transform: 'translateX(-50%)'},
+                },
+            },
+            animation: {
+                'slide-left-infinite': 'slide-left-infinite 20s linear infinite',
+                'infinite-scroll': 'infinite-scroll 20s linear infinite',
+            },
         },
         container: {
             center: true,
