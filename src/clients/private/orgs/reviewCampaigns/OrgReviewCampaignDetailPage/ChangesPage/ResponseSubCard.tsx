@@ -1,10 +1,9 @@
-import {ReviewResponseSubscriptionDto} from '^models/ReviewResponse/type';
-import {getColor} from '^components/util/palette';
+import React from 'react';
 import {Card} from '^public/components/ui/card';
 import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar';
+import {ReviewResponseSubscriptionDto} from '^models/ReviewResponse/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import React from 'react';
+import {getColor} from '^components/util/palette';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;

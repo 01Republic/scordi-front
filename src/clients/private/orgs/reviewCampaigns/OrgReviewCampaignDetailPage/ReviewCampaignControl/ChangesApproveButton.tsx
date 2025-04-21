@@ -1,26 +1,20 @@
 import {memo} from 'react';
-import {useRouter} from 'next/router';
-import toast from 'react-hot-toast';
-import {errorToast} from '^api/api';
 import {Button} from '^public/components/ui/button';
-import {
-    MoreDropdown,
-    MoreDropdownButton,
-    MoreDropdownMenu,
-} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
+import {useRouter} from 'next/router';
+import {useIdParam} from '^atoms/common';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
-import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
-import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
-import {useIdParam} from '^atoms/common';
-import {DeleteReviewCampaignItem} from './DeleteReviewCampaignItem';
+import toast from 'react-hot-toast';
+import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
+import {errorToast} from '^api/api';
 
-interface ReviewCampaignControlProps {
-    reviewCampaign?: ReviewCampaignDto;
+interface ChangesApproveButtonProps {
+    reviewCampaign: ReviewCampaignDto;
 }
 
-export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) => {
+export const ChangesApproveButton = memo((props: ChangesApproveButtonProps) => {
     const {reviewCampaign} = props;
     const router = useRouter();
     const orgId = useIdParam('id');
@@ -39,7 +33,7 @@ export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) =>
                     <div>전체 확인 완료 되었다면 승인할 수 있어요.</div>
                     <div>승인 이후에는 구독리스트 현황을 업데이트 해요.</div>
                     <br />
-                    <div>그럼 변경사항을 모두 승인할까요? </div>
+                    <div>그럼 변경사항을 모두 승인할까요?</div>
                 </div>,
             );
         confirmed(sync())
@@ -50,22 +44,9 @@ export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) =>
     };
 
     return (
-        <div className="ml-auto flex items-center gap-2">
-            <Button id="review-campaign-confirm-btn" className="bg-scordi text-white" onClick={handleConfirm}>
-                변경사항 승인하기
-            </Button>
-
-            <MoreDropdown
-                moreDropdownButton={() => (
-                    <MoreDropdownButton className="btn-square w-[36px] h-[36px] min-h-[auto] !m-0" />
-                )}
-                noMenu
-            >
-                <MoreDropdownMenu className="!min-w-[8rem]">
-                    {reviewCampaign && <DeleteReviewCampaignItem reviewCampaign={reviewCampaign} />}
-                </MoreDropdownMenu>
-            </MoreDropdown>
-        </div>
+        <Button id="review-campaign-confirm-btn" className="bg-scordi text-white" onClick={handleConfirm}>
+            변경사항 승인하기
+        </Button>
     );
 });
-ReviewCampaignControl.displayName = 'ReviewCampaignControl';
+ChangesApproveButton.displayName = 'ChangesApproveButton';

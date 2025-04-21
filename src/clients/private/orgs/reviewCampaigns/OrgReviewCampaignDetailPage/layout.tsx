@@ -1,4 +1,7 @@
+import {memo} from 'react';
 import {useRouter} from 'next/router';
+import Link from 'next/link';
+import {WithChildren} from '^types/global.type';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -9,15 +12,13 @@ import {
 } from '^public/components/ui/breadcrumb';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {useIdParam} from '^atoms/common';
-import Link from 'next/link';
+import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
-import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
-import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
 import {ReviewCampaignControl} from './ReviewCampaignControl';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
     className?: string;
@@ -50,7 +51,9 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                 </Breadcrumb>
 
                 <div className="flex items-center mb-6">
-                    <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
+                    <div className="flex items-center gap-2">
+                        <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
+                    </div>
 
                     <ReviewCampaignControl reviewCampaign={reviewCampaign} />
                 </div>
