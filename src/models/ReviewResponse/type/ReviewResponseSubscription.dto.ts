@@ -20,16 +20,9 @@ export class ReviewResponseSubscriptionDto {
 
     static groupByUsingStatus(items: ReviewResponseSubscriptionDto[]) {
         const {IN_USE, NO_USE, DONT_KNOW} = ReviewResponseSubscriptionUsingStatus;
-        const filter = (value: ReviewResponseSubscriptionUsingStatus) =>
-            items.filter((item) => {
-                // item.usingStatus 가 null 인 것은 아직 응답을 안한 것.
-                // '모름' 을 기본 상태로 두기로 한다.
-                // 만약 응답하지 않은 것은 그룹바이의 결과로 취급하지 않는다고 하면,
-                // 필터 결과에 포함되지 않도록 걸러주면 된다.
-                return item.usingStatus !== null;
-                // const usingStatus = item.usingStatus || DONT_KNOW;
-                // return usingStatus === value;
-            });
+        const filter = (value: ReviewResponseSubscriptionUsingStatus) => {
+            return items.filter((item) => item.usingStatus === value);
+        };
 
         return {
             [IN_USE]: filter(IN_USE),
@@ -38,11 +31,17 @@ export class ReviewResponseSubscriptionDto {
         };
     }
 
-    get usingStatusFormValue() {
-        if (this.usingStatus) return this.usingStatus;
+    get usingStatusFormValue(): ReviewResponseSubscriptionUsingStatus {
+        return this.usingStatus || this.usingStatusBefore;
+    }
 
+    get usingStatusBefore(): ReviewResponseSubscriptionUsingStatus {
         return this.isUsedBefore
             ? ReviewResponseSubscriptionUsingStatus.IN_USE
             : ReviewResponseSubscriptionUsingStatus.NO_USE;
+    }
+
+    get isUsingStatusChanged() {
+        return this.usingStatusBefore !== this.usingStatus;
     }
 }

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {ChevronDown} from 'lucide-react';
-import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
 import {CheckBoxButton} from './CheckBoxButton';
 import {UsingStatusColumn} from './UsingStatusColumn';

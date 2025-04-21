@@ -38,7 +38,7 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
                     </div>
                 ) : (
                     <div className="text-16">
-                        <div>{remainCount.toLocaleString()}분이 아직 응답하지 않았어요. 💦</div>
+                        <div>{remainCount.toLocaleString()}명이 아직 응답하지 않았어요. 💦</div>
                         <br />
                         <div>
                             이대로 마감하면 미제출 인원은 <br />
