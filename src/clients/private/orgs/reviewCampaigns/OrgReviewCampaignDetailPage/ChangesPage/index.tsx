@@ -2,7 +2,6 @@ import {memo, useCallback, useState} from 'react';
 import {useIdParam} from '^atoms/common';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {useReviewCampaign, useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
-import {LoadableBox2} from '^components/util/loading';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import {ChangesPageSidebar} from './ChangesPageSidebar';
 import {ChangesPageMainContent} from './ChangesPageMainContent';

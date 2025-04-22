@@ -18,7 +18,6 @@ import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/revi
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {ReviewCampaignControl} from './ReviewCampaignControl';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
     className?: string;

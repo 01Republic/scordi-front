@@ -35,9 +35,9 @@ export class ReviewCampaignDto {
 
     get currentStatus() {
         const now = new Date();
+        if (this.closedAt) return statusList.closed;
         if (now.getTime() < this.startAt.getTime()) return statusList.beforeStart;
-        if (this.finishAt && this.finishAt < now) return statusList.overdue;
-        if (this.closedAt && this.closedAt.getTime() <= now.getTime()) return statusList.closed;
+        if (this.finishAt && this.finishAt.getTime() < now.getTime()) return statusList.overdue;
         return statusList.inProgress;
     }
 
