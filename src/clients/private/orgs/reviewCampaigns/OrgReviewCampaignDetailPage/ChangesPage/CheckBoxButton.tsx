@@ -24,6 +24,7 @@ export function CheckBoxButton(props: CheckBoxButtonProps) {
             } ${className}`}
         >
             <Checkbox
+                id="checkbox-all_checked"
                 checked={checked}
                 onCheckedChange={(value) => {
                     onChange && onChange(Boolean(value));

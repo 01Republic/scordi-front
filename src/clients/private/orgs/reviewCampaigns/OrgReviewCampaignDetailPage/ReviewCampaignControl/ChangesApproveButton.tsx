@@ -25,6 +25,12 @@ export const ChangesApproveButton = memo((props: ChangesApproveButtonProps) => {
     const handleConfirm = async () => {
         if (!isActive('changes')) return router.push(OrgReviewCampaignDetailChangesPageRoute.path(orgId, id));
 
+        const allCheckedCheckboxElement = document.getElementById('checkbox-all_checked');
+        if (allCheckedCheckboxElement && allCheckedCheckboxElement.dataset?.state === 'unchecked') {
+            toast('전체 확인이 필요해요');
+            return;
+        }
+
         const sync = () =>
             confirm2(
                 <span className="text-xl">응답을 기반으로 구독현황을 업데이트 할까요?</span>,
