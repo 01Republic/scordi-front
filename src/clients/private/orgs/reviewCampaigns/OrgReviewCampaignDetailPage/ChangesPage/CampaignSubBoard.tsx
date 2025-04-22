@@ -60,15 +60,19 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    {!campaignSubscription.hasChanged() && (
-                        <p className="text-12 text-gray-400">기존 이용 상태에서 변경된 응답이 없어요</p>
-                    )}
+                {campaign?.isClosed() ? (
+                    <div className="min-h-[34px]" />
+                ) : (
+                    <div className="flex items-center gap-4">
+                        {!campaignSubscription.hasChanged() && (
+                            <p className="text-12 text-gray-400">기존 이용 상태에서 변경된 응답이 없어요</p>
+                        )}
 
-                    <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>
-                        <span className="font-medium">확인 완료</span>
-                    </CheckBoxButton>
-                </div>
+                        <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>
+                            <span className="font-medium">확인 완료</span>
+                        </CheckBoxButton>
+                    </div>
+                )}
             </div>
 
             <div className={`max-h-0 ${isExpanded ? '!max-h-screen' : ''} overflow-hidden transition-all duration-500`}>

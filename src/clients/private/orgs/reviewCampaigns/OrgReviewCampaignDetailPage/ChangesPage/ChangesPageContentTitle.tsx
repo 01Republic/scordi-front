@@ -1,12 +1,16 @@
 import {memo} from 'react';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
 
 interface ChangesPageContentTitleProps {
+    campaign?: ReviewCampaignDto;
     totalCount: number;
     leftCount: number;
 }
 
 export const ChangesPageContentTitle = memo((props: ChangesPageContentTitleProps) => {
-    const {totalCount, leftCount} = props;
+    const {campaign, totalCount, leftCount} = props;
+
+    if (campaign?.approvedAt || campaign?.isClosed()) return <></>;
 
     if (leftCount) {
         return (

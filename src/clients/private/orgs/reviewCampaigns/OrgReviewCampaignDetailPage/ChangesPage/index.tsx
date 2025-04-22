@@ -45,7 +45,9 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
             {campaignSubs.length === 0 ? (
                 <div className="flex items-center justify-center min-h-52">
                     <div className="flex flex-col items-center gap-4">
-                        <p className="text-xl text-gray-400 font-semibold">요청에 조사할 구독이 없어요.</p>
+                        {!isFetching && (
+                            <p className="text-xl text-gray-400 font-semibold">요청에 조사할 구독이 없어요.</p>
+                        )}
                     </div>
                 </div>
             ) : (
@@ -61,12 +63,14 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
                     />
 
                     {/* MainContent */}
-                    <ChangesPageMainContent
-                        campaign={campaign}
-                        campaignSubs={campaignSubs}
-                        reload={() => refetch()}
-                        selectedCampaignSub={selectedCampaignSub}
-                    />
+                    {campaign && (
+                        <ChangesPageMainContent
+                            campaign={campaign}
+                            campaignSubs={campaignSubs}
+                            reload={() => refetch()}
+                            selectedCampaignSub={selectedCampaignSub}
+                        />
+                    )}
                 </div>
             )}
         </OrgReviewCampaignDetailLayout>

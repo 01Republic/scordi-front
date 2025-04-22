@@ -52,7 +52,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
 
                 <div className="flex items-center mb-6">
                     <div className="flex items-center gap-2">
-                        <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
+                        <h1 className="text-3xl font-bold">{reviewCampaign?.title}&nbsp;</h1>
                     </div>
 
                     <ReviewCampaignControl reviewCampaign={reviewCampaign} />

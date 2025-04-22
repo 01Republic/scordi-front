@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useListControl} from '^hooks/useResource';
 import {Progress} from '^public/components/ui/progress';
 import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
@@ -28,29 +28,32 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
 
     return (
         <div className="flex-1">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium text-base">
-                    <ChangesPageContentTitle totalCount={totalCount} leftCount={leftCount} />
-                </h3>
-                <div className="flex items-center space-x-4">
-                    <div className="flex flex-col items-center">
-                        <span className="text-xs text-gray-700">
-                            {confirmedCount} / {totalCount} 확인 완료
-                        </span>
-                        <Progress
-                            value={progress}
-                            className="w-32 h-2 mt-1.5 bg-neutral-100"
-                            indicatorClassName="bg-primaryColor-900"
-                        />
+            {!campaign?.isClosed() && (
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-medium text-base">
+                        <ChangesPageContentTitle campaign={campaign} totalCount={totalCount} leftCount={leftCount} />
+                    </h3>
+
+                    <div className="flex items-center space-x-4">
+                        <div className="flex flex-col items-center">
+                            <span className="text-xs text-gray-700">
+                                {confirmedCount} / {totalCount} 확인 완료
+                            </span>
+                            <Progress
+                                value={progress}
+                                className="w-32 h-2 mt-1.5 bg-neutral-100"
+                                indicatorClassName="bg-primaryColor-900"
+                            />
+                        </div>
+                        <CheckBoxButton
+                            checked={totalCount > 0 && confirmedCount === totalCount}
+                            onChange={(checked) => setConfirmedSubs(checked ? campaignSubs : [])}
+                        >
+                            <span className="font-medium">전체 확인 완료</span>
+                        </CheckBoxButton>
                     </div>
-                    <CheckBoxButton
-                        checked={totalCount > 0 && confirmedCount === totalCount}
-                        onChange={(checked) => setConfirmedSubs(checked ? campaignSubs : [])}
-                    >
-                        <span className="font-medium">전체 확인 완료</span>
-                    </CheckBoxButton>
                 </div>
-            </div>
+            )}
 
             <div className="space-y-2">
                 {campaignSubs.map((campaignSub) => {

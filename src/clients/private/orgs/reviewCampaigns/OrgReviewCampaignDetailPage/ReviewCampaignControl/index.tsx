@@ -27,7 +27,7 @@ export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) =>
         <div className="ml-auto flex items-center gap-2">
             {!reviewCampaign ? (
                 <></>
-            ) : reviewCampaign.approvedAt ? (
+            ) : reviewCampaign.approvedAt || reviewCampaign.isClosed() ? (
                 <></>
             ) : !reviewCampaign.isOverdue() ? (
                 <CampaignFinishButton reviewCampaign={reviewCampaign} />
@@ -35,16 +35,18 @@ export const ReviewCampaignControl = memo((props: ReviewCampaignControlProps) =>
                 <ChangesApproveButton reviewCampaign={reviewCampaign} />
             )}
 
-            <MoreDropdown
-                moreDropdownButton={() => (
-                    <MoreDropdownButton className="btn-square w-[36px] h-[36px] min-h-[auto] !m-0" />
-                )}
-                noMenu
-            >
-                <MoreDropdownMenu className="!min-w-[8rem]">
-                    {reviewCampaign && <DeleteReviewCampaignItem reviewCampaign={reviewCampaign} />}
-                </MoreDropdownMenu>
-            </MoreDropdown>
+            {reviewCampaign && !reviewCampaign.isClosed() && (
+                <MoreDropdown
+                    moreDropdownButton={() => (
+                        <MoreDropdownButton className="btn-square w-[36px] h-[36px] min-h-[auto] !m-0" />
+                    )}
+                    noMenu
+                >
+                    <MoreDropdownMenu className="!min-w-[8rem]">
+                        {reviewCampaign && <DeleteReviewCampaignItem reviewCampaign={reviewCampaign} />}
+                    </MoreDropdownMenu>
+                </MoreDropdown>
+            )}
         </div>
     );
 });
