@@ -12,7 +12,7 @@ export const NextStepButton = memo((props: NextStepButtonProps) => {
     return (
         <button
             type="button"
-            onClick={onClick}
+            onClick={!disabled ? undefined : onClick}
             className={cn('btn btn-lg btn-scordi w-1/3', {
                 'btn-scordi': !disabled,
                 'bg-neutral-100 text-neutral-300 pointer-events-none': disabled,
