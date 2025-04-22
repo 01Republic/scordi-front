@@ -4,7 +4,6 @@ import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
-import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {dayAfter} from '^utils/dateTime';
 import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
@@ -80,7 +79,6 @@ export const OrgReviewCampaignNewPage = () => {
                 resetSteps();
                 setCreatedCampaign(campaign);
                 setIsComplete(true);
-                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
             })
             .catch(errorToast)
             .finally(() => setIsLoading(false));
