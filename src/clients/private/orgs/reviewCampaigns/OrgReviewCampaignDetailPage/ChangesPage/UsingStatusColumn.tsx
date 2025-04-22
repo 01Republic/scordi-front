@@ -11,6 +11,7 @@ import {ResponseSubCard} from './ResponseSubCard';
 interface UsingStatusColumnProps {
     usingStatus: ReviewResponseSubscriptionUsingStatus;
     responseSubs: ReviewResponseSubscriptionDto[];
+    draggable: boolean;
     dragItem: ReviewResponseSubscriptionDto | undefined;
     onDragStart: (responseSub: ReviewResponseSubscriptionDto) => any;
     onDragEnd: (responseSub: ReviewResponseSubscriptionDto) => any;
@@ -19,7 +20,7 @@ interface UsingStatusColumnProps {
 
 export const UsingStatusColumn = memo((props: UsingStatusColumnProps) => {
     const {usingStatus, responseSubs} = props;
-    const {dragItem, onDragStart, onDragEnd, onDrop} = props;
+    const {draggable, dragItem, onDragStart, onDragEnd, onDrop} = props;
 
     const title = t_reviewResponseSubscriptionUsingStatus(usingStatus);
     const [bgColor, textColor] = c_reviewResponseSubscriptionUsingStatus(usingStatus);
@@ -53,6 +54,7 @@ export const UsingStatusColumn = memo((props: UsingStatusColumnProps) => {
                     <ResponseSubCard
                         key={responseSub.id}
                         responseSub={responseSub}
+                        draggable={draggable}
                         onDragStart={() => onDragStart(responseSub)}
                         onDragEnd={() => onDragEnd(responseSub)}
                     />

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ChevronDown, HelpCircle} from 'lucide-react';
-import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
 import {CheckBoxButton} from './CheckBoxButton';
 import {UsingStatusColumn} from './UsingStatusColumn';
@@ -11,6 +11,7 @@ import {useIdParam} from '^atoms/common';
 import {Avatar} from '^components/Avatar';
 
 interface CampaignSubscriptionBoardProps {
+    campaign?: ReviewCampaignDto;
     campaignSubscription: ReviewCampaignSubscriptionDto;
     responseSubscriptions: ReviewResponseSubscriptionDto[];
     isFocused: boolean;
@@ -24,7 +25,8 @@ interface CampaignSubscriptionBoardProps {
  */
 export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
     const orgId = useIdParam('id');
-    const {campaignSubscription, responseSubscriptions, isFocused, isConfirmed, toggleConfirm, reload} = props;
+    const {campaign, campaignSubscription, responseSubscriptions, isFocused, isConfirmed, toggleConfirm, reload} =
+        props;
     const [isExpanded, setIsExpanded] = useState(!isConfirmed);
     const groupedResponseSubs = ReviewResponseSubscriptionDto.groupByUsingStatus(responseSubscriptions);
 
@@ -80,6 +82,7 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                             key={usingStatus}
                             usingStatus={usingStatus}
                             responseSubs={groupedResponseSubs[usingStatus]}
+                            draggable={!campaign?.isClosed()}
                             dragItem={dragItem}
                             onDragStart={(item) => setDragItem(item)}
                             onDragEnd={() => setDragItem(undefined)}

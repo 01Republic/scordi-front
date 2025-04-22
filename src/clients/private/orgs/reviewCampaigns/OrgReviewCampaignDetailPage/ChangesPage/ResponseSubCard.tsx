@@ -8,12 +8,13 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;
+    draggable: boolean;
     onDragStart: () => any;
     onDragEnd: () => any;
 }
 
 export const ResponseSubCard = (props: ResponseSubCardProps) => {
-    const {responseSub, onDragStart, onDragEnd} = props;
+    const {responseSub, draggable, onDragStart, onDragEnd} = props;
 
     const response = responseSub.response;
 
@@ -27,7 +28,7 @@ export const ResponseSubCard = (props: ResponseSubCardProps) => {
     return (
         <Card
             className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer"
-            draggable
+            draggable={draggable}
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
             onDragEnter={(e) => e.stopPropagation()}

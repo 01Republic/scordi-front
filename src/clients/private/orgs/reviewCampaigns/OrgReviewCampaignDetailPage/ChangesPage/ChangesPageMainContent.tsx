@@ -1,19 +1,20 @@
 import {memo, useState} from 'react';
 import {useListControl} from '^hooks/useResource';
 import {Progress} from '^public/components/ui/progress';
-import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {CampaignSubBoard} from './CampaignSubBoard';
 import {CheckBoxButton} from './CheckBoxButton';
 import {ChangesPageContentTitle} from './ChangesPageContentTitle';
 
 interface ChangesPageMainContentProps {
+    campaign?: ReviewCampaignDto;
     campaignSubs: ReviewCampaignSubscriptionDto[];
     reload: () => any;
     selectedCampaignSub?: ReviewCampaignSubscriptionDto;
 }
 
 export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) => {
-    const {campaignSubs, reload, selectedCampaignSub} = props;
+    const {campaign, campaignSubs, reload, selectedCampaignSub} = props;
     const [confirmedSubs, setConfirmedSubs] = useState<ReviewCampaignSubscriptionDto[]>(() => {
         // 모든 응답이 "유지" 상태인 대상구독은 기본적으로 "확인완료" 상태로 초기화 됩니다.
         return campaignSubs.filter((campaignSub) => !campaignSub.hasChanged());
@@ -66,6 +67,7 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
                     return (
                         <CampaignSubBoard
                             key={campaignSub.id}
+                            campaign={campaign}
                             campaignSubscription={campaignSub}
                             responseSubscriptions={entries}
                             isFocused={!!selectedCampaignSub && selectedCampaignSub.id === campaignSub.id}

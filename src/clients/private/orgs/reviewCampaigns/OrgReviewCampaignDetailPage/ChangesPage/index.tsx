@@ -1,7 +1,7 @@
 import {memo, useCallback, useState} from 'react';
 import {useIdParam} from '^atoms/common';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
-import {useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
+import {useReviewCampaign, useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
 import {LoadableBox2} from '^components/util/loading';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import {ChangesPageSidebar} from './ChangesPageSidebar';
@@ -10,6 +10,7 @@ import {ChangesPageMainContent} from './ChangesPageMainContent';
 export const OrgReviewCampaignDetailChangesPage = memo(() => {
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
+    const {data: campaign} = useReviewCampaign(orgId, id);
     const {data, refetch, isFetching} = useReviewCampaignSubscriptions(orgId, id, {
         relations: ['responseSubscriptions'],
         order: {subscriptionId: 'DESC'},
@@ -61,6 +62,7 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
 
                     {/* MainContent */}
                     <ChangesPageMainContent
+                        campaign={campaign}
                         campaignSubs={campaignSubs}
                         reload={() => refetch()}
                         selectedCampaignSub={selectedCampaignSub}
