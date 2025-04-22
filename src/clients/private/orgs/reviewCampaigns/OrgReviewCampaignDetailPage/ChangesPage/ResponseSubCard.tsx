@@ -1,16 +1,19 @@
-import {ReviewResponseSubscriptionDto} from '^models/ReviewResponse/type';
-import {getColor} from '^components/util/palette';
+import React from 'react';
 import {Card} from '^public/components/ui/card';
 import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar';
+import {ReviewResponseSubscriptionDto} from '^models/ReviewResponse/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import React from 'react';
+import {getColor} from '^components/util/palette';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;
+    onDragStart: () => any;
+    onDragEnd: () => any;
 }
 
-export const ResponseSubCard = ({responseSub}: ResponseSubCardProps) => {
+export const ResponseSubCard = (props: ResponseSubCardProps) => {
+    const {responseSub, onDragStart, onDragEnd} = props;
+
     const teamMember = responseSub.teamMember;
     const id = teamMember?.id || 0;
     const name = teamMember?.name || '';
@@ -19,7 +22,14 @@ export const ResponseSubCard = ({responseSub}: ResponseSubCardProps) => {
     const team = teamMember?.team;
 
     return (
-        <Card className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer" draggable>
+        <Card
+            className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer"
+            draggable
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onDragEnter={(e) => e.stopPropagation()}
+            onDrop={(e) => e.stopPropagation()}
+        >
             <div className="flex items-center gap-2">
                 <Avatar className="w-[24px] h-[24px]">
                     <AvatarImage src={teamMember?.profileImgUrl || ''} alt={teamMember?.name} />

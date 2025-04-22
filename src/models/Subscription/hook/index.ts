@@ -90,6 +90,28 @@ const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubs
     });
 };
 
+export const useSubscriptions2 = (orgId: number, params: FindAllSubscriptionsQuery) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: ['useSubscriptions2', orgId, query],
+        queryFn: () =>
+            subscriptionApi
+                .index({
+                    ...query,
+                    where: {organizationId: orgId, ...query.where},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId,
+    });
+
+    return {
+        ...queryResult,
+        query,
+        search: setQuery,
+    };
+};
+
 const useTeamSubscriptions = (
     teamIdAtom: RecoilState<number>,
     atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>,

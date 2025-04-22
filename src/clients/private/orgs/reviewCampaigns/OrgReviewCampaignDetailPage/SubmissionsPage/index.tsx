@@ -88,6 +88,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                                     <ReviewResponseItem
                                         key={response.id}
                                         response={response}
+                                        campaign={reviewCampaign}
                                         reload={() => refetch()}
                                     />
                                 ))}

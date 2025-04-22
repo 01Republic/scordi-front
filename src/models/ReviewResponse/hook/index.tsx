@@ -36,6 +36,6 @@ export const useReviewRequest = (orgId: number, campaignId: number, id: number, 
     return useQuery({
         queryKey: ['useReviewRequest', orgId, campaignId, id, token],
         queryFn: () => reviewResponseApi.show(orgId, campaignId, id, token).then((res) => res.data),
-        enabled: !!orgId && !!campaignId && !!id && !!token,
+        enabled: !!orgId && !!campaignId && !!id,
     });
 };

@@ -34,7 +34,7 @@ export default function OrgReviewCampaignDetailPage() {
                     <Card className="p-6 text-sm bg-white">
                         <div className="space-y-6">
                             <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">생성자</span>
+                                <span className="text-muted-foreground">요청자</span>
 
                                 <div>
                                     {authorMember ? (

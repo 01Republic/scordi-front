@@ -1,31 +1,22 @@
-import React, {useState} from 'react';
-import {cn} from '^public/lib/utils';
-import {useIdParam} from '^atoms/common';
-import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
-import {useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
-import {Avatar} from '^components/Avatar';
+import React from 'react';
 import {HelpCircle} from 'lucide-react';
+import {cn} from '^public/lib/utils';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {Avatar} from '^components/Avatar';
 
 interface ChangesPageSidebarProps {
-    selectedCampaignSub?: ReviewCampaignSubscriptionDto;
+    campaignSubs: ReviewCampaignSubscriptionDto[];
     onSelect: (campaignSub: ReviewCampaignSubscriptionDto) => any;
+    selectedCampaignSub?: ReviewCampaignSubscriptionDto;
 }
 
 export function ChangesPageSidebar(props: ChangesPageSidebarProps) {
-    const {selectedCampaignSub, onSelect} = props;
-    const orgId = useIdParam('id');
-    const id = useIdParam('reviewCampaignId');
-    const {
-        data: {items: campaignSubscriptions, pagination},
-    } = useReviewCampaignSubscriptions(orgId, id, {
-        order: {subscriptionId: 'DESC'},
-        itemsPerPage: 0,
-    });
+    const {campaignSubs, selectedCampaignSub, onSelect} = props;
 
     return (
         <div className="w-[240px] sticky top-4">
             <div className="space-y-2 text-sm">
-                {campaignSubscriptions.map((campaignSub, i) => {
+                {campaignSubs.map((campaignSub, i) => {
                     const isActive = selectedCampaignSub ? selectedCampaignSub.id === campaignSub.id : i === 0;
                     return (
                         <div

@@ -1,13 +1,12 @@
-import {orgIdParamState} from '^atoms/common';
+import {useRouter} from 'next/router';
+import {Check} from 'lucide-react';
+import {useIdParam} from '^atoms/common';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {Button} from '^public/components/ui/button';
-import {Check} from 'lucide-react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 
 export const SubmittedResponseView = () => {
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useIdParam('id');
 
     return (
         <div

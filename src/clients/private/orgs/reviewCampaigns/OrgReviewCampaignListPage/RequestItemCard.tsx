@@ -38,8 +38,8 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
                         )}
                     >
                         {isFinished
-                            ? `${reviewCampaign.finishAt.toLocaleDateString()} 완료`
-                            : `${reviewCampaign.createdAt.toLocaleDateString()} 생성`}
+                            ? `마감일: ${reviewCampaign.finishAt.toLocaleDateString()}`
+                            : `시작일: ${reviewCampaign.startAt.toLocaleDateString()}`}
                     </div>
                 </div>
 

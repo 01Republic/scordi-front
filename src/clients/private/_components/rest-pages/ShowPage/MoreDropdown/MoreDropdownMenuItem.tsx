@@ -8,14 +8,19 @@ interface MoreDropdownMenuItemProps extends WithChildren {
     onClick: () => any;
     theme?: MoreDropdownMenuItemTheme;
     size?: MoreDropdownMenuItemSize;
+    className?: string;
 }
 
 export const MoreDropdownMenuItem = memo((props: MoreDropdownMenuItemProps) => {
-    const {onClick, children, theme = 'default', size = 'default'} = props;
+    const {onClick, className = '', children, theme = 'default', size = 'default'} = props;
 
     return (
         <div className="group">
-            <div tabIndex={0} onClick={onClick} className={`cursor-pointer ${sizeClass(size)} ${themeClass(theme)}`}>
+            <div
+                tabIndex={0}
+                onClick={onClick}
+                className={`cursor-pointer ${sizeClass(size)} ${themeClass(theme)} ${className}`}
+            >
                 {children}
             </div>
         </div>

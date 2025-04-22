@@ -5,10 +5,11 @@ import {ButtonLink} from '^public/components/ui/button';
 
 interface ShowResponseButtonProps {
     response: ReviewResponseDto;
+    text?: string;
 }
 
 export const ShowResponseButton = memo((props: ShowResponseButtonProps) => {
-    const {response} = props;
+    const {response, text} = props;
 
     return (
         <ButtonLink
@@ -17,7 +18,7 @@ export const ShowResponseButton = memo((props: ShowResponseButtonProps) => {
             href={OrgReviewResponseShowPageRoute.resourcePath(response)}
             displayLoading={false}
         >
-            응답 확인
+            {text || '응답 확인'}
         </ButtonLink>
     );
 });

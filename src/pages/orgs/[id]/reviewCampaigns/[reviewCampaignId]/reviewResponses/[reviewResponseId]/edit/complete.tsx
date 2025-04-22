@@ -11,7 +11,6 @@ export const OrgReviewResponseCompletePageRoute = pathRoute({
 
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    useCurrentOrg(orgId);
 
     if (!orgId || isNaN(orgId)) return <></>;
 

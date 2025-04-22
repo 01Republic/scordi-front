@@ -61,21 +61,25 @@ export class ReviewCampaignDto {
 const statusList = {
     beforeStart: {
         text: '대기',
+        longText: '시작 전',
         bgColor: 'bg-gray-200',
         textColor: '',
     },
     inProgress: {
-        text: '진행 중',
+        text: '진행중',
+        longText: '진행하고 있어요',
         bgColor: 'bg-orange-200',
         textColor: '',
     },
     overdue: {
         text: '마감',
+        longText: '마감 했어요',
         bgColor: 'bg-red-200',
         textColor: '',
     },
     closed: {
         text: '완료',
+        longText: '종료됨',
         bgColor: 'bg-green-200',
         textColor: '',
     },

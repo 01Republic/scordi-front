@@ -8,14 +8,17 @@ import {errorToast} from '^api/api';
 import {Spinner} from '^components/util/loading';
 import {ArrowRightLeft} from 'lucide-react';
 import {Button} from '^public/components/ui/button';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
+import Tippy from '@tippyjs/react';
 
 interface SubmitStatusHandlerProps {
     response: ReviewResponseDto;
+    campaign?: ReviewCampaignDto;
     reload: () => any;
 }
 
 export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
-    const {response, reload} = props;
+    const {response, campaign, reload} = props;
     const {organizationId: orgId, campaignId, id} = response;
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,6 +32,25 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     };
+
+    if (!campaign || campaign.isOverdue()) {
+        return (
+            <Tippy content="요청이 마감되었어요.">
+                <div>
+                    <Button
+                        variant={response.submittedAt ? 'grayOutline' : 'grayOutline'}
+                        className={`border-gray-200 w-24 !outline-none cursor-pointer shadow hover:shadow-lg transition-all pointer-events-none`}
+                    >
+                        {response.submittedAt ? (
+                            '제출 완료'
+                        ) : (
+                            <span>미제출{<span className="text-red-500 text-12">(마감)</span>}</span>
+                        )}
+                    </Button>
+                </div>
+            </Tippy>
+        );
+    }
 
     return (
         <MoreDropdown

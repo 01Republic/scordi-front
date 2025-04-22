@@ -6,16 +6,17 @@ import {MoreDropdownButton} from './MoreDropdownButton';
 interface MoreDropdownProps extends WithChildren {
     moreDropdownButton?: () => JSX.Element;
     className?: string;
+    noMenu?: boolean;
 }
 
 export const MoreDropdown = memo((props: MoreDropdownProps) => {
-    const {moreDropdownButton, children, className = ''} = props;
+    const {moreDropdownButton, noMenu = false, children, className = ''} = props;
 
     return (
         <div className={`dropdown dropdown-bottom dropdown-end ${className}`}>
             {moreDropdownButton ? moreDropdownButton() : <MoreDropdownButton />}
 
-            <MoreDropdownMenu>{children}</MoreDropdownMenu>
+            {noMenu ? children : <MoreDropdownMenu>{children}</MoreDropdownMenu>}
         </div>
     );
 });

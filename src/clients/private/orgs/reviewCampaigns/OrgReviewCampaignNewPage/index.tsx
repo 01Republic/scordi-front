@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
@@ -32,6 +32,13 @@ export const OrgReviewCampaignNewPage = () => {
         },
     });
 
+    useEffect(() => {
+        return () => {
+            form.reset();
+            resetSteps();
+        };
+    }, []);
+
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
         if (!data.title) {
             toast.error('제목을 입력해주세요.');
@@ -61,13 +68,10 @@ export const OrgReviewCampaignNewPage = () => {
 
         return confirmed(syncConfirm())
             .then(() => setIsLoading(true))
-            .then(() => reviewCampaignApi.create(orgId, data))
-            .then((res) => res.data)
+            .then(() => reviewCampaignApi.create(orgId, data).then((res) => res.data))
             .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
-                form.reset();
-                resetSteps();
-                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
+                return router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
             })
             .catch(errorToast)
             .finally(() => setIsLoading(false));
