@@ -9,6 +9,7 @@ import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useIdParam} from '^atoms/common';
 import {Avatar} from '^components/Avatar';
+import Tippy from '@tippyjs/react';
 
 interface CampaignSubscriptionBoardProps {
     campaign?: ReviewCampaignDto;
@@ -64,8 +65,14 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                     <div className="min-h-[34px]" />
                 ) : (
                     <div className="flex items-center gap-4">
-                        {!campaignSubscription.hasChanged() && (
-                            <p className="text-12 text-gray-400">기존 이용 상태에서 변경된 응답이 없어요</p>
+                        {campaignSubscription.hasNotSubmitted() ? (
+                            <div>
+                                <p className="text-12 text-gray-400">미제출 응답이 포함되어 있어요</p>
+                            </div>
+                        ) : (
+                            !campaignSubscription.hasChanged() && (
+                                <p className="text-12 text-gray-400">기존 이용 상태에서 변경된 응답이 없어요</p>
+                            )
                         )}
 
                         <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>

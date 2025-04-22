@@ -1,20 +1,21 @@
 import React from 'react';
 import {Card} from '^public/components/ui/card';
 import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar';
-import {ReviewResponseSubscriptionDto} from '^models/ReviewResponse/type';
+import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {getColor} from '^components/util/palette';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;
+    usingStatus: ReviewResponseSubscriptionUsingStatus;
     draggable: boolean;
     onDragStart: () => any;
     onDragEnd: () => any;
 }
 
 export const ResponseSubCard = (props: ResponseSubCardProps) => {
-    const {responseSub, draggable, onDragStart, onDragEnd} = props;
+    const {responseSub, usingStatus, draggable, onDragStart, onDragEnd} = props;
 
     const response = responseSub.response;
 
@@ -27,7 +28,7 @@ export const ResponseSubCard = (props: ResponseSubCardProps) => {
 
     return (
         <Card
-            className="p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer"
+            className="relative p-4 border rounded-lg bg-white text-sm space-y-2 cursor-pointer"
             draggable={draggable}
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
@@ -47,7 +48,22 @@ export const ResponseSubCard = (props: ResponseSubCardProps) => {
                     <div className="font-medium">{name || '알 수 없음'}</div>
                 </div>
 
-                {responseSub.isUsingStatusChanged ? (
+                {responseSub.usingStatus === null ? (
+                    <div className="flex items-center gap-1">
+                        <TagUI className="bg-red-50 text-red-500" noMargin>
+                            미제출
+                        </TagUI>
+                        {responseSub.usingStatusBefore !== usingStatus ? (
+                            <TagUI className="bg-scordi-100 text-scordi" noMargin>
+                                변경됨
+                            </TagUI>
+                        ) : (
+                            <TagUI className="bg-gray-100 text-gray-400" noMargin>
+                                유지
+                            </TagUI>
+                        )}
+                    </div>
+                ) : responseSub.isUsingStatusChanged ? (
                     <TagUI className="bg-scordi-100 text-scordi" noMargin>
                         변경됨
                     </TagUI>
@@ -61,6 +77,12 @@ export const ResponseSubCard = (props: ResponseSubCardProps) => {
             <div className="text-gray-400 text-xs">{email || '-'}</div>
 
             {team && <TeamTag id={team.id} name={team.name} />}
+
+            {/*<div className="absolute bottom-4 right-4">*/}
+            {/*    <TagUI className="text-scordi" noMargin>*/}
+            {/*        미제출*/}
+            {/*    </TagUI>*/}
+            {/*</div>*/}
         </Card>
     );
 };

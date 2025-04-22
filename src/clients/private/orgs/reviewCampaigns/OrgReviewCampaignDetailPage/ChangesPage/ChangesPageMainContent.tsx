@@ -7,7 +7,7 @@ import {CheckBoxButton} from './CheckBoxButton';
 import {ChangesPageContentTitle} from './ChangesPageContentTitle';
 
 interface ChangesPageMainContentProps {
-    campaign?: ReviewCampaignDto;
+    campaign: ReviewCampaignDto;
     campaignSubs: ReviewCampaignSubscriptionDto[];
     reload: () => any;
     selectedCampaignSub?: ReviewCampaignSubscriptionDto;
@@ -16,6 +16,9 @@ interface ChangesPageMainContentProps {
 export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) => {
     const {campaign, campaignSubs, reload, selectedCampaignSub} = props;
     const [confirmedSubs, setConfirmedSubs] = useState<ReviewCampaignSubscriptionDto[]>(() => {
+        // 아직 마감되지 않은 요청의 응답결과는 모두 확인되지 않은 상태로 초기화 합니다.
+        if (!campaign.isOverdue()) return [];
+
         // 모든 응답이 "유지" 상태인 대상구독은 기본적으로 "확인완료" 상태로 초기화 됩니다.
         return campaignSubs.filter((campaignSub) => !campaignSub.hasChanged());
     });
@@ -28,7 +31,7 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
 
     return (
         <div className="flex-1">
-            {!campaign?.isClosed() && (
+            {!campaign.isClosed() && (
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="font-medium text-base">
                         <ChangesPageContentTitle campaign={campaign} totalCount={totalCount} leftCount={leftCount} />
@@ -61,8 +64,11 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
                     const entries = responseSubs.filter((responseSub) => {
                         if (responseSub.subscriptionId !== campaignSub.subscriptionId) return false;
 
-                        // 미제출 응답은 제외
-                        if (!responseSub.submittedAt) return false;
+                        // 요청이 마감되지 않았으면
+                        // if (!campaign.isOverdue()) {
+                        //     // 미제출 응답은 제외
+                        //     if (!responseSub.submittedAt) return false;
+                        // }
 
                         return true;
                     });
