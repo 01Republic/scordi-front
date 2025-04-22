@@ -84,7 +84,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                                 isActive('changes') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
                             }`}
                         >
-                            변경사항
+                            응답결과
                         </Link>
                     </nav>
 

@@ -8,8 +8,6 @@ interface ChangesPageContentTitleProps {
 export const ChangesPageContentTitle = memo((props: ChangesPageContentTitleProps) => {
     const {totalCount, leftCount} = props;
 
-    if (!totalCount) return <span>요청에 조사할 구독이 없어요</span>;
-
     if (leftCount) {
         return (
             <span>
@@ -25,7 +23,7 @@ export const ChangesPageContentTitle = memo((props: ChangesPageContentTitleProps
                 className="text-scordi animate-pulse hover:animate-none cursor-pointer btn-animation"
                 onClick={() => document.getElementById('review-campaign-confirm-btn')?.click()}
             >
-                변경사항 승인하기
+                승인하기
             </b>{' '}
             버튼을 눌러 저장해주세요 💁‍♀️
         </span>

@@ -4,6 +4,7 @@ import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar'
 import {ReviewResponseSubscriptionDto} from '^models/ReviewResponse/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {getColor} from '^components/util/palette';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;
@@ -14,10 +15,12 @@ interface ResponseSubCardProps {
 export const ResponseSubCard = (props: ResponseSubCardProps) => {
     const {responseSub, onDragStart, onDragEnd} = props;
 
+    const response = responseSub.response;
+
     const teamMember = responseSub.teamMember;
     const id = teamMember?.id || 0;
-    const name = teamMember?.name || '';
-    const email = teamMember?.email || '';
+    const name = teamMember?.name || response?.respondentName || '';
+    const email = teamMember?.email || response?.respondentEmail || '';
     const avatarColor = getColor(email.length + id);
     const team = teamMember?.team;
 
@@ -30,16 +33,28 @@ export const ResponseSubCard = (props: ResponseSubCardProps) => {
             onDragEnter={(e) => e.stopPropagation()}
             onDrop={(e) => e.stopPropagation()}
         >
-            <div className="flex items-center gap-2">
-                <Avatar className="w-[24px] h-[24px]">
-                    <AvatarImage src={teamMember?.profileImgUrl || ''} alt={teamMember?.name} />
-                    <AvatarFallback className={`${avatarColor}`}>
-                        <span className="w-full h-full flex items-center justify-center text-white text-12">
-                            {name ? name.substring(0, 1).toUpperCase() : '?'}
-                        </span>
-                    </AvatarFallback>
-                </Avatar>
-                <div className="font-medium">{name || '알 수 없음'}</div>
+            <div className="flex items-start justify-between">
+                <div className="flex items-center gap-2">
+                    <Avatar className="w-[24px] h-[24px]">
+                        <AvatarImage src={teamMember?.profileImgUrl || ''} alt={teamMember?.name} />
+                        <AvatarFallback className={`${avatarColor}`}>
+                            <span className="w-full h-full flex items-center justify-center text-white text-12">
+                                {name ? name.substring(0, 1).toUpperCase() : '?'}
+                            </span>
+                        </AvatarFallback>
+                    </Avatar>
+                    <div className="font-medium">{name || '알 수 없음'}</div>
+                </div>
+
+                {responseSub.isUsingStatusChanged ? (
+                    <TagUI className="bg-scordi-100 text-scordi" noMargin>
+                        변경됨
+                    </TagUI>
+                ) : (
+                    <TagUI className="text-gray-400" noMargin>
+                        유지
+                    </TagUI>
+                )}
             </div>
 
             <div className="text-gray-400 text-xs">{email || '-'}</div>

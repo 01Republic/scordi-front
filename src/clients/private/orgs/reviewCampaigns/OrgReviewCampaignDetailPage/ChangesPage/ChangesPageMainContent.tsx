@@ -1,4 +1,4 @@
-import {Fragment, memo, useState} from 'react';
+import {memo, useState} from 'react';
 import {useListControl} from '^hooks/useResource';
 import {Progress} from '^public/components/ui/progress';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
@@ -14,7 +14,10 @@ interface ChangesPageMainContentProps {
 
 export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) => {
     const {campaignSubs, reload, selectedCampaignSub} = props;
-    const [confirmedSubs, setConfirmedSubs] = useState<ReviewCampaignSubscriptionDto[]>([]);
+    const [confirmedSubs, setConfirmedSubs] = useState<ReviewCampaignSubscriptionDto[]>(() => {
+        // 모든 응답이 "유지" 상태인 대상구독은 기본적으로 "확인완료" 상태로 초기화 됩니다.
+        return campaignSubs.filter((campaignSub) => !campaignSub.hasChanged());
+    });
     const {add: addConfirmedSubs, remove: removeConfirmedSubs} = useListControl(setConfirmedSubs, (item) => item.id);
 
     const totalCount = campaignSubs.length;
@@ -50,9 +53,15 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
 
             <div className="space-y-2">
                 {campaignSubs.map((campaignSub) => {
-                    const entries = campaignSub.changedResponseSubs();
+                    const responseSubs = campaignSub.responseSubscriptions || [];
+                    const entries = responseSubs.filter((responseSub) => {
+                        if (responseSub.subscriptionId !== campaignSub.subscriptionId) return false;
 
-                    if (entries.length <= 0) return <Fragment key={campaignSub.id} />;
+                        // 미제출 응답은 제외
+                        if (!responseSub.submittedAt) return false;
+
+                        return true;
+                    });
 
                     return (
                         <CampaignSubBoard

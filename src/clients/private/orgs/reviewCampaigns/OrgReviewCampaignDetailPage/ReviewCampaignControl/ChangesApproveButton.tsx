@@ -45,7 +45,7 @@ export const ChangesApproveButton = memo((props: ChangesApproveButtonProps) => {
 
     return (
         <Button id="review-campaign-confirm-btn" className="bg-scordi text-white" onClick={handleConfirm}>
-            변경사항 승인하기
+            승인하기
         </Button>
     );
 });
