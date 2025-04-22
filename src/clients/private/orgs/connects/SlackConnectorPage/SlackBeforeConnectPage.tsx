@@ -1,8 +1,5 @@
-import {GoogleOAuthProvider} from '@react-oauth/google';
 import {orgIdParamState} from '^atoms/common';
 import {BackButton} from '^components/BackButton';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {googleOAuth} from '^config/environments';
 import {slackScordiOauthApi} from '^models/_slack-bot/api';
 import {debounce} from 'lodash';
 import {useRouter} from 'next/router';
@@ -51,27 +48,16 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
                     <br />
                 </div>
 
-                {/* TODO: 슬랙 워크스페이스 연동 */}
                 <div className="w-full grid grid-cols-2 gap-4">
-                    <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
-                        <GoogleLoginBtn
-                            about="admin"
-                            onToken={(accessToken) => setAccessToken(accessToken)}
-                            className="!btn-md"
-                            logoSize="w-4 h-4"
-                            ButtonComponent={() => (
-                                <button
-                                    id="google-workspace-connect-button"
-                                    className="btn btn-md btn-block btn-scordi"
-                                    onClick={debounce(() => {
-                                        window.open(slackScordiOauthApi.authUrl(orgId), '_blank');
-                                    }, 500)}
-                                >
-                                    연결 시작하기
-                                </button>
-                            )}
-                        />
-                    </GoogleOAuthProvider>
+                    <button
+                        id="google-workspace-connect-button"
+                        className="btn btn-md btn-block btn-scordi"
+                        onClick={debounce(() => {
+                            window.open(slackScordiOauthApi.authUrl(orgId), '_self');
+                        }, 500)}
+                    >
+                        연결 시작하기
+                    </button>
                 </div>
             </header>
 

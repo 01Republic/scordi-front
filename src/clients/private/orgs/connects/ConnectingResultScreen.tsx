@@ -3,6 +3,7 @@ import {useRouter} from 'next/router';
 import {memo} from 'react';
 
 export interface NewMember {
+    profileImageUrl?: string;
     name: string;
     email: string;
 }
@@ -19,7 +20,7 @@ export const ConnectingResultScreen = memo(function ConnectingResultScreen({
     const router = useRouter();
 
     return (
-        <div className="py-16 px-12 max-w-[1152px] mx-auto space-y-20 h-lvh">
+        <div className="py-16 px-12 max-w-[1152px] mx-auto space-y-20 min-h-lvh">
             <div
                 className="flex items-center gap-2 hover:cursor-pointer hover:text-scordi-500"
                 onClick={() => router.back()}
@@ -33,13 +34,20 @@ export const ConnectingResultScreen = memo(function ConnectingResultScreen({
             </div>
             <div className="grid grid-cols-2 gap-3">
                 {newMembers.map((member, index) => (
-                    <div key={index} className="bg-white rounded-lg p-4">
-                        <div className="font-semibold">{member.name}</div>
-                        <div className="text-gray-500">{member.email}</div>
+                    <div key={index} className="bg-white rounded-lg p-4 flex items-center gap-4">
+                        <img
+                            src={member.profileImageUrl ?? '/images/illustration/default_profile.png'}
+                            alt="complete"
+                            className="w-10 h-10 rounded-full"
+                        />
+                        <div className="flex flex-col gap-1">
+                            <div className="font-semibold text-14">{member.name}</div>
+                            <div className="text-gray-300 text-14">{member.email}</div>
+                        </div>
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-12">
                 <button className="btn btn-scordi btn-md w-64" onClick={onNext}>
                     다음
                 </button>
