@@ -10,6 +10,7 @@ import {ReviewResponseSubscriptionUsingStatus} from './ReviewResponseSubscriptio
 export class ReviewResponseSubscriptionDto {
     id: number;
     responseId: number; // 응답지 ID
+    campaignSubscriptionId: number; // 캠페인 대상 구독 ID
     subscriptionId: number;
     isUsedBefore: boolean; // 기존 이용상태 (as-is)
     usingStatus: ReviewResponseSubscriptionUsingStatus | null; // 이용상태 응답 (to-be)

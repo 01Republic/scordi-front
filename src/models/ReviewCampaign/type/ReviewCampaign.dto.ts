@@ -53,8 +53,14 @@ export class ReviewCampaignDto {
         return ['bg-green-500', 'text-green-500'];
     }
 
+    // 마감여부
     isOverdue() {
         return this.finishAt && this.finishAt < new Date();
+    }
+
+    // 종료여부
+    isClosed() {
+        return !!this.closedAt;
     }
 }
 

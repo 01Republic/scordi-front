@@ -1,4 +1,4 @@
-import {memo, useCallback, useState} from 'react';
+import {memo, useCallback, useMemo, useState} from 'react';
 import {useIdParam} from '^atoms/common';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
@@ -16,7 +16,9 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
     });
     const [selectedCampaignSub, setSelectedCampaignSub] = useState<ReviewCampaignSubscriptionDto>();
 
-    const campaignSubs = data.items.filter((item) => item.hasChanged());
+    const campaignSubs = useMemo(() => {
+        return data.items.filter((item) => item.hasChanged());
+    }, [data.items]);
 
     const focusSub = useCallback((campaignSub: ReviewCampaignSubscriptionDto) => {
         const element = document.getElementById(campaignSub.domId);
