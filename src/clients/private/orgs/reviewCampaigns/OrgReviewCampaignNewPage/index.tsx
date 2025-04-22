@@ -4,10 +4,11 @@ import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
+import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {dayAfter} from '^utils/dateTime';
 import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {useResetRecoilState} from 'recoil';
@@ -35,6 +36,13 @@ export const OrgReviewCampaignNewPage = () => {
     const {type} = router.query;
     const [isComplete, setIsComplete] = useState(false);
     const [createdCampaign, setCreatedCampaign] = useState<any>(null);
+
+    useEffect(() => {
+        return () => {
+            form.reset();
+            resetSteps();
+        };
+    }, []);
 
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
         if (!data.title) {
@@ -65,14 +73,14 @@ export const OrgReviewCampaignNewPage = () => {
 
         return confirmed(syncConfirm())
             .then(() => setIsLoading(true))
-            .then(() => reviewCampaignApi.create(orgId, data))
-            .then((res) => res.data)
+            .then(() => reviewCampaignApi.create(orgId, data).then((res) => res.data))
             .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
                 form.reset();
                 resetSteps();
                 setCreatedCampaign(campaign);
                 setIsComplete(true);
+                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
             })
             .catch(errorToast)
             .finally(() => setIsLoading(false));

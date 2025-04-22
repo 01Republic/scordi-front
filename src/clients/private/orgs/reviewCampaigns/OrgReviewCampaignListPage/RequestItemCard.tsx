@@ -16,7 +16,8 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
     const {item: reviewCampaign} = props;
     const {organizationId, id} = reviewCampaign;
 
-    const isFinished = reviewCampaign.isOverdue();
+    const isOverdue = reviewCampaign.isOverdue(); // 마감여부
+    const isFinished = reviewCampaign.isClosed(); // 완료여부
     // const badgeColor = isFinished ? 'bg-gray-300' : 'bg-black';
     const currentStatus = reviewCampaign.currentStatus;
     const progressValue = reviewCampaign.progressValue;
@@ -37,9 +38,11 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
                             // isFinished ? 'text-gray-300' : 'text-slate-800',
                         )}
                     >
-                        {isFinished
-                            ? `${reviewCampaign.finishAt.toLocaleDateString()} 완료`
-                            : `${reviewCampaign.createdAt.toLocaleDateString()} 생성`}
+                        {reviewCampaign.isClosed()
+                            ? `완료일: ${reviewCampaign.closedAt?.toLocaleDateString()}`
+                            : isOverdue
+                            ? `마감일: ${reviewCampaign.finishAt.toLocaleDateString()}`
+                            : `시작일: ${reviewCampaign.startAt.toLocaleDateString()}`}
                     </div>
                 </div>
 

@@ -8,14 +8,16 @@ import Image from 'next/image';
 import SlackIcon from '^public/logo/icons/ic_slack.png';
 import GmailIcon from '^public/logo/icons/ic_gmail.png';
 import {ShowResponseButton} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/SubmissionsPage/ReviewResponseItem/ShowResponseButton';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
 
 interface ReviewResponseItemProps {
     response: ReviewResponseDto;
+    campaign?: ReviewCampaignDto;
     reload: () => any;
 }
 
 export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
-    const {response, reload} = props;
+    const {response, campaign, reload} = props;
 
     return (
         <div className="flex items-center p-4 text-sm gap-x-6 md:gap-x-12">
@@ -42,10 +44,12 @@ export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
             </div>
 
             <div className="ml-auto flex items-center gap-3">
-                <SubmitStatusHandler response={response} reload={reload} />
+                <SubmitStatusHandler response={response} campaign={campaign} reload={reload} />
 
-                {response.submittedAt ? (
-                    <ShowResponseButton response={response} />
+                {campaign?.isOverdue() ? (
+                    <ShowResponseButton response={response} text="내용 확인" />
+                ) : response.submittedAt ? (
+                    <ShowResponseButton response={response} text="응답 확인" />
                 ) : (
                     <ResendButton response={response} reload={reload} />
                 )}

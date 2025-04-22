@@ -10,6 +10,7 @@ import {
 } from '^models/ReviewCampaign/type';
 import {ReviewResponseSubscriptionDto, FindAllReviewResponseSubscriptionsQueryDto} from '^models/ReviewResponse/type';
 import {TeamMemberDto} from '^models/TeamMember';
+import {UpdateReviewResponseSubscriptionRequestDto} from '^models/ReviewResponse/type/UpdateReviewResponseSubscriptionRequest.dto';
 
 /**
  * [요청] 요청 캠페인 API
@@ -42,7 +43,7 @@ export const reviewCampaignApi = {
     // TODO: 요청 캠페인 최종 승인
     approve(orgId: number, id: number) {
         const url = `/organizations/${orgId}/review_campaigns/${id}/approve`;
-        // return api.patch(url, dto).then(oneDtoOf(ReviewCampaignDto));
+        return api.patch(url).then(oneDtoOf(ReviewCampaignDto));
     },
 
     // 요청 캠페인 삭제
@@ -70,6 +71,11 @@ export const reviewCampaignApi = {
         index(orgId: number, id: number, params: FindAllReviewResponseSubscriptionsQueryDto) {
             const url = `/organizations/${orgId}/review_campaigns/${id}/response_subscriptions`;
             return api.get(url, {params}).then(paginatedDtoOf(ReviewResponseSubscriptionDto));
+        },
+
+        update(orgId: number, campaignId: number, id: number, dto: UpdateReviewResponseSubscriptionRequestDto) {
+            const url = `/organizations/${orgId}/review_campaigns/${campaignId}/response_subscriptions/${id}`;
+            return api.patch(url, dto).then(oneDtoOf(ReviewResponseSubscriptionDto));
         },
     },
 };

@@ -7,6 +7,7 @@ import {OrgBasicInfoSection} from './OrgBasicInfoSection';
 import {SubscriptionInfoSection} from './SubscriptionInfoSection';
 import {WorkspaceSettingSection} from './WorkspaceSettingSection';
 import {OrgSettingsContent} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsContent';
+import {WorkspaceDangerousSection} from './WorkspaceDangerousSection';
 
 export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -23,6 +24,7 @@ export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPa
             <OrgBasicInfoSection orgId={orgId} />
             <SubscriptionInfoSection orgId={orgId} />
             <WorkspaceSettingSection orgId={orgId} />
+            <WorkspaceDangerousSection orgId={orgId} />
         </OrgSettingsLayout>
     );
 });

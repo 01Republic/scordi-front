@@ -35,9 +35,9 @@ export class ReviewCampaignDto {
 
     get currentStatus() {
         const now = new Date();
+        if (this.closedAt) return statusList.closed;
         if (now.getTime() < this.startAt.getTime()) return statusList.beforeStart;
-        if (this.finishAt && this.finishAt < now) return statusList.overdue;
-        if (this.closedAt && this.closedAt.getTime() <= now.getTime()) return statusList.closed;
+        if (this.finishAt && this.finishAt.getTime() < now.getTime()) return statusList.overdue;
         return statusList.inProgress;
     }
 
@@ -53,29 +53,39 @@ export class ReviewCampaignDto {
         return ['bg-green-500', 'text-green-500'];
     }
 
+    // 마감여부
     isOverdue() {
         return this.finishAt && this.finishAt < new Date();
+    }
+
+    // 종료여부
+    isClosed() {
+        return !!this.closedAt;
     }
 }
 
 const statusList = {
     beforeStart: {
         text: '대기',
+        longText: '시작 전',
         bgColor: 'bg-gray-200',
         textColor: '',
     },
     inProgress: {
-        text: '진행 중',
+        text: '진행중',
+        longText: '진행하고 있어요',
         bgColor: 'bg-orange-200',
         textColor: '',
     },
     overdue: {
         text: '마감',
+        longText: '마감 했어요',
         bgColor: 'bg-red-200',
         textColor: '',
     },
     closed: {
         text: '완료',
+        longText: '종료됨',
         bgColor: 'bg-green-200',
         textColor: '',
     },

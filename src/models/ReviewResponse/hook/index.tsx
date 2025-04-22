@@ -5,7 +5,7 @@ import {FindAllReviewResponsesQueryDto} from '^models/ReviewResponse/type/FindAl
 import {ReviewResponseDto} from '^models/ReviewResponse/type/ReviewResponse.dto';
 import {Paginated} from '^types/utils/paginated.dto';
 
-export const useReviewResponses = (orgId: number, campaignId: number, params: FindAllReviewResponsesQueryDto) => {
+export const useReviewResponses = (orgId: number, campaignId: number, params: FindAllReviewResponsesQueryDto = {}) => {
     const [_params, setParams] = useState(params);
     const queryResult = useQuery({
         queryKey: ['reviewResponses', orgId, campaignId, _params],
@@ -36,6 +36,6 @@ export const useReviewRequest = (orgId: number, campaignId: number, id: number, 
     return useQuery({
         queryKey: ['useReviewRequest', orgId, campaignId, id, token],
         queryFn: () => reviewResponseApi.show(orgId, campaignId, id, token).then((res) => res.data),
-        enabled: !!orgId && !!campaignId && !!id && !!token,
+        enabled: !!orgId && !!campaignId && !!id,
     });
 };
