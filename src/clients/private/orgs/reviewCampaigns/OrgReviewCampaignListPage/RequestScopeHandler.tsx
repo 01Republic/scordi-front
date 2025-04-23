@@ -32,7 +32,10 @@ export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<F
             case Scope.OVERDUE: // 마감
                 search((prev) => ({
                     ...prev,
-                    where: {finishAt: {op: 'lt', val: new Date()}},
+                    where: {
+                        finishAt: {op: 'lte', val: new Date()},
+                        closedAt: 'NULL',
+                    },
                     page: 1,
                 }));
                 break;
@@ -40,7 +43,7 @@ export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<F
                 search((prev) => ({
                     ...prev,
                     where: {
-                        closedAt: {op: 'mte', val: new Date()},
+                        closedAt: {op: 'not', val: 'NULL'},
                     },
                     page: 1,
                 }));

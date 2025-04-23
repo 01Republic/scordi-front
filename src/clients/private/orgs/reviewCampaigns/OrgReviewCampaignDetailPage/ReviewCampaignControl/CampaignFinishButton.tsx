@@ -29,12 +29,12 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
 
         const dialog = () =>
             confirm2(
-                <span className="text-xl">접수를 마감할까요?</span>,
+                <span className="text-xl">제출을 마감할까요?</span>,
                 !remainCount ? (
                     <div className="text-16">
                         <div>모든 구성원이 응답을 해주셨어요. 🎉</div>
                         <br />
-                        <div>접수를 마감하고 다음으로 진행할까요?</div>
+                        <div>제출을 마감하고 다음으로 진행할까요?</div>
                     </div>
                 ) : (
                     <div className="text-16">
@@ -48,7 +48,7 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
                             됩니다.
                         </div>
                         <br />
-                        <div>접수를 마감하고 다음으로 진행할까요?</div>
+                        <div>제출을 마감하고 다음으로 진행할까요?</div>
                     </div>
                 ),
             );
@@ -56,14 +56,14 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
         const finishAt = new Date();
         confirmed(dialog())
             .then(() => reviewCampaignApi.update(orgId, id, {finishAt}))
-            .then(() => toast.success('접수를 마감했어요.'))
+            .then(() => toast.success('제출을 마감했어요.'))
             .then(() => router.push(OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)))
             .catch(errorToast);
     };
 
     return (
-        <Button className="bg-scordi text-white" onClick={onClick}>
-            접수 마감하기
+        <Button id="review-campaign-finish-btn" className="bg-scordi text-white" onClick={onClick}>
+            제출 마감하기
         </Button>
     );
 });

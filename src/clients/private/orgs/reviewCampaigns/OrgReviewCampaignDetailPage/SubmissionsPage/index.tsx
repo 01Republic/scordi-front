@@ -3,7 +3,7 @@ import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {useReviewResponses} from '^models/ReviewResponse/hook';
 import {memo, useState} from 'react';
 import {Search} from 'lucide-react';
-import {Spinner} from '^components/util/loading';
+import {LoadableBox2, Spinner} from '^components/util/loading';
 import {Button} from '^public/components/ui/button';
 import {OrgReviewCampaignDetailLayout} from '../layout';
 import {SubmissionsPageSideBar} from './SubmissionsPageSideBar';
@@ -17,7 +17,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
     const {data: reviewCampaign} = useReviewCampaign(orgId, id);
     const {
         data: {items: reviewResponses, pagination},
-        isLoading,
+        isFetching,
         params,
         search,
         nextPage,
@@ -31,7 +31,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
     const searchWhere = (where?: FindAllReviewResponsesQueryDto['where']) => search((prev) => ({...prev, where}));
 
     return (
-        <OrgReviewCampaignDetailLayout containerFluid>
+        <OrgReviewCampaignDetailLayout>
             <div className="flex mt-6 gap-8">
                 {/* Sidebar */}
                 <SubmissionsPageSideBar
@@ -75,26 +75,24 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                         </div>
                     </div>
 
-                    {isLoading ? (
-                        <div className="flex justify-center items-center p-8">
-                            <Spinner />
-                        </div>
-                    ) : reviewResponses.length === 0 ? (
-                        <div className="text-center p-8 text-gray-500">제출 응답이 없습니다.</div>
-                    ) : (
-                        <div className="border rounded-lg overflow-hidden mt-4 bg-white">
-                            <div className="divide-y">
-                                {reviewResponses.map((response) => (
-                                    <ReviewResponseItem
-                                        key={response.id}
-                                        response={response}
-                                        campaign={reviewCampaign}
-                                        reload={() => refetch()}
-                                    />
-                                ))}
+                    <LoadableBox2 isLoading={isFetching}>
+                        {reviewResponses.length === 0 ? (
+                            <div className="text-center p-8 text-gray-500">제출 응답이 없습니다.</div>
+                        ) : (
+                            <div className="border rounded-lg overflow-hidden mt-4 bg-white">
+                                <div className="divide-y">
+                                    {reviewResponses.map((response) => (
+                                        <ReviewResponseItem
+                                            key={response.id}
+                                            response={response}
+                                            campaign={reviewCampaign}
+                                            reload={() => refetch()}
+                                        />
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </LoadableBox2>
 
                     {pagination.currentPage < pagination.totalPage && (
                         <div className="flex items-center justify-center mt-4">

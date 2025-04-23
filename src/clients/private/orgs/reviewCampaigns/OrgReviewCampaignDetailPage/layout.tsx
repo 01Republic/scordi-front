@@ -18,7 +18,6 @@ import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/revi
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {ReviewCampaignControl} from './ReviewCampaignControl';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
     className?: string;
@@ -52,7 +51,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
 
                 <div className="flex items-center mb-6">
                     <div className="flex items-center gap-2">
-                        <h1 className="text-3xl font-bold">{reviewCampaign?.title}</h1>
+                        <h1 className="text-3xl font-bold">{reviewCampaign?.title}&nbsp;</h1>
                     </div>
 
                     <ReviewCampaignControl reviewCampaign={reviewCampaign} />
@@ -84,7 +83,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                                 isActive('changes') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
                             }`}
                         >
-                            변경사항
+                            응답결과
                         </Link>
                     </nav>
 

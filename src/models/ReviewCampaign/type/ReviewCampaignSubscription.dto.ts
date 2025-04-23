@@ -32,14 +32,11 @@ export class ReviewCampaignSubscriptionDto {
 
     changedResponseSubs() {
         const responseSubs = this.responseSubscriptions || [];
-        return responseSubs.filter((sub) => {
-            if (sub.subscriptionId !== this.subscriptionId) return false;
-
-            // 미제출 응답은 제외
-            if (!sub.submittedAt) return false;
+        return responseSubs.filter((responseSub) => {
+            if (responseSub.subscriptionId !== this.subscriptionId) return false;
 
             // 기존 상태와 비교해 변경된 응답이 아닌것은 제외.
-            if (!sub.isUsingStatusChanged) return false;
+            if (!responseSub.isUsingStatusChanged) return false;
 
             return true;
         });
@@ -47,5 +44,18 @@ export class ReviewCampaignSubscriptionDto {
 
     hasChanged() {
         return this.changedResponseSubs().length > 0;
+    }
+
+    notSubmittedSubs() {
+        const responseSubs = this.responseSubscriptions || [];
+        return responseSubs.filter((responseSub) => {
+            if (responseSub.subscriptionId !== this.subscriptionId) return false;
+
+            return responseSub.isNotSubmitted;
+        });
+    }
+
+    hasNotSubmitted() {
+        return this.notSubmittedSubs().length > 0;
     }
 }

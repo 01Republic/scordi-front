@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
-import {ChevronDown} from 'lucide-react';
-import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import React, {useEffect, useState} from 'react';
+import {ChevronDown, HelpCircle} from 'lucide-react';
+import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
 import {CheckBoxButton} from './CheckBoxButton';
 import {UsingStatusColumn} from './UsingStatusColumn';
@@ -8,8 +8,11 @@ import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useIdParam} from '^atoms/common';
+import {Avatar} from '^components/Avatar';
+import Tippy from '@tippyjs/react';
 
 interface CampaignSubscriptionBoardProps {
+    campaign?: ReviewCampaignDto;
     campaignSubscription: ReviewCampaignSubscriptionDto;
     responseSubscriptions: ReviewResponseSubscriptionDto[];
     isFocused: boolean;
@@ -23,7 +26,8 @@ interface CampaignSubscriptionBoardProps {
  */
 export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
     const orgId = useIdParam('id');
-    const {campaignSubscription, responseSubscriptions, isFocused, isConfirmed, toggleConfirm, reload} = props;
+    const {campaign, campaignSubscription, responseSubscriptions, isFocused, isConfirmed, toggleConfirm, reload} =
+        props;
     const [isExpanded, setIsExpanded] = useState(!isConfirmed);
     const groupedResponseSubs = ReviewResponseSubscriptionDto.groupByUsingStatus(responseSubscriptions);
 
@@ -44,15 +48,38 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                 <div className="flex flex-1 items-center gap-2 cursor-pointer" onClick={() => setIsExpanded((v) => !v)}>
                     <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} />
                     <div className="flex items-center gap-2">
+                        <Avatar
+                            className="w-[20px]"
+                            src={campaignSubscription.productImage}
+                            alt={campaignSubscription.productName}
+                            draggable={false}
+                            loading="lazy"
+                        >
+                            <HelpCircle size={20} className="text-gray-300 h-full w-full p-[6px]" />
+                        </Avatar>
                         <span className="font-medium text-14">{campaignSubscription.title}</span>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>
-                        <span className="font-medium">확인 완료</span>
-                    </CheckBoxButton>
-                </div>
+                {campaign?.isClosed() ? (
+                    <div className="min-h-[34px]" />
+                ) : (
+                    <div className="flex items-center gap-4">
+                        {campaignSubscription.hasNotSubmitted() ? (
+                            <div>
+                                <p className="text-12 text-gray-400">미제출 응답이 포함되어 있어요</p>
+                            </div>
+                        ) : (
+                            !campaignSubscription.hasChanged() && (
+                                <p className="text-12 text-gray-400">기존 이용 상태에서 변경된 응답이 없어요</p>
+                            )
+                        )}
+
+                        <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>
+                            <span className="font-medium">확인 완료</span>
+                        </CheckBoxButton>
+                    </div>
+                )}
             </div>
 
             <div className={`max-h-0 ${isExpanded ? '!max-h-screen' : ''} overflow-hidden transition-all duration-500`}>
@@ -66,6 +93,7 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                             key={usingStatus}
                             usingStatus={usingStatus}
                             responseSubs={groupedResponseSubs[usingStatus]}
+                            draggable={!campaign?.isClosed()}
                             dragItem={dragItem}
                             onDragStart={(item) => setDragItem(item)}
                             onDragEnd={() => setDragItem(undefined)}

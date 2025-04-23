@@ -10,6 +10,7 @@ import {ReviewResponseSubscriptionUsingStatus} from './ReviewResponseSubscriptio
 export class ReviewResponseSubscriptionDto {
     id: number;
     responseId: number; // 응답지 ID
+    campaignSubscriptionId: number; // 캠페인 대상 구독 ID
     subscriptionId: number;
     isUsedBefore: boolean; // 기존 이용상태 (as-is)
     usingStatus: ReviewResponseSubscriptionUsingStatus | null; // 이용상태 응답 (to-be)
@@ -21,7 +22,7 @@ export class ReviewResponseSubscriptionDto {
     static groupByUsingStatus(items: ReviewResponseSubscriptionDto[]) {
         const {IN_USE, NO_USE, DONT_KNOW} = ReviewResponseSubscriptionUsingStatus;
         const filter = (value: ReviewResponseSubscriptionUsingStatus) => {
-            return items.filter((item) => item.usingStatus === value);
+            return items.filter((item) => item.usingStatusFormValue === value);
         };
 
         return {
@@ -41,7 +42,13 @@ export class ReviewResponseSubscriptionDto {
             : ReviewResponseSubscriptionUsingStatus.NO_USE;
     }
 
+    // 이용상태 변경여부 (미제출 응답의 구독은 false ::: 이용상태가 null 인 경우 false)
     get isUsingStatusChanged() {
+        if (this.isNotSubmitted) return false;
         return this.usingStatusBefore !== this.usingStatus;
+    }
+
+    get isNotSubmitted() {
+        return !this.usingStatus;
     }
 }
