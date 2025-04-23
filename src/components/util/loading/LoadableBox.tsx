@@ -62,3 +62,21 @@ export const LoadableBox = memo((props: LoadableBoxProps & WithChildren) => {
     }
 });
 LoadableBox.displayName = 'LoadableBox';
+
+interface LoadableBox2Props extends Pick<LoadableBoxProps, 'isLoading'>, WithChildren {
+    className?: string;
+}
+
+export const LoadableBox2 = (props: LoadableBox2Props) => {
+    const {className = '', isLoading, children} = props;
+
+    return isLoading ? (
+        <div className={`flex items-center justify-center ${className}`}>
+            <div>
+                <Spinner />
+            </div>
+        </div>
+    ) : (
+        <>{children}</>
+    );
+};

@@ -1,135 +1,77 @@
+import {memo, useCallback, useState} from 'react';
 import {useIdParam} from '^atoms/common';
-import {useReviewCampaign} from '^models/ReviewCampaign/hook';
-import {memo, useEffect, useState} from 'react';
-import {Progress} from '^public/components/ui/progress';
-import {Checkbox} from '^public/components/ui/checkbox';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {useReviewCampaign, useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
 import {OrgReviewCampaignDetailLayout} from '../layout';
-import ChangesItem from './ChangesItem';
-import {ChangesPageSidebar} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ChangesPage/ChangesPageSidebar';
-
-interface ApprovalItem {
-    id: string;
-    serviceName: string;
-    isExpanded?: boolean;
-    isConfirmed?: boolean;
-}
+import {ChangesPageSidebar} from './ChangesPageSidebar';
+import {ChangesPageMainContent} from './ChangesPageMainContent';
 
 export const OrgReviewCampaignDetailChangesPage = memo(() => {
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
-    const {data: reviewCampaign} = useReviewCampaign(orgId, id);
+    const {data: campaign} = useReviewCampaign(orgId, id);
+    const {data, refetch, isFetching} = useReviewCampaignSubscriptions(orgId, id, {
+        relations: ['responseSubscriptions'],
+        order: {subscriptionId: 'DESC'},
+        itemsPerPage: 0,
+    });
+    const [selectedCampaignSub, setSelectedCampaignSub] = useState<ReviewCampaignSubscriptionDto>();
 
-    const [approvalItems, setApprovalItems] = useState<ApprovalItem[]>([]);
-    const [progress, setProgress] = useState(0);
-    const [currentStep, setCurrentStep] = useState(0);
-    const [totalSteps, setTotalSteps] = useState(0);
+    const campaignSubs = data.items;
+    // const campaignSubs = useMemo(() => {
+    //     return data.items.filter((item) => item.hasChanged());
+    // }, [data.items]);
 
-    useEffect(() => {
-        if (!reviewCampaign) return;
+    const focusSub = useCallback((campaignSub: ReviewCampaignSubscriptionDto) => {
+        const element = document.getElementById(campaignSub.domId);
+        if (!element) return;
 
-        const {subscriptions} = reviewCampaign;
-        if (!subscriptions || subscriptions.length === 0) {
-            setApprovalItems([]);
-            setTotalSteps(0);
-            setProgress(0);
-            return;
-        }
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-        const mappedItems = subscriptions.map((sub) => {
-            const subscriptionNamePart = sub.subscriptionName ? ` - ${sub.subscriptionName}` : '';
-            return {
-                id: String(sub.subscriptionId),
-                serviceName: `${sub.productName}${subscriptionNamePart}`,
-                isExpanded: false,
-                isConfirmed: false,
-            };
-        });
+        window.scrollTo({top: offsetPosition, behavior: 'smooth'});
 
-        setApprovalItems(mappedItems);
-        setTotalSteps(subscriptions.length);
-        setCurrentStep(0);
-        setProgress(0);
-    }, [reviewCampaign]);
-
-    const toggleExpand = (id: string) => {
-        setApprovalItems((prev) =>
-            prev.map((item) => (item.id === id ? {...item, isExpanded: !item.isExpanded} : item)),
-        );
-    };
-
-    const toggleConfirm = (id: string, value: boolean) => {
-        setApprovalItems((prev) => {
-            const updated = prev.map((item) => (item.id === id ? {...item, isConfirmed: value} : item));
-            const confirmedCount = updated.filter((item) => item.isConfirmed).length;
-            const newProgress = totalSteps > 0 ? Math.round((confirmedCount / totalSteps) * 100) : 0;
-
-            setCurrentStep(confirmedCount);
-            setProgress(newProgress);
-
-            return updated;
-        });
-    };
-
-    const handleConfirmAll = (checked: boolean) => {
-        setApprovalItems((prev) => {
-            const updated = prev.map((item) => ({...item, isConfirmed: checked}));
-            const confirmedCount = checked ? updated.length : 0;
-            const newProgress = totalSteps > 0 ? Math.round((confirmedCount / totalSteps) * 100) : 0;
-
-            setCurrentStep(confirmedCount);
-            setProgress(newProgress);
-
-            return updated;
-        });
-    };
+        const toggleClassList = ['!border-indigo-500', '!bg-indigo-50', 'bg-opacity-10'];
+        toggleClassList.forEach((name) => element.classList.add(name));
+        setTimeout(() => {
+            toggleClassList.forEach((name) => element.classList.remove(name));
+        }, 3000);
+    }, []);
 
     return (
-        <OrgReviewCampaignDetailLayout containerFluid>
-            <div className="flex mt-6 gap-8">
-                {/* Sidebar */}
-                <ChangesPageSidebar reviewCampaign={reviewCampaign} />
-
-                <div className="flex-1">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold">승인 대기중 ({totalSteps - currentStep})</h2>
-                        <div className="flex items-center space-x-4">
-                            <div className="flex flex-col items-center">
-                                <span className="text-xs text-gray-700">
-                                    {currentStep} / {totalSteps} 확인 완료
-                                </span>
-                                <Progress
-                                    value={progress}
-                                    className="w-32 h-2 mt-1.5 bg-neutral-100"
-                                    indicatorClassName="bg-primaryColor-900"
-                                />
-                            </div>
-                            <label
-                                htmlFor="confirm-all"
-                                className="cursor-pointer text-sm border border-gray-300 bg-gray-50 rounded-lg py-1 px-2 space-x-2 flex items-center
-                                    has-[:checked]:text-primaryColor-900 has-[:checked]:border-primaryColor-900"
-                            >
-                                <Checkbox
-                                    id="confirm-all"
-                                    checked={currentStep === totalSteps && totalSteps > 0}
-                                    onCheckedChange={(checked) => handleConfirmAll(Boolean(checked))}
-                                />
-                                <span className="text-gray-700 font-medium">전체 확인 완료</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        {approvalItems.map((item) => (
-                            <ChangesItem
-                                key={item.id}
-                                approvalItem={item}
-                                toggleExpand={toggleExpand}
-                                toggleConfirm={toggleConfirm}
-                            />
-                        ))}
+        <OrgReviewCampaignDetailLayout>
+            {campaignSubs.length === 0 ? (
+                <div className="flex items-center justify-center min-h-52">
+                    <div className="flex flex-col items-center gap-4">
+                        {!isFetching && (
+                            <p className="text-xl text-gray-400 font-semibold">요청에 조사할 구독이 없어요.</p>
+                        )}
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div className="flex mt-6 gap-8">
+                    {/* Sidebar */}
+                    <ChangesPageSidebar
+                        campaignSubs={campaignSubs}
+                        selectedCampaignSub={selectedCampaignSub}
+                        onSelect={(campaignSub) => {
+                            setSelectedCampaignSub(campaignSub);
+                            focusSub(campaignSub);
+                        }}
+                    />
+
+                    {/* MainContent */}
+                    {campaign && (
+                        <ChangesPageMainContent
+                            campaign={campaign}
+                            campaignSubs={campaignSubs}
+                            reload={() => refetch()}
+                            selectedCampaignSub={selectedCampaignSub}
+                        />
+                    )}
+                </div>
+            )}
         </OrgReviewCampaignDetailLayout>
     );
 });

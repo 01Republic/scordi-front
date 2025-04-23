@@ -6,7 +6,8 @@ import {useCurrentUser} from '^models/User/hook';
 import {useMembershipInHeader} from '^models/Membership/hook';
 import {LoadableBox} from '^components/util/loading';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {ChevronDown} from 'lucide-react';
+import {ChevronDown, Plus} from 'lucide-react';
+import {OrgCreatePageRoute} from '^pages/orgs/new';
 
 interface WorkspaceDropdownProps {
     //
@@ -30,15 +31,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
         });
     }, [currentOrg, currentUser]);
 
-    if (!currentOrg) return <></>;
-
-    if (result.pagination.totalItemCount === 1) {
-        return (
-            <div className="font-medium cursor-default flex items-center gap-0.5">
-                <span>{currentOrg?.name}</span>
-            </div>
-        );
-    }
+    // if (!currentOrg) return <></>;
 
     return (
         <Dropdown
@@ -52,13 +45,15 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
             )}
             Content={({visible, show, hide}) => {
                 if (!currentUser) return <></>;
+                if (!currentOrg) return <></>;
 
                 const {items, pagination} = result;
+                const memberships = items.filter((it) => it.organizationId !== currentOrg.id);
 
                 return (
                     <LoadableBox isLoading={isLoading} noPadding loadingType={2}>
                         <ul className="p-0 text-13 shadow-xl menu dropdown-content z-[1] bg-base-100 border rounded-md max-h-[300px] block overflow-y-auto no-scrollbar">
-                            {items.map((membership, i) => {
+                            {memberships.map((membership, i) => {
                                 const orgId = membership.organizationId;
                                 const orgName = membership.organization.name;
                                 const orgPath = OrgMainPageRoute.path(orgId);
@@ -67,7 +62,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     <li key={i}>
                                         <LinkTo
                                             href={orgPath}
-                                            className={`hover:bg-scordi-50 hover:text-scordi-600 ${
+                                            className={`!rounded-none hover:bg-scordi-50 hover:text-scordi-600 transition-all ${
                                                 isCurrent ? 'bg-scordi-50 text-scordi-600' : 'cursor-pointer'
                                             }`}
                                         >
@@ -76,6 +71,15 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     </li>
                                 );
                             })}
+                            <li className="sticky bottom-0 border-t">
+                                <LinkTo
+                                    href={OrgCreatePageRoute.path()}
+                                    className={`!rounded-none bg-white hover:bg-scordi-50 text-scordi-600 cursor-pointer transition-all flex items-center gap-2`}
+                                >
+                                    <Plus />
+                                    <span>새 워크스페이스 만들기</span>
+                                </LinkTo>
+                            </li>
                         </ul>
                     </LoadableBox>
                 );

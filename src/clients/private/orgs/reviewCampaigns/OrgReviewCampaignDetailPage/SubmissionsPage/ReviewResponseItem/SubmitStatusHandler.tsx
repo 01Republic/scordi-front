@@ -7,14 +7,19 @@ import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {Spinner} from '^components/util/loading';
 import {ArrowRightLeft} from 'lucide-react';
+import {Button, ButtonProps} from '^public/components/ui/button';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
+import Tippy from '@tippyjs/react';
+import {WithChildren} from '^types/global.type';
 
 interface SubmitStatusHandlerProps {
     response: ReviewResponseDto;
+    campaign?: ReviewCampaignDto;
     reload: () => any;
 }
 
 export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
-    const {response, reload} = props;
+    const {response, campaign, reload} = props;
     const {organizationId: orgId, campaignId, id} = response;
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,20 +34,30 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
             .finally(() => setIsLoading(false));
     };
 
+    if (!campaign) return <></>;
+
+    if (campaign.isClosed() || campaign.isOverdue()) {
+        return (
+            <Tippy content="요청이 마감되었어요.">
+                <div>
+                    <SubmitStatusHandlerButton disabled>
+                        {response.submittedAt ? (
+                            '제출 완료'
+                        ) : (
+                            <span>미제출{<span className="text-red-500 text-12">(마감)</span>}</span>
+                        )}
+                    </SubmitStatusHandlerButton>
+                </div>
+            </Tippy>
+        );
+    }
+
     return (
         <MoreDropdown
             Trigger={() => (
-                <div
-                    className={cn(
-                        'w-24 px-4 py-2 rounded-md text-center cursor-pointer shadow hover:shadow-lg transition-all',
-                        isLoading ? 'pointer-events-none opacity-40' : '',
-                        response.submittedAt
-                            ? 'bg-white text-gray-900 border border-gray-200'
-                            : 'bg-primaryColor-900 text-white',
-                    )}
-                >
-                    {isLoading ? <Spinner /> : response.submittedAt ? '제출완료' : '미제출'}
-                </div>
+                <SubmitStatusHandlerButton variant={response.submittedAt ? 'outline' : 'scordi'} isLoading={isLoading}>
+                    {response.submittedAt ? '제출 완료' : '미제출'}
+                </SubmitStatusHandlerButton>
             )}
             offset={[0, 5]}
             placement="bottom-end"
@@ -72,3 +87,24 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
     );
 });
 SubmitStatusHandler.displayName = 'SubmitStatusHandler';
+
+interface Props extends WithChildren {
+    variant?: ButtonProps['variant'];
+    disabled?: boolean;
+    isLoading?: boolean;
+}
+
+const SubmitStatusHandlerButton = (props: Props) => {
+    const {variant, disabled = false, isLoading = false, children} = props;
+
+    return (
+        <Button
+            variant={disabled ? 'grayOutline' : variant}
+            className={`border-gray-200 w-24 !outline-none cursor-pointer shadow hover:shadow-lg transition-all ${
+                isLoading ? 'pointer-events-none opacity-40' : ''
+            } ${disabled ? 'pointer-events-none' : ''}`}
+        >
+            {isLoading ? <Spinner /> : children}
+        </Button>
+    );
+};

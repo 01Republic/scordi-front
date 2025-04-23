@@ -1,6 +1,6 @@
 import {Card} from '^public/components/ui/card';
 import {useReviewCampaign, useReviewCampaignAuthor} from '^models/ReviewCampaign/hook';
-import {orgIdParamState, useIdParam} from '^atoms/common';
+import {useIdParam} from '^atoms/common';
 import {format} from 'date-fns';
 import {Progress} from '^public/components/ui/progress';
 import {cn} from '^public/lib/utils';
@@ -34,7 +34,7 @@ export default function OrgReviewCampaignDetailPage() {
                     <Card className="p-6 text-sm bg-white">
                         <div className="space-y-6">
                             <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">생성자</span>
+                                <span className="text-muted-foreground">요청자</span>
 
                                 <div>
                                     {authorMember ? (
@@ -56,7 +56,9 @@ export default function OrgReviewCampaignDetailPage() {
 
                             <div className="flex justify-between items-center">
                                 <span className="text-muted-foreground">시작일</span>
-                                {reviewCampaign && <span>{format(reviewCampaign.startAt, 'yyyy년 MM월 dd일')}</span>}
+                                {reviewCampaign && (
+                                    <span>{format(reviewCampaign.startAt, 'yyyy년 MM월 dd일 HH:mm')}</span>
+                                )}
                             </div>
 
                             <div className="flex justify-between items-center">
@@ -64,7 +66,7 @@ export default function OrgReviewCampaignDetailPage() {
                                 {reviewCampaign && (
                                     <div>
                                         {reviewCampaign.finishAt
-                                            ? format(reviewCampaign.finishAt, 'yyyy년 MM월 dd일')
+                                            ? format(reviewCampaign.finishAt, 'yyyy년 MM월 dd일 HH:mm')
                                             : '미정'}
                                     </div>
                                 )}

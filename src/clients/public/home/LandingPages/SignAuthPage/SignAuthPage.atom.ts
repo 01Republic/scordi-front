@@ -1,6 +1,5 @@
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {
-    CreateOrganizationRequestDto,
     CreateUserDetailRequestDto,
     CreateUserRequestDto,
     CreateUserResponseDto,
@@ -12,7 +11,6 @@ import {
     UserGoogleSocialSignUpInvitedRequestDto,
 } from '^models/User/types';
 import {SignUserApi} from '^models/User/api/session';
-import {OrganizationDto} from '^models/Organization/type';
 
 // 인증번호 요청
 export const useCodeSend = () => {
@@ -72,19 +70,6 @@ export const useLogin = () => {
         mutationFn: (accessToken) => SignUserApi.login(accessToken).then((response) => response.data),
         onSuccess: (response) => {
             localStorage.setItem('token', response.token);
-        },
-    });
-};
-
-// organization 생성
-export const useCreateOrganizationAuth = () => {
-    const queryClient = useQueryClient();
-    return useMutation<OrganizationDto, ErrorResponse, CreateOrganizationRequestDto>({
-        mutationFn: (data) =>
-            SignUserApi.createOrganization(data) //
-                .then((response) => response.data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['createOrganizationAuth']});
         },
     });
 };

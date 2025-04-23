@@ -56,7 +56,15 @@ export const RequestAddStep2 = ({form}: {form: UseFormReturn<CreateReviewCampaig
 
     const onLoadSlackMembers = async () => {
         const workspace = await getSlack(orgId);
-        if (!workspace) window.open(slackScordiOauthApi.authUrl(orgId), '_blank');
+        if (workspace) return toast('이미 연결 되어 있어요');
+        const authUrl = (() => {
+            const url = new URL(slackScordiOauthApi.authUrl(orgId));
+            const redirectUrl = new URL(url.searchParams.get('redirect') || '');
+            redirectUrl.searchParams.set('closeWindowOnReady', '1');
+            url.searchParams.set('redirect', redirectUrl.toString());
+            return url.toString();
+        })();
+        window.open(authUrl, '_blank');
     };
 
     const onLoadGoogleMembers = () => {
@@ -99,10 +107,10 @@ export const RequestAddStep2 = ({form}: {form: UseFormReturn<CreateReviewCampaig
                                 <Image src={SlackIcon} alt={'Slack'} width={20} height={20} />
                                 Slack
                             </Button>
-                            <Button type="button" size={'sm'} variant={'ghostGray'} onClick={onLoadGoogleMembers}>
-                                <Image src={GoogleIcon} alt={'Google Workspace'} width={20} height={20} />
-                                Google Workspace
-                            </Button>
+                            {/*<Button type="button" size={'sm'} variant={'ghostGray'} onClick={onLoadGoogleMembers}>*/}
+                            {/*    <Image src={GoogleIcon} alt={'Google Workspace'} width={20} height={20} />*/}
+                            {/*    Google Workspace*/}
+                            {/*</Button>*/}
                         </div>
                     </div>
 

@@ -21,4 +21,41 @@ export class ReviewCampaignSubscriptionDto {
     // 구독
     @TypeCast(() => SubscriptionDto)
     subscription?: SubscriptionDto;
+
+    get domId() {
+        return `sub-${this.id}`;
+    }
+
+    get title() {
+        return `${this.productName} ${this.subscriptionName ? `- ${this.subscriptionName}` : ''}`;
+    }
+
+    changedResponseSubs() {
+        const responseSubs = this.responseSubscriptions || [];
+        return responseSubs.filter((responseSub) => {
+            if (responseSub.subscriptionId !== this.subscriptionId) return false;
+
+            // 기존 상태와 비교해 변경된 응답이 아닌것은 제외.
+            if (!responseSub.isUsingStatusChanged) return false;
+
+            return true;
+        });
+    }
+
+    hasChanged() {
+        return this.changedResponseSubs().length > 0;
+    }
+
+    notSubmittedSubs() {
+        const responseSubs = this.responseSubscriptions || [];
+        return responseSubs.filter((responseSub) => {
+            if (responseSub.subscriptionId !== this.subscriptionId) return false;
+
+            return responseSub.isNotSubmitted;
+        });
+    }
+
+    hasNotSubmitted() {
+        return this.notSubmittedSubs().length > 0;
+    }
 }

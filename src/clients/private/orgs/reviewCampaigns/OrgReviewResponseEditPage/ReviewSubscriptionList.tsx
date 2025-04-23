@@ -7,10 +7,11 @@ import {SubscriptionItemOfResponse} from './SubscriptionItemOfResponse';
 interface ReviewSubscriptionListProps {
     form: UseFormReturn<UpdateReviewResponseRequestDto, any>;
     campaignSubscriptions: ReviewCampaignSubscriptionDto[];
+    readonly?: boolean;
 }
 
 export const ReviewSubscriptionList = (props: ReviewSubscriptionListProps) => {
-    const {form, campaignSubscriptions} = props;
+    const {form, campaignSubscriptions, readonly = false} = props;
 
     const responseSubscriptionForms = form.watch('subscriptions') || [];
 
@@ -37,6 +38,7 @@ export const ReviewSubscriptionList = (props: ReviewSubscriptionListProps) => {
                                 });
                                 form.setValue('subscriptions', newSubs);
                             }}
+                            readonly={readonly}
                         />
                     );
                 })}

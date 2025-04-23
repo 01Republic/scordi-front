@@ -58,9 +58,32 @@ export function useList<T>(initialState: T[] | (() => T[]), option: UseListOfOpt
 
     return {
         list,
+        setList,
         add,
         remove,
         clearList,
         reset,
     };
+}
+
+/**
+ * 배열을 setState 로 다룸에 있어 필요한 추가적인 함수를 제공합니다.
+ * @param setState
+ * @param getKey
+ */
+export function useListControl<T>(setState: React.Dispatch<React.SetStateAction<T[]>>, getKey: (item: T) => any) {
+    const add = (item: T) => {
+        setState((prev) => {
+            const existAlready = prev.find((it) => getKey(it) === getKey(item));
+            return existAlready ? prev : [...prev, item];
+        });
+    };
+
+    const remove = (item: T) => {
+        setState((prev) => {
+            return prev.filter((it) => getKey(it) !== getKey(item));
+        });
+    };
+
+    return {add, remove};
 }

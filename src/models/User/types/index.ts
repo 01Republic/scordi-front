@@ -212,14 +212,6 @@ export class PhoneAuthConfirmDto {
     code?: string;
 }
 
-export class CreateOrganizationRequestDto {
-    name: string; // 조직명
-    bizInfo: {
-        bizNo: string; // 사업자등록번호
-        employeeScale: string; // 조직규모
-    };
-}
-
 /* 유입경로 */
 export class CreateUserDetailRequestDto {
     funnel: string;

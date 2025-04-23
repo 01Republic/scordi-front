@@ -11,6 +11,7 @@ import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/i
 import {GmailListNavigator} from '../GmailListFinder/useGmailListNavigator';
 import {GmailContentDisplayByType} from '../GmailDetailPage/GmailContentDisplay';
 import {ChevronDown, ChevronUp, ChevronsRight, Expand} from 'lucide-react';
+import {useEventListener} from '^hooks/useEventListener';
 
 interface GmailDetailModalProps {
     invoiceAccount?: InvoiceAccountDto;
@@ -34,11 +35,10 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
         url && window.open(url, '_blank');
     };
 
-    useEffect(() => {
-        if (!isOpened) return;
-        if (!window || typeof window !== 'object') return;
-
-        const shortcut = (evt: KeyboardEvent) => {
+    useEventListener({
+        eventName: 'keydown',
+        deps: [isOpened, email],
+        listener: (evt) => {
             if (evt.metaKey && evt.key === 'Enter') return onOpen();
 
             if (evt.ctrlKey && evt.key === 'j' && navigator?.goNextEmail) return navigator.goNextEmail();
@@ -47,14 +47,11 @@ export const GmailDetailModal = memo((props: GmailDetailModalProps) => {
             if (evt.ctrlKey && evt.key === 'K' && navigator?.goFirstOfPage) return navigator.goFirstOfPage();
             if (evt.ctrlKey && evt.key === '<' && navigator?.goPrevPage) return navigator.goPrevPage();
             if (evt.ctrlKey && evt.key === '>' && navigator?.goNextPage) return navigator.goNextPage();
-        };
-        // console.log('shortcut', 'on');
-        window.addEventListener('keydown', shortcut);
-        return () => {
-            // console.log('shortcut', 'off');
-            window.removeEventListener('keydown', shortcut);
-        };
-    }, [isOpened, email]);
+        },
+        enable: isOpened,
+        // beforeAdd: () => console.log('shortcut', 'on'),
+        // beforeDown: () => console.log('shortcut', 'off'),
+    });
 
     return (
         <SlideSideModal open={isOpened} onClose={onClose}>

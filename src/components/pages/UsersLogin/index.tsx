@@ -14,14 +14,6 @@ export const UsersLoginPage = memo(() => {
 
     if (currentUser) loginRedirect(currentUser);
 
-    // const submit = (data: UserLoginRequestDto) => {
-    //     login(data)
-    //         .then((user) => loginRedirect(user))
-    //         .catch(() => setIsModalOpen(true));
-    // };
-
-    const scope = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/gmail.readonly'];
-
     return (
         <LandingPageLayout pageName="Login" hideNav hideFooter>
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>

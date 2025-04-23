@@ -1,23 +1,23 @@
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type/ReviewCampaignSubscription.dto';
-import {Tabs, TabsList, TabsTrigger} from '^public/components/ui/tabs';
-import {HelpCircle} from 'lucide-react';
-import Image from 'next/image';
 import {
-    ReviewResponseSubscriptionDto,
     ReviewResponseSubscriptionUsingStatus,
     t_reviewResponseSubscriptionUsingStatus,
 } from '^models/ReviewResponse/type';
 import {UpdateReviewResponseSubscriptionRequestDto} from '^models/ReviewResponse/type/UpdateReviewResponseSubscriptionRequest.dto';
+import {Tabs, TabsList, TabsTrigger} from '^public/components/ui/tabs';
+import {HelpCircle} from 'lucide-react';
+import Image from 'next/image';
 import {memo} from 'react';
 
 interface SubscriptionItemOfResponseProps {
     responseSubscription: UpdateReviewResponseSubscriptionRequestDto;
     campaignSubscription: ReviewCampaignSubscriptionDto;
     onChange: (value: ReviewResponseSubscriptionUsingStatus) => void;
+    readonly?: boolean;
 }
 
 export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfResponseProps) => {
-    const {responseSubscription, campaignSubscription, onChange} = props;
+    const {responseSubscription, campaignSubscription, onChange, readonly = false} = props;
     const {productName, productImage} = campaignSubscription;
 
     const handleTabChange = (value: ReviewResponseSubscriptionUsingStatus) => {
@@ -51,7 +51,7 @@ export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfRespons
             <div className="flex items-center justify-stretch sm:justify-end">
                 <Tabs
                     className="w-full sm:w-[initial]"
-                    defaultValue={responseSubscription.usingStatus || ReviewResponseSubscriptionUsingStatus.IN_USE}
+                    defaultValue={responseSubscription.usingStatus || ReviewResponseSubscriptionUsingStatus.NO_USE}
                 >
                     <TabsList className="grid grid-cols-3 bg-gray-100 border border-gray-200 w-full">
                         {[
@@ -62,8 +62,13 @@ export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfRespons
                             <TabsTrigger
                                 key={i}
                                 value={value}
-                                className={`min-w-20 data-[state=active]:bg-[#5C5FEE] data-[state=active]:text-white`}
-                                onClick={() => handleTabChange(value)}
+                                className={`min-w-20 data-[state=active]:bg-[#5C5FEE] data-[state=active]:text-white ${
+                                    readonly ? 'pointer-events-none opacity-70' : ''
+                                }`}
+                                onClick={() => {
+                                    if (readonly) return;
+                                    handleTabChange(value);
+                                }}
                             >
                                 {t_reviewResponseSubscriptionUsingStatus(value)}
                             </TabsTrigger>

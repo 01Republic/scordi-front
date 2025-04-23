@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
@@ -32,6 +32,13 @@ export const OrgReviewCampaignNewPage = () => {
         },
     });
 
+    useEffect(() => {
+        return () => {
+            form.reset();
+            resetSteps();
+        };
+    }, []);
+
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
         if (!data.title) {
             toast.error('제목을 입력해주세요.');
@@ -50,24 +57,21 @@ export const OrgReviewCampaignNewPage = () => {
 
         const syncConfirm = () =>
             confirm2(
-                '새 요청을 생성하고 알림을 보낼까요?',
-                '요청 대상자들에게 지금 바로 알림이 보내져요.',
-                'question',
+                '요청을 만들고 알림을 보낼까요?',
+                '요청을 만들면 즉시 대상자에게 알림이 가요.\n요청 대상자로 선택된 구성원에게 요청 알림을 보낼까요?',
+                undefined,
                 {
-                    cancelButtonText: '돌아가기',
-                    confirmButtonText: '생성 완료하기',
+                    cancelButtonText: '취소',
+                    confirmButtonText: '확인',
                 },
             );
 
         return confirmed(syncConfirm())
             .then(() => setIsLoading(true))
-            .then(() => reviewCampaignApi.create(orgId, data))
-            .then((res) => res.data)
+            .then(() => reviewCampaignApi.create(orgId, data).then((res) => res.data))
             .then((campaign) => {
                 toast.success('요청이 전송되었습니다.');
-                form.reset();
-                resetSteps();
-                router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
+                return router.push(OrgReviewCampaignDetailPageRoute.path(orgId, campaign.id));
             })
             .catch(errorToast)
             .finally(() => setIsLoading(false));
