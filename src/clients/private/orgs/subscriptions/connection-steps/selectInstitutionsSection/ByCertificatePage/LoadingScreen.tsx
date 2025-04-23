@@ -1,6 +1,7 @@
 import {Fragment, useEffect, useState} from 'react';
 import {DotLottieReact} from '@lottiefiles/dotlottie-react';
 import NumberFlow from '@number-flow/react';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
 
 interface LoadingScreenProps {
     message?: string;
@@ -33,25 +34,27 @@ export default function LoadingScreen({
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center m-auto">
-            <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-gray-800 leading-tight">
-                    {message.split('\n').map((line, i) => (
-                        <Fragment key={i}>
-                            {line}
-                            {i < message.split('\n').length - 1 && <br />}
-                        </Fragment>
-                    ))}
-                </h2>
-            </div>
+        <PureLayout>
+            <div className="flex flex-col items-center justify-center m-auto">
+                <div className="text-center space-y-2">
+                    <h2 className="text-2xl font-bold text-gray-800 leading-tight">
+                        {message.split('\n').map((line, i) => (
+                            <Fragment key={i}>
+                                {line}
+                                {i < message.split('\n').length - 1 && <br />}
+                            </Fragment>
+                        ))}
+                    </h2>
+                </div>
 
-            <div className="w-64">
-                <DotLottieReact src="/images/lottie/loading.lottie" loop autoplay />
-            </div>
+                <div className="w-64">
+                    <DotLottieReact src="/images/lottie/loading.lottie" loop autoplay />
+                </div>
 
-            <div className="text-primaryColor-900 text-lg font-medium">
-                <NumberFlow value={progress} duration={800} />% 완료
+                <div className="text-primaryColor-900 text-lg font-medium">
+                    <NumberFlow value={progress} duration={800} />% 완료
+                </div>
             </div>
-        </div>
+        </PureLayout>
     );
 }
