@@ -5,7 +5,7 @@ import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
 import {memo, useEffect, useState} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import LoadingScreen from '../../subscriptions/connection-steps/selectInstitutionsSection/ByCertificatePage/LoadingScreen';
+import LoadingScreen from '../../subscriptions/connection-steps/common/LoadingScreen';
 import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {

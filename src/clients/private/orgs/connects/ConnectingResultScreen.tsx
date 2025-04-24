@@ -1,3 +1,4 @@
+import {Avatar} from '^components/Avatar';
 import {ArrowLeft} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {memo} from 'react';
@@ -35,11 +36,7 @@ export const ConnectingResultScreen = memo(function ConnectingResultScreen({
             <div className="grid grid-cols-2 gap-3">
                 {newMembers.map((member, index) => (
                     <div key={index} className="bg-white rounded-lg p-4 flex items-center gap-4">
-                        <img
-                            src={member.profileImageUrl ?? '/images/illustration/default_profile.png'}
-                            alt="complete"
-                            className="w-10 h-10 rounded-full"
-                        />
+                        <Avatar src={member.profileImageUrl} className="w-10 h-10" />
                         <div className="flex flex-col gap-1">
                             <div className="font-semibold text-14">{member.name}</div>
                             <div className="text-gray-300 text-14">{member.email}</div>
