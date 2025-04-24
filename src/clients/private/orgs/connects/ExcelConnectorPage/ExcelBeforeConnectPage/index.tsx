@@ -11,7 +11,7 @@ export const ExcelBeforeConnectPage = memo(function ExcelBeforeConnectPage({onSu
     const [errorMsg, setErrorMsg] = useState('');
 
     return (
-        <div className="py-16 px-12">
+        <div className="py-16 px-12 min-h-lvh">
             <HeaderSection
                 file={file}
                 errorMsg={errorMsg}
