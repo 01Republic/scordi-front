@@ -1,7 +1,7 @@
 import {memo} from 'react';
-import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {X, LaptopMinimal, Usb} from 'lucide-react';
 import {Table} from '^v3/share/table/Table';
+import {BasicModal} from '^components/modals/_shared/BasicModal';
 
 interface CertificateLinkModalProps {
     isOpen: boolean;
@@ -11,6 +11,7 @@ interface CertificateLinkModalProps {
 
 export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
     const {isOpen, onClose, onCreate} = props;
+
     return (
         <BasicModal open={isOpen} onClose={onClose}>
             <div className="modal-box screen-sm flex flex-col p-8 relative gap-5">

@@ -40,6 +40,16 @@ module.exports = {
                     800: '#7D7FF1',
                     900: '#5C5FEE',
                 },
+                grayColor: {
+                    50: '#F9F9FB',
+                    100: '#F4F4F6',
+                    300: '#EEEFF1',
+                    500: '#D1D5DB',
+                    600: '#9CA3AF',
+                    700: '#6B7280',
+                    800: '#374151',
+                    900: '#1F2937',
+                },
                 neutralColor: {
                     50: '#FAFAFA',
                     100: '#F1F2F4',
@@ -49,6 +59,20 @@ module.exports = {
                     700: '#7D7C78',
                     800: '#37352F',
                     900: '#000000',
+                },
+                greenColor: {
+                    200: '#BBF7D0',
+                    400: '#4ADE80',
+                },
+                redColor: {
+                    200: '#FECACA',
+                    400: '#F87171',
+                },
+                yellowColor: {
+                    100: '#FFFBEC',
+                    200: '#F6DAB9',
+                    300: '#D97707',
+                    400: '#78350F',
                 },
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',

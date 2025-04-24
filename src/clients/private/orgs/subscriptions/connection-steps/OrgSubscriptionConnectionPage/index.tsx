@@ -2,9 +2,9 @@ import React, {memo} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
-import {ConnectionMethodSection} from 'src/clients/private/orgs/subscriptions/connection-steps/SelectMethodSection';
 import {ByCertificatePage} from '../selectInstitutionsSection/ByCertificatePage';
-import {ByAccountPage} from '^clients/private/orgs/subscriptions/connection-steps/selectInstitutionsSection/ByAccountPage';
+import {ByAccountPage} from '../selectInstitutionsSection/ByAccountPage';
+import {ConnectionMethodSection} from '../SelectMethodSection';
 
 export const OrgSubscriptionConnectionPage = memo(() => {
     const methods = useForm<CreateAccountRequestDto>({

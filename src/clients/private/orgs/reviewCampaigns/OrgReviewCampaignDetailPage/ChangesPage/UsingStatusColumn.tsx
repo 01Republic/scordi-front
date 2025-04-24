@@ -54,6 +54,7 @@ export const UsingStatusColumn = memo((props: UsingStatusColumnProps) => {
                     <ResponseSubCard
                         key={responseSub.id}
                         responseSub={responseSub}
+                        usingStatus={usingStatus}
                         draggable={draggable}
                         onDragStart={() => onDragStart(responseSub)}
                         onDragEnd={() => onDragEnd(responseSub)}

@@ -3,12 +3,10 @@ import {useRouter} from 'next/router';
 import {ArrowLeft} from 'lucide-react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {DashboardPageRoute} from '^pages/orgs/[id]/dashboard';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 
-interface ActionHeaderProps {}
-
-export const ActionHeader = memo((props: ActionHeaderProps) => {
-    const {} = props;
+export const ActionHeader = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
 

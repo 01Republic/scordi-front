@@ -62,7 +62,7 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
     };
 
     return (
-        <Button className="bg-scordi text-white" onClick={onClick}>
+        <Button id="review-campaign-finish-btn" className="bg-scordi text-white" onClick={onClick}>
             제출 마감하기
         </Button>
     );
