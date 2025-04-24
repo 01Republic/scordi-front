@@ -3,7 +3,7 @@ import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request
 import {useRouter} from 'next/router';
 import {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import LoadingScreen from '../../subscriptions/connection-steps/selectInstitutionsSection/ByCertificatePage/LoadingScreen';
+import LoadingScreen from '../../subscriptions/connection-steps/common/LoadingScreen';
 import {ConnectingResultScreen, NewMember} from '../ConnectingResultScreen';
 import {ErrorScreen} from '../ErrorScreen';
 import {ExcelBeforeConnectPage} from './ExcelBeforeConnectPage';
