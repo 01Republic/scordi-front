@@ -24,11 +24,15 @@ export const SlackConnectorPage = memo(function SlackConnectorPage() {
                 })
                 .then((res) => {
                     setNewMembers(
-                        res.data.items.map((item) => ({
-                            profileImageUrl: item.imageUrl ?? undefined,
-                            name: item.displayName ?? '',
-                            email: item.email ?? '',
-                        })),
+                        res.data.items
+                            .filter((item) => !item.isDeleted)
+                            .map(
+                                (item): NewMember => ({
+                                    profileImageUrl: item.imageUrl ?? undefined,
+                                    name: item.displayName ?? '',
+                                    email: item.email ?? '',
+                                }),
+                            ),
                     );
                 });
         }
