@@ -3,6 +3,7 @@ import {OrgOnboardingRequestPage} from '^clients/private/orgs/onboarding/OrgOnbo
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 export const OrgOnboardingRequestPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/request',
@@ -25,6 +26,7 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
+    useCurrentOrg(orgId);
 
     if (!orgId || isNaN(orgId)) return <></>;
 

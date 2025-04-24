@@ -1,11 +1,11 @@
-import {orgIdParamState} from '^atoms/common';
-import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
-import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
-import {Button} from '^public/components/ui/button';
-import {useRouter} from 'next/router';
 import {memo} from 'react';
+import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {OnboadingLayout} from './OnboadingLayout';
+import {orgIdParamState} from '^atoms/common';
+import {OnboadingLayout} from '^clients/private/orgs/onboarding/OnboadingLayout';
+import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
+import {Button} from '^public/components/ui/button';
+import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
 
 export const OrgOnboardingRequestPage = memo(() => {
     const router = useRouter();
