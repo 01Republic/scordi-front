@@ -1,5 +1,5 @@
-import {realisticFire} from '^clients/private/orgs/home/OrgDashboardPage/ConfettiEffect';
 import {AOSProvider} from '^clients/public/home/LandingPages/components';
+import {realisticFire} from '^components/util/ConfettiEffect';
 import {WithChildren} from '^types/global.type';
 import AOS from 'aos';
 import {useRouter} from 'next/router';
