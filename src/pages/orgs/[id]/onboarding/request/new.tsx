@@ -1,13 +1,13 @@
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {OrgOnboardingCompletePage} from '^clients/private/orgs/onboarding/OrgOnboardingCompletePage';
+import {OrgReviewCampaignNewPageForOnboarding} from '^clients/private/orgs/onboarding/OrgOnboardingRequestPage/OrgReviewCampaignNewPageForOnboarding';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
-export const OrgOnboardingCompletePageRoute = pathRoute({
-    pathname: '/orgs/[id]/onboarding/complete',
-    path: (orgId: number) => pathReplace(OrgOnboardingCompletePageRoute.pathname, {id: orgId}),
+export const OrgOnboardingRequestNewPageRoute = pathRoute({
+    pathname: '/orgs/[id]/onboarding/request/new',
+    path: (orgId: number) => pathReplace(OrgOnboardingRequestNewPageRoute.pathname, {id: orgId}),
 });
 
 export const getStaticPaths = async () => ({
@@ -17,7 +17,10 @@ export const getStaticPaths = async () => ({
 
 export const getStaticProps = async ({locale}: any) => ({
     props: {
-        ...(await serverSideTranslations(locale, [...v3CommonRequires])),
+        // Will be passed to the page component as props
+        ...(await serverSideTranslations(locale, [
+            ...v3CommonRequires, // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.
+        ])),
     },
 });
 
@@ -27,5 +30,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgOnboardingCompletePage />;
+    return <OrgReviewCampaignNewPageForOnboarding />;
 }

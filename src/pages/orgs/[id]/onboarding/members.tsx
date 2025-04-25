@@ -1,5 +1,6 @@
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgOnboardingMembersPage} from '^clients/private/orgs/onboarding/OrgOnboardingMembersPage';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
@@ -22,6 +23,7 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
+    useCurrentOrg(orgId);
 
     if (!orgId || isNaN(orgId)) return <></>;
 

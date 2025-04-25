@@ -1,11 +1,11 @@
-import {memo} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OnboadingLayout} from '^clients/private/orgs/onboarding/OnboadingLayout';
 import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
+import {OrgOnboardingRequestNewPageRoute} from '^pages/orgs/[id]/onboarding/request/new';
 import {Button} from '^public/components/ui/button';
-import {OrgReviewCampaignNewPageRoute} from '^pages/orgs/[id]/reviewCampaigns/new';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 
 export const OrgOnboardingRequestPage = memo(() => {
     const router = useRouter();
@@ -24,7 +24,7 @@ export const OrgOnboardingRequestPage = memo(() => {
                         variant="scordi"
                         size="xxl"
                         onClick={() => {
-                            router.push(OrgReviewCampaignNewPageRoute.path(orgId, {type: 'onboarding'}));
+                            router.push(OrgOnboardingRequestNewPageRoute.path(orgId));
                         }}
                     >
                         설문 요청하기
