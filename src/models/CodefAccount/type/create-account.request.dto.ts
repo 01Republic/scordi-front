@@ -22,4 +22,6 @@ export class CreateAccountRequestDto {
     clientTypeLevel?: CodefClientTypeLevel; // 의뢰인구분 - 신한 법인카드의 경우
     cardNo?: string; // 카드번호 - KB 카드소지확인 인증이 필요한 경우 (마스킹 없는 전체 카드번호 입력)
     cardPassword?: string; // 카드비밀번호 - KB 카드 소지확인 필요한 경우 (카드 비밀번호 앞 2자리)
+    isAgreeForPrivacyPolicyTerm?: boolean; // '개인정보 활용 동의 여부'
+    isAgreeForServiceUsageTerm?: boolean; // '서비스 이용약관 동의 여부'
 }
