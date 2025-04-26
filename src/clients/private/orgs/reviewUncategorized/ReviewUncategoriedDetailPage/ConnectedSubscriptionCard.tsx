@@ -9,11 +9,15 @@ interface ConnectedSubscriptionCardProps {
         price: string;
         imageUrl: string;
     };
+    onClick?: () => void;
 }
 
-export const ConnectedSubscriptionCard = memo(({item}: ConnectedSubscriptionCardProps) => {
+export const ConnectedSubscriptionCard = memo(({item, onClick}: ConnectedSubscriptionCardProps) => {
     return (
-        <Card className="py-3 px-4 flex justify-between items-center gap-2 w-[240px] bg-white hover:shadow-lg cursor-pointer">
+        <Card
+            className="py-3 px-4 flex justify-between items-center gap-2 w-[240px] bg-white hover:shadow-lg cursor-pointer"
+            onClick={onClick}
+        >
             <div className="flex items-center gap-2">
                 <Image
                     src={item.imageUrl}

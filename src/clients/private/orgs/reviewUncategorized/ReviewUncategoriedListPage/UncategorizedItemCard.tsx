@@ -1,7 +1,6 @@
 import {useIdParam} from '^atoms/common';
 import {OrgReviewUncategoriedDetailPageRoute} from '^pages/orgs/[id]/reviewUncategorized/[reviewUncategorizedId]';
 import {Card} from '^public/components/ui/card';
-import {pathReplace} from '^types/pageRoute.type';
 import {ChevronRight} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {memo} from 'react';
@@ -14,12 +13,8 @@ export const UncategorizedItemCard = memo(() => {
         <Card
             className="flex justify-between items-center p-6 bg-white rounded-lg hover:shadow-lg transition-all duration-300 hover:cursor-pointer"
             onClick={() => {
-                router.push(
-                    pathReplace(OrgReviewUncategoriedDetailPageRoute.pathname, {
-                        id: orgId,
-                        reviewUncategorizedId: 1,
-                    }),
-                );
+                /* TODO: 타깃 미분류 id 값 변경 */
+                router.push(OrgReviewUncategoriedDetailPageRoute.path(orgId, 1));
             }}
         >
             <div className="flex items-center gap-4">

@@ -14,8 +14,6 @@ interface UncategorizedDetailModalProps {
 export const UncategorizedDetailModal = memo((props: UncategorizedDetailModalProps) => {
     const {isOpen, onClose, item} = props;
 
-    if (!item) return <></>;
-
     return (
         <SlideSideModal open={isOpen} onClose={onClose} modalClassName="rounded-none" size="md">
             <div className="py-3">
@@ -25,7 +23,7 @@ export const UncategorizedDetailModal = memo((props: UncategorizedDetailModalPro
                 </LinkTo>
             </div>
 
-            <UncategorizedDetailContent item={item} />
+            {item && <UncategorizedDetailContent item={item} />}
 
             <hr className="mx-[-24px]" />
 
