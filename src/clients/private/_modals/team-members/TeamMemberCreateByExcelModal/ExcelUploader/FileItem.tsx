@@ -1,7 +1,9 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {confirm2, confirmed} from '^components/util/dialog';
+import excelIcon from 'src/images/icon/excelIcon.png';
 import {parseFileSizeText} from '^utils/file';
 import {FileSpreadsheet, Trash2, X} from 'lucide-react';
+import Image from 'next/image';
 
 interface FileItemProps {
     file: File;
@@ -25,11 +27,11 @@ export const FileItem = memo((props: FileItemProps) => {
             } rounded-lg overflow-hidden`}
         >
             <div className="bg-gray-50 p-4">
-                <FileSpreadsheet fontSize={24} />
+                <Image src={excelIcon} alt="excelIcon" width={24} height={24} priority />
             </div>
 
             <div className="flex-1 pl-4">
-                <div>{file.name}</div>
+                <div className="font-semibold text-14">{file.name}</div>
 
                 {!errorMsg ? (
                     <div className="text-13 text-gray-500">{parseFileSizeText(file.size)}</div>
@@ -46,7 +48,7 @@ export const FileItem = memo((props: FileItemProps) => {
                     isLoading || !errorMsg ? 'text-gray-500 hover:text-black' : 'text-red-500 hover:text-red-700'
                 } transition-all cursor-pointer`}
             >
-                <Trash2 fontSize={14} className="" />
+                <Trash2 fontSize={16} className="" />
             </div>
         </div>
     );
