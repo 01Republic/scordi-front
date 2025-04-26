@@ -110,6 +110,9 @@ module.exports = {
                 md: 'calc(var(--radius) - 2px)',
                 sm: 'calc(var(--radius) - 4px)',
             },
+            boxShadow: {
+                top: '0 -8px 12px -1px rgba(0, 0, 0, 0.08), 0 -4px 6px -1px rgba(0, 0, 0, 0.05)',
+            },
         },
         container: {
             center: true,
