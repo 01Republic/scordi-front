@@ -1,15 +1,17 @@
 import {api} from '^api/api';
-import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
-import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
+import {ClassConstructor} from 'class-transformer';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
-import {ClassConstructor} from 'class-transformer';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
+import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
+import {UpdateAccountRequestDto} from '^models/CodefAccount/type/update-account.request.dto';
 import {FindAllAccountQueryForAdminDto} from '^models/CodefAccount/type/find-all-account.query.for-admin.dto';
-import {SubscriptionDto} from '^models/Subscription/types';
+import {UpdateAccountResponseDto} from '^models/CodefAccount/type/update-account.response.dto';
 
 /** [연동] Connect CODEF Accounts API */
 export const codefAccountApi = {
@@ -29,6 +31,12 @@ export const codefAccountApi = {
     create(orgId: number, dto: CreateAccountRequestDto) {
         const url = `/connect/organizations/${orgId}/codef/accounts`;
         return api.post(url, dto).then(oneDtoOf(AccountCreatedResponseDto));
+    },
+
+    /** 계정 수정 - 비밀번호 변경 등 */
+    update(orgId: number, accountId: number, dto: UpdateAccountRequestDto) {
+        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}`;
+        return api.patch(url, dto).then(oneDtoOf(UpdateAccountResponseDto));
     },
 
     /** 코드에프 카드 조회 (보유카드 조회) - 계정의 카드 조회 */
