@@ -10,7 +10,7 @@ interface ConfirmModalProps {
 }
 
 export const ConfirmModal = memo(({isOpen, onClose, selectedSubscription}: ConfirmModalProps) => {
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
 
     return (
         <Transition
