@@ -1,5 +1,5 @@
 import {orgIdParamState, reviewUncategorizedIdParamState, useRouterIdParamState} from '^atoms/common';
-import {ReviewUncategoriedDetailPage} from '^clients/private/orgs/reviewUncategorized/ReviewUncategoriedDetailPage';
+import {ReviewUncategorizedDetailPage} from '^clients/private/orgs/reviewUncategorized/ReviewUncategorizedDetailPage';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
@@ -29,5 +29,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId) || !reviewUncategorizedId || isNaN(reviewUncategorizedId)) return <></>;
 
-    return <ReviewUncategoriedDetailPage />;
+    return <ReviewUncategorizedDetailPage />;
 }

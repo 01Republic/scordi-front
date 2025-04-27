@@ -48,7 +48,7 @@ const sampleConnectedSubscription = [
     },
 ];
 
-export const ReviewUncategoriedDetailPage = memo(() => {
+export const ReviewUncategorizedDetailPage = memo(() => {
     const orgId = useIdParam('id');
     const [selectedItem, setSelectedItem] = useState<any>(null);
 

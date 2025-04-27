@@ -42,18 +42,37 @@ export const UncategorizedDetailContent = memo((props: UncategorizedDetailConten
                     <div className="py-2">
                         <hr />
                     </div>
-                    <div className="flex justify-between items-center py-2">
-                        <span>입금처</span>
-                        <span className="text-gray-600">베스핀글로벌 주식회사</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                        <span>출금처</span>
-                        <span className="text-gray-600">내계좌123546643584903</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                        <span>이체일시</span>
-                        <span className="text-gray-600">2025년 4월 10일 18:28</span>
-                    </div>
+                    {!!item.bankAccount ? (
+                        <>
+                            <div className="flex justify-between items-center py-2">
+                                <span>입금처</span>
+                                <span className="text-gray-600">베스핀글로벌 주식회사</span>
+                            </div>
+                            <div className="flex justify-between items-center py-2">
+                                <span>출금처</span>
+                                <span className="text-gray-600">내계좌123546643584903</span>
+                            </div>
+                            <div className="flex justify-between items-center py-2">
+                                <span>이체일시</span>
+                                <span className="text-gray-600">2025년 4월 10일 18:28</span>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex justify-between items-center py-2">
+                                <span>적요</span>
+                                <span className="text-gray-600">토스페이먼츠</span>
+                            </div>
+                            <div className="flex justify-between items-center py-2">
+                                <span>결제수단</span>
+                                <span className="text-gray-600">신한카드 3309</span>
+                            </div>
+                            <div className="flex justify-between items-center py-2">
+                                <span>결제일시</span>
+                                <span className="text-gray-600">2025년 4월 10일 18:28</span>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
 

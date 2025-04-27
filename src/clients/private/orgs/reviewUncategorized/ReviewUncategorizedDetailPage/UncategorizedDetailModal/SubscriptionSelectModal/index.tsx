@@ -1,12 +1,13 @@
 import Tippy from '@tippyjs/react';
 import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
 import {LinkTo} from '^components/util/LinkTo';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {useSubscriptionListOfBankAccount} from '^models/Subscription/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {ArrowLeft, Check, Ellipsis, Info, Plus} from 'lucide-react';
+import {ArrowLeft, Ellipsis, Info, Plus} from 'lucide-react';
 import {memo, useEffect, useState} from 'react';
 import {ConfirmModal} from './ConfirmModal';
+import {NewSubscriptionModal} from './NewSubscriptionModal';
+import {SelectableSubscriptionItem} from './SelectableSubscriptionItem';
 
 interface SubscriptionSelectModalProps {
     isOpen: boolean;
@@ -19,6 +20,7 @@ export const SubscriptionSelectModal = memo((props: SubscriptionSelectModalProps
     const {result, search} = useSubscriptionListOfBankAccount();
     const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionDto | null>(null);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [isNewSubscriptionModalOpen, setIsNewSubscriptionModalOpen] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
@@ -68,9 +70,10 @@ export const SubscriptionSelectModal = memo((props: SubscriptionSelectModalProps
 
                             <div className="space-y-2 pb-40">
                                 {result.items.map((item) => (
-                                    <button
+                                    <SelectableSubscriptionItem
                                         key={item.id}
-                                        className="w-full p-4 rounded-lg hover:bg-scordi-50 flex items-center justify-between"
+                                        product={item.product}
+                                        isSelected={selectedSubscription?.id === item.id}
                                         onClick={() => {
                                             if (selectedSubscription?.id === item.id) {
                                                 setSelectedSubscription(null);
@@ -80,14 +83,12 @@ export const SubscriptionSelectModal = memo((props: SubscriptionSelectModalProps
                                                 setIsConfirmModalOpen(true);
                                             }
                                         }}
-                                    >
-                                        <SubscriptionProfile subscription={item} />
-                                        {selectedSubscription?.id === item.id && (
-                                            <Check className="w-5 h-5 text-scordi-500" />
-                                        )}
-                                    </button>
+                                    />
                                 ))}
-                                <button className="w-full p-4 rounded-lg hover:bg-scordi-50 flex items-center gap-2">
+                                <button
+                                    className="w-full p-4 rounded-lg hover:bg-scordi-50 flex items-center gap-2"
+                                    onClick={() => setIsNewSubscriptionModalOpen(true)}
+                                >
                                     <Plus className="w-5 h-5" />
                                     <span>새 구독 추가</span>
                                 </button>
@@ -102,6 +103,11 @@ export const SubscriptionSelectModal = memo((props: SubscriptionSelectModalProps
                             onClose();
                         }}
                         selectedSubscription={selectedSubscription}
+                    />
+
+                    <NewSubscriptionModal
+                        isOpen={isNewSubscriptionModalOpen}
+                        onClose={() => setIsNewSubscriptionModalOpen(false)}
                     />
                 </div>
             </SlideSideModal>

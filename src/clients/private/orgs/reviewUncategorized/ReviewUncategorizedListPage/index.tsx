@@ -5,7 +5,7 @@ import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer'
 import {memo} from 'react';
 import {UncategorizedItemCard} from './UncategorizedItemCard';
 
-export const ReviewUncategoriedListPage = memo(() => {
+export const ReviewUncategorizedListPage = memo(() => {
     const orgId = useIdParam('id');
 
     return (

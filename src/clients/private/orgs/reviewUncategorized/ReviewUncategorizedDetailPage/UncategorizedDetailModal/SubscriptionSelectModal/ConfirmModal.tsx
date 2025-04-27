@@ -1,7 +1,7 @@
 import {Transition} from '@headlessui/react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Check} from 'lucide-react';
-import {Fragment, memo} from 'react';
+import {Fragment, memo, useState} from 'react';
 
 interface ConfirmModalProps {
     isOpen: boolean;
@@ -10,6 +10,8 @@ interface ConfirmModalProps {
 }
 
 export const ConfirmModal = memo(({isOpen, onClose, selectedSubscription}: ConfirmModalProps) => {
+    const [checked, setChecked] = useState(false);
+
     return (
         <Transition
             show={isOpen}
@@ -23,8 +25,12 @@ export const ConfirmModal = memo(({isOpen, onClose, selectedSubscription}: Confi
         >
             <div className="absolute inset-x-0 bottom-0 bg-white rounded-t-xl shadow-top m-[-24px]">
                 <div className="p-6">
-                    <div className="flex items-center gap-2 mb-6">
-                        <div className="w-6 h-6 bg-scordi-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-6 cursor-pointer" onClick={() => setChecked(!checked)}>
+                        <div
+                            className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                checked ? 'bg-scordi-500' : 'bg-gray-300'
+                            }`}
+                        >
                             <Check className="w-4 h-4 text-white" />
                         </div>
                         <div className="text-sm">
