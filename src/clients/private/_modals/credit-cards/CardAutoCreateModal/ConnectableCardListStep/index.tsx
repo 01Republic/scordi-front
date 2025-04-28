@@ -13,6 +13,7 @@ import {CreateCreditCardButton} from './CreateCreditCardButton';
 import {ConnectableCardListSection} from './ConnectableCardListSection';
 import {ConnectableCardListCheckAllToggle} from './ConnectableCardListCheckAllToggle';
 import {ChevronLeft} from 'lucide-react';
+import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
 
 interface ConnectableCardListStepProps {
     cardCompany: CardAccountsStaticData;
@@ -46,8 +47,8 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
     return (
         <div className="flex flex-col items-stretch h-full -mx-6">
             <div className="mb-4 px-6">
-                <div className="pt-4 mb-6">
-                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                <div className="mb-4">
+                    <ModalLeftBackButton onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">

@@ -51,7 +51,7 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
             {step === AccountConnectStep.checkLogin && (
                 <CardAccountCheckLoginStep cardCompany={cardCompany} onBack={onBack} />
             )}
-            <FadeUp show={step === AccountConnectStep.accountForm} delay="deloy-[50ms]" className="h-full">
+            <FadeUp show={step === AccountConnectStep.accountForm} className="h-full">
                 <InputCardAccountFormDataStep
                     cardCompany={cardCompany}
                     form={form}

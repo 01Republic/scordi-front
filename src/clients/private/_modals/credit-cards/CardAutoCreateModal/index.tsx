@@ -80,6 +80,7 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
             modalClassName="rounded-none sm:rounded-t-box !pb-0"
         >
             <div className="absolute inset-0 px-6 pt-6">
+                {/* 개인/법인 선택 스텝 */}
                 {step === Step.isPersonalSelect && (
                     <CodefIsPersonalSelectStep
                         onBack={onClose}
@@ -88,7 +89,8 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
                     />
                 )}
 
-                <FadeUp show={step === Step.companySelect} delay="deloy-[50ms]" className="h-full">
+                {/* 기관 선택 스텝 */}
+                <FadeUp show={step === Step.companySelect} className="h-full">
                     {codefClientType && (
                         <CodefCardCompanySelectStep
                             codefClientType={codefClientType}
@@ -98,7 +100,8 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
                     )}
                 </FadeUp>
 
-                <FadeUp show={cardCompany && step === Step.accountConnect} delay="deloy-[50ms]" className="h-full">
+                {/* 로그인 스텝 */}
+                <FadeUp show={cardCompany && step === Step.accountConnect} className="h-full">
                     {cardCompany && (
                         <CodefAccountConnectStep
                             onBack={() => setCompany(undefined)}
@@ -108,11 +111,8 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
                     )}
                 </FadeUp>
 
-                <FadeUp
-                    show={cardCompany && codefAccount && step === Step.cardSelect}
-                    delay="deloy-[50ms]"
-                    className="h-full"
-                >
+                {/* 연결할 카드 선택 스텝 */}
+                <FadeUp show={cardCompany && codefAccount && step === Step.cardSelect} className="h-full">
                     {cardCompany && codefAccount && (
                         <ConnectableCardListStep
                             onBack={() => setCompany(undefined)}

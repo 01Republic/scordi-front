@@ -3,6 +3,7 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {CardCompanyItem} from '^models/CodefAccount/components';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {ChevronLeft} from 'lucide-react';
+import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
 
 interface CodefCardCompanySelectStepProps {
     codefClientType: CodefCustomerType;
@@ -19,7 +20,7 @@ export const CodefCardCompanySelectStep = memo((props: CodefCardCompanySelectSte
         <div className="h-full">
             <div>
                 <div className="mb-4">
-                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                    <ModalLeftBackButton onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">새로운 카드 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
