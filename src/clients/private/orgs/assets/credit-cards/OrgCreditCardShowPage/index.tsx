@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useOrgIdParam} from '^atoms/common';
+import {creditCardIdParamState, useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
@@ -11,9 +11,11 @@ import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
 import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 import {useCreditCardPageFlashForExcelUpload} from './CreditCardPageFlashHandler/atom';
+import {useRecoilValue} from 'recoil';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
+    const creditCardId = useRecoilValue(creditCardIdParamState);
     const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
@@ -60,7 +62,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         </div>
 
                         <div className="col-span-3 border-l border-gray-300 text-14">
-                            <CardInformationPanel />
+                            <CardInformationPanel orgId={orgId} creditCardId={creditCardId} />
                         </div>
                     </div>
                 )}

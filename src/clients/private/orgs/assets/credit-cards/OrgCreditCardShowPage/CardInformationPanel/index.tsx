@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {useCurrentCreditCardEdit} from '../atom';
+import {useCreditCardUpdate, useCurrentCreditCardEdit} from '../atom';
 import {EditButton} from './EditButton';
 import {CreditCardName} from './CreditCardName';
 import {CreditCardIsPersonal} from './CreditCardIsPersonal';
@@ -13,7 +13,14 @@ import {CreditCardHoldingMemberId} from './CreditCardHoldingMemberId';
 import {FormControl} from './FormControl';
 import {CardCompanyNotSetAlert} from './InformationAlert';
 
-export const CardInformationPanel = memo(function CardInformationPanel() {
+interface CreditCardInformationPanelProps {
+    orgId: number;
+    creditCardId: number;
+}
+
+export const CardInformationPanel = memo(function CardInformationPanel(props: CreditCardInformationPanelProps) {
+    const {orgId, creditCardId} = props;
+
     const {
         currentCreditCard,
         formData,
@@ -27,6 +34,7 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
         setIsEditMode,
         isLoading,
     } = useCurrentCreditCardEdit();
+    const {mutateAsync: update} = useCreditCardUpdate(orgId, creditCardId);
 
     if (!currentCreditCard) return <></>;
 
@@ -139,7 +147,10 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                         isEditMode={isEditMode}
                         isLoading={isLoading}
                         defaultValue={currentCreditCard.holdingMember || undefined}
-                        onChange={(holdingMemberId) => patch({holdingMemberId})}
+                        onChange={(holdingMemberId) => {
+                            // update({ holdingMemberId });
+                            setFormValue({holdingMemberId});
+                        }}
                     />
                 </div>
             </div>
