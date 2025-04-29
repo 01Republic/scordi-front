@@ -2,13 +2,14 @@ import {memo} from 'react';
 import cn from 'classnames';
 
 interface NextStepButtonProps {
-    onClick: () => void;
+    text?: string;
+    onClick?: () => void;
     disabled?: boolean;
     isLoading?: boolean;
 }
 
 export const NextStepButton = memo((props: NextStepButtonProps) => {
-    const {onClick, disabled, isLoading} = props;
+    const {text = '다음', onClick, disabled, isLoading} = props;
     return (
         <button
             type="button"
@@ -19,7 +20,7 @@ export const NextStepButton = memo((props: NextStepButtonProps) => {
                 'link_to-loading btn-scordi': isLoading,
             })}
         >
-            다음
+            {text}
         </button>
     );
 });
