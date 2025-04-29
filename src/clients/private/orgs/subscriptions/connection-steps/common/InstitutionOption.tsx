@@ -6,7 +6,7 @@ import {NextImage} from '^components/NextImage';
 interface InstitutionOptionProps {
     logo: string;
     title: string;
-    connect: boolean;
+    connect?: boolean;
     isSelected: boolean;
     isAllSelected?: boolean;
     isDisabled?: boolean;
