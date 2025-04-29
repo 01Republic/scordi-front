@@ -5,6 +5,7 @@ import {pagedResourceAtom} from '^hooks/usePagedResource';
 import {SubscriptionDto, FindAllSubscriptionsQuery, CreateSubscriptionRequestDto} from '../types';
 import {subscriptionApi} from '../api';
 import {localStorageAtoms} from '^atoms/localStorage.atom';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 
 export const subscriptionListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListAtom',
@@ -153,4 +154,10 @@ export const subscriptionListOfProductDetailForAdminAtom = pagedResourceAtom<
     FindAllSubscriptionsQuery
 >({
     key: 'Admin/ProductDetail/SubscriptionListAtom',
+});
+
+//구독 불러오기 - 스코디 카드를 생성한 codefCards 담기
+export const subscriptionConnectedCodefCardsAtom = atom<CodefCardDto[]>({
+    key: 'subscriptionConnectedCodefCardsAtom',
+    default: [],
 });
