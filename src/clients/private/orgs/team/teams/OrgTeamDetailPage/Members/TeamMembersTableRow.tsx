@@ -18,10 +18,12 @@ interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;
     onClick?: (teamMember: TeamMemberDto) => any;
     reload?: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
-    const {teamMember, onClick, reload} = props;
+    const {teamMember, onClick, isChecked, onCheck, reload} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
 
@@ -62,6 +64,17 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
     return (
         <tr className="group">
+            <td className={`${hoverBgColor} pl-3 pr-1`}>
+                <label className={`flex items-center justify-center`}>
+                    <input
+                        type="checkbox"
+                        className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                        defaultChecked={isChecked}
+                        onChange={(e) => onCheck && onCheck(e.target.checked)}
+                    />
+                </label>
+            </td>
+
             {/* 이름 */}
             <td className={hoverBgColor} onClick={() => onClick && onClick(teamMember)}>
                 <OpenButtonColumn href={showPagePath}>

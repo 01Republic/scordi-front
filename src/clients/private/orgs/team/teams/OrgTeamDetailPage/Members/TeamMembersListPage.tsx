@@ -10,6 +10,9 @@ import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/AddMemberModal';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 import {Plus} from 'lucide-react';
+import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
+import {TeamMembershipDto} from '^models/TeamMembership/type';
+import {TeamMembersBulkActionPanel} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersBulkActionPanel';
 
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
@@ -17,6 +20,7 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
     const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy, reset} =
         useTeamMembershipListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
+    const ch = useCheckboxHandler<TeamMembershipDto>([], (item) => item.teamMemberId);
 
     const onSearch = (keyword?: string) => {
         search({
@@ -30,6 +34,10 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
         if (!teamId || isNaN(teamId)) return;
         onSearch();
     }, [teamId]);
+
+    useEffect(() => {
+        ch.init(result.items);
+    }, [result.items]);
 
     useUnmount(() => reset());
 
@@ -65,13 +73,31 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
                 emptyButtonText="구성원 연결"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
+                {!ch.isEmpty && (
+                    <TeamMembersBulkActionPanel
+                        checkboxHandler={ch}
+                        reload={() => {
+                            reload();
+                            reloadParent();
+                        }}
+                    />
+                )}
+
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
+                    Header={() => (
+                        <TeamMembersTableHeader
+                            orderBy={orderBy}
+                            isChecked={ch.isCheckedAll()}
+                            onCheck={(checked) => ch.checkAll(checked)}
+                        />
+                    )}
                     Row={({item}) => (
                         <TeamMembersTableRow
                             teamMember={item.teamMember}
+                            isChecked={ch.isChecked(item)}
+                            onCheck={(checked) => ch.checkOne(item, checked)}
                             reload={() => {
                                 reload();
                                 reloadParent();
