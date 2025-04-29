@@ -1,11 +1,12 @@
-import {memo} from 'react';
-import {Check, Link, Unlink} from 'lucide-react';
+import {memo, useState} from 'react';
 import cn from 'classnames';
+import {Check, Link, Unlink} from 'lucide-react';
 import {NextImage} from '^components/NextImage';
 
 interface InstitutionOptionProps {
     logo: string;
     title: string;
+    connect: boolean;
     isSelected: boolean;
     isAllSelected?: boolean;
     isDisabled?: boolean;
@@ -13,7 +14,9 @@ interface InstitutionOptionProps {
 }
 
 export const InstitutionOption = memo((props: InstitutionOptionProps) => {
-    const {logo, title, isSelected, isDisabled, isAllSelected, onClick} = props;
+    const {logo, title, connect = false, isSelected, isDisabled, isAllSelected, onClick} = props;
+
+    const [isHover, setIsHover] = useState(false);
 
     return (
         <button
@@ -39,15 +42,23 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                         <span className="text-12 font-normal text-neutralColor-700">홈페이지 로그인 필요</span>
                     )}
 
-                    {/* 데이터 연결 후 사용할 태그들 */}
-                    {/*<div className="flex gap-1 bg-greenColor-200 py-0.5 px-1.5 rounded-sm text-12 font-normal text-neutral-800 whitespace-nowrap items-center justify-center">*/}
-                    {/*    <Link className="size-3" />*/}
-                    {/*    <span>연결됨</span>*/}
-                    {/*</div>*/}
-                    {/*<div className="flex gap-1 bg-redColor-200 py-0.5 px-1.5 rounded-sm text-12 font-normal text-neutral-800 whitespace-nowrap items-center justify-center">*/}
-                    {/*    <Unlink className="size-3" />*/}
-                    {/*    <span>연결 해제</span>*/}
-                    {/*</div>*/}
+                    {connect && (
+                        <button
+                            type="button"
+                            onMouseEnter={() => setIsHover(true)}
+                            onMouseLeave={() => setIsHover(false)}
+                            className={cn(
+                                'flex gap-1 py-0.5 px-1.5 rounded-sm text-12 font-normal text-neutral-800 whitespace-nowrap items-center justify-center',
+                                {
+                                    'bg-greenColor-200': !isHover,
+                                    'bg-redColor-200': isHover,
+                                },
+                            )}
+                        >
+                            {isHover ? <Unlink className="size-3" /> : <Link className="size-3" />}
+                            <span>{isHover ? '연결 해제' : '연결됨'}</span>
+                        </button>
+                    )}
                 </div>
             </div>
         </button>
