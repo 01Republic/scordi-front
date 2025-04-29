@@ -23,3 +23,8 @@ export const lastOf = <T>(arr: T[], n = 1) => firstOf(reverseArr(arr), n).revers
 export const undef = <T>(d: T): T | undefined => d;
 
 export const isDefinedValue = <T>(value: T | undefined | null): value is T => !!value;
+
+export async function allFulfilled<T>(values: T[]): Promise<Awaited<T>[]> {
+    const results = await Promise.allSettled(values);
+    return results.map((item) => (item.status === 'fulfilled' ? item.value : null)).filter(isDefinedValue);
+}
