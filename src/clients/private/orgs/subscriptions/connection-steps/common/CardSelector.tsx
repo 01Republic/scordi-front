@@ -1,32 +1,33 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
 import {useFormContext} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {orgIdParamState} from '^atoms/common';
+import {useCodefAccount} from '^models/CodefCard/hook';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {confirm3} from '^components/util/dialog/confirm3';
 import {ConnectStepsModal} from '../selectInstitutionsSection/ByAccountPage/ConnectStepsModal';
 import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
 import {InstitutionOption} from './InstitutionOption';
-import {useCodefAccountsInConnector} from '^models/CodefAccount/hook';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {useRouter} from 'next/router';
 
 export const CardSelector = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
-    const {result, search} = useCodefAccountsInConnector();
+    const {useCodefAccountRemove, useCodefAccountsInConnector} = useCodefAccount();
     const {setValue, getValues} = useFormContext<CreateAccountRequestDto>();
     const [selectedCards, setSelectedCards] = useState<CardAccountsStaticData[]>([]);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [isConnectStepsModalOpen, setIsConnectStepsModalOpen] = useState(false);
 
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-        search({itemsPerPage: 0}, false, true);
-    }, [router.isReady, orgId]);
-
     const clientType = getValues('clientType') || CodefCustomerType.Business;
     const loginType = getValues('loginType');
+
+    const {data: connectCodefAccount} = useCodefAccountsInConnector(orgId, {
+        itemsPerPage: 0,
+        sync: true,
+        where: {loginType},
+    });
 
     // 공동인증서 연동 시 롯데,하나,삼성은 연동불가
     const disabledCardParams =
@@ -62,6 +63,24 @@ export const CardSelector = memo(() => {
         }
     };
 
+    const onDisconnect = async (institution: string, accountId?: number) => {
+        if (!accountId) return;
+
+        const isConfirmed = await confirm3(
+            '기관 연동을 해제할까요?',
+            <span className="text-16 text-grayColor-800 font-normal">
+                "{institution}"에 연결된 모든 카드를 함께 연동 해제할까요?
+                <br />
+                <br />
+                기관 연동을 해제하면 연결된 내역도 더이상 가져올 수 없어요. <br />
+                그래도 해제할까요?
+            </span>,
+        ).then((res) => res.isConfirmed);
+        if (!isConfirmed) return;
+        useCodefAccountRemove({orgId, accountId});
+        toast.success('연결을 해제했어요.');
+    };
+
     return (
         <section className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
@@ -75,21 +94,25 @@ export const CardSelector = memo(() => {
             </div>
             <div className="grid grid-cols-5 gap-4">
                 {cards.map((card) => {
-                    const isConnected =
-                        loginType === CodefLoginType.IdAccount
-                            ? result.items.some((account) => account.company === card.displayName)
-                            : false; // * TODO: 공동인증서 연동 체크 영역
+                    const connectedAccount = connectCodefAccount?.items.find(
+                        (account) => account.company === card.displayName,
+                    );
+                    const isConnected = !!connectedAccount;
+
                     return (
-                        <InstitutionOption
-                            key={card.param}
-                            logo={card.logo}
-                            title={card.displayName}
-                            connect={isConnected}
-                            isSelected={selectedCards.some((b) => b.param === card.param)}
-                            isAllSelected={isAllSelected}
-                            isDisabled={disabledCardParams.includes(card.param)}
-                            onClick={() => handleSelectCard(card)}
-                        />
+                        <>
+                            <InstitutionOption
+                                key={card.param}
+                                logo={card.logo}
+                                title={card.displayName}
+                                connect={isConnected}
+                                isSelected={selectedCards.some((b) => b.param === card.param)}
+                                isAllSelected={isAllSelected}
+                                isDisabled={disabledCardParams.includes(card.param)}
+                                onClick={() => handleSelectCard(card)}
+                                onDisconnect={() => onDisconnect(card.displayName, connectedAccount?.id)}
+                            />
+                        </>
                     );
                 })}
             </div>
