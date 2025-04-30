@@ -11,10 +11,11 @@ interface InstitutionOptionProps {
     isAllSelected?: boolean;
     isDisabled?: boolean;
     onClick: () => void;
+    onDisconnect?: () => void;
 }
 
 export const InstitutionOption = memo((props: InstitutionOptionProps) => {
-    const {logo, title, connect = false, isSelected, isDisabled, isAllSelected, onClick} = props;
+    const {logo, title, connect = false, isSelected, isDisabled, isAllSelected, onClick, onDisconnect} = props;
 
     const [isHover, setIsHover] = useState(false);
 
@@ -43,10 +44,13 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                     )}
 
                     {connect && (
-                        <button
-                            type="button"
+                        <div
                             onMouseEnter={() => setIsHover(true)}
                             onMouseLeave={() => setIsHover(false)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDisconnect?.();
+                            }}
                             className={cn(
                                 'flex gap-1 py-0.5 px-1.5 rounded-sm text-12 font-normal text-neutral-800 whitespace-nowrap items-center justify-center',
                                 {
@@ -57,7 +61,7 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                         >
                             {isHover ? <Unlink className="size-3" /> : <Link className="size-3" />}
                             <span>{isHover ? '연결 해제' : '연결됨'}</span>
-                        </button>
+                        </div>
                     )}
                 </div>
             </div>
