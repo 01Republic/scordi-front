@@ -15,6 +15,12 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 import {RecoilState, useRecoilValue} from 'recoil';
 import {codefAccountApi} from '^models/CodefAccount/api';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {ErrorResponse} from '^models/User/types';
+import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {paginatedDtoOf} from '^types/utils/response-of';
+import {Paginated} from '^types/utils/paginated.dto';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -96,4 +102,27 @@ const useSubscriptionsOfCodefAccount = (
         getId: 'id',
         mergeMode,
     });
+};
+
+export const useCodefAccount = () => {
+    const queryClient = useQueryClient();
+
+    // codef 연결된 계정 조회
+    const useCodefAccountsInConnector = (orgId: number, params: FindAllAccountQueryDto = {itemsPerPage: 0}) => {
+        return useQuery({
+            queryKey: ['codefAccount', orgId, params],
+            queryFn: () => codefAccountApi.index(orgId!, params).then((res) => res.data),
+            enabled: !!orgId && !isNaN(orgId),
+        });
+    };
+
+    // codef 연결된 계정 삭제
+    const {mutate: useCodefAccountRemove} = useMutation<boolean, ErrorResponse, {orgId: number; accountId: number}>({
+        mutationFn: ({orgId, accountId}) => codefAccountApi.destroy(orgId, accountId).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['codefAccount']});
+        },
+    });
+
+    return {useCodefAccountsInConnector, useCodefAccountRemove};
 };
