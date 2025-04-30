@@ -26,7 +26,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
     const [isPreChecked, setIsPreChecked] = useState(false);
     const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
     const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
-    const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount();
+    const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount(orgId);
 
     const close = () => {
         setCodefAccount(undefined);

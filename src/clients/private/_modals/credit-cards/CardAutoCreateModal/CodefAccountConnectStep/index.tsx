@@ -25,21 +25,34 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
     const {onBack, cardCompany, setAccount} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
-    const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount();
+    const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount(orgId);
     const [step, setStep] = useState(AccountConnectStep.checkLogin);
 
-    const loginIfAccountExist = debounce(() => {
-        checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
-            if (existedAccount) {
-                toast.success(`${existedAccount.company}에 다시 로그인했어요.`);
-                setCodefAccountId(existedAccount.id);
-                setAccount(existedAccount);
-            } else {
-                setCodefAccountId(NaN);
-                setStep(AccountConnectStep.accountForm);
-            }
-        });
+    const callback = debounce((existedAccount?: CodefAccountDto) => {
+        if (existedAccount) {
+            toast.success(`${existedAccount.company}에 다시 로그인 할게요.`);
+            setCodefAccountId(existedAccount.id);
+            setAccount(existedAccount);
+        } else {
+            setCodefAccountId(NaN);
+            setStep(AccountConnectStep.accountForm);
+        }
     }, 500);
+
+    const loginIfAccountExist = () => {
+        try {
+            checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => callback(existedAccount)).catch(
+                (e) => {
+                    console.log('e', e);
+                    setCodefAccountId(NaN);
+                    setStep(AccountConnectStep.accountForm);
+                },
+            );
+        } catch {
+            setCodefAccountId(NaN);
+            setStep(AccountConnectStep.accountForm);
+        }
+    };
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;

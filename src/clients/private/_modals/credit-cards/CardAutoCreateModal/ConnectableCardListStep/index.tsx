@@ -5,7 +5,7 @@ import {useUnmount} from '^hooks/useUnmount';
 import {codefAccountIdParamState} from '^atoms/common';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useNewCodefCards} from '^models/CodefCard/hook';
+import {useNewCodefCards, useNewCodefCards2} from '^models/CodefCard/hook';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {LoadableBox} from '^components/util/loading';
 import {ConnectableCardItem} from './ConnectableCardItem';
@@ -14,6 +14,10 @@ import {ConnectableCardListSection} from './ConnectableCardListSection';
 import {ConnectableCardListCheckAllToggle} from './ConnectableCardListCheckAllToggle';
 import {ChevronLeft} from 'lucide-react';
 import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
+import {useQuery} from '@tanstack/react-query';
+import {codefAccountApi} from '^models/CodefAccount/api';
+import {Paginated} from '^types/utils/paginated.dto';
+import {toast} from 'react-hot-toast';
 
 interface ConnectableCardListStepProps {
     cardCompany: CardAccountsStaticData;
@@ -24,25 +28,21 @@ interface ConnectableCardListStepProps {
 
 export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps) => {
     const {cardCompany, codefAccount, onBack, onSubmit} = props;
-    const {search, result, isLoading, reset} = useNewCodefCards(codefAccountIdParamState);
+    const {data, isFetching, reset, error} = useNewCodefCards2(codefAccount.orgId, codefAccount.id, {
+        where: {accountId: codefAccount.id, isSleep: false},
+        itemsPerPage: 0,
+        sync: true,
+    });
     const [checkedCards, setCheckedCards] = useState<CodefCardDto[]>([]);
 
-    const getCards = debounce((accountId: number) => {
-        search({
-            where: {accountId, isSleep: false},
-            sync: true,
-            itemsPerPage: 0,
-        }).catch(errorToast);
-    }, 500);
-
     useEffect(() => {
-        getCards(codefAccount.id);
-    }, [codefAccount]);
+        if (error) errorToast(error as any);
+    }, [error]);
 
     useUnmount(() => reset());
 
-    const notConnectedCards = result.items.filter((card) => !card.creditCardId);
-    const connectedCards = result.items.filter((card) => card.creditCardId);
+    const notConnectedCards = data.items.filter((card) => !card.creditCardId);
+    const connectedCards = data.items.filter((card) => card.creditCardId);
 
     return (
         <div className="flex flex-col items-stretch h-full -mx-6">
@@ -63,7 +63,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
             </div>
 
             <div className="flex-1 overflow-y-auto hide-scrollbar px-6">
-                <LoadableBox isLoading={isLoading} noPadding>
+                <LoadableBox isLoading={isFetching} noPadding>
                     {!!notConnectedCards.length && (
                         <ConnectableCardListSection
                             cardCompany={cardCompany}
@@ -88,7 +88,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
                 </LoadableBox>
             </div>
 
-            {!isLoading && (
+            {!isFetching && (
                 <div className="pb-4 mt-[-1rem] pt-[1rem] bg-[linear-gradient(to_bottom,_transparent,_white_25%,_white)] sticky bottom-0 px-6">
                     {notConnectedCards.length ? (
                         <CreateCreditCardButton checkedCards={checkedCards} onSubmit={onSubmit} />
