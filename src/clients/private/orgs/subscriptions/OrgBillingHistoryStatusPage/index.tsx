@@ -12,18 +12,37 @@ interface ViewModeRef {
     search: (keyword?: string) => void;
 }
 
+export enum WideMode {
+    Narrow,
+    Wide,
+    WideHideColumn,
+}
+
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const monthlyRef = useRef<ViewModeRef>(null);
     const yearlyRef = useRef<ViewModeRef>(null);
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
+    const [wideMode, setWideMode] = useState(WideMode.Narrow);
 
     useEffect(() => {
         if (viewUnit === BillingCycleOptions.Yearly) setFocusYear(undefined);
     }, [viewUnit]);
 
+    useEffect(() => {
+        const changeWideMode = (e: KeyboardEvent) => {
+            if (e.shiftKey && e.key === 'Escape') {
+                setWideMode((v) => (v + 1) % 3);
+            }
+        };
+
+        window.addEventListener('keyup', changeWideMode);
+        return () => window.removeEventListener('keyup', changeWideMode);
+    }, []);
+
     return (
         <ListPage
+            containerFluid={!!wideMode}
             onReady={getMetaData}
             breadcrumb={['구독', {text: '결제현황', active: true}]}
             titleText="결제현황"
@@ -57,7 +76,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
         >
             {viewUnit === BillingCycleOptions.Monthly ? (
                 focusYear ? (
-                    <BillingHistoryMonthly ref={monthlyRef} focusYear={focusYear} />
+                    <BillingHistoryMonthly ref={monthlyRef} focusYear={focusYear} wideMode={wideMode} />
                 ) : (
                     <div></div>
                 )
