@@ -39,6 +39,12 @@ export const codefAccountApi = {
         return api.patch(url, dto).then(oneDtoOf(UpdateAccountResponseDto));
     },
 
+    /** 계정 삭제 */
+    destroy(orgId: number, accountId: number) {
+        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}`;
+        return api.delete(url);
+    },
+
     /** 코드에프 카드 조회 (보유카드 조회) - 계정의 카드 조회 */
     findCards<Dto = CodefCardDto, Query = FindAllCardQueryDto>(
         orgId: number,

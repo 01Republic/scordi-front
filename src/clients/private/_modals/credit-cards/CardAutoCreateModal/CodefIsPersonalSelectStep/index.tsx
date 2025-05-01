@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
-import {ChevronLeft} from 'lucide-react';
 import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
 
 interface CodefIsPersonalSelectStepProps {

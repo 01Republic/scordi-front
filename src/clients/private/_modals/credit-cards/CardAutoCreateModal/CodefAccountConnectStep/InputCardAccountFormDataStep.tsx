@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
+import {ReactNodeElement} from '^types/global.type';
 import {OutLink} from '^components/OutLink';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {ChevronLeft} from 'lucide-react';
 import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
 
 interface InputCardAccountFormDataStepProps {
@@ -13,10 +13,12 @@ interface InputCardAccountFormDataStepProps {
     onSubmit: (dto: CreateAccountRequestDto) => any;
     isLoading: boolean;
     errorMessages: string[];
+    caption?: ReactNodeElement;
+    ctaText?: string;
 }
 
 export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDataStepProps) => {
-    const {cardCompany, onBack} = props;
+    const {cardCompany, onBack, caption, ctaText = ''} = props;
     const {form, onSubmit, isLoading, errorMessages} = props;
 
     // Ref: NewCodefCardAccountPage.tsx
@@ -27,7 +29,9 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
                 <div className="mb-4">
                     <ModalLeftBackButton onClick={onBack} />
                 </div>
-                <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
+                <p className="font-medium text-12 text-scordi mb-1">
+                    {caption || `${cardCompany.displayName}에서 등록하기`}
+                </p>
                 <h3 className="font-bold text-xl leading-tight">
                     카드사의 로그인 계정을 <br /> 입력해주세요.
                 </h3>
@@ -83,12 +87,12 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
             <div className="py-4 mt-auto">
                 <button
                     type="submit"
-                    disabled={form.watch('id') === '' || form.watch('password') === '' || isLoading}
+                    disabled={!(form.watch('id') && form.watch('password'))}
                     className={`btn btn-block btn-scordi ${
-                        isLoading ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
-                    } disabled:border-gray-300 no-animation btn-animation`}
+                        isLoading ? 'opacity-30 pointer-events-none' : ''
+                    } disabled:btn-disabled2 no-animation btn-animation`}
                 >
-                    불러오기
+                    {ctaText || '불러오기'}
                 </button>
             </div>
         </form>

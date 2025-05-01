@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CardCompanyItem} from '^models/CodefAccount/components';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
-import {ChevronLeft} from 'lucide-react';
 import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
 
 interface CodefCardCompanySelectStepProps {

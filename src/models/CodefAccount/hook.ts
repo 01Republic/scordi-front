@@ -1,12 +1,12 @@
+import {useState} from 'react';
+import {useQueryClient} from '@tanstack/react-query';
+import {Paginated} from '^types/utils/paginated.dto';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {codefAccountApi} from './api';
 import {codefAccountsAlreadyIs, codefAccountsInConnector} from './atom';
 import {CodefAccountDto} from './type/CodefAccountDto';
 import {FindAllAccountQueryDto} from './type/find-all-account.query.dto';
-import {useState} from 'react';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {Paginated} from '^types/utils/paginated.dto';
-import useSyncMutation from '^utils/useSyncMutation';
 
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사 계정 리스트를 보여줄 때 사용 */
 export const useCodefAccountsInConnector = () => useCodefAccountsV3(codefAccountsInConnector);
@@ -17,8 +17,8 @@ export const useCodefAccountsAlreadyIs = () => useCodefAccountsV3(codefAccountsA
 export const useCodefAccountsAlreadyIs2 = (orgId: number) => {
     const queryClient = useQueryClient();
     const [query, setQuery] = useState<FindAllAccountQueryDto>();
-    const _search = (params: FindAllAccountQueryDto) => {
-        return queryClient.fetchQuery({
+    const _search = (params: FindAllAccountQueryDto): Promise<Paginated<CodefAccountDto>> => {
+        return queryClient.fetchQuery<Paginated<CodefAccountDto>>({
             queryKey: ['codefAccountsAlreadyIs2', orgId, params],
             queryFn: () => codefAccountApi.index(orgId, params).then((res) => res.data),
             initialData: Paginated.init(),
@@ -30,6 +30,16 @@ export const useCodefAccountsAlreadyIs2 = (orgId: number) => {
         return _search(params);
     };
 
+    const searchByCompany = (cardCompany: CardAccountsStaticData, params: FindAllAccountQueryDto = {}) =>
+        search({
+            ...params,
+            where: {
+                ...params.where,
+                organization: cardCompany.param,
+                clientType: cardCompany.clientType,
+            },
+        });
+
     const reload = async () => {
         if (!query) return;
         return _search(query);
@@ -37,6 +47,7 @@ export const useCodefAccountsAlreadyIs2 = (orgId: number) => {
 
     return {
         search,
+        searchByCompany,
         reload,
     };
 };
@@ -52,3 +63,4 @@ const useCodefAccountsV3 = (atoms: PagedResourceAtoms<CodefAccountDto, FindAllAc
 
 export * from './hooks/useCreateCodefAccount';
 export * from './hooks/useCodefAccountsAdmin';
+export * from './hooks/fetchCodefCardsByAccountInSafe';

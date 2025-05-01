@@ -1,17 +1,12 @@
-import {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
+import {FadeUp} from '^components/FadeUp';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useCreateCodefAccount} from '^models/CodefAccount/hooks/useCreateCodefAccount';
-import {toast} from 'react-hot-toast';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {FadeUp} from '^components/FadeUp';
-import {ConnectableCardSelect} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
-import {InputCardAccountFormDataStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep/InputCardAccountFormDataStep';
-import {debounce} from 'lodash';
+import {CodefAccountFetchCardsResult} from '^models/CodefAccount/hook';
+import {ConnectableCardSelect} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep/ConnectableCardSelect';
+import {CodefAccountConnectStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep';
 
 interface ConnectCodefAccountModalProps extends ModalProps {
     cardCompany: CardAccountsStaticData;
@@ -20,39 +15,19 @@ interface ConnectCodefAccountModalProps extends ModalProps {
     onMergeSubmit?: (codefCard: CodefCardDto) => any;
 }
 
+/**
+ * 코드에프 계정연결모달
+ * 수동등록된 카드에 대한 계정연결을 위하여 사용합니다.
+ */
 export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
     const {isOpened, onClose, cardCompany, onSubmit, onMergeSubmit} = props;
-    const [isPreChecked, setIsPreChecked] = useState(false);
-    const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
-    const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
-    const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount(orgId);
+    const [codefAccountFetchCardsResults, setCodefAccountFetchCardsResults] =
+        useState<CodefAccountFetchCardsResult[]>();
 
     const close = () => {
-        setCodefAccount(undefined);
+        setCodefAccountFetchCardsResults(undefined);
         onClose();
     };
-
-    const setAccount = (codefAccount?: CodefAccountDto) => {
-        setCodefAccount(codefAccount);
-        codefAccount && setCodefAccountId(codefAccount.id);
-    };
-
-    const loginIfAccountExist = debounce(() => {
-        checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
-            if (existedAccount) {
-                toast.success(`${existedAccount.company}에 로그인했어요`);
-            }
-            setAccount(existedAccount);
-            setIsPreChecked(true);
-        });
-    }, 500);
-
-    useEffect(() => {
-        if (!isOpened) return;
-        if (!cardCompany?.param) return;
-        loginIfAccountExist();
-    }, [isOpened, cardCompany.param]);
 
     return (
         <SlideUpModal
@@ -61,40 +36,37 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
             size="md"
             minHeight="min-h-screen sm:min-h-[90%]"
             maxHeight="max-h-screen sm:max-h-[90%]"
-            modalClassName="rounded-none sm:rounded-t-box flex flex-col items-stretch"
+            modalClassName="rounded-none sm:rounded-t-box !pb-0"
         >
-            {isPreChecked && !codefAccount && (
-                <InputCardAccountFormDataStep
-                    cardCompany={cardCompany}
-                    form={form}
-                    onBack={() => {
-                        setAccount(undefined);
-                        onClose();
-                    }}
-                    onSubmit={(dto) => {
-                        createAccount(orgId, cardCompany, dto, (createdAccount) => {
-                            toast.success(`${createdAccount.company}에 안전하게 연결되었어요 :)`);
-                            setAccount(createdAccount);
-                        });
-                    }}
-                    isLoading={isLoading}
-                    errorMessages={errorMessages}
-                />
-            )}
+            <div className="absolute inset-0 px-6 pt-6">
+                {/* 만약 선택된 카드사에 계정이 없으면 로그인 폼을 띄워준다. */}
+                {isOpened &&
+                    cardCompany &&
+                    (!codefAccountFetchCardsResults || codefAccountFetchCardsResults.length <= 0) && (
+                        <CodefAccountConnectStep
+                            onBack={() => close()}
+                            cardCompany={cardCompany}
+                            setAccountFetchCardsResults={setCodefAccountFetchCardsResults}
+                        />
+                    )}
 
-            <FadeUp show={!!codefAccount} delay="delay-[50ms]" className="flex-grow flex flex-col items-stretch">
-                {codefAccount && (
-                    <ConnectableCardSelect
-                        cardCompany={cardCompany}
-                        codefAccount={codefAccount}
-                        onBack={() => {
-                            setAccount(undefined);
-                        }}
-                        onSubmit={onSubmit}
-                        onMergeSubmit={onMergeSubmit}
-                    />
-                )}
-            </FadeUp>
+                {/* 연결할 카드 선택 스텝 */}
+                <FadeUp
+                    show={codefAccountFetchCardsResults && codefAccountFetchCardsResults.length > 0}
+                    className="h-full"
+                >
+                    {codefAccountFetchCardsResults && codefAccountFetchCardsResults.length > 0 && (
+                        <ConnectableCardSelect
+                            cardCompany={cardCompany}
+                            codefAccountFetchCardsResults={codefAccountFetchCardsResults}
+                            setCodefAccountFetchCardsResults={setCodefAccountFetchCardsResults}
+                            onBack={() => close()}
+                            onSubmit={onSubmit}
+                            onMergeSubmit={onMergeSubmit}
+                        />
+                    )}
+                </FadeUp>
+            </div>
         </SlideUpModal>
     );
 });

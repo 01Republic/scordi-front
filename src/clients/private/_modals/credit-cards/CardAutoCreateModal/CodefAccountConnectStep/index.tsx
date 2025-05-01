@@ -1,19 +1,22 @@
 import {memo, useEffect, useState} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useCreateCodefAccount} from '^models/CodefAccount/hooks/useCreateCodefAccount';
-import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {FadeUp} from '^components/FadeUp';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {useCreateCodefAccount} from '^models/CodefAccount/hooks/useCreateCodefAccount';
+import {
+    CodefAccountFetchCardsResult,
+    useCodefAccountFetchCardsResult,
+    useCodefAccountsAlreadyIs2,
+} from '^models/CodefAccount/hook';
+import {allFulfilled} from '^utils/array';
 import {CardAccountCheckLoginStep} from './CardAccountCheckLoginStep';
 import {InputCardAccountFormDataStep} from './InputCardAccountFormDataStep';
-import {debounce} from 'lodash';
 
 interface CodefAccountConnectStepProps {
     onBack: () => any;
     cardCompany: CardAccountsStaticData;
-    setAccount: (codefAccount: CodefAccountDto) => any;
+    setAccountFetchCardsResults: (codefAccountFetchCardsResults?: CodefAccountFetchCardsResult[]) => any;
 }
 
 enum AccountConnectStep {
@@ -21,43 +24,43 @@ enum AccountConnectStep {
     accountForm,
 }
 
+/**
+ * 코드에프 / 카드사 로그인으로 카드 등록하기 > 카드사 로그인 단계
+ * 코드에프를 통해 카드를 신규등록할때 사용합니다.
+ */
 export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps) => {
-    const {onBack, cardCompany, setAccount} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-    const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
-    const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount(orgId);
+    const {onBack, cardCompany, setAccountFetchCardsResults} = props;
+    const orgId = useOrgIdParam();
+    const {searchByCompany: checkExists} = useCodefAccountsAlreadyIs2(orgId);
+    const {form, createAccount, isLoading, errorMessages} = useCreateCodefAccount(orgId);
     const [step, setStep] = useState(AccountConnectStep.checkLogin);
+    const {fetch: fetchCardsQuery} = useCodefAccountFetchCardsResult();
 
-    const callback = debounce((existedAccount?: CodefAccountDto) => {
-        if (existedAccount) {
-            toast.success(`${existedAccount.company}에 다시 로그인 할게요.`);
-            setCodefAccountId(existedAccount.id);
-            setAccount(existedAccount);
-        } else {
-            setCodefAccountId(NaN);
-            setStep(AccountConnectStep.accountForm);
-        }
-    }, 500);
-
-    const loginIfAccountExist = () => {
+    const loginIfAccountExist = async () => {
         try {
-            checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => callback(existedAccount)).catch(
-                (e) => {
-                    console.log('e', e);
-                    setCodefAccountId(NaN);
-                    setStep(AccountConnectStep.accountForm);
-                },
-            );
+            // 계정이 존재하는지 확인하고,
+            const result = await checkExists(cardCompany);
+
+            // 조회된 계정이 없으면,
+            if (result.pagination.totalItemCount === 0) {
+                // 로그인 폼으로 이동.
+                setStep(AccountConnectStep.accountForm);
+                return;
+            }
+
+            // 조회된 계정이 있으면,
+            // 정상적으로 이용가능한 상태인지 검증을 진행하고,
+            const queries = result.items.map(fetchCardsQuery);
+            const results = await allFulfilled(queries);
+            setAccountFetchCardsResults(results);
         } catch {
-            setCodefAccountId(NaN);
             setStep(AccountConnectStep.accountForm);
         }
     };
 
     useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
         loginIfAccountExist();
-    }, [orgId]);
+    }, []);
 
     return (
         <>
@@ -70,10 +73,10 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
                     form={form}
                     onBack={onBack}
                     onSubmit={(dto) => {
-                        createAccount(orgId, cardCompany, dto, (createdAccount) => {
+                        createAccount(orgId, cardCompany, dto, async (createdAccount) => {
+                            const result = await fetchCardsQuery(createdAccount);
                             toast.success(`${createdAccount.company}에 안전하게 로그인했어요.`);
-                            setCodefAccountId(createdAccount.id);
-                            setAccount(createdAccount);
+                            setAccountFetchCardsResults([result]);
                         });
                     }}
                     isLoading={isLoading}
