@@ -32,4 +32,10 @@ export const teamMembershipApi = {
         const url = `/organizations/${orgId}/team-memberships`;
         return api.delete(url, {params});
     },
+
+    // 팀과 팀멤버의 연결 삭제 (다건실행)
+    destroyAll(orgId: number, params: FindOneTeamMembershipQueryDto[]) {
+        const url = `/organizations/${orgId}/team-memberships/all`;
+        return api.delete(url, {params});
+    },
 };

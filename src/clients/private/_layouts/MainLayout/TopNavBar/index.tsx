@@ -1,24 +1,24 @@
-import {MembershipDto, MembershipLevel} from '^models/Membership/types';
+import {useRecoilValue} from 'recoil';
+import {memo} from 'react';
+import {useRouter} from 'next/router';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {currentUserAtom, getMembership} from '^models/User/atom';
+import {ActiveRoute} from '^types/pageRoute.type';
+import {TopNavBarItem} from './TopNavBarItem';
+import {TopNavBarDropdownItem} from './TopNavBarDropdownItem';
+import {TopNavBarDropdownContent} from './TopNavBarDropdownContent';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
+import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
+import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
+import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {OrgReviewUncategoriedPageRoute} from '^pages/orgs/[id]/reviewUncategorized';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
-import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
-import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
-import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
-import {ActiveRoute} from '^types/pageRoute.type';
-import {BarChart4, CircleHelp, CreditCard, LayoutDashboard, Mail, MessagesSquare, User, Users} from 'lucide-react';
-import {useRouter} from 'next/router';
-import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {TopNavBarDropdownContent} from './TopNavBarDropdownContent';
-import {TopNavBarDropdownItem} from './TopNavBarDropdownItem';
-import {TopNavBarItem} from './TopNavBarItem';
+import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
+import {MembershipDto, MembershipLevel} from '^models/Membership/types';
+import {BarChart4, CreditCard, CircleHelp,LayoutGrid, Mail, MessagesSquare, User, Users} from 'lucide-react';
 
 interface TopNavBarProps {
     //
@@ -36,7 +36,7 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
     {
         name: '구독',
         items: [
-            {name: '구독리스트', Icon: LayoutDashboard, routeProps: OrgSubscriptionListPageRoute},
+            {name: '구독리스트', Icon: LayoutGrid, routeProps: OrgSubscriptionListPageRoute},
             {name: '결제현황', Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
         ],
     },

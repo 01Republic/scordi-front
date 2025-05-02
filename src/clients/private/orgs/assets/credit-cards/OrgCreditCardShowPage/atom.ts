@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosResponse} from 'axios';
 import {plainToInstance} from 'class-transformer';
 import {padStart} from 'lodash';
@@ -16,6 +16,7 @@ import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {pick} from '^types/utils/one-of-list.type';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 export const creditCardSubjectAtom = atom<CreditCardDto | null>({
     key: 'OrgCreditCardShowPage/creditCardSubjectAtom',
@@ -218,4 +219,17 @@ export const useCurrentCreditCardSync = () => {
     };
 
     return {startSync, isSyncRunning, onFinish, currentCodefCard};
+};
+
+export const useCreditCardUpdate = (orgId: number, id: number) => {
+    const {reload} = useCurrentCreditCard();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: UpdateCreditCardDto) => creditCardApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: (creditCard) => {
+            reload();
+            queryClient.setQueryData(['page/subject', 'creditCards', 'detail', id], creditCard);
+            queryClient.invalidateQueries({queryKey: ['page/subject', 'creditCards', 'list']});
+        },
+    });
 };

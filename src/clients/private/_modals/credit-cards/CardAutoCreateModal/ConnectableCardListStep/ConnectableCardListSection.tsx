@@ -7,22 +7,27 @@ interface ConnectableCardListSectionProps {
     cardCompany: CardAccountsStaticData;
     codefCards: CodefCardDto[];
     checkedCards: CodefCardDto[];
-    setCheckedCards: Dispatch<SetStateAction<CodefCardDto[]>>;
+    setCheckedCards?: Dispatch<SetStateAction<CodefCardDto[]>>;
+    onClick?: (codefCard: CodefCardDto) => any;
+    avatarHidden?: boolean;
 }
 
 export const ConnectableCardListSection = memo((props: ConnectableCardListSectionProps) => {
-    const {cardCompany, codefCards, checkedCards, setCheckedCards} = props;
+    const {cardCompany, codefCards, checkedCards, setCheckedCards, onClick, avatarHidden = false} = props;
 
     const isChecked = (codefCard: CodefCardDto) => checkedCards.map((c) => c.id).includes(codefCard.id);
     const toggle = (codefCard: CodefCardDto) => {
-        setCheckedCards((list) => {
-            const exist = list.map((c) => c.id).includes(codefCard.id);
-            if (exist) {
-                return list.filter((c) => c.id !== codefCard.id);
-            } else {
-                return [...list, codefCard];
-            }
-        });
+        if (setCheckedCards) {
+            setCheckedCards((list) => {
+                const exist = list.map((c) => c.id).includes(codefCard.id);
+                if (exist) {
+                    return list.filter((c) => c.id !== codefCard.id);
+                } else {
+                    return [...list, codefCard];
+                }
+            });
+        }
+        onClick && onClick(codefCard);
     };
 
     return (
@@ -34,6 +39,7 @@ export const ConnectableCardListSection = memo((props: ConnectableCardListSectio
                     codefCard={codefCard}
                     onClick={toggle}
                     checked={isChecked(codefCard)}
+                    avatarHidden={avatarHidden}
                 />
             ))}
         </div>

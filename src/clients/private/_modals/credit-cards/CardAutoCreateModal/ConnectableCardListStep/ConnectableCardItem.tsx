@@ -11,10 +11,11 @@ interface ConnectableCardItemProps {
     onClick?: (codefCard: CodefCardDto) => any;
     onMerge?: (codefCard: CodefCardDto) => any;
     checked?: boolean;
+    avatarHidden?: boolean;
 }
 
 export const ConnectableCardItem = memo((props: ConnectableCardItemProps) => {
-    const {cardCompany, codefCard, onClick, onMerge, checked} = props;
+    const {cardCompany, codefCard, onClick, onMerge, checked, avatarHidden = false} = props;
     const ref = useRef(null);
 
     const isConnected = !!codefCard.creditCardId;
@@ -48,9 +49,16 @@ export const ConnectableCardItem = memo((props: ConnectableCardItemProps) => {
                 />
             )}
             <div className="flex items-center gap-2">
-                <div>
-                    <img src={cardCompany.logo} alt={codefCard.resCardName} className="avatar w-8 h-8" loading="lazy" />
-                </div>
+                {!avatarHidden && (
+                    <div>
+                        <img
+                            src={cardCompany.logo}
+                            alt={codefCard.resCardName}
+                            className="avatar w-8 h-8"
+                            loading="lazy"
+                        />
+                    </div>
+                )}
 
                 <div>
                     <p className="text-14 font-medium leading-none mb-0.5">{codefCard.resCardName}</p>
