@@ -15,6 +15,9 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 import {RecoilState, useRecoilValue} from 'recoil';
 import {codefAccountApi} from '^models/CodefAccount/api';
+import {useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {Paginated} from '^types/utils/paginated.dto';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -56,6 +59,15 @@ export const useNewCodefCards = (codefAccountIdAtom: RecoilState<number>) => {
     return useCodefCardsOfAccount(codefAccountIdAtom, newCodefCardsAtom);
 };
 
+export const useNewCodefCards2 = (
+    orgId: number,
+    accountId: number,
+    params?: FindAllCardQueryDto,
+    options?: {
+        onError?: (e: any) => any;
+    },
+) => useCodefCardsOfAccount2('newCodefCards', orgId, accountId, params, options);
+
 export const useConnectedCodefCards = (codefAccountIdAtom: RecoilState<number>) => {
     return useCodefCardsOfAccount(codefAccountIdAtom, connectedCodefCardsAtom);
 };
@@ -74,6 +86,33 @@ const useCodefCardsOfAccount = <DTO = CodefCardDto, QUERY = FindAllCardQueryDto>
         mergeMode,
     });
 };
+
+function useCodefCardsOfAccount2(
+    name: string,
+    orgId: number,
+    accountId: number,
+    params?: FindAllCardQueryDto,
+    options?: {
+        onError?: (e: any) => any;
+    },
+) {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [name, orgId, accountId, params],
+        queryFn: () => codefAccountApi.findCards(orgId, accountId, params).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId && !!accountId,
+        retry: 0,
+    });
+
+    const reset = () => setQuery(undefined);
+
+    return {
+        query,
+        ...queryResult,
+        reset,
+    };
+}
 
 export const useSubscriptionsForCodefAccount = (codefAccountIdAtom: RecoilState<number>) => {
     return useSubscriptionsOfCodefAccount(codefAccountIdAtom, subscriptionsForAccountAtom);
