@@ -23,7 +23,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     const yearlyRef = useRef<ViewModeRef>(null);
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
-    const [wideMode, setWideMode] = useState(WideMode.Narrow);
+    const [wideMode, setWideMode] = useState(WideMode.WideHideColumn);
 
     useEffect(() => {
         if (viewUnit === BillingCycleOptions.Yearly) setFocusYear(undefined);
@@ -31,7 +31,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
 
     useEffect(() => {
         const changeWideMode = (e: KeyboardEvent) => {
-            if (e.shiftKey && e.key === 'Escape') {
+            if (e.altKey && e.key === 'Escape') {
                 setWideMode((v) => (v + 1) % 3);
             }
         };
