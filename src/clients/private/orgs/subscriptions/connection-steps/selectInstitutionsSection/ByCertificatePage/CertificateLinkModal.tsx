@@ -16,25 +16,25 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
         <BasicModal open={isOpen} onClose={onClose}>
             <div className="modal-box screen-sm flex flex-col p-8 relative gap-5">
                 <section className="flex items-center justify-between">
-                    <span className="text-20 font-bold text-neutralColor-900">공동인증서로 연동</span>
-                    <X onClick={onClose} className="size-6 text-neutralColor-700 hover:text-gray-200 cursor-pointer" />
+                    <span className="text-20 font-bold text-gray-900">공동인증서로 연동</span>
+                    <X onClick={onClose} className="size-6 text-gray-700 hover:text-gray-200 cursor-pointer" />
                 </section>
                 <section className="flex flex-col gap-5">
-                    <span className="text-neutralColor-800 text-16 font-normal">저장매체</span>
-                    <div className="flex justify-between gap-4 text-neutralColor-700 font-semibold">
-                        <button className="w-full flex flex-col gap-2 items-center justify-center border border-neutralColor-500 py-5 rounded-lg hover:text-neutralColor-900 hover:bg-primaryColor-bg hover:border-primaryColor-900">
+                    <span className="text-gray-800 text-16 font-normal">저장매체</span>
+                    <div className="flex justify-between gap-4 text-gray-700 font-semibold">
+                        <button className="w-full flex flex-col gap-2 items-center justify-center border border-gray-500 py-5 rounded-lg hover:text-gray-900 hover:bg-primaryColor-bg hover:border-primaryColor-900">
                             <LaptopMinimal className="size-16" />
                             <span>하드 디스크</span>
                         </button>
-                        <button className="w-full flex flex-col gap-2 items-center justify-center border border-neutralColor-500 py-5 rounded-lg hover:text-neutralColor-900 hover:bg-primaryColor-bg hover:border-primaryColor-900">
+                        <button className="w-full flex flex-col gap-2 items-center justify-center border border-gray-500 py-5 rounded-lg hover:text-gray-900 hover:bg-primaryColor-bg hover:border-primaryColor-900">
                             <Usb className="size-14" />
                             <span>이동식 디스크</span>
                         </button>
                     </div>
                 </section>
                 <section className="flex flex-col gap-3">
-                    <span className="text-neutralColor-800 text-16 font-normal">인증서 선택</span>
-                    <span className="text-neutralColor-700 text-14 font-normal">
+                    <span className="text-gray-800 text-16 font-normal">인증서 선택</span>
+                    <span className="text-gray-700 text-14 font-normal">
                         (인증서 위치: C:\Users\사용자\AppData\LocalLow\NPKI)
                     </span>
                     <div className="card bg-white border rounded-md">
@@ -63,11 +63,11 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                     </div>
                 </section>
                 <section className="flex flex-col gap-2">
-                    <span className="text-neutralColor-800 text-16 font-normal">인증서 비밀번호</span>
+                    <span className="text-gray-800 text-16 font-normal">인증서 비밀번호</span>
                     <input
                         type="text"
                         placeholder="비밀번호를 입력해주세요."
-                        className="p-4 border border-neutralColor-500 rounded-lg text-14 placeholder-neutralColor-600 placeholder-text-14"
+                        className="p-4 border border-gray-500 rounded-lg text-14 placeholder-gray-600 placeholder-text-14"
                     />
                 </section>
             </div>

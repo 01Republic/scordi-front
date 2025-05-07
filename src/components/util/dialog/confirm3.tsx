@@ -47,7 +47,7 @@ function styled(
     options.customClass ||= {};
     return confirmBase.fire({
         // @ts-ignore
-        title: title && <h4 className="text-20 font-bold text-grayColor-900 text-left">{title}</h4>,
+        title: title && <h4 className="text-20 font-bold text-gray-900 text-left">{title}</h4>,
         // @ts-ignore
         html: html && <div className="text-left whitespace-pre-wrap mb-3">{html}</div>,
         icon,

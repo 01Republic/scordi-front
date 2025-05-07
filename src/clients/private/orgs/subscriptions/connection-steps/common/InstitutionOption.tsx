@@ -28,7 +28,7 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                 {
                     'border border-scordi bg-scordi-50': isSelected,
                     'border border-white bg-white': !isSelected,
-                    '!border !border-grayColor-500 !bg-grayColor-300': isAllSelected && isDisabled,
+                    '!border !border-gray-500 !bg-gray-300': isAllSelected && isDisabled,
                 },
             )}
         >
@@ -39,9 +39,7 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="text-neutral-900 text-16 font-semibold whitespace-nowrap">{title}</span>
-                    {isDisabled && (
-                        <span className="text-12 font-normal text-neutralColor-700">홈페이지 로그인 필요</span>
-                    )}
+                    {isDisabled && <span className="text-12 font-normal text-gray-700">홈페이지 로그인 필요</span>}
 
                     {connect && (
                         <div

@@ -70,12 +70,6 @@ export const codefAccountApi = {
         const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/subscriptions`;
         return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
     },
-
-    /* 연결된 계정 삭제 */
-    destroy(orgId: number, accountId: number) {
-        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}`;
-        return api.delete(url);
-    },
 };
 
 export const codefAccountAdminApi = {

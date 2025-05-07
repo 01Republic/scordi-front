@@ -1,5 +1,3 @@
-import {memo} from 'react';
-import PushPin from '^images/pushpin.png';
 import {memo, useState} from 'react';
 import PushPin from '/src/images/pushpin.png';
 import {useOrgIdParam} from '^atoms/common';

@@ -28,7 +28,7 @@ export const ConnectedItem = memo((props: ConnectionSuccessItemSelectProps) => {
                 ) : (
                     icon
                 )}
-                <div className="flex gap-1 text-grayColor-800 text-sm">
+                <div className="flex gap-1 text-gray-800 text-sm">
                     <span>{mainText}</span>
                     {subText.length > 0 && <span>({subText})</span>}
                 </div>

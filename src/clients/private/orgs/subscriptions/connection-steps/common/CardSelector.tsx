@@ -68,7 +68,7 @@ export const CardSelector = memo(() => {
 
         const isConfirmed = await confirm3(
             '기관 연동을 해제할까요?',
-            <span className="text-16 text-grayColor-800 font-normal">
+            <span className="text-16 text-gray-800 font-normal">
                 "{institution}"에 연결된 모든 카드를 함께 연동 해제할까요?
                 <br />
                 <br />
@@ -100,19 +100,17 @@ export const CardSelector = memo(() => {
                     const isConnected = !!connectedAccount;
 
                     return (
-                        <>
-                            <InstitutionOption
-                                key={card.param}
-                                logo={card.logo}
-                                title={card.displayName}
-                                connect={isConnected}
-                                isSelected={selectedCards.some((b) => b.param === card.param)}
-                                isAllSelected={isAllSelected}
-                                isDisabled={disabledCardParams.includes(card.param)}
-                                onClick={() => handleSelectCard(card)}
-                                onDisconnect={() => onDisconnect(card.displayName, connectedAccount?.id)}
-                            />
-                        </>
+                        <InstitutionOption
+                            key={card.param}
+                            logo={card.logo}
+                            title={card.displayName}
+                            connect={isConnected}
+                            isSelected={selectedCards.some((staticData) => staticData.param === card.param)}
+                            isAllSelected={isAllSelected}
+                            isDisabled={disabledCardParams.includes(card.param)}
+                            onClick={() => handleSelectCard(card)}
+                            onDisconnect={() => onDisconnect(card.displayName, connectedAccount?.id)}
+                        />
                     );
                 })}
             </div>

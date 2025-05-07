@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
 import Image from 'next/image';
 import Tippy from '@tippyjs/react';
-import excelIcon from 'src/images/icon/excelIcon.png';
+import excelIcon from '^images/icon/excelIcon.png';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BillingHistoryTableTitle} from './BillingHistoryTableTitle';
-import excelIcon from '^images/icon/excelIcon.png';
 import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
 import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 

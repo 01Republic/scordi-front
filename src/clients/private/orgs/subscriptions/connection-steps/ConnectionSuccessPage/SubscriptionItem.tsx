@@ -16,7 +16,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                     {logo ? (
                         <NextImage src={logo} alt={title} width={40} height={40} />
                     ) : (
-                        <CircleHelp className="size-10 text-grayColor-600" />
+                        <CircleHelp className="size-10 text-gray-600" />
                     )}
                 </div>
                 <div className="flex items-center justify-between">

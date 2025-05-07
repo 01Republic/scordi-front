@@ -42,7 +42,7 @@ export const SuccessCreditCardSection = memo((props: ConnectionSuccessAccountSec
     return (
         <section className="flex flex-col gap-5 ">
             <div className="flex items-center justify-between">
-                <span className="text-xl text-grayColor-900 font-semibold">계좌</span>
+                <span className="text-xl text-gray-900 font-semibold">계좌</span>
 
                 {creditCards.length > 1 && (
                     <button
