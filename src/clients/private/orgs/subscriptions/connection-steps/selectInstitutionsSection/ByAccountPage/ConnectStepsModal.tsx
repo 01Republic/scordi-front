@@ -14,6 +14,7 @@ import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CodefAccountConnectStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep';
 import {ConnectableCardListStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
 import {CardCreatingStep} from '^clients/private/_modals/credit-cards/CardManualCreateModal/CardCreatingStep';
+import {CodefAccountFetchCardsResult} from '^models/CodefAccount/hooks/fetchCodefCardsByAccountInSafe';
 
 enum AccountStep {
     accountConnect,
@@ -36,16 +37,18 @@ export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const setSuccessCodefCards = useSetRecoilState(subscriptionConnectedCodefCardsAtom);
     const [step, setStep] = useState<AccountStep | undefined>(AccountStep.accountConnect);
-    const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
+    const [codefAccountFetchCardsResults, setCodefAccountFetchCardsResults] =
+        useState<CodefAccountFetchCardsResult[]>();
 
     const onClose = () => {
         setIsConnectStepsModalOpen(false);
         setCardCompany(undefined);
+        setCodefAccountFetchCardsResults(undefined);
     };
 
-    const setAccount = (codefAccount?: CodefAccountDto) => {
-        setCodefAccount(codefAccount);
-        codefAccount ? setStep(AccountStep.cardSelect) : setStep(AccountStep.accountConnect);
+    const setAccountFetchCardsResults = (accountFetchCardsResults?: CodefAccountFetchCardsResult[]) => {
+        setCodefAccountFetchCardsResults(accountFetchCardsResults);
+        accountFetchCardsResults ? setStep(AccountStep.cardSelect) : setStep(AccountStep.accountConnect);
     };
 
     const onSubmit = async (checkedCards: CodefCardDto[]) => {
@@ -80,30 +83,37 @@ export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
             maxHeight="max-h-screen sm:max-h-[90%]"
             modalClassName="rounded-none sm:rounded-t-box !pb-0"
         >
-            <FadeUp show={step === AccountStep.accountConnect} delay="deloy-[50ms]" className="h-full">
-                {step === AccountStep.accountConnect && cardCompany && (
-                    <CodefAccountConnectStep onBack={onClose} cardCompany={cardCompany} setAccount={setAccount} />
-                )}
-            </FadeUp>
+            <div className="absolute inset-0 px-6 pt-6">
+                <FadeUp show={step === AccountStep.accountConnect} delay="deloy-[50ms]" className="h-full">
+                    {cardCompany && (
+                        <CodefAccountConnectStep
+                            onBack={onClose}
+                            cardCompany={cardCompany}
+                            setAccountFetchCardsResults={setAccountFetchCardsResults}
+                        />
+                    )}
+                </FadeUp>
 
-            <FadeUp
-                show={cardCompany && codefAccount && step === AccountStep.cardSelect}
-                delay="deloy-[50ms]"
-                className="h-full"
-            >
-                {cardCompany && codefAccount && (
-                    <ConnectableCardListStep
-                        onBack={() => setStep(AccountStep.accountConnect)}
-                        cardCompany={cardCompany}
-                        codefAccount={codefAccount}
-                        onSubmit={onSubmit}
-                    />
-                )}
-            </FadeUp>
+                <FadeUp
+                    show={cardCompany && codefAccountFetchCardsResults && step === AccountStep.cardSelect}
+                    delay="deloy-[50ms]"
+                    className="h-full"
+                >
+                    {cardCompany && codefAccountFetchCardsResults && (
+                        <ConnectableCardListStep
+                            onBack={() => setStep(AccountStep.accountConnect)}
+                            cardCompany={cardCompany}
+                            codefAccountFetchCardsResults={codefAccountFetchCardsResults}
+                            setCodefAccountFetchCardsResults={setCodefAccountFetchCardsResults}
+                            onSubmit={onSubmit}
+                        />
+                    )}
+                </FadeUp>
 
-            <FadeUp show={step === AccountStep.creating} delay="delay-[50ms]">
-                <CardCreatingStep />
-            </FadeUp>
+                <FadeUp show={step === AccountStep.creating} delay="delay-[50ms]">
+                    <CardCreatingStep />
+                </FadeUp>
+            </div>
         </SlideUpModal>
     );
 });
