@@ -1,8 +1,7 @@
 import React, {memo, useState} from 'react';
 import {debounce} from 'lodash';
-import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
@@ -14,6 +13,7 @@ import {ConnectableCardListStep} from './ConnectableCardListStep';
 import {FadeUp} from '^components/FadeUp';
 import {CodefIsPersonalSelectStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefIsPersonalSelectStep';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
+import {CodefAccountFetchCardsResult} from '^models/CodefAccount/hooks/fetchCodefCardsByAccountInSafe';
 
 interface CardAutoCreateModalProps {
     isOpened: boolean;
@@ -31,16 +31,17 @@ enum Step {
 
 export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
     const {isOpened, onClose, onCreate} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [step, setStep] = useState(Step.isPersonalSelect);
     const [codefClientType, setCodefClientType] = useState(CodefCustomerType.Personal);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
-    const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
+    const [codefAccountFetchCardsResults, setCodefAccountFetchCardsResults] =
+        useState<CodefAccountFetchCardsResult[]>();
 
     const close = () => {
         setCodefClientType(CodefCustomerType.Personal);
         setCompany(undefined);
-        setCodefAccount(undefined);
+        setCodefAccountFetchCardsResults(undefined);
         onClose();
     };
 
@@ -54,9 +55,9 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
         cardCompanyData ? setStep(Step.accountConnect) : setClientType(undefined);
     };
 
-    const setAccount = (codefAccount?: CodefAccountDto) => {
-        setCodefAccount(codefAccount);
-        codefAccount ? setStep(Step.cardSelect) : setCompany(undefined);
+    const setAccountFetchCardsResults = (accountFetchCardsResults?: CodefAccountFetchCardsResult[]) => {
+        setCodefAccountFetchCardsResults(accountFetchCardsResults);
+        accountFetchCardsResults ? setStep(Step.cardSelect) : setCompany(undefined);
     };
 
     const onSubmit = debounce(async (checkedCards: CodefCardDto[]) => {
@@ -80,6 +81,7 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
             modalClassName="rounded-none sm:rounded-t-box !pb-0"
         >
             <div className="absolute inset-0 px-6 pt-6">
+                {/* 개인/법인 선택 스텝 */}
                 {step === Step.isPersonalSelect && (
                     <CodefIsPersonalSelectStep
                         onBack={onClose}
@@ -88,7 +90,8 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
                     />
                 )}
 
-                <FadeUp show={step === Step.companySelect} delay="deloy-[50ms]" className="h-full">
+                {/* 기관 선택 스텝 */}
+                <FadeUp show={step === Step.companySelect} className="h-full">
                     {codefClientType && (
                         <CodefCardCompanySelectStep
                             codefClientType={codefClientType}
@@ -98,26 +101,28 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
                     )}
                 </FadeUp>
 
-                <FadeUp show={cardCompany && step === Step.accountConnect} delay="deloy-[50ms]" className="h-full">
+                {/* 로그인 스텝 */}
+                <FadeUp show={cardCompany && step === Step.accountConnect} className="h-full">
                     {cardCompany && (
                         <CodefAccountConnectStep
                             onBack={() => setCompany(undefined)}
                             cardCompany={cardCompany}
-                            setAccount={setAccount}
+                            setAccountFetchCardsResults={setAccountFetchCardsResults}
                         />
                     )}
                 </FadeUp>
 
+                {/* 연결할 카드 선택 스텝 */}
                 <FadeUp
-                    show={cardCompany && codefAccount && step === Step.cardSelect}
-                    delay="deloy-[50ms]"
+                    show={cardCompany && codefAccountFetchCardsResults && step === Step.cardSelect}
                     className="h-full"
                 >
-                    {cardCompany && codefAccount && (
+                    {cardCompany && codefAccountFetchCardsResults && (
                         <ConnectableCardListStep
                             onBack={() => setCompany(undefined)}
                             cardCompany={cardCompany}
-                            codefAccount={codefAccount}
+                            codefAccountFetchCardsResults={codefAccountFetchCardsResults}
+                            setCodefAccountFetchCardsResults={setCodefAccountFetchCardsResults}
                             onSubmit={onSubmit}
                         />
                     )}

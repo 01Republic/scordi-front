@@ -2,13 +2,25 @@ import React, {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 
-type TeamMemberTableHeaderProps = ListTableHeaderProps;
+interface TeamMemberTableHeaderProps extends ListTableHeaderProps {
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
+}
 
 export const TeamMembersTableHeader = memo((props: TeamMemberTableHeaderProps) => {
-    const {orderBy} = props;
+    const {isChecked, onCheck, orderBy} = props;
 
     return (
         <tr className="bg-slate-100">
+            <th className="flex items-center justify-center pl-3 pr-1 !relative">
+                <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                    defaultChecked={isChecked}
+                    onChange={(e) => onCheck && onCheck(e.target.checked)}
+                />
+            </th>
+
             <SortableTH sortKey="[teamMember][name]" onClick={orderBy}>
                 이름
             </SortableTH>

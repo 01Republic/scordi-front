@@ -1,9 +1,9 @@
 import React, {memo, useEffect, useState} from 'react';
-import {CreditCardDto} from '^models/CreditCard/type';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardCompanySelectModal} from '../../../CardCompanySelectModal';
 import {ConnectCodefAccountModal} from './ConnectCodefAccountModal';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 
 // 카드사 연결을 통한 자동등록의 스텝
 enum Step {

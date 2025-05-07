@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
-import {ChevronLeft} from 'lucide-react';
+import {ModalLeftBackButton} from '^clients/private/_modals/_common/ModalLeftBackButton';
 
 interface CodefIsPersonalSelectStepProps {
     defaultValue: CodefCustomerType;
@@ -16,7 +16,7 @@ export const CodefIsPersonalSelectStep = memo((props: CodefIsPersonalSelectStepP
         <div className="h-full flex flex-col items-stretch">
             <div>
                 <div className="mb-4">
-                    <ChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                    <ModalLeftBackButton onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">새로운 카드 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight mb-3">어떤 사업자 형태이신가요?</h3>
