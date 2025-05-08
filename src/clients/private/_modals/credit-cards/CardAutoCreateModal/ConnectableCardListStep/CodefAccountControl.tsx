@@ -75,7 +75,7 @@ export const CodefAccountControl = memo((props: CodefAccountControlProps) => {
                                         hide();
                                     }}
                                 >
-                                    수정
+                                    계정 갱신하기
                                 </MoreDropdown.MenuItem>
                                 <MoreDropdown.MenuItem
                                     onClick={() => {
@@ -83,7 +83,7 @@ export const CodefAccountControl = memo((props: CodefAccountControlProps) => {
                                         destroy();
                                     }}
                                 >
-                                    삭제
+                                    계정 삭제하기
                                 </MoreDropdown.MenuItem>
                             </MoreDropdown.Content>
                         );
