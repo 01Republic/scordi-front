@@ -37,12 +37,12 @@ export const AssetCreateMethodSelect = memo(() => {
                     <AssetAgreeTermSection />
                 </section>
                 {/* 동의 받기 */}
-                <section className="flex flex-col gap-4 w-full mt-5">
+                <section className="flex flex-col gap-2 w-full mt-5">
                     <button
                         type="button"
                         className={cn('btn btn-block', {
                             'btn-scordi': isEnabled,
-                            'bg-neutral-100 text-neutral-300 pointer-events-none': !isEnabled,
+                            'btn-disabled2': !isEnabled,
                         })}
                         onClick={() => (!isEnabled ? undefined : setValue('loginType', CodefLoginType.Certificate))}
                     >
@@ -50,7 +50,7 @@ export const AssetCreateMethodSelect = memo(() => {
                     </button>
                     <button
                         type="button"
-                        className="btn btn-block bg-gray-200 text-gray-500"
+                        className="btn btn-block btn-secondary"
                         onClick={() => setValue('loginType', CodefLoginType.IdAccount)}
                     >
                         홈페이지 로그인으로 개별 연동

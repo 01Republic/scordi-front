@@ -11,12 +11,8 @@ export const SubscriptionPricingPageButton = memo(() => {
     const pricingPageUrl = subscription.product.pricingPageUrl;
 
     return (
-        <LinkTo
-            className="btn btn-square !bg-white border border-slate-300 rounded-md hover:border-slate-400 hover:shadow transition-all mb-1"
-            href={pricingPageUrl}
-            target="_blank"
-        >
-            <SquareArrowOutUpRight fontSize={20} />
+        <LinkTo className="btn btn-header-action" href={pricingPageUrl} target="_blank">
+            <SquareArrowOutUpRight fontSize={18} />
         </LinkTo>
     );
 });
