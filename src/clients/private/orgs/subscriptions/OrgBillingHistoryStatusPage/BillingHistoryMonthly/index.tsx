@@ -53,10 +53,9 @@ export const BillingHistoryMonthly = memo(
                 return;
             }
 
-            const regex = new RegExp(keyword, 'i');
-
             const result = histories.filter((his) => {
-                return regex.test(his.subscription.product.name());
+                const productName = his.subscription.product.name();
+                return productName.toLowerCase().includes(keyword.toLowerCase());
             });
             setFilteredHistories(result);
         };
