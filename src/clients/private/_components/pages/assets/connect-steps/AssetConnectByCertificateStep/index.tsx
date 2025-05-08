@@ -2,16 +2,16 @@ import {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import LoadingScreen from '../../common/LoadingScreen';
-import {StatusHeader} from '../../common/StatusHeader';
-import {BusinessTypeSelector} from '../../common/BusinessTypeSelector';
-import {BankSelector} from '../../common/BankSelector';
-import {CardSelector} from '../../common/CardSelector';
-import {NextStepButton} from '../../common/NextStepButton';
+import LoadingScreen from '../common/LoadingScreen';
+import {StatusHeader} from '../common/StatusHeader';
+import {BusinessTypeSelector} from '../common/BusinessTypeSelector';
+import {BankSelector} from '../common/BankSelector';
+import {CardCompaniesSelector} from '../common/CardCompaniesSelector';
+import {NextStepButton} from '../common/NextStepButton';
 import {CertificateLinkModal} from './CertificateLinkModal';
 import {CertificateSetupModal} from './CertificateSetupModal';
 
-export const ByCertificatePage = memo(() => {
+export const AssetConnectByCertificateStep = memo(() => {
     const {reset, watch} = useFormContext<CreateAccountRequestDto>();
     const [isCertificateLinkModalOpen, setCertificateLinkModalOpen] = useState(false);
     const [isCertificateSetupModalOpen, setCertificateSetupModalOpen] = useState(false);
@@ -43,15 +43,18 @@ export const ByCertificatePage = memo(() => {
                 </div>
 
                 <BankSelector />
-                <CardSelector />
+                <CardCompaniesSelector />
+
                 <section className="w-full flex items-center justify-center">
                     <NextStepButton onClick={onClick} />
                 </section>
             </article>
+
             <CertificateLinkModal
                 isOpen={isCertificateLinkModalOpen}
                 onClose={() => setCertificateLinkModalOpen(false)}
             />
+
             <CertificateSetupModal
                 isOpen={isCertificateSetupModalOpen}
                 onClose={() => setCertificateSetupModalOpen(false)}

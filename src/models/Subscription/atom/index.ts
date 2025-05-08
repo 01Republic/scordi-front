@@ -155,9 +155,3 @@ export const subscriptionListOfProductDetailForAdminAtom = pagedResourceAtom<
 >({
     key: 'Admin/ProductDetail/SubscriptionListAtom',
 });
-
-//구독 불러오기 - 스코디 카드를 생성한 codefCards 담기
-export const subscriptionConnectedCodefCardsAtom = atom<CodefCardDto[]>({
-    key: 'subscriptionConnectedCodefCardsAtom',
-    default: [],
-});

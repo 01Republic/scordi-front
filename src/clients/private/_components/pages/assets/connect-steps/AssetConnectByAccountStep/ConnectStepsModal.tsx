@@ -1,20 +1,17 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useContext, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {allFulfilled} from '^utils/array';
 import {codefCardApi} from '^models/CodefCard/api';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {subscriptionConnectedCodefCardsAtom} from '^models/Subscription/atom';
-import {OrgSubscriptionConnectionSuccessPageRoute} from '^pages/orgs/[id]/subscriptions/connection/success';
 import {FadeUp} from '^components/FadeUp';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CodefAccountConnectStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep';
 import {ConnectableCardListStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
 import {CardCreatingStep} from '^clients/private/_modals/credit-cards/CardManualCreateModal/CardCreatingStep';
 import {CodefAccountFetchCardsResult} from '^models/CodefAccount/hooks/fetchCodefCardsByAccountInSafe';
+import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 
 enum AccountStep {
     accountConnect,
@@ -31,11 +28,12 @@ interface ConnectStepsModalProps {
 }
 
 export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
+    const {onSuccessfullyCreatedByAccount} = useContext(AssetConnectOptionContext);
     const {cardCompany, setCardCompany, isConnectStepsModalOpen, setIsConnectStepsModalOpen} = props;
 
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
-    const setSuccessCodefCards = useSetRecoilState(subscriptionConnectedCodefCardsAtom);
+    const orgId = useOrgIdParam();
+
     const [step, setStep] = useState<AccountStep | undefined>(AccountStep.accountConnect);
     const [codefAccountFetchCardsResults, setCodefAccountFetchCardsResults] =
         useState<CodefAccountFetchCardsResult[]>();
@@ -51,8 +49,8 @@ export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
         accountFetchCardsResults ? setStep(AccountStep.cardSelect) : setStep(AccountStep.accountConnect);
     };
 
+    // 코드에프에서 불러온 카드를 스코디에 등록(연결)
     const onSubmit = async (checkedCards: CodefCardDto[]) => {
-        if (!orgId || isNaN(orgId)) return;
         if (!checkedCards.length) return;
 
         setStep(AccountStep.creating);
@@ -60,14 +58,11 @@ export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
         await allFulfilled(checkedCards.map((codefCard) => codefCardApi.createCreditCard(orgId, codefCard.id)))
             .then((res) => {
                 const codefCards = res.map((res) => res.data);
-                setSuccessCodefCards(codefCards);
+                onSuccessfullyCreatedByAccount(codefCards);
             })
             .then(() => {
                 setStep(undefined);
                 setCardCompany(undefined);
-            })
-            .finally(() => {
-                router.push(OrgSubscriptionConnectionSuccessPageRoute.path(orgId));
             })
             .catch(() => {
                 setStep(AccountStep.accountConnect);

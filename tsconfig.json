@@ -26,6 +26,7 @@
             "^components/*": ["./src/components/*"],
             "^v3/*": ["./src/components/pages/v3/*"],
             "^clients/*": ["./src/clients/*"],
+            "^_components/*": ["./src/clients/private/_components/*"],
             "^tasting/*": ["./src/clients/public/home/LandingPages/TastingPage/*"],
             "^admin/*": ["./src/clients/admin/*"],
             "^atoms/*": ["./src/atoms/*"],

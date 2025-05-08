@@ -1,0 +1,102 @@
+import React, {memo, useContext, useMemo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {useFormContext} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {orgIdParamState, useOrgIdParam} from '^atoms/common';
+import {useCodefAccount} from '^models/CodefCard/hook';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {ConnectStepsModal} from '../AssetConnectByAccountStep/ConnectStepsModal';
+import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
+import {InstitutionOption} from './InstitutionOption';
+import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
+import {confirmed} from '^components/util/dialog';
+import {errorToast} from '^api/api';
+
+// 홈페이지계정 > 카드사 한개 선택
+export const CardCompanySelector = memo(() => {
+    const orgId = useOrgIdParam();
+    const {} = useContext(AssetConnectOptionContext);
+    const form = useFormContext<CreateAccountRequestDto>();
+    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount();
+    const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
+    const [isConnectStepsModalOpen, setIsConnectStepsModalOpen] = useState(false);
+
+    const clientType = form.getValues('clientType') || CodefCustomerType.Business;
+
+    const {
+        data: {items: codefAccounts},
+    } = useCodefAccountsInConnector(orgId, {
+        where: {loginType: CodefLoginType.IdAccount},
+        sync: true,
+        itemsPerPage: 0,
+    });
+
+    const companies = CardAccountsStaticData.findByClientType(clientType);
+
+    const onClick = (company: CardAccountsStaticData) => {
+        // 홈페이지 로그인 방식으로 진입한 경우, 카드사는 하나만 선택해야 함.
+        // 선택시 연동모달 즉시 구동.
+        setCardCompany(company);
+        setIsConnectStepsModalOpen(true);
+        return;
+    };
+
+    const onDisconnect = async (companyName: string, accountId?: number) => {
+        if (!accountId) return;
+
+        const disconnectConfirm = () =>
+            confirm3(
+                '기관 연동을 해제할까요?',
+                <span className="text-16 text-gray-800 font-normal">
+                    "{companyName}"에 연결된 모든 카드를 함께 연동 해제할까요?
+                    <br />
+                    <br />
+                    기관 연동을 해제하면 연결된 내역도 더이상 가져올 수 없어요. <br />
+                    그래도 해제할까요?
+                </span>,
+            );
+
+        confirmed(disconnectConfirm())
+            .then(() => removeCodefAccount({orgId, accountId}))
+            .then(() => toast.success('연결을 해제했어요.'))
+            .catch(errorToast);
+    };
+
+    return (
+        <section className="flex flex-col gap-6">
+            <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-neutral-900">카드</h2>
+            </div>
+
+            <div className="grid grid-cols-5 gap-4">
+                {companies.map((company) => {
+                    const connectedAccount = codefAccounts.find((account) => account.company === company.displayName);
+
+                    return (
+                        <InstitutionOption
+                            key={company.param}
+                            logo={company.logo}
+                            title={company.displayName}
+                            connect={!!connectedAccount}
+                            onClick={() => onClick(company)}
+                            onDisconnect={() => onDisconnect(company.displayName, connectedAccount?.id)}
+                        />
+                    );
+                })}
+            </div>
+
+            {/* 로그인/비밀번호로 연동하는 경우 모달을 이용해 연결 */}
+            {cardCompany && (
+                <ConnectStepsModal
+                    cardCompany={cardCompany}
+                    setCardCompany={setCardCompany}
+                    isConnectStepsModalOpen={isConnectStepsModalOpen}
+                    setIsConnectStepsModalOpen={setIsConnectStepsModalOpen}
+                />
+            )}
+        </section>
+    );
+});

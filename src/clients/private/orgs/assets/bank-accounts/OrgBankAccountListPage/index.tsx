@@ -11,6 +11,7 @@ import {BankAccountTableHeader} from './BankAccountTableHeader';
 import {AddBankAccountDropdown} from './AddBankAccountDropdown';
 import {BankAccountScopeHandler} from './BankAccountScopeHandler';
 import {AddBankAccountModal} from './AddBankAccountModal/AddBankAccountModal';
+import {AddAssetDropdown} from '^clients/private/orgs/assets/create-steps/AddAssetDropdown';
 
 export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -51,7 +52,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => <AddBankAccountDropdown reload={refresh} />}
+            Buttons={() => <AddAssetDropdown />}
             ScopeHandler={<BankAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}

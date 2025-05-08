@@ -1,30 +1,35 @@
 import {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {errorToast} from '^api/api';
+import {useOrgIdParam} from '^atoms/common';
+import {useRecoilValue} from 'recoil';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {allFulfilled} from '^utils/array';
-import {orgIdParamState} from '^atoms/common';
 import {codefCardApi} from '^models/CodefCard/api';
 import {subscriptionApi} from '^models/Subscription/api';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {subscriptionConnectedCodefCardsAtom} from '^models/Subscription/atom';
-import {LottieNoSSR} from '^components/LottieNoSSR';
+import {errorToast} from '^api/api';
+import LoadingScreen from '^_components/pages/assets/connect-steps/common/LoadingScreen';
+import {ConnectionSubscriptionList} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectionSubscriptionList';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import LoadingScreen from '../common/LoadingScreen';
-import {StatusHeader} from '../common/StatusHeader';
-import {NextStepButton} from '../common/NextStepButton';
-import {SuccessCreditCardSection} from './SuccessCreditCardSection';
-import {ConnectionSubscriptionList} from './ConnectionSubscriptionList';
+import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
+import {LottieNoSSR} from '^components/LottieNoSSR';
+import {SuccessCreditCardSection} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/SuccessCreditCardSection';
+import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
+import {subscriptionConnectedCodefCardsAtom} from '^models/CodefCard/atom';
 
-export const ConnectionSuccessPage = memo(() => {
+// TODO: 스코디 카드 연동이 전부 실패된 경우, 자산 완료 페이지에 페이지 플래시만 뜨게 될 텐데 이를 어쩌나.
+// TODO: 자산 연동 성공 실패 여부 전달.
+//       자산 연동 요청에 allFulfilled 를 사용중. -> 요청실패를 취급 할 수 있나. -> 없지.
+//       그러면 기획된 바 대로 실패된건 플래시를 띄워줄 수 있나 -> 없지.
+//       => 이를 어쩌나.
+export const OrgSubscriptionConnectionSuccessPage = memo(function OrgSubscriptionConnectionSuccessPage() {
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
-    const successCodefCards = useRecoilValue(subscriptionConnectedCodefCardsAtom);
+    const orgId = useOrgIdParam();
+    const processedCodefCards = useRecoilValue(subscriptionConnectedCodefCardsAtom);
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
     const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isSyncCodefCard, setIsSyncCodefCard] = useState(false);
+    const [isSyncedCodefCard, setIsSyncedCodefCard] = useState(false);
 
     const onSync = async () => {
         setIsLoading(true);
@@ -43,7 +48,7 @@ export const ConnectionSuccessPage = memo(() => {
                 const connectionSubscriptions = res.flatMap((subscription) => subscription.data.items);
                 setSubscriptions(connectionSubscriptions);
             })
-            .catch((error) => errorToast(error));
+            .catch(errorToast);
     };
 
     if (isLoading)
@@ -51,12 +56,12 @@ export const ConnectionSuccessPage = memo(() => {
             <LoadingScreen
                 onComplete={() => {
                     setIsLoading(false);
-                    setIsSyncCodefCard(true);
+                    setIsSyncedCodefCard(true);
                 }}
             />
         );
 
-    if (isSyncCodefCard) return <ConnectionSubscriptionList subscriptions={subscriptions} />;
+    if (isSyncedCodefCard) return <ConnectionSubscriptionList subscriptions={subscriptions} />;
 
     return (
         <PureLayout>
@@ -74,9 +79,9 @@ export const ConnectionSuccessPage = memo(() => {
                     }
                     onClick={() => router.back()}
                 />
-                {successCodefCards.length > 0 && (
+                {processedCodefCards.length > 0 && (
                     <SuccessCreditCardSection
-                        successCodefCards={successCodefCards}
+                        processedCodefCards={processedCodefCards}
                         selectedCodefCards={selectedCodefCards}
                         setSelectedCodefCards={setSelectedCodefCards}
                     />

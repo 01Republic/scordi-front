@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {RecoilState, useRecoilValue} from 'recoil';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
@@ -20,6 +20,10 @@ import {
     subscriptionsForAccountAtom,
     subscriptionsForCardAtom,
 } from '^models/CodefCard/atom';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {confirmed} from '^components/util/dialog';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -148,16 +152,17 @@ export const useCodefAccount = () => {
             queryKey: ['codefAccount', orgId, params],
             queryFn: () => codefAccountApi.index(orgId!, params).then((res) => res.data),
             enabled: !!orgId && !isNaN(orgId),
+            initialData: Paginated.init(),
         });
     };
 
     // codef 연결된 계정 삭제
-    const {mutate: useCodefAccountRemove} = useMutation<boolean, ErrorResponse, {orgId: number; accountId: number}>({
+    const {mutate: removeCodefAccount} = useMutation<boolean, ErrorResponse, {orgId: number; accountId: number}>({
         mutationFn: ({orgId, accountId}) => codefAccountApi.destroy(orgId, accountId).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['codefAccount']});
         },
     });
 
-    return {useCodefAccountsInConnector, useCodefAccountRemove};
+    return {useCodefAccountsInConnector, removeCodefAccount};
 };

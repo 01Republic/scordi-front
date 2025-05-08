@@ -7,7 +7,7 @@ interface InstitutionOptionProps {
     logo: string;
     title: string;
     connect?: boolean;
-    isSelected: boolean;
+    isSelected?: boolean;
     isAllSelected?: boolean;
     isDisabled?: boolean;
     onClick: () => void;
@@ -15,7 +15,7 @@ interface InstitutionOptionProps {
 }
 
 export const InstitutionOption = memo((props: InstitutionOptionProps) => {
-    const {logo, title, connect = false, isSelected, isDisabled, isAllSelected, onClick, onDisconnect} = props;
+    const {logo, title, connect = false, isSelected = false, isDisabled, isAllSelected, onClick, onDisconnect} = props;
 
     const [isHover, setIsHover] = useState(false);
 
@@ -47,7 +47,7 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                             onMouseLeave={() => setIsHover(false)}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onDisconnect?.();
+                                if (onDisconnect) onDisconnect();
                             }}
                             className={cn(
                                 'flex gap-1 py-0.5 px-1.5 rounded-sm text-12 font-normal text-neutral-800 whitespace-nowrap items-center justify-center',

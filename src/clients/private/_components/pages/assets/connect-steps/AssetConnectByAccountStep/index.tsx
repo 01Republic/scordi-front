@@ -2,11 +2,11 @@ import {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {StatusHeader} from '../../common/StatusHeader';
-import {BusinessTypeSelector} from '../../common/BusinessTypeSelector';
-import {CardSelector} from '../../common/CardSelector';
+import {StatusHeader} from '../common/StatusHeader';
+import {BusinessTypeSelector} from '../common/BusinessTypeSelector';
+import {CardCompanySelector} from '../common/CardCompanySelector';
 
-export const ByAccountPage = memo(() => {
+export const AssetConnectByAccountStep = memo(() => {
     const {reset} = useFormContext<CreateAccountRequestDto>();
 
     return (
@@ -20,7 +20,8 @@ export const ByAccountPage = memo(() => {
                     />
                     <BusinessTypeSelector />
                 </div>
-                <CardSelector />
+
+                <CardCompanySelector />
             </article>
         </PureLayout>
     );

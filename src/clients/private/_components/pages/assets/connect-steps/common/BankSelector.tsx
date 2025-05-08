@@ -1,10 +1,10 @@
 import {memo, useState} from 'react';
-import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {InstitutionOption} from '^clients/private/orgs/subscriptions/connection-steps/common/InstitutionOption';
-import {AllSelectInstitutionOptions} from '^clients/private/orgs/subscriptions/connection-steps/common/AllSelectInstitutionOptions';
 import {useFormContext} from 'react-hook-form';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
+import {InstitutionOption} from './InstitutionOption';
+import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
 
 interface BankSelectorProps {}
 
