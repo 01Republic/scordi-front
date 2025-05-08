@@ -119,10 +119,10 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                             className={cn(
                                 'btn btn-sm',
                                 disabled
-                                    ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                    ? 'btn-disabled2'
                                     : isCodeSent && !isCodeConfirmed
                                     ? 'btn-white'
-                                    : 'btn-scordi text-white',
+                                    : 'btn-scordi',
                             )}
                         >
                             <p className="whitespace-nowrap">
