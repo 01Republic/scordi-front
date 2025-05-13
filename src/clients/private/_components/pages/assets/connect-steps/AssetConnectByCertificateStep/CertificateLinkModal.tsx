@@ -1,7 +1,10 @@
-import {memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {X, LaptopMinimal, Usb} from 'lucide-react';
+import {codefCertificate} from '^lib/codef/certificate/main';
+import {CertFileDto} from '^lib/codef/certificate/cert-file.dto';
 import {Table} from '^v3/share/table/Table';
 import {BasicModal} from '^components/modals/_shared/BasicModal';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface CertificateLinkModalProps {
     isOpen: boolean;
@@ -11,6 +14,48 @@ interface CertificateLinkModalProps {
 
 export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
     const {isOpen, onClose, onCreate} = props;
+    const [certList, setCertList] = useState<CertFileDto[]>([]);
+
+    useEffect(() => {
+        if (isOpen) showDialog();
+    }, [isOpen]);
+
+    function showDialog() {
+        // $('#cert-copy-modal').modal('show'); // 인증서 다이얼로그 활성화
+        //
+        // $('#tab-export').click();
+        // certExportInit(); // 인증서 내보내기 초기화
+        //
+        // selectDevice(); // 저장매체 선택
+        // // fn_OnLoadExtraDrive();
+        //
+        // fn_OnLoadCertification('');
+        codefCertificate.fn_OnLoadCertification('').then(setCertList);
+    }
+    console.log('certList', certList);
+
+    // [인증서 내보내기] 초기화
+    function certExportInit() {
+        initCertPassword(); // 탭 활성화 초기화
+
+        // $('.tab-content .tab-pane').removeClass('active');
+        // $('.nav .nav-link').removeClass('active'); // 첫번째탭 활성화
+        //
+        // $('.tab-content .tab-pane').eq(0).addClass('active');
+        // $('.nav .nav-link').eq(0).addClass('active');
+        // $('#cert').show();
+        // $('#cert-export-select').show();
+        // $('#cert-save-path').hide();
+    }
+
+    // [인증서 내보내기] 패스워드 입력 레이아웃 초기화
+    function initCertPassword() {
+        // $('#tab-export').removeClass('disabled');
+        // $('.btn-group-toggle .btn').removeClass('disabled');
+        // $('.table').addClass('table-hover').removeClass('table-secondary');
+        // $('#input-cert-password').show();
+        // $('#input-cert-number').hide();
+    }
 
     return (
         <BasicModal open={isOpen} onClose={onClose}>
@@ -49,15 +94,19 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                                 </tr>
                             </thead>
                             <tbody className="[--rounded-box:0.375rem]">
-                                <tr className="group cursor-pointer">
-                                    <td className="group-hover:bg-primaryColor-bg flex justify-center items-center pr-0">
-                                        <input type="radio" className="w-5 h-5 m-1" />
-                                    </td>
-                                    <td className="group-hover:bg-primaryColor-bg">은행 개인</td>
-                                    <td className="group-hover:bg-primaryColor-bg">김규리</td>
-                                    <td className="group-hover:bg-primaryColor-bg">2026-02-13</td>
-                                    <td className="group-hover:bg-primaryColor-bg">금융결제원</td>
-                                </tr>
+                                {certList.map((cert, i) => (
+                                    <tr key={i} className="group cursor-pointer">
+                                        <td className="group-hover:bg-primaryColor-bg flex justify-center items-center pr-0">
+                                            <input type="radio" className="w-5 h-5 m-1" />
+                                        </td>
+                                        <td className="group-hover:bg-primaryColor-bg">{cert.useType}</td>
+                                        <td className="group-hover:bg-primaryColor-bg">{cert.userName}</td>
+                                        <td className="group-hover:bg-primaryColor-bg">
+                                            {yyyy_mm_dd(cert.expireDate)}
+                                        </td>
+                                        <td className="group-hover:bg-primaryColor-bg">{cert.organization}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </Table>
                     </div>

@@ -1,5 +1,8 @@
 import {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
+import {codefCertificate} from '^lib/codef/certificate/main';
+import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
+import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import LoadingScreen from '../common/LoadingScreen';
@@ -17,9 +20,27 @@ export const AssetConnectByCertificateStep = memo(() => {
     const [isCertificateSetupModalOpen, setCertificateSetupModalOpen] = useState(false);
     const [isShowLoadingScreen, setIsShowLoadingScreen] = useState(false);
 
-    const onClick = () => {
-        // setCertificateLinkModalOpen(true);
-        setCertificateSetupModalOpen(true);
+    const onClick = async () => {
+        codefCertificate
+            .initialize()
+            .then(() => {
+                // 인증서 다이얼로그 활성화
+                setCertificateLinkModalOpen(true);
+            })
+            .catch((error: JsonpError) => {
+                switch (error.errorCode) {
+                    // 설치가 안되어 있는 사용자
+                    case InstallCheckErrorCode.NotInstalled:
+                        // 설치 모달 띄움
+                        return setCertificateSetupModalOpen(true);
+                    // 구버전 모듈이 설치 되어있는 사용자
+                    case InstallCheckErrorCode.VersionOver:
+                        // 설치 모달 띄움(?)
+                        return setCertificateSetupModalOpen(true);
+                    default:
+                        return console.log(error.name, error.message, error.errorCode);
+                }
+            });
     };
 
     // * TODO: LoadingScreen 수정 필요
@@ -50,14 +71,16 @@ export const AssetConnectByCertificateStep = memo(() => {
                 </section>
             </article>
 
-            <CertificateLinkModal
-                isOpen={isCertificateLinkModalOpen}
-                onClose={() => setCertificateLinkModalOpen(false)}
-            />
-
+            {/* 코드에프 공동인증서 프로그램 설치 모달 */}
             <CertificateSetupModal
                 isOpen={isCertificateSetupModalOpen}
                 onClose={() => setCertificateSetupModalOpen(false)}
+            />
+
+            {/* 인증서 선택 모달 */}
+            <CertificateLinkModal
+                isOpen={isCertificateLinkModalOpen}
+                onClose={() => setCertificateLinkModalOpen(false)}
             />
         </PureLayout>
     );

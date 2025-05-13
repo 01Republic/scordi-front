@@ -33,6 +33,7 @@
             "^pages/*": ["./src/pages/*"],
             "^api/*": ["./src/api/*"],
             "^models/*": ["./src/models/*"],
+            "^lib/*": ["./src/lib/*"],
             "^styles/*": ["./src/styles/*"],
             "^types/*": ["./src/types/*"]
         },
