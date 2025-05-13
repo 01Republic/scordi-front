@@ -1,16 +1,15 @@
 import {memo, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {CreateBankAccountRequestDto} from '^models/BankAccount/type';
+import {useRouter} from 'next/router';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CreateCreditCardDto} from '^models/CreditCard/type';
-import {MainLayout} from '^clients/private/_layouts/MainLayout';
-import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer';
 import {BusinessTypeSection} from '../common/BusinessTypeSection';
 import {BankSelectionSection} from './BankSelectionSection';
 import {CardSelectionSection} from './CardSelectionSection';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 
 export const OrgAssetCreateByManualPage = memo(() => {
+    const router = useRouter();
     const [isPersonal, setIsPersonal] = useState(false);
     const bankForm = useForm<CreateBankAccountRequestDto>();
     const cardForm = useForm<CreateCreditCardDto>();
@@ -18,10 +17,17 @@ export const OrgAssetCreateByManualPage = memo(() => {
     const [selectedCard, setSelectedCard] = useState<CardAccountsStaticData | null>(null);
 
     return (
-        <MainLayout>
-            <MainContainer>
+        <PureLayout>
+            <div className="w-full flex flex-col gap-20">
                 {!selectedCard && !selectedBank && (
-                    <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />
+                    <div className="flex flex-col gap-10">
+                        <StatusHeader
+                            title="어떤 자산을 연결할까요?"
+                            subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
+                            onClick={() => router.back()}
+                        />
+                        <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />
+                    </div>
                 )}
 
                 {!selectedCard && (
@@ -43,9 +49,7 @@ export const OrgAssetCreateByManualPage = memo(() => {
                         isPersonal={isPersonal}
                     />
                 )}
-            </MainContainer>
-        </MainLayout>
+            </div>
+        </PureLayout>
     );
 });
-
-OrgAssetCreateByManualPage.displayName = 'OrgAssetCreateByManualPage';
