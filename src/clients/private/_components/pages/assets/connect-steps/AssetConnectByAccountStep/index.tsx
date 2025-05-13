@@ -11,7 +11,7 @@ export const AssetConnectByAccountStep = memo(() => {
 
     return (
         <PureLayout>
-            <article className="w-full flex flex-col gap-20">
+            <div className="w-full flex flex-col gap-20">
                 <div className="flex flex-col gap-10">
                     <StatusHeader
                         title="어떤 자산을 연결할까요?"
@@ -22,7 +22,7 @@ export const AssetConnectByAccountStep = memo(() => {
                 </div>
 
                 <CardCompanySelector />
-            </article>
+            </div>
         </PureLayout>
     );
 });

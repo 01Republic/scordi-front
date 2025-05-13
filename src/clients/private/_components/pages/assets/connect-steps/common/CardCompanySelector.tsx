@@ -1,19 +1,17 @@
-import React, {memo, useContext, useMemo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {memo, useContext, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState, useOrgIdParam} from '^atoms/common';
+import {errorToast} from '^api/api';
+import {useOrgIdParam} from '^atoms/common';
 import {useCodefAccount} from '^models/CodefCard/hook';
+import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
-import {confirm3} from '^components/util/dialog/confirm3';
-import {ConnectStepsModal} from '../AssetConnectByAccountStep/ConnectStepsModal';
-import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
-import {InstitutionOption} from './InstitutionOption';
-import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 import {confirmed} from '^components/util/dialog';
-import {errorToast} from '^api/api';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
+import {ConnectStepsModal} from '../AssetConnectByAccountStep/ConnectStepsModal';
+import {InstitutionOption} from './InstitutionOption';
 
 // 홈페이지계정 > 카드사 한개 선택
 export const CardCompanySelector = memo(() => {
@@ -71,7 +69,7 @@ export const CardCompanySelector = memo(() => {
                 <h2 className="text-xl font-semibold text-neutral-900">카드</h2>
             </div>
 
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {companies.map((company) => {
                     const connectedAccount = codefAccounts.find((account) => account.company === company.displayName);
 
