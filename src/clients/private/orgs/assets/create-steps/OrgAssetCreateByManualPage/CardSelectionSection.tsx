@@ -109,20 +109,22 @@ export const CardSelectionSection = memo(function CardSelectionSection({ onSelec
     return (
         <section className="relative mb-20">
             {!selectedCard && (
-                <>
-                    <h2 className="leading-none text-xl font-semibold mb-4">카드</h2>
+                <section className="flex flex-col gap-6">
+                    <h2 className="text-xl font-semibold text-neutral-900">카드</h2>
+
                     <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {CardAccountsStaticData.findByPersonal(isPersonal).map((card, i) => (
-                            <div key={i}>
-                                <ConnectMethodCard
-                                    logo={card.logo}
-                                    title={card.displayName}
-                                    onClick={() => handleCardSelect(card)}
+                        {companies.map((company) => {
+                            return (
+                                <InstitutionOption
+                                    key={company.param}
+                                    logo={company.logo}
+                                    title={company.displayName}
+                                    onClick={() => handleCardSelect(company)}
                                 />
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
-                </>
+                </section>
             )}
 
             {onBack && selectedCard && (

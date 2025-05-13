@@ -66,20 +66,19 @@ export const BankSelectionSection = memo(function BankSelectionSection({ onSelec
     return (
         <section className="relative mb-20">
             {!selectedBank && (
-                <>
-                    <h2 className="leading-none text-xl font-semibold mb-4">은행</h2>
+                <section className="flex flex-col gap-6">
+                    <h2 className="text-xl font-semibold text-neutral-900">은행</h2>
                     <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {BankAccountsStaticData.findByPersonal(form.getValues('isPersonal') || false).map((bank, i) => (
-                            <div key={i}>
-                                <ConnectMethodCard
-                                    logo={bank.logo}
-                                    title={bank.displayName}
-                                    onClick={() => handleBankSelect(bank)}
-                                />
-                            </div>
+                        {companies.map((company) => (
+                            <InstitutionOption
+                                key={company.param}
+                                logo={company.logo}
+                                title={company.displayName}
+                                onClick={() => handleBankSelect(company)}
+                            />
                         ))}
                     </div>
-                </>
+                </section>
             )}
 
             {onBack && selectedBank && (
