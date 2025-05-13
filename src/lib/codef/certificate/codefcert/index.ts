@@ -18,6 +18,7 @@
 
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
 import {jsonp, JsonpError} from '../utils/jsonp';
+import {appEnv} from '^config/environments';
 
 // 브라우저 환경인지 확인하는 헬퍼 함수
 const isBrowser = typeof window !== 'undefined';
@@ -98,7 +99,7 @@ class CodefCert {
         this._timerInter = null;
         this._jobRunning = false;
         this._jobInfo = {};
-        this._show_log = true;
+        this._show_log = appEnv !== 'production';
         this._print_caller = true;
         this._disablePort = [];
         this._listener = {};
@@ -457,28 +458,13 @@ class CodefCert {
     /**
      * 외부 드라이브 정보 가져오기
      */
-    public engineGetExternalDrive(callback: CallbackFunction): void {
-        if (!this._connected) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false});
-                return;
-            }
-        }
-
-        if (!this._checkLicense) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false, ERROR_CODE: this._checkLicenseCode});
-                return;
-            }
-        }
+    engineGetExternalDrive(callback?: CallbackFunction): void {
+        if (!this._connected) return this._log({SUCCESS: false, ERROR_CODE: 'NOT_CONNECTED'});
+        if (!this._checkLicense) return this._log({SUCCESS: false, ERROR_CODE: this._checkLicenseCode});
 
         if (callback && typeof callback === 'function') {
-            if (!this._listener['codefcert_getExternalDrive']) {
-                this._listener['codefcert_getExternalDrive'] = [];
-            }
-
-            const listeners = this._listener['codefcert_getExternalDrive'] as Function[];
-            listeners.push(callback);
+            this._listener['codefcert_getExternalDrive'] ||= [] as Function[];
+            (this._listener['codefcert_getExternalDrive'] as Function[]).push(callback);
         }
 
         this._sendcommand('codefcert_getExternalDrive', '');
@@ -487,31 +473,16 @@ class CodefCert {
     /**
      * 디바이스 정보 가져오기
      */
-    public engineGetDevice(infoKey: string, callback: CallbackFunction): void {
-        if (!this._connected) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false});
-                return;
-            }
-        }
-
-        if (!this._checkLicense) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false, ERROR_CODE: this._checkLicenseCode});
-                return;
-            }
-        }
+    engineGetDevice(infoKey: string, callback?: CallbackFunction): void {
+        if (!this._connected) return this._log({SUCCESS: false, ERROR_CODE: 'NOT_CONNECTED'});
+        if (!this._checkLicense) return this._log({SUCCESS: false, ERROR_CODE: this._checkLicenseCode});
 
         if (infoKey) {
             const data: DeviceInfoData = {info: infoKey};
 
             if (callback && typeof callback == 'function') {
-                if (!this._listener['codefcert_getDeviceInfo']) {
-                    this._listener['codefcert_getDeviceInfo'] = [];
-                }
-
-                const listeners = this._listener['codefcert_getDeviceInfo'] as Function[];
-                listeners.push(callback);
+                this._listener['codefcert_getDeviceInfo'] ||= [] as Function[];
+                (this._listener['codefcert_getDeviceInfo'] as Function[]).push(callback);
             }
 
             this._sendcommand('codefcert_getDeviceInfo', data);
@@ -522,27 +493,12 @@ class CodefCert {
      * 인증서 내보내기 (Base64 형식)
      */
     public engineGetExportCertificationB64(data: any, callback: CallbackFunction): void {
-        if (!this._connected || !data) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false});
-                return;
-            }
-        }
-
-        if (!this._checkLicense) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false, ERROR_CODE: this._checkLicenseCode});
-                return;
-            }
-        }
+        if (!this._connected || !data) return callback({SUCCESS: false});
+        if (!this._checkLicense) return callback({SUCCESS: false, ERROR_CODE: this._checkLicenseCode});
 
         if (callback && typeof callback == 'function') {
-            if (!this._listener['codefcert_getExportCertificationB64']) {
-                this._listener['codefcert_getExportCertificationB64'] = [];
-            }
-
-            const listeners = this._listener['codefcert_getExportCertificationB64'] as Function[];
-            listeners.push(callback);
+            this._listener['codefcert_getExportCertificationB64'] ||= [] as Function[];
+            (this._listener['codefcert_getExportCertificationB64'] as Function[]).push(callback);
         }
 
         this._sendcommand('codefcert_getExportCertificationB64', data);
@@ -581,21 +537,12 @@ class CodefCert {
     /**
      * 라이센스 체크
      */
-    public engineCheckLicense(callback: CallbackFunction): void {
-        if (!this._connected) {
-            if (callback && typeof callback === 'function') {
-                callback({SUCCESS: false});
-            }
-            return;
-        }
+    engineCheckLicense(callback: CallbackFunction): void {
+        if (!this._connected) return this._log({SUCCESS: false, ERROR_CODE: 'NOT_CONNECTED'});
 
         if (callback && typeof callback === 'function') {
-            if (!this._listener['codefcert_checkLicense']) {
-                this._listener['codefcert_checkLicense'] = [];
-            }
-
-            const listeners = this._listener['codefcert_checkLicense'] as Function[];
-            listeners.push(callback);
+            this._listener['codefcert_checkLicense'] ||= [] as Function[];
+            (this._listener['codefcert_checkLicense'] as Function[]).push(callback);
         }
 
         this._sendcommand('codefcert_checkLicense', this.options);

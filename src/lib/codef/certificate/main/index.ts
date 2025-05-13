@@ -1,7 +1,8 @@
 import {codefCertificateApi} from '^models/CodefCeftificate/api';
-import {waitFor} from '^components/util/delay';
+import {delay, waitFor} from '^components/util/delay';
 import {CertFileDto} from '../cert-file.dto';
 import codefcert from '../codefcert';
+import {PFX_ERROR_CODE_DEFINE} from './errors';
 
 class CodefCertificate {
     private CODEF_TOKEN: string;
@@ -44,7 +45,7 @@ class CodefCertificate {
      */
     async fetchEncryptToken() {
         try {
-            const {token} = await codefCertificateApi.index();
+            const {token} = await codefCertificateApi.token();
             this.setToken(token);
             return token;
         } catch (error) {
@@ -74,9 +75,31 @@ class CodefCertificate {
             if (!isSuccess) throw new Error('엔진 초기화 실패');
 
             await waitFor(() => this.codefcert._connected && this.codefcert._checkLicense, 500, 20);
-            if (!this.codefcert._checkLicense) {
-                throw new Error(this.engineCheckFailMessage);
-            }
+            this._checkValidLicense();
+        });
+    }
+
+    /**
+     * 엔진 종료
+     */
+    async close(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            codefcert.finalization(() => {
+                waitFor(() => !codefcert._connected, 500, 20).then((result) => {
+                    codefcert._log('Engine close success');
+                    result ? resolve() : reject();
+                });
+            });
+        });
+    }
+
+    fetchDeviceInfo(driveLetter: string) {
+        codefcert._log('fetchDeviceInfo driveLetter :: ' + driveLetter);
+        return new Promise((resolve, reject) => {
+            codefcert.engineGetDevice(driveLetter, (deviceInfo: unknown) => {
+                codefcert._log('engineGetDevice :: ' + JSON.stringify(deviceInfo));
+                deviceInfo ? resolve(deviceInfo) : reject(deviceInfo);
+            });
         });
     }
 
@@ -96,6 +119,57 @@ class CodefCertificate {
                 // ecertDialog.displayCert(certList);
             });
         });
+    }
+
+    /**
+     * External 드라이브 리스트 listener
+     */
+    fn_OnLoadExtraDrive(): Promise<string[]> {
+        this._checkValidLicense();
+        return new Promise((resolve, reject) => {
+            codefcert.engineGetExternalDrive((driveList: unknown) => {
+                codefcert._log(JSON.stringify(driveList));
+
+                Array.isArray(driveList) ? resolve(driveList as string[]) : reject(driveList);
+            });
+        });
+    }
+
+    /**
+     *  인증서 PFX 변환
+     * @param cert
+     * @param password
+     */
+    fn_ConvertPFX(cert: CertFileDto, password: string): Promise<string> {
+        const data = {
+            certPassword: password,
+            certPath: cert.der.path,
+            keyPath: cert.key.path,
+        };
+
+        return new Promise((resolve, reject) => {
+            codefcert.engineGetExportCertificationB64(data, (retData: any) => {
+                codefcert._log(JSON.stringify(retData));
+                if (retData.SUCCESS) {
+                    const pfxInfo = retData.CONVERT;
+                    resolve(pfxInfo as string);
+                } else {
+                    const code = retData.REASON as keyof typeof PFX_ERROR_CODE_DEFINE;
+                    let msg = '연결이 만료되었습니다.';
+                    if (code) {
+                        msg = PFX_ERROR_CODE_DEFINE[code];
+                        console.log('[' + code + '] ' + msg);
+                    }
+                    reject(new Error(msg));
+                }
+            });
+        });
+    }
+
+    private _checkValidLicense() {
+        if (!codefcert._checkLicense) {
+            throw new Error(this.engineCheckFailMessage);
+        }
     }
 }
 

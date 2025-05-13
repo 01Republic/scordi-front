@@ -6,7 +6,7 @@ import {api} from '^api/api';
  * 공동인증서 목록을 조회 하기 전 권한 확인을 위해 토큰을 발급받는 단계
  */
 export const codefCertificateApi = {
-    async index() {
+    async token() {
         const url = '/codef/cert/token';
         return api.get(url).then((res) => {
             return res.data as {token: string};

@@ -99,4 +99,23 @@ export class CertFileDto {
     get organization() {
         return this.certPID?.organization || '알수없음';
     }
+
+    // 만료여부
+    get isExpired() {
+        return this.expireDate.getTime() < new Date().getTime();
+    }
+
+    // 파일 위치
+    get location() {
+        // 공동인증서 폴더 경로 구하기
+        const path = this.der.path;
+        const [dir] = path.split('NPKI');
+        const dirPath = `${dir}NPKI`;
+
+        // 경로 출력시 사용자명 마스킹
+        const depths = dirPath.split('/');
+        const userDirIndex = depths.findIndex((depth) => depth === 'Users') + 1;
+        const userName = depths[userDirIndex];
+        return dirPath.replace(userName, '사용자');
+    }
 }
