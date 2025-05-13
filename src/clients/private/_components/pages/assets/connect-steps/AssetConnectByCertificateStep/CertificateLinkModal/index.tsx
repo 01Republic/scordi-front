@@ -75,9 +75,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
             .then((pfxInfo) => {
                 console.log('pfxInfo :: ' + pfxInfo);
             })
-            .catch((err) => {
-                toast.error(err.message);
-            });
+            .catch((err) => toast.error(err.message));
     };
 
     return (

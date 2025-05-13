@@ -71,22 +71,34 @@ export const CertificateList = memo((props: CertificateListProps) => {
                                 </div>
 
                                 {/* 구분 */}
-                                <div className="w-1/5 overflow-hidden text-center text-ellipsis whitespace-nowrap px-1">
+                                <div
+                                    title={cert.useType}
+                                    className="w-1/5 overflow-hidden text-center text-ellipsis whitespace-nowrap px-1"
+                                >
                                     {isExpired ? <span className="text-red-500">만료됨</span> : cert.useType}
                                 </div>
 
                                 {/* 사용자 */}
-                                <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap px-1">
+                                <div
+                                    title={cert.userName}
+                                    className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap px-1"
+                                >
                                     {cert.userName}
                                 </div>
 
                                 {/* 만료일 */}
-                                <div className="w-1/5 overflow-hidden text-ellipsis whitespace-nowrap px-1">
+                                <div
+                                    title={cert.expireDate.toLocaleString()}
+                                    className="w-1/5 overflow-hidden text-ellipsis whitespace-nowrap px-1"
+                                >
                                     {yyyy_mm_dd(cert.expireDate)}
                                 </div>
 
                                 {/* 발급기관 */}
-                                <div className="w-1/5 overflow-hidden text-ellipsis whitespace-nowrap px-1">
+                                <div
+                                    title={cert.organization}
+                                    className="w-1/5 overflow-hidden text-ellipsis whitespace-nowrap px-1"
+                                >
                                     {cert.organization}
                                 </div>
                             </div>
