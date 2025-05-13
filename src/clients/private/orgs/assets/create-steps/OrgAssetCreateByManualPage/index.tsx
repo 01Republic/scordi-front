@@ -11,8 +11,6 @@ import {StatusHeader} from '^_components/pages/assets/connect-steps/common/Statu
 export const OrgAssetCreateByManualPage = memo(() => {
     const router = useRouter();
     const [isPersonal, setIsPersonal] = useState(false);
-    const bankForm = useForm<CreateBankAccountRequestDto>();
-    const cardForm = useForm<CreateCreditCardDto>();
     const [selectedBank, setSelectedBank] = useState<BankAccountsStaticData | null>(null);
     const [selectedCard, setSelectedCard] = useState<CardAccountsStaticData | null>(null);
 
@@ -34,8 +32,6 @@ export const OrgAssetCreateByManualPage = memo(() => {
                     <BankSelectionSection
                         onSelect={setSelectedBank}
                         selectedBank={selectedBank}
-                        form={bankForm}
-                        onBack={() => setSelectedBank(null)}
                         isPersonal={isPersonal}
                     />
                 )}
@@ -44,8 +40,6 @@ export const OrgAssetCreateByManualPage = memo(() => {
                     <CardSelectionSection
                         onSelect={setSelectedCard}
                         selectedCard={selectedCard}
-                        form={cardForm}
-                        onBack={() => setSelectedCard(null)}
                         isPersonal={isPersonal}
                     />
                 )}
