@@ -21,6 +21,8 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
         mode: 'all',
         defaultValues: {
             clientType: CodefCustomerType.Business,
+            isAgreeForPrivacyPolicyTerm: false,
+            isAgreeForServiceUsageTerm: false,
         },
     });
 

@@ -6,7 +6,11 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {LinkTo} from '^components/util/LinkTo';
 
 export const AssetAgreeTermSection = memo(() => {
-    const {setValue, register, watch, getValues} = useFormContext<CreateAccountRequestDto>();
+    const {setValue, register, watch} = useFormContext<CreateAccountRequestDto>();
+
+    const privacy = watch('isAgreeForPrivacyPolicyTerm');
+    const service = watch('isAgreeForServiceUsageTerm');
+    const allChecked = privacy && service;
 
     return (
         <section className="flex flex-col gap-4 text-16 text-neutral-900 font-normal">
@@ -14,13 +18,11 @@ export const AssetAgreeTermSection = memo(() => {
             <label className="flex items-center gap-2 cursor-pointer">
                 <input
                     type="checkbox"
-                    checked={watch('isAgreeForPrivacyPolicyTerm') && watch('isAgreeForServiceUsageTerm')}
-                    onClick={() => {
-                        const privacy = getValues('isAgreeForPrivacyPolicyTerm');
-                        const serviceUsage = getValues('isAgreeForServiceUsageTerm');
-                        const allChecked = privacy && serviceUsage;
-                        setValue('isAgreeForPrivacyPolicyTerm', !allChecked);
-                        setValue('isAgreeForServiceUsageTerm', !allChecked);
+                    checked={allChecked}
+                    onChange={() => {
+                        const isCheck = !allChecked;
+                        setValue('isAgreeForPrivacyPolicyTerm', isCheck);
+                        setValue('isAgreeForServiceUsageTerm', isCheck);
                     }}
                     className="checkbox checkbox-primary w-5 h-5 rounded"
                 />

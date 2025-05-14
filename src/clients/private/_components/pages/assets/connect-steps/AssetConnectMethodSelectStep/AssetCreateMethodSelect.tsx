@@ -54,11 +54,8 @@ export const AssetCreateMethodSelect = memo(() => {
 
                     <button
                         type="button"
-                        className={cn('btn btn-block no-animation btn-animation', {
-                            'btn-secondary': isEnabled,
-                            'btn-disabled2': !isEnabled,
-                        })}
-                        onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.IdAccount) : undefined)}
+                        className="btn btn-block btn-secondary no-animation btn-animation"
+                        onClick={() => setValue('loginType', CodefLoginType.IdAccount)}
                     >
                         홈페이지 로그인으로 개별 연동
                     </button>
