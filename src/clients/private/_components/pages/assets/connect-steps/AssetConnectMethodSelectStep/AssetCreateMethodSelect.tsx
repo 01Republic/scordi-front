@@ -47,15 +47,17 @@ export const AssetCreateMethodSelect = memo(() => {
                             'btn-scordi': isEnabled,
                             'btn-disabled2': !isEnabled,
                         })}
-                        onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.Certificate) : undefined)}
+                        onClick={() => isEnabled ?? setValue('loginType', CodefLoginType.Certificate)}
                     >
                         공동인증서로 한번에 연동
                     </button>
 
                     <button
                         type="button"
-                        className="btn btn-block btn-secondary no-animation btn-animation"
-                        onClick={() => setValue('loginType', CodefLoginType.IdAccount)}
+                        className={`btn btn-block no-animation btn-animation ${
+                            isEnabled ? 'btn-secondary' : 'btn-disabled2'
+                        }`}
+                        onClick={() => isEnabled ?? setValue('loginType', CodefLoginType.IdAccount)}
                     >
                         홈페이지 로그인으로 개별 연동
                     </button>
