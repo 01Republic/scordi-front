@@ -18,11 +18,11 @@ export const AssetAgreeTermSection = memo(() => {
             <label className="flex items-center gap-2 cursor-pointer">
                 <input
                     type="checkbox"
-                    checked={allChecked}
-                    onChange={() => {
-                        const isCheck = !allChecked;
-                        setValue('isAgreeForPrivacyPolicyTerm', isCheck);
-                        setValue('isAgreeForServiceUsageTerm', isCheck);
+                    defaultChecked={allChecked}
+                    onChange={(e) => {
+                        const isAllChecked = e.target.checked;
+                        setValue('isAgreeForPrivacyPolicyTerm', isAllChecked);
+                        setValue('isAgreeForServiceUsageTerm', isAllChecked);
                     }}
                     className="checkbox checkbox-primary w-5 h-5 rounded"
                 />
@@ -36,6 +36,7 @@ export const AssetAgreeTermSection = memo(() => {
                     <input
                         type="checkbox"
                         {...register('isAgreeForPrivacyPolicyTerm')}
+                        required
                         className="checkbox checkbox-primary w-5 h-5 rounded"
                     />
 
@@ -56,6 +57,7 @@ export const AssetAgreeTermSection = memo(() => {
                     <input
                         type="checkbox"
                         {...register('isAgreeForServiceUsageTerm')}
+                        required
                         className="checkbox checkbox-primary w-5 h-5 rounded"
                     />
 

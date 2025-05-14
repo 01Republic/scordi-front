@@ -43,19 +43,20 @@ export const AssetCreateMethodSelect = memo(() => {
                 <section className="flex flex-col gap-2 w-full mt-5">
                     <button
                         type="button"
-                        className={cn('btn btn-block no-animation btn-animation', {
-                            'btn-scordi': isEnabled,
-                            'btn-disabled2': !isEnabled,
-                        })}
-                        onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.Certificate) : undefined)}
+                        className={`btn btn-block no-animation btn-animation ${
+                            isEnabled ? 'btn-scordi' : 'btn-disabled2'
+                        }`}
+                        onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.Certificate) : '')}
                     >
                         공동인증서로 한번에 연동
                     </button>
 
                     <button
                         type="button"
-                        className="btn btn-block btn-secondary no-animation btn-animation"
-                        onClick={() => setValue('loginType', CodefLoginType.IdAccount)}
+                        className={`btn btn-block no-animation btn-animation ${
+                            isEnabled ? 'btn-secondary' : 'btn-disabled2'
+                        }`}
+                        onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.IdAccount) : '')}
                     >
                         홈페이지 로그인으로 개별 연동
                     </button>
