@@ -18,7 +18,7 @@ export const CardCompanySelector = memo(() => {
     const orgId = useOrgIdParam();
     const {} = useContext(AssetConnectOptionContext);
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount();
+    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.IdAccount);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [isConnectStepsModalOpen, setIsConnectStepsModalOpen] = useState(false);
 
@@ -26,11 +26,7 @@ export const CardCompanySelector = memo(() => {
 
     const {
         data: {items: codefAccounts},
-    } = useCodefAccountsInConnector(orgId, {
-        where: {loginType: CodefLoginType.IdAccount},
-        sync: true,
-        itemsPerPage: 0,
-    });
+    } = useCodefAccountsInConnector(orgId);
 
     const companies = CardAccountsStaticData.findByClientType(clientType);
 

@@ -12,7 +12,7 @@ export const BusinessTypeSelector = memo((props: AssetEntitySelectorProps) => {
 
     const selectValue = watch('clientType') || CodefCustomerType.Business;
     return (
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {[
                 {label: '기업고객 (법인)', value: CodefCustomerType.Business},
                 {label: '개인고객 (개인)', value: CodefCustomerType.Personal},

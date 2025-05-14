@@ -32,10 +32,12 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                 },
             )}
         >
-            <div className="flex flex-col gap-4">
+            <div className="flex sm:flex-col gap-4 relative">
+                {isSelected && (
+                    <Check className="w-5 h-5 text-scordi absolute top-0 right-0 bottom-0 my-auto sm:mt-0" />
+                )}
                 <div className="flex justify-between">
                     <NextImage src={logo} alt={title} width={40} height={40} />
-                    {isSelected && <Check className="w-5 h-5 text-scordi" />}
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="text-neutral-900 text-16 font-semibold whitespace-nowrap">{title}</span>

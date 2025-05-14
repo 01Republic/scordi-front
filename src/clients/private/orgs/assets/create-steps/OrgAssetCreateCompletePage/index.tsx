@@ -39,7 +39,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
                             layout={{fit: 'fill'}}
                         />
                     }
-                    onClick={() => router.back()}
+                    onBack={() => router.back()}
                 />
                 {processedCodefCards.length > 0 && (
                     <SuccessCreditCardSection processedCodefCards={processedCodefCards} />

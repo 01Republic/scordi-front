@@ -52,7 +52,7 @@ export const BankSelectionSection = memo((props: BankSelectionSectionProps) => {
             <section className="flex flex-col gap-10">
                 <StatusHeader
                     title="계좌를 등록해주세요."
-                    onClick={() => {
+                    onBack={() => {
                         onSelect(null);
                         form.reset();
                     }}

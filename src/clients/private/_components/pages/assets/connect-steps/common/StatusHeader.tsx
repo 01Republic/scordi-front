@@ -1,24 +1,27 @@
 import {memo, ReactNode} from 'react';
 import {ArrowLeft} from 'lucide-react';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface StatusHeaderProps {
     title: string;
     subTitle?: string;
     icon?: ReactNode;
-    onClick: () => void;
+    onBack: () => void;
 }
 
 export const StatusHeader = memo((props: StatusHeaderProps) => {
-    const {title, subTitle, icon, onClick} = props;
+    const {title, subTitle, icon, onBack} = props;
     return (
         <article className="flex flex-col justify-start gap-20">
-            <button
-                className="flex gap-1 items-center cursor-pointer" //
-                onClick={onClick}
+            <LinkTo
+                className="flex gap-1 items-center text-14 cursor-pointer text-gray-600 transition-all hover:text-gray-800 hover:font-semibold"
+                onClick={onBack}
+                displayLoading={false}
             >
-                <ArrowLeft className="size-6 text-neutral-600" />
+                <ArrowLeft />
                 뒤로가기
-            </button>
+            </LinkTo>
+
             <section className="flex flex-col gap-5 text-neutral-900 font-normal">
                 <div className="flex items-center gap-1">
                     {icon && icon}

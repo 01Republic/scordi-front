@@ -19,14 +19,14 @@ export const AssetConnectByCertificateStep = memo(() => {
     const [isCertificateLinkModalOpen, setCertificateLinkModalOpen] = useState(false);
     const [isCertificateSetupModalOpen, setCertificateSetupModalOpen] = useState(false);
     const [isShowLoadingScreen, setIsShowLoadingScreen] = useState(false);
+    const [isLoadingEngine, setIsLoadingEngine] = useState(false);
 
     const onClick = async () => {
+        setIsLoadingEngine(true);
         codefCertificate
             .initialize()
-            .then(() => {
-                // 인증서 다이얼로그 활성화
-                setCertificateLinkModalOpen(true);
-            })
+            // 인증서 다이얼로그 활성화
+            .then(() => setCertificateLinkModalOpen(true))
             .catch((error: JsonpError) => {
                 switch (error.errorCode) {
                     // 설치가 안되어 있는 사용자
@@ -40,7 +40,8 @@ export const AssetConnectByCertificateStep = memo(() => {
                     default:
                         return console.log(error.name, error.message, error.errorCode);
                 }
-            });
+            })
+            .finally(() => setIsLoadingEngine(false));
     };
 
     // * TODO: LoadingScreen 수정 필요
@@ -58,7 +59,7 @@ export const AssetConnectByCertificateStep = memo(() => {
                     <StatusHeader
                         title="어떤 자산을 연결할까요?"
                         subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
-                        onClick={() => reset({loginType: undefined})}
+                        onBack={() => reset({loginType: undefined})}
                     />
                     <BusinessTypeSelector />
                 </div>
@@ -66,8 +67,10 @@ export const AssetConnectByCertificateStep = memo(() => {
                 <BankSelector />
                 <CardCompaniesSelector />
 
-                <section className="w-full flex items-center justify-center">
-                    <NextStepButton onClick={onClick} />
+                <br />
+                <br />
+                <section className="w-full flex items-center justify-center fixed left-0 bottom-0 px-4 py-6 bg-transparent z-10 backdrop-blur-2xl">
+                    <NextStepButton onClick={onClick} isLoading={isLoadingEngine} />
                 </section>
             </article>
 

@@ -19,7 +19,11 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
     return (
         <AssetConnectPageTemplate
             ConnectMethodAltActionButton={() => (
-                <LinkTo href={OrgAssetsCreateByManualPageRoute.path(orgId)} className="text-14" displayLoading={false}>
+                <LinkTo
+                    href={OrgAssetsCreateByManualPageRoute.path(orgId)}
+                    className="text-14 transition-all hover:font-semibold"
+                    displayLoading={false}
+                >
                     수동으로 등록하기
                 </LinkTo>
             )}

@@ -14,6 +14,8 @@ import {InstitutionOption} from './InstitutionOption';
 import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 import {confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
+import {AssetSelectorGrid} from '^_components/pages/assets/connect-steps/common/AssetSelectorGrid';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
 // 공동인증서 연동 시 롯데,하나,삼성은 연동불가
 const disabledCardCompanyParams = [
@@ -27,18 +29,14 @@ export const CardCompaniesSelector = memo(() => {
     const orgId = useOrgIdParam();
     const {} = useContext(AssetConnectOptionContext);
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount();
+    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.Certificate);
     const [selectedCompanies, setSelectedCompanies] = useState<CardAccountsStaticData[]>([]);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
 
     const {
         data: {items: codefAccounts},
-    } = useCodefAccountsInConnector(orgId, {
-        where: {loginType: CodefLoginType.Certificate},
-        sync: true,
-        itemsPerPage: 0,
-    });
+    } = useCodefAccountsInConnector(orgId);
 
     const companies = CardAccountsStaticData.findByClientType(clientType);
     const selectableCompanies = companies.filter((company) => !disabledCardCompanyParams.includes(company.param));
@@ -62,16 +60,17 @@ export const CardCompaniesSelector = memo(() => {
         });
     };
 
-    const handleSelectAllCards = () => setSelectedCompanies(isAllSelected ? [] : selectableCompanies);
+    const toggleAll = () => setSelectedCompanies(isAllSelected ? [] : selectableCompanies);
 
-    const onDisconnect = async (companyName: string, accountId?: number) => {
-        if (!accountId) return;
+    const onDisconnect = async (account: CodefAccountDto) => {
+        const accountId = account.id;
+        const orgId = account.orgId;
 
         const disconnectConfirm = () =>
             confirm3(
                 '기관 연동을 해제할까요?',
                 <span className="text-16 text-gray-800 font-normal">
-                    "{companyName}"에 연결된 모든 카드를 함께 연동 해제할까요?
+                    "{account.company}"에 연결된 모든 카드를 함께 연동 해제할까요?
                     <br />
                     <br />
                     기관 연동을 해제하면 연결된 내역도 더이상 가져올 수 없어요. <br />
@@ -86,33 +85,25 @@ export const CardCompaniesSelector = memo(() => {
     };
 
     return (
-        <section className="flex flex-col gap-6">
-            <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-neutral-900">카드</h2>
+        <AssetSelectorGrid title="카드" isAllSelected={isAllSelected} onSelectAll={toggleAll}>
+            {companies.map((company) => {
+                const connectedAccount = codefAccounts.find((account) => account.company === company.displayName);
+                const isConnected = !!connectedAccount;
 
-                <AllSelectInstitutionOptions isAllSelected={isAllSelected} onClick={handleSelectAllCards} />
-            </div>
-
-            <div className="grid grid-cols-5 gap-4">
-                {companies.map((company) => {
-                    const connectedAccount = codefAccounts.find((account) => account.company === company.displayName);
-                    const isConnected = !!connectedAccount;
-
-                    return (
-                        <InstitutionOption
-                            key={company.param}
-                            logo={company.logo}
-                            title={company.displayName}
-                            connect={isConnected}
-                            isSelected={selectedCompanies.some(({param}) => param === company.param)}
-                            isAllSelected={isAllSelected}
-                            isDisabled={disabledCardCompanyParams.includes(company.param)}
-                            onClick={() => onClick(company)}
-                            onDisconnect={() => onDisconnect(company.displayName, connectedAccount?.id)}
-                        />
-                    );
-                })}
-            </div>
-        </section>
+                return (
+                    <InstitutionOption
+                        key={company.param}
+                        logo={company.logo}
+                        title={company.displayName}
+                        connect={isConnected}
+                        isSelected={selectedCompanies.some(({param}) => param === company.param)}
+                        isAllSelected={isAllSelected}
+                        isDisabled={disabledCardCompanyParams.includes(company.param)}
+                        onClick={() => onClick(company)}
+                        onDisconnect={() => connectedAccount && onDisconnect(connectedAccount)}
+                    />
+                );
+            })}
+        </AssetSelectorGrid>
     );
 });

@@ -24,6 +24,7 @@ import {confirm3} from '^components/util/dialog/confirm3';
 import {confirmed} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {CodefLoginType} from '^models/CodefAccount/type/enums';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -143,14 +144,19 @@ const useSubscriptionsOfCodefAccount = (
     });
 };
 
-export const useCodefAccount = () => {
+export const useCodefAccount = (loginType: CodefLoginType) => {
     const queryClient = useQueryClient();
+    const params: FindAllAccountQueryDto = {
+        where: {loginType},
+        sync: true,
+        itemsPerPage: 0,
+    };
 
     // codef 연결된 계정 조회
-    const useCodefAccountsInConnector = (orgId: number, params: FindAllAccountQueryDto = {itemsPerPage: 0}) => {
+    const useCodefAccountsInConnector = (orgId: number) => {
         return useQuery({
             queryKey: ['codefAccount', orgId, params],
-            queryFn: () => codefAccountApi.index(orgId!, params).then((res) => res.data),
+            queryFn: () => codefAccountApi.index(orgId, params).then((res) => res.data),
             enabled: !!orgId && !isNaN(orgId),
             initialData: Paginated.init(),
         });
@@ -159,8 +165,8 @@ export const useCodefAccount = () => {
     // codef 연결된 계정 삭제
     const {mutate: removeCodefAccount} = useMutation<boolean, ErrorResponse, {orgId: number; accountId: number}>({
         mutationFn: ({orgId, accountId}) => codefAccountApi.destroy(orgId, accountId).then((res) => res.data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['codefAccount']});
+        onSuccess: (_, {orgId}) => {
+            queryClient.invalidateQueries({queryKey: ['codefAccount', orgId, params]});
         },
     });
 

@@ -22,7 +22,7 @@ export const OrgAssetCreateByManualPage = memo(() => {
                         <StatusHeader
                             title="어떤 자산을 연결할까요?"
                             subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
-                            onClick={() => router.back()}
+                            onBack={() => router.back()}
                         />
                         <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />
                     </div>

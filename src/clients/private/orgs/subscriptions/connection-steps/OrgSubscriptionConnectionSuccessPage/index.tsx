@@ -77,7 +77,7 @@ export const OrgSubscriptionConnectionSuccessPage = memo(function OrgSubscriptio
                             layout={{fit: 'fill'}}
                         />
                     }
-                    onClick={() => router.back()}
+                    onBack={() => router.back()}
                 />
                 {processedCodefCards.length > 0 && (
                     <SuccessCreditCardSection

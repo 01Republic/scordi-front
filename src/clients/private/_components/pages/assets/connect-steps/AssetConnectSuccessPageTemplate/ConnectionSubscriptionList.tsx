@@ -34,7 +34,7 @@ export const ConnectionSubscriptionList = memo((props: ConnectionSubscriptionLis
                             layout={{fit: 'fill'}}
                         />
                     }
-                    onClick={() => router.back()}
+                    onBack={() => router.back()}
                 />
                 <ul className="grid grid-cols-4 gap-8 w-full">
                     {subscriptions.map((subscription) => {

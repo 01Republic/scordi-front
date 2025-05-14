@@ -14,10 +14,10 @@ export const NextStepButton = memo((props: NextStepButtonProps) => {
         <button
             type="button"
             onClick={onClick}
-            className={cn('btn btn-lg btn-scordi w-1/3', {
+            className={cn('btn btn-lg btn-scordi btn-block sm:btn-wide no-animation btn-animation', {
                 'btn-scordi': !disabled,
                 'btn-disabled2': disabled,
-                'link_to-loading btn-scordi': isLoading,
+                loading: isLoading,
             })}
         >
             {text}
