@@ -40,8 +40,18 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                     <NextImage src={logo} alt={title} width={40} height={40} />
                 </div>
                 <div className="flex items-center justify-between">
-                    <span className="text-neutral-900 text-16 font-semibold whitespace-nowrap">{title}</span>
-                    {isDisabled && <span className="text-12 font-normal text-gray-700">홈페이지 로그인 필요</span>}
+                    <span
+                        className={`text-16 font-semibold whitespace-nowrap ${
+                            isAllSelected && isDisabled ? 'text-gray-500' : 'text-gray-900'
+                        }`}
+                    >
+                        {title}
+                    </span>
+                    {isDisabled && (
+                        <span className={`text-12 font-normal ${isAllSelected ? 'text-gray-500' : 'text-gray-700'}`}>
+                            홈페이지 로그인 필요
+                        </span>
+                    )}
 
                     {connect && (
                         <div
