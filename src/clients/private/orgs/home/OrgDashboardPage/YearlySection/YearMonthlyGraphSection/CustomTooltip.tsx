@@ -35,7 +35,7 @@ export const CustomTooltip = memo((props: CustomTooltipProps) => {
         const currentData = payload[0].payload;
 
         return (
-            <div className="flex-flex-col justify-start gap-1 py-2 px-3 bg-zinc-900 text-neutral-50 font-medium text-12 rounded-lg">
+            <div className="flex-flex-col justify-start gap-1 py-2 px-3 bg-zinc-900 text-gray-50 font-medium text-12 rounded-lg">
                 {/*TODO: 예상 금액 API 수정 완료 시 주석 해제*/}
                 {/*{currentData.notPaidAmount && (*/}
                 {/*    <>*/}

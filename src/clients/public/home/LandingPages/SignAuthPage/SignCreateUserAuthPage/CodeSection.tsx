@@ -83,7 +83,7 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                         }}
                         {...restRegister}
                         className={cn(
-                            'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                            'w-full bg-white h-14 border text-sm text-gray-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                             errors.code
                                 ? 'border-red-400 focus:outline-red-400'
                                 : 'border-neutral-300 focus:outline-primaryColor-900',

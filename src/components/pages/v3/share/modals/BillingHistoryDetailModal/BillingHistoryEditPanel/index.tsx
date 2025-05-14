@@ -111,7 +111,7 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel(pro
                         <FormControl topLeftLabel="결제 일시">
                             <input
                                 type="datetime-local"
-                                className="input input-bordered w-full text-sm font-semibold text-neutral-500"
+                                className="input input-bordered w-full text-sm font-semibold text-gray-500"
                                 max="9999-12-31T23:59"
                                 min="2000-01-01T00:00"
                                 defaultValue={billingHistory.paidAt?.toISOString().slice(0, 16)}
