@@ -4,18 +4,21 @@ import {ChevronRight} from 'lucide-react';
 import {termsUrl} from '^config/environments';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {LinkTo} from '^components/util/LinkTo';
+import {AgreeItem} from '^_components/pages/assets/connect-steps/AssetConnectMethodSelectStep/AgreeItem';
 
 export const AssetAgreeTermSection = memo(() => {
-    const {setValue, register, watch} = useFormContext<CreateAccountRequestDto>();
+    const {setValue, watch} = useFormContext<CreateAccountRequestDto>();
 
-    const privacy = watch('isAgreeForPrivacyPolicyTerm');
-    const service = watch('isAgreeForServiceUsageTerm');
+    const formData = watch();
+    const privacy = formData.isAgreeForPrivacyPolicyTerm;
+    const service = formData.isAgreeForServiceUsageTerm;
+    // const privacy = watch('isAgreeForPrivacyPolicyTerm');
+    // const service = watch('isAgreeForServiceUsageTerm');
     const allChecked = privacy && service;
 
     return (
         <section className="flex flex-col gap-4 text-16 text-neutral-900 font-normal">
-            {/* 전체 동의  */}
-            <label className="flex items-center gap-2 cursor-pointer">
+            <AgreeItem label="전체 동의">
                 <input
                     type="checkbox"
                     defaultChecked={allChecked}
@@ -26,52 +29,21 @@ export const AssetAgreeTermSection = memo(() => {
                     }}
                     className="checkbox checkbox-primary w-5 h-5 rounded"
                 />
-
-                <span>전체 동의</span>
-            </label>
+            </AgreeItem>
 
             <div className="flex flex-col gap-4 pl-5">
-                {/* 개인정보 수집 및 이용 동의 */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        {...register('isAgreeForPrivacyPolicyTerm')}
-                        required
-                        className="checkbox checkbox-primary w-5 h-5 rounded"
-                    />
-
-                    <span>개인정보 수집 및 이용 동의 (필수)</span>
-
-                    <LinkTo
-                        href={termsUrl.privacy}
-                        target="_blank"
-                        className="ml-auto text-gray-400 hover:text-black transition-all"
-                        displayLoading={false}
-                    >
-                        <ChevronRight />
-                    </LinkTo>
-                </label>
-
-                {/* 이용약관동의 */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        {...register('isAgreeForServiceUsageTerm')}
-                        required
-                        className="checkbox checkbox-primary w-5 h-5 rounded"
-                    />
-
-                    <span>이용약관동의 (필수)</span>
-
-                    <LinkTo
-                        href={termsUrl.serviceUsage}
-                        target="_blank"
-                        className="ml-auto text-gray-400 hover:text-black transition-all"
-                        displayLoading={false}
-                    >
-                        <ChevronRight />
-                    </LinkTo>
-                </label>
+                <AgreeItem
+                    name="isAgreeForPrivacyPolicyTerm"
+                    label="개인정보 수집 및 이용 동의"
+                    required
+                    href={termsUrl.privacy}
+                />
+                <AgreeItem
+                    name="isAgreeForServiceUsageTerm"
+                    label="이용약관동의"
+                    required
+                    href={termsUrl.serviceUsage}
+                />
             </div>
         </section>
     );

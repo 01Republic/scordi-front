@@ -10,6 +10,7 @@ class CodefCertificate {
     private certValidRetryCnt = 5; // 비밀번호 오류 체크 Cnt
     engineCheckFailMessage = '라이센스 확인이 진행되지 않았습니다.\n라이센스 체크를 진행해주세요.';
     private espiderInstaller: string;
+    private errorCounter: Record<string, number> = {};
 
     codefcert: typeof codefcert;
 
