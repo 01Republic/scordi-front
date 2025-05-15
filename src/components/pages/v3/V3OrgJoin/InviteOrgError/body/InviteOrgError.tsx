@@ -8,7 +8,6 @@ import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {MainPageRoute} from '^pages/index';
 import {LinkTo, LinkToProps} from '^components/util/LinkTo';
 import {Avatar} from '^components/Avatar';
 import {Building, LogIn} from 'lucide-react';
@@ -26,7 +25,7 @@ export const InviteOrgErrorBody = memo(() => {
             </h3>
 
             <div className="flex flex-col gap-5 w-fit m-auto mb-10">
-                <Button text="스코디 메인 페이지로 이동하기" icon={<LogIn size={20} />} href={MainPageRoute.path()} />
+                <Button text="스코디 메인 페이지로 이동하기" icon={<LogIn size={20} />} href="/" />
                 {currentUser?.lastSignedOrgId ? (
                     <Button
                         text="내 조직 워크스페이스로 이동하기"
