@@ -1,10 +1,10 @@
+import {useRecoilValue} from 'recoil';
+import {useRouter} from 'next/router';
+import {memo, useEffect, useState} from 'react';
 import {orgIdParamState} from '^atoms/common';
 import {integrationSlackMemberApi} from '^models/integration/IntegrationSlackMember/api';
 import {useIntegrationWorkspaceInSettingPage} from '^models/IntegrationWorkspace/hook';
 import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
-import {useRouter} from 'next/router';
-import {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {ConnectingResultScreen, NewMember} from '../ConnectingResultScreen';
 import {SlackBeforeConnectPage} from './SlackBeforeConnectPage';
 

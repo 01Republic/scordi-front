@@ -1,6 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
+import {ArrowLeft} from 'lucide-react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {googleWorkspaceAccessTokenAtom, isSavingState, reportState} from './atom';
 import {orgIdParamState} from '^atoms/common';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
@@ -8,10 +9,9 @@ import {useAlert} from '^hooks/useAlert';
 import {LinkTo} from '^components/util/LinkTo';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {ProductItem} from '^tasting/tabs/panes/SyncWorkspaceApp/results/ProductItemList/ProductItem';
-import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {ArrowLeft, ArrowRight} from 'lucide-react';
+import {googleWorkspaceAccessTokenAtom, isSavingState, reportState} from './atom';
 
 export const GoogleWorkspaceSaveConnectPage = memo(function GoogleWorkspaceSaveConnectPage() {
     const router = useRouter();

@@ -1,12 +1,13 @@
+import {ImgHTMLAttributes, memo} from 'react';
+import {useRouter} from 'next/router';
+import {useSetRecoilState} from 'recoil';
+import { NextImage } from '^components/NextImage';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {BackButton} from '^components/BackButton';
 import {OutLink} from '^components/OutLink';
+import {BackButton} from '^components/BackButton';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {googleOAuth} from '^config/environments';
 import {WithChildren} from '^types/global.type';
-import {useRouter} from 'next/router';
-import {ImgHTMLAttributes, memo} from 'react';
-import {useSetRecoilState} from 'recoil';
 import {SafeBadge} from '../SafeBadge';
 import {googleWorkspaceAccessTokenAtom} from './atom';
 
@@ -22,11 +23,14 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                 </div>
 
                 <div className="mb-4 flex items-center justify-between">
-                    <img
+                    <NextImage
                         src="https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/192px.svg"
                         alt="google workspace logo"
                         className="avatar w-[48px] h-[48px] bg-white"
+                        width={48}
+                        height={48}
                     />
+
 
                     <SafeBadge />
                 </div>

@@ -1,5 +1,5 @@
-import {BottomUpModalSwal} from '^components/util/modals/share';
 import {Shield} from 'lucide-react';
+import {BottomUpModalSwal} from '^components/util/modals/share';
 
 export const SafeBadge = () => {
     const onClick = () => {

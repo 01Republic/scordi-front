@@ -1,11 +1,11 @@
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
+import { LinkTo } from '^components/util/LinkTo';
 import {OnboadingLayout} from '^clients/private/orgs/onboarding/OnboadingLayout';
 import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
 import {OrgOnboardingRequestNewPageRoute} from '^pages/orgs/[id]/onboarding/request/new';
-import {Button} from '^public/components/ui/button';
-import {useRouter} from 'next/router';
-import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 
 export const OrgOnboardingRequestPage = memo(() => {
     const router = useRouter();
@@ -20,15 +20,12 @@ export const OrgOnboardingRequestPage = memo(() => {
             onSkip={() => router.push(OrgOnboardingCompletePageRoute.path(orgId))}
             button={
                 <div className="flex flex-col gap-4">
-                    <Button
-                        variant="scordi"
-                        size="xxl"
-                        onClick={() => {
-                            router.push(OrgOnboardingRequestNewPageRoute.path(orgId));
-                        }}
+                    <LinkTo
+                        href={OrgOnboardingRequestNewPageRoute.path(orgId)}
+                        className="btn btn-lg btn-scordi w-full"
                     >
                         설문 요청하기
-                    </Button>
+                    </LinkTo>
                 </div>
             }
         />

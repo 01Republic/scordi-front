@@ -1,14 +1,12 @@
-import {orgIdParamState} from '^atoms/common';
-import {BackButton} from '^components/BackButton';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {Button} from '^public/components/ui/button';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {FullLogoImg} from '../../home/OrgMainPage/LogoImg';
-import {RotatingLogoCarousel} from './RotatingLogoCarousel';
+import { useRecoilValue } from 'recoil';
+import { orgIdParamState } from '^atoms/common';
+import { OrgMainPageRoute } from '^pages/orgs/[id]';
+import { LinkTo } from '^components/util/LinkTo';
+import { BackButton } from '^components/BackButton';
+import { FullLogoImg } from '../../home/OrgMainPage/LogoImg';
+import { RotatingLogoCarousel } from './RotatingLogoCarousel';
 
 export const OrgOnboardingCompletePage = () => {
-    const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
 
     return (
@@ -25,14 +23,12 @@ export const OrgOnboardingCompletePage = () => {
                     <div className="py-16 w-full">
                         <RotatingLogoCarousel />
                     </div>
-                    <Button
-                        size="xl"
-                        variant="scordi"
-                        onClick={() => router.push(OrgMainPageRoute.path(orgId, {confetti: 'true'}))}
-                        className="w-[280px]"
+                    <LinkTo
+                        href={OrgMainPageRoute.path(orgId, { confetti: 'true' })}
+                        className="btn btn-lg btn-scordi w-72"
                     >
                         완료
-                    </Button>
+                    </LinkTo>
                 </div>
             </div>
         </div>

@@ -1,19 +1,12 @@
-import {orgIdParamState} from '^atoms/common';
-import {Connectors, OrgConnectorDetailPageRoute} from '^pages/orgs/[id]/connects/[connectorName]';
-import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
-import {Button} from '^public/components/ui/button';
-import {useRouter} from 'next/router';
-import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {OnboadingLayout} from './OnboadingLayout';
+import { memo } from 'react';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { orgIdParamState } from '^atoms/common';
+import { OrgOnboardingRequestPageRoute } from '^pages/orgs/[id]/onboarding/request';
+import { Connectors } from '^pages/orgs/[id]/onboarding/members/connects/[connectorName]';
 import { OrgOnboardingMembersConnectsPageRoute } from '^pages/orgs/[id]/onboarding/members/connects/[connectorName]';
-
-const ConnectButton = ({src, alt, text, onClick}: {src: string; alt: string; text: string; onClick: () => void}) => (
-    <Button variant="outline" size="xl" className="hover:shadow-md" onClick={onClick}>
-        <img src={src} alt={alt} className="w-5 h-5" />
-        {text}
-    </Button>
-);
+import { OnboadingLayout } from '../OnboadingLayout';
+import { ConnectButton } from './ConnectButton';
 
 export const OrgOnboardingMembersPage = memo(() => {
     const router = useRouter();

@@ -1,7 +1,8 @@
-import {Avatar} from '^components/Avatar';
-import {ArrowLeft} from 'lucide-react';
-import {useRouter} from 'next/router';
 import {memo} from 'react';
+import {useRouter} from 'next/router';
+import {ArrowLeft} from 'lucide-react';
+import {Avatar} from '^components/Avatar';
+import { NextImage } from '^components/NextImage';
 
 export interface NewMember {
     profileImageUrl?: string;
@@ -14,10 +15,8 @@ interface ConnectingResultScreenProps {
     newMembers: NewMember[];
 }
 
-export const ConnectingResultScreen = memo(function ConnectingResultScreen({
-    onNext,
-    newMembers,
-}: ConnectingResultScreenProps) {
+export const ConnectingResultScreen = memo((props: ConnectingResultScreenProps) => {
+    const {onNext, newMembers} = props;
     const router = useRouter();
 
     return (
@@ -30,7 +29,14 @@ export const ConnectingResultScreen = memo(function ConnectingResultScreen({
                 뒤로가기
             </div>
             <div className="text-2xl font-bold flex items-center gap-2">
-                <img src="/images/illustration/clapping_hands.png" alt="complete" className="w-16 h-16" />총{' '}
+                <NextImage
+                    src="/images/illustration/clapping_hands.png"
+                    alt="complete"
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                />
+                총{' '}
                 {newMembers.length}명의 구성원을 불러왔어요
             </div>
             <div className="grid grid-cols-2 gap-3">

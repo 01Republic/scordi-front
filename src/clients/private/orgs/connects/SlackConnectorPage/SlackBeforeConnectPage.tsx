@@ -1,10 +1,10 @@
-import {orgIdParamState} from '^atoms/common';
-import {BackButton} from '^components/BackButton';
-import {slackScordiOauthApi} from '^models/_slack-bot/api';
 import {debounce} from 'lodash';
 import {useRouter} from 'next/router';
 import {ImgHTMLAttributes, memo} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {BackButton} from '^components/BackButton';
+import {slackScordiOauthApi} from '^models/_slack-bot/api';
 import {googleWorkspaceAccessTokenAtom} from '../GoogleWorkspaceConnectorPage/atom';
 import {SafeBadge} from '../SafeBadge';
 

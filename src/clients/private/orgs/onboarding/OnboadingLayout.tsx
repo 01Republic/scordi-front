@@ -1,5 +1,6 @@
-import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {memo} from 'react';
+import {BackButton} from '^components/v2/ui/buttons/BackButton';
+import { NextImage } from '^components/NextImage';
 
 interface OnboadingLayoutProps {
     step: number;
@@ -30,18 +31,20 @@ export const OnboadingLayout = memo<OnboadingLayoutProps>(
                     </div>
                     {step === 1 ? (
                         <div className="flex justify-center pt-20 pb-24">
-                            <img
+                            <NextImage
                                 src="/images/renewallogo/base_nav-logo.png"
                                 alt="scordi symbol logo"
                                 draggable={false}
                                 loading="lazy"
-                                className="w-[130px] p-[2px]"
+                                className="p-[2px] object-contain"
+                                width={130}
+                                height={130}
                             />
                         </div>
                     ) : (
                         <div className="flex justify-center py-24"></div>
                     )}
-                    <div className="flex flex-col gap-10 min-w-[380px] px-16">
+                    <div className="flex flex-col gap-10 min-w-96 px-16">
                         <div className="text-sm text-gray-500">{step}/3</div>
                         <div className="flex flex-col gap-5">
                             <div className="text-[40px] font-bold leading-[140%] whitespace-pre-line">{title}</div>
@@ -53,12 +56,14 @@ export const OnboadingLayout = memo<OnboadingLayoutProps>(
                 </div>
                 {/* 우측 이미지 영역 */}
                 <div className="flex flex-col justify-center items-end">
-                    <img
+                    <NextImage
                         src={image}
                         alt="subscription"
+                        width={500}
+                        height={500}
                         draggable={false}
                         loading="lazy"
-                        className="h-full object-contain"
+                        className="h-full object-contain w-full"
                     />
                 </div>
             </div>
