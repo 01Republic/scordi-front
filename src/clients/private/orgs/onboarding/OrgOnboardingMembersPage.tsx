@@ -6,6 +6,7 @@ import {useRouter} from 'next/router';
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {OnboadingLayout} from './OnboadingLayout';
+import { OrgOnboardingMembersConnectsPageRoute } from '^pages/orgs/[id]/onboarding/members/connects/[connectorName]';
 
 const ConnectButton = ({src, alt, text, onClick}: {src: string; alt: string; text: string; onClick: () => void}) => (
     <Button variant="outline" size="xl" className="hover:shadow-md" onClick={onClick}>
@@ -23,19 +24,19 @@ export const OrgOnboardingMembersPage = memo(() => {
             src: '/images/logo/external/logo_google_workspace.png',
             alt: '구글 워크스페이스로 불러오기',
             text: '구글 워크스페이스로 불러오기',
-            onClick: () => router.push(OrgConnectorDetailPageRoute.path(orgId, Connectors.googleWorkspace)),
+            onClick: () => router.push(OrgOnboardingMembersConnectsPageRoute.path(orgId, Connectors.googleWorkspace)),
         },
         {
             src: '/images/logo/external/logo_slack.png',
             alt: '슬랙으로 불러오기',
             text: '슬랙으로 불러오기',
-            onClick: () => router.push(OrgConnectorDetailPageRoute.path(orgId, Connectors.slack)),
+            onClick: () => router.push(OrgOnboardingMembersConnectsPageRoute.path(orgId, Connectors.slack)),
         },
         {
             src: '/images/logo/external/logo_excel.svg',
             alt: '엑셀 대량 등록으로 불러오기',
             text: '엑셀 대량 등록으로 불러오기',
-            onClick: () => router.push(OrgConnectorDetailPageRoute.path(orgId, Connectors.excel)),
+            onClick: () => router.push(OrgOnboardingMembersConnectsPageRoute.path(orgId, Connectors.excel)),
         },
     ];
 
