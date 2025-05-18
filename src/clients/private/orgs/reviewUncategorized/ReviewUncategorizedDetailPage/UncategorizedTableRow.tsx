@@ -1,6 +1,6 @@
-import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components/BillingHistoryStatusTagUI';
-import {Info} from 'lucide-react';
-import {memo} from 'react';
+import { memo } from 'react';
+import { Info } from 'lucide-react';
+import { BillingHistoryStatusTagUI } from '^models/BillingHistory/components/BillingHistoryStatusTagUI';
 
 interface UncategorizedTableRowProps {
     item: any;
@@ -8,7 +8,7 @@ interface UncategorizedTableRowProps {
 }
 
 export const UncategorizedTableRow = memo((props: UncategorizedTableRowProps) => {
-    const {item, onClick} = props;
+    const { item, onClick } = props;
 
     return (
         <>

@@ -1,17 +1,20 @@
+import { HelpCircle } from 'lucide-react';
 import Tippy from '@tippyjs/react';
-import {SearchProductInput} from '^clients/private/orgs/subscriptions/OrgSubscriptionSelectPage/SearchProductInput';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {LinkTo} from '^components/util/LinkTo';
-import {New_SaaS_Request_Form_Url} from '^config/constants';
-import {HelpCircle} from 'lucide-react';
-import {SelectableProductSectionVertical} from './SelectableProductSectionVertical';
+import { New_SaaS_Request_Form_Url } from '^config/constants';
+import { LinkTo } from '^components/util/LinkTo';
+import { SlideUpModal } from '^components/modals/_shared/SlideUpModal';
+import { SearchProductInput } from '^clients/private/orgs/subscriptions/OrgSubscriptionSelectPage/SearchProductInput';
+import { SelectableProductSectionVertical } from './SelectableProductSectionVertical';
+import { memo } from 'react';
 
 interface NewSubscriptionModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-export const NewSubscriptionModal = ({isOpen, onClose}: NewSubscriptionModalProps) => {
+export const NewSubscriptionModal = memo((props: NewSubscriptionModalProps) => {
+    const { isOpen, onClose } = props;
+
     return (
         <SlideUpModal open={isOpen} onClose={onClose}>
             <div className="p-2">
@@ -40,4 +43,4 @@ export const NewSubscriptionModal = ({isOpen, onClose}: NewSubscriptionModalProp
             </div>
         </SlideUpModal>
     );
-};
+});

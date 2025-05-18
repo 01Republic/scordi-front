@@ -1,9 +1,9 @@
-import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
-import {LinkTo} from '^components/util/LinkTo';
-import {ArrowLeft} from 'lucide-react';
-import {memo} from 'react';
-import {TransactionItem} from './TransactionItem';
-import {UncategorizedDetailContent} from './UncategorizedDetailContent';
+import { memo } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { LinkTo } from '^components/util/LinkTo';
+import { SlideSideModal } from '^components/modals/_shared/SlideSideModal';
+import { UncategorizedDetailContent } from './UncategorizedDetailContent';
+import { TransactionItem } from './TransactionItem';
 
 interface UncategorizedDetailModalProps {
     isOpen: boolean;
@@ -12,7 +12,7 @@ interface UncategorizedDetailModalProps {
 }
 
 export const UncategorizedDetailModal = memo((props: UncategorizedDetailModalProps) => {
-    const {isOpen, onClose, item} = props;
+    const { isOpen, onClose, item } = props;
 
     return (
         <SlideSideModal open={isOpen} onClose={onClose} modalClassName="rounded-none" size="md">

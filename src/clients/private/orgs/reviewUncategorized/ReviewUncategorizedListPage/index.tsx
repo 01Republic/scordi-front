@@ -1,9 +1,9 @@
-import {useIdParam} from '^atoms/common';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {MainLayout} from '^clients/private/_layouts/MainLayout';
-import {MainContainer} from '^clients/private/_layouts/MainLayout/MainContainer';
-import {memo} from 'react';
-import {UncategorizedItemCard} from './UncategorizedItemCard';
+import { memo } from 'react';
+import { useIdParam } from '^atoms/common';
+import { MainLayout } from '^clients/private/_layouts/MainLayout';
+import { Breadcrumb } from '^clients/private/_layouts/_shared/Breadcrumb';
+import { MainContainer } from '^clients/private/_layouts/MainLayout/MainContainer';
+import { UncategorizedItemCard } from './UncategorizedItemCard';
 
 export const ReviewUncategorizedListPage = memo(() => {
     const orgId = useIdParam('id');
@@ -11,7 +11,7 @@ export const ReviewUncategorizedListPage = memo(() => {
     return (
         <MainLayout>
             <MainContainer>
-                <Breadcrumb paths={['업무', {text: '미분류', active: true}]} />
+                <Breadcrumb paths={['업무', { text: '미분류', active: true }]} />
 
                 <div className="text-2xl font-bold mt-4">미분류</div>
 

@@ -1,3 +1,4 @@
+import { Info } from 'lucide-react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -9,13 +10,15 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '^public/components/ui/alert-dialog';
-import {Info} from 'lucide-react';
 
 interface ConfirmSubscriptionDialogProps {
     onConfirm: () => void;
 }
 
-export const ConfirmSubscriptionDialog = ({onConfirm}: ConfirmSubscriptionDialogProps) => {
+/* TODO: 나중에 confirm3 로 변경 */
+export const ConfirmSubscriptionDialog = (props: ConfirmSubscriptionDialogProps) => {
+    const { onConfirm } = props;
+
     return (
         <AlertDialog>
             <AlertDialogTrigger className="w-full bg-scordi text-white rounded-md py-2 px-3 text-sm">

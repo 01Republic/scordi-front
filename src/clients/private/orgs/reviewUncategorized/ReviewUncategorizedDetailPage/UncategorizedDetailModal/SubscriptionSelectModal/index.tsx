@@ -1,13 +1,13 @@
+import { memo, useEffect, useState } from 'react';
 import Tippy from '@tippyjs/react';
-import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
-import {LinkTo} from '^components/util/LinkTo';
-import {useSubscriptionListOfBankAccount} from '^models/Subscription/hook';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {ArrowLeft, Ellipsis, Info, Plus} from 'lucide-react';
-import {memo, useEffect, useState} from 'react';
-import {ConfirmModal} from './ConfirmModal';
-import {NewSubscriptionModal} from './NewSubscriptionModal';
-import {SelectableSubscriptionItem} from './SelectableSubscriptionItem';
+import { ArrowLeft, Ellipsis, Info, Plus } from 'lucide-react';
+import { LinkTo } from '^components/util/LinkTo';
+import { SlideSideModal } from '^components/modals/_shared/SlideSideModal';
+import { useSubscriptionListOfBankAccount } from '^models/Subscription/hook';
+import { SubscriptionDto } from '^models/Subscription/types';
+import { SelectableSubscriptionItem } from './SelectableSubscriptionItem';
+import { NewSubscriptionModal } from './NewSubscriptionModal';
+import { ConfirmModal } from './ConfirmModal';
 
 interface SubscriptionSelectModalProps {
     isOpen: boolean;
@@ -16,8 +16,8 @@ interface SubscriptionSelectModalProps {
 }
 
 export const SubscriptionSelectModal = memo((props: SubscriptionSelectModalProps) => {
-    const {isOpen, onClose, item} = props;
-    const {result, search} = useSubscriptionListOfBankAccount();
+    const { isOpen, onClose, item } = props;
+    const { result, search } = useSubscriptionListOfBankAccount();
     const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionDto | null>(null);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isNewSubscriptionModalOpen, setIsNewSubscriptionModalOpen] = useState(false);

@@ -1,13 +1,14 @@
-import {ChevronRight, Ellipsis, Pencil} from 'lucide-react';
-import {memo, useState} from 'react';
-import {SubscriptionSelectModal} from './SubscriptionSelectModal';
+import { memo, useState } from 'react';
+import { ChevronRight, Ellipsis, Pencil } from 'lucide-react';
+import { SubscriptionSelectModal } from './SubscriptionSelectModal';
+import { InfoRow } from './InfoRow';
 
 interface UncategorizedDetailContentProps {
     item: any;
 }
 
 export const UncategorizedDetailContent = memo((props: UncategorizedDetailContentProps) => {
-    const {item} = props;
+    const { item } = props;
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
 
     return (
@@ -44,33 +45,15 @@ export const UncategorizedDetailContent = memo((props: UncategorizedDetailConten
                     </div>
                     {!!item.bankAccount ? (
                         <>
-                            <div className="flex justify-between items-center py-2">
-                                <span>입금처</span>
-                                <span className="text-gray-600">베스핀글로벌 주식회사</span>
-                            </div>
-                            <div className="flex justify-between items-center py-2">
-                                <span>출금처</span>
-                                <span className="text-gray-600">내계좌123546643584903</span>
-                            </div>
-                            <div className="flex justify-between items-center py-2">
-                                <span>이체일시</span>
-                                <span className="text-gray-600">2025년 4월 10일 18:28</span>
-                            </div>
+                            <InfoRow label="입금처" value="베스핀글로벌 주식회사" />
+                            <InfoRow label="출금처" value="내계좌123546643584903" />
+                            <InfoRow label="이체일시" value="2025년 4월 10일 18:28" />
                         </>
                     ) : (
                         <>
-                            <div className="flex justify-between items-center py-2">
-                                <span>적요</span>
-                                <span className="text-gray-600">토스페이먼츠</span>
-                            </div>
-                            <div className="flex justify-between items-center py-2">
-                                <span>결제수단</span>
-                                <span className="text-gray-600">신한카드 3309</span>
-                            </div>
-                            <div className="flex justify-between items-center py-2">
-                                <span>결제일시</span>
-                                <span className="text-gray-600">2025년 4월 10일 18:28</span>
-                            </div>
+                            <InfoRow label="적요" value="토스페이먼츠" />
+                            <InfoRow label="결제수단" value="신한카드 3309" />
+                            <InfoRow label="결제일시" value="2025년 4월 10일 18:28" />
                         </>
                     )}
                 </div>

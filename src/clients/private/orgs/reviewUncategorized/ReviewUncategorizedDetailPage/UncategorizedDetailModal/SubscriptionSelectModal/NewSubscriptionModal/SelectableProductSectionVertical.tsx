@@ -1,17 +1,17 @@
-import {LoadableBox} from '^components/util/loading';
-import {useProductSearchResult} from '^models/Product/hook';
-import {PaginationMetaData} from '^types/utils/paginated.dto';
-import {debounce} from 'lodash';
-import {Inbox} from 'lucide-react';
-import {memo, useEffect, useRef} from 'react';
-import {SelectableSubscriptionItem} from '../SelectableSubscriptionItem';
+import { memo, useEffect, useRef } from 'react';
+import { debounce } from 'lodash';
+import { Inbox } from 'lucide-react';
+import { LoadableBox } from '^components/util/loading';
+import { useProductSearchResult } from '^models/Product/hook';
+import { PaginationMetaData } from '^types/utils/paginated.dto';
+import { SelectableSubscriptionItem } from '../SelectableSubscriptionItem';
 
-export const SelectableProductSectionVertical = memo(function SelectableProductSectionVertical() {
-    const {isLoading, result, movePage} = useProductSearchResult();
+export const SelectableProductSectionVertical = memo(() => {
+    const { isLoading, result, movePage } = useProductSearchResult();
     const ref = useRef<HTMLDivElement>(null);
 
     const getNextPage = debounce((pagination: PaginationMetaData) => {
-        const {currentPage, totalPage} = pagination;
+        const { currentPage, totalPage } = pagination;
         if (currentPage < totalPage) movePage(currentPage + 1, true);
     }, 100);
 

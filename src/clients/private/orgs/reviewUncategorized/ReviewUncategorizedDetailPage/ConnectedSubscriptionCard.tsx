@@ -1,7 +1,7 @@
-import {Card} from '^public/components/ui/card';
-import {PanelRight} from 'lucide-react';
-import Image from 'next/image';
-import {memo} from 'react';
+import { memo } from 'react';
+import { PanelRight } from 'lucide-react';
+import { NextImage } from '^components/NextImage';
+import { Card } from '^public/components/ui/card';
 
 interface ConnectedSubscriptionCardProps {
     item: {
@@ -12,14 +12,16 @@ interface ConnectedSubscriptionCardProps {
     onClick?: () => void;
 }
 
-export const ConnectedSubscriptionCard = memo(({item, onClick}: ConnectedSubscriptionCardProps) => {
+export const ConnectedSubscriptionCard = memo((props: ConnectedSubscriptionCardProps) => {
+    const { item, onClick } = props;
+
     return (
         <Card
             className="py-3 px-4 flex justify-between items-center gap-2 w-[240px] bg-white hover:shadow-lg cursor-pointer"
             onClick={onClick}
         >
             <div className="flex items-center gap-2">
-                <Image
+                <NextImage
                     src={item.imageUrl}
                     alt={item.name}
                     width={24}

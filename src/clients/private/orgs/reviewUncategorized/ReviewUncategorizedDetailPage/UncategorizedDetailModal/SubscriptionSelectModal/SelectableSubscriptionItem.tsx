@@ -1,7 +1,7 @@
-import {ProductAvatarImg} from '^components/pages/v3/share/ProductAvatar';
-import {ProductDto} from '^models/Product/type';
-import {Check} from 'lucide-react';
-import {memo} from 'react';
+import { memo } from 'react';
+import { Check } from 'lucide-react';
+import { ProductDto } from '^models/Product/type';
+import { ProductAvatarImg } from '^components/pages/v3/share/ProductAvatar';
 
 interface SelectableSubscriptionItemProps {
     product: ProductDto;
@@ -9,7 +9,9 @@ interface SelectableSubscriptionItemProps {
     onClick: () => void;
 }
 
-export const SelectableSubscriptionItem = memo(({product, isSelected, onClick}: SelectableSubscriptionItemProps) => {
+export const SelectableSubscriptionItem = memo((props: SelectableSubscriptionItemProps) => {
+    const { product, isSelected, onClick } = props;
+
     return (
         <button
             className="w-full p-4 rounded-lg hover:bg-scordi-50 flex items-center justify-between"

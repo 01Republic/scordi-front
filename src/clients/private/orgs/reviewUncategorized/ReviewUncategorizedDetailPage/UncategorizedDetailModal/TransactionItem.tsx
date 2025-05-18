@@ -1,5 +1,5 @@
-import {Ellipsis} from 'lucide-react';
 import {memo} from 'react';
+import {Ellipsis} from 'lucide-react';
 
 interface TransactionItemProps {
     item: {
@@ -9,7 +9,9 @@ interface TransactionItemProps {
     };
 }
 
-export const TransactionItem = memo(({item}: TransactionItemProps) => {
+export const TransactionItem = memo((props: TransactionItemProps) => {
+    const { item } = props;
+
     return (
         <div className="py-3">
             <div className="text-sm mb-2">{item.date}</div>
