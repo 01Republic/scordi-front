@@ -12,6 +12,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 import {AdminScordiSubscriptionListPageRoute} from '^pages/admin/billing/scordi-subscriptions';
 import {Home, LogOut} from 'lucide-react';
+import {CodefCardParserListPageRoute} from '^pages/admin/factories/codef-card-parsers';
 
 interface AdminSideBarProps extends WithChildren {}
 
@@ -43,7 +44,10 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                     <LinkTo text="BizOps Workflows" href={BizOpsWorkflowListRoute.path()} />
                 </li>
                 <li>
-                    <LinkTo text="파서 공장" href={CodefParserListPageRoute.path()} />
+                    <LinkTo text="파서 공장 (구)" href={CodefParserListPageRoute.path()} />
+                </li>
+                <li>
+                    <LinkTo text="파서 공장 (신)" href={CodefCardParserListPageRoute.path()} />
                 </li>
             </ul>
 
