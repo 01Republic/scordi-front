@@ -110,7 +110,7 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
                 </div>
 
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
-                    <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-2 gap-y-2">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
                         {parserGroups.map((parsers, i) => (
                             <CodefCardParserGroup
                                 key={i}

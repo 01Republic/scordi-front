@@ -22,11 +22,19 @@ export const CodefCardParserGroup = memo((props: CodefCardParserGroupProps) => {
         <div className="relative w-full group">
             {parsers.length > 1 ? (
                 <LinkTo onClick={() => onClick()} displayLoading={false}>
-                    <CodefCardParserItem parser={activeItem || lastItem} reload={reload} />
+                    <CodefCardParserItem
+                        parser={activeItem || lastItem}
+                        reload={reload}
+                        versionLength={parsers.length}
+                    />
                 </LinkTo>
             ) : (
                 <LinkTo href={CodefCardParserEditPageRoute.path(parser.id)} displayLoading={false}>
-                    <CodefCardParserItem parser={activeItem || lastItem} reload={reload} />
+                    <CodefCardParserItem
+                        parser={activeItem || lastItem}
+                        reload={reload}
+                        versionLength={parsers.length}
+                    />
                 </LinkTo>
             )}
         </div>
