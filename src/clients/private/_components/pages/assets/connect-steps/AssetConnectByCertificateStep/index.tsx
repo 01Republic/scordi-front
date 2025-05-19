@@ -6,8 +6,8 @@ import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {LoadingScreen} from '../common/LoadingScreen';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import LoadingScreen from '../common/LoadingScreen';
 import {StatusHeader} from '../common/StatusHeader';
 import {BusinessTypeSelector} from '../common/BusinessTypeSelector';
 import {CardCompaniesSelector} from '../common/CardCompaniesSelector';
@@ -54,7 +54,13 @@ export const AssetConnectByCertificateStep = memo(() => {
      * onComplete 는 다른 컴포넌트를 렌더링할 수 있게 수정하고,
      * LoadingScreen 이 렌더링 되는 조건은 api 요청 상태 등으로 렌더링 조건을 수정하면 될 것 같음
      */
-    if (isShowLoadingScreen) return <LoadingScreen onComplete={() => setIsShowLoadingScreen(false)} />;
+    if (isShowLoadingScreen)
+        return (
+            <LoadingScreen
+                message="은행사 또는 카드사를 기준으로 계좌와 카드를 찾고 있어요"
+                onComplete={() => setIsShowLoadingScreen(false)}
+            />
+        );
 
     return (
         <PureLayout>

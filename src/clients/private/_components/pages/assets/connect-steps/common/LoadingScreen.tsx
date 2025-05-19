@@ -5,15 +5,14 @@ import {PureLayout} from '^clients/private/_layouts/PureLayout';
 
 interface LoadingScreenProps {
     message?: string;
+    onCreat?: () => void;
     onComplete: () => void;
 }
 
 const PROGRESS_SCHEDULE = [3, 7, 12, 18, 32, 45, 63, 79, 88, 100];
 
-export default function LoadingScreen({
-    message = '은행사를 기준으로 계좌를 찾고 있어요',
-    onComplete,
-}: LoadingScreenProps) {
+export const LoadingScreen = (props: LoadingScreenProps) => {
+    const {message = '조금만 기다려 주세요!', onCreat, onComplete} = props;
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -57,4 +56,4 @@ export default function LoadingScreen({
             </div>
         </PureLayout>
     );
-}
+};
