@@ -1,6 +1,6 @@
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {GroupingMethod} from '../../../CodefParserFactory/CreateCodefParserDto';
+import {GroupingMethod} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {CodefBillingHistoriesGroup, GroupContainerKey} from './types';
 import {getRecurringType} from './getRecurringType';
 import {getDay} from './getDay';

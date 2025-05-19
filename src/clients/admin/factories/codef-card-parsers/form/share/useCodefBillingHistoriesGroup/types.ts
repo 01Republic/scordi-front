@@ -1,7 +1,7 @@
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
-import {GroupingMethod} from '../../../CodefParserFactory/CreateCodefParserDto';
+import {GroupingMethod} from '^clients/admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 
 export interface CodefBillingHistoriesGroup {
     metadata: {
