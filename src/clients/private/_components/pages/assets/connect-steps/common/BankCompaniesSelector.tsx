@@ -1,18 +1,20 @@
-import {memo, useState} from 'react';
+import {memo, Dispatch, SetStateAction} from 'react';
 import {useFormContext} from 'react-hook-form';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {CodefCustomerType} from '^models/CodefAccount/type/enums';
-import {InstitutionOption} from './InstitutionOption';
-import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
 import {AssetSelectorGrid} from '^_components/pages/assets/connect-steps/common/AssetSelectorGrid';
+import {InstitutionOption} from './InstitutionOption';
 
-interface BankSelectorProps {}
+interface BankCompaniesSelectorProps {
+    selectedCompanies: BankAccountsStaticData[];
+    setSelectedCompanies: Dispatch<SetStateAction<BankAccountsStaticData[]>>;
+}
 
-export const BankSelector = memo((props: BankSelectorProps) => {
-    const {} = props;
-    const {setValue, getValues} = useFormContext<CreateAccountRequestDto>();
-    const [selectedCompanies, setSelectedCompanies] = useState<BankAccountsStaticData[]>([]);
+export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) => {
+    const {selectedCompanies, setSelectedCompanies} = props;
+    const {getValues} = useFormContext<CreateAccountRequestDto>();
+
     const clientType = getValues('clientType') || CodefCustomerType.Business;
 
     const companies = BankAccountsStaticData.findByClientType(clientType);
