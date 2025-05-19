@@ -3,19 +3,23 @@ import {useFormContext} from 'react-hook-form';
 import {codefCertificate} from '^lib/codef/certificate/main';
 import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import LoadingScreen from '../common/LoadingScreen';
 import {StatusHeader} from '../common/StatusHeader';
 import {BusinessTypeSelector} from '../common/BusinessTypeSelector';
-import {BankSelector} from '../common/BankSelector';
 import {CardCompaniesSelector} from '../common/CardCompaniesSelector';
+import {BankCompaniesSelector} from '../common/BankCompaniesSelector';
 import {NextStepButton} from '../common/NextStepButton';
-import {CertificateLinkModal} from './CertificateLinkModal';
 import {CertificateSetupModal} from './CertificateSetupModal';
+import {CertificateLinkModal} from './CertificateLinkModal';
 
 export const AssetConnectByCertificateStep = memo(() => {
     const {reset, watch} = useFormContext<CreateAccountRequestDto>();
+    const [selectedBankCompanies, setSelectedBankCompanies] = useState<BankAccountsStaticData[]>([]);
+    const [selectedCardCompanies, setSelectedCardCompanies] = useState<CardAccountsStaticData[]>([]);
     const [isCertificateLinkModalOpen, setCertificateLinkModalOpen] = useState(false);
     const [isCertificateSetupModalOpen, setCertificateSetupModalOpen] = useState(false);
     const [isShowLoadingScreen, setIsShowLoadingScreen] = useState(false);
@@ -64,13 +68,23 @@ export const AssetConnectByCertificateStep = memo(() => {
                     <BusinessTypeSelector />
                 </div>
 
-                <BankSelector />
-                <CardCompaniesSelector />
+                <BankCompaniesSelector
+                    selectedCompanies={selectedBankCompanies}
+                    setSelectedCompanies={setSelectedBankCompanies}
+                />
+                <CardCompaniesSelector
+                    selectedCompanies={selectedCardCompanies}
+                    setSelectedCompanies={setSelectedCardCompanies}
+                />
 
                 <br />
-                <br />
-                <section className="w-full flex items-center justify-center fixed left-0 bottom-0 px-4 py-6 bg-transparent z-10 backdrop-blur-2xl">
-                    <NextStepButton onClick={onClick} isLoading={isLoadingEngine} />
+                {/*<section className="w-full flex items-center justify-center fixed left-0 bottom-0 px-4 py-6 bg-transparent z-10 backdrop-blur-2xl">*/}
+                <section className="w-full flex items-center justify-center">
+                    <NextStepButton
+                        onClick={onClick}
+                        isLoading={isLoadingEngine}
+                        disabled={selectedBankCompanies.length === 0 && selectedCardCompanies.length === 0}
+                    />
                 </section>
             </article>
 

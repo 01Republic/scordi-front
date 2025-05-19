@@ -1,4 +1,4 @@
-import React, {memo, useContext, useMemo, useState} from 'react';
+import React, {memo, useContext, Dispatch, SetStateAction} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
@@ -24,13 +24,19 @@ const disabledCardCompanyParams = [
     CodefCardCompanyCode.삼성카드,
 ];
 
+interface CardCompaniesSelectorProps {
+    selectedCompanies: CardAccountsStaticData[];
+    setSelectedCompanies: Dispatch<SetStateAction<CardAccountsStaticData[]>>;
+}
+
 // 공동인증서 > 카드사 여러개 선택
-export const CardCompaniesSelector = memo(() => {
+export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) => {
+    const {selectedCompanies, setSelectedCompanies} = props;
+
     const orgId = useOrgIdParam();
     const {} = useContext(AssetConnectOptionContext);
     const form = useFormContext<CreateAccountRequestDto>();
     const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.Certificate);
-    const [selectedCompanies, setSelectedCompanies] = useState<CardAccountsStaticData[]>([]);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
 
