@@ -9,6 +9,8 @@ import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardP
 import {CodefCardParserGroup} from './CodefCardParserGroup';
 import {LoadableBox} from '^components/util/loading';
 import {CodefCardParserNewPageRoute} from '^pages/admin/factories/codef-card-parsers/new';
+import {ProductDto} from '^models/Product/type';
+import {CodefCardParserVersionListModal} from '^admin/factories/codef-card-parsers/CodefCardParserVersionListModal';
 
 export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
     const {
@@ -19,28 +21,36 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
         queryFn: () =>
             adminCodefCardParserApi
                 .index({
+                    relations: ['product'],
                     order: {
                         productId: 'DESC',
-                        isActive: 'DESC',
                         id: 'DESC',
                     },
                     itemsPerPage: 0,
                 })
-                .then((res) => res.data),
+                .then((res) => {
+                    return res.data as Paginated<CodefCardParserDto & {product: ProductDto}>;
+                }),
         queryKey: ['adminCodefCardParserApi.index'],
         initialData: Paginated.init(),
     });
     const [searchValue, setSearchValue] = useState('');
     const [publishedView, setPublishedView] = useState<boolean>();
+    const [isVersionListModalOpened, setIsVersionListModalOpened] = useState<number>();
 
     const allList = result.items;
     const publishedList = result.items.filter((parser) => parser.isActive);
     const notPublishedList = result.items.filter((parser) => !parser.isActive);
 
     const parserList = publishedView === undefined ? allList : publishedView ? publishedList : notPublishedList;
-    const searchedList = parserList.filter((parser) => parser.title.toLowerCase().includes(searchValue));
+    const searchedList = parserList.filter((parser) => {
+        return (
+            parser.title.toLowerCase().includes(searchValue) ||
+            parser.product.name().toLowerCase().includes(searchValue)
+        );
+    });
 
-    const container: Record<number, CodefCardParserDto[]> = {};
+    const container: Record<number, (CodefCardParserDto & {product: ProductDto})[]> = {};
     searchedList.forEach((item) => {
         container[item.productId] ||= [];
         container[item.productId].push(item);
@@ -100,10 +110,22 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
                     <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-2 gap-y-2">
                         {parserGroups.map((parsers, i) => (
-                            <CodefCardParserGroup key={i} parsers={parsers} reload={() => refetch()} />
+                            <CodefCardParserGroup
+                                key={i}
+                                parsers={parsers}
+                                reload={() => refetch()}
+                                onClick={() => setIsVersionListModalOpened(i)}
+                            />
                         ))}
                     </div>
                 </LoadableBox>
+
+                <CodefCardParserVersionListModal
+                    isOpen={typeof isVersionListModalOpened === 'number'}
+                    onClose={() => setIsVersionListModalOpened(undefined)}
+                    parsers={isVersionListModalOpened ? parserGroups[isVersionListModalOpened] : []}
+                    reload={() => refetch()}
+                />
                 {/*{isLoading ? (*/}
                 {/*    <div className="flex items-center justify-center">*/}
                 {/*        <div className="animate-spin">*/}

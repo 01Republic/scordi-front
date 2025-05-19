@@ -1,24 +1,35 @@
 import {memo, useState} from 'react';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {CodefCardParserItem} from './CodefCardParserItem';
+import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
+import {LinkTo} from '^components/util/LinkTo';
+import {CodefCardParserVersionListModal} from '^admin/factories/codef-card-parsers/CodefCardParserVersionListModal';
+import {ProductDto} from '^models/Product/type';
 
 interface CodefCardParserGroupProps {
-    parsers: CodefCardParserDto[];
+    parsers: (CodefCardParserDto & {product: ProductDto})[];
+    onClick: () => any;
     reload?: () => any;
 }
 
 export const CodefCardParserGroup = memo((props: CodefCardParserGroupProps) => {
-    const {parsers, reload} = props;
+    const {parsers, onClick, reload} = props;
 
-    const orderedList = parsers.sort((a, b) => Number(a.isActive) - Number(b.isActive));
+    const activeItem = parsers.find((parser) => parser.isActive);
+    const lastItem = parsers[parsers.length - 1];
+    const parser = activeItem || lastItem;
 
     return (
         <div className="relative w-full group">
-            {orderedList.map((parser, i) => (
-                <div key={parser.id} className="transition-all mb-[-55px] group-hover:mb-2">
-                    <CodefCardParserItem parser={parser} reload={reload} />
-                </div>
-            ))}
+            {parsers.length > 1 ? (
+                <LinkTo onClick={() => onClick()} displayLoading={false}>
+                    <CodefCardParserItem parser={activeItem || lastItem} reload={reload} />
+                </LinkTo>
+            ) : (
+                <LinkTo href={CodefCardParserEditPageRoute.path(parser.id)} displayLoading={false}>
+                    <CodefCardParserItem parser={activeItem || lastItem} reload={reload} />
+                </LinkTo>
+            )}
         </div>
     );
 });

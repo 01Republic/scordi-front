@@ -1,8 +1,6 @@
 import {memo, MouseEvent} from 'react';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {LinkTo} from '^components/util/LinkTo';
-import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
 import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
@@ -30,17 +28,13 @@ export const CodefCardParserItem = memo((props: CodefCardParserItemProps) => {
     };
 
     return (
-        <LinkTo
-            className="card card-compact shadow-xl card-bordered cursor-pointer transition-all text-gray-500 hover:text-scordi bg-base-100 hover:bg-scordi-light-100"
-            href={CodefCardParserEditPageRoute.path(parser.id)}
-            displayLoading={false}
-        >
+        <div className="card card-compact shadow-xl card-bordered cursor-pointer transition-all text-gray-500 hover:text-scordi bg-base-100 hover:bg-scordi-light-100">
             <div className="card-body">
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                         <div className="text-16 flex items-center gap-3">
                             <div className="badge badge-xs">#{parser.id}</div>
-                            <p className="text-14">{parser.title}</p>
+                            <p className="text-14">{parser.product?.name() || parser.title}</p>
                         </div>
                         <p className="text-12 text-gray-400">수정: {ago(parser.updatedAt)}</p>
                     </div>
@@ -55,11 +49,8 @@ export const CodefCardParserItem = memo((props: CodefCardParserItemProps) => {
                         )}
                     </div>
                 </div>
-                {/*<div className="justify-end card-actions">*/}
-                {/*    <button className="btn btn-xs btn-primary">Buy Now</button>*/}
-                {/*</div>*/}
             </div>
-        </LinkTo>
+        </div>
     );
 });
 CodefCardParserItem.displayName = 'CodefCardParserItem';
