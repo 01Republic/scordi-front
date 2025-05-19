@@ -9,6 +9,7 @@ import {CertificateList} from './CertificateList';
 import {useForm} from 'react-hook-form';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
+import {confirm3} from '^components/util/dialog/confirm3';
 
 interface CertificateLinkModalProps {
     isOpen: boolean;
@@ -29,6 +30,23 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
     useEffect(() => {
         isOpen ? load('') : close();
     }, [isOpen]);
+
+    const errorAlert = (count: number) => {
+        confirm3(
+            '인증서 비밀번호 오류',
+            <span className="text-16 text-gray-800 font-normal">
+                인증서 비밀번호 {count}회 오류.
+                <br />
+                {count === 5
+                    ? '5회 이상 오류로 인해 프로그램이 종료 됩니다.'
+                    : '5회 이상 오류 시 프로그램이 종료 됩니다.'}
+            </span>,
+            undefined,
+            {showCancelButton: false},
+        ).then(() => {
+            count === 5 ? onClose() : null;
+        });
+    };
 
     const close = () => {
         codefCertificate
@@ -75,7 +93,15 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
             .then((pfxInfo) => {
                 console.log('pfxInfo :: ' + pfxInfo);
             })
-            .catch((err) => toast.error(err.message));
+            .catch((err) => {
+                console.log(err);
+                console.log(typeof err.code);
+                if (String(err.code) === '-9997') {
+                    errorAlert(err.count);
+                    return;
+                }
+                toast.error(err.message);
+            });
     };
 
     return (
@@ -130,7 +156,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                     <section className="grid grid-cols-2 gap-4">
                         <button
                             type="button"
-                            className="btn btn-block btn-gray no-animation btn-animation"
+                            className="btn btn-secondary btn-block btn-gray no-animation btn-animation"
                             onClick={onClose}
                         >
                             취소
