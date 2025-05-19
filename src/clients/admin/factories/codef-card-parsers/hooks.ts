@@ -72,9 +72,10 @@ export const useProductSearch = (keyword = '', id?: number) => {
     // return {search}
 };
 
-export const useSearchProduct = () =>
+export const useSearchProductInCodefCardParser = () =>
     usePagedResource(searchProductResultsAtom, {
         getId: 'id',
+        useOrgId: false,
         endpoint: (params) => productApi.index(params),
         buildQuery: (params) => params,
     });

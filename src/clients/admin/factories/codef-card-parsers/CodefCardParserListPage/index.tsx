@@ -8,6 +8,7 @@ import {Loader} from 'lucide-react';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {CodefCardParserGroup} from './CodefCardParserGroup';
 import {LoadableBox} from '^components/util/loading';
+import {CodefCardParserNewPageRoute} from '^pages/admin/factories/codef-card-parsers/new';
 
 export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
     const {
@@ -50,6 +51,7 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
         <AdminListPageLayout
             title="[코드에프] 카드 파서 목록"
             breadcrumbs={[{text: '파서 공장 (신)'}, {text: '[코드에프] 카드 파서 목록'}]}
+            createPageRoute={CodefCardParserNewPageRoute.path()}
         >
             <div className="pt-10 px-2 sm:px-4">
                 <div className="sticky top-0 -mx-2 sm:-mx-4 px-2 sm:px-4 mb-4 bg-layout-background z-10">

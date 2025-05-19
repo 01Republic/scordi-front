@@ -1,11 +1,11 @@
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {CodefCardParserEditPage} from '^admin/factories/codef-card-parsers/CodefCardParserEditPage';
+import {CodefCardParserNewPage} from '^admin/factories/codef-card-parsers/CodefCardParserNewPage';
 import {useSearchProductInCodefCardParser} from '^admin/factories/codef-card-parsers/hooks';
 import {useEffect} from 'react';
 
-export const CodefCardParserEditPageRoute = pathRoute({
-    pathname: '/admin/factories/codef-card-parsers/[id]/edit',
-    path: (id: number) => pathReplace(CodefCardParserEditPageRoute.pathname, {id}),
+export const CodefCardParserNewPageRoute = pathRoute({
+    pathname: '/admin/factories/codef-card-parsers/new',
+    path: () => pathReplace(CodefCardParserNewPageRoute.pathname, {}),
 });
 
 export default function Page() {
@@ -17,5 +17,5 @@ export default function Page() {
         };
     }, []);
 
-    return <CodefCardParserEditPage />;
+    return <CodefCardParserNewPage />;
 }

@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
 import {TextInput} from '^components/TextInput';
-import {useSearchProduct} from '^admin/factories/codef-card-parsers/hooks';
+import {useSearchProductInCodefCardParser} from '^admin/factories/codef-card-parsers/hooks';
 
 interface SearchProductInputProps {
     readOnly?: boolean;
@@ -9,17 +9,22 @@ interface SearchProductInputProps {
 export const SearchProductInput = memo((props: SearchProductInputProps) => {
     const {readOnly = false} = props;
     const [keyword, setKeyword] = useState('');
-    const {query, search} = useSearchProduct();
+    const {query, search} = useSearchProductInCodefCardParser();
 
     const onChange = (value: string) => {
         if (keyword === value) return;
         setKeyword(value);
-        search({
-            where: {},
-            keyword: encodeURI(value),
-            order: {id: 'DESC'},
-            itemsPerPage: 10,
-        });
+        console.log({keyword, value});
+        search(
+            {
+                where: {},
+                keyword: encodeURI(value),
+                order: {id: 'DESC'},
+                itemsPerPage: 10,
+            },
+            false,
+            true,
+        );
     };
 
     return (

@@ -25,7 +25,6 @@ export const CodefCardParserEditPage = memo(function CodefCardParserEditPage() {
     useEffect(() => {
         setParser(parser || null);
 
-        console.log('CodefCardParserEditPage.useEffect', 'parser?.resMemberStoreName', parser?.resMemberStoreName);
         form.reset({
             title: parser?.title,
             productId: parser?.productId,
@@ -41,7 +40,7 @@ export const CodefCardParserEditPage = memo(function CodefCardParserEditPage() {
         const data = plainToInstance(CreateCodefCardParserRequestDto, dto);
         const {resMemberStoreName} = data;
         if (resMemberStoreName) dto.resMemberStoreName = resMemberStoreName.asApiValues!();
-        console.log('dto', dto);
+
         adminCodefCardParserApi
             .update(id, dto)
             .then(() => toast.success('Successfully Saved!'))
@@ -52,7 +51,7 @@ export const CodefCardParserEditPage = memo(function CodefCardParserEditPage() {
 
     return (
         <AdminDetailPageLayout
-            title={`[코드에프] 파서 수정 : ${parser?.title || ''} (#${id})`}
+            title={`[코드에프] 카드 파서 수정 : ${parser?.title || ''} (#${id})`}
             breadcrumbs={[
                 {text: '파서 공장 (신)'},
                 {text: '[코드에프] 카드 파서 목록', href: CodefCardParserListPageRoute.path()},

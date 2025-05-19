@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {X} from 'lucide-react';
 import {LoadableBox} from '^components/util/loading';
 import {SearchedProductItem} from '^admin/factories/codef-card-parsers/form/SearchProductPanel/SearchedProductItem';
-import {useSearchProduct} from '^admin/factories/codef-card-parsers/hooks';
+import {useSearchProductInCodefCardParser} from '^admin/factories/codef-card-parsers/hooks';
 import {ProductDto} from '^models/Product/type';
 
 interface ProductSelectProps {
@@ -12,7 +12,7 @@ interface ProductSelectProps {
 
 export const ProductSelect = memo((props: ProductSelectProps) => {
     const {defaultValue: selectedProduct, onChange} = props;
-    const {result, isLoading} = useSearchProduct();
+    const {result, isLoading} = useSearchProductInCodefCardParser();
 
     const selectProduct = (product?: ProductDto) => {
         onChange && onChange(product);

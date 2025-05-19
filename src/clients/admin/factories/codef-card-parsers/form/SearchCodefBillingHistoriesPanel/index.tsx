@@ -5,6 +5,7 @@ import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/Content
 import {UpdateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/UpdateCodefCardParser.request.dto';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {LoadableBox} from '^components/util/loading';
+import {FindOperatorType} from '../../../codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {SetRecurringGroupPanel} from '../SetRecurringGroupPanel';
 import {useSearchCodefBillingHistories} from '../share/useSearchCodefBillingHistories';
 import {ConditionEqualInputGroup} from '../share/ConditionEqualInputGroup';
@@ -13,7 +14,6 @@ import {ConditionRegexpInputGroup} from '../share/ConditionRegexpInputGroup';
 import {SearchedCodefBillingHistoryItem} from './SearchedCodefBillingHistoryItem';
 import {SelectedCodefCard} from './SelectedCodefCard';
 import {SearchCardInput} from './SearchCardInput';
-import {FindOperatorType} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 
 export const SearchCodefBillingHistoriesPanel = memo(() => {
     const form = useFormContext<UpdateCodefCardParserRequestDto>();
@@ -22,7 +22,6 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
 
     useEffect(() => {
         const values = form.getValues();
-        console.log('SearchCodefBillingHistoriesPanel.useEffect.values', values);
         const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.resMemberStoreName || {};
         search({ops, fo, bo, value});
     }, []);

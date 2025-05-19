@@ -29,7 +29,6 @@ export const CodefCardParserForm = memo((props: FormProps) => {
                         onChange={(product) => {
                             setSelectedProduct(product);
                             form.setValue('productId', product?.id);
-                            console.log('productId', product?.id);
                         }}
                     />
                     <SearchCodefBillingHistoriesPanel />
