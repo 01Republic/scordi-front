@@ -8,9 +8,10 @@ class CodefCertificate {
     private CODEF_TOKEN: string;
     private certInfo: Record<string, any> = {}; // 선택한 인증서 정보
     private certValidRetryCnt = 5; // 비밀번호 오류 체크 Cnt
+    private certCount = 0; // 비밀번호 오류 카운트
+    private errorCounter: Record<string, number> = {};
     engineCheckFailMessage = '라이센스 확인이 진행되지 않았습니다.\n라이센스 체크를 진행해주세요.';
     private espiderInstaller: string;
-    private errorCounter: Record<string, number> = {};
 
     codefcert: typeof codefcert;
 
@@ -88,6 +89,8 @@ class CodefCertificate {
             codefcert.finalization(() => {
                 waitFor(() => !codefcert._connected, 500, 20).then((result) => {
                     codefcert._log('Engine close success');
+
+                    this.errorCounter = {};
                     result ? resolve() : reject();
                 });
             });
@@ -157,6 +160,19 @@ class CodefCertificate {
                 } else {
                     const code = retData.REASON as keyof typeof PFX_ERROR_CODE_DEFINE;
                     let msg = '연결이 만료되었습니다.';
+
+                    if (String(code) === '-9997') {
+                        const path = cert.der.path;
+                        const newCount = (this.errorCounter[path] || 0) + 1;
+                        this.errorCounter[path] = newCount;
+
+                        if (newCount >= this.certValidRetryCnt) {
+                            this.errorCounter[path] = 0;
+                        }
+
+                        return reject({code, path, count: newCount});
+                    }
+
                     if (code) {
                         msg = PFX_ERROR_CODE_DEFINE[code];
                         console.log('[' + code + '] ' + msg);
