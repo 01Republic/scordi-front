@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
 import {toast} from 'react-hot-toast';
@@ -6,6 +6,10 @@ import {errorToast} from '^api/api';
 import {useIdParam} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {CodefCardParserListPageRoute} from '^pages/admin/factories/codef-card-parsers';
+import {useQuery} from '@tanstack/react-query';
+import {Paginated} from '^types/utils/paginated.dto';
+import {ProductDto} from '^models/Product/type';
+import {CodefCardParserVersionListModal} from '^admin/factories/codef-card-parsers/CodefCardParserVersionListModal';
 
 interface CodefCardParserActionsProps {
     parser: CodefCardParserDto;
@@ -16,6 +20,23 @@ export const CodefCardParserActions = memo((props: CodefCardParserActionsProps) 
     const {parser, refetch} = props;
     const id = useIdParam('id');
     const router = useRouter();
+    const [isVersionListModalOpened, setIsVersionModalOpened] = useState(false);
+    const parsersQuery = useQuery({
+        queryFn: () =>
+            adminCodefCardParserApi
+                .index({
+                    relations: ['product'],
+                    where: {productId: parser?.productId},
+                    order: {productId: 'DESC', id: 'DESC'},
+                    itemsPerPage: 0,
+                })
+                .then((res) => {
+                    return res.data as Paginated<CodefCardParserDto & {product: ProductDto}>;
+                }),
+        queryKey: ['CodefCardParserListPage.parsers', parser?.productId],
+        initialData: Paginated.init(),
+        enabled: !!parser?.productId,
+    });
 
     const activate = () => {
         const msg = '이 파서를 활성화 할까요?\n같은 Product 에 대한 다른 파서는 비활성화 처리합니다.';
@@ -72,6 +93,24 @@ export const CodefCardParserActions = memo((props: CodefCardParserActionsProps) 
                     파서 삭제
                 </button>
             )}
+
+            <button
+                type="button"
+                className="btn bg-cyan-200 hover:bg-cyan-400 text-cyan-600 hover:text-cyan-900 transition-all rounded-[14px] border-none no-animation btn-animation"
+                onClick={() => setIsVersionModalOpened(true)}
+            >
+                모든 버전 조회
+            </button>
+
+            <CodefCardParserVersionListModal
+                isOpen={isVersionListModalOpened}
+                onClose={() => setIsVersionModalOpened(false)}
+                parsers={parsersQuery.data.items}
+                reload={() => {
+                    refetch();
+                    parsersQuery.refetch();
+                }}
+            />
         </div>
     );
 });
