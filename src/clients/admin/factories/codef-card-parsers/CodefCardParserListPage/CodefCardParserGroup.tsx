@@ -1,10 +1,9 @@
-import {memo, useState} from 'react';
-import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
-import {CodefCardParserItem} from './CodefCardParserItem';
+import {memo} from 'react';
 import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
 import {LinkTo} from '^components/util/LinkTo';
-import {CodefCardParserVersionListModal} from '^admin/factories/codef-card-parsers/CodefCardParserVersionListModal';
 import {ProductDto} from '^models/Product/type';
+import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
+import {CodefCardParserItem} from './CodefCardParserItem';
 
 interface CodefCardParserGroupProps {
     parsers: (CodefCardParserDto & {product: ProductDto})[];

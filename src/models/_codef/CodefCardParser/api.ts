@@ -22,6 +22,11 @@ export const adminCodefCardParserApi = {
         return api.post(url, dto).then(oneDtoOf(CodefCardParserDto));
     },
 
+    clone(id: number) {
+        const url = `/admin/codef-card-parsers/${id}/clone`;
+        return api.post(url).then(oneDtoOf(CodefCardParserDto));
+    },
+
     show(id: number) {
         const url = `/admin/codef-card-parsers/${id}`;
         return api.get(url).then(oneDtoOf(CodefCardParserDto));

@@ -1,16 +1,16 @@
 import {memo, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
-import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {AdminListPageLayout} from '^admin/layouts';
 import {SearchInput} from '^components/util/form-control/inputs/SearchInput';
-import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
-import {CodefCardParserGroup} from './CodefCardParserGroup';
 import {LoadableBox} from '^components/util/loading';
 import {CodefCardParserNewPageRoute} from '^pages/admin/factories/codef-card-parsers/new';
 import {ProductDto} from '^models/Product/type';
-import {CodefCardParserVersionListModal} from '^admin/factories/codef-card-parsers/CodefCardParserVersionListModal';
-import {FilterScope} from '^admin/factories/codef-card-parsers/CodefCardParserListPage/FilterScope';
+import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
+import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
+import {CodefCardParserVersionListModal} from '../CodefCardParserVersionListModal';
+import {CodefCardParserGroup} from './CodefCardParserGroup';
+import {FilterScope} from './FilterScope';
 
 export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
     const {
@@ -128,21 +128,6 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
                     parsers={versionListForModal}
                     reload={() => refetch()}
                 />
-                {/*{isLoading ? (*/}
-                {/*    <div className="flex items-center justify-center">*/}
-                {/*        <div className="animate-spin">*/}
-                {/*            <Loader size={30} />*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*) : (*/}
-                {/*    <div>*/}
-                {/*        <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-2 gap-y-2">*/}
-                {/*            {parserGroups.map((parsers, i) => (*/}
-                {/*                <CodefCardParserGroup key={i} parsers={parsers} reload={() => refetch()} />*/}
-                {/*            ))}*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*)}*/}
             </div>
         </AdminListPageLayout>
     );
