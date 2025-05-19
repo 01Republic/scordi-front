@@ -1,14 +1,7 @@
-import React, {ChangeEvent, memo, useEffect, useState} from 'react';
-import {debounce} from 'lodash';
-import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
-import {LoadableBox} from '^components/util/loading';
-import {TextInput} from '^components/TextInput';
-import {ValidateMessage} from './ValidateMessage';
-import {SearchedParserItem} from './SearchedParserItem';
-import {pascalCase, snakeCase} from '^components/util/string';
-import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
-import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
+import React, {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
+import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
+import {TextInput} from '^components/TextInput';
 import {UpdateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/UpdateCodefCardParser.request.dto';
 
 interface SetParserNamePanelProps {
@@ -16,103 +9,39 @@ interface SetParserNamePanelProps {
 }
 
 export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
-    // const {readOnly = false} = props;
-    const form = useFormContext<UpdateCodefCardParserRequestDto>();
-    const [isLoading, setIsLoading] = useState(false);
-    const [similarParsers, setSimilarParsers] = useState<CodefCardParserDto[]>([]);
-    const [matchedParsers, setMatchedParsers] = useState<CodefCardParserDto[]>([]);
-    console.log('SetParserNamePanel');
-
-    // const search = (text: string) => {
-    //     setIsLoading(true);
-    //     return adminCodefCardParserApi
-    //         .index({
-    //             where: {
-    //                 title: {op: 'like', val: encodeURI(`%${text}%`)},
-    //             },
-    //         })
-    //         .then((res) => {
-    //             const {items} = res.data;
-    //             const similarList: CodefCardParserDto[] = [];
-    //             const matchedList: CodefCardParserDto[] = [];
-    //             items.forEach((parser) => {
-    //                 const serviceName = parser.title.toLowerCase();
-    //                 const givenName = text.toLowerCase();
-    //                 if (serviceName === givenName) {
-    //                     matchedList.push(parser);
-    //                 } else if (serviceName.includes(givenName)) {
-    //                     similarList.push(parser);
-    //                 }
-    //             });
-    //             return [similarList, matchedList];
-    //         })
-    //         .finally(() => setIsLoading(false));
-    // };
-
-    // const onChange = debounce((value: string) => {
-    //     form.setValue('title', value);
-    //
-    //     if (checkInvalidNameFormat(value)) {
-    //         setSimilarParsers([]);
-    //         setMatchedParsers([]);
-    //         return;
-    //     }
-    //     // valid name
-    //     search(value).then(([similarList, matchedList]) => {
-    //         setSimilarParsers(similarList);
-    //         setMatchedParsers(matchedList);
-    //     });
-    // }, 500);
-
-    // const onInputChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
-    //     let value = `${e.target.value}`;
-    //     if (value.endsWith(' ')) return; // 입력이 스페이스로 끝나면 전처리/검색 모든 과정을 생략.
-    //     value = value.replace(/\./g, 'Dot'); // 마침표(.) 는 'Dot' 으로 변경.
-    //     value = value.replace(/^\d+/, ''); // 숫자로 시작하면 안됨. 이름 시작에 붙어있는 숫자는 삭제.
-    //     value = pascalCase(snakeCase(value));
-    //     e.target.value = value;
-    //     onChange(value);
-    // }, 500);
-
-    const checkInvalidNameFormat = (name: string): string => {
-        if (!name) return '이름을 입력해주세요.';
-        if (name.includes(' ')) return '이름에 공백이 포함될 수 없습니다.';
-        if (name.length <= 3) return '이름이 너무 짧습니다.';
-        return '';
-    };
-
-    // const title = form.getValues('title');
-    // const invalidMsg = checkInvalidNameFormat(`${title}`);
-    // console.log('title', title);
+    const {readOnly = false} = props;
+    const {register} = useFormContext<UpdateCodefCardParserRequestDto>();
 
     return (
-        <ContentPanel title="[1단계] 파서의 제목을 입력합니다." stickyHeader>
+        <ContentPanel title="[1단계] 파서의 이름을 입력합니다." stickyHeader>
             <ContentPanelList>
                 <ContentPanelInput
-                    title="서비스 영문 이름으로 입력해주세요"
+                    title="파서의 이름을 입력해주세요"
                     required={true}
-                    text="파스칼케이스 : 띄어쓰기 등 공백없이 + 어절 단위로 대문자 형식"
+                    text="서비스 영문명과 일치하면 좋습니다."
                 >
                     <TextInput
-                        required={true}
+                        required
+                        minLength={3}
                         placeholder="ex. AmazonWebService"
-                        {...form.register('title')}
-                        // readOnly={readOnly}
-                        // onChange={onInputChange}
+                        {...register('title')}
+                        readOnly={readOnly}
                     />
 
-                    <LoadableBox isLoading={isLoading}>
-                        {/*<ValidateMessage*/}
-                        {/*    value={invalidMsg}*/}
-                        {/*    invalidMsg={invalidMsg}*/}
-                        {/*    similarLength={similarParsers.length}*/}
-                        {/*    matchedLength={matchedParsers.length}*/}
-                        {/*/>*/}
+                    {/*<div className="pt-1">*/}
+                    {/*    {formState.errors.title && (*/}
+                    {/*        <p className="text-11 text-red-400">{formState.errors.title.message}</p>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
+                </ContentPanelInput>
 
-                        {similarParsers.map((parser) => (
-                            <SearchedParserItem key={parser.id} parser={parser} />
-                        ))}
-                    </LoadableBox>
+                <ContentPanelInput title="비고" text="이 버전에 대한 메모사항이 있다면 기록." className={''}>
+                    <textarea
+                        rows={2}
+                        {...register('memo')}
+                        readOnly={readOnly}
+                        className="textarea textarea-bordered w-full bg-slate-50"
+                    />
                 </ContentPanelInput>
             </ContentPanelList>
         </ContentPanel>
