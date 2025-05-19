@@ -85,7 +85,8 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
                                 <div className="flex flex-col gap-3">
                                     <GroupingMethodRadioGroup
                                         onChange={changeGroupingMethod}
-                                        defaultValue={GroupingMethod.byDate}
+                                        defaultValue={form.getValues('groupingMethod')}
+                                        defaultFixedRecurringType={form.getValues('fixedRecurringType')}
                                     />
                                 </div>
                             </div>

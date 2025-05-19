@@ -14,6 +14,7 @@ import {errorToast} from '^api/api';
 import {CodefCardParserActions} from '^admin/factories/codef-card-parsers/CodefCardParserEditPage/CodefCardParserActions';
 import {plainToInstance} from 'class-transformer';
 import {CreateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/CreateCodefCardParser.request.dto';
+import {FindOperatorType} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 
 export const CodefCardParserEditPage = memo(function CodefCardParserEditPage() {
     const id = useIdParam('id');
@@ -25,10 +26,11 @@ export const CodefCardParserEditPage = memo(function CodefCardParserEditPage() {
     useEffect(() => {
         setParser(parser || null);
 
+        const {ops = FindOperatorType.Like, fo = false, bo = true, value = ''} = parser?.resMemberStoreName || {};
         form.reset({
             title: parser?.title,
             productId: parser?.productId,
-            resMemberStoreName: parser?.resMemberStoreName,
+            resMemberStoreName: {ops, fo, bo, value},
             groupingMethod: parser?.groupingMethod,
             fixedRecurringType: parser?.fixedRecurringType,
             isActive: parser?.isActive,

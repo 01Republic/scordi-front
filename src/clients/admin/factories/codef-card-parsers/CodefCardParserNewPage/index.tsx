@@ -11,7 +11,7 @@ import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useRouter} from 'next/router';
-import {FindOperatorType} from '../../codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
+import {FindOperatorType, GroupingMethod} from '../../codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 
 export const CodefCardParserNewPage = memo(function CodefCardParserNewPage() {
     const router = useRouter();
@@ -23,8 +23,8 @@ export const CodefCardParserNewPage = memo(function CodefCardParserNewPage() {
             title: '',
             productId: undefined,
             resMemberStoreName: {ops: FindOperatorType.Like, fo: false, bo: true, value: ''},
-            groupingMethod: undefined,
-            fixedRecurringType: undefined,
+            groupingMethod: GroupingMethod.byDate,
+            fixedRecurringType: null,
             isActive: false,
             memo: '',
         });

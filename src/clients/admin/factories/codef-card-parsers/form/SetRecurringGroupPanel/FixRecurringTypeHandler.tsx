@@ -1,14 +1,17 @@
 import React, {memo, useState} from 'react';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {FixRecurringTypeRadio} from './FixRecurringTypeRadio';
+import {useFormContext} from 'react-hook-form';
+import {UpdateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/UpdateCodefCardParser.request.dto';
 
 interface FixRecurringTypeHandlerProps {
+    defaultValue?: BillingCycleOptions | null;
     onChange: (fixedRecurringType?: BillingCycleOptions) => any;
 }
 
 export const FixRecurringTypeHandler = memo((props: FixRecurringTypeHandlerProps) => {
-    const {onChange} = props;
-    const [recurringTypeFixMode, setRecurringTypeFixMode] = useState(false);
+    const {defaultValue = null, onChange} = props;
+    const [recurringTypeFixMode, setRecurringTypeFixMode] = useState(!!defaultValue);
 
     return (
         <div className="bg-red-50 p-2 rounded-lg flex flex-col gap-2">
@@ -17,6 +20,7 @@ export const FixRecurringTypeHandler = memo((props: FixRecurringTypeHandlerProps
                 <input
                     type="checkbox"
                     className="toggle toggle-xs toggle-primary"
+                    defaultChecked={recurringTypeFixMode}
                     onChange={(e) => {
                         const checked = e.target.checked;
                         setRecurringTypeFixMode(checked);
@@ -27,12 +31,20 @@ export const FixRecurringTypeHandler = memo((props: FixRecurringTypeHandlerProps
             {recurringTypeFixMode && (
                 <div className="grid sm:grid-cols-2">
                     <div>
-                        <FixRecurringTypeRadio value={BillingCycleOptions.Onetime} onChange={onChange}>
+                        <FixRecurringTypeRadio
+                            defaultChecked={defaultValue === BillingCycleOptions.Onetime}
+                            value={BillingCycleOptions.Onetime}
+                            onChange={onChange}
+                        >
                             <mark>일회성</mark> 결제로 고정하기
                         </FixRecurringTypeRadio>
                     </div>
                     <div>
-                        <FixRecurringTypeRadio value={BillingCycleOptions.None} onChange={onChange}>
+                        <FixRecurringTypeRadio
+                            defaultChecked={defaultValue === BillingCycleOptions.None}
+                            value={BillingCycleOptions.None}
+                            onChange={onChange}
+                        >
                             <mark>일반</mark> 결제로 고정하기
                         </FixRecurringTypeRadio>
                     </div>
