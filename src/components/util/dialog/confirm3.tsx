@@ -45,6 +45,9 @@ function styled(
     options: SweetAlertOptions = {},
 ) {
     options.customClass ||= {};
+
+    const isCancelButton = options.showCancelButton !== false;
+
     return confirmBase.fire({
         // @ts-ignore
         title: title && <h4 className="text-20 font-bold text-gray-900 text-left">{title}</h4>,
@@ -54,10 +57,10 @@ function styled(
         ...options,
         customClass: {
             popup: '!p-8 !rounded-2xl !w-auto !max-w-md',
-            actions: '!m-0 !p-0 !grid grid-cols-2 gap-2 direction-rtl',
+            actions: `!m-0 !p-0  ${isCancelButton ? '!grid grid-cols-2 gap-2 direction-rtl' : '!flex !justify-center'}`,
             title: '!mx-0 !mt-0 !mb-4 !p-0',
             htmlContainer: '!mx-0 !mt-0 !mb-5 !p-0',
-            confirmButton: 'btn btn-scordi !rounded-btn !m-0 ',
+            confirmButton: 'btn btn-scordi !rounded-btn !m-0 btn-block ',
             cancelButton: 'btn !bg-gray-200 !text-gray-500 !rounded-btn !m-0',
             icon: '!absolute !right-0 !top-0 !m-0 !transform !scale-50',
             ...(options.customClass as object),
