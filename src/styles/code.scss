@@ -1,7 +1,13 @@
 code {
   &.code {
     @apply inline;
+    @apply py-0.5 px-1 rounded-md;
     @apply bg-pink-100 text-red-500;
+
+    &.code-lg {
+      @apply text-lg;
+      @apply py-0.5 px-1 rounded-md;
+    }
 
     &.code-xl {
       @apply text-xl;
