@@ -1,9 +1,9 @@
-import {memo, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {Paginated} from '^types/utils/paginated.dto';
 import {AdminListPageLayout} from '^admin/layouts';
 import {SearchInput} from '^components/util/form-control/inputs/SearchInput';
-import {LoadableBox} from '^components/util/loading';
+import {LoadableBox, Spinner} from '^components/util/loading';
 import {CodefCardParserNewPageRoute} from '^pages/admin/factories/codef-card-parsers/new';
 import {ProductDto} from '^models/Product/type';
 import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
@@ -11,6 +11,8 @@ import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardP
 import {CodefCardParserVersionListModal} from '../CodefCardParserVersionListModal';
 import {CodefCardParserGroup} from './CodefCardParserGroup';
 import {FilterScope} from './FilterScope';
+import {Loader, RotateCw} from 'lucide-react';
+import Tippy from '@tippyjs/react';
 
 export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
     const {
@@ -69,18 +71,36 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
                 <div className="sticky top-0 -mx-2 sm:-mx-4 px-2 sm:px-4 mb-4 bg-layout-background z-10">
                     <div className="py-4 flex items-center justify-between">
                         <div className="">
-                            <p className={`text-xl font-semibold mb-2 text-gray-400 transition-all`}>
-                                {searchValue ? (
-                                    <span>
-                                        <code className="code code-xl">{searchValue}</code> 의 검색결과:
-                                    </span>
-                                ) : (
-                                    <span className="">
-                                        카드 파서 조회{' '}
-                                        <small>(버전 총 {result.pagination.totalItemCount.toLocaleString()}개)</small>
-                                    </span>
-                                )}
-                            </p>
+                            <div className="flex items-center gap-4 mb-2">
+                                <p className={`text-xl font-semibold text-gray-400 transition-all`}>
+                                    {searchValue ? (
+                                        <span>
+                                            <code className="code code-xl">{searchValue}</code> 의 검색결과:
+                                        </span>
+                                    ) : (
+                                        <span className="">
+                                            카드 파서 조회{' '}
+                                            <small>
+                                                (버전 총 {result.pagination.totalItemCount.toLocaleString()}개)
+                                            </small>
+                                        </span>
+                                    )}
+                                </p>
+
+                                <Tippy content="새로고침" className="!text-10">
+                                    <div>
+                                        <button
+                                            type="button"
+                                            className={`btn btn-xs btn-circle btn-scordi ${
+                                                isLoading ? 'animate-spin' : ''
+                                            }`}
+                                            onClick={() => refetch()}
+                                        >
+                                            <RotateCw className="font-bold" strokeWidth={3} />
+                                        </button>
+                                    </div>
+                                </Tippy>
+                            </div>
                             <div className="flex items-center gap-4 font-semibold text-18 text-gray-400 transition-all">
                                 <FilterScope
                                     active={publishedView === undefined}
