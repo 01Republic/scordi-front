@@ -11,6 +11,7 @@ import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 import {PartialType} from '^types/utils/partial-type';
 import {rangeToArr} from '^utils/range';
 import {BankAccountDto} from '^models/BankAccount/type';
+import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -45,7 +46,7 @@ export class BillingHistoryDto {
     @TypeCast(() => Date) paidAt: Date | null; // 결제 완료 일시
     @TypeCast(() => MoneyDto) payAmount: MoneyDto | null; // 결제금액
     @TypeCast(() => MoneyDto) abroadPayAmount: MoneyDto | null; // 해외결제금액
-    paymentMethod: string; // 결제수단
+    paymentMethod: string; // 결제수단 (카드내역에서는 기본적으로 적요를 의미함.)
     memo: string | null; // 메모
     // isSuccess: boolean; // 결제완료여부
 
@@ -54,6 +55,11 @@ export class BillingHistoryDto {
      */
     invoiceUrl: string | null; // 인보이스(파일) 주소
     @TypeCast(() => GmailParsedItem) emailContent: GmailParsedItem | null; // email content
+
+    /**
+     * Codef 결제내역 관련 컬럼
+     */
+    codefBillingHistoryId: number | null;
 
     /**
      * 카드내역 관련
@@ -69,13 +75,14 @@ export class BillingHistoryDto {
     @TypeCast(() => InvoiceAppDto) invoiceApp?: InvoiceAppDto; // 인보이스 앱
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto | null; // 결제 카드
     @TypeCast(() => BankAccountDto) bankAccount?: BankAccountDto | null; // 계좌
+    @TypeCast(() => CodefBillingHistoryDto) codefBillingHistory?: CodefBillingHistoryDto; // Codef 결제내역
 
     get isFromCard(): boolean {
-        return !!this.cardApproveNo;
+        return !!this.creditCardId;
     }
 
     get isFromEmail(): boolean {
-        return !this.isFromCard;
+        return !!this.emailContent;
     }
 
     getServiceName() {
@@ -89,8 +96,9 @@ export class BillingHistoryDto {
     }
 
     get title() {
-        if (this.emailContent) return this.emailContent.title;
-        if (this.isFromCard) return this.paymentMethod;
+        if (this.isFromEmail) return this.emailContent?.title || '';
+        if (this.isFromCard && this.codefBillingHistory) return this.codefBillingHistory.resMemberStoreName;
+        if (this.paymentMethod) return this.paymentMethod;
 
         const serviceName = this.getServiceName();
         const cycleTerm = this.subscription?.getCycleTerm() || null;
