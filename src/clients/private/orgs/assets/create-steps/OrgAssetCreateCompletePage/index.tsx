@@ -15,16 +15,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
     const router = useRouter();
     const orgId = useOrgIdParam();
     const processedCodefCards = useRecoilValue(assetConnectedCodefCardsAtom);
-    // return (
-    //     <MainLayout>
-    //         <MainContainer>
-    //             <div className="mb-12 space-y-2">
-    //                 <NextImage src={ClappingHands} alt="clapping hands" width={60} height={60} />
-    //                 <div className="text-2xl font-bold">자산 연동이 완료 되었어요</div>
-    //             </div>
-    //         </MainContainer>
-    //     </MainLayout>
-    // );
+
     return (
         <PureLayout>
             <div className="flex flex-col gap-20">
