@@ -54,6 +54,24 @@ export class BankAccountsStaticData {
 /* TODO: loginPageUrl 입력 필요 + 백엔드랑 은행이름 맞추기 */
 export const bankAccountsStaticData: BankAccountsStaticData[] = [
     {
+        displayName: '농협은행',
+        param: CodefBankCode.농협은행,
+        logo: '/logo/banks/NH.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://ibz.nonghyup.com/servlet/ICCNP1000S.view',
+    },
+    {
+        displayName: '농협은행',
+        param: CodefBankCode.농협은행,
+        logo: '/logo/banks/NH.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://banking.nonghyup.com/servlet/IPCNPA000I.view',
+    },
+    {
         displayName: '기업은행',
         param: CodefBankCode.기업은행,
         logo: '/logo/banks/IBK.png',
