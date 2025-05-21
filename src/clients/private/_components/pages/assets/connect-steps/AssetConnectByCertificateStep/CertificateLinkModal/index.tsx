@@ -6,7 +6,7 @@ import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {DriveHardDisk} from './DriveHardDisk';
 import {DriveExternalDisk} from './DriveExternalDisk';
 import {CertificateList} from './CertificateList';
-import {useForm} from 'react-hook-form';
+import {useForm, useFormContext} from 'react-hook-form';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
 import {confirm3} from '^components/util/dialog/confirm3';
@@ -30,23 +30,6 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
     useEffect(() => {
         isOpen ? load('') : close();
     }, [isOpen]);
-
-    const errorAlert = (count: number) => {
-        confirm3(
-            '인증서 비밀번호 오류',
-            <span className="text-16 text-gray-800 font-normal">
-                인증서 비밀번호 {count}회 오류.
-                <br />
-                {count === 5
-                    ? '5회 이상 오류로 인해 프로그램이 종료 됩니다.'
-                    : '5회 이상 오류 시 프로그램이 종료 됩니다.'}
-            </span>,
-            undefined,
-            {showCancelButton: false},
-        ).then(() => {
-            count === 5 ? onClose() : null;
-        });
-    };
 
     const close = () => {
         codefCertificate
@@ -83,7 +66,25 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
             .catch(() => setCertList([]));
     };
 
-    const onSubmit = ({password}: {password: string}) => {
+    const errorAlert = (count: number) => {
+        confirm3(
+            '인증서 비밀번호 오류',
+            <span className="text-16 text-gray-800 font-normal">
+                인증서 비밀번호 {count}회 오류.
+                <br />
+                {count === 5
+                    ? '5회 이상 오류로 인해 프로그램이 종료 됩니다.'
+                    : '5회 이상 오류 시 프로그램이 종료 됩니다.'}
+            </span>,
+            undefined,
+            {showCancelButton: false},
+        ).then(() => {
+            count === 5 ? onClose() : null;
+        });
+    };
+
+    const onSubmit = () => {
+        const password = form.getValues('password');
         if (!selectedCert) return;
         if (!password) return;
 
