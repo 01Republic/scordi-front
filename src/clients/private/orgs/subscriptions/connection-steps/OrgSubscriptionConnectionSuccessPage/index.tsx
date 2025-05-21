@@ -8,7 +8,7 @@ import {allFulfilled} from '^utils/array';
 import {codefCardApi} from '^models/CodefCard/api';
 import {subscriptionApi} from '^models/Subscription/api';
 import {errorToast} from '^api/api';
-import LoadingScreen from '^_components/pages/assets/connect-steps/common/LoadingScreen';
+import {LoadingScreen} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
 import {ConnectionSubscriptionList} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectionSubscriptionList';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
@@ -54,7 +54,8 @@ export const OrgSubscriptionConnectionSuccessPage = memo(function OrgSubscriptio
     if (isLoading)
         return (
             <LoadingScreen
-                onComplete={() => {
+                message="선택한 자산을 기준으로 구독을 찾고 있어요"
+                onClose={() => {
                     setIsLoading(false);
                     setIsSyncedCodefCard(true);
                 }}

@@ -2,18 +2,26 @@ import {Fragment, useEffect, useState} from 'react';
 import {DotLottieReact} from '@lottiefiles/dotlottie-react';
 import NumberFlow from '@number-flow/react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {useRouter} from 'next/router';
 
 interface LoadingScreenProps {
     message?: string;
     onCreat?: () => void;
-    onComplete: () => void;
+    onClose: () => void;
 }
 
 const PROGRESS_SCHEDULE = [3, 7, 12, 18, 32, 45, 63, 79, 88, 100];
 
 export const LoadingScreen = (props: LoadingScreenProps) => {
-    const {message = '조금만 기다려 주세요!', onCreat, onComplete} = props;
+    const {message = '조금만 기다려 주세요!', onCreat, onClose} = props;
+
+    const router = useRouter();
     const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        if (!router.isReady) return;
+        onCreat && onCreat();
+    }, []);
 
     useEffect(() => {
         let currentIndex = 0;
@@ -25,7 +33,7 @@ export const LoadingScreen = (props: LoadingScreenProps) => {
                 currentIndex++;
             } else {
                 clearInterval(interval);
-                onComplete();
+                onClose();
             }
         }, intervalTime);
 
