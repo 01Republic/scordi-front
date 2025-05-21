@@ -10,21 +10,23 @@ import {useForm, useFormContext} from 'react-hook-form';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
 import {confirm3} from '^components/util/dialog/confirm3';
+import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 
 interface CertificateLinkModalProps {
     isOpen: boolean;
     onClose: () => void;
     onCreate?: () => void;
+    setStep?: () => void;
 }
 
 export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
-    const {isOpen, onClose, onCreate} = props;
+    const {isOpen = false, onClose, onCreate, setStep} = props;
+
+    const form = useFormContext<CreateAccountRequestDto>();
     const [deviceInfo, setDeviceInfo] = useState<any>();
     const [activeDrivePath, setActiveDrivePath] = useState<string>();
     const [certList, setCertList] = useState<CertFileDto[]>([]);
-    const form = useForm<{password: string}>({
-        defaultValues: {password: ''},
-    });
     const [selectedCert, setSelectedCert] = useState<CertFileDto>();
 
     useEffect(() => {
@@ -39,7 +41,6 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                 setActiveDrivePath(undefined);
                 setSelectedCert(undefined);
                 setCertList([]);
-                form.reset();
             })
             .catch(console.log);
     };
@@ -92,11 +93,12 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
         codefCertificate
             .fn_ConvertPFX(selectedCert, password)
             .then((pfxInfo) => {
-                console.log('pfxInfo :: ' + pfxInfo);
+                form.setValue('certFile', pfxInfo);
+                form.setValue('certType', CodefCertificateType.PFX);
+                form.setValue('id', selectedCert.userName);
             })
+            .then(() => setStep && setStep())
             .catch((err) => {
-                console.log(err);
-                console.log(typeof err.code);
                 if (String(err.code) === '-9997') {
                     errorAlert(err.count);
                     return;
@@ -111,7 +113,10 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                 <section className="flex items-center justify-between">
                     <span className="text-18 font-bold text-gray-900">공동인증서로 연동</span>
                     <X
-                        onClick={onClose}
+                        onClick={() => {
+                            form.reset({password: '', certFile: '', certType: undefined});
+                            onClose();
+                        }}
                         className="size-6 text-gray-300 hover:text-gray-700 cursor-pointer transition-all"
                     />
                 </section>
@@ -136,7 +141,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                     <CertificateList certList={certList} selectedCert={selectedCert} onSelect={setSelectedCert} />
                 </section>
 
-                <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
+                <form className="flex flex-col gap-5">
                     <section>
                         <div className="mb-2 flex items-center gap-2">
                             <p className="text-14 font-medium">인증서 비밀번호</p>
@@ -158,12 +163,16 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                         <button
                             type="button"
                             className="btn btn-secondary btn-block btn-gray no-animation btn-animation"
-                            onClick={onClose}
+                            onClick={() => {
+                                form.reset({password: '', certFile: '', certType: undefined});
+                                onClose();
+                            }}
                         >
                             취소
                         </button>
                         <button
-                            type="submit"
+                            type="button"
+                            onClick={onSubmit}
                             className={`btn btn-block btn-scordi no-animation btn-animation disabled:bg-primaryColor-900/20 disabled:text-primaryColor-900/50 disabled:border-none`}
                             disabled={!selectedCert || !form.watch('password')}
                         >
