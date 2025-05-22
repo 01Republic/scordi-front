@@ -13,6 +13,7 @@ import {
 import {CodefCardSearchResultDto} from './CodefCardSearchResult.dto';
 import {CodefBankAccountSearchResultDto} from './CodefBankAccountSearchResult.dto';
 import {CodefParserFile} from './CodefParserFile';
+import {listDtoOf, oneDtoOf} from '^types/utils/response-of';
 
 export const codefParserFactoryApi = {
     index() {
@@ -53,33 +54,21 @@ export const codefParserFactoryApi = {
 
     searchProducts(params: FindOperatorUnitDto) {
         const url = '/codef-parser-factories/products';
-        return api.get<ProductDto[]>(url, {params}).then((res) => {
-            res.data = plainToInstance(ProductDto, res.data);
-            return res;
-        });
-    },
-
-    searchCodefBillingHistories(params: FindAllCodefBillingHistoryQueryDto) {
-        const url = '/codef-parser-factories/codef-billing-histories';
-        return api.get<CodefBillingHistoryDto[]>(url, {params}).then((res) => {
-            res.data = plainToInstance(CodefBillingHistoryDto, res.data);
-            return res;
-        });
+        return api.get(url, {params}).then(listDtoOf(ProductDto));
     },
 
     searchCodefCards(params: FindAllQueryDto<OrganizationDto>) {
         const url = '/codef-parser-factories/codef-cards';
-        return api.get<CodefCardSearchResultDto>(url, {params}).then((res) => {
-            res.data = plainToInstance(CodefCardSearchResultDto, res.data);
-            return res;
-        });
+        return api.get(url, {params}).then(oneDtoOf(CodefCardSearchResultDto));
     },
 
     searchCodefBankAccounts(params: FindAllQueryDto<OrganizationDto>) {
         const url = '/codef-parser-factories/codef-bank-accounts';
-        return api.get<CodefBankAccountSearchResultDto>(url, {params}).then((res) => {
-            res.data = plainToInstance(CodefBankAccountSearchResultDto, res.data);
-            return res;
-        });
+        return api.get(url, {params}).then(oneDtoOf(CodefBankAccountSearchResultDto));
+    },
+
+    searchCodefBillingHistories(params: FindAllCodefBillingHistoryQueryDto) {
+        const url = '/codef-parser-factories/codef-billing-histories';
+        return api.get(url, {params}).then(listDtoOf(CodefBillingHistoryDto));
     },
 };

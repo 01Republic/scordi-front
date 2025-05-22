@@ -8,8 +8,8 @@ export class CodefBankAccountSearchResultDto {
     organization: OrganizationDto;
 
     @TypeCast(() => OrganizationDto)
-    organizations: OrganizationDto[];
+    organizations: OrganizationDto[] = [];
 
     @TypeCast(() => CodefBankAccountDto)
-    codefBankAccounts: CodefBankAccountDto[];
+    codefBankAccounts: CodefBankAccountDto[] = [];
 }

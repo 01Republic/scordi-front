@@ -4,10 +4,13 @@ import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOption
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {CodefBillingHistoriesGroup} from './types';
 import {makeGroupByDate} from './makeGroupByDate';
-import {makeGroupByCard} from './makeGroupByCard';
+import {makeGroupByBankAccount} from './makeGroupByBankAccount';
 
 export * from './types';
 
+/**
+ * 계좌파서 > 그룹화 로직 핸들러
+ */
 export function useCodefBillingHistoriesGroup() {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState<CodefBillingHistoriesGroup[]>([]);
@@ -22,7 +25,7 @@ export function useCodefBillingHistoriesGroup() {
             case GroupingMethod.byMessage:
                 break;
             case GroupingMethod.byCard:
-                setData(makeGroupByCard(codefBillingHistories, method, fixedRecurringType));
+                setData(makeGroupByBankAccount(codefBillingHistories, method, fixedRecurringType));
                 break;
             case GroupingMethod.byDate:
             default:

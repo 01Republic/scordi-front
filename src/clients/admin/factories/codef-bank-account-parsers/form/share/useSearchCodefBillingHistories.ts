@@ -8,6 +8,9 @@ import {CodefBillingHistoryDto, FindAllCodefBillingHistoryQueryDto} from '^model
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {getLikeQueryString} from '^admin/factories/codef-parser-factories/form/share/get-like-query-string';
 
+/**
+ * 계좌파서 > 입출금내역 조회
+ */
 export function useSearchCodefBillingHistories() {
     const [isLoading, setIsLoading] = useState(false);
     const [codefBillingHistories, setCodefBillingHistories] = useState<CodefBillingHistoryDto[]>([]);
@@ -21,7 +24,8 @@ export function useSearchCodefBillingHistories() {
 
         setIsLoading(true);
         const query = {} as FindAllCodefBillingHistoryQueryDto;
-        if (codefBankAccount) query.where = {codefBankAccountId: codefBankAccount.id};
+        query.where = {codefCardId: 'NULL'};
+        if (codefBankAccount) query.where.codefBankAccountId = codefBankAccount.id;
         query.find = {ops, value: getLikeQueryString(fo, bo, value)};
         codefParserFactoryApi
             .searchCodefBillingHistories(query)

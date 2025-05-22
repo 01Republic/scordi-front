@@ -2,6 +2,7 @@ import {memo} from 'react';
 import {CodefCardParserDto, CodefCardParserDtoInFactory} from '^models/_codef/CodefCardParser/type';
 import {CodefBankAccountParserDtoInFactory} from '^models/_codef/CodefBankAccountParser/type';
 import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
+import {CodefBankAccountParserEditPageRoute} from '^pages/admin/factories/codef-bank-account-parsers/[id]/edit';
 import {LinkTo} from '^components/util/LinkTo';
 import {CardViewItem} from './CardViewItem';
 
@@ -20,7 +21,7 @@ export const CodefAssetParserGroup = memo((props: CodefAssetParserGroupProps) =>
     const redirectTo =
         parser instanceof CodefCardParserDto
             ? CodefCardParserEditPageRoute.path(parser.id)
-            : CodefCardParserEditPageRoute.path(parser.id);
+            : CodefBankAccountParserEditPageRoute.path(parser.id);
 
     return (
         <div className="relative w-full group">

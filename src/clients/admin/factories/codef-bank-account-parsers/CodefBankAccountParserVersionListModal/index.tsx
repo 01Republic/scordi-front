@@ -1,11 +1,11 @@
 import React, {ChangeEvent, memo, useState} from 'react';
-import {CodefCardParserDto, CodefCardParserDtoInFactory} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
+import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {StickyNote, X} from 'lucide-react';
 import {ago} from '^utils/dateTime';
 import {LinkTo} from '^components/util/LinkTo';
-import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
-import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
+import {CodefBankAccountParserEditPageRoute} from '^pages/admin/factories/codef-bank-account-parsers/[id]/edit';
+import {adminCodefBankAccountParserApi} from '^models/_codef/CodefBankAccountParser/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {LoadableBox} from '^components/util/loading';
@@ -14,7 +14,6 @@ import {
     CodefBankAccountParserDto,
     CodefBankAccountParserDtoInFactory,
 } from '^models/_codef/CodefBankAccountParser/type';
-import {adminCodefBankAccountParserApi} from '^models/_codef/CodefBankAccountParser/api';
 
 interface CodefBankAccountParserVersionListModalProps {
     isOpen: boolean;
@@ -31,7 +30,7 @@ export const CodefBankAccountParserVersionListModal = memo((props: CodefBankAcco
     const productName = parser?.product?.name();
     const isActive = parsers.some((p) => p.isActive);
 
-    const toggleActive = (e: ChangeEvent<HTMLInputElement>, parser: CodefCardParserDto) => {
+    const toggleActive = (e: ChangeEvent<HTMLInputElement>, parser: CodefBankAccountParserDto) => {
         const checked = e.target.checked;
         const another = parsers.find((p) => p.isActive && p.id !== parser.id);
 
@@ -116,7 +115,7 @@ export const CodefBankAccountParserVersionListModal = memo((props: CodefBankAcco
                                     <div className="p-1 py-2 col-span-4">
                                         <div className="flex items-center gap-1.5">
                                             <LinkTo
-                                                href={CodefCardParserEditPageRoute.path(parser.id)}
+                                                href={CodefBankAccountParserEditPageRoute.path(parser.id)}
                                                 className="text-blue-500 hover:underline hover:underline-offset-2 hover:underline-blue-500"
                                                 displayLoading={false}
                                             >

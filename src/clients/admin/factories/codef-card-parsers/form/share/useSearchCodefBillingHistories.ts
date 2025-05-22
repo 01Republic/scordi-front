@@ -21,7 +21,8 @@ export function useSearchCodefBillingHistories() {
 
         setIsLoading(true);
         const query = {} as FindAllCodefBillingHistoryQueryDto;
-        if (codefCard) query.where = {codefCardId: codefCard.id};
+        query.where = {codefBankAccountId: 'NULL'};
+        if (codefCard) query.where.codefCardId = codefCard.id;
         query.find = {ops, value: getLikeQueryString(fo, bo, value)};
         codefParserFactoryApi
             .searchCodefBillingHistories(query)

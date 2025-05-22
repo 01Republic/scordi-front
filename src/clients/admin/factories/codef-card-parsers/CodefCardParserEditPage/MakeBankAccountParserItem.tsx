@@ -5,7 +5,7 @@ import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type';
 import {adminCodefBankAccountParserApi} from '^models/_codef/CodefBankAccountParser/api';
-import {CodefCardParserListPageRoute} from '^pages/admin/factories/codef-card-parsers';
+import {CodefBankAccountParserEditPageRoute} from '^pages/admin/factories/codef-bank-account-parsers/[id]/edit';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 
 interface MakeBankAccountParserItemProps {
@@ -19,12 +19,12 @@ export const MakeBankAccountParserItem = memo((props: MakeBankAccountParserItemP
 
     const onClick = async () => {
         confirmed(confirmDialog())
-            // .then(() => adminCodefBankAccountParserApi.migration(parser.id))
+            .then(() => adminCodefBankAccountParserApi.migration(parser.id))
             .then((res) => {
                 hide && hide();
                 toast.success('복제 완료');
-                // const codefBankAccountParser = res.data;
-                // return router.replace(CodefBankAccountParserEditPageRoute.path(codefBankAccountParser.id));
+                const codefBankAccountParser = res.data;
+                return router.replace(CodefBankAccountParserEditPageRoute.path(codefBankAccountParser.id));
             })
             .catch(errorToast)
             .finally(() => hide && hide());

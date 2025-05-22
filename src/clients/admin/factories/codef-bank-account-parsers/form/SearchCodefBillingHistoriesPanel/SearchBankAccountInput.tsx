@@ -32,6 +32,8 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
     const [searchResult, setSearchResult] = useState<CodefBankAccountSearchResultDto>();
     const [isFold, setFold] = useState(false);
 
+    const {organization, organizations = [], codefBankAccounts = []} = searchResult || {};
+
     const stopPropagation = (e: React.KeyboardEvent<HTMLElement>) => {
         if (e.key === 'Enter') {
             e.stopPropagation();
@@ -119,24 +121,28 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
             {searchResult && (
                 <div>
                     <div className="flex items-center justify-between mb-2.5">
-                        <div
-                            className="flex items-center group cursor-pointer"
-                            onClick={() => {
-                                onSelect(undefined);
-                                setSearchResult(undefined);
-                                if (searchKey === SearchKey.Name) nameInputRef.current?.focus();
-                                if (searchKey === SearchKey.ID) idInputRef.current?.focus();
-                            }}
-                        >
-                            <span className="badge badge-xs mr-2">#{searchResult.organization.id}</span>
-                            <span className="text-12 text-gray-500 group-hover:text-gray-800 transition-all">
-                                {searchResult.organization.name}
-                            </span>
-                            <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
-                        </div>
+                        {organization ? (
+                            <div
+                                className="flex items-center group cursor-pointer"
+                                onClick={() => {
+                                    onSelect(undefined);
+                                    setSearchResult(undefined);
+                                    if (searchKey === SearchKey.Name) nameInputRef.current?.focus();
+                                    if (searchKey === SearchKey.ID) idInputRef.current?.focus();
+                                }}
+                            >
+                                <span className="badge badge-xs mr-2">#{organization.id}</span>
+                                <span className="text-12 text-gray-500 group-hover:text-gray-800 transition-all">
+                                    {organization.name}
+                                </span>
+                                <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
 
                         <div className="text-11 flex items-center justify-end gap-x-2 flex-wrap overflow-scroll no-scrollbar">
-                            {(searchResult.organizations || []).map((org, i) => (
+                            {organizations.map((org, i) => (
                                 <div
                                     key={i}
                                     className="text-scordi-300 hover:text-scordi-500 hover:underline transition-all cursor-pointer"
@@ -167,7 +173,7 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
 
                     {!isFold && (
                         <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
-                            {searchResult.codefBankAccounts.map((codefBankAccount, i) => (
+                            {codefBankAccounts.map((codefBankAccount, i) => (
                                 <div key={i}>
                                     <SearchedItem item={codefBankAccount} onClick={() => onSelect(codefBankAccount)} />
                                     {/*<CodefCardTagUI codefCard={codefCard} withCompany />*/}
@@ -176,7 +182,7 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
                         </div>
                     )}
 
-                    {searchResult.codefBankAccounts.length > 30 && (
+                    {codefBankAccounts.length > 30 && (
                         <div className="flex items-center justify-center">
                             {!isFold && (
                                 <button className="btn btn-xs" onClick={() => setFold(true)}>
@@ -185,7 +191,7 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
                             )}
                             {isFold && (
                                 <button className="btn btn-xs" onClick={() => setFold(false)}>
-                                    {searchResult.codefBankAccounts.length.toLocaleString()}개의 계좌 펼치기
+                                    {codefBankAccounts.length.toLocaleString()}개의 계좌 펼치기
                                 </button>
                             )}
                         </div>

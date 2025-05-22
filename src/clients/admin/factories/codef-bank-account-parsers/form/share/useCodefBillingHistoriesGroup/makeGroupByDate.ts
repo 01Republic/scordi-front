@@ -1,11 +1,14 @@
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {GroupingMethod} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {CodefBillingHistoriesGroup, GroupContainerKey} from './types';
-import {getRecurringType} from './getRecurringType';
 import {getDay} from './getDay';
+import {getRecurringType} from './getRecurringType';
 import {getOrderedHistories} from './getOrderedHistories';
 
+/**
+ * 계좌파서 > 그룹화 로직 : 날짜별
+ */
 export function makeGroupByDate(codefBillingHistories: CodefBillingHistoryDto[], groupMethod: GroupingMethod) {
     const groups: CodefBillingHistoriesGroup[] = [];
 
@@ -15,21 +18,24 @@ export function makeGroupByDate(codefBillingHistories: CodefBillingHistoryDto[],
     // 주어진 결제내역이 여러 카드에 관한 것일 수 있으므로,
     // 카드로 우선 그룹을 나누어 둔다.
     const groupedByCard: Record<string, CodefBillingHistoryDto[]> = {};
-    const cardMap: Record<string, CodefCardDto> = {};
+    const bankAccountMap: Record<string, CodefBankAccountDto> = {};
     orderedHistories.forEach((his, i) => {
-        if (his.codefCardId) {
-            groupedByCard[his.codefCardId] ||= [];
-            groupedByCard[his.codefCardId].push(his);
-            cardMap[his.codefCardId] ||= his.codefCard!;
+        if (his.codefBankAccountId) {
+            groupedByCard[his.codefBankAccountId] ||= [];
+            groupedByCard[his.codefBankAccountId].push(his);
+            bankAccountMap[his.codefBankAccountId] ||= his.codefBankAccount!;
         }
     });
 
-    Object.entries(groupedByCard).forEach(([codefCardIdStr, histories]) => {
+    Object.entries(groupedByCard).forEach(([codefBankAccountIdStr, histories]) => {
         // 카드 그룹내에서, 결제내역을 순회한다.
         let drainKey = '';
         const container: Record<string, CodefBillingHistoryDto[]> = {};
         histories.forEach((his, i) => {
-            const keyObj: GroupContainerKey = {codefCardId: Number(codefCardIdStr), groupKey: getDay(his)};
+            const keyObj: GroupContainerKey = {
+                codefBankAccountId: Number(codefBankAccountIdStr),
+                groupKey: getDay(his),
+            };
             const key = JSON.stringify(keyObj);
 
             if (!drainKey) {
@@ -62,8 +68,8 @@ export function makeGroupByDate(codefBillingHistories: CodefBillingHistoryDto[],
                 metadata: {
                     groupKey: keyObj.groupKey, // day string ex: '12'
                     groupMethod,
-                    codefCardId: keyObj.codefCardId,
-                    codefCard: cardMap[keyObj.codefCardId],
+                    codefBankAccountId: keyObj.codefBankAccountId,
+                    codefBankAccount: bankAccountMap[keyObj.codefBankAccountId],
                     billingCycleType: getRecurringType(regularRecurringList),
                 },
                 entries: entries.reverse(), // asc 를 desc 로 반전시킴
