@@ -11,6 +11,7 @@ import {
     UpdateCodefParserDto,
 } from './CreateCodefParserDto';
 import {CodefCardSearchResultDto} from './CodefCardSearchResult.dto';
+import {CodefBankAccountSearchResultDto} from './CodefBankAccountSearchResult.dto';
 import {CodefParserFile} from './CodefParserFile';
 
 export const codefParserFactoryApi = {
@@ -70,6 +71,14 @@ export const codefParserFactoryApi = {
         const url = '/codef-parser-factories/codef-cards';
         return api.get<CodefCardSearchResultDto>(url, {params}).then((res) => {
             res.data = plainToInstance(CodefCardSearchResultDto, res.data);
+            return res;
+        });
+    },
+
+    searchCodefBankAccounts(params: FindAllQueryDto<OrganizationDto>) {
+        const url = '/codef-parser-factories/codef-bank-accounts';
+        return api.get<CodefBankAccountSearchResultDto>(url, {params}).then((res) => {
+            res.data = plainToInstance(CodefBankAccountSearchResultDto, res.data);
             return res;
         });
     },

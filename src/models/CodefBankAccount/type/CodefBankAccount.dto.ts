@@ -10,6 +10,11 @@ export class CodefBankAccountDto {
     id: number; // ID
     accountId: number; // 계정 정보 FK
     bankAccountId: number | null; // 등록된 계좌 FK
+
+    get number4() {
+        return this.resAccountDisplay;
+    }
+
     @TypeCast(() => Date) syncedStartDate: Date | null; // 연동된 거래내역 시작일시
     @TypeCast(() => Date) syncedEndDate: Date | null; // 연동된 거래내역 종료일시
     resOverdraftAcctYN: boolean | null; // 마이너스 통장 여부

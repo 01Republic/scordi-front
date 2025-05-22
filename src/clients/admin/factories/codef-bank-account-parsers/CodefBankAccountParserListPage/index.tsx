@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
 import {LoadableBox} from '^components/util/loading';
-import {CodefCardParserNewPageRoute} from '^pages/admin/factories/codef-card-parsers/new';
+import {CodefBankAccountParserNewPageRoute} from '^pages/admin/factories/codef-bank-account-parsers/new';
 import {CodefBankAccountParserDtoInFactory} from '^models/_codef/CodefBankAccountParser/type';
 import {useCodefBankAccountParserListInFactory} from '^models/_codef/CodefBankAccountParser/hooks';
 import {AdminListPageLayout} from '^admin/layouts';
@@ -24,7 +24,7 @@ export const CodefBankAccountParserListPage = memo(function CodefBankAccountPars
         <AdminListPageLayout
             title={<ListPageTitle currentSubject="bank-account" />}
             breadcrumbs={[{text: '파서 공장 (신)'}, {text: '[코드에프] 계좌 파서 목록'}]}
-            createPageRoute={CodefCardParserNewPageRoute.path()}
+            createPageRoute={CodefBankAccountParserNewPageRoute.path()}
         >
             <div className="pt-10 px-2 sm:px-4">
                 <ListPageControl
