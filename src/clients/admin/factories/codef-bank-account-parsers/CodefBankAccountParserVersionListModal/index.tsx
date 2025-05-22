@@ -73,7 +73,7 @@ export const CodefBankAccountParserVersionListModal = memo((props: CodefBankAcco
                     <header className={`flex justify-between items-start ${'mb-8'}`}>
                         <div>
                             <h3 className="text-xl mb-1.5">
-                                {productName} <code className="code code-xl">카드</code> 파서 버전이{' '}
+                                {productName} <code className="code code-xl">계좌</code> 파서 버전이{' '}
                                 {parsers.length.toLocaleString()}개 있어요.
                             </h3>
                             <p className="text-[#999] font-medium text-16">
