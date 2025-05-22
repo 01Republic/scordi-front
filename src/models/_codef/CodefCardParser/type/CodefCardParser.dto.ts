@@ -64,3 +64,5 @@ export class CodefCardParserDto {
         };
     }
 }
+
+export type CodefCardParserDtoInFactory = CodefCardParserDto & {product: ProductDto};

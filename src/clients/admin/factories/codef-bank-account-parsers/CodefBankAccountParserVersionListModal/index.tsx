@@ -10,15 +10,20 @@ import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {LoadableBox} from '^components/util/loading';
 import Tippy from '@tippyjs/react/headless';
+import {
+    CodefBankAccountParserDto,
+    CodefBankAccountParserDtoInFactory,
+} from '^models/_codef/CodefBankAccountParser/type';
+import {adminCodefBankAccountParserApi} from '^models/_codef/CodefBankAccountParser/api';
 
-interface CodefCardParserVersionListModalProps {
+interface CodefBankAccountParserVersionListModalProps {
     isOpen: boolean;
     onClose: () => any;
-    parsers?: CodefCardParserDtoInFactory[];
+    parsers?: CodefBankAccountParserDtoInFactory[];
     reload?: () => any;
 }
 
-export const CodefCardParserVersionListModal = memo((props: CodefCardParserVersionListModalProps) => {
+export const CodefBankAccountParserVersionListModal = memo((props: CodefBankAccountParserVersionListModalProps) => {
     const {isOpen, onClose, parsers = [], reload} = props;
     const [isLoading, setIsLoading] = useState(false);
 
@@ -42,7 +47,7 @@ export const CodefCardParserVersionListModal = memo((props: CodefCardParserVersi
         }
 
         setIsLoading(true);
-        adminCodefCardParserApi
+        adminCodefBankAccountParserApi
             .toggleActive(parser.id)
             .then(() => toast.success('Success!'))
             .then(() => reload && reload())
@@ -50,11 +55,11 @@ export const CodefCardParserVersionListModal = memo((props: CodefCardParserVersi
             .finally(() => setIsLoading(false));
     };
 
-    const remove = (parser: CodefCardParserDto) => {
+    const remove = (parser: CodefBankAccountParserDto) => {
         if (!confirm('Are you sure??')) return;
 
         setIsLoading(true);
-        return adminCodefCardParserApi
+        return adminCodefBankAccountParserApi
             .destroy(parser.id)
             .then(() => toast.success('Success!'))
             .then(() => reload && reload())
@@ -161,4 +166,4 @@ export const CodefCardParserVersionListModal = memo((props: CodefCardParserVersi
         </AnimatedModal>
     );
 });
-CodefCardParserVersionListModal.displayName = 'CodefCardParserVersionListModal';
+CodefBankAccountParserVersionListModal.displayName = 'CodefBankAccountParserVersionListModal';

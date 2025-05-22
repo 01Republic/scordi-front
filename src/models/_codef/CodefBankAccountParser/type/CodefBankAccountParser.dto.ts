@@ -63,3 +63,5 @@ export class CodefBankAccountParserDto {
         };
     }
 }
+
+export type CodefBankAccountParserDtoInFactory = CodefBankAccountParserDto & {product: ProductDto};
