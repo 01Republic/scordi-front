@@ -26,7 +26,9 @@ export const ConnectedItem = memo((props: ConnectionSuccessItemSelectProps) => {
                 {url ? (
                     <NextImage src={url} alt="cardProfilImg" width={40} height={40} className="rounded-full" />
                 ) : (
-                    icon
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full p-2 bg-gray-200 overflow-hidden">
+                        {icon}
+                    </div>
                 )}
                 <div className="flex gap-1 text-gray-800 text-sm">
                     <span>{mainText}</span>
