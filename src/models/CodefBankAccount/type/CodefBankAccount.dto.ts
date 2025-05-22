@@ -78,6 +78,10 @@ export class CodefBankAccountDto {
     // 계좌번호
     resAccount: string;
 
+    get bankEndNumbers() {
+        return this.resAccount.slice(-3);
+    }
+
     // 예금구분
     resAccountDeposit: string;
 
