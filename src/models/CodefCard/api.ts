@@ -1,11 +1,9 @@
+import {ClassConstructor} from 'class-transformer';
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
-import {ClassConstructor} from 'class-transformer';
-import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
-import {SubscriptionDto} from '^models/Subscription/types';
 import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
 
 /** [연동] Connect CODEF Cards API */
