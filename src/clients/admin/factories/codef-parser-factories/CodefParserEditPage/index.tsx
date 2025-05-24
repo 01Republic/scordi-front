@@ -6,12 +6,15 @@ import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {CodefParserDataDto, UpdateCodefParserDto} from '../CodefParserFactory/CreateCodefParserDto';
 import {CodefParserForm} from '../form/CodefParserForm';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
-import {plainToast as toast} from '^hooks/useToast';
 import {useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {currentCodefParserAtom, serviceNameParamsAtom} from '^admin/factories/codef-parser-factories/atoms';
 import {useRecoilStates} from '^hooks/useRecoil';
 import {plainToInstance} from 'class-transformer';
 import {LoadableBox} from '^components/util/loading';
+import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
+import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
+import toast from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 export const CodefParserEditPage = memo(function () {
     const router = useRouter();
@@ -78,6 +81,27 @@ export const CodefParserEditPage = memo(function () {
             ]}
         >
             <AdminPageContainer fluid>
+                <div>
+                    <button
+                        type="button"
+                        className="btn bg-red-200 hover:bg-red-400 text-red-600 hover:text-red-900 transition-all rounded-[14px] border-none no-animation btn-animation"
+                        onClick={() => {
+                            const msg =
+                                '작업한 내용이 있다면 취소를 클릭후 먼저 저장한 뒤 진행해주세요.\n확인을 누르면 기존 파서를 기준으로 이관합니다.\n\n계속 진행할까요?';
+                            if (!confirm(msg)) return;
+
+                            adminCodefCardParserApi
+                                .migration(serviceNameParams)
+                                .then((res) => {
+                                    toast.success('Success!');
+                                    return router.push(CodefCardParserEditPageRoute.path(res.data.id));
+                                })
+                                .catch(errorToast);
+                        }}
+                    >
+                        새 버전으로 옮기기
+                    </button>
+                </div>
                 <LoadableBox isLoading={!pageLoaded} loadingType={1}>
                     {pageLoaded && <CodefParserForm form={form} onSubmit={onSubmit} reloadOnReady={pageLoaded} />}
                 </LoadableBox>
