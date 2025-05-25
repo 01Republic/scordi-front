@@ -1,4 +1,5 @@
 import {
+    CodefBankCode,
     CodefCardCompanyCode,
     CodefClientTypeLevel,
     CodefCustomerType,
@@ -31,7 +32,7 @@ export class CodefAccountDto {
     clientType: CodefCustomerType;
 
     // 기관코드 (기관코드는 서버 참조)
-    organization: CodefCardCompanyCode;
+    organization: CodefCardCompanyCode | CodefBankCode;
 
     // 기관명
     company: string;

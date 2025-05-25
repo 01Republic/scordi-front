@@ -9,9 +9,44 @@ import {CodefAccountDto} from './type/CodefAccountDto';
 import {FindAllAccountQueryDto} from './type/find-all-account.query.dto';
 import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {CodefCustomerType, CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
 
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사 계정 리스트를 보여줄 때 사용 */
 export const useCodefAccountsInConnector = () => useCodefAccountsV3(codefAccountsInConnector);
+
+// codef 연결된 계정 조회
+export const useCodefAccounts = (orgId: number, params: FindAllAccountQueryDto, key: string = '') => {
+    return useQuery({
+        queryKey: ['useCodefAccounts', orgId, params, key],
+        queryFn: () => codefAccountApi.index(orgId, params).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId),
+        initialData: Paginated.init(),
+    });
+};
+
+/** 구독 불러오기 (연동페이지) 에서 > codef 연결된 계정 조회 */
+export const useCodefAccountsInConnectorV2 = (orgId: number, params: FindAllAccountQueryDto = {}) => {
+    const queryResult = useCodefAccounts(orgId, {sync: true, itemsPerPage: 0, ...params}, 'codefAccountsInConnectorV2');
+    const codefAccounts = queryResult.data.items;
+
+    const getCardAccounts = (clientType: CodefCustomerType) => {
+        return codefAccounts.filter((account) => {
+            return account.businessType === CodefRequestBusinessType.Card && account.clientType === clientType;
+        });
+    };
+
+    const getBankAccounts = (clientType: CodefCustomerType) => {
+        return codefAccounts.filter((account) => {
+            return account.businessType === CodefRequestBusinessType.Bank && account.clientType === clientType;
+        });
+    };
+
+    return {
+        ...queryResult,
+        getCardAccounts,
+        getBankAccounts,
+    };
+};
 
 /** 구독 불러오기 (연동페이지) 계정등록 페이지 입력 폼 에서, 카드사 계정 연결 여부를 체크 할 때 사용 */
 export const useCodefAccountsAlreadyIs = () => useCodefAccountsV3(codefAccountsAlreadyIs);

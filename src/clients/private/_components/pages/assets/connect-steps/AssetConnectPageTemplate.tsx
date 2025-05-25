@@ -6,6 +6,8 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {AssetConnectMethodSelectStep} from './AssetConnectMethodSelectStep';
 import {AssetConnectByCertificateStep} from './AssetConnectByCertificateStep';
 import {AssetConnectByAccountStep} from './AssetConnectByAccountStep';
+import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
+import {useOrgIdParam} from '^atoms/common';
 
 interface AssetConnectOption {
     ConnectMethodAltActionButton?: () => JSX.Element;
@@ -17,7 +19,10 @@ export const AssetConnectOptionContext = createContext<AssetConnectOption>({
 });
 
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
-    const methods = useForm<CreateAccountRequestDto>({
+    const orgId = useOrgIdParam();
+    useCodefAccountsInConnectorV2(orgId);
+
+    const form = useForm<CreateAccountRequestDto>({
         mode: 'all',
         defaultValues: {
             clientType: CodefCustomerType.Business,
@@ -26,16 +31,11 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
         },
     });
 
-    const {
-        watch,
-        formState: {isValid},
-    } = methods;
-
-    const loginType = watch('loginType');
+    const loginType = form.watch('loginType');
 
     return (
         <AssetConnectOptionContext.Provider value={props}>
-            <FormProvider {...methods}>
+            <FormProvider {...form}>
                 <form>
                     {!loginType && <AssetConnectMethodSelectStep />}
 

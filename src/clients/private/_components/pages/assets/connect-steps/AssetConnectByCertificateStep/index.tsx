@@ -10,6 +10,7 @@ import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccoun
 import {AccountConnectStep} from './steps/AccountConnectStep';
 import {AccountConnectLoadingStep} from './steps/AccountConnectLoadingStep';
 import {ConnectSuccessAssetSelectStep} from './steps/ConnectSuccessAssetSelectStep';
+import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
 
 enum AccountStep {
     accountConnectStep,

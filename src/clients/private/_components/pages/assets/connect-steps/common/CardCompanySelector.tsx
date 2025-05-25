@@ -74,7 +74,7 @@ export const CardCompanySelector = memo(() => {
                             key={company.param}
                             logo={company.logo}
                             title={company.displayName}
-                            connect={!!connectedAccount}
+                            isConnected={!!connectedAccount}
                             onClick={() => onClick(company)}
                             onDisconnect={() => onDisconnect(company.displayName, connectedAccount?.id)}
                         />
