@@ -1,15 +1,14 @@
 import {memo} from 'react';
-import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
-import {LottieNoSSR} from '^components/LottieNoSSR';
-import {SuccessCreditCardSection} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/SuccessCreditCardSection';
-import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {useRecoilValue} from 'recoil';
-import {assetConnectedCodefCardsAtom} from '^models/CodefCard/atom';
 import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
+import {assetConnectedCodefCardsAtom} from '^models/CodefCard/atom';
+import {LottieNoSSR} from '^components/LottieNoSSR';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
+import {SuccessCreditCardSection} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/SuccessCreditCardSection';
+import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
 
 export const OrgAssetCreateCompletePage = memo(() => {
     const router = useRouter();
