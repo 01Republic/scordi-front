@@ -12,7 +12,7 @@ import {CreateCodefBankAssets, CreateCodefCardAssets} from '^models/CodefAccount
 import {LoadingScreen} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
 import {AssetConnectOptionContext, EntryPath} from '^_components/pages/assets/connect-steps';
 
-interface AccountConnectLoadingStepProps {
+interface CreateAccountsStepProps {
     selectedBankCompanies: BankAccountsStaticData[];
     selectedCardCompanies: CardAccountsStaticData[];
     setBankResults: Dispatch<SetStateAction<CreateCodefBankAssets>>;
@@ -20,7 +20,7 @@ interface AccountConnectLoadingStepProps {
     onNext: () => any;
 }
 
-export const AccountConnectLoadingStep = memo((props: AccountConnectLoadingStepProps) => {
+export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
     const {selectedBankCompanies, selectedCardCompanies, setCardResults, setBankResults, onNext} = props;
 
     const form = useFormContext<CreateAccountRequestDto>();

@@ -17,7 +17,7 @@ import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
 import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 
-interface AccountConnectStepProps {
+interface SelectCompaniesStepProps {
     selectedBankCompanies: BankAccountsStaticData[];
     setSelectedBankCompanies: Dispatch<SetStateAction<BankAccountsStaticData[]>>;
     selectedCardCompanies: CardAccountsStaticData[];
@@ -25,7 +25,8 @@ interface AccountConnectStepProps {
     onNext: () => any;
 }
 
-export const AccountConnectStep = memo((props: AccountConnectStepProps) => {
+/** 연동할 자산 선택 및 공동인증서 로그인 */
+export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
     const {selectedBankCompanies, setSelectedBankCompanies, selectedCardCompanies, setSelectedCardCompanies, onNext} =
         props;
 
@@ -98,6 +99,7 @@ export const AccountConnectStep = memo((props: AccountConnectStepProps) => {
             />
 
             {/* 인증서 선택 모달 */}
+            <CertificateSignModal
                 isOpen={isCertificateLinkModalOpen}
                 onClose={() => setCertificateLinkModalOpen(false)}
                 onCreate={(selectedCert, password, pfxInfo) => {

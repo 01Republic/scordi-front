@@ -9,13 +9,13 @@ import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccoun
 import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 import {LoadingScreen} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
 
-interface SelectAssetConnectLoadingStepProps {
+interface ConnectAssetsStepProps {
     selectedCodefBanks: CodefBankAccountDto[];
     selectedCodefCards: CodefCardDto[];
-    onNext: () => void;
+    onNext: () => any;
 }
 
-export const SelectAssetConnectLoadingStep = memo((props: SelectAssetConnectLoadingStepProps) => {
+export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
     const {selectedCodefBanks, selectedCodefCards, onNext} = props;
     const {onSuccessfullyCreateByCertificate} = useContext(AssetConnectOptionContext);
 

@@ -13,18 +13,18 @@ import {SuccessConnectCardSelector} from '^_components/pages/assets/connect-step
 import {AssetConnectOptionContext, EntryPath} from '^_components/pages/assets/connect-steps';
 import {useOrgIdParam} from '^atoms/common';
 
-interface ConnectSuccessAssetSelectStepProps {
+interface SelectAssetsStepProps {
     bankResults?: CreateCodefBankAssets;
     cardResults?: CreateCodefCardAssets;
     selectedCodefBanks: CodefBankAccountDto[];
     setSelectedCodefBanks: Dispatch<SetStateAction<CodefBankAccountDto[]>>;
     selectedCodefCards: CodefCardDto[];
     setSelectedCodefCards: Dispatch<SetStateAction<CodefCardDto[]>>;
-    onBack: () => void;
-    onNext: () => void;
+    onBack: () => any;
+    onNext: () => any;
 }
 
-export const ConnectSuccessAssetSelectStep = memo((props: ConnectSuccessAssetSelectStepProps) => {
+export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const {cardResults, bankResults} = props;
     const {selectedCodefBanks, setSelectedCodefBanks, selectedCodefCards, setSelectedCodefCards} = props;
     const {onBack, onNext} = props;
