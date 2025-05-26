@@ -6,10 +6,11 @@ interface AssetSelectorGridProps extends WithChildren {
     title: string;
     isAllSelected?: boolean;
     onSelectAll?: () => any;
+    isLoading?: boolean;
 }
 
 export const AssetSelectorGrid = memo((props: AssetSelectorGridProps) => {
-    const {title, isAllSelected = false, onSelectAll, children} = props;
+    const {title, isAllSelected = false, onSelectAll, isLoading = false, children} = props;
 
     return (
         <section className="flex flex-col gap-6">
@@ -19,7 +20,11 @@ export const AssetSelectorGrid = memo((props: AssetSelectorGridProps) => {
                 {onSelectAll && <AllSelectInstitutionOptions isAllSelected={isAllSelected} onClick={onSelectAll} />}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div
+                className={`${
+                    isLoading ? 'opacity-30 pointer-events-none' : ''
+                } grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4`}
+            >
                 {children}
             </div>
         </section>

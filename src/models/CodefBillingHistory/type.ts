@@ -3,10 +3,12 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 
 export class CodefBillingHistoryDto {
     id: number;
-    codefCardId: number;
+    codefCardId: number | null;
+    codefBankAccountId: number | null;
     billingHistoryId: number | null;
     fromApproval: boolean; // 승인내역 데이터 사용여부
     fromPurchase: boolean; // 매입내역 데이터 사용여부
@@ -61,6 +63,7 @@ export class CodefBillingHistoryDto {
     drainedCodefBillingHistoryId?: number;
 
     @TypeCast(() => CodefCardDto) codefCard?: CodefCardDto;
+    @TypeCast(() => CodefBankAccountDto) codefBankAccount?: CodefBankAccountDto;
     @TypeCast(() => BillingHistoryDto) billingHistory?: BillingHistoryDto;
 }
 

@@ -17,9 +17,16 @@ export function makeGroupByDate(codefBillingHistories: CodefBillingHistoryDto[],
     const groupedByCard: Record<string, CodefBillingHistoryDto[]> = {};
     const cardMap: Record<string, CodefCardDto> = {};
     orderedHistories.forEach((his, i) => {
-        groupedByCard[his.codefCardId] ||= [];
-        groupedByCard[his.codefCardId].push(his);
-        cardMap[his.codefCardId] ||= his.codefCard!;
+        if (his.codefCardId) {
+            groupedByCard[his.codefCardId] ||= [];
+            groupedByCard[his.codefCardId].push(his);
+            cardMap[his.codefCardId] ||= his.codefCard!;
+        }
+        // if (his.codefBankAccountId) {
+        //     groupedByCard[his.codefBankAccountId] ||= [];
+        //     groupedByCard[his.codefBankAccountId].push(his);
+        //     cardMap[his.codefBankAccountId] ||= his.codefBankAccount!;
+        // }
     });
 
     Object.entries(groupedByCard).forEach(([codefCardIdStr, histories]) => {

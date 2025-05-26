@@ -1,28 +1,19 @@
-import React, {memo, useContext, Dispatch, SetStateAction} from 'react';
-import {useRecoilValue} from 'recoil';
+import {memo, Dispatch, SetStateAction} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState, useOrgIdParam} from '^atoms/common';
-import {useCodefAccount} from '^models/CodefCard/hook';
+import {useOrgIdParam} from '^atoms/common';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {confirmed} from '^components/util/dialog';
+import {errorToast} from '^api/api';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
-import {confirm3} from '^components/util/dialog/confirm3';
-import {ConnectStepsModal} from '../AssetConnectByAccountStep/ConnectStepsModal';
-import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
-import {InstitutionOption} from './InstitutionOption';
-import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
-import {confirmed} from '^components/util/dialog';
-import {errorToast} from '^api/api';
-import {AssetSelectorGrid} from '^_components/pages/assets/connect-steps/common/AssetSelectorGrid';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-
-// 공동인증서 연동 시 롯데,하나,삼성은 연동불가
-const disabledCardCompanyParams = [
-    CodefCardCompanyCode.롯데카드,
-    CodefCardCompanyCode.하나카드,
-    CodefCardCompanyCode.삼성카드,
-];
+import {useCodefAccount} from '^models/CodefCard/hook';
+import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
+import {AssetSelectorGrid} from '^_components/pages/assets/connect-steps/common/AssetSelectorGrid';
+import {InstitutionOption} from './InstitutionOption';
+import Tippy from '@tippyjs/react';
 
 interface CardCompaniesSelectorProps {
     selectedCompanies: CardAccountsStaticData[];
@@ -34,25 +25,27 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
     const {selectedCompanies, setSelectedCompanies} = props;
 
     const orgId = useOrgIdParam();
-    const {} = useContext(AssetConnectOptionContext);
+    const {getCardAccounts, isFetching} = useCodefAccountsInConnectorV2(orgId);
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.Certificate);
+    const {removeCodefAccount} = useCodefAccount(CodefLoginType.Certificate);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
-
-    const {
-        data: {items: codefAccounts},
-    } = useCodefAccountsInConnector(orgId);
+    const codefAccounts = getCardAccounts(clientType);
+    console.log('CardCompaniesSelector', 'codefAccounts', codefAccounts);
 
     const companies = CardAccountsStaticData.findByClientType(clientType);
-    const selectableCompanies = companies.filter((company) => !disabledCardCompanyParams.includes(company.param));
+    const selectableCompanies = companies.filter((company) => {
+        // isIDPWDRequired
+        if (DISABLED_CARD_COMPANIES.includes(company.param)) return false;
+
+        // isConnected
+        if (codefAccounts.some((acc) => acc.organization === company.param)) return false;
+
+        return true;
+    });
     const isAllSelected = selectedCompanies.length === selectableCompanies.length;
 
-    // 공동인증서 로그인 방식으로 진입한 경우, 금융사는 여러개 선택할 수 있음.
-    // 선택시 토글처리 후 CTA 로 이후 동작을 실행할수 있도록 준비.
     const onClick = (company: CardAccountsStaticData) => {
-        if (disabledCardCompanyParams.includes(company.param)) return;
-
         // 토글처리
         setSelectedCompanies((prev) => {
             // 이미 선택되어있는 카드사인지 확인
@@ -91,20 +84,34 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
     };
 
     return (
-        <AssetSelectorGrid title="카드" isAllSelected={isAllSelected} onSelectAll={toggleAll}>
+        <AssetSelectorGrid title="카드" isLoading={isFetching} isAllSelected={isAllSelected} onSelectAll={toggleAll}>
             {companies.map((company) => {
-                const connectedAccount = codefAccounts.find((account) => account.company === company.displayName);
+                const connectedAccount = codefAccounts.find((account) => account.organization === company.param);
                 const isConnected = !!connectedAccount;
+                const isIDPWDRequired = DISABLED_CARD_COMPANIES.includes(company.param);
+
+                const comment = (() => {
+                    if (isConnected) {
+                        return (
+                            <Tippy content="이미 등록된 기관은 공동인증서를 통해 연결 할 수 없어요.">
+                                <div>이미 연결된 기관</div>
+                            </Tippy>
+                        );
+                    }
+                    if (isIDPWDRequired) return '홈페이지 로그인 필요';
+                    return undefined;
+                })();
 
                 return (
                     <InstitutionOption
                         key={company.param}
                         logo={company.logo}
                         title={company.displayName}
-                        connect={isConnected}
+                        isConnected={isConnected}
                         isSelected={selectedCompanies.some(({param}) => param === company.param)}
                         isAllSelected={isAllSelected}
-                        isDisabled={disabledCardCompanyParams.includes(company.param)}
+                        isDisabled={isIDPWDRequired}
+                        comment={comment}
                         onClick={() => onClick(company)}
                         onDisconnect={() => connectedAccount && onDisconnect(connectedAccount)}
                     />
@@ -113,3 +120,10 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
         </AssetSelectorGrid>
     );
 });
+
+// 공동인증서 연동 시 롯데,하나,삼성은 연동불가
+const DISABLED_CARD_COMPANIES = [
+    CodefCardCompanyCode.롯데카드,
+    CodefCardCompanyCode.하나카드,
+    CodefCardCompanyCode.삼성카드,
+];
