@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {RecoilState, useRecoilValue} from 'recoil';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CodefCardDto} from './type/CodefCard.dto';
 import {ErrorResponse} from '^models/User/types';
@@ -171,4 +171,38 @@ export const useCodefAccount = (loginType: CodefLoginType) => {
     });
 
     return {useCodefAccountsInConnector, removeCodefAccount};
+};
+
+/* 코드에프 계좌 조회 - 여러커드사의 카드를 조회 */
+export const useFindCardAccounts = (orgId: number, accountIds: number[], params?: FindAllCardQueryDto) => {
+    const queryResults = useQueries({
+        queries: accountIds.map((accountId) => {
+            const queryParams = {
+                relations: ['account'],
+                where: {accountId: accountId},
+                sync: true,
+                itemsPerPage: 0,
+                ...params,
+            };
+
+            return {
+                queryKey: ['findBankAccounts', orgId, accountId, queryParams],
+                queryFn: () =>
+                    codefAccountApi
+                        .findCards<CodefCardDto>(orgId, accountId, queryParams)
+                        .then((res) => res.data.items),
+                enabled: !!orgId && !isNaN(orgId) && accountId != null,
+            };
+        }),
+    });
+
+    const items = useMemo(
+        () => queryResults.map((codefCardAccount) => codefCardAccount.data ?? []).flat(),
+        [queryResults],
+    );
+
+    const isLoading = queryResults.some((codefCardAccount) => codefCardAccount.isLoading);
+    const isError = queryResults.some((codefCardAccount) => codefCardAccount.isError);
+
+    return {items, isLoading, isError};
 };
