@@ -1,17 +1,15 @@
-import React, {memo, useContext, useState} from 'react';
-import {useRouter} from 'next/router';
+import React, {Dispatch, memo, SetStateAction, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {allFulfilled} from '^utils/array';
 import {codefCardApi} from '^models/CodefCard/api';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CodefAccountFetchCardsResult} from '^models/CodefAccount/hooks/fetchCodefCardsByAccountInSafe';
 import {FadeUp} from '^components/FadeUp';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CodefAccountConnectStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep';
 import {ConnectableCardListStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
 import {CardCreatingStep} from '^clients/private/_modals/credit-cards/CardManualCreateModal/CardCreatingStep';
-import {CodefAccountFetchCardsResult} from '^models/CodefAccount/hooks/fetchCodefCardsByAccountInSafe';
-import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 
 enum AccountStep {
     accountConnect,
@@ -25,13 +23,20 @@ interface ConnectStepsModalProps {
     setCardCompany: (val: CardAccountsStaticData | undefined) => void;
     isConnectStepsModalOpen: boolean;
     setIsConnectStepsModalOpen: (val: boolean) => void;
+    setConnectStep: () => void;
+    setCodefCard: Dispatch<SetStateAction<CodefCardDto[] | undefined>>;
 }
 
 export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
-    const {onSuccessfullyCreatedByAccount} = useContext(AssetConnectOptionContext);
-    const {cardCompany, setCardCompany, isConnectStepsModalOpen, setIsConnectStepsModalOpen} = props;
+    const {
+        cardCompany,
+        setCardCompany,
+        isConnectStepsModalOpen,
+        setIsConnectStepsModalOpen,
+        setConnectStep,
+        setCodefCard,
+    } = props;
 
-    const router = useRouter();
     const orgId = useOrgIdParam();
 
     const [step, setStep] = useState<AccountStep | undefined>(AccountStep.accountConnect);
@@ -58,11 +63,12 @@ export const ConnectStepsModal = memo((props: ConnectStepsModalProps) => {
         await allFulfilled(checkedCards.map((codefCard) => codefCardApi.createCreditCard(orgId, codefCard.id)))
             .then((res) => {
                 const codefCards = res.map((res) => res.data);
-                onSuccessfullyCreatedByAccount(codefCards);
+                setCodefCard(codefCards);
             })
             .then(() => {
                 setStep(undefined);
                 setCardCompany(undefined);
+                setConnectStep();
             })
             .catch(() => {
                 setStep(AccountStep.accountConnect);

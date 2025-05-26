@@ -1,28 +1,49 @@
-import {memo} from 'react';
-import {useFormContext} from 'react-hook-form';
-import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {StatusHeader} from '../common/StatusHeader';
-import {BusinessTypeSelector} from '../common/BusinessTypeSelector';
-import {CardCompanySelector} from '../common/CardCompanySelector';
+import {memo, useState} from 'react';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {AccountConnectStep} from './byAccountSteps/AccountConnectStep';
+import {ConnectSuccessAssetSelectStep} from './byAccountSteps/ConnectSuccessAssetSelectStep';
+import {SelectAssetConnectLoadingStep} from './byAccountSteps/SelectAssetConnectLoadingStep';
+
+enum ConnectByAccountStep {
+    accountConnectStep,
+    connectSuccessAssetSelectStep,
+    selectAssetConnectLoadingStep,
+}
 
 export const AssetConnectByAccountStep = memo(() => {
-    const {reset} = useFormContext<CreateAccountRequestDto>();
+    const [step, setStep] = useState<ConnectByAccountStep>(ConnectByAccountStep.accountConnectStep);
+
+    const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
+    const [codefCards, setCodefCard] = useState<CodefCardDto[]>();
+    const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
 
     return (
-        <PureLayout>
-            <div className="w-full flex flex-col gap-20">
-                <div className="flex flex-col gap-10">
-                    <StatusHeader
-                        title="어떤 자산을 연결할까요?"
-                        subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
-                        onBack={() => reset({loginType: undefined})}
-                    />
-                    <BusinessTypeSelector />
-                </div>
+        <>
+            {/* 아이디/패스워드로 로그인 후 연결하고 싶은 카드를 선택 후 코드에프에서 불러온 카드를 스코디에 등록 */}
+            {step === ConnectByAccountStep.accountConnectStep && (
+                <AccountConnectStep
+                    setStep={() => setStep(ConnectByAccountStep.connectSuccessAssetSelectStep)}
+                    cardCompany={cardCompany}
+                    setCardCompany={setCardCompany}
+                    setCodefCard={setCodefCard}
+                />
+            )}
 
-                <CardCompanySelector />
-            </div>
-        </PureLayout>
+            {/* 등록된 스코디 카드 중 구독을 불러오고 싶은 카드를 선택 */}
+            {step === ConnectByAccountStep.connectSuccessAssetSelectStep && (
+                <ConnectSuccessAssetSelectStep
+                    setStep={() => setStep(ConnectByAccountStep.selectAssetConnectLoadingStep)}
+                    codefCards={codefCards}
+                    selectedCodefCards={selectedCodefCards}
+                    setSelectedCodefCards={setSelectedCodefCards}
+                />
+            )}
+
+            {/* 선택된 카드들의 코드에프 결제내역 조회(등록 및 연동) 후 성공페이지로 이동 */}
+            {step === ConnectByAccountStep.selectAssetConnectLoadingStep && (
+                <SelectAssetConnectLoadingStep selectedCodefCards={selectedCodefCards} />
+            )}
+        </>
     );
 });
