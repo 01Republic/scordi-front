@@ -7,7 +7,7 @@ import {BankCompaniesSelector} from '^_components/pages/assets/connect-steps/com
 import {CardCompaniesSelector} from '^_components/pages/assets/connect-steps/common/CardCompaniesSelector';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
 import {CertificateSetupModal} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/CertificateSetupModal';
-import {CertificateLinkModal} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/CertificateLinkModal';
+import {CertificateSignModal} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/CertificateSignModal';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {useFormContext} from 'react-hook-form';
@@ -98,7 +98,6 @@ export const AccountConnectStep = memo((props: AccountConnectStepProps) => {
             />
 
             {/* 인증서 선택 모달 */}
-            <CertificateLinkModal
                 isOpen={isCertificateLinkModalOpen}
                 onClose={() => setCertificateLinkModalOpen(false)}
                 onCreate={(selectedCert, password, pfxInfo) => {

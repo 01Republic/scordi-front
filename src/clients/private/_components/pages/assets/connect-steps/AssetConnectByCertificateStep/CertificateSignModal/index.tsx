@@ -10,13 +10,13 @@ import {DriveHardDisk} from './DriveHardDisk';
 import {DriveExternalDisk} from './DriveExternalDisk';
 import {CertificateList} from './CertificateList';
 
-interface CertificateLinkModalProps {
+interface CertificateSignModalProps {
     isOpen: boolean;
     onClose: () => void;
     onCreate?: (selectedCert: CertFileDto, password: string, pfxInfo: string) => any;
 }
 
-export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
+export const CertificateSignModal = memo((props: CertificateSignModalProps) => {
     const {isOpen = false, onClose, onCreate} = props;
     const form = useForm<{password: string}>({
         mode: 'onChange',
