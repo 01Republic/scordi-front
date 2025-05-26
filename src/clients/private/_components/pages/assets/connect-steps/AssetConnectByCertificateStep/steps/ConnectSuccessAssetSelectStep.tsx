@@ -21,13 +21,13 @@ interface ConnectSuccessAssetSelectStepProps {
     selectedCodefCards: CodefCardDto[];
     setSelectedCodefCards: Dispatch<SetStateAction<CodefCardDto[]>>;
     onBack: () => void;
-    setStep: () => void;
+    onNext: () => void;
 }
 
 export const ConnectSuccessAssetSelectStep = memo((props: ConnectSuccessAssetSelectStepProps) => {
     const {cardResults, bankResults} = props;
     const {selectedCodefBanks, setSelectedCodefBanks, selectedCodefCards, setSelectedCodefCards} = props;
-    const {onBack, setStep} = props;
+    const {onBack, onNext} = props;
 
     const {entryPath} = useContext(AssetConnectOptionContext);
     const router = useRouter();
@@ -80,7 +80,7 @@ export const ConnectSuccessAssetSelectStep = memo((props: ConnectSuccessAssetSel
 
                 <div className="flex w-full justify-center">
                     <NextStepButton
-                        onClick={setStep}
+                        onClick={onNext}
                         text={successBanks.length === 0 && successCards.length === 0 ? '대시보드로 가기' : '다음'}
                     />
                 </div>

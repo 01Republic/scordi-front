@@ -12,11 +12,11 @@ import {LoadingScreen} from '^_components/pages/assets/connect-steps/common/Load
 interface SelectAssetConnectLoadingStepProps {
     selectedCodefBanks: CodefBankAccountDto[];
     selectedCodefCards: CodefCardDto[];
-    setStep: () => void;
+    onNext: () => void;
 }
 
 export const SelectAssetConnectLoadingStep = memo((props: SelectAssetConnectLoadingStepProps) => {
-    const {selectedCodefBanks, selectedCodefCards, setStep} = props;
+    const {selectedCodefBanks, selectedCodefCards, onNext} = props;
     const {onSuccessfullyCreateByCertificate} = useContext(AssetConnectOptionContext);
 
     const orgId = useOrgIdParam();
@@ -52,7 +52,7 @@ export const SelectAssetConnectLoadingStep = memo((props: SelectAssetConnectLoad
             })
             .catch((err) => {
                 errorToast(err);
-                setStep();
+                onNext();
             });
     };
 

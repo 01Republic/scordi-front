@@ -47,7 +47,7 @@ export const AssetConnectByCertificateStep = memo(() => {
                     setSelectedBankCompanies={setSelectedBankCompanies}
                     selectedCardCompanies={selectedCardCompanies}
                     setSelectedCardCompanies={setSelectedCardCompanies}
-                    setStep={() => setStep(ConnectByCertificateStep.accountConnectLoadingStep)}
+                    onNext={() => setStep(ConnectByCertificateStep.accountConnectLoadingStep)}
                 />
             )}
 
@@ -58,7 +58,7 @@ export const AssetConnectByCertificateStep = memo(() => {
                     selectedCardCompanies={selectedCardCompanies}
                     setBankResults={setBankResults}
                     setCardResults={setCardResults}
-                    setStep={() => setStep(ConnectByCertificateStep.connectSuccessAssetSelectStep)}
+                    onNext={() => setStep(ConnectByCertificateStep.connectSuccessAssetSelectStep)}
                 />
             )}
 
@@ -72,7 +72,7 @@ export const AssetConnectByCertificateStep = memo(() => {
                     selectedCodefCards={selectedCodefCards}
                     setSelectedCodefCards={setSelectedCodefCards}
                     onBack={() => setStep(ConnectByCertificateStep.accountConnectStep)}
-                    setStep={() => setStep(ConnectByCertificateStep.selectAssetConnectLoadingStep)}
+                    onNext={() => setStep(ConnectByCertificateStep.selectAssetConnectLoadingStep)}
                 />
             )}
 
@@ -81,7 +81,7 @@ export const AssetConnectByCertificateStep = memo(() => {
                 <SelectAssetConnectLoadingStep
                     selectedCodefBanks={selectedCodefBanks}
                     selectedCodefCards={selectedCodefCards}
-                    setStep={() => setStep(ConnectByCertificateStep.connectSuccessSubscriptionStep)}
+                    onNext={() => setStep(ConnectByCertificateStep.connectSuccessSubscriptionStep)}
                 />
             )}
         </>

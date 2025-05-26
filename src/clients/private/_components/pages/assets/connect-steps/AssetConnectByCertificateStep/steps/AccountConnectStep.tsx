@@ -22,11 +22,11 @@ interface AccountConnectStepProps {
     setSelectedBankCompanies: Dispatch<SetStateAction<BankAccountsStaticData[]>>;
     selectedCardCompanies: CardAccountsStaticData[];
     setSelectedCardCompanies: Dispatch<SetStateAction<CardAccountsStaticData[]>>;
-    setStep: () => void;
+    onNext: () => any;
 }
 
 export const AccountConnectStep = memo((props: AccountConnectStepProps) => {
-    const {selectedBankCompanies, setSelectedBankCompanies, selectedCardCompanies, setSelectedCardCompanies, setStep} =
+    const {selectedBankCompanies, setSelectedBankCompanies, selectedCardCompanies, setSelectedCardCompanies, onNext} =
         props;
 
     const form = useFormContext<CreateAccountRequestDto>();
@@ -106,7 +106,7 @@ export const AccountConnectStep = memo((props: AccountConnectStepProps) => {
                     form.setValue('certFile', pfxInfo);
                     form.setValue('certType', CodefCertificateType.PFX);
                     form.setValue('id', selectedCert.userName);
-                    setStep();
+                    onNext();
                 }}
             />
         </PureLayout>

@@ -17,11 +17,11 @@ interface AccountConnectLoadingStepProps {
     selectedCardCompanies: CardAccountsStaticData[];
     setBankResults: Dispatch<SetStateAction<CreateCodefBankAssets>>;
     setCardResults: Dispatch<SetStateAction<CreateCodefCardAssets>>;
-    setStep: () => void;
+    onNext: () => any;
 }
 
 export const AccountConnectLoadingStep = memo((props: AccountConnectLoadingStepProps) => {
-    const {selectedBankCompanies, selectedCardCompanies, setCardResults, setBankResults, setStep} = props;
+    const {selectedBankCompanies, selectedCardCompanies, setCardResults, setBankResults, onNext} = props;
 
     const form = useFormContext<CreateAccountRequestDto>();
 
@@ -62,7 +62,7 @@ export const AccountConnectLoadingStep = memo((props: AccountConnectLoadingStepP
         <LoadingScreen
             message="은행사 또는 카드사를 기준으로 계좌와 카드를 찾고 있어요"
             onCreat={createAccount}
-            onClose={setStep}
+            onClose={() => onNext()}
         />
     );
 });
