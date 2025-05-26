@@ -25,7 +25,7 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
     const {selectedCompanies, setSelectedCompanies} = props;
 
     const orgId = useOrgIdParam();
-    const {getCardAccounts} = useCodefAccountsInConnectorV2(orgId);
+    const {getCardAccounts, isFetching} = useCodefAccountsInConnectorV2(orgId);
     const form = useFormContext<CreateAccountRequestDto>();
     const {removeCodefAccount} = useCodefAccount(CodefLoginType.Certificate);
 
@@ -84,7 +84,7 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
     };
 
     return (
-        <AssetSelectorGrid title="카드" isAllSelected={isAllSelected} onSelectAll={toggleAll}>
+        <AssetSelectorGrid title="카드" isLoading={isFetching} isAllSelected={isAllSelected} onSelectAll={toggleAll}>
             {companies.map((company) => {
                 const connectedAccount = codefAccounts.find((account) => account.organization === company.param);
                 const isConnected = !!connectedAccount;
