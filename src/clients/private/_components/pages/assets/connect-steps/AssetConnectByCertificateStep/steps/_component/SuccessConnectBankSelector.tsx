@@ -15,13 +15,11 @@ interface SuccessConnectBankSelectorProps {
 }
 
 export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelectorProps) => {
-    const {bankCreateResponse, selectedCodefBanks, setSelectedCodefBanks} = props;
+    const {bankCreateResponse = [], selectedCodefBanks = [], setSelectedCodefBanks} = props;
 
     const orgId = useOrgIdParam();
     const codefBankAccountIds = bankCreateResponse.map((bankAccount) => bankAccount.response.id);
     const {items: codefBankAccounts, isLoading} = useFindBankAccounts(orgId, codefBankAccountIds);
-
-    if (codefBankAccounts.length === 0) return <></>;
 
     const isAllSelected = bankCreateResponse.length > 0 && selectedCodefBanks.length === codefBankAccounts.length;
     const handleSelectAll = () => {

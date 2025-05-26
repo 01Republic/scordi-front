@@ -1,4 +1,4 @@
-import {Dispatch, memo, SetStateAction} from 'react';
+import {Dispatch, memo, SetStateAction, useContext} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {encryptValue} from '^utils/crypto';
 import {allSettledGroupWithContext} from '^utils/array';
@@ -10,6 +10,7 @@ import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-d
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateCodefBankAssets, CreateCodefCardAssets} from '^models/CodefAccount/type/CreateCodefAssets';
 import {LoadingScreen} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
+import {AssetConnectOptionContext, EntryPath} from '^_components/pages/assets/connect-steps';
 
 interface AccountConnectLoadingStepProps {
     selectedBankCompanies: BankAccountsStaticData[];
@@ -23,6 +24,7 @@ export const AccountConnectLoadingStep = memo((props: AccountConnectLoadingStepP
     const {selectedBankCompanies, selectedCardCompanies, setCardResults, setBankResults, setStep} = props;
 
     const form = useFormContext<CreateAccountRequestDto>();
+
     const orgId = useOrgIdParam();
 
     const createAccount = async () => {
@@ -41,7 +43,6 @@ export const AccountConnectLoadingStep = memo((props: AccountConnectLoadingStepP
         );
 
         setBankResults({successes: banks, failures: bankFailures});
-        console.log('successes', banks);
 
         // 카드사 연동 요청
         const {successes: cards, failures: cardFailures} = await allSettledGroupWithContext(

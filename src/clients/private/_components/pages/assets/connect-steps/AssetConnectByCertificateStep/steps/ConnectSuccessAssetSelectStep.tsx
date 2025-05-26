@@ -1,4 +1,4 @@
-import React, {Dispatch, memo, SetStateAction, useEffect} from 'react';
+import React, {Dispatch, memo, SetStateAction, useContext, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
@@ -7,20 +7,35 @@ import {LottieNoSSR} from '^components/LottieNoSSR';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
 import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
+import {AssetsConnectStepFlashHandler} from '^_components/pages/assets/connect-steps/common/AssetsConnectStepFlashHandler';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {SuccessConnectCardSelector} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/steps/_component/SuccessConnectCardSelector';
+import {AssetConnectOptionContext, EntryPath} from '^_components/pages/assets/connect-steps';
+import {useOrgIdParam} from '^atoms/common';
 
 interface ConnectSuccessAssetSelectStepProps {
     bankResults?: CreateCodefBankAssets;
     cardResults?: CreateCodefCardAssets;
     selectedCodefBanks: CodefBankAccountDto[];
     setSelectedCodefBanks: Dispatch<SetStateAction<CodefBankAccountDto[]>>;
+    selectedCodefCards: CodefCardDto[];
+    setSelectedCodefCards: Dispatch<SetStateAction<CodefCardDto[]>>;
     onBack: () => void;
     setStep: () => void;
 }
 
 export const ConnectSuccessAssetSelectStep = memo((props: ConnectSuccessAssetSelectStepProps) => {
-    const {cardResults, bankResults, selectedCodefBanks, setSelectedCodefBanks} = props;
+    const {cardResults, bankResults} = props;
+    const {selectedCodefBanks, setSelectedCodefBanks, selectedCodefCards, setSelectedCodefCards} = props;
     const {onBack, setStep} = props;
+
+    const {entryPath} = useContext(AssetConnectOptionContext);
     const router = useRouter();
+
+    const orgId = useOrgIdParam();
+
+    const successBanks = bankResults?.successes || [];
+    const successCards = cardResults?.successes || [];
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -42,16 +57,32 @@ export const ConnectSuccessAssetSelectStep = memo((props: ConnectSuccessAssetSel
                     }
                     onBack={onBack}
                 />
-                {bankResults?.successes && (
+                <AssetsConnectStepFlashHandler
+                    failuresBankResults={bankResults?.failures}
+                    failuresCardResults={cardResults?.failures}
+                />
+
+                {successBanks.length > 0 && (
                     <SuccessConnectBankSelector
-                        bankCreateResponse={bankResults?.successes}
+                        bankCreateResponse={successBanks}
                         selectedCodefBanks={selectedCodefBanks}
                         setSelectedCodefBanks={setSelectedCodefBanks}
                     />
                 )}
 
+                {successCards.length > 0 && (
+                    <SuccessConnectCardSelector
+                        cardCreateResponse={successCards}
+                        selectedCodefCards={selectedCodefCards}
+                        setSelectedCodefCards={setSelectedCodefCards}
+                    />
+                )}
+
                 <div className="flex w-full justify-center">
-                    <NextStepButton onClick={setStep} />
+                    <NextStepButton
+                        onClick={setStep}
+                        text={successBanks.length === 0 && successCards.length === 0 ? '대시보드로 가기' : '다음'}
+                    />
                 </div>
             </div>
         </PureLayout>
