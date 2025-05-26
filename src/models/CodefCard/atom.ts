@@ -4,6 +4,7 @@ import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/t
 import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 import {atom} from 'recoil';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 
 /** 코드에프 카드 리스트 */
 export const codefCardsAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDto>({
@@ -46,8 +47,20 @@ export const subscriptionConnectedCodefCardsAtom = atom<CodefCardDto[]>({
     default: [],
 });
 
+//구독 불러오기 - 스코디 계좌를 생성한 codefBanks 담기
+export const subscriptionConnectedCodefBanksAtom = atom<CodefBankAccountDto[]>({
+    key: 'subscriptionConnectedCodefBanksAtom',
+    default: [],
+});
+
 //자산 연동 - 스코디 카드를 생성한 codefCards 담기
 export const assetConnectedCodefCardsAtom = atom<CodefCardDto[]>({
     key: 'assetConnectedCodefCardsAtom',
+    default: [],
+});
+
+//자산 연동 - 스코디 계좌를 생성한 codefBanks 담기
+export const assetConnectedCodefBanksAtom = atom<CodefBankAccountDto[]>({
+    key: 'assetConnectedCodefBanksAtom',
     default: [],
 });
