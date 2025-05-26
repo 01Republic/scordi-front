@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
@@ -9,16 +9,28 @@ import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {NextStepButton} from '../common/NextStepButton';
 import {StatusHeader} from '../common/StatusHeader';
 import {SubscriptionItem} from './SubscriptionItem';
+import {EmptyTable} from '^_components/table/EmptyTable';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 
 interface ConnectionSubscriptionListProps {
-    subscriptions: SubscriptionDto[];
+    onSync: () => Promise<SubscriptionDto[]>;
 }
 
 export const ConnectionSubscriptionList = memo((props: ConnectionSubscriptionListProps) => {
-    const {subscriptions} = props;
+    const {onSync} = props;
 
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
+
+    const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        onSync()
+            .then(setSubscriptions)
+            .catch(console.error)
+            .finally(() => setIsLoading(false));
+    }, []);
 
     return (
         <PureLayout>
@@ -34,21 +46,24 @@ export const ConnectionSubscriptionList = memo((props: ConnectionSubscriptionLis
                             layout={{fit: 'fill'}}
                         />
                     }
-                    onBack={() => router.back()}
+                    onMove={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
                 />
-                <ul className="grid grid-cols-4 gap-8 w-full">
-                    {subscriptions.map((subscription) => {
-                        const {product} = subscription;
+                {subscriptions.length === 0 ? (
+                    <EmptyTable message="불러온 구독이 없어요" />
+                ) : (
+                    <ul className="grid grid-cols-4 gap-8 w-full">
+                        {subscriptions.map((subscription) => {
+                            const {product} = subscription;
 
-                        return <SubscriptionItem key={subscription.id} title={product.name()} logo={product.image} />;
-                    })}
-                </ul>
+                            return (
+                                <SubscriptionItem key={subscription.id} title={product.name()} logo={product.image} />
+                            );
+                        })}
+                    </ul>
+                )}
 
                 <section className="w-full flex items-center justify-center">
-                    <NextStepButton
-                        text="스코디 바로가기"
-                        onClick={() => router.replace(OrgMainPageRoute.path(orgId))}
-                    />
+                    <NextStepButton text="완료" onClick={() => router.replace(OrgMainPageRoute.path(orgId))} />
                 </section>
             </div>
         </PureLayout>
