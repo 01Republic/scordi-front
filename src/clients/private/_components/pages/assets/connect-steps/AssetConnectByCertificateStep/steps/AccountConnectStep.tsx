@@ -15,6 +15,7 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {codefCertificate} from '^lib/codef/certificate/main';
 import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
+import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 
 interface AccountConnectStepProps {
     selectedBankCompanies: BankAccountsStaticData[];
@@ -100,7 +101,13 @@ export const AccountConnectStep = memo((props: AccountConnectStepProps) => {
             <CertificateLinkModal
                 isOpen={isCertificateLinkModalOpen}
                 onClose={() => setCertificateLinkModalOpen(false)}
-                setStep={setStep}
+                onCreate={(selectedCert, password, pfxInfo) => {
+                    form.setValue('password', password);
+                    form.setValue('certFile', pfxInfo);
+                    form.setValue('certType', CodefCertificateType.PFX);
+                    form.setValue('id', selectedCert.userName);
+                    setStep();
+                }}
             />
         </PureLayout>
     );

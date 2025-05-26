@@ -1,29 +1,27 @@
 import {memo, useEffect, useState} from 'react';
 import {X} from 'lucide-react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {codefCertificate} from '^lib/codef/certificate/main';
 import {CertFileDto} from '^lib/codef/certificate/cert-file.dto';
-import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {DriveHardDisk} from './DriveHardDisk';
 import {DriveExternalDisk} from './DriveExternalDisk';
 import {CertificateList} from './CertificateList';
-import {useForm, useFormContext} from 'react-hook-form';
-import {errorToast} from '^api/api';
-import {toast} from 'react-hot-toast';
-import {confirm3} from '^components/util/dialog/confirm3';
-import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 
 interface CertificateLinkModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onCreate?: () => void;
-    setStep?: () => void;
+    onCreate?: (selectedCert: CertFileDto, password: string, pfxInfo: string) => any;
 }
 
 export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
-    const {isOpen = false, onClose, onCreate, setStep} = props;
-
-    const form = useFormContext<CreateAccountRequestDto>();
+    const {isOpen = false, onClose, onCreate} = props;
+    const form = useForm<{password: string}>({
+        mode: 'onChange',
+        defaultValues: {password: ''},
+    });
     const [deviceInfo, setDeviceInfo] = useState<any>();
     const [activeDrivePath, setActiveDrivePath] = useState<string>();
     const [certList, setCertList] = useState<CertFileDto[]>([]);
@@ -34,6 +32,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
     }, [isOpen]);
 
     const close = () => {
+        form.reset();
         codefCertificate
             .close()
             .then(() => {
@@ -84,8 +83,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
         });
     };
 
-    const onSubmit = () => {
-        const password = form.getValues('password');
+    const onSubmit = ({password}: {password: string}) => {
         if (!selectedCert) return;
         if (!password) return;
 
@@ -93,11 +91,8 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
         codefCertificate
             .fn_ConvertPFX(selectedCert, password)
             .then((pfxInfo) => {
-                form.setValue('certFile', pfxInfo);
-                form.setValue('certType', CodefCertificateType.PFX);
-                form.setValue('id', selectedCert.userName);
+                onCreate && onCreate(selectedCert, password, pfxInfo);
             })
-            .then(() => setStep && setStep())
             .catch((err) => {
                 if (String(err.code) === '-9997') {
                     errorAlert(err.count);
@@ -113,10 +108,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                 <section className="flex items-center justify-between">
                     <span className="text-18 font-bold text-gray-900">공동인증서로 연동</span>
                     <X
-                        onClick={() => {
-                            form.reset({password: '', certFile: '', certType: undefined});
-                            onClose();
-                        }}
+                        onClick={onClose}
                         className="size-6 text-gray-300 hover:text-gray-700 cursor-pointer transition-all"
                     />
                 </section>
@@ -141,7 +133,7 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                     <CertificateList certList={certList} selectedCert={selectedCert} onSelect={setSelectedCert} />
                 </section>
 
-                <form className="flex flex-col gap-5">
+                <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
                     <section>
                         <div className="mb-2 flex items-center gap-2">
                             <p className="text-14 font-medium">인증서 비밀번호</p>
@@ -163,16 +155,12 @@ export const CertificateLinkModal = memo((props: CertificateLinkModalProps) => {
                         <button
                             type="button"
                             className="btn btn-secondary btn-block btn-gray no-animation btn-animation"
-                            onClick={() => {
-                                form.reset({password: '', certFile: '', certType: undefined});
-                                onClose();
-                            }}
+                            onClick={onClose}
                         >
                             취소
                         </button>
                         <button
-                            type="button"
-                            onClick={onSubmit}
+                            type="submit"
                             className={`btn btn-block btn-scordi no-animation btn-animation disabled:bg-primaryColor-900/20 disabled:text-primaryColor-900/50 disabled:border-none`}
                             disabled={!selectedCert || !form.watch('password')}
                         >
