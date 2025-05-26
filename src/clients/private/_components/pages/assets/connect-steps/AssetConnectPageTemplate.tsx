@@ -20,7 +20,12 @@ export const AssetConnectOptionContext = createContext<AssetConnectOption>({
 
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
     const orgId = useOrgIdParam();
-    useCodefAccountsInConnectorV2(orgId);
+    const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
+    const hasCert = codefAccounts.some((account) => {
+        return account.loginType === CodefLoginType.Certificate;
+    });
+
+    console.log({isFetchedAfterMount, hasCert});
 
     const form = useForm<CreateAccountRequestDto>({
         mode: 'all',

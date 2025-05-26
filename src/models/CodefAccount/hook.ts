@@ -43,6 +43,7 @@ export const useCodefAccountsInConnectorV2 = (orgId: number, params: FindAllAcco
 
     return {
         ...queryResult,
+        codefAccounts,
         getCardAccounts,
         getBankAccounts,
     };
