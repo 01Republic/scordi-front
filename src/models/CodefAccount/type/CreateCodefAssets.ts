@@ -5,10 +5,10 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
 export interface CreateCodefBankAssets {
     successes: {item: BankAccountsStaticData; response: CodefAccountDto}[];
-    failures: {item: BankAccountsStaticData | CardAccountsStaticData; reason: any}[];
+    failures: {item: BankAccountsStaticData; reason: any}[];
 }
 
 export interface CreateCodefCardAssets {
     successes: {item: CardAccountsStaticData; response: CodefAccountDto}[];
-    failures: {item: BankAccountsStaticData | CardAccountsStaticData; reason: any}[];
+    failures: {item: CardAccountsStaticData; reason: any}[];
 }
