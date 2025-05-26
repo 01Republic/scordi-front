@@ -6,13 +6,23 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {AssetConnectMethodSelectStep} from './AssetConnectMethodSelectStep';
 import {AssetConnectByCertificateStep} from './AssetConnectByCertificateStep';
 import {AssetConnectByAccountStep} from './AssetConnectByAccountStep';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+
+export enum EntryPath {
+    Asset = 'asset',
+    Subscription = 'subscription',
+}
 
 interface AssetConnectOption {
+    entryPath: EntryPath;
     ConnectMethodAltActionButton?: () => JSX.Element;
-    onSuccessfullyCreatedByAccount: (codefCards: CodefCardDto[]) => any;
+    onSuccessfullyCreateByCertificate?: (codefBanks?: CodefBankAccountDto[], codefCards?: CodefCardDto[]) => any;
+    onSuccessfullyCreatedByAccount?: (codefCards?: CodefCardDto[]) => any;
 }
 
 export const AssetConnectOptionContext = createContext<AssetConnectOption>({
+    entryPath: EntryPath.Subscription,
+    onSuccessfullyCreateByCertificate: console.log,
     onSuccessfullyCreatedByAccount: console.log,
 });
 
