@@ -1,25 +1,32 @@
-import React, {memo, useContext, useState} from 'react';
+import React, {Dispatch, memo, SetStateAction, useContext, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
 import {useCodefAccount} from '^models/CodefCard/hook';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
-import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 import {ConnectStepsModal} from '../AssetConnectByAccountStep/ConnectStepsModal';
 import {InstitutionOption} from './InstitutionOption';
 
+interface CardCompanySelectorProps {
+    setStep: () => void;
+    cardCompany: CardAccountsStaticData | undefined;
+    setCardCompany: React.Dispatch<React.SetStateAction<CardAccountsStaticData | undefined>>;
+    setCodefCard: Dispatch<SetStateAction<CodefCardDto[] | undefined>>;
+}
+
 // 홈페이지계정 > 카드사 한개 선택
-export const CardCompanySelector = memo(() => {
+export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
+    const {setStep, cardCompany, setCardCompany, setCodefCard} = props;
+
     const orgId = useOrgIdParam();
-    const {} = useContext(AssetConnectOptionContext);
     const form = useFormContext<CreateAccountRequestDto>();
     const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.IdAccount);
-    const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [isConnectStepsModalOpen, setIsConnectStepsModalOpen] = useState(false);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
@@ -89,6 +96,8 @@ export const CardCompanySelector = memo(() => {
                     setCardCompany={setCardCompany}
                     isConnectStepsModalOpen={isConnectStepsModalOpen}
                     setIsConnectStepsModalOpen={setIsConnectStepsModalOpen}
+                    setConnectStep={setStep}
+                    setCodefCard={setCodefCard}
                 />
             )}
         </section>
