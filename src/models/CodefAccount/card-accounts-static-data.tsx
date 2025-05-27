@@ -50,8 +50,8 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     {
         displayName: '씨티카드',
         param: CodefCardCompanyCode.씨티카드,
-        logo: '/logo/cards/CiTi.png',
-        themeColor: '#2b64ff',
+        logo: '/logo/cards/CITI.png',
+        themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.IdAccount,
         loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
@@ -59,8 +59,8 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     {
         displayName: '씨티카드',
         param: CodefCardCompanyCode.씨티카드,
-        logo: '/logo/cards/CiTi.png',
-        themeColor: '#2b64ff',
+        logo: '/logo/cards/CITI.png',
+        themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
         loginPageUrl: 'https://koreacitidirect.citigroup.com/index.jsp',
