@@ -19,7 +19,7 @@ export default function ExternalCDNScripts() {
             <TypeformCdnScript />
             {typeof window !== 'undefined' && <ChannelTalkCDN />}
             {allowEnv('production') && <MeasuredInstall />}
-            {allowEnv('production') && <StepByInstall />}
+            <StepByInstall />
         </>
     );
 }

@@ -6,6 +6,7 @@ import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/ExternalCDNScripts/step-by';
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
@@ -15,7 +16,6 @@ import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
-import {CurrencyToggle} from '^tasting/CurrencyToggle';
 import {errorToast} from '^api/api';
 import {Plus} from 'lucide-react';
 
@@ -82,6 +82,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             titleText="구독 리스트"
             Buttons={() => (
                 <div className="flex gap-4">
+                    <StepbyTutorialButton onClick={StepByTutorialSubscriptionList} />
                     <ExcelDownLoadButton />
                     <AddSubscriptionButton />
                 </div>

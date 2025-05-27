@@ -3,6 +3,7 @@ import {debounce} from 'lodash';
 import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialTeamMember} from '^components/ExternalCDNScripts/step-by';
 import {AddTeamMemberDropdown} from './AddTeamMemberDropdown';
 import {AddTeamMemberModal} from './AddTeamMemberModal';
 import {InviteStatusScopeHandler} from './InviteStatusScopeHandler';
@@ -51,7 +52,12 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
             onReady={onReady}
             breadcrumb={['팀', {text: '구성원', active: true}]}
             titleText="구성원"
-            Buttons={() => <AddTeamMemberDropdown reload={refresh} />}
+            Buttons={() => (
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialTeamMember} />
+                    <AddTeamMemberDropdown reload={refresh} />
+                </>
+            )}
             ScopeHandler={<InviteStatusScopeHandler />}
             searchInputPlaceholder="이름, 팀, 연락처 검색"
             onSearch={onSearch}

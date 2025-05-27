@@ -5,6 +5,7 @@ import {orgIdParamState} from '^atoms/common';
 import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialPaymentMethodAccount} from '^components/ExternalCDNScripts/step-by';
 import TitleScopeHandler from './TitleScopeHandler';
 import {BankAccountTableRow} from './BankAccountTableRow';
 import {BankAccountTableHeader} from './BankAccountTableHeader';
@@ -65,7 +66,12 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddBankAccountModal reload={refresh} />}
+                EmptyButtons={() => (
+                    <>
+                        <StepbyTutorialButton onClick={StepByTutorialPaymentMethodAccount} />
+                        <AddBankAccountModal reload={refresh} />
+                    </>
+                )}
             >
                 <ListTable
                     items={result.items}
