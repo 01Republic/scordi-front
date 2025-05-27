@@ -25,8 +25,8 @@ export const ContentSection = memo((props: ContentSectionProps) => {
                 </button>
             </div>
             {isLoading ? (
-                <div className="flex items-center justify-center h-10">
-                    <Loader className="animate-spin size-3" />
+                <div className="flex items-center justify-center h-20">
+                    <Loader className="animate-spin size-6" />
                 </div>
             ) : (
                 <>{children}</>
