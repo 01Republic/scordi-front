@@ -5,19 +5,13 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {CodefAccountCreateErrorResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 
 interface AssetsConnectStepFlashHandlerProps {
-    failuresBankResults?: CodefAccountCreateErrorResponseDto[];
-    failuresCardResults?: CodefAccountCreateErrorResponseDto[];
+    failures?: CodefAccountCreateErrorResponseDto[];
 }
 
 export const AssetsConnectStepFlashHandler = memo((props: AssetsConnectStepFlashHandlerProps) => {
-    const {failuresBankResults, failuresCardResults} = props;
+    const {failures = []} = props;
 
-    const hasBankFailures = (failuresBankResults?.length ?? 0) > 0;
-    const hasCardFailures = (failuresCardResults?.length ?? 0) > 0;
-
-    if (!hasBankFailures && !hasCardFailures) {
-        return null;
-    }
+    if (!failures.length) return <></>;
 
     return (
         <PageFlash

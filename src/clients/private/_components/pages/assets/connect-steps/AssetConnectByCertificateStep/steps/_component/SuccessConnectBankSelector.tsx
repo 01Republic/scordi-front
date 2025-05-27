@@ -1,4 +1,4 @@
-import React, {Dispatch, memo, SetStateAction} from 'react';
+import React, {Dispatch, memo, SetStateAction, useState} from 'react';
 import {Landmark} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {bankAccountsStaticData, BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
@@ -9,25 +9,30 @@ import {useCodefBankAccountsByCompanies} from '^models/CodefBankAccount/hook';
 
 interface SuccessConnectBankSelectorProps {
     companies?: BankAccountsStaticData[];
-    selectedCodefBanks: CodefBankAccountDto[];
-    setSelectedCodefBanks: Dispatch<SetStateAction<CodefBankAccountDto[]>>;
+    onSelect?: (codefBanks: CodefBankAccountDto[]) => any;
 }
 
 export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelectorProps) => {
-    const {companies = [], selectedCodefBanks = [], setSelectedCodefBanks} = props;
-
     const orgId = useOrgIdParam();
+    const [selectedItems, setSelectedItems] = useState<CodefBankAccountDto[]>([]);
+    const {companies = [], onSelect} = props;
+
     const {data: codefBankAccounts, isFetching} = useCodefBankAccountsByCompanies(orgId, companies);
 
-    const isAllSelected = codefBankAccounts.length > 0 && selectedCodefBanks.length === codefBankAccounts.length;
-    const handleSelectAll = () => setSelectedCodefBanks(isAllSelected ? [] : codefBankAccounts);
+    const select = (changedItems: CodefBankAccountDto[]) => {
+        setSelectedItems(changedItems);
+        onSelect && onSelect(changedItems);
+    };
+
+    const isAllSelected = codefBankAccounts.length > 0 && selectedItems.length === codefBankAccounts.length;
+    const handleSelectAll = () => select(isAllSelected ? [] : codefBankAccounts);
 
     const handleToggle = (item: CodefBankAccountDto) => {
-        setSelectedCodefBanks((prev) => {
-            return prev.some(({id}) => id === item.id) // included?
-                ? prev.filter(({id}) => id !== item.id) // remove
-                : [...prev, item]; // add
-        });
+        const changedItems = selectedItems.some(({id}) => id === item.id) // included?
+            ? selectedItems.filter(({id}) => id !== item.id) // remove
+            : [...selectedItems, item]; // add
+
+        select(changedItems);
     };
 
     return (
@@ -38,22 +43,17 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
             isLoading={isFetching}
         >
             <ul className="grid grid-cols-2 gap-3">
-                {codefBankAccounts.map((codefBankAccount) => {
-                    const bankAccount = codefBankAccount.account?.company;
-                    const companyLogo = bankAccountsStaticData.find((data) => data.displayName === bankAccount);
-
-                    return (
-                        <ConnectedItem
-                            key={codefBankAccount.id}
-                            mainText={codefBankAccount.resAccountName || ''}
-                            subText={codefBankAccount.bankEndNumbers}
-                            url={companyLogo?.logo}
-                            icon={<Landmark className="w-full h-full text-white" />}
-                            isSelected={selectedCodefBanks.some((codefBank) => codefBank.id === codefBankAccount.id)}
-                            onClick={() => handleToggle(codefBankAccount)}
-                        />
-                    );
-                })}
+                {codefBankAccounts.map((codefBankAccount) => (
+                    <ConnectedItem
+                        key={codefBankAccount.id}
+                        mainText={codefBankAccount.resAccountName || ''}
+                        subText={codefBankAccount.bankEndNumbers}
+                        url={codefBankAccount.company?.logo}
+                        icon={<Landmark className="w-full h-full text-white" />}
+                        isSelected={selectedItems.some(({id}) => id === codefBankAccount.id)}
+                        onClick={() => handleToggle(codefBankAccount)}
+                    />
+                ))}
             </ul>
         </ContentSection>
     );

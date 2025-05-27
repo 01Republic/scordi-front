@@ -16,19 +16,17 @@ import {codefCertificate} from '^lib/codef/certificate/main';
 import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
 import {CodefCertificateType} from '^models/CodefAccount/type/enums';
+import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 interface SelectCompaniesStepProps {
-    selectedBankCompanies: BankAccountsStaticData[];
-    setSelectedBankCompanies: Dispatch<SetStateAction<BankAccountsStaticData[]>>;
-    selectedCardCompanies: CardAccountsStaticData[];
-    setSelectedCardCompanies: Dispatch<SetStateAction<CardAccountsStaticData[]>>;
-    onNext: () => any;
+    onNext: (companies: CodefCompanyStaticData[]) => any;
 }
 
 /** 연동할 자산 선택 및 공동인증서 로그인 */
 export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
-    const {selectedBankCompanies, setSelectedBankCompanies, selectedCardCompanies, setSelectedCardCompanies, onNext} =
-        props;
+    const {onNext} = props;
+    const [selectedBankCompanies, setSelectedBankCompanies] = useState<BankAccountsStaticData[]>([]);
+    const [selectedCardCompanies, setSelectedCardCompanies] = useState<CardAccountsStaticData[]>([]);
 
     const form = useFormContext<CreateAccountRequestDto>();
     const [isCertificateLinkModalOpen, setCertificateLinkModalOpen] = useState(false);
@@ -107,7 +105,7 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
                     form.setValue('certFile', pfxInfo);
                     form.setValue('certType', CodefCertificateType.PFX);
                     form.setValue('id', selectedCert.userName);
-                    onNext();
+                    onNext([...selectedBankCompanies, ...selectedCardCompanies]);
                 }}
             />
         </PureLayout>

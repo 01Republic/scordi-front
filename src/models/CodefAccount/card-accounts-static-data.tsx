@@ -4,6 +4,7 @@ import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/C
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
 import {plainToInstance} from 'class-transformer';
+import {CodefCompanyCode} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 export class CardAccountsStaticData {
     displayName: string;
@@ -14,8 +15,16 @@ export class CardAccountsStaticData {
     loginType: CodefLoginType; // 공인인증서는 아직 안쓰므로, 일단 id-pw 만 씁니다.
     loginPageUrl: string;
 
-    static all() {
-        return plainToInstance(CardAccountsStaticData, cardAccountsStaticData);
+    static all(dataset = cardAccountsStaticData) {
+        return plainToInstance(CardAccountsStaticData, dataset);
+    }
+
+    static cardOnly(dataset: {param: CodefCompanyCode}[]) {
+        const items = dataset.filter((data) => {
+            const cardCodes = Object.values(CodefCardCompanyCode) as string[];
+            return cardCodes.includes(data.param);
+        });
+        return plainToInstance(CardAccountsStaticData, items);
     }
 
     static clientTypeOf(clientType: CodefCustomerType) {

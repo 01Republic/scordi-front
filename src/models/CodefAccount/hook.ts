@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
-import {QueryClient, QueryState, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
+import {QueryClient, QueryState, useQueries, useQuery, useQueryClient, UseQueryResult} from '@tanstack/react-query';
 import {Paginated} from '^types/utils/paginated.dto';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
@@ -22,6 +22,7 @@ import {AxiosError} from 'axios';
 import {ApiErrorResponse} from '^api/api';
 import {CodefApiResponseResultDto} from '^models/CodefAccount/codef-common';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
+import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사 계정 리스트를 보여줄 때 사용 */
 export const useCodefAccountsInConnector = () => useCodefAccountsV3(codefAccountsInConnector);
@@ -154,11 +155,11 @@ export * from './hooks/fetchCodefCardsByAccountInSafe';
  *      });
  * ```
  */
-export function useCreateCodefAccounts<T extends CardAccountsStaticData | BankAccountsStaticData>(
+export function useCreateCodefAccounts<T extends CodefCompanyStaticData>(
     orgId: number,
     companies: T[],
     getBody: (company: T) => CreateAccountRequestDto,
-) {
+): UseQueryResult<AccountCreatedResponseDto, ApiErrorResponse<CodefAccountCreateErrorResponseDto>>[] {
     const businessTypes = {
         card: CodefRequestBusinessType.Card,
         bank: CodefRequestBusinessType.Bank,
@@ -190,14 +191,12 @@ export function useCreateCodefAccounts<T extends CardAccountsStaticData | BankAc
     });
 }
 
-export interface CreateCodefAccountsResult<
-    T extends CardAccountsStaticData | BankAccountsStaticData = CardAccountsStaticData | BankAccountsStaticData,
-> {
+export interface CreateCodefAccountsResult<T extends CodefCompanyStaticData = CodefCompanyStaticData> {
     company: T;
     queryState: QueryState<AccountCreatedResponseDto, ApiErrorResponse<CodefAccountCreateErrorResponseDto>>;
 }
 
-export function getCreateCodefAccountsResults<T extends CardAccountsStaticData | BankAccountsStaticData>(
+export function getCreateCodefAccountsResults<T extends CodefCompanyStaticData>(
     orgId: number,
     companies: T[],
     queryClient: QueryClient,
@@ -221,10 +220,7 @@ export function getCreateCodefAccountsResults<T extends CardAccountsStaticData |
         .filter(isDefinedValue);
 }
 
-export function useCreateCodefAccountsResults<T extends CardAccountsStaticData | BankAccountsStaticData>(
-    orgId: number,
-    companies: T[],
-) {
+export function useCreateCodefAccountsResults<T extends CodefCompanyStaticData>(orgId: number, companies: T[]) {
     const [results, setResults] = useState<CreateCodefAccountsResult<T>[]>();
     const qc = useQueryClient();
 

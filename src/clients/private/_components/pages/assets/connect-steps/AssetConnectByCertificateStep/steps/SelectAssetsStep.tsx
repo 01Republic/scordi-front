@@ -1,10 +1,9 @@
-import React, {Dispatch, memo, SetStateAction, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {CreateCodefBankAssets, CreateCodefCardAssets} from '^models/CodefAccount/type/CreateCodefAssets';
 import {LottieNoSSR} from '^components/LottieNoSSR';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
@@ -13,39 +12,29 @@ import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelecto
 import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
 import {EmptyTable} from '^_components/table/EmptyTable';
-import {QueryState, useQueryClient} from '@tanstack/react-query';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
-import {isDefinedValue} from '^utils/array';
-import {getCreateCodefAccountsResults, useCreateCodefAccountsResults} from '^models/CodefAccount/hook';
+import {useCreateCodefAccountsResults} from '^models/CodefAccount/hook';
+import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 interface SelectAssetsStepProps {
-    bankCompanies?: BankAccountsStaticData[];
-    cardCompanies?: CardAccountsStaticData[];
-    selectedCodefBanks: CodefBankAccountDto[];
-    setSelectedCodefBanks: Dispatch<SetStateAction<CodefBankAccountDto[]>>;
-    selectedCodefCards: CodefCardDto[];
-    setSelectedCodefCards: Dispatch<SetStateAction<CodefCardDto[]>>;
-    onBack: () => any;
-    onNext: () => any;
+    companies?: CodefCompanyStaticData[];
+    onBack?: () => any;
+    onNext?: (codefBanks: CodefBankAccountDto[], codefCards: CodefCardDto[]) => any;
 }
 
 export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
-    const {bankCompanies = [], cardCompanies = []} = props;
-    const orgId = useOrgIdParam();
-    const {selectedCodefBanks, setSelectedCodefBanks, selectedCodefCards, setSelectedCodefCards} = props;
+    const {companies = []} = props;
     const {onBack, onNext} = props;
-    const bankResults = useCreateCodefAccountsResults(orgId, bankCompanies);
-    const cardResults = useCreateCodefAccountsResults(orgId, cardCompanies);
-    console.log('bankResults2', bankResults);
-    console.log('cardResults2', cardResults);
-
     const router = useRouter();
+    const orgId = useOrgIdParam();
+    const results = useCreateCodefAccountsResults(orgId, companies);
+    const disabled = results.successes.length === 0;
 
-    const successBanks = bankResults?.successes || [];
-    const successCards = cardResults?.successes || [];
-    const disabled = successBanks.length === 0 && successCards.length === 0;
+    const successBanks = BankAccountsStaticData.bankOnly(results.successes);
+    const successCards = CardAccountsStaticData.cardOnly(results.successes);
+    const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>([]);
+    const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
 
     return (
         <PureLayout>
@@ -63,29 +52,18 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     }
                     onBack={onBack}
                 />
-                <AssetsConnectStepFlashHandler
-                    failuresBankResults={bankResults.failures}
-                    failuresCardResults={cardResults.failures}
-                />
+                <AssetsConnectStepFlashHandler failures={results.failures} />
 
                 {disabled ? (
                     <EmptyTable message="연동된 자산이 없어요" />
                 ) : (
                     <>
                         {successBanks.length > 0 && (
-                            <SuccessConnectBankSelector
-                                companies={successBanks}
-                                selectedCodefBanks={selectedCodefBanks}
-                                setSelectedCodefBanks={setSelectedCodefBanks}
-                            />
+                            <SuccessConnectBankSelector companies={successBanks} onSelect={setSelectedCodefBanks} />
                         )}
 
                         {successCards.length > 0 && (
-                            <SuccessConnectCardSelector
-                                companies={successCards}
-                                selectedCodefCards={selectedCodefCards}
-                                setSelectedCodefCards={setSelectedCodefCards}
-                            />
+                            <SuccessConnectCardSelector companies={successCards} onSelect={setSelectedCodefCards} />
                         )}
                     </>
                 )}
@@ -93,9 +71,13 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                 <div className="flex w-full justify-center">
                     <NextStepButton
                         onClick={() => {
-                            disabled ? router.replace(OrgMainPageRoute.path(orgId)) : onNext;
+                            if (onNext) {
+                                onNext(selectedCodefBanks, selectedCodefCards);
+                            } else {
+                                router.replace(OrgMainPageRoute.path(orgId));
+                            }
                         }}
-                        text={disabled ? '완료' : '다음'}
+                        text={onNext ? '다음' : '완료'}
                     />
                 </div>
             </div>

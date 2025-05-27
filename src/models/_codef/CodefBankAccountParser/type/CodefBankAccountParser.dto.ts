@@ -36,21 +36,28 @@ export class CodefBankAccountParserDto {
         }
 
         if (typeof resMemberStoreName === 'object') {
-            const value = resMemberStoreName.val;
-            if (resMemberStoreName.op === 'like') {
-                return {
-                    ops: FindOperatorType.Like,
-                    fo: value.startsWith('%'),
-                    bo: value.endsWith('%'),
-                    value: value.replace(/%/g, ''),
-                };
-            } else {
-                return {
-                    ops: FindOperatorType.Regexp,
-                    fo: false,
-                    bo: false,
-                    value,
-                };
+            switch (resMemberStoreName.op) {
+                case 'like':
+                    return {
+                        ops: FindOperatorType.Like,
+                        fo: resMemberStoreName.val.startsWith('%'),
+                        bo: resMemberStoreName.val.endsWith('%'),
+                        value: resMemberStoreName.val.replace(/%/g, ''),
+                    };
+                case 'in':
+                    return {
+                        ops: FindOperatorType.Regexp,
+                        fo: false,
+                        bo: false,
+                        value: resMemberStoreName.val.join(', '),
+                    };
+                default:
+                    return {
+                        ops: FindOperatorType.Regexp,
+                        fo: false,
+                        bo: false,
+                        value: resMemberStoreName.val,
+                    };
             }
         }
 

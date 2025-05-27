@@ -2,6 +2,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
+import {BankAccountsStaticData, bankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 
 /**
  * [codef] 연동된 은행 계좌
@@ -47,4 +48,9 @@ export class CodefBankAccountDto {
     @TypeCast(() => CodefAccountDto) account?: CodefAccountDto; // 계정 정보
     @TypeCast(() => BankAccountDto) bankAccount?: BankAccountDto; // 등록된 계좌
     @TypeCast(() => CodefBillingHistoryDto) codefBillingHistories?: CodefBillingHistoryDto[]; // 코드에프 결제내역
+
+    get company() {
+        const param = this.account?.organization;
+        return BankAccountsStaticData.findOne(param) as BankAccountsStaticData | undefined;
+    }
 }
