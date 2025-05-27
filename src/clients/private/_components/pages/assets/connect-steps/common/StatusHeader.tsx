@@ -33,14 +33,18 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                     추가자산 연동하기
                 </LinkTo>
             )}
-            <section className="flex flex-col gap-5 text-neutral-900 font-normal">
-                <div className="flex items-center gap-1">
-                    {icon && icon}
-                    <span className="text-2xl font-bold">{title}</span>
-                </div>
-                {subTitle && <span className="text-base font-normal">{subTitle}</span>}
-            </section>
-            <div id="page-flash" className="" />
+
+            <div>
+                <section className="flex flex-col gap-5 text-neutral-900 font-normal">
+                    <div className="flex items-center gap-1">
+                        {icon && icon}
+                        <span className="text-2xl font-bold">{title}</span>
+                    </div>
+                    {subTitle && <span className="text-base font-normal">{subTitle}</span>}
+                </section>
+
+                <div id="page-flash" className="" />
+            </div>
         </article>
     );
 });
