@@ -17,7 +17,8 @@ interface InstitutionOptionProps {
 
 export const InstitutionOption = memo((props: InstitutionOptionProps) => {
     const {logo, title, isConnected = false, isSelected = false, isAllSelected, onClick, onDisconnect, comment} = props;
-    const isDisabled = isConnected || props.isDisabled || false;
+    // const isDisabled = isConnected || props.isDisabled || false;
+    const isDisabled = props.isDisabled || false;
 
     const [isHover, setIsHover] = useState(false);
 

@@ -19,8 +19,8 @@ import {
 } from '^models/CodefAccount/type/create-account.response.dto';
 import {isDefinedValue} from '^utils/array';
 import {AxiosError} from 'axios';
-import {ApiErrorResponse} from '^api/api';
-import {CodefApiResponseResultDto} from '^models/CodefAccount/codef-common';
+import {ApiErrorResponse, parseError} from '^api/api';
+import {CodefApiResponseResultDto, CodefApiResultCode} from '^models/CodefAccount/codef-common';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
@@ -220,6 +220,10 @@ export function getCreateCodefAccountsResults<T extends CodefCompanyStaticData>(
         .filter(isDefinedValue);
 }
 
+export function getCreateCodefAccountErrors(error?: ApiErrorResponse<CodefAccountCreateErrorResponseDto> | null) {
+    return parseError(error).body?.data.errorList || [];
+}
+
 export function useCreateCodefAccountsResults<T extends CodefCompanyStaticData>(orgId: number, companies: T[]) {
     const [results, setResults] = useState<CreateCodefAccountsResult<T>[]>();
     const qc = useQueryClient();
@@ -229,10 +233,23 @@ export function useCreateCodefAccountsResults<T extends CodefCompanyStaticData>(
     }, []);
 
     const isLoaded = !!results;
-    const successes = (results || []).filter((result) => !result.queryState.error).map((result) => result.company);
+    const successes = (results || [])
+        .filter((result) => {
+            if (!result.queryState.error) return true;
+
+            const [error] = getCreateCodefAccountErrors(result.queryState.error);
+            if (!error) return true;
+
+            // 이미 등록된 계정에 대한 에러는 성공처럼 간주하고 플로우 내에서 이어서 자산을 다루기로 합니다. (별도처리는 아직 고려된 바 없음.)
+            if (error.code === CodefApiResultCode.ALREADY_REGISTERED_COMPANY_IN_CONNECT_ID) return true;
+
+            return false;
+        })
+        .map((result) => result.company);
+
     const failures = (results || [])
         .filter((result) => !!result.queryState.error)
-        .map((result) => result.queryState.error?.response?.data.data)
+        .map((result) => parseError(result.queryState.error).body)
         .filter(isDefinedValue);
 
     return {

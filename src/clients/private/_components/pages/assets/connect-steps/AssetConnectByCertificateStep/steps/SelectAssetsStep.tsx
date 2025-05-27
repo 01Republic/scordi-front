@@ -29,6 +29,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const router = useRouter();
     const orgId = useOrgIdParam();
     const results = useCreateCodefAccountsResults(orgId, companies);
+    console.log('results', results);
     const disabled = results.successes.length === 0;
 
     const successBanks = BankAccountsStaticData.bankOnly(results.successes);

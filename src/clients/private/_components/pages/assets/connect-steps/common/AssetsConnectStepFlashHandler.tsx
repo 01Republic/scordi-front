@@ -59,12 +59,12 @@ const FailModal = (props: Props) => {
     const {isOpened, onClose, failures} = props;
 
     const bankFails = failures.filter((fail) => {
-        const [error] = fail.data.errorList;
+        const [error] = fail?.data?.errorList || [];
         return error.businessType === CodefRequestBusinessType.Bank;
     });
 
     const cardFails = failures.filter((fail) => {
-        const [error] = fail.data.errorList;
+        const [error] = fail?.data?.errorList || [];
         return error.businessType === CodefRequestBusinessType.Card;
     });
 
@@ -87,7 +87,7 @@ const FailModal = (props: Props) => {
                                 <h4 className="text-16 font-semibold pb-2">은행</h4>
                                 <ul className="pl-6 list-disc">
                                     {bankFails.map((fail) => {
-                                        const [error] = fail.data.errorList;
+                                        const [error] = fail?.data?.errorList || [];
                                         const company = BankAccountsStaticData.findOne(error.organization);
 
                                         if (!company) return <></>;
@@ -114,7 +114,7 @@ const FailModal = (props: Props) => {
                                 <h4 className="text-16 font-semibold pb-2">카드</h4>
                                 <ul className="pl-6 list-disc">
                                     {cardFails.map((fail) => {
-                                        const [error] = fail.data.errorList;
+                                        const [error] = fail?.data?.errorList || [];
                                         const company = CardAccountsStaticData.findOne(error.organization);
 
                                         if (!company) return <></>;
