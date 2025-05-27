@@ -25,6 +25,7 @@ import {confirmed} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -175,7 +176,7 @@ export const useCodefAccount = (loginType: CodefLoginType) => {
 
 /* 코드에프 계좌 조회 - 여러커드사의 카드를 조회 */
 export const useFindCardAccounts = (orgId: number, accountIds: number[], params?: FindAllCardQueryDto) => {
-    const queryResults = useQueries({
+    const results = useQueries({
         queries: accountIds.map((accountId) => {
             const queryParams = {
                 relations: ['account'],
@@ -187,22 +188,42 @@ export const useFindCardAccounts = (orgId: number, accountIds: number[], params?
 
             return {
                 queryKey: ['findBankAccounts', orgId, accountId, queryParams],
-                queryFn: () =>
-                    codefAccountApi
-                        .findCards<CodefCardDto>(orgId, accountId, queryParams)
-                        .then((res) => res.data.items),
+                queryFn: () => codefAccountApi.findCards(orgId, accountId, queryParams).then((res) => res.data.items),
                 enabled: !!orgId && !isNaN(orgId) && accountId != null,
+                initialData: [],
             };
         }),
     });
 
-    const items = useMemo(
-        () => queryResults.map((codefCardAccount) => codefCardAccount.data ?? []).flat(),
-        [queryResults],
+    const data = results.flatMap((result) => result.data || []);
+    const isFetching = results.some((result) => result.isFetching);
+    const isError = results.some((result) => result.isError);
+    const errors = results.filter((result) => result.isError);
+
+    return {data, isFetching, isError, errors};
+};
+
+/** 기관코드를 통해 연결된 카드목록을 조회 */
+export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsStaticData[]) => {
+    const companyCodes = companies.map((company) => company.param);
+    const {data: codefAccounts} = useQuery({
+        queryKey: ['codefAccounts.useCodefCardsByCompanies', orgId, companies],
+        queryFn: () => {
+            return codefAccountApi
+                .index(orgId, {
+                    where: {
+                        organization: {op: 'in', val: companyCodes},
+                    },
+                    itemsPerPage: 0,
+                })
+                .then((res) => res.data.items);
+        },
+        enabled: !!orgId && companies.length > 0,
+        initialData: [],
+    });
+
+    return useFindCardAccounts(
+        orgId,
+        codefAccounts.map((account) => account.id),
     );
-
-    const isLoading = queryResults.some((codefCardAccount) => codefCardAccount.isLoading);
-    const isError = queryResults.some((codefCardAccount) => codefCardAccount.isError);
-
-    return {items, isLoading, isError};
 };

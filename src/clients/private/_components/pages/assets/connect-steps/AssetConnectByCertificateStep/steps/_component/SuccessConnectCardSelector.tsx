@@ -1,39 +1,34 @@
 import React, {Dispatch, memo, SetStateAction} from 'react';
 import {Landmark} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
-import {useFindCardAccounts} from '^models/CodefCard/hook';
+import {useCodefCardsByCompanies, useFindCardAccounts} from '^models/CodefCard/hook';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {cardAccountsStaticData, CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {ContentSection} from '../../../common/ContentSection';
 import {ConnectedItem} from '../../../AssetConnectSuccessPageTemplate/ConnectedItem';
+import {useList} from '^hooks/useResource';
 
 interface SuccessConnectCardSelectorProps {
-    cardCreateResponse: {item: CardAccountsStaticData; response: CodefAccountDto}[];
+    companies?: CardAccountsStaticData[];
     selectedCodefCards: CodefCardDto[];
     setSelectedCodefCards: Dispatch<SetStateAction<CodefCardDto[]>>;
 }
 
 export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelectorProps) => {
-    const {cardCreateResponse = [], selectedCodefCards = [], setSelectedCodefCards} = props;
+    const {companies = [], selectedCodefCards = [], setSelectedCodefCards} = props;
 
     const orgId = useOrgIdParam();
-    const codefCardAccountIds = cardCreateResponse.map((cardAccount) => cardAccount.response.id);
-    const {items: codefCards, isLoading} = useFindCardAccounts(orgId, codefCardAccountIds);
+    const {data: codefCards, isFetching} = useCodefCardsByCompanies(orgId, companies);
 
-    const isAllSelected = cardCreateResponse.length > 0 && selectedCodefCards.length === codefCards.length;
-    const handleSelectAll = () => {
-        setSelectedCodefCards(isAllSelected ? [] : codefCards);
-    };
+    const isAllSelected = codefCards.length > 0 && selectedCodefCards.length === codefCards.length;
+    const handleSelectAll = () => setSelectedCodefCards(isAllSelected ? [] : codefCards);
 
-    const handleToggle = (codefBankAccount: CodefCardDto) => {
-        setSelectedCodefCards((prevSelectedCodefBanks) => {
-            const isSelected = prevSelectedCodefBanks.some((codefBank) => codefBank.id === codefBankAccount.id);
-            if (isSelected) {
-                return prevSelectedCodefBanks.filter((codefBank) => codefBank.id !== codefBankAccount.id);
-            } else {
-                return [...prevSelectedCodefBanks, codefBankAccount];
-            }
+    const handleToggle = (item: CodefCardDto) => {
+        setSelectedCodefCards((prev) => {
+            return prev.some(({id}) => id === item.id) // included?
+                ? prev.filter(({id}) => id !== item.id) // remove
+                : [...prev, item]; // add
         });
     };
 
@@ -42,7 +37,7 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
             text="카드"
             isAllSelected={isAllSelected}
             handleSelectAll={handleSelectAll}
-            isLoading={isLoading}
+            isLoading={isFetching}
         >
             <ul className="grid grid-cols-2 gap-3">
                 {codefCards.map((codefCardAccount) => {

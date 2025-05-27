@@ -1,5 +1,5 @@
 /* 코드에프 계좌 조회 */
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -7,6 +7,9 @@ import {codefBankAccountApi} from '^models/CodefBankAccount/api';
 import {ErrorResponse} from '^models/User/types';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {useMemo} from 'react';
+import {useCodefAccounts} from '^models/CodefAccount/hook';
 
 export const useCodefBankAccount = () => {
     const queryClient = useQueryClient();
@@ -39,4 +42,59 @@ export const useCodefBankAccount = () => {
     });
 
     return {useCodefBankAccountsInConnector, createScordiBankAccount};
+};
+
+/* 코드에프 계좌 조회 - 여러은행사의 계좌를 조회 */
+export const useFindBankAccounts = (orgId: number, accountIds: number[], params?: FindAllBankAccountQueryDto) => {
+    const results = useQueries({
+        queries: accountIds.map((accountId) => {
+            const queryParams = {
+                relations: ['account'],
+                sync: true,
+                itemsPerPage: 0,
+                ...params,
+            };
+
+            return {
+                queryKey: ['findBankAccounts', orgId, accountId, queryParams],
+                queryFn: () =>
+                    codefAccountApi
+                        .findBankAccounts<CodefBankAccountDto>(orgId, accountId, queryParams)
+                        .then((res) => res.data.items),
+                enabled: !!orgId && !isNaN(orgId) && !!accountId,
+            };
+        }),
+    });
+
+    const data = results.flatMap((result) => result.data || []);
+    const isFetching = results.some((result) => result.isFetching);
+    const isError = results.some((result) => result.isError);
+    const errors = results.filter((result) => result.isError);
+
+    return {data, isFetching, isError, errors};
+};
+
+/** 기관코드를 통해 연결된 계좌목록을 조회 */
+export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAccountsStaticData[]) => {
+    const companyCodes = companies.map((company) => company.param);
+    const {data: codefAccounts} = useQuery({
+        queryKey: ['codefAccounts.useCodefBankAccountsByCompanies', orgId, companies],
+        queryFn: () => {
+            return codefAccountApi
+                .index(orgId, {
+                    where: {
+                        organization: {op: 'in', val: companyCodes},
+                    },
+                    itemsPerPage: 0,
+                })
+                .then((res) => res.data.items);
+        },
+        enabled: !!orgId && companies.length > 0,
+        initialData: [],
+    });
+
+    return useFindBankAccounts(
+        orgId,
+        codefAccounts.map((account) => account.id),
+    );
 };

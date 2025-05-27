@@ -20,20 +20,9 @@ enum ConnectByCertificateStep {
 }
 
 export const AssetConnectByCertificateStep = memo(() => {
-    const {entryPath, onSuccessfullyCreateByCertificate} = useContext(AssetConnectOptionContext);
-    const router = useRouter();
     const [step, setStep] = useState<ConnectByCertificateStep>(ConnectByCertificateStep.SelectCompaniesStep);
     const [selectedBankCompanies, setSelectedBankCompanies] = useState<BankAccountsStaticData[]>([]);
     const [selectedCardCompanies, setSelectedCardCompanies] = useState<CardAccountsStaticData[]>([]);
-
-    const [bankResults, setBankResults] = useState<CreateCodefBankAssets>({
-        successes: [],
-        failures: [],
-    });
-    const [cardResults, setCardResults] = useState<CreateCodefCardAssets>({
-        successes: [],
-        failures: [],
-    });
 
     const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>([]);
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
@@ -56,8 +45,6 @@ export const AssetConnectByCertificateStep = memo(() => {
                 <CreateAccountsStep
                     selectedBankCompanies={selectedBankCompanies}
                     selectedCardCompanies={selectedCardCompanies}
-                    setBankResults={setBankResults}
-                    setCardResults={setCardResults}
                     onNext={() => setStep(ConnectByCertificateStep.SelectAssetsStep)}
                 />
             )}
@@ -65,8 +52,8 @@ export const AssetConnectByCertificateStep = memo(() => {
             {/* 자산 연동이 완료된 자산 목록을 보여주고 스코디 자산으로 연동할 자산을 선택 */}
             {step === ConnectByCertificateStep.SelectAssetsStep && (
                 <SelectAssetsStep
-                    bankResults={bankResults}
-                    cardResults={cardResults}
+                    bankCompanies={selectedBankCompanies}
+                    cardCompanies={selectedCardCompanies}
                     selectedCodefBanks={selectedCodefBanks}
                     setSelectedCodefBanks={setSelectedCodefBanks}
                     selectedCodefCards={selectedCodefCards}

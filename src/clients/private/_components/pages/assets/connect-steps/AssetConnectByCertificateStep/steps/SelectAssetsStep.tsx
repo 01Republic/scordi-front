@@ -1,4 +1,4 @@
-import React, {Dispatch, memo, SetStateAction, useEffect} from 'react';
+import React, {Dispatch, memo, SetStateAction, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
@@ -13,10 +13,16 @@ import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelecto
 import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
 import {EmptyTable} from '^_components/table/EmptyTable';
+import {QueryState, useQueryClient} from '@tanstack/react-query';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
+import {isDefinedValue} from '^utils/array';
+import {getCreateCodefAccountsResults, useCreateCodefAccountsResults} from '^models/CodefAccount/hook';
 
 interface SelectAssetsStepProps {
-    bankResults?: CreateCodefBankAssets;
-    cardResults?: CreateCodefCardAssets;
+    bankCompanies?: BankAccountsStaticData[];
+    cardCompanies?: CardAccountsStaticData[];
     selectedCodefBanks: CodefBankAccountDto[];
     setSelectedCodefBanks: Dispatch<SetStateAction<CodefBankAccountDto[]>>;
     selectedCodefCards: CodefCardDto[];
@@ -26,20 +32,20 @@ interface SelectAssetsStepProps {
 }
 
 export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
-    const {cardResults, bankResults} = props;
+    const {bankCompanies = [], cardCompanies = []} = props;
+    const orgId = useOrgIdParam();
     const {selectedCodefBanks, setSelectedCodefBanks, selectedCodefCards, setSelectedCodefCards} = props;
     const {onBack, onNext} = props;
+    const bankResults = useCreateCodefAccountsResults(orgId, bankCompanies);
+    const cardResults = useCreateCodefAccountsResults(orgId, cardCompanies);
+    console.log('bankResults2', bankResults);
+    console.log('cardResults2', cardResults);
 
     const router = useRouter();
 
-    const orgId = useOrgIdParam();
     const successBanks = bankResults?.successes || [];
     const successCards = cardResults?.successes || [];
     const disabled = successBanks.length === 0 && successCards.length === 0;
-
-    useEffect(() => {
-        if (!router.isReady) return;
-    }, []);
 
     return (
         <PureLayout>
@@ -58,8 +64,8 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     onBack={onBack}
                 />
                 <AssetsConnectStepFlashHandler
-                    failuresBankResults={bankResults?.failures}
-                    failuresCardResults={cardResults?.failures}
+                    failuresBankResults={bankResults.failures}
+                    failuresCardResults={cardResults.failures}
                 />
 
                 {disabled ? (
@@ -68,7 +74,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     <>
                         {successBanks.length > 0 && (
                             <SuccessConnectBankSelector
-                                bankCreateResponse={successBanks}
+                                companies={successBanks}
                                 selectedCodefBanks={selectedCodefBanks}
                                 setSelectedCodefBanks={setSelectedCodefBanks}
                             />
@@ -76,7 +82,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
 
                         {successCards.length > 0 && (
                             <SuccessConnectCardSelector
-                                cardCreateResponse={successCards}
+                                companies={successCards}
                                 selectedCodefCards={selectedCodefCards}
                                 setSelectedCodefCards={setSelectedCodefCards}
                             />
