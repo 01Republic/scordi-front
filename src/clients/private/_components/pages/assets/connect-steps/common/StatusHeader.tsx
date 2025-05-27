@@ -40,7 +40,7 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                 </div>
                 {subTitle && <span className="text-base font-normal">{subTitle}</span>}
             </section>
-            <div id="page-flash" className="" />
+            <div id="page-flash" className="relative" />
         </article>
     );
 });
