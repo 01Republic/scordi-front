@@ -52,7 +52,12 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => <AddBankAccountDropdown reload={refresh} />}
+            Buttons={() => (
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialPaymentMethodAccount} />
+                    <AddBankAccountDropdown reload={refresh} />
+                </>
+            )}
             ScopeHandler={<BankAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
@@ -66,12 +71,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => (
-                    <>
-                        <StepbyTutorialButton onClick={StepByTutorialPaymentMethodAccount} />
-                        <AddBankAccountModal reload={refresh} />
-                    </>
-                )}
+                EmptyButtons={() => <AddBankAccountModal reload={refresh} />}
             >
                 <ListTable
                     items={result.items}
