@@ -48,6 +48,24 @@ export class CardAccountsStaticData {
 /** 카드사 로그인 계정을 통한 연동시, 카드사별 필요한 정적데이터 */
 export const cardAccountsStaticData: CardAccountsStaticData[] = [
     {
+        displayName: '씨티카드',
+        param: CodefCardCompanyCode.씨티카드,
+        logo: '/logo/cards/CiTi.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
+    },
+    {
+        displayName: '씨티카드',
+        param: CodefCardCompanyCode.씨티카드,
+        logo: '/logo/cards/CiTi.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://koreacitidirect.citigroup.com/index.jsp',
+    },
+    {
         displayName: '신한카드',
         param: CodefCardCompanyCode.신한카드,
         logo: '/logo/cards/ShinHan.png',
