@@ -1,17 +1,18 @@
-import React, {Dispatch, memo, SetStateAction, useContext, useEffect} from 'react';
+import React, {Dispatch, memo, SetStateAction, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {useOrgIdParam} from '^atoms/common';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {CreateCodefBankAssets, CreateCodefCardAssets} from '^models/CodefAccount/type/CreateCodefAssets';
 import {LottieNoSSR} from '^components/LottieNoSSR';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
-import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
-import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
 import {AssetsConnectStepFlashHandler} from '^_components/pages/assets/connect-steps/common/AssetsConnectStepFlashHandler';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {SuccessConnectCardSelector} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/steps/_component/SuccessConnectCardSelector';
-import {AssetConnectOptionContext, EntryPath} from '^_components/pages/assets/connect-steps';
-import {useOrgIdParam} from '^atoms/common';
+import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
+import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
+import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
+import {EmptyTable} from '^_components/table/EmptyTable';
 
 interface SelectAssetsStepProps {
     bankResults?: CreateCodefBankAssets;
@@ -29,13 +30,12 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const {selectedCodefBanks, setSelectedCodefBanks, selectedCodefCards, setSelectedCodefCards} = props;
     const {onBack, onNext} = props;
 
-    const {entryPath} = useContext(AssetConnectOptionContext);
     const router = useRouter();
 
     const orgId = useOrgIdParam();
-
     const successBanks = bankResults?.successes || [];
     const successCards = cardResults?.successes || [];
+    const disabled = successBanks.length === 0 && successCards.length === 0;
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -62,26 +62,34 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     failuresCardResults={cardResults?.failures}
                 />
 
-                {successBanks.length > 0 && (
-                    <SuccessConnectBankSelector
-                        bankCreateResponse={successBanks}
-                        selectedCodefBanks={selectedCodefBanks}
-                        setSelectedCodefBanks={setSelectedCodefBanks}
-                    />
-                )}
+                {disabled ? (
+                    <EmptyTable message="연동된 자산이 없어요" />
+                ) : (
+                    <>
+                        {successBanks.length > 0 && (
+                            <SuccessConnectBankSelector
+                                bankCreateResponse={successBanks}
+                                selectedCodefBanks={selectedCodefBanks}
+                                setSelectedCodefBanks={setSelectedCodefBanks}
+                            />
+                        )}
 
-                {successCards.length > 0 && (
-                    <SuccessConnectCardSelector
-                        cardCreateResponse={successCards}
-                        selectedCodefCards={selectedCodefCards}
-                        setSelectedCodefCards={setSelectedCodefCards}
-                    />
+                        {successCards.length > 0 && (
+                            <SuccessConnectCardSelector
+                                cardCreateResponse={successCards}
+                                selectedCodefCards={selectedCodefCards}
+                                setSelectedCodefCards={setSelectedCodefCards}
+                            />
+                        )}
+                    </>
                 )}
 
                 <div className="flex w-full justify-center">
                     <NextStepButton
-                        onClick={onNext}
-                        text={successBanks.length === 0 && successCards.length === 0 ? '대시보드로 가기' : '다음'}
+                        onClick={() => {
+                            disabled ? router.replace(OrgMainPageRoute.path(orgId)) : onNext;
+                        }}
+                        text={disabled ? '완료' : '다음'}
                     />
                 </div>
             </div>
