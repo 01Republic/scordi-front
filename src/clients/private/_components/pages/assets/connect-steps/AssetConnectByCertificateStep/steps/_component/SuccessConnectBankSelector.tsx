@@ -1,11 +1,13 @@
-import React, {Dispatch, memo, SetStateAction, useState} from 'react';
+import {memo, useState} from 'react';
 import {Landmark} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
-import {bankAccountsStaticData, BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
 import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {useCodefBankAccountsByCompanies} from '^models/CodefBankAccount/hook';
+import {unitFormat} from '^utils/number';
+import Tippy from '@tippyjs/react';
 
 interface SuccessConnectBankSelectorProps {
     companies?: BankAccountsStaticData[];
@@ -37,7 +39,11 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
 
     return (
         <ContentSection
-            text="계좌"
+            text={
+                <span className="flex items-center gap-1">
+                    계좌 <small className="text-scordi font-bold">({unitFormat(codefBankAccounts.length, '')})</small>
+                </span>
+            }
             isAllSelected={isAllSelected}
             handleSelectAll={handleSelectAll}
             isLoading={isFetching}
@@ -47,11 +53,19 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
                     <ConnectedItem
                         key={codefBankAccount.id}
                         mainText={codefBankAccount.resAccountName || ''}
-                        subText={codefBankAccount.bankEndNumbers}
+                        subText={
+                            <Tippy content={codefBankAccount.resAccountDisplay} className="!text-12">
+                                <div>
+                                    <span>끝자리: {codefBankAccount.bankEndNumbers}</span>
+                                </div>
+                            </Tippy>
+                        }
                         url={codefBankAccount.company?.logo}
                         icon={<Landmark className="w-full h-full text-white" />}
-                        isSelected={selectedItems.some(({id}) => id === codefBankAccount.id)}
                         onClick={() => handleToggle(codefBankAccount)}
+                        isSelected={selectedItems.some(({id}) => id === codefBankAccount.id)}
+                        isDisabled={!!codefBankAccount.bankAccountId}
+                        comment={codefBankAccount.bankAccountId ? '연결된 계좌' : ''}
                     />
                 ))}
             </ul>

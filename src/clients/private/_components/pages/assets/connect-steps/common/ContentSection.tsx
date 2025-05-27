@@ -1,12 +1,12 @@
-import React, {memo} from 'react';
-import {Loader} from 'lucide-react';
+import {memo, ReactNode} from 'react';
+import {LoadableBox} from '^components/util/loading';
 
 interface ContentSectionProps {
-    text: string;
+    text: ReactNode;
     handleSelectAll?: () => void;
     isAllSelected: boolean;
     isLoading: boolean;
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 export const ContentSection = memo((props: ContentSectionProps) => {
@@ -24,13 +24,16 @@ export const ContentSection = memo((props: ContentSectionProps) => {
                     {isAllSelected ? '선택취소' : '전체선택'}
                 </button>
             </div>
-            {isLoading ? (
-                <div className="flex items-center justify-center h-20">
-                    <Loader className="animate-spin size-6" />
-                </div>
-            ) : (
-                <>{children}</>
-            )}
+
+            <LoadableBox
+                isLoading={isLoading}
+                loadingType={2}
+                noPadding
+                spinnerPos="center"
+                loadingClass="animate-pulse"
+            >
+                {children}
+            </LoadableBox>
         </section>
     );
 });

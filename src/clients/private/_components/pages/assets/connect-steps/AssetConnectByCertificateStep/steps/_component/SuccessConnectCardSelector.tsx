@@ -6,6 +6,8 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {ContentSection} from '../../../common/ContentSection';
 import {ConnectedItem} from '../../../AssetConnectSuccessPageTemplate/ConnectedItem';
+import {unitFormat} from '^utils/number';
+import Tippy from '@tippyjs/react';
 
 interface SuccessConnectCardSelectorProps {
     companies?: CardAccountsStaticData[];
@@ -37,7 +39,11 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
 
     return (
         <ContentSection
-            text="카드"
+            text={
+                <span className="flex items-center gap-1">
+                    카드 <small className="text-scordi font-bold">({unitFormat(codefCards.length, '')})</small>
+                </span>
+            }
             isAllSelected={isAllSelected}
             handleSelectAll={handleSelectAll}
             isLoading={isFetching}
@@ -47,11 +53,27 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
                     <ConnectedItem
                         key={codefCard.id}
                         mainText={codefCard.resCardName || ''}
-                        subText={codefCard.number4 || '알수없음'}
+                        subText={
+                            <Tippy content={codefCard.cardNumbers.join('-')} className="!text-12">
+                                <div>
+                                    <span>끝자리: {codefCard.number4 || '알수없음'}</span>
+                                </div>
+                            </Tippy>
+                        }
                         url={codefCard.company?.logo}
                         icon={<Landmark className="w-full h-full text-white" />}
-                        isSelected={selectedItems.some(({id}) => id === codefCard.id)}
                         onClick={() => handleToggle(codefCard)}
+                        isSelected={selectedItems.some(({id}) => id === codefCard.id)}
+                        isDisabled={!!codefCard.creditCardId || !!codefCard.isSleep}
+                        comment={
+                            codefCard.creditCardId ? (
+                                '연결된 카드'
+                            ) : !!codefCard.isSleep ? (
+                                <span className="!text-red-500">휴면 상태</span>
+                            ) : (
+                                ''
+                            )
+                        }
                     />
                 ))}
             </ul>

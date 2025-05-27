@@ -16,7 +16,7 @@ export const NextStepButton = memo((props: NextStepButtonProps) => {
             onClick={onClick}
             className={cn('btn btn-lg btn-scordi btn-block sm:btn-wide no-animation btn-animation', {
                 'btn-scordi': !disabled,
-                'btn-disabled2': disabled,
+                'btn-disabled2 pointer-events-none': disabled,
                 loading: isLoading,
             })}
         >
