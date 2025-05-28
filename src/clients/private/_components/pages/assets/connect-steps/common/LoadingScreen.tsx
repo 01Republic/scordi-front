@@ -4,7 +4,6 @@ import NumberFlow from '@number-flow/react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
-import {waitFor} from '^components/util/delay';
 
 interface LoadingScreenProps extends WithChildren {
     message?: string;

@@ -68,8 +68,6 @@ const FailModal = (props: Props) => {
         return error.businessType === CodefRequestBusinessType.Card;
     });
 
-    console.log({bankFails, cardFails});
-
     return (
         <AnimatedModal name="FailModal" open={isOpened} onClose={onClose}>
             <div className="relative mx-auto max-w-lg w-full">

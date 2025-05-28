@@ -6,6 +6,9 @@ import {SelectCompaniesStep} from './steps/SelectCompaniesStep';
 import {CreateAccountsStep} from './steps/CreateAccountsStep';
 import {SelectAssetsStep} from './steps/SelectAssetsStep';
 import {ConnectAssetsStep} from './steps/ConnectAssetsStep';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {useOrgIdParam} from '^atoms/common';
+import {useRouter} from 'next/router';
 
 enum ConnectByCertificateStep {
     SelectCompaniesStep,
@@ -16,10 +19,11 @@ enum ConnectByCertificateStep {
 }
 
 export const AssetConnectByCertificateStep = memo(() => {
+    const orgId = useOrgIdParam();
+    const router = useRouter();
     const [step, setStep] = useState<ConnectByCertificateStep>(ConnectByCertificateStep.SelectCompaniesStep);
     const [selectedCompanies, setSelectedCompanies] = useState<CodefCompanyStaticData[]>([]);
-    const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>([]);
-    const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
+    const [selectedCodefAssets, setSelectedCodefAssets] = useState<(CodefBankAccountDto | CodefCardDto)[]>([]);
 
     return (
         <>
@@ -49,20 +53,25 @@ export const AssetConnectByCertificateStep = memo(() => {
                 <SelectAssetsStep
                     companies={selectedCompanies}
                     onBack={() => setStep(ConnectByCertificateStep.SelectCompaniesStep)}
-                    onNext={(codefBanks, codefCards) => {
-                        setSelectedCodefBanks(codefBanks);
-                        setSelectedCodefCards(codefCards);
+                    onNext={(codefBanks, codefCards, disabled) => {
+                        if (disabled) {
+                            return router.replace(OrgMainPageRoute.path(orgId));
+                        }
+                        setSelectedCodefAssets([...codefBanks, ...codefCards]);
                         setStep(ConnectByCertificateStep.ConnectAssetsStep);
                     }}
+                    disabledCTAButtonText="홈으로"
                 />
             )}
 
             {/* 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김 */}
             {step === ConnectByCertificateStep.ConnectAssetsStep && (
                 <ConnectAssetsStep
-                    selectedCodefBanks={selectedCodefBanks}
-                    selectedCodefCards={selectedCodefCards}
-                    onNext={() => setStep(ConnectByCertificateStep.connectSuccessSubscriptionStep)}
+                    codefAssets={selectedCodefAssets}
+                    onNext={(results) => {
+                        console.log('results', results);
+                        alert(results.length + ' assets are connected');
+                    }}
                 />
             )}
         </>

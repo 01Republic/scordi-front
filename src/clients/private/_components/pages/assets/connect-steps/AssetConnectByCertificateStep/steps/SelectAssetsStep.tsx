@@ -20,13 +20,12 @@ import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStat
 interface SelectAssetsStepProps {
     companies?: CodefCompanyStaticData[];
     onBack?: () => any;
-    onNext?: (codefBanks: CodefBankAccountDto[], codefCards: CodefCardDto[]) => any;
+    onNext: (codefBanks: CodefBankAccountDto[], codefCards: CodefCardDto[], disabled: boolean) => any;
+    disabledCTAButtonText?: string;
 }
 
 export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
-    const {companies = []} = props;
-    const {onBack, onNext} = props;
-    const router = useRouter();
+    const {companies = [], onBack, onNext, disabledCTAButtonText} = props;
     const orgId = useOrgIdParam();
     const results = useCreateCodefAccountsResults(orgId, companies);
     console.log('results', results);
@@ -78,15 +77,11 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
 
                 <div className="flex w-full justify-center">
                     <NextStepButton
-                        disabled={disabled}
-                        onClick={() => {
-                            if (onNext) {
-                                onNext(selectedCodefBanks, selectedCodefCards);
-                            } else {
-                                router.replace(OrgMainPageRoute.path(orgId));
-                            }
-                        }}
-                        text={onNext ? '다음' : '완료'}
+                        onClick={() => onNext(selectedCodefBanks, selectedCodefCards, disabled)}
+                        text={(() => {
+                            if (!disabled) return '다음';
+                            return disabledCTAButtonText || '완료';
+                        })()}
                     />
                 </div>
             </div>
