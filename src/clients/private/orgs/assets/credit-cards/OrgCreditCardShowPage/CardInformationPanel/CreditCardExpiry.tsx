@@ -23,7 +23,7 @@ export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
             {isEditMode ? (
                 <div className="grid grid-cols-2 items-center gap-2">
                     <div className="flex items-center gap-1">
-                        <div>연</div>
+                        <div>년</div>
                         <div className="flex-auto">
                             <UnderlineDropdownSelect
                                 defaultValue={parseInt(`${defaultValue[0] || 0}`)}
