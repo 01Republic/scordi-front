@@ -38,6 +38,22 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
 
     if (!currentCreditCard) return <></>;
 
+    // 데이터는 항상 4-4-4-3,4,5 의 형태로 보내야 함.
+    const formatCardNumber = (newDisplaySegments: string[]) => {
+        const allDigits = newDisplaySegments.join('');
+        const updated1 = allDigits.slice(0, 4);
+        const updated2 = allDigits.slice(4, 8);
+        const updated3 = allDigits.slice(8, 12);
+        //카드 끝자리가 5개인 경우를 대비해 17까지
+        const updated4 = allDigits.slice(12, 17);
+        setFormValue({
+            number1: updated1,
+            number2: updated2,
+            number3: updated3,
+            number4: updated4,
+        });
+    };
+
     const expiry = currentCreditCard.decryptSign().expiry;
 
     return (
@@ -85,32 +101,24 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
                         onChange={(isCreditCard) => setFormValue({isCreditCard})}
                     />
 
-                    <CreditCardCardNumbers
-                        isEditMode={isEditMode}
-                        isLoading={isLoading}
-                        value={currentCreditCard.fullNumber}
-                    >
-                        <CreditCardCardNumber
-                            isLoading={isLoading}
-                            defaultValue={formData.number1}
-                            onChange={(number1) => setFormValue({number1})}
-                        />
-                        <CreditCardCardNumber
-                            isLoading={isLoading}
-                            defaultValue={formData.number2}
-                            onChange={(number2) => setFormValue({number2})}
-                        />
-                        <CreditCardCardNumber
-                            isLoading={isLoading}
-                            defaultValue={formData.number3}
-                            onChange={(number3) => setFormValue({number3})}
-                        />
-                        <CreditCardCardNumber
-                            isLoading={isLoading}
-                            defaultValue={formData.number4}
-                            onChange={(number4) => setFormValue({number4})}
-                            maxLength={5}
-                        />
+                    <CreditCardCardNumbers isEditMode={isEditMode} isLoading={isLoading} value={currentCreditCard}>
+                        {currentCreditCard.arrayFullNumber.map((displayNumber, index) => {
+                            const maxLength = currentCreditCard.isAmexCard ? [4, 6, 5][index] : [4, 4, 4, 4][index];
+
+                            return (
+                                <CreditCardCardNumber
+                                    key={index}
+                                    isLoading={isLoading}
+                                    defaultValue={displayNumber}
+                                    maxLength={maxLength}
+                                    onChange={(updateNumber) => {
+                                        const newCardNumbers = [...currentCreditCard.arrayFullNumber];
+                                        newCardNumbers[index] = updateNumber;
+                                        formatCardNumber(newCardNumbers);
+                                    }}
+                                />
+                            );
+                        })}
                     </CreditCardCardNumbers>
 
                     <CreditCardExpiry
