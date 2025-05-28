@@ -96,4 +96,53 @@ export class CreditCardDto {
     get isFromInvoice(): boolean {
         return this.fullNumber.includes('****');
     }
+
+    //Amex 카드로 인해 만들었음
+
+    /* Amex 카드 여부 판별 */
+    get isAmexCard(): boolean {
+        const firstSegment = this.secretInfo.number1 || '';
+        return firstSegment.startsWith('37');
+    }
+
+    get stored(): string[] {
+        const {number1, number2, number3, number4} = this.numbers;
+        return [number1 || '', number2 || '', number3 || '', number4 || ''];
+    }
+
+    get maskingEndNumber(): string {
+        const [number3, number4] = this.stored;
+        if (this.isAmexCard) {
+            return (number3.slice(2) || '**') + (number4 || '***');
+        }
+
+        return number4 || '****';
+    }
+
+    get noMaskingEndNumber(): string {
+        const [number3, number4] = this.stored;
+        if (this.isAmexCard) {
+            return number3.slice(2) + number4;
+        }
+
+        return number4;
+    }
+
+    // input 에 개별적인 값을 넣을 수 있도록 map 하기 위해 배열로 만듬..
+    get arrayFullNumber(): string[] {
+        const [number1, number2, number3, number4] = this.stored;
+
+        if (this.isAmexCard) {
+            const display2 = (number2 || '****') + (number3.slice(0, 2) || '**');
+            const display3 = (number3.slice(2) || '**') + (number4 || '***');
+
+            return [number1, display2, display3];
+        }
+        return [number1, number2, number3, number4];
+    }
+
+    /* 화면 표시용 전체 번호 */
+    get displayFullNumber(): string {
+        return this.arrayFullNumber.join('-');
+    }
 }
