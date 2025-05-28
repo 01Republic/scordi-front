@@ -111,7 +111,7 @@ export class CreditCardDto {
     }
 
     get maskingEndNumber(): string {
-        const [number3, number4] = this.stored;
+        const [, , number3, number4] = this.stored;
         if (this.isAmexCard) {
             return (number3.slice(2) || '**') + (number4 || '***');
         }
@@ -120,7 +120,7 @@ export class CreditCardDto {
     }
 
     get noMaskingEndNumber(): string {
-        const [number3, number4] = this.stored;
+        const [, , number3, number4] = this.stored;
         if (this.isAmexCard) {
             return number3.slice(2) + number4;
         }
