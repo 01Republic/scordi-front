@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {X} from 'lucide-react';
 import Tippy from '@tippyjs/react';
 import {LinkTo} from '^components/util/LinkTo';
@@ -17,8 +17,13 @@ export const AssetsConnectStepFlashHandler = memo((props: AssetsConnectStepFlash
     const {failures = []} = props;
     const [isOpen, setIsOpen] = useState(failures.length > 0);
     const [isFailModalOpened, setIsFailModalOpened] = useState(false);
+    const [waited, setWaited] = useState(false);
 
-    if (!isOpen) return <></>;
+    useEffect(() => {
+        setTimeout(() => setWaited(true), 1000);
+    }, []);
+
+    if (!isOpen || !waited) return <></>;
 
     return (
         <>

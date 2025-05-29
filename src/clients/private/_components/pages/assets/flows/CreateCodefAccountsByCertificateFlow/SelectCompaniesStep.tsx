@@ -17,12 +17,13 @@ import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 interface SelectCompaniesStepProps {
+    onBack: () => any;
     onNext: (companies: CodefCompanyStaticData[]) => any;
 }
 
 /** 연동할 자산 선택 및 공동인증서 로그인 */
 export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
-    const {onNext} = props;
+    const {onBack, onNext} = props;
     const [selectedBankCompanies, setSelectedBankCompanies] = useState<BankAccountsStaticData[]>([]);
     const [selectedCardCompanies, setSelectedCardCompanies] = useState<CardAccountsStaticData[]>([]);
 
@@ -63,7 +64,7 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
                     <StatusHeader
                         title="어떤 자산을 연결할까요?"
                         subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
-                        onBack={() => form.reset({loginType: undefined})}
+                        onBack={onBack}
                     />
                     <BusinessTypeSelector />
                 </div>

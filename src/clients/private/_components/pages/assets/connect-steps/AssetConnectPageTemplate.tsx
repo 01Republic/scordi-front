@@ -45,8 +45,10 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
     const orgId = useOrgIdParam();
     useCodefAccountsInConnectorV2(orgId);
     const [step, setStep] = useState(AssetConnectStep.AccountCreateStep);
+    const [ignorePreCheck, setIgnorePreCheck] = useState(false);
     const [codefAccounts, setCodefAccounts] = useState<CodefAccountDto[]>();
     const [failedCompanies, setFailedCompanies] = useState<CodefApiAccountItemDto[]>();
+    const [isAfterAccountCreated, setIsAfterAccountCreated] = useState(false);
     const [selectedCodefAssets, setSelectedCodefAssets] = useState<(CodefCardDto | CodefBankAccountDto)[]>();
 
     const form = useForm<CreateAccountRequestDto>({
@@ -69,9 +71,16 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
 
                         {loginType === CodefLoginType.Certificate && (
                             <AssetConnectByCertificateFlow
-                                onFinish={(codefAccounts, failedCompanies) => {
+                                ignorePreCheck={ignorePreCheck}
+                                onBack={() => {
+                                    form.reset({loginType: undefined});
+                                    setIgnorePreCheck(false);
+                                    setIsAfterAccountCreated(false);
+                                }}
+                                onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
                                     setCodefAccounts(codefAccounts);
                                     setFailedCompanies(failedCompanies);
+                                    setIsAfterAccountCreated(afterAccountCreated);
                                     setStep(AssetConnectStep.SelectAssetsStep);
                                 }}
                             />
@@ -85,9 +94,23 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {/* 자산 선택p : 자산 연동이 완료된 자산 목록을 보여주고 스코디 자산으로 연동할 자산을 선택 */}
             {step === AssetConnectStep.SelectAssetsStep && (
                 <SelectAssetsStep
+                    isAfterAccountCreated={isAfterAccountCreated}
                     codefAccounts={codefAccounts || []}
                     failedCompanies={failedCompanies}
-                    onBack={() => setStep(AssetConnectStep.AccountCreateStep)}
+                    onBack={() => {
+                        if (isAfterAccountCreated) {
+                            setIgnorePreCheck(true);
+                        } else {
+                            form.reset({loginType: undefined});
+                            setIgnorePreCheck(false);
+                        }
+                        setIsAfterAccountCreated(false);
+                        setStep(AssetConnectStep.AccountCreateStep);
+                    }}
+                    onMove={() => {
+                        setIgnorePreCheck(true);
+                        setStep(AssetConnectStep.AccountCreateStep);
+                    }}
                     onNext={(codefBanks, codefCards, disabled) => {
                         if (disabled) return router.push(OrgMainPageRoute.path(orgId));
 

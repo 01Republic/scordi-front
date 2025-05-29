@@ -9,7 +9,13 @@ import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountI
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
 interface CreateCodefAccountsByCertificateFlowProps {
-    onFinish: (codefAccounts: CodefAccountDto[], failedCompanies: CodefApiAccountItemDto[]) => any;
+    ignorePreCheck?: boolean;
+    onBack: () => any;
+    onFinish: (
+        codefAccounts: CodefAccountDto[],
+        failedCompanies: CodefApiAccountItemDto[],
+        afterAccountCreated: boolean,
+    ) => any;
 }
 
 /**
@@ -20,24 +26,28 @@ interface CreateCodefAccountsByCertificateFlowProps {
  * - 만약 연결된 기관이 없으면 공동인증서를 등록하고 기관을 연결해 반환합니다.
  */
 export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByCertificateFlowProps) => {
-    const {onFinish} = props;
+    const {ignorePreCheck = false, onBack, onFinish} = props;
     const orgId = useOrgIdParam();
     const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
 
     useEffect(() => {
+        if (ignorePreCheck) return;
         if (isFetchedAfterMount) {
             const initialFoundAccounts = codefAccounts.filter((account) => {
                 return account.loginType === CodefLoginType.Certificate;
             });
-            if (initialFoundAccounts.length > 0) onFinish(initialFoundAccounts, []);
+            if (initialFoundAccounts.length > 0) onFinish(initialFoundAccounts, [], false);
         }
-    }, [isFetchedAfterMount, codefAccounts]);
+    }, [ignorePreCheck, isFetchedAfterMount, codefAccounts]);
+
+    const renderActive = ignorePreCheck || (isFetchedAfterMount && codefAccounts.length === 0);
 
     return (
         <>
             {/* 공동인증서 등록 플로우 (계정등록) */}
-            {isFetchedAfterMount && codefAccounts.length === 0 && (
+            {renderActive && (
                 <CreateCodefAccountsByCertificateFlow
+                    onBack={onBack}
                     onFinish={async (createdAccountIds, failedCompanies) => {
                         codefAccountApi
                             .index(orgId, {
@@ -49,7 +59,7 @@ export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByC
                                 itemsPerPage: 0,
                             })
                             .then((res) => res.data.items)
-                            .then((codefAccounts) => onFinish(codefAccounts, failedCompanies))
+                            .then((codefAccounts) => onFinish(codefAccounts, failedCompanies, true))
                             .catch(errorToast);
                     }}
                 />

@@ -12,6 +12,7 @@ import {SelectCompaniesStep} from './SelectCompaniesStep';
 import {CreateAccountsStep} from './CreateAccountsStep';
 
 interface CreateCodefAccountsByCertificateFlowProps {
+    onBack: () => any;
     onFinish: (
         createdAccountIds: number[],
         failedCompanies: CodefApiAccountItemDto[],
@@ -28,7 +29,7 @@ interface CreateCodefAccountsByCertificateFlowProps {
  * - 완료되면 등록된 계정을 콜백으로 반환
  */
 export const CreateCodefAccountsByCertificateFlow = memo((props: CreateCodefAccountsByCertificateFlowProps) => {
-    const {onFinish} = props;
+    const {onBack, onFinish} = props;
     const [selectedCompanies, setSelectedCompanies] = useState<CodefCompanyStaticData[]>([]);
 
     useUnmount(() => {
@@ -38,7 +39,7 @@ export const CreateCodefAccountsByCertificateFlow = memo((props: CreateCodefAcco
     return (
         <>
             {/* 연동할 자산 선택 및 공동인증서 로그인 페이지 */}
-            {selectedCompanies.length === 0 && <SelectCompaniesStep onNext={setSelectedCompanies} />}
+            {selectedCompanies.length === 0 && <SelectCompaniesStep onBack={onBack} onNext={setSelectedCompanies} />}
 
             {/* 계정 등록 진행중 페이지 */}
             {selectedCompanies.length > 0 && <CreateAccountsStep companies={selectedCompanies} onNext={onFinish} />}
