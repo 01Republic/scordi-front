@@ -1,13 +1,10 @@
-import {Dispatch, memo, SetStateAction, useState} from 'react';
-import {LoadingScreen} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
+import {memo, useState} from 'react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {BusinessTypeSelector} from '^_components/pages/assets/connect-steps/common/BusinessTypeSelector';
 import {BankCompaniesSelector} from '^_components/pages/assets/connect-steps/common/BankCompaniesSelector';
 import {CardCompaniesSelector} from '^_components/pages/assets/connect-steps/common/CardCompaniesSelector';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
-import {CertificateSetupModal} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/CertificateSetupModal';
-import {CertificateSignModal} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateStep/CertificateSignModal';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {useFormContext} from 'react-hook-form';
@@ -17,6 +14,8 @@ import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
 import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
+import {CertificateSetupModal} from '../CertificateSetupModal';
+import {CertificateSignModal} from '../CertificateSignModal';
 
 interface SelectCompaniesStepProps {
     onNext: (companies: CodefCompanyStaticData[]) => any;

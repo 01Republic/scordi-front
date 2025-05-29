@@ -4,7 +4,7 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {AssetConnectMethodSelectStep} from './AssetConnectMethodSelectStep';
-import {AssetConnectByCertificateStep} from './AssetConnectByCertificateStep';
+import {AssetConnectByCertificateFlow} from './AssetConnectByCertificateFlow';
 import {AssetConnectByAccountStep} from './AssetConnectByAccountStep';
 import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
 import {useOrgIdParam} from '^atoms/common';
@@ -54,7 +54,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                 <form>
                     {!loginType && <AssetConnectMethodSelectStep />}
 
-                    {loginType === CodefLoginType.Certificate && <AssetConnectByCertificateStep />}
+                    {loginType === CodefLoginType.Certificate && <AssetConnectByCertificateFlow />}
 
                     {loginType === CodefLoginType.IdAccount && <AssetConnectByAccountStep />}
                 </form>

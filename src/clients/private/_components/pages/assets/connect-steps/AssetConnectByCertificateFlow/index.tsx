@@ -18,7 +18,8 @@ enum ConnectByCertificateStep {
     connectSuccessSubscriptionStep,
 }
 
-export const AssetConnectByCertificateStep = memo(() => {
+/** 공동인증서로 자산 불러오기 Flow */
+export const AssetConnectByCertificateFlow = memo(() => {
     const orgId = useOrgIdParam();
     const router = useRouter();
     const [step, setStep] = useState<ConnectByCertificateStep>(ConnectByCertificateStep.SelectCompaniesStep);

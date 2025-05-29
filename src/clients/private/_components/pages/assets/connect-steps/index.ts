@@ -1,4 +1,4 @@
 export * from './AssetConnectPageTemplate';
 export * from './AssetConnectMethodSelectStep';
-export * from './AssetConnectByCertificateStep';
+export * from './AssetConnectByCertificateFlow';
 export * from './AssetConnectByAccountStep';
