@@ -12,10 +12,9 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {codefCertificate} from '^lib/codef/certificate/main';
 import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
+import {InstallCertProgramModal, CertificateSignModal} from '^lib/codef/certificate/components';
 import {CodefCertificateType} from '^models/CodefAccount/type/enums';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
-import {CertificateSetupModal} from '../CertificateSetupModal';
-import {CertificateSignModal} from '../CertificateSignModal';
 
 interface SelectCompaniesStepProps {
     onNext: (companies: CodefCompanyStaticData[]) => any;
@@ -29,7 +28,7 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
 
     const form = useFormContext<CreateAccountRequestDto>();
     const [isCertificateLinkModalOpen, setCertificateLinkModalOpen] = useState(false);
-    const [isCertificateSetupModalOpen, setCertificateSetupModalOpen] = useState(false);
+    const [isInstallCertProgramModalOpened, setIsInstallCertProgramModalOpened] = useState(false);
     const [isLoadingEngine, setIsLoadingEngine] = useState(false);
 
     const onClick = async () => {
@@ -43,11 +42,11 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
                     // 설치가 안되어 있는 사용자
                     case InstallCheckErrorCode.NotInstalled:
                         // 설치 모달 띄움
-                        return setCertificateSetupModalOpen(true);
+                        return setIsInstallCertProgramModalOpened(true);
                     // 구버전 모듈이 설치 되어있는 사용자
                     case InstallCheckErrorCode.VersionOver:
                         // 설치 모달 띄움(?)
-                        return setCertificateSetupModalOpen(true);
+                        return setIsInstallCertProgramModalOpened(true);
                     default:
                         return console.log(error.name, error.message, error.errorCode);
                 }
@@ -90,9 +89,9 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
             </article>
 
             {/* 코드에프 공동인증서 프로그램 설치 모달 */}
-            <CertificateSetupModal
-                isOpen={isCertificateSetupModalOpen}
-                onClose={() => setCertificateSetupModalOpen(false)}
+            <InstallCertProgramModal
+                isOpen={isInstallCertProgramModalOpened}
+                onClose={() => setIsInstallCertProgramModalOpened(false)}
             />
 
             {/* 인증서 선택 모달 */}

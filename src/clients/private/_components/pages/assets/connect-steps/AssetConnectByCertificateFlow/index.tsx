@@ -18,7 +18,13 @@ enum ConnectByCertificateStep {
     connectSuccessSubscriptionStep,
 }
 
-/** 공동인증서로 자산 불러오기 Flow */
+/**
+ * 공동인증서로 자산 불러오기 Flow
+ * --
+ * - 공동인증서로 연결된 기관이 있는지 확인하고
+ * - 연결된 기관이 있으면 기관들을 반환합니다.
+ * - 만약 연결된 기관이 없으면 공동인증서를 등록하고 기관을 연결해 반환합니다.
+ */
 export const AssetConnectByCertificateFlow = memo(() => {
     const orgId = useOrgIdParam();
     const router = useRouter();
