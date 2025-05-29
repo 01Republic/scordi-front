@@ -1,16 +1,16 @@
 import React, {memo, useState} from 'react';
+import {X} from 'lucide-react';
+import Tippy from '@tippyjs/react';
+import {LinkTo} from '^components/util/LinkTo';
+import {PageFlashPortal} from '^components/util/TopLineBannerPortal';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CodefAccountCreateErrorResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
-import {PageFlashPortal} from '^components/util/TopLineBannerPortal';
-import {X} from 'lucide-react';
-import {LinkTo} from '^components/util/LinkTo';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
-import Tippy from '@tippyjs/react';
+import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 
 interface AssetsConnectStepFlashHandlerProps {
-    failures?: CodefAccountCreateErrorResponseDto[];
+    failures?: CodefApiAccountItemDto[];
 }
 
 export const AssetsConnectStepFlashHandler = memo((props: AssetsConnectStepFlashHandlerProps) => {
@@ -52,21 +52,14 @@ export const AssetsConnectStepFlashHandler = memo((props: AssetsConnectStepFlash
 interface Props {
     isOpened: boolean;
     onClose: () => void;
-    failures: CodefAccountCreateErrorResponseDto[];
+    failures: CodefApiAccountItemDto[];
 }
 
 const FailModal = (props: Props) => {
     const {isOpened, onClose, failures} = props;
 
-    const bankFails = failures.filter((fail) => {
-        const [error] = fail?.data?.errorList || [];
-        return error.businessType === CodefRequestBusinessType.Bank;
-    });
-
-    const cardFails = failures.filter((fail) => {
-        const [error] = fail?.data?.errorList || [];
-        return error.businessType === CodefRequestBusinessType.Card;
-    });
+    const bankFails = failures.filter(({businessType}) => businessType === CodefRequestBusinessType.Bank);
+    const cardFails = failures.filter(({businessType}) => businessType === CodefRequestBusinessType.Card);
 
     return (
         <AnimatedModal name="FailModal" open={isOpened} onClose={onClose}>
@@ -84,8 +77,7 @@ const FailModal = (props: Props) => {
                             <div>
                                 <h4 className="text-16 font-semibold pb-2">은행</h4>
                                 <ul className="pl-6 list-disc">
-                                    {bankFails.map((fail) => {
-                                        const [error] = fail?.data?.errorList || [];
+                                    {bankFails.map((error) => {
                                         const company = BankAccountsStaticData.findOne(error.organization);
 
                                         if (!company) return <></>;
@@ -111,8 +103,7 @@ const FailModal = (props: Props) => {
                             <div>
                                 <h4 className="text-16 font-semibold pb-2">카드</h4>
                                 <ul className="pl-6 list-disc">
-                                    {cardFails.map((fail) => {
-                                        const [error] = fail?.data?.errorList || [];
+                                    {cardFails.map((error) => {
                                         const company = CardAccountsStaticData.findOne(error.organization);
 
                                         if (!company) return <></>;

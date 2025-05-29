@@ -13,6 +13,9 @@ interface ConnectAssetsStepProps {
     onNext: (results: (CreditCardDto | BankAccountDto)[]) => any;
 }
 
+/**
+ * 자산 연동중p : 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김
+ */
 export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
     const {codefAssets, onNext} = props;
     const orgId = useOrgIdParam();

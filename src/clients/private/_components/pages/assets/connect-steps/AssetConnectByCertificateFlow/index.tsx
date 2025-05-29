@@ -1,21 +1,15 @@
-import {memo, useState} from 'react';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
-import {SelectCompaniesStep} from './steps/SelectCompaniesStep';
-import {CreateAccountsStep} from './steps/CreateAccountsStep';
-import {SelectAssetsStep} from './steps/SelectAssetsStep';
-import {ConnectAssetsStep} from './steps/ConnectAssetsStep';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {memo, useEffect} from 'react';
 import {useOrgIdParam} from '^atoms/common';
-import {useRouter} from 'next/router';
+import {CreateCodefAccountsByCertificateFlow} from '^_components/pages/assets/flows';
+import {errorToast} from '^api/api';
+import {codefAccountApi} from '^models/CodefAccount/api';
+import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
+import {CodefLoginType} from '^models/CodefAccount/type/enums';
+import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
-enum ConnectByCertificateStep {
-    SelectCompaniesStep,
-    CreateAccountsStep,
-    SelectAssetsStep,
-    ConnectAssetsStep,
-    connectSuccessSubscriptionStep,
+interface CreateCodefAccountsByCertificateFlowProps {
+    onFinish: (codefAccounts: CodefAccountDto[], failedCompanies: CodefApiAccountItemDto[]) => any;
 }
 
 /**
@@ -25,59 +19,38 @@ enum ConnectByCertificateStep {
  * - 연결된 기관이 있으면 기관들을 반환합니다.
  * - 만약 연결된 기관이 없으면 공동인증서를 등록하고 기관을 연결해 반환합니다.
  */
-export const AssetConnectByCertificateFlow = memo(() => {
+export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByCertificateFlowProps) => {
+    const {onFinish} = props;
     const orgId = useOrgIdParam();
-    const router = useRouter();
-    const [step, setStep] = useState<ConnectByCertificateStep>(ConnectByCertificateStep.SelectCompaniesStep);
-    const [selectedCompanies, setSelectedCompanies] = useState<CodefCompanyStaticData[]>([]);
-    const [selectedCodefAssets, setSelectedCodefAssets] = useState<(CodefBankAccountDto | CodefCardDto)[]>([]);
+    const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
+
+    useEffect(() => {
+        if (isFetchedAfterMount) {
+            const initialFoundAccounts = codefAccounts.filter((account) => {
+                return account.loginType === CodefLoginType.Certificate;
+            });
+            if (initialFoundAccounts.length > 0) onFinish(initialFoundAccounts, []);
+        }
+    }, [isFetchedAfterMount, codefAccounts]);
 
     return (
         <>
-            {/* 연동할 자산 선택 및 공동인증서 로그인 */}
-            {step === ConnectByCertificateStep.SelectCompaniesStep && (
-                <SelectCompaniesStep
-                    onNext={(companies) => {
-                        setSelectedCompanies(companies);
-                        setStep(ConnectByCertificateStep.CreateAccountsStep);
-                    }}
-                />
-            )}
-
-            {/* 공동인증서와 함께 선택한 자산을 codef 계정 등록 (+ 자산 연동 요청) */}
-            {step === ConnectByCertificateStep.CreateAccountsStep && (
-                <CreateAccountsStep
-                    companies={selectedCompanies}
-                    onNext={(queryResults) => {
-                        // queryResults
-                        setStep(ConnectByCertificateStep.SelectAssetsStep);
-                    }}
-                />
-            )}
-
-            {/* 자산 연동이 완료된 자산 목록을 보여주고 스코디 자산으로 연동할 자산을 선택 */}
-            {step === ConnectByCertificateStep.SelectAssetsStep && (
-                <SelectAssetsStep
-                    companies={selectedCompanies}
-                    onBack={() => setStep(ConnectByCertificateStep.SelectCompaniesStep)}
-                    onNext={(codefBanks, codefCards, disabled) => {
-                        if (disabled) {
-                            return router.replace(OrgMainPageRoute.path(orgId));
-                        }
-                        setSelectedCodefAssets([...codefBanks, ...codefCards]);
-                        setStep(ConnectByCertificateStep.ConnectAssetsStep);
-                    }}
-                    disabledCTAButtonText="홈으로"
-                />
-            )}
-
-            {/* 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김 */}
-            {step === ConnectByCertificateStep.ConnectAssetsStep && (
-                <ConnectAssetsStep
-                    codefAssets={selectedCodefAssets}
-                    onNext={(results) => {
-                        console.log('results', results);
-                        alert(results.length + ' assets are connected');
+            {/* 공동인증서 등록 플로우 (계정등록) */}
+            {isFetchedAfterMount && codefAccounts.length === 0 && (
+                <CreateCodefAccountsByCertificateFlow
+                    onFinish={async (createdAccountIds, failedCompanies) => {
+                        codefAccountApi
+                            .index(orgId, {
+                                where: {
+                                    loginType: CodefLoginType.Certificate,
+                                    id: {op: 'in', val: createdAccountIds},
+                                },
+                                sync: false,
+                                itemsPerPage: 0,
+                            })
+                            .then((res) => res.data.items)
+                            .then((codefAccounts) => onFinish(codefAccounts, failedCompanies))
+                            .catch(errorToast);
                     }}
                 />
             )}

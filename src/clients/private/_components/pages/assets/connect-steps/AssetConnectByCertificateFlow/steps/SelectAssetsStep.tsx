@@ -1,7 +1,4 @@
 import React, {memo, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useOrgIdParam} from '^atoms/common';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {LottieNoSSR} from '^components/LottieNoSSR';
@@ -14,25 +11,33 @@ import {NextStepButton} from '^_components/pages/assets/connect-steps/common/Nex
 import {EmptyTable} from '^_components/table/EmptyTable';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {useCreateCodefAccountsResults} from '^models/CodefAccount/hook';
-import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
+import {isDefinedValue} from '^utils/array';
 
 interface SelectAssetsStepProps {
-    companies?: CodefCompanyStaticData[];
+    codefAccounts: CodefAccountDto[];
+    failedCompanies?: CodefApiAccountItemDto[];
     onBack?: () => any;
     onNext: (codefBanks: CodefBankAccountDto[], codefCards: CodefCardDto[], disabled: boolean) => any;
     disabledCTAButtonText?: string;
 }
 
+/**
+ * 자산 선택p
+ */
 export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
-    const {companies = [], onBack, onNext, disabledCTAButtonText} = props;
-    const orgId = useOrgIdParam();
-    const results = useCreateCodefAccountsResults(orgId, companies);
-    console.log('results', results);
-    const disabled = results.successes.length === 0;
+    const {codefAccounts = [], failedCompanies = [], onBack, onNext, disabledCTAButtonText} = props;
+    const disabled = codefAccounts.length === 0;
 
-    const successBanks = BankAccountsStaticData.bankOnly(results.successes);
-    const successCards = CardAccountsStaticData.cardOnly(results.successes);
+    const successBanks = codefAccounts
+        .filter((item) => item.isBankCompany)
+        .map((item) => BankAccountsStaticData.findOne(item.organization))
+        .filter(isDefinedValue);
+    const successCards = codefAccounts
+        .filter((item) => item.isCardCompany)
+        .map((item) => CardAccountsStaticData.findOne(item.organization))
+        .filter(isDefinedValue);
     const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>([]);
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
 
@@ -59,7 +64,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     onBack={onBack}
                 />
 
-                {results.failures.length > 0 && <AssetsConnectStepFlashHandler failures={results.failures} />}
+                {failedCompanies.length > 0 && <AssetsConnectStepFlashHandler failures={failedCompanies} />}
 
                 {disabled ? (
                     <EmptyTable message="연동된 자산이 없어요" />
