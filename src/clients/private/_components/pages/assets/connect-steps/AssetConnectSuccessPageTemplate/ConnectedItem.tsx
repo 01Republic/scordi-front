@@ -7,7 +7,7 @@ interface ConnectionSuccessItemSelectProps {
     url?: string;
     mainText: ReactNode;
     subText: ReactNode;
-    icon: ReactNode;
+    icon?: ReactNode;
     onClick?: () => void;
     isSelected?: boolean;
     isDisabled?: boolean;

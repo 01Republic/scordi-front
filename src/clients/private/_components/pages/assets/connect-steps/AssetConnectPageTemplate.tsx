@@ -15,6 +15,8 @@ import {SelectAssetsStep} from './AssetConnectByCertificateFlow/steps/SelectAsse
 import {ConnectAssetsStep} from './AssetConnectByCertificateFlow/steps/ConnectAssetsStep';
 import {useRouter} from 'next/router';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 export enum EntryPath {
     Asset = 'asset',
@@ -24,14 +26,14 @@ export enum EntryPath {
 interface AssetConnectOption {
     entryPath: EntryPath;
     ConnectMethodAltActionButton?: () => JSX.Element;
-    onSuccessfullyCreateByCertificate?: (codefBanks?: CodefBankAccountDto[], codefCards?: CodefCardDto[]) => any;
-    onSuccessfullyCreatedByAccount?: (codefCards?: CodefCardDto[]) => any;
+    onSuccess?: (connectedAssets: (CreditCardDto | BankAccountDto)[]) => any;
 }
 
 export const AssetConnectOptionContext = createContext<AssetConnectOption>({
     entryPath: EntryPath.Subscription,
-    onSuccessfullyCreateByCertificate: console.log,
-    onSuccessfullyCreatedByAccount: console.log,
+    // onSuccess: console.log,
+    // onSuccessfullyCreateByCertificate: console.log,
+    // onSuccessfullyCreatedByAccount: console.log,
 });
 
 enum AssetConnectStep {
@@ -41,6 +43,7 @@ enum AssetConnectStep {
 }
 
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
+    const {onSuccess} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
     useCodefAccountsInConnectorV2(orgId);
@@ -125,9 +128,16 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {step === AssetConnectStep.ConnectAssetsStep && (
                 <ConnectAssetsStep
                     codefAssets={selectedCodefAssets || []}
-                    onNext={(results) => {
-                        console.log('results', results);
-                        alert(results.length + ' assets are connected');
+                    onNext={async (results) => {
+                        if (onSuccess) {
+                            await onSuccess(results);
+                        }
+
+                        form.reset({loginType: undefined});
+                        setIgnorePreCheck(false);
+                        setIsAfterAccountCreated(false);
+                        setStep(AssetConnectStep.AccountCreateStep);
+                        setSelectedCodefAssets(undefined);
                     }}
                 />
             )}

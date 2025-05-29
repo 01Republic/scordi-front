@@ -4,9 +4,9 @@ import {useSetRecoilState} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {OrgSubscriptionConnectionSuccessPageRoute} from '^pages/orgs/[id]/subscriptions/connection/success';
-import {subscriptionConnectedCodefBanksAtom, subscriptionConnectedCodefCardsAtom} from '^models/CodefCard/atom';
 import {LinkTo} from '^components/util/LinkTo';
 import {AssetConnectPageTemplate, EntryPath} from '^_components/pages/assets/connect-steps';
+import {connectedAssetsAtom} from '../atom';
 
 /**
  * 구독 등록
@@ -14,8 +14,7 @@ import {AssetConnectPageTemplate, EntryPath} from '^_components/pages/assets/con
 export const OrgSubscriptionConnectionPage = memo(() => {
     const router = useRouter();
     const orgId = useOrgIdParam();
-    const setSuccessCodefCards = useSetRecoilState(subscriptionConnectedCodefCardsAtom);
-    const setSuccessCodefBanks = useSetRecoilState(subscriptionConnectedCodefBanksAtom);
+    const setConnectedAssets = useSetRecoilState(connectedAssetsAtom);
 
     return (
         <AssetConnectPageTemplate
@@ -29,14 +28,9 @@ export const OrgSubscriptionConnectionPage = memo(() => {
                     수동으로 등록하기
                 </LinkTo>
             )}
-            onSuccessfullyCreateByCertificate={(codefBanks, codefCards) => {
-                setSuccessCodefBanks(codefBanks || []);
-                setSuccessCodefCards(codefCards || []);
-                router.push(OrgSubscriptionConnectionSuccessPageRoute.path(orgId));
-            }}
-            onSuccessfullyCreatedByAccount={(codefCards) => {
-                setSuccessCodefCards(codefCards || []);
-                router.push(OrgSubscriptionConnectionSuccessPageRoute.path(orgId));
+            onSuccess={(connectedAssets) => {
+                setConnectedAssets(connectedAssets);
+                return router.replace(OrgSubscriptionConnectionSuccessPageRoute.path(orgId));
             }}
         />
     );

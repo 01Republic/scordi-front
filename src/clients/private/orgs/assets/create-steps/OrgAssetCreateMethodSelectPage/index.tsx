@@ -4,9 +4,9 @@ import {useSetRecoilState} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
 import {OrgAssetsCreateCompletePageRoute} from '^pages/orgs/[id]/assets/new/complete';
-import {assetConnectedCodefBanksAtom, assetConnectedCodefCardsAtom} from '^models/CodefCard/atom';
 import {LinkTo} from '^components/util/LinkTo';
 import {AssetConnectPageTemplate, EntryPath} from '^_components/pages/assets/connect-steps';
+import {connectedAssetsAtom} from '../atom';
 
 /**
  * 자산 등록
@@ -15,8 +15,7 @@ import {AssetConnectPageTemplate, EntryPath} from '^_components/pages/assets/con
 export const OrgAssetCreateMethodSelectPage = memo(() => {
     const router = useRouter();
     const orgId = useOrgIdParam();
-    const setSuccessCodefCards = useSetRecoilState(assetConnectedCodefCardsAtom);
-    const setSuccessCodefBanks = useSetRecoilState(assetConnectedCodefBanksAtom);
+    const setConnectedAssets = useSetRecoilState(connectedAssetsAtom);
 
     return (
         <AssetConnectPageTemplate
@@ -30,9 +29,9 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
                     수동으로 등록하기
                 </LinkTo>
             )}
-            onSuccessfullyCreatedByAccount={(codefCards) => {
-                setSuccessCodefCards(codefCards || []);
-                router.push(OrgAssetsCreateCompletePageRoute.path(orgId));
+            onSuccess={(connectedAssets) => {
+                setConnectedAssets(connectedAssets);
+                return router.push(OrgAssetsCreateCompletePageRoute.path(orgId));
             }}
         />
     );

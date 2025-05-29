@@ -40,27 +40,3 @@ export const subscriptionsForCardAtom = pagedResourceAtom<SubscriptionDto, FindA
 export const codefCardsAdminAtom = pagedResourceAtom<CodefCardDto, FindAllCardAdminQueryDto>({
     key: 'codefCardsAdminAtom',
 });
-
-//구독 불러오기 - 스코디 카드를 생성한 codefCards 담기
-export const subscriptionConnectedCodefCardsAtom = atom<CodefCardDto[]>({
-    key: 'subscriptionConnectedCodefCardsAtom',
-    default: [],
-});
-
-//구독 불러오기 - 스코디 계좌를 생성한 codefBanks 담기
-export const subscriptionConnectedCodefBanksAtom = atom<CodefBankAccountDto[]>({
-    key: 'subscriptionConnectedCodefBanksAtom',
-    default: [],
-});
-
-//자산 연동 - 스코디 카드를 생성한 codefCards 담기
-export const assetConnectedCodefCardsAtom = atom<CodefCardDto[]>({
-    key: 'assetConnectedCodefCardsAtom',
-    default: [],
-});
-
-//자산 연동 - 스코디 계좌를 생성한 codefBanks 담기
-export const assetConnectedCodefBanksAtom = atom<CodefBankAccountDto[]>({
-    key: 'assetConnectedCodefBanksAtom',
-    default: [],
-});
