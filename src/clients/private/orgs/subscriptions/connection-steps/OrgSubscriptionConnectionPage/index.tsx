@@ -5,7 +5,7 @@ import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {OrgSubscriptionConnectionSuccessPageRoute} from '^pages/orgs/[id]/subscriptions/connection/success';
 import {LinkTo} from '^components/util/LinkTo';
-import {AssetConnectPageTemplate, EntryPath} from '^_components/pages/assets/connect-steps';
+import {AssetConnectPageTemplate} from '^_components/pages/assets/connect-steps';
 import {connectedAssetsAtom} from '../atom';
 
 /**
@@ -18,7 +18,6 @@ export const OrgSubscriptionConnectionPage = memo(() => {
 
     return (
         <AssetConnectPageTemplate
-            entryPath={EntryPath.Subscription}
             ConnectMethodAltActionButton={() => (
                 <LinkTo
                     href={OrgSubscriptionSelectPageRoute.path(orgId)}

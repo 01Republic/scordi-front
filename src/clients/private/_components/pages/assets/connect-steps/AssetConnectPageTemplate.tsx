@@ -10,7 +10,7 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {AssetConnectMethodSelectStep} from './AssetConnectMethodSelectStep';
 import {AssetConnectByCertificateFlow} from './AssetConnectByCertificateFlow';
-import {AssetConnectByAccountStep} from './AssetConnectByAccountStep';
+import {AssetConnectByAccountFlow} from './AssetConnectByAccountFlow';
 import {SelectAssetsStep} from './AssetConnectByCertificateFlow/steps/SelectAssetsStep';
 import {ConnectAssetsStep} from './AssetConnectByCertificateFlow/steps/ConnectAssetsStep';
 import {useRouter} from 'next/router';
@@ -18,19 +18,12 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 
-export enum EntryPath {
-    Asset = 'asset',
-    Subscription = 'subscription',
-}
-
 interface AssetConnectOption {
-    entryPath: EntryPath;
     ConnectMethodAltActionButton?: () => JSX.Element;
     onSuccess?: (connectedAssets: (CreditCardDto | BankAccountDto)[]) => any;
 }
 
 export const AssetConnectOptionContext = createContext<AssetConnectOption>({
-    entryPath: EntryPath.Subscription,
     // onSuccess: console.log,
     // onSuccessfullyCreateByCertificate: console.log,
     // onSuccessfullyCreatedByAccount: console.log,
@@ -42,6 +35,10 @@ enum AssetConnectStep {
     ConnectAssetsStep,
 }
 
+/**
+ * 자산 동기화 Flow
+ * ---
+ */
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
     const {onSuccess} = props;
     const router = useRouter();
@@ -70,8 +67,10 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {step === AssetConnectStep.AccountCreateStep && (
                 <FormProvider {...form}>
                     <form>
+                        {/* 연동방법 선택 (소위, 약관동의 페이지) */}
                         {!loginType && <AssetConnectMethodSelectStep />}
 
+                        {/* 공동인증서로 자산 불러오기 Flow */}
                         {loginType === CodefLoginType.Certificate && (
                             <AssetConnectByCertificateFlow
                                 ignorePreCheck={ignorePreCheck}
@@ -89,7 +88,18 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                             />
                         )}
 
-                        {loginType === CodefLoginType.IdAccount && <AssetConnectByAccountStep />}
+                        {/* 홈페이지계정으로 자산 불러오기 Flow */}
+                        {loginType === CodefLoginType.IdAccount && (
+                            <AssetConnectByAccountFlow
+                                onBack={() => {}}
+                                onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
+                                    setCodefAccounts(codefAccounts);
+                                    setFailedCompanies(failedCompanies);
+                                    setIsAfterAccountCreated(afterAccountCreated);
+                                    setStep(AssetConnectStep.SelectAssetsStep);
+                                }}
+                            />
+                        )}
                     </form>
                 </FormProvider>
             )}

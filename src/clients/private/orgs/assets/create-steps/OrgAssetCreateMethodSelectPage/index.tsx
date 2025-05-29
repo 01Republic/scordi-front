@@ -5,7 +5,7 @@ import {useOrgIdParam} from '^atoms/common';
 import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
 import {OrgAssetsCreateCompletePageRoute} from '^pages/orgs/[id]/assets/new/complete';
 import {LinkTo} from '^components/util/LinkTo';
-import {AssetConnectPageTemplate, EntryPath} from '^_components/pages/assets/connect-steps';
+import {AssetConnectPageTemplate} from '^_components/pages/assets/connect-steps';
 import {connectedAssetsAtom} from '../atom';
 
 /**
@@ -19,7 +19,6 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
 
     return (
         <AssetConnectPageTemplate
-            entryPath={EntryPath.Asset}
             ConnectMethodAltActionButton={() => (
                 <LinkTo
                     href={OrgAssetsCreateByManualPageRoute.path(orgId)}
