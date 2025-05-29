@@ -99,7 +99,7 @@ export const CreditCardProfileOption2 = memo((props: CreditCardProfileOption2Pro
 
     const randomNumber = (creditCard.name || '').length + creditCard.id;
     const colorClass = getColor(randomNumber, palette.notionColors);
-    const endNumber = creditCard.secretInfo?.number4;
+    const endNumber = creditCard.noMaskingEndNumber;
     const company = creditCard.company;
 
     return (

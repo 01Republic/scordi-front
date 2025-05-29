@@ -14,7 +14,7 @@ export const CardExpirySelects = memo((props: CardAttrSelectPropsType<string>) =
     return (
         <FormControl label="유효기간">
             <div className="flex items-center gap-2">
-                <div>년도</div>
+                <div>년</div>
                 <div className="flex-1">
                     <UnderlineDropdownSelect
                         name="year"

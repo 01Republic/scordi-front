@@ -23,10 +23,10 @@ export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
             {isEditMode ? (
                 <div className="grid grid-cols-2 items-center gap-2">
                     <div className="flex items-center gap-1">
-                        <div>연</div>
+                        <div>년</div>
                         <div className="flex-auto">
                             <UnderlineDropdownSelect
-                                defaultValue={parseInt(`${defaultValue[0] || 0}`)}
+                                defaultValue={defaultValue[0] ? parseInt(`${defaultValue[0]}`) : undefined}
                                 options={rangeToArr(2024 - 10, 2024 + 10)}
                                 onChange={(year?: number) => {
                                     if (typeof year === 'undefined') return;
@@ -42,7 +42,7 @@ export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
                         <div>월</div>
                         <div className="flex-auto">
                             <UnderlineDropdownSelect
-                                defaultValue={parseInt(`${defaultValue[1] || 0}`)}
+                                defaultValue={defaultValue[1] ? parseInt(`${defaultValue[1]}`) : undefined}
                                 options={rangeToArr(1, 12)}
                                 onChange={(month?: number) => {
                                     if (typeof month === 'undefined') return;

@@ -10,9 +10,10 @@ export const BillingHistoryTableControl = memo(() => {
             <BillingHistoryScopeHandlerOfBankAccount />
 
             <div>
-                <div className="flex items-center gap-2">
-                    <ExcelUploadButton />
-                </div>
+                {/* 백엔드 개발 되면 활성화 할 예정 삭제하면 안됨 */}
+                {/*<div className="flex items-center gap-2">*/}
+                {/*    <ExcelUploadButton />*/}
+                {/*</div>*/}
             </div>
         </div>
     );

@@ -87,11 +87,12 @@ export const useCurrentCreditCardEdit = () => {
                 number4: cardNumbers.number4,
             });
 
-            setExpiryValues(() => {
-                const year = currentCreditCard.expireYear || 0;
-                const month = currentCreditCard.expireMonth || 0;
-                return [`${year}`, padStart(`${month}`, 2, '0')];
-            });
+            const {expireYear, expireMonth} = currentCreditCard;
+            if (expireYear != null && expireMonth != null) {
+                setExpiryValues([`${expireYear}`, padStart(`${expireMonth}`, 2, '0')]);
+            } else {
+                setExpiryValues([]);
+            }
         }
     }, [currentCreditCard, isEditMode]);
 
@@ -120,16 +121,14 @@ export const useCurrentCreditCardEdit = () => {
             return;
         }
 
-        if (expiryValues.length) {
-            if (expiryValues.length != 2) {
-                toast.error('유효기간 입력이 완료되지 않았습니다');
-                return;
-            }
-            if (expiryValues[0].length != 4 || expiryValues[1].length != 2) {
-                toast.error('유효기간 입력이 올바르지 않습니다');
-                return;
-            }
-            const [year, month] = expiryValues;
+        const [year = '', month = ''] = expiryValues;
+
+        if ((year && !month) || (!year && month)) {
+            toast.error('유효기간의 년과 월을 모두 선택해주세요');
+            return;
+        }
+
+        if (year && month) {
             data.expiry = `${month}${year.slice(2, 4)}`;
         }
 

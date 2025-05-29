@@ -42,7 +42,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
     const ticks = rangeToArr(0, 10).map((i) => (maxAmount / 10) * i);
 
     return (
-        <div className="w-full h-[580px] max-h-[580px] p-2">
+        <div className="w-full h-[580px] max-h-[580px] p-1">
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                     data={formattedData}
@@ -86,7 +86,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         tickMargin={18}
                     />
                     <YAxis
-                        width={80}
+                        width={86}
                         domain={[0, 'monthlyTotalAmount']}
                         ticks={ticks}
                         axisLine={false}
@@ -98,7 +98,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                             fontSize: 14,
                             fill: '#7D7C78',
                         }}
-                        tickMargin={20}
+                        tickMargin={16}
                     />
                     <Tooltip content={<CustomTooltip />} cursor={{fill: 'transparent'}} />
                     <Bar
