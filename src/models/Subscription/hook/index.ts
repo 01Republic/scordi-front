@@ -182,3 +182,16 @@ export const useWorkspaceSubscriptionCount = (orgId: number) => {
         initialData: Paginated.init(),
     });
 };
+
+/* tanstack Query   */
+
+//구독 삭제하기
+export const useRemoveSubscription = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (subscriptionId: number) => subscriptionApi.destroy(subscriptionId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['subscriptions']});
+        },
+    });
+};
