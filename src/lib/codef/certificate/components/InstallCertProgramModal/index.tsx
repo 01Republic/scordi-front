@@ -1,17 +1,17 @@
 import {memo} from 'react';
-import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {X} from 'lucide-react';
+import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {NextImage} from '^components/NextImage';
 import windowsLogo from 'src/images/icon/os/windows.png';
 import macLogo from 'src/images/icon/os/mac.png';
 
-interface CertificateSetupModalProps {
+interface InstallCertProgramModalProps {
     isOpen: boolean;
     onClose: () => void;
     onCreate?: () => void;
 }
 
-export const CertificateSetupModal = memo((props: CertificateSetupModalProps) => {
+export const InstallCertProgramModal = memo((props: InstallCertProgramModalProps) => {
     const {isOpen, onClose, onCreate} = props;
     return (
         <BasicModal open={isOpen} onClose={onClose}>

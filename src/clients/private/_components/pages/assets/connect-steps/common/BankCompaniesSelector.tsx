@@ -36,7 +36,7 @@ export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) =>
     const companies = BankAccountsStaticData.findByClientType(clientType);
     const selectableCompanies = companies.filter((company) => {
         // isConnected
-        if (codefAccounts.some((acc) => acc.organization === company.param)) return false;
+        // if (codefAccounts.some((acc) => acc.organization === company.param)) return false;
 
         return true;
     });
@@ -105,7 +105,7 @@ export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) =>
                         isConnected={isConnected}
                         isSelected={selectedCompanies.some((b) => b.param === company.param)}
                         isAllSelected={isAllSelected}
-                        isDisabled={isConnected}
+                        // isDisabled={isConnected}
                         comment={comment}
                         onClick={() => onClick(company)}
                         onDisconnect={() => connectedAccount && onDisconnect(connectedAccount)}

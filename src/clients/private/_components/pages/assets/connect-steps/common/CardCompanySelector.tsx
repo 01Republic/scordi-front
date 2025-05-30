@@ -10,8 +10,8 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
-import {ConnectStepsModal} from '../AssetConnectByAccountStep/ConnectStepsModal';
 import {InstitutionOption} from './InstitutionOption';
+import {ConnectStepsModal} from '../AssetConnectByAccountFlow/ConnectStepsModal';
 
 interface CardCompanySelectorProps {
     setStep: () => void;

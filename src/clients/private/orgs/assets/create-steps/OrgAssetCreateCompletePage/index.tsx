@@ -3,17 +3,24 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {assetConnectedCodefCardsAtom} from '^models/CodefCard/atom';
 import {LottieNoSSR} from '^components/LottieNoSSR';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
-import {SuccessCreditCardSection} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/SuccessCreditCardSection';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
+import {connectedAssetsAtom} from '../atom';
+import {EmptyTable} from '^_components/table/EmptyTable';
+import {SuccessCreditCardsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessCreditCardsSection';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {SuccessBankAccountsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessBankAccountsSection';
 
 export const OrgAssetCreateCompletePage = memo(() => {
     const router = useRouter();
     const orgId = useOrgIdParam();
-    const processedCodefCards = useRecoilValue(assetConnectedCodefCardsAtom);
+
+    const connectedAssets = useRecoilValue(connectedAssetsAtom);
+    const bankAccounts = connectedAssets.filter((asset) => asset instanceof BankAccountDto) as BankAccountDto[];
+    const creditCards = connectedAssets.filter((asset) => asset instanceof CreditCardDto) as CreditCardDto[];
 
     return (
         <PureLayout>
@@ -31,10 +38,17 @@ export const OrgAssetCreateCompletePage = memo(() => {
                     }
                     onBack={() => router.back()}
                 />
-                {processedCodefCards.length > 0 && (
-                    <SuccessCreditCardSection processedCodefCards={processedCodefCards} />
+
+                {connectedAssets.length === 0 ? (
+                    <EmptyTable message="연동된 자산이 없어요" />
+                ) : (
+                    <div className="flex flex-col gap-10">
+                        <SuccessBankAccountsSection bankAccounts={bankAccounts} />
+                        <SuccessCreditCardsSection creditCards={creditCards} />
+                    </div>
                 )}
-                <div className="flex w-full justify-center">
+
+                <section className="w-full flex items-center justify-center">
                     <NextStepButton
                         onClick={() => {
                             // 연동 결과에 카드가 없이 계좌만 있다면,
@@ -47,7 +61,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
                             return router.push(OrgCreditCardListPageRoute.path(orgId));
                         }}
                     />
-                </div>
+                </section>
             </div>
         </PureLayout>
     );

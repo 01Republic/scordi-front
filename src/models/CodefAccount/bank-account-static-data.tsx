@@ -1,9 +1,10 @@
 // ref: https://www.banksalad.com/chart/cards/cashback/past
 
-import {CodefBankCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {plainToInstance} from 'class-transformer';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
-import {plainToInstance} from 'class-transformer';
+import {CodefCompanyCode} from '^models/CodefAccount/type/CodefCompanyStaticData';
+import {CodefBankCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 
 export class BankAccountsStaticData {
     displayName: string;
@@ -14,8 +15,16 @@ export class BankAccountsStaticData {
     loginType: CodefLoginType; // 공인인증서는 아직 안쓰므로, 일단 id-pw 만 씁니다.
     loginPageUrl: string;
 
-    static all() {
-        return plainToInstance(BankAccountsStaticData, bankAccountsStaticData);
+    static all(dataset = bankAccountsStaticData) {
+        return plainToInstance(BankAccountsStaticData, dataset);
+    }
+
+    static bankOnly(dataset: {param: CodefCompanyCode}[]) {
+        const items = dataset.filter((data) => {
+            const bankCodes = Object.values(CodefBankCode) as string[];
+            return bankCodes.includes(data.param);
+        });
+        return plainToInstance(BankAccountsStaticData, items);
     }
 
     static clientTypeOf(clientType: CodefCustomerType) {

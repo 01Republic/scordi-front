@@ -1,30 +1,147 @@
-import React, {memo} from 'react';
-import {PageFlash} from '^clients/private/_layouts/_shared/PageFlash';
+import React, {memo, useEffect, useState} from 'react';
+import {X} from 'lucide-react';
+import Tippy from '@tippyjs/react';
+import {LinkTo} from '^components/util/LinkTo';
+import {PageFlashPortal} from '^components/util/TopLineBannerPortal';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
+import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 
 interface AssetsConnectStepFlashHandlerProps {
-    failuresBankResults?: {item: BankAccountsStaticData; reason: any}[];
-    failuresCardResults?: {item: CardAccountsStaticData; reason: any}[];
+    failures?: CodefApiAccountItemDto[];
 }
 
 export const AssetsConnectStepFlashHandler = memo((props: AssetsConnectStepFlashHandlerProps) => {
-    const {failuresBankResults, failuresCardResults} = props;
+    const {failures = []} = props;
+    const [isOpen, setIsOpen] = useState(failures.length > 0);
+    const [isFailModalOpened, setIsFailModalOpened] = useState(false);
+    const [waited, setWaited] = useState(false);
 
-    const hasBankFailures = (failuresBankResults?.length ?? 0) > 0;
-    const hasCardFailures = (failuresCardResults?.length ?? 0) > 0;
+    useEffect(() => {
+        setTimeout(() => setWaited(true), 1000);
+    }, []);
 
-    if (!hasBankFailures && !hasCardFailures) {
-        return null;
-    }
+    if (!isOpen || !waited) return <></>;
 
     return (
-        <PageFlash
-            text="연동에 실패한 금융기관이 있어요"
-            id="AssetsConnectStepFlashHandler"
-            theme="alert"
-            type="button"
-            closeButton={true}
-        />
+        <>
+            <PageFlashPortal>
+                <div className="px-4 shadow rounded-lg w-full overflow-hidden transition-all h-[3rem] text-14 flex items-center justify-between bg-yellowColor-100 !text-yellowColor-400">
+                    <div className="min-w-[48px] flex items-center justify-center">&nbsp;</div>
+                    <div className="flex-1 text-center">
+                        <span className="mr-8">⚠️ 연동에 실패한 금융기관이 있어요</span>
+                        <LinkTo
+                            className="btn-link underline-offset-2 cursor-pointer transition-all hover:text-blue-700"
+                            onClick={() => setIsFailModalOpened(true)}
+                        >
+                            자세히 알아보기
+                        </LinkTo>
+                    </div>
+                    <div className="min-w-[48px] flex items-center justify-center">
+                        <X
+                            size={14}
+                            className="cursor-pointer text-gray-500 hover:text-black transition-all"
+                            onClick={() => setIsOpen(false)}
+                        />
+                    </div>
+                </div>
+            </PageFlashPortal>
+
+            <FailModal isOpened={isFailModalOpened} onClose={() => setIsFailModalOpened(false)} failures={failures} />
+        </>
     );
 });
+
+interface Props {
+    isOpened: boolean;
+    onClose: () => void;
+    failures: CodefApiAccountItemDto[];
+}
+
+const FailModal = (props: Props) => {
+    const {isOpened, onClose, failures} = props;
+
+    const bankFails = failures.filter(({businessType}) => businessType === CodefRequestBusinessType.Bank);
+    const cardFails = failures.filter(({businessType}) => businessType === CodefRequestBusinessType.Card);
+
+    return (
+        <AnimatedModal name="FailModal" open={isOpened} onClose={onClose}>
+            <div className="relative mx-auto max-w-lg w-full">
+                <div className={'bg-white rounded-2xl p-6 pt-5 flex flex-col'}>
+                    <header className={`flex justify-between items-start ${'mb-8'}`}>
+                        <div>
+                            <h3 className="text-xl mb-1.5">불러오지 못한 금융기관이 있어요.</h3>
+                            {/*<p className="text-[#999] font-medium text-16"></p>*/}
+                        </div>
+                    </header>
+
+                    <div className="flex flex-col gap-6 mb-8">
+                        {bankFails.length > 0 && (
+                            <div>
+                                <h4 className="text-16 font-semibold pb-2">은행</h4>
+                                <ul className="pl-6 list-disc">
+                                    {bankFails.map((error) => {
+                                        const company = BankAccountsStaticData.findOne(error.organization);
+
+                                        if (!company) return <></>;
+
+                                        return (
+                                            <li key={company.param} className="text-14 pb-1">
+                                                <Tippy
+                                                    content={error.message}
+                                                    className="!text-12"
+                                                    placement="right"
+                                                    theme="light"
+                                                >
+                                                    <div className="inline-block">{company.displayName}</div>
+                                                </Tippy>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        )}
+
+                        {cardFails.length > 0 && (
+                            <div>
+                                <h4 className="text-16 font-semibold pb-2">카드</h4>
+                                <ul className="pl-6 list-disc">
+                                    {cardFails.map((error) => {
+                                        const company = CardAccountsStaticData.findOne(error.organization);
+
+                                        if (!company) return <></>;
+
+                                        return (
+                                            <li key={company.param} className="text-14 pb-1">
+                                                <Tippy
+                                                    content={error.message}
+                                                    className="!text-12"
+                                                    placement="right"
+                                                    theme="light"
+                                                >
+                                                    <div className="inline-block">{company.displayName}</div>
+                                                </Tippy>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+
+                    <div>
+                        <button
+                            type="button"
+                            className="btn btn-block btn-secondary no-animation btn-animation"
+                            onClick={onClose}
+                        >
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </AnimatedModal>
+    );
+};

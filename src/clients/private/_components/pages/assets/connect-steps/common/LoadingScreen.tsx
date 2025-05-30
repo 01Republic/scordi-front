@@ -1,10 +1,11 @@
-import {Fragment, useEffect, useState} from 'react';
+import {Fragment, ReactNode, useEffect, useState} from 'react';
 import {DotLottieReact} from '@lottiefiles/dotlottie-react';
 import NumberFlow from '@number-flow/react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {useRouter} from 'next/router';
+import {WithChildren} from '^types/global.type';
 
-interface LoadingScreenProps {
+interface LoadingScreenProps extends WithChildren {
     message?: string;
     onCreat?: () => void;
     onClose: () => void;
@@ -13,7 +14,7 @@ interface LoadingScreenProps {
 const PROGRESS_SCHEDULE = [3, 7, 12, 18, 32, 45, 63, 79, 88, 100];
 
 export const LoadingScreen = (props: LoadingScreenProps) => {
-    const {message = '조금만 기다려 주세요!', onCreat, onClose} = props;
+    const {message = '조금만 기다려 주세요!', onCreat, onClose, children} = props;
 
     const router = useRouter();
     const [progress, setProgress] = useState(0);
@@ -58,9 +59,58 @@ export const LoadingScreen = (props: LoadingScreenProps) => {
                     <DotLottieReact src="/images/lottie/loading.lottie" loop autoplay />
                 </div>
 
-                <div className="text-primaryColor-900 text-lg font-medium">
-                    <NumberFlow value={progress} duration={800} />% 완료
+                {children || (
+                    <div className="text-primaryColor-900 text-lg font-medium">
+                        <NumberFlow value={progress} duration={800} />% 완료
+                    </div>
+                )}
+            </div>
+        </PureLayout>
+    );
+};
+
+interface Props extends WithChildren {
+    message?: ReactNode;
+    percentage?: number; // 0 ~ 100
+    onFinish?: () => void;
+    minTimeout?: number;
+}
+
+export const LoadingScreen2 = (props: Props) => {
+    const {message = '조금만 기다려 주세요!', percentage = 0, onFinish, minTimeout = 0, children} = props;
+    const [isWaited, setIsWaited] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setIsWaited(true), minTimeout);
+    }, []);
+
+    useEffect(() => {
+        if (percentage >= 100) setIsFinished(true);
+    }, [percentage]);
+
+    useEffect(() => {
+        if (isWaited && isFinished) {
+            onFinish && onFinish();
+        }
+    }, [isWaited, isFinished]);
+
+    return (
+        <PureLayout>
+            <div className="flex flex-col items-center justify-center m-auto">
+                <div className="text-center space-y-2">
+                    <h2 className="text-2xl font-bold text-gray-800 leading-tight">{message}</h2>
                 </div>
+
+                <div className="w-64">
+                    <DotLottieReact src="/images/lottie/loading.lottie" loop autoplay />
+                </div>
+
+                {children || (
+                    <div className="text-primaryColor-900 text-lg font-medium">
+                        <NumberFlow value={percentage} duration={800} />% 완료
+                    </div>
+                )}
             </div>
         </PureLayout>
     );
