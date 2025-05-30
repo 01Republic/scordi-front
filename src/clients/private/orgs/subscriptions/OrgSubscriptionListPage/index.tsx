@@ -1,7 +1,9 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
+import {Plus} from 'lucide-react';
 import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -14,9 +16,6 @@ import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
-import {CurrencyToggle} from '^tasting/CurrencyToggle';
-import {errorToast} from '^api/api';
-import {Plus} from 'lucide-react';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
