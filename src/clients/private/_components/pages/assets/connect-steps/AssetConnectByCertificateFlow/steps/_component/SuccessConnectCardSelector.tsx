@@ -10,16 +10,14 @@ import {unitFormat} from '^utils/number';
 import Tippy from '@tippyjs/react';
 
 interface SuccessConnectCardSelectorProps {
-    companies?: CardAccountsStaticData[];
+    codefCards?: CodefCardDto[];
+    isLoading?: boolean;
     onSelect?: (codefCards: CodefCardDto[]) => any;
 }
 
 export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelectorProps) => {
-    const orgId = useOrgIdParam();
     const [selectedItems, setSelectedItems] = useState<CodefCardDto[]>([]);
-    const {companies = [], onSelect} = props;
-
-    const {data: codefCards, isFetching} = useCodefCardsByCompanies(orgId, companies);
+    const {codefCards = [], isLoading = false, onSelect} = props;
 
     const select = (changedItems: CodefCardDto[]) => {
         setSelectedItems(changedItems);
@@ -46,7 +44,7 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
             }
             isAllSelected={isAllSelected}
             handleSelectAll={handleSelectAll}
-            isLoading={isFetching}
+            isLoading={isLoading}
         >
             <ul className="grid grid-cols-2 gap-3">
                 {codefCards.map((codefCard) => (

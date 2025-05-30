@@ -124,13 +124,12 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         setIgnorePreCheck(true);
                         setStep(AssetConnectStep.AccountCreateStep);
                     }}
-                    onNext={(codefBanks, codefCards, disabled) => {
-                        if (disabled) return router.push(OrgMainPageRoute.path(orgId));
+                    onNext={(codefBanks, codefCards, disabled, allConnected) => {
+                        if (disabled || allConnected) return router.push(OrgMainPageRoute.path(orgId));
 
                         setSelectedCodefAssets([...codefBanks, ...codefCards]);
                         setStep(AssetConnectStep.ConnectAssetsStep);
                     }}
-                    disabledCTAButtonText="홈으로"
                 />
             )}
 

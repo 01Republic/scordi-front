@@ -70,6 +70,10 @@ export class CodefCardDto {
         const param = this.account?.organization;
         return CardAccountsStaticData.findOne(param) as CardAccountsStaticData | undefined;
     }
+
+    get isConnected() {
+        return !!this.creditCardId;
+    }
 }
 
 export class ConnectedCodefCardDto extends CodefCardDto {

@@ -79,6 +79,7 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                             layout={{fit: 'fill'}}
                         />
                     }
+                    onBack={() => router.back()}
                     onMove={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
                 />
                 {subscriptions.length === 0 ? (

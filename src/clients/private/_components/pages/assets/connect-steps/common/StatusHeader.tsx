@@ -3,8 +3,8 @@ import {ArrowLeft, Plus} from 'lucide-react';
 import {LinkTo} from '^components/util/LinkTo';
 
 interface StatusHeaderProps {
-    title: string;
-    subTitle?: string;
+    title: ReactNode;
+    subTitle?: ReactNode;
     icon?: ReactNode;
     onBack?: () => void;
     onMove?: () => void;

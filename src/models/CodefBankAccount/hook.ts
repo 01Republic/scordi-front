@@ -56,22 +56,24 @@ export const useFindBankAccounts = (orgId: number, accountIds: number[], params?
             };
 
             return {
-                queryKey: ['findBankAccounts', orgId, accountId, queryParams],
+                queryKey: ['findBankAccountsByAccountIds', orgId, accountId, queryParams],
                 queryFn: () =>
-                    codefAccountApi
-                        .findBankAccounts<CodefBankAccountDto>(orgId, accountId, queryParams)
-                        .then((res) => res.data.items),
+                    codefAccountApi.findBankAccounts(orgId, accountId, queryParams).then((res) => res.data.items),
                 enabled: !!orgId && !isNaN(orgId) && !!accountId,
+                initialData: [],
+                retry: 0,
+                retryOnMount: false,
             };
         }),
     });
 
     const data = results.flatMap((result) => result.data || []);
-    const isFetching = results.some((result) => result.isFetching);
+    const isLoading = results.some((result) => result.isFetching);
     const isError = results.some((result) => result.isError);
     const errors = results.filter((result) => result.isError);
+    const allConnected = data.every((item) => item.isConnected);
 
-    return {data, isFetching, isError, errors};
+    return {data, isLoading, isError, errors, allConnected};
 };
 
 /** 기관코드를 통해 연결된 계좌목록을 조회 */

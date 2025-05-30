@@ -53,4 +53,8 @@ export class CodefBankAccountDto {
         const param = this.account?.organization;
         return BankAccountsStaticData.findOne(param) as BankAccountsStaticData | undefined;
     }
+
+    get isConnected() {
+        return !!this.bankAccountId;
+    }
 }
