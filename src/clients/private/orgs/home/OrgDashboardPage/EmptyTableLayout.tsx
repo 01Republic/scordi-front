@@ -20,11 +20,11 @@ export const EmptyTableLayout = memo((props: ListItemLayoutProps) => {
         <article className={`w-full flex flex-col justify-start border rounded-3xl bg-white p-7 ${className}`}>
             <p className="flex items-center font-semibold text-20">{title}</p>
             <section className=" h-full flex flex-col gap-3 items-center justify-center my-20 ">
-                <p className="text-sm font-normal text-neutral-500">{`등록된 ${title}이 없어요.`}</p>
+                <p className="text-sm font-normal text-gray-500">{`등록된 ${title}이 없어요.`}</p>
                 {url ? (
                     <Link
                         href={url ? url : '#'}
-                        className="flex items-center gap-2 p-3 text-neutral-50 btn-scordi rounded-lg"
+                        className="flex items-center gap-2 p-3 text-gray-50 btn-scordi rounded-lg"
                     >
                         <Icon className="w-[10px]" />
                         <p className="text-14 font-medium">{`${title} 등록`}</p>
@@ -32,7 +32,7 @@ export const EmptyTableLayout = memo((props: ListItemLayoutProps) => {
                 ) : (
                     <button
                         onClick={onClick}
-                        className="flex items-center gap-2 p-3 text-neutral-50 btn-scordi rounded-lg"
+                        className="flex items-center gap-2 p-3 text-gray-50 btn-scordi rounded-lg"
                     >
                         <Icon className="w-[10px]" />
                         <p className="text-14 font-medium">{`${title} 등록`}</p>

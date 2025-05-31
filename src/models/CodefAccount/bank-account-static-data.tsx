@@ -1,9 +1,10 @@
 // ref: https://www.banksalad.com/chart/cards/cashback/past
 
-import {CodefBankCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {plainToInstance} from 'class-transformer';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
-import {plainToInstance} from 'class-transformer';
+import {CodefCompanyCode} from '^models/CodefAccount/type/CodefCompanyStaticData';
+import {CodefBankCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 
 export class BankAccountsStaticData {
     displayName: string;
@@ -14,8 +15,16 @@ export class BankAccountsStaticData {
     loginType: CodefLoginType; // 공인인증서는 아직 안쓰므로, 일단 id-pw 만 씁니다.
     loginPageUrl: string;
 
-    static all() {
-        return plainToInstance(BankAccountsStaticData, bankAccountsStaticData);
+    static all(dataset = bankAccountsStaticData) {
+        return plainToInstance(BankAccountsStaticData, dataset);
+    }
+
+    static bankOnly(dataset: {param: CodefCompanyCode}[]) {
+        const items = dataset.filter((data) => {
+            const bankCodes = Object.values(CodefBankCode) as string[];
+            return bankCodes.includes(data.param);
+        });
+        return plainToInstance(BankAccountsStaticData, items);
     }
 
     static clientTypeOf(clientType: CodefCustomerType) {
@@ -28,6 +37,10 @@ export class BankAccountsStaticData {
                 ? data.clientType === CodefCustomerType.Personal
                 : data.clientType != CodefCustomerType.Personal;
         });
+    }
+
+    static findByClientType(clientType: CodefCustomerType) {
+        return this.all().filter((data) => data.clientType === clientType);
     }
 
     static findOne(param?: string) {
@@ -49,6 +62,24 @@ export class BankAccountsStaticData {
 /** 은행사 로그인 계정을 통한 연동시, 은행사별 필요한 정적데이터 */
 /* TODO: loginPageUrl 입력 필요 + 백엔드랑 은행이름 맞추기 */
 export const bankAccountsStaticData: BankAccountsStaticData[] = [
+    {
+        displayName: '농협은행',
+        param: CodefBankCode.농협은행,
+        logo: '/logo/banks/NH.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://ibz.nonghyup.com/servlet/ICCNP1000S.view',
+    },
+    {
+        displayName: '농협은행',
+        param: CodefBankCode.농협은행,
+        logo: '/logo/banks/NH.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://banking.nonghyup.com/servlet/IPCNPA000I.view',
+    },
     {
         displayName: '기업은행',
         param: CodefBankCode.기업은행,

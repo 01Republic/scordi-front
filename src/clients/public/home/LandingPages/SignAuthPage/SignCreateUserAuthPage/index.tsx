@@ -137,7 +137,7 @@ export const SignCreateUserAuthPage = () => {
                     }}
                 >
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
-                        <span className="text-28 font-bold text-neutral-900">딱 필요한 정보만 받을게요</span>
+                        <span className="text-28 font-bold text-gray-900">딱 필요한 정보만 받을게요</span>
                         <section className="w-full flex flex-col gap-3">
                             <NameSection />
                             <EmailSection />

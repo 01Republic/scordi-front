@@ -18,6 +18,7 @@
         "baseUrl": "./",
         "paths": {
             "^public/*": ["./public/*"],
+            "^images/*": ["./src/images/*"],
             "^utils/*": ["./src/utils/*"],
             "^config/*": ["./src/config/*"],
             "^hooks/*": ["./src/hooks/*"],
@@ -25,12 +26,14 @@
             "^components/*": ["./src/components/*"],
             "^v3/*": ["./src/components/pages/v3/*"],
             "^clients/*": ["./src/clients/*"],
+            "^_components/*": ["./src/clients/private/_components/*"],
             "^tasting/*": ["./src/clients/public/home/LandingPages/TastingPage/*"],
             "^admin/*": ["./src/clients/admin/*"],
             "^atoms/*": ["./src/atoms/*"],
             "^pages/*": ["./src/pages/*"],
             "^api/*": ["./src/api/*"],
             "^models/*": ["./src/models/*"],
+            "^lib/*": ["./src/lib/*"],
             "^styles/*": ["./src/styles/*"],
             "^types/*": ["./src/types/*"]
         },

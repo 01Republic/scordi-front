@@ -58,7 +58,7 @@ export const codefAccountApi = {
     },
 
     /** 코드에프 계좌 조회 (보유계좌 조회) - 계정의 계좌 조회 */
-    findBankAccounts<Dto = CodefCardDto, Query = FindAllBankAccountQueryDto>(
+    findBankAccounts<Dto = CodefBankAccountDto, Query = FindAllBankAccountQueryDto>(
         orgId: number,
         accountId: number,
         params: Query = {} as any,

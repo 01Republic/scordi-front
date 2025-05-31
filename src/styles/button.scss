@@ -181,6 +181,16 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
     //}
 }
 
+.btn-secondary {
+    @apply bg-gray-200 text-gray-800;
+    @apply border-gray-200;
+
+    &:hover {
+        @apply bg-gray-300 text-gray-800;
+        @apply border-gray-200;
+    }
+}
+
 .btn-disabled,
 .btn-disabled:hover,
 .btn[disabled],
@@ -190,6 +200,7 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
     --tw-bg-opacity: 0.2;
     color: hsl(var(--bc) / var(--tw-text-opacity));
     --tw-text-opacity: 0.2;
+
 }
 
 .btn-disabled,
@@ -198,7 +209,7 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
 }
 
 .btn-disabled2 {
-    @apply bg-slate-200 border-slate-200 text-gray-400 #{!important};
+    @apply bg-gray-150 border-gray-100 text-gray-350 #{!important};
     @apply cursor-not-allowed;
     pointer-events: none;
 }
@@ -339,5 +350,21 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
     &:hover {
         @apply border-scordi-300;
         @apply bg-scordi-50;
+    }
+}
+
+.btn-header-action {
+    @apply btn-square;
+    @apply flex items-center justify-center;
+    @apply bg-white;
+    @apply border border-gray-300;
+    @apply transition-all cursor-pointer;
+    @apply rounded-md;
+
+
+    &:hover {
+        @apply shadow;
+        @apply border-gray-400;
+        @apply bg-white;
     }
 }

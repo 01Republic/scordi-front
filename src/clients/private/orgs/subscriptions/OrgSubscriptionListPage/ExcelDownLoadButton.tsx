@@ -30,7 +30,7 @@ export const ExcelDownLoadButton = memo(() => {
 
     return (
         <div
-            className={`btn bg-white border border-[#CBD5E1] ${isLoading ? 'opacity-40 pointer-events-none' : ''}`}
+            className={`btn btn-header-action ${isLoading ? 'opacity-40 pointer-events-none' : ''}`}
             onClick={!isLoading ? onClick : undefined}
         >
             <Download fontSize={20} />
