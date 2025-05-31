@@ -29,18 +29,16 @@ export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByC
     const {ignorePreCheck = false, onBack, onFinish} = props;
     const orgId = useOrgIdParam();
     const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
+    const certAccounts = codefAccounts.filter((account) => {
+        return account.loginType === CodefLoginType.Certificate;
+    });
 
     useEffect(() => {
         if (ignorePreCheck) return;
-        if (isFetchedAfterMount) {
-            const initialFoundAccounts = codefAccounts.filter((account) => {
-                return account.loginType === CodefLoginType.Certificate;
-            });
-            if (initialFoundAccounts.length > 0) onFinish(initialFoundAccounts, [], false);
-        }
-    }, [ignorePreCheck, isFetchedAfterMount, codefAccounts]);
+        if (isFetchedAfterMount && certAccounts.length > 0) onFinish(certAccounts, [], false);
+    }, [ignorePreCheck, isFetchedAfterMount, certAccounts]);
 
-    const renderActive = ignorePreCheck || (isFetchedAfterMount && codefAccounts.length === 0);
+    const renderActive = ignorePreCheck || (isFetchedAfterMount && certAccounts.length === 0);
 
     return (
         <>

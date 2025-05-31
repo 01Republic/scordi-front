@@ -70,6 +70,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>([]);
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
 
+    const notSelected = selectedCodefBanks.length === 0 && selectedCodefCards.length === 0;
     const disabled = codefAccounts.length === 0;
     const isLoadingMsg = ((): string => {
         if (codefCardsQuery.isLoading) return '카드 정보 조회중';
@@ -149,7 +150,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
 
                 <div className="flex w-full justify-center">
                     <NextStepButton
-                        disabled={!!isLoadingMsg}
+                        disabled={!!isLoadingMsg || notSelected}
                         onClick={() => onNext(selectedCodefBanks, selectedCodefCards, disabled, allConnected)}
                         text={(() => {
                             if (isLoadingMsg) return '불러오는중';

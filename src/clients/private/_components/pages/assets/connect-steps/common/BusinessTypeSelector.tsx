@@ -11,6 +11,7 @@ export const BusinessTypeSelector = memo((props: AssetEntitySelectorProps) => {
     const {setValue, watch} = useFormContext<CreateAccountRequestDto>();
 
     const selectValue = watch('clientType') || CodefCustomerType.Business;
+
     return (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {[

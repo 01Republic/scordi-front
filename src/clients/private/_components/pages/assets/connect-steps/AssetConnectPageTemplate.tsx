@@ -1,4 +1,4 @@
-import React, {memo, createContext, useState} from 'react';
+import React, {createContext, memo, useState} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {useOrgIdParam} from '^atoms/common';
 import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
@@ -17,6 +17,7 @@ import {useRouter} from 'next/router';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
+import {useUnmount} from '^hooks/useUnmount';
 
 interface AssetConnectOption {
     ConnectMethodAltActionButton?: () => JSX.Element;
@@ -60,13 +61,27 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
         },
     });
 
+    useUnmount(() => {
+        // 초기화
+        form.reset({
+            loginType: undefined,
+            clientType: CodefCustomerType.Business,
+            isAgreeForPrivacyPolicyTerm: false,
+            isAgreeForServiceUsageTerm: false,
+        });
+        setIgnorePreCheck(false);
+        setIsAfterAccountCreated(false);
+        setStep(AssetConnectStep.AccountCreateStep);
+        setSelectedCodefAssets(undefined);
+    }, []);
+
     const loginType = form.watch('loginType');
 
     return (
         <AssetConnectOptionContext.Provider value={props}>
             {step === AssetConnectStep.AccountCreateStep && (
                 <FormProvider {...form}>
-                    <form>
+                    <div>
                         {/* 연동방법 선택 (소위, 약관동의 페이지) */}
                         {!loginType && <AssetConnectMethodSelectStep />}
 
@@ -91,7 +106,10 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         {/* 홈페이지계정으로 자산 불러오기 Flow */}
                         {loginType === CodefLoginType.IdAccount && (
                             <AssetConnectByAccountFlow
-                                onBack={() => {}}
+                                ignorePreCheck={ignorePreCheck}
+                                onBack={() => {
+                                    form.reset({loginType: undefined});
+                                }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
                                     setCodefAccounts(codefAccounts);
                                     setFailedCompanies(failedCompanies);
@@ -100,7 +118,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                                 }}
                             />
                         )}
-                    </form>
+                    </div>
                 </FormProvider>
             )}
 
@@ -141,12 +159,6 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         if (onSuccess) {
                             await onSuccess(results);
                         }
-
-                        form.reset({loginType: undefined});
-                        setIgnorePreCheck(false);
-                        setIsAfterAccountCreated(false);
-                        setStep(AssetConnectStep.AccountCreateStep);
-                        setSelectedCodefAssets(undefined);
                     }}
                 />
             )}

@@ -1,33 +1,27 @@
-import React, {Dispatch, memo, SetStateAction, useContext, useState} from 'react';
+import {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
 import {useCodefAccount} from '^models/CodefCard/hook';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
 import {InstitutionOption} from './InstitutionOption';
-import {ConnectStepsModal} from '../AssetConnectByAccountFlow/ConnectStepsModal';
 
 interface CardCompanySelectorProps {
-    setStep: () => void;
-    cardCompany: CardAccountsStaticData | undefined;
-    setCardCompany: React.Dispatch<React.SetStateAction<CardAccountsStaticData | undefined>>;
-    setCodefCard: Dispatch<SetStateAction<CodefCardDto[] | undefined>>;
+    createMoreAccountContext?: boolean;
+    onSelect: (company: CardAccountsStaticData) => any;
 }
 
 // 홈페이지계정 > 카드사 한개 선택
 export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
-    const {setStep, cardCompany, setCardCompany, setCodefCard} = props;
-
+    const {createMoreAccountContext = false, onSelect} = props;
     const orgId = useOrgIdParam();
     const form = useFormContext<CreateAccountRequestDto>();
     const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.IdAccount);
-    const [isConnectStepsModalOpen, setIsConnectStepsModalOpen] = useState(false);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
 
@@ -36,14 +30,6 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
     } = useCodefAccountsInConnector(orgId);
 
     const companies = CardAccountsStaticData.findByClientType(clientType);
-
-    const onClick = (company: CardAccountsStaticData) => {
-        // 홈페이지 로그인 방식으로 진입한 경우, 카드사는 하나만 선택해야 함.
-        // 선택시 연동모달 즉시 구동.
-        setCardCompany(company);
-        setIsConnectStepsModalOpen(true);
-        return;
-    };
 
     const onDisconnect = async (companyName: string, accountId?: number) => {
         if (!accountId) return;
@@ -74,32 +60,23 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
 
             <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {companies.map((company) => {
-                    const connectedAccount = codefAccounts.find((account) => account.company === company.displayName);
+                    const connectedAccounts = codefAccounts.filter((account) => {
+                        return account.clientType === clientType && account.company === company.displayName;
+                    });
+                    const [connectedAccount] = connectedAccounts;
 
                     return (
                         <InstitutionOption
                             key={company.param}
                             logo={company.logo}
                             title={company.displayName}
-                            isConnected={!!connectedAccount}
-                            onClick={() => onClick(company)}
+                            isConnected={connectedAccounts.length > 0}
+                            onClick={() => onSelect(company)}
                             onDisconnect={() => onDisconnect(company.displayName, connectedAccount?.id)}
                         />
                     );
                 })}
             </div>
-
-            {/* 로그인/비밀번호로 연동하는 경우 모달을 이용해 연결 */}
-            {cardCompany && (
-                <ConnectStepsModal
-                    cardCompany={cardCompany}
-                    setCardCompany={setCardCompany}
-                    isConnectStepsModalOpen={isConnectStepsModalOpen}
-                    setIsConnectStepsModalOpen={setIsConnectStepsModalOpen}
-                    setConnectStep={setStep}
-                    setCodefCard={setCodefCard}
-                />
-            )}
         </section>
     );
 });
