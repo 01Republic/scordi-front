@@ -24,7 +24,10 @@ export function useSearchCodefBillingHistories() {
 
         setIsLoading(true);
         const query = {} as FindAllCodefBillingHistoryQueryDto;
-        query.where = {codefCardId: 'NULL'};
+        query.where = {
+            codefBankAccountId: {op: 'not', val: 'NULL'},
+            // resAccountOut: {op: 'mt', val: 0}, // 수입 빼고 지출만 조회
+        };
         if (codefBankAccount) query.where.codefBankAccountId = codefBankAccount.id;
         query.find = {ops, value: getLikeQueryString(fo, bo, value)};
         codefParserFactoryApi

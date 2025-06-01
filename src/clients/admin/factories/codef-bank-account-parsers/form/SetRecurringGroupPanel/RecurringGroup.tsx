@@ -84,18 +84,20 @@ const RecurringGroupTitleCommon = memo((props: RecurringGroupProps & WithChildre
             <div className="text-12 font-semibold pt-[2px] pr-1">Group {index + 1}.</div>
             <div className="flex items-center gap-1">
                 <div>
-                    <CodefBankAccountTagUI codefBankAccount={codefBankAccount} />
+                    <CodefBankAccountTagUI codefBankAccount={codefBankAccount} render={(item) => item.title} />
                 </div>
-                <div className="text-12 pt-[2px]"> 카드에서</div>
+                <div className="text-12 pt-[2px]"> 계좌에서</div>
             </div>
 
             <div className="flex items-center pt-[2px]">
                 <div className="text-12">{children}</div>
             </div>
 
-            <div className="ml-auto flex items-center">
-                <div className="text-12 text-gray-400">Sync at: {yyyy_mm_dd_hh_mm(codefBankAccount.updatedAt)}</div>
-            </div>
+            {codefBankAccount && (
+                <div className="ml-auto flex items-center">
+                    <div className="text-12 text-gray-400">Sync at: {yyyy_mm_dd_hh_mm(codefBankAccount.updatedAt)}</div>
+                </div>
+            )}
         </div>
     );
 });

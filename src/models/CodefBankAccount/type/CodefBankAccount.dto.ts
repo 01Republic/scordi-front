@@ -12,6 +12,12 @@ export class CodefBankAccountDto {
     accountId: number; // 계정 정보 FK
     bankAccountId: number | null; // 등록된 계좌 FK
 
+    get title() {
+        const lastNum = this.bankEndNumbers;
+        const company = this.company?.displayName.replace('은행', '') || '';
+        return `${company}(${lastNum})`.trim();
+    }
+
     get number4() {
         return this.resAccountDisplay;
     }
