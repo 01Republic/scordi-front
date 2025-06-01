@@ -1,4 +1,4 @@
-import React, {createContext, memo, useState} from 'react';
+import React, {createContext, memo, ReactNode, useState} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {useOrgIdParam} from '^atoms/common';
 import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
@@ -22,6 +22,10 @@ import {useUnmount} from '^hooks/useUnmount';
 interface AssetConnectOption {
     ConnectMethodAltActionButton?: () => JSX.Element;
     onSuccess?: (connectedAssets: (CreditCardDto | BankAccountDto)[]) => any;
+    selectAssetsStep?: {
+        title?: ReactNode;
+        subTitle?: ReactNode;
+    };
 }
 
 export const AssetConnectOptionContext = createContext<AssetConnectOption>({
@@ -41,7 +45,7 @@ enum AssetConnectStep {
  * ---
  */
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
-    const {onSuccess} = props;
+    const {onSuccess, selectAssetsStep} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
     useCodefAccountsInConnectorV2(orgId);
@@ -125,6 +129,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {/* 자산 선택p : 자산 연동이 완료된 자산 목록을 보여주고 스코디 자산으로 연동할 자산을 선택 */}
             {step === AssetConnectStep.SelectAssetsStep && (
                 <SelectAssetsStep
+                    {...selectAssetsStep}
                     isAfterAccountCreated={isAfterAccountCreated}
                     codefAccounts={codefAccounts || []}
                     failedCompanies={failedCompanies}
@@ -155,10 +160,8 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {step === AssetConnectStep.ConnectAssetsStep && (
                 <ConnectAssetsStep
                     codefAssets={selectedCodefAssets || []}
-                    onNext={async (results) => {
-                        if (onSuccess) {
-                            await onSuccess(results);
-                        }
+                    onNext={(results) => {
+                        onSuccess && onSuccess(results);
                     }}
                 />
             )}

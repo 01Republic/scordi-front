@@ -31,6 +31,10 @@ export const OrgSubscriptionConnectionPage = memo(() => {
                 setConnectedAssets(connectedAssets);
                 return router.replace(OrgSubscriptionConnectionSuccessPageRoute.path(orgId));
             }}
+            selectAssetsStep={{
+                title: '어떤 자산으로부터 구독을 불러올까요?',
+                subTitle: '',
+            }}
         />
     );
 });

@@ -1,23 +1,22 @@
-import React, {memo, useMemo, useState} from 'react';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {LottieNoSSR} from '^components/LottieNoSSR';
+import React, {memo, ReactNode, useMemo, useState} from 'react';
+import {isDefinedValue} from '^utils/array';
+import {useOrgIdParam} from '^atoms/common';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
-import {AssetsConnectStepFlashHandler} from '^_components/pages/assets/connect-steps/common/AssetsConnectStepFlashHandler';
-import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
-import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
-import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
-import {EmptyTable} from '^_components/table/EmptyTable';
+import {LottieNoSSR} from '^components/LottieNoSSR';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
-import {isDefinedValue} from '^utils/array';
-import {useRouter} from 'next/router';
-import {useOrgIdParam} from '^atoms/common';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {useCodefBankAccountsByCompanies} from '^models/CodefBankAccount/hook';
 import {useCodefCardsByCompanies} from '^models/CodefCard/hook';
+import {StatusHeader} from '../../common/StatusHeader';
+import {NextStepButton} from '../../common/NextStepButton';
+import {AssetsConnectStepFlashHandler} from '../../common/AssetsConnectStepFlashHandler';
+import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
+import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -31,6 +30,10 @@ interface SelectAssetsStepProps {
         disabled: boolean,
         allConnected: boolean,
     ) => any;
+
+    // UI
+    title?: ReactNode;
+    subTitle?: ReactNode;
     disabledCTAButtonText?: string;
 }
 
@@ -38,7 +41,6 @@ interface SelectAssetsStepProps {
  * 자산 선택p
  */
 export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
-    const router = useRouter();
     const orgId = useOrgIdParam();
     const {
         isAfterAccountCreated,
@@ -47,6 +49,8 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
         onBack,
         onMove,
         onNext,
+        title,
+        subTitle,
         disabledCTAButtonText,
     } = props;
 
@@ -83,33 +87,41 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
         <PureLayout>
             <div className="flex flex-col gap-20">
                 <StatusHeader
-                    title={
-                        isLoadingMsg
-                            ? isLoadingMsg
-                            : isAfterAccountCreated
-                            ? disabled
+                    title={(() => {
+                        if (isLoadingMsg) return isLoadingMsg;
+
+                        if (isAfterAccountCreated) {
+                            // 방금 등록하고 넘어온 경우
+                            return disabled
                                 ? '선택하신 금융기관에서는 자산을 조회하지 못했어요 💦'
-                                : '자산 연동이 완료되었어요'
-                            : allConnected
-                            ? '조회된 모든 자산이 이미 연결되어있네요!'
-                            : '어떤 자산으로부터 구독을 불러올까요?'
-                    }
-                    subTitle={
-                        isLoadingMsg
-                            ? '잠시만 기다려 주세요'
-                            : isAfterAccountCreated
-                            ? disabled
-                                ? ''
-                                : '어떤 자산으로부터 구독을 불러올까요?'
-                            : allConnected
-                            ? '자산 추가를 클릭해 더 많은 연결수단을 등록 할 수 있어요.'
-                            : '개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.'
-                    }
-                    icon={
-                        isAfterAccountCreated ? (
-                            disabled ? (
-                                <div className="w-0 h-24 -mr-1">&nbsp;</div>
-                            ) : (
+                                : '자산 연동이 완료되었어요';
+                        } else {
+                            // 이미 연결된게 있어서 다이렉트로 넘어온 경우
+                            return allConnected
+                                ? '조회된 모든 자산이 이미 연결되어있네요!'
+                                : title ?? '어떤 자산으로부터 구독을 불러올까요?';
+                        }
+                    })()}
+                    subTitle={(() => {
+                        if (isLoadingMsg) return '';
+
+                        if (isAfterAccountCreated) {
+                            // 방금 등록하고 넘어온 경우
+                            return disabled ? '' : '어떤 자산으로부터 구독을 불러올까요?';
+                        } else {
+                            // 이미 연결된게 있어서 다이렉트로 넘어온 경우
+                            return allConnected
+                                ? '자산 추가를 클릭해 더 많은 연결수단을 등록 할 수 있어요.'
+                                : subTitle ?? '개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.';
+                        }
+                    })()}
+                    icon={(() => {
+                        const empty = <div className="w-0 h-24 -mr-1">&nbsp;</div>;
+                        if (isLoadingMsg) return undefined;
+
+                        if (isAfterAccountCreated) {
+                            // 방금 등록하고 넘어온 경우
+                            return disabled ? undefined : (
                                 <LottieNoSSR
                                     src="https://lottie.host/9e42fdb6-462d-47b1-8c05-b7c407ea89a6/71V7dYZsgm.lottie"
                                     loop
@@ -117,9 +129,12 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                                     className={`w-[82px] h-24`}
                                     layout={{fit: 'fill'}}
                                 />
-                            )
-                        ) : undefined
-                    }
+                            );
+                        } else {
+                            // 이미 연결된게 있어서 다이렉트로 넘어온 경우
+                            return allConnected ? undefined : undefined;
+                        }
+                    })()}
                     onBack={onBack}
                     onMove={isAfterAccountCreated ? undefined : onMove}
                 />

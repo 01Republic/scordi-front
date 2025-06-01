@@ -190,7 +190,7 @@ export const useFindCardAccounts = (orgId: number, accountIds: number[], params?
                 queryKey: ['findCardsByAccountIds', orgId, accountId, queryParams],
                 queryFn: () => codefAccountApi.findCards(orgId, accountId, queryParams).then((res) => res.data.items),
                 enabled: !!orgId && !isNaN(orgId) && !!accountId,
-                initialData: [],
+                // initialData: [],
                 retry: 0,
                 retryOnMount: false,
             };
@@ -198,12 +198,13 @@ export const useFindCardAccounts = (orgId: number, accountIds: number[], params?
     });
 
     const data = results.flatMap((result) => result.data || []);
-    const isLoading = results.some((result) => result.isFetching);
+    const loadings = results.filter((result) => result.isFetching);
+    const isLoading = loadings.length > 0;
     const isError = results.some((result) => result.isError);
     const errors = results.filter((result) => result.isError);
     const allConnected = data.every((item) => item.isConnected);
 
-    return {data, isLoading, isError, errors, allConnected};
+    return {data, loadings, isLoading, isError, errors, allConnected};
 };
 
 /** 기관코드를 통해 연결된 카드목록을 조회 */
