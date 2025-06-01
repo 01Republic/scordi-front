@@ -20,7 +20,7 @@ interface CardCompaniesSelectorProps {
     setSelectedCompanies: Dispatch<SetStateAction<CardAccountsStaticData[]>>;
 }
 
-// 공동인증서 > 카드사 여러개 선택
+/** ### 공동인증서 > 카드사 여러개 선택 */
 export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) => {
     const {selectedCompanies, setSelectedCompanies} = props;
 
@@ -31,7 +31,6 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
     const codefAccounts = getCardAccounts(clientType);
-    console.log('CardCompaniesSelector', 'codefAccounts', codefAccounts);
 
     const companies = CardAccountsStaticData.findByClientType(clientType);
     const selectableCompanies = companies.filter((company) => {
@@ -90,18 +89,12 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
                 const isConnected = !!connectedAccount;
                 const isIDPWDRequired = DISABLED_CARD_COMPANIES.includes(company.param);
 
-                const comment = (() => {
-                    if (isConnected) {
-                        return (
-                            <Tippy content="이미 등록된 기관은 공동인증서를 통해 연결 할 수 없어요.">
-                                <div>이미 연결된 기관</div>
-                            </Tippy>
-                        );
-                    }
-                    if (isIDPWDRequired) return '홈페이지 로그인 필요';
+                const comment: string | undefined = (() => {
+                    if (isIDPWDRequired) return '홈페이지 로그인 전용';
                     return undefined;
                 })();
 
+                // 공동인증서 > 카드사 여러개 선택
                 return (
                     <InstitutionOption
                         key={company.param}

@@ -20,7 +20,7 @@ interface BankCompaniesSelectorProps {
     setSelectedCompanies: Dispatch<SetStateAction<BankAccountsStaticData[]>>;
 }
 
-// 공동인증서 > 은행사 여러개 선택
+/** ### 공동인증서 > 은행사 여러개 선택 */
 export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) => {
     const {selectedCompanies, setSelectedCompanies} = props;
 
@@ -86,17 +86,7 @@ export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) =>
                 const connectedAccount = codefAccounts.find((account) => account.organization === company.param);
                 const isConnected = !!connectedAccount;
 
-                const comment = (() => {
-                    if (isConnected) {
-                        return (
-                            <Tippy content="이미 등록된 기관은 공동인증서를 통해 연결 할 수 없어요.">
-                                <div>이미 연결된 기관</div>
-                            </Tippy>
-                        );
-                    }
-                    return undefined;
-                })();
-
+                // 공동인증서 > 은행사 여러개 선택
                 return (
                     <InstitutionOption
                         key={company.param}
@@ -106,7 +96,6 @@ export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) =>
                         isSelected={selectedCompanies.some((b) => b.param === company.param)}
                         isAllSelected={isAllSelected}
                         // isDisabled={isConnected}
-                        comment={comment}
                         onClick={() => onClick(company)}
                         onDisconnect={() => connectedAccount && onDisconnect(connectedAccount)}
                     />
