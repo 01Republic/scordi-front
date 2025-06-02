@@ -9,7 +9,7 @@ export const CreditCardProfilePanel = memo(function CreditCardProfilePanel() {
 
     if (!currentCreditCard) return <></>;
 
-    const endNumber = currentCreditCard.secretInfo?.number4;
+    const endNumber = currentCreditCard.noMaskingEndNumber;
     const company = currentCreditCard.company;
 
     return (

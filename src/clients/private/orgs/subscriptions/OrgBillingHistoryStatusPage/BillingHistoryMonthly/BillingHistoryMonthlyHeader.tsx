@@ -26,7 +26,7 @@ export const BillingHistoryMonthlyHeader = memo((props: BillingHistoryMonthlyHea
                 <th className={'text-right'}>평균지출액</th>
                 {months.map((month) => (
                     <th key={month} className={'text-right'}>
-                        {format(new Date(focusYear, month, 1), 'yy년 M월', {locale: ko})}
+                        {format(new Date(focusYear, month - 1, 1), 'yy년 M월', {locale: ko})}
                     </th>
                 ))}
             </tr>

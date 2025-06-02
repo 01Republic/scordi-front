@@ -82,7 +82,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                             <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">구독 지출액</p>
                         </div>
                         <p className="font-bold text-20 md:text-24 lg:text-28">
-                            {currencyFormat(roundNumber(result?.willPayAmount || 0))}
+                            {currencyFormat(roundNumber(result?.totalOnThisYear || 0))}
                         </p>
                     </section>
                 </div>
