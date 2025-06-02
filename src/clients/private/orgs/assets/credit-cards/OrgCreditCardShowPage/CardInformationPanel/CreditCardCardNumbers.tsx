@@ -2,23 +2,28 @@ import React, {memo} from 'react';
 import {FormControl} from './FormControl';
 import {CardNumberInput} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardNumberInput';
 import {WithChildren} from '^types/global.type';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 interface CreditCardCardNumbersProps extends WithChildren {
     isEditMode: boolean;
     isLoading: boolean;
-    value: string;
+    value: CreditCardDto;
 }
 
 export const CreditCardCardNumbers = memo((props: CreditCardCardNumbersProps) => {
     const {isEditMode, isLoading, value, children} = props;
 
+    console.log('??', value.isAmexCard);
+
     return (
         <FormControl label="카드번호">
             {isEditMode ? (
-                <div className="grid grid-cols-4 gap-1.5">{children}</div>
+                <div className={`grid gap-1.5 ${value.isAmexCard ? 'grid-cols-3' : 'grid-cols-4'}`}>{children}</div>
             ) : (
                 <div className="flex items-center h-[33.5px]">
-                    <span className="w-full whitespace-nowrap overflow-hidden text-ellipsis">{value}</span>
+                    <span className="w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                        {value.displayFullNumber}
+                    </span>
                 </div>
             )}
             <span />
