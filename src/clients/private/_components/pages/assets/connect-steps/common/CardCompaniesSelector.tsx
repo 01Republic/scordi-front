@@ -37,9 +37,6 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
         // isIDPWDRequired
         if (DISABLED_CARD_COMPANIES.includes(company.param)) return false;
 
-        // isConnected
-        if (codefAccounts.some((acc) => acc.organization === company.param)) return false;
-
         return true;
     });
     const isAllSelected = selectedCompanies.length === selectableCompanies.length;

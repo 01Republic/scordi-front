@@ -26,11 +26,11 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
         <button
             type="button"
             onClick={isDisabled ? undefined : onClick}
-            className={cn('card card-body p-5 bg-base-100 transition box-border shadow-xl no-selectable', {
+            className={cn(`card card-body p-5 bg-base-100 transition box-border no-selectable shadow-xl`, {
                 'border border-scordi bg-scordi-50': isSelected,
                 'border border-white bg-white': !isSelected,
                 'hover:shadow-2xl': !isDisabled,
-                '!border !border-gray-400/50 !bg-gray-200': isDisabled,
+                'border !border-transparent !bg-gray-500/10 !cursor-default': isDisabled,
             })}
         >
             <div className="flex sm:flex-col gap-4 relative">
@@ -38,7 +38,13 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                     <Check className="w-5 h-5 text-scordi absolute top-0 right-0 bottom-0 my-auto sm:mt-0" />
                 )}
                 <div className="flex items-start justify-between">
-                    <NextImage src={logo} alt={title} width={40} height={40} />
+                    <NextImage
+                        src={logo}
+                        alt={title}
+                        width={40}
+                        height={40}
+                        className={isDisabled ? 'opacity-40' : ''}
+                    />
 
                     {comment && (
                         <div className={`text-12 font-normal ${isAllSelected ? 'text-gray-500' : 'text-gray-700'}`}>
@@ -49,7 +55,7 @@ export const InstitutionOption = memo((props: InstitutionOptionProps) => {
                 <div className="flex items-center justify-between">
                     <span
                         className={`text-16 font-semibold whitespace-nowrap ${
-                            isAllSelected && isDisabled ? 'text-gray-500' : 'text-gray-900'
+                            isDisabled ? 'text-gray-500' : 'text-gray-900'
                         }`}
                     >
                         {title}

@@ -12,8 +12,8 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {codefCertificate} from '^lib/codef/certificate/main';
 import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
 import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
-import {InstallCertProgramModal, CertificateSignModal} from '^lib/codef/certificate/components';
-import {CodefCertificateType} from '^models/CodefAccount/type/enums';
+import {CertificateSignModal, InstallCertProgramModal} from '^lib/codef/certificate/components';
+import {CodefCertificateType, CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 interface SelectCompaniesStepProps {
@@ -104,6 +104,9 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
                     form.setValue('certFile', pfxInfo);
                     form.setValue('certType', CodefCertificateType.PFX);
                     form.setValue('id', selectedCert.userName);
+                    if (!form.getValues('clientType')) {
+                        form.setValue('clientType', CodefCustomerType.Business);
+                    }
                     onNext([...selectedBankCompanies, ...selectedCardCompanies]);
                 }}
             />
