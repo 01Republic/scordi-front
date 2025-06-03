@@ -14,11 +14,21 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
     const {activeDrivePath, onSelect} = props;
     const [externalDrivePaths, setExternalDrivePaths] = useState<string[]>([]);
 
+    const loadExtraDrive = async () => {
+        return codefCertificate.fn_OnLoadExtraDrive().then((paths) =>
+            paths.filter((path) => {
+                if (!path.startsWith('D:')) return false;
+                if (!path.startsWith('C:')) return false;
+                if (!path.startsWith('/Volumes/')) return false;
+                if (path.includes('/Volumes/codef')) return false;
+
+                return true;
+            }),
+        );
+    };
+
     useEffect(() => {
-        codefCertificate
-            .fn_OnLoadExtraDrive()
-            .then((paths) => paths.filter((path) => path.startsWith('/Volumes/')))
-            .then(setExternalDrivePaths);
+        loadExtraDrive().then(setExternalDrivePaths);
     }, []);
 
     if (externalDrivePaths.length === 0) {
@@ -28,9 +38,7 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
                 name="이동식디스크"
                 className="opacity-20"
                 onClick={() => {
-                    codefCertificate
-                        .fn_OnLoadExtraDrive()
-                        .then((paths) => paths.filter((path) => path.startsWith('/Volumes/')))
+                    loadExtraDrive()
                         .then((paths) => {
                             if (paths.length === 0) toast('이동식디스크가 연결되어있지 않아요.');
                             return paths;
