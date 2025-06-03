@@ -44,7 +44,7 @@ export function jsonp<T = any>(options: JsonpOptions): Promise<T> {
         // 타임아웃 설정
         const timeoutId = setTimeout(() => {
             cleanup();
-            reject(new JsonpError('JSONP request timed out', InstallCheckErrorCode.Unknown));
+            reject(new JsonpError('JSONP request timed out', InstallCheckErrorCode.RequestTimeout));
         }, timeout);
 
         // 정리 함수

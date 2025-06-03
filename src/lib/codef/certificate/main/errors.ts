@@ -22,7 +22,8 @@ export const PFX_ERROR_CODE_DEFINE = {
 export enum InstallCheckErrorCode {
     VersionOver = 'E010001', // CodefCert를 업데이트하시기 바랍니다.
     NotInstalled = 'E010002', // CodefCert를 설치하시기 바랍니다.
-    Unknown = 'E010003',
+    RequestTimeout = 'E010003', // JSONP request timed out
+    Unknown = 'E010003', // Port request failed
 }
 
 /**

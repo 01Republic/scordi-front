@@ -21,6 +21,7 @@ import {BusinessTypeSelector} from '../../connect-steps/common/BusinessTypeSelec
 import {BankCompaniesSelector} from '../../connect-steps/common/BankCompaniesSelector';
 import {CardCompaniesSelector} from '../../connect-steps/common/CardCompaniesSelector';
 import {NextStepButton} from '../../connect-steps/common/NextStepButton';
+import {toast} from 'react-hot-toast';
 
 interface SelectCompaniesStepProps {
     onBack: () => any;
@@ -46,8 +47,11 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
             .then(() => setCertificateLinkModalOpen(true))
             .catch((error: JsonpError) => {
                 switch (error.errorCode) {
-                    // 설치가 안되어 있는 사용자
-                    case InstallCheckErrorCode.NotInstalled:
+                    case InstallCheckErrorCode.RequestTimeout: // 프로그램이 동작하지 않음
+                    case InstallCheckErrorCode.Unknown: // 프로그램 연결에러
+                        toast('프로그램이 연결되지 않았어요. 조금 뒤에 다시 시도해주세요.');
+                        return console.log(error.name, error.message, error.errorCode);
+                    case InstallCheckErrorCode.NotInstalled: // 설치가 안되어 있는 사용자
                         // 설치 모달 띄움
                         return setIsInstallCertProgramModalOpened(true);
                     // 구버전 모듈이 설치 되어있는 사용자
