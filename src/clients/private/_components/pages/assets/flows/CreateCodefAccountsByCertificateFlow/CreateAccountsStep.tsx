@@ -14,6 +14,7 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {LoadingScreen2} from '../../connect-steps/common/LoadingScreen';
+import {CodefApiResultCode} from '^models/CodefAccount/codef-common';
 
 interface CreateAccountsStepProps {
     companies: CodefCompanyStaticData[];
@@ -54,7 +55,30 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
     const failedCompanies = (() => {
         const errorList1 = successes.flatMap((dto) => dto.errorList);
         const errorList2 = failures.flatMap((error) => error?.response?.data?.data?.data.errorList);
-        return [...errorList1, ...errorList2].filter(isDefinedValue);
+        return [...errorList1, ...errorList2]
+            .filter((error) => {
+                if (!error) return false;
+                if (
+                    [
+                        CodefApiResultCode.ALREADY_REGISTERED_COMPANY_IN_CONNECT_ID,
+                        CodefApiResultCode.SERVICE_NOT_FOUND,
+                        CodefApiResultCode.UNREGISTERED_CERTIFICATE,
+                        CodefApiResultCode.UNREGISTERED_OR_DELETED_CERTIFICATE,
+                        CodefApiResultCode.CERTIFICATION_CREATE_FAILED,
+                        CodefApiResultCode.ORG_NOT_FOUND,
+                        CodefApiResultCode.CHECK_ORG_AGAIN,
+                    ].includes(error.code)
+                ) {
+                    return false;
+                }
+
+                if (error.code === CodefApiResultCode.BAD_REQUEST && error.extraMessage.includes('기관코드')) {
+                    return false;
+                }
+
+                return true;
+            })
+            .filter(isDefinedValue);
     })();
 
     return (

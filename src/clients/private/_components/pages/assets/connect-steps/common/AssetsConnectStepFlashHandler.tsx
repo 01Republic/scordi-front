@@ -8,6 +8,7 @@ import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-d
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
+import {CodefApiResultCode} from '^models/CodefAccount/codef-common';
 
 interface AssetsConnectStepFlashHandlerProps {
     failures?: CodefApiAccountItemDto[];
@@ -80,7 +81,9 @@ const FailModal = (props: Props) => {
                     <div className="flex flex-col gap-6 mb-8">
                         {bankFails.length > 0 && (
                             <div>
-                                <h4 className="text-16 font-semibold pb-2">은행</h4>
+                                <h4 className="text-16 font-semibold pb-2" onClick={() => console.log(bankFails)}>
+                                    은행
+                                </h4>
                                 <ul className="pl-6 list-disc">
                                     {bankFails.map((error) => {
                                         const company = BankAccountsStaticData.findOne(error.organization);
@@ -89,14 +92,22 @@ const FailModal = (props: Props) => {
 
                                         return (
                                             <li key={company.param} className="text-14 pb-1">
-                                                <Tippy
-                                                    content={error.message}
-                                                    className="!text-12"
-                                                    placement="right"
-                                                    theme="light"
+                                                <div
+                                                    className="flex items-center gap-2"
+                                                    onClick={() => console.log(error)}
                                                 >
-                                                    <div className="inline-block">{company.displayName}</div>
-                                                </Tippy>
+                                                    <div>{company.displayName}</div>
+
+                                                    {error.code ===
+                                                    CodefApiResultCode.ORGANIZATION_OFFICE_NOT_OPENED ? (
+                                                        <div className="text-11 text-red-500">
+                                                            {error.message} (점검시간:{' '}
+                                                            {error.extraMessage.replace(/not|\(|\)/gi, '')})
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-11 text-red-500">{error.message}</div>
+                                                    )}
+                                                </div>
                                             </li>
                                         );
                                     })}
@@ -106,7 +117,9 @@ const FailModal = (props: Props) => {
 
                         {cardFails.length > 0 && (
                             <div>
-                                <h4 className="text-16 font-semibold pb-2">카드</h4>
+                                <h4 className="text-16 font-semibold pb-2" onClick={() => console.log(cardFails)}>
+                                    카드
+                                </h4>
                                 <ul className="pl-6 list-disc">
                                     {cardFails.map((error) => {
                                         const company = CardAccountsStaticData.findOne(error.organization);
@@ -115,14 +128,22 @@ const FailModal = (props: Props) => {
 
                                         return (
                                             <li key={company.param} className="text-14 pb-1">
-                                                <Tippy
-                                                    content={error.message}
-                                                    className="!text-12"
-                                                    placement="right"
-                                                    theme="light"
+                                                <div
+                                                    className="flex items-center gap-2"
+                                                    onClick={() => console.log(error)}
                                                 >
-                                                    <div className="inline-block">{company.displayName}</div>
-                                                </Tippy>
+                                                    <div>{company.displayName}</div>
+
+                                                    {error.code ===
+                                                    CodefApiResultCode.ORGANIZATION_OFFICE_NOT_OPENED ? (
+                                                        <div className="text-11 text-red-500">
+                                                            {error.message} (점검시간:{' '}
+                                                            {error.extraMessage.replace(/not|\(|\)/gi, '')})
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-11 text-red-500">{error.message}</div>
+                                                    )}
+                                                </div>
                                             </li>
                                         );
                                     })}
