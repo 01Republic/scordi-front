@@ -61,6 +61,8 @@ export const useFindBankAccounts = (orgId: number, accountIds: number[], params?
                 // initialData: [],
                 retry: 0,
                 retryOnMount: false,
+                refetchOnReconnect: false,
+                refetchOnWindowFocus: false,
             };
         }),
     });
