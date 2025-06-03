@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import Image from 'next/image';
 import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
 import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
-import excelIcon from 'src/images/icon/excelIcon.png';
+import excelIcon from '^images/icon/excelIcon.png';
 
 export const BillingHistoryTableControl = memo(() => {
     return (
@@ -10,9 +10,10 @@ export const BillingHistoryTableControl = memo(() => {
             <BillingHistoryScopeHandlerOfBankAccount />
 
             <div>
-                <div className="flex items-center gap-2">
-                    <ExcelUploadButton />
-                </div>
+                {/* 백엔드 개발 되면 활성화 할 예정 삭제하면 안됨 */}
+                {/*<div className="flex items-center gap-2">*/}
+                {/*    <ExcelUploadButton />*/}
+                {/*</div>*/}
             </div>
         </div>
     );

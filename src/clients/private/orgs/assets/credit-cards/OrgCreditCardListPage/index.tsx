@@ -1,18 +1,19 @@
 import React, {memo} from 'react';
 import {debounce} from 'lodash';
+import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
-import {StepbyTutorialButton, StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
-import {AddCreditCardDropdown} from './AddCreditCardDropdown';
 import {AddCreditCardModal} from './AddCreditCardModal';
+import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
+import {AddCreditCardDropdown} from './AddCreditCardDropdown';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
+    const router = useRouter();
     const organizationId = useOrgIdParam();
     const {
         search,
@@ -51,12 +52,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => (
-                <>
-                    <StepbyTutorialButton onClick={StepByTutorialPaymentMethodCard} />
-                    <AddCreditCardDropdown reload={refresh} />
-                </>
-            )}
+            Buttons={() => <AddCreditCardDropdown reload={refresh} />}
             ScopeHandler={<CreditCardScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}

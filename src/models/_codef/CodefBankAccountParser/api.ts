@@ -39,7 +39,7 @@ export const adminCodefBankAccountParserApi = {
     },
 
     toggleActive(id: number) {
-        const url = `/admin/codef-card-parsers/${id}/toggleActive`;
+        const url = `/admin/codef-bank-account-parsers/${id}/toggleActive`;
         return api.patch(url).then(oneDtoOf(CodefBankAccountParserDto));
     },
 

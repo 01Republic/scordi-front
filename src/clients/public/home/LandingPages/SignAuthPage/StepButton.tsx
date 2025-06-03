@@ -23,7 +23,7 @@ export const StepButton = (props: StepButtonProps) => {
                     : isPending
                     ? 'link_to-loading btn-scordi'
                     : !disabled
-                    ? 'bg-neutral-100 text-neutral-300 pointer-events-none'
+                    ? 'btn-disabled2'
                     : buttonWhite
                     ? 'btn-white'
                     : ' btn-scordi ',

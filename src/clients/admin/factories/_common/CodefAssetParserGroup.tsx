@@ -25,29 +25,22 @@ export const CodefAssetParserGroup = memo((props: CodefAssetParserGroupProps) =>
 
     return (
         <div className="relative w-full group">
-            {parsers.length > 1 ? (
-                <LinkTo onClick={() => onClick()} displayLoading={false}>
-                    <CardViewItem
-                        id={parser.id}
-                        name={parser.product?.name() || parser.title}
-                        updatedAt={parser.updatedAt}
-                        isActive={parser.isActive}
-                        reload={reload}
-                        versionLength={parsers.length}
-                    />
-                </LinkTo>
-            ) : (
-                <LinkTo href={redirectTo} displayLoading={false}>
-                    <CardViewItem
-                        id={parser.id}
-                        name={parser.product?.name() || parser.title}
-                        updatedAt={parser.updatedAt}
-                        isActive={parser.isActive}
-                        reload={reload}
-                        versionLength={parsers.length}
-                    />
-                </LinkTo>
-            )}
+            <LinkTo
+                href={parsers.length > 1 ? undefined : redirectTo}
+                onClick={parsers.length > 1 ? onClick : undefined}
+                displayLoading={false}
+            >
+                <CardViewItem
+                    id={parser.id}
+                    name={parser.title}
+                    tooltip={`(id: #${parser.productId}) ${parser.product?.name()}`}
+                    product={parser.product}
+                    updatedAt={parser.updatedAt}
+                    isActive={parser.isActive}
+                    reload={reload}
+                    versionLength={parsers.length}
+                />
+            </LinkTo>
         </div>
     );
 });

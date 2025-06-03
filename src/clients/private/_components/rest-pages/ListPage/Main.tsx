@@ -83,10 +83,7 @@ export const ListPageMain = memo((props: ListPageProps) => {
                         {ScopeHandler ? ScopeHandler : <div />}
                         <div className={'flex space-x-2'}>
                             {onDownload && (
-                                <button
-                                    className="btn btn-outline animate-none btn-animation bg-white border-gray-300"
-                                    onClick={onDownload}
-                                >
+                                <button className="btn btn-header-action" onClick={onDownload}>
                                     <Download fontSize={20} />
                                 </button>
                             )}

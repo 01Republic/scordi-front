@@ -1,4 +1,12 @@
+import {TypeCast} from '^types/utils/class-transformer';
+import {CodefConnectedIdentityDto} from '^models/CodefConnectedIdentity/type/CodefConnectedIdentityDto';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {OrganizationDto} from '^models/Organization/type';
+import {BankAccountsStaticData} from '../bank-account-static-data';
+import {CardAccountsStaticData} from '../card-accounts-static-data';
 import {
+    CodefBankCode,
     CodefCardCompanyCode,
     CodefClientTypeLevel,
     CodefCustomerType,
@@ -6,12 +14,7 @@ import {
     CodefLoginTypeLevel,
     CodefRequestBusinessType,
     t_codefCustomerType,
-} from '^models/CodefAccount/type/enums';
-import {TypeCast} from '^types/utils/class-transformer';
-import {CodefConnectedIdentityDto} from '^models/CodefConnectedIdentity/type/CodefConnectedIdentityDto';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {OrganizationDto} from '^models/Organization/type';
+} from './enums';
 
 /** [Codef] 계정 */
 export class CodefAccountDto {
@@ -31,7 +34,7 @@ export class CodefAccountDto {
     clientType: CodefCustomerType;
 
     // 기관코드 (기관코드는 서버 참조)
-    organization: CodefCardCompanyCode;
+    organization: CodefCardCompanyCode | CodefBankCode;
 
     // 기관명
     company: string;
@@ -59,5 +62,20 @@ export class CodefAccountDto {
     get profile() {
         if (!this.connectedIdentityId) return `${this.company ? `${this.company} ` : ''}(엑셀등록 가계정)`;
         return `${this.company} (${t_codefCustomerType(this.clientType)})`;
+    }
+
+    get isBankCompany() {
+        return this.businessType === CodefRequestBusinessType.Bank;
+    }
+
+    get isCardCompany() {
+        return this.businessType === CodefRequestBusinessType.Card;
+    }
+
+    get companyData() {
+        const param = this.organization;
+        if (this.isBankCompany) return BankAccountsStaticData.findOne(param);
+        if (this.isCardCompany) return CardAccountsStaticData.findOne(param);
+        return undefined;
     }
 }

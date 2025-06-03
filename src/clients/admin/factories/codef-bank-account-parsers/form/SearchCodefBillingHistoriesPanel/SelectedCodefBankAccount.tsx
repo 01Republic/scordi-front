@@ -37,7 +37,7 @@ export const SelectedCodefBankAccount = memo((props: SelectedCodefBankAccountPro
                 <div className="mr-2">선택된 계좌:</div>
                 <div className="flex items-center group cursor-pointer" onClick={onClick}>
                     <div>
-                        <CodefBankAccountTagUI codefBankAccount={codefBankAccount} />
+                        <CodefBankAccountTagUI codefBankAccount={codefBankAccount} render={(item) => item.title} />
                     </div>
                     <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                 </div>

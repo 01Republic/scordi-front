@@ -4,6 +4,8 @@ import {captures} from '^utils/array';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {todayOf, yesterdayOf, yyyy_mm_dd, yyyymmddToDate} from '^utils/dateTime';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 
 /**
  * [codef] 연동된 카드
@@ -62,6 +64,15 @@ export class CodefCardDto {
         const endDate = yesterdayOf(new Date());
 
         return {startDate, endDate};
+    }
+
+    get company() {
+        const param = this.account?.organization;
+        return CardAccountsStaticData.findOne(param) as CardAccountsStaticData | undefined;
+    }
+
+    get isConnected() {
+        return !!this.creditCardId;
     }
 }
 

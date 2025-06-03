@@ -10,7 +10,7 @@ interface SubscriptionSeatStatusSectionProps {
 
 export const SubscriptionSeatStatusSection = memo(() => {
     return (
-        <div className={'bg-gray-200 grid grid-cols-4 p-4 space-x-4 rounded'}>
+        <div className="bg-gray-200 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 rounded">
             {/* 이용중인 시트 */}
             <AssignedSeatCounter />
 

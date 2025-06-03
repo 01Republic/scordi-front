@@ -1,7 +1,9 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
+import {Plus} from 'lucide-react';
 import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -9,20 +11,19 @@ import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/privat
 import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/ExternalCDNScripts/step-by';
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
-import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
-import {subscriptionApi} from '^models/Subscription/api';
+import {useRemoveSubscription, useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
-import {errorToast} from '^api/api';
-import {Plus} from 'lucide-react';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const {search, result, query, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy, reload} =
         useSubscriptionTableListAtom();
+
+    const {mutate: deleteSubscription} = useRemoveSubscription();
 
     const onReady = () => {
         search({
@@ -69,7 +70,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         };
 
         confirmed(deleteConfirm(), '삭제 취소')
-            .then(() => subscriptionApi.destroy(subscription.id))
+            .then(() => deleteSubscription(subscription.id))
             .then(() => toast.success('구독을 삭제했어요.'))
             .then(() => reload())
             .catch(errorToast);
