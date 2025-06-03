@@ -5,7 +5,7 @@ import {StepBy} from './StepBy.interface';
 // import {currentOrgAtom} from '^models/Organization/atom';
 import {currentUserAtom} from '^models/User/atom';
 import {BadgeInfo} from 'lucide-react';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 export const StepByInstall = () => {
     // const currentOrg = useRecoilValue(currentOrgAtom);
@@ -22,7 +22,7 @@ export const StepByInstall = () => {
         if (!stepByKey || !StepBy) return;
 
         StepBy.init(stepByKey);
-    }, [router.isReady]);
+    }, [router]);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
@@ -75,7 +75,7 @@ export const StepByTutorialSubscriptionList = () => {
 
     if (!stepByKey || !StepBy) return;
 
-    StepBy.startGuide('f156a2dd-2afb-4381-8968-dd99f12c3e5a', {version: '구독 리스트 '});
+    StepBy.startGuide('f156a2dd-2afb-4381-8968-dd99f12c3e5a', {version: '구독리스트 '});
 };
 
 /* 결제수단 카드 */
