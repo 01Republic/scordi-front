@@ -39,7 +39,7 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                                         </td>
                                     )}
                                     <td className="vertical-align-middle w-full">
-                                        <div className="flex items-center">
+                                        <div className={`flex items-center relative ${icon ? '-bottom-2' : ''}`}>
                                             <div
                                                 className="text-2xl font-bold"
                                                 data-aos="fade-zoom-in"
