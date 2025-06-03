@@ -19,13 +19,14 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
     const [selectedItems, setSelectedItems] = useState<CodefCardDto[]>([]);
     const {codefCards = [], isLoading = false, onSelect} = props;
 
-    const select = (changedItems: CodefCardDto[]) => {
-        setSelectedItems(changedItems);
-        onSelect && onSelect(changedItems);
+    const select = (items: CodefCardDto[]) => {
+        setSelectedItems(items);
+        onSelect && onSelect(items);
     };
 
-    const isAllSelected = codefCards.length > 0 && selectedItems.length === codefCards.length;
-    const handleSelectAll = () => select(isAllSelected ? [] : codefCards);
+    const selectables = codefCards.filter((codefCard) => !codefCard.creditCardId);
+    const isAllSelected = codefCards.length > 0 && selectedItems.length === selectables.length;
+    const handleSelectAll = () => select(isAllSelected ? [] : selectables);
 
     const handleToggle = (item: CodefCardDto) => {
         const changedItems = selectedItems.some(({id}) => id === item.id) // included?
@@ -43,7 +44,7 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
                 </span>
             }
             isAllSelected={isAllSelected}
-            handleSelectAll={handleSelectAll}
+            handleSelectAll={selectables.length > 0 ? handleSelectAll : undefined}
             isLoading={isLoading}
         >
             <ul className="grid grid-cols-2 gap-3">
