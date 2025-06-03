@@ -49,9 +49,15 @@ export function jsonp<T = any>(options: JsonpOptions): Promise<T> {
 
         // 정리 함수
         const cleanup = () => {
-            document.body.removeChild(script);
-            delete (window as any)[callbackName];
-            clearTimeout(timeoutId);
+            if (document.body) {
+                try {
+                    document.body.removeChild(script);
+                    delete (window as any)[callbackName];
+                    clearTimeout(timeoutId);
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
         };
 
         // 콜백 함수 등록

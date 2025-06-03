@@ -119,7 +119,10 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
             <InstallCertProgramModal
                 isOpen={isInstallCertProgramModalOpened}
                 onClose={() => setIsInstallCertProgramModalOpened(false)}
-                onInstall={() => setCertificateLinkModalOpen(true)}
+                onInstall={() => {
+                    setCertificateLinkModalOpen(true);
+                    setIsInstallCertProgramModalOpened(false);
+                }}
             />
 
             {/* 인증서 선택 모달 */}
