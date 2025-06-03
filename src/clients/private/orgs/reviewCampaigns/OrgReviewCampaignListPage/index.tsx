@@ -3,6 +3,7 @@ import {useIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialReviewCampaign} from '^components/ExternalCDNScripts/step-by';
 import {Spinner} from '^components/util/loading';
 import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
 import {ReviewCampaignCreateButton} from './ReviewCampaignCreateButton';
@@ -32,9 +33,10 @@ export const OrgReviewCampaignListPage = () => {
             breadcrumb={['업무', {text: '요청', active: true}]}
             titleText="요청 리스트"
             Buttons={() => (
-                <div>
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialReviewCampaign} />
                     <ReviewCampaignCreateButton orgId={orgId} />
-                </div>
+                </>
             )}
             ScopeHandler={<RequestScopeHandler search={search} />}
             onSearch={onSearch}

@@ -7,6 +7,7 @@ import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new'
 import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialPaymentMethodAccount} from '^components/ExternalCDNScripts/step-by';
 import {ListPagePlusIconButton} from '^clients/private/_layouts/_shared/ListPagePlusIconButton';
 import TitleScopeHandler from './TitleScopeHandler';
 import {BankAccountTableRow} from './BankAccountTableRow';
@@ -55,10 +56,13 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
             Buttons={() => (
-                <ListPagePlusIconButton
-                    text="자산 추가"
-                    onClick={() => router.push(OrgAssetsCreateMethodSelectPageRoute.path(organizationId))}
-                />
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialPaymentMethodAccount} />
+                    <ListPagePlusIconButton
+                        text="자산 추가"
+                        onClick={() => router.push(OrgAssetsCreateMethodSelectPageRoute.path(organizationId))}
+                    />
+                </>
             )}
             ScopeHandler={<BankAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
