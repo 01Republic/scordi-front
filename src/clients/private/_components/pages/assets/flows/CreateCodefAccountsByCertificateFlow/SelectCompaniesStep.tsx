@@ -1,6 +1,9 @@
-import {memo, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
+import {ArrowLeft} from 'lucide-react';
+import {LinkTo} from '^components/util/LinkTo';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
@@ -18,7 +21,6 @@ import {BusinessTypeSelector} from '../../connect-steps/common/BusinessTypeSelec
 import {BankCompaniesSelector} from '../../connect-steps/common/BankCompaniesSelector';
 import {CardCompaniesSelector} from '../../connect-steps/common/CardCompaniesSelector';
 import {NextStepButton} from '../../connect-steps/common/NextStepButton';
-import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface SelectCompaniesStepProps {
     onBack: () => any;
@@ -62,36 +64,52 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
     };
 
     return (
-        <PureLayout>
-            <PureLayoutContainer className="flex flex-col gap-20">
-                <div className="flex flex-col gap-10">
+        <PureLayout className="py-14">
+            <PureLayoutContainerSection className="mb-12">
+                <div>
+                    <LinkTo
+                        className="flex gap-1 items-center text-14 cursor-pointer text-gray-600 transition-all hover:text-gray-800 hover:font-semibold"
+                        onClick={onBack}
+                        displayLoading={false}
+                    >
+                        <ArrowLeft />
+                        뒤로가기
+                    </LinkTo>
+                </div>
+            </PureLayoutContainerSection>
+
+            <PureLayoutContainerSection className="mb-16 max-w-full sticky top-0 pt-8 pb-4 px-0 bg-layout-background z-10">
+                <div className="mx-auto max-w-6xl flex flex-col gap-10 px-4">
                     <StatusHeader
                         title="어떤 자산을 연결할까요?"
                         subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
-                        onBack={onBack}
                     />
+
                     <BusinessTypeSelector />
                 </div>
+            </PureLayoutContainerSection>
 
+            <PureLayoutContainerSection className="mb-20">
                 <BankCompaniesSelector
                     selectedCompanies={selectedBankCompanies}
                     setSelectedCompanies={setSelectedBankCompanies}
                 />
+            </PureLayoutContainerSection>
+
+            <PureLayoutContainerSection className="mb-20">
                 <CardCompaniesSelector
                     selectedCompanies={selectedCardCompanies}
                     setSelectedCompanies={setSelectedCardCompanies}
                 />
+            </PureLayoutContainerSection>
 
-                <br />
-                {/*<section className="w-full flex items-center justify-center fixed left-0 bottom-0 px-4 py-6 bg-transparent z-10 backdrop-blur-2xl">*/}
-                <section className="w-full flex items-center justify-center">
-                    <NextStepButton
-                        onClick={onClick}
-                        isLoading={isLoadingEngine}
-                        disabled={selectedBankCompanies.length === 0 && selectedCardCompanies.length === 0}
-                    />
-                </section>
-            </PureLayoutContainer>
+            <PureLayoutContainerSection className="max-w-full sticky bottom-0 py-4 bg-layout-background flex items-center justify-center">
+                <NextStepButton
+                    onClick={onClick}
+                    isLoading={isLoadingEngine}
+                    disabled={selectedBankCompanies.length === 0 && selectedCardCompanies.length === 0}
+                />
+            </PureLayoutContainerSection>
 
             {/* 코드에프 공동인증서 프로그램 설치 모달 */}
             <InstallCertProgramModal
