@@ -112,7 +112,12 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                             <AssetConnectByAccountFlow
                                 ignorePreCheck={ignorePreCheck}
                                 onBack={() => {
-                                    form.reset({loginType: undefined});
+                                    if (ignorePreCheck) {
+                                        setStep(AssetConnectStep.SelectAssetsStep);
+                                        setIgnorePreCheck(false);
+                                    } else {
+                                        form.reset({loginType: undefined});
+                                    }
                                 }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
                                     setCodefAccounts(codefAccounts);
@@ -137,7 +142,9 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         if (isAfterAccountCreated) {
                             setIgnorePreCheck(true);
                         } else {
-                            form.reset({loginType: undefined});
+                            if (form.getValues('loginType') === CodefLoginType.Certificate) {
+                                form.reset({loginType: undefined});
+                            }
                             setIgnorePreCheck(false);
                         }
                         setIsAfterAccountCreated(false);

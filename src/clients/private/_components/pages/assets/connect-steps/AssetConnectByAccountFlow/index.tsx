@@ -37,7 +37,8 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
     const companyCodes = useMemo(() => CardAccountsStaticData.all().map((company) => company.param), []);
     const cardAccounts = codefAccounts.filter((account) => {
         // @ts-ignore
-        if (companyCodes.includes(account.organization)) return true;
+        if (!companyCodes.includes(account.organization)) return false;
+        if (selectedCompany && selectedCompany.param !== account.organization) return false;
         return account.loginType === CodefLoginType.IdAccount;
     });
 
