@@ -18,6 +18,7 @@ import {BusinessTypeSelector} from '../../connect-steps/common/BusinessTypeSelec
 import {BankCompaniesSelector} from '../../connect-steps/common/BankCompaniesSelector';
 import {CardCompaniesSelector} from '../../connect-steps/common/CardCompaniesSelector';
 import {NextStepButton} from '../../connect-steps/common/NextStepButton';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface SelectCompaniesStepProps {
     onBack: () => any;
@@ -62,7 +63,7 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
 
     return (
         <PureLayout>
-            <article className="w-full flex flex-col gap-20">
+            <PureLayoutContainer className="flex flex-col gap-20">
                 <div className="flex flex-col gap-10">
                     <StatusHeader
                         title="어떤 자산을 연결할까요?"
@@ -90,7 +91,7 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
                         disabled={selectedBankCompanies.length === 0 && selectedCardCompanies.length === 0}
                     />
                 </section>
-            </article>
+            </PureLayoutContainer>
 
             {/* 코드에프 공동인증서 프로그램 설치 모달 */}
             <InstallCertProgramModal

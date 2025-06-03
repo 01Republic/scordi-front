@@ -7,6 +7,7 @@ import {BankSelectionSection} from './BankSelectionSection';
 import {CardSelectionSection} from './CardSelectionSection';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 export const OrgAssetCreateByManualPage = memo(() => {
     const router = useRouter();
@@ -16,7 +17,7 @@ export const OrgAssetCreateByManualPage = memo(() => {
 
     return (
         <PureLayout>
-            <div className="w-full flex flex-col gap-20">
+            <PureLayoutContainer className="flex flex-col gap-20">
                 {!selectedCard && !selectedBank && (
                     <div className="flex flex-col gap-10">
                         <StatusHeader
@@ -43,7 +44,7 @@ export const OrgAssetCreateByManualPage = memo(() => {
                         isPersonal={isPersonal}
                     />
                 )}
-            </div>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });

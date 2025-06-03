@@ -4,6 +4,7 @@ import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {BusinessTypeSelector} from '^_components/pages/assets/connect-steps/common/BusinessTypeSelector';
 import {CardCompanySelector} from '^_components/pages/assets/connect-steps/common/CardCompanySelector';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface AccountConnectStepProps {
     createMoreAccountContext?: boolean;
@@ -16,7 +17,7 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
 
     return (
         <PureLayout>
-            <div className="w-full flex flex-col gap-20">
+            <PureLayoutContainer className="flex flex-col gap-20">
                 <div className="flex flex-col gap-10">
                     <StatusHeader
                         title="어떤 자산을 연결할까요?"
@@ -27,7 +28,7 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
                 </div>
 
                 <CardCompanySelector createMoreAccountContext={createMoreAccountContext} onSelect={onNext} />
-            </div>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });

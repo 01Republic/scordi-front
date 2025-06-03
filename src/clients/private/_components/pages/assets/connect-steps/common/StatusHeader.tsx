@@ -40,7 +40,15 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                                     )}
                                     <td className="vertical-align-middle w-full">
                                         <div className="flex items-center">
-                                            <div className="text-2xl font-bold">{title}</div>
+                                            <div
+                                                className="text-2xl font-bold"
+                                                data-aos="fade-zoom-in"
+                                                data-aos-easing="ease-in-back"
+                                                // data-aos-delay="300"
+                                                data-aos-offset="0"
+                                            >
+                                                {title}
+                                            </div>
 
                                             <div className="ml-auto flex items-center gap-2">
                                                 {onMove && (
@@ -48,6 +56,10 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                                                         className="btn btn-scordi no-animation btn-animation gap-2"
                                                         onClick={onMove}
                                                         displayLoading={false}
+                                                        data-aos="fade-zoom-in"
+                                                        data-aos-easing="ease-in-back"
+                                                        data-aos-delay="300"
+                                                        data-aos-offset="0"
                                                     >
                                                         <Plus />
                                                         <span>자산 추가</span>
@@ -59,7 +71,14 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                                 </tr>
                                 <tr>
                                     {icon && <td></td>}
-                                    <td>{subTitle && <span className="font-normal">{subTitle}</span>}</td>
+                                    <td
+                                        data-aos="fade-zoom-in"
+                                        data-aos-easing="ease-in-back"
+                                        data-aos-delay="100"
+                                        data-aos-offset="0"
+                                    >
+                                        {subTitle && <span className="font-normal">{subTitle}</span>}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

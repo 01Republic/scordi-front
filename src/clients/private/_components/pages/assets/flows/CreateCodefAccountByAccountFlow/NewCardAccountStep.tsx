@@ -19,6 +19,7 @@ import {ApiErrorResponse} from '^api/api';
 import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-common';
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {plainToast as toast} from '^hooks/useToast';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface NewCardAccountStepProps {
     company: CardAccountsStaticData;
@@ -116,7 +117,7 @@ export const NewCardAccountStep = memo((props: NewCardAccountStepProps) => {
 
     return (
         <PureLayout>
-            <main className="w-full flex flex-col gap-10">
+            <PureLayoutContainer className="flex flex-col gap-10">
                 <StatusHeader
                     className="gap-14"
                     title={
@@ -249,7 +250,7 @@ export const NewCardAccountStep = memo((props: NewCardAccountStepProps) => {
                         </div>
                     </section>
                 </form>
-            </main>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });

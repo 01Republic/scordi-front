@@ -1,9 +1,6 @@
 import {memo, useEffect, useState} from 'react';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {SelectCompanyStep} from './byAccountSteps/SelectCompanyStep';
-import {ConnectSuccessAssetSelectStep} from './byAccountSteps/ConnectSuccessAssetSelectStep';
-import {ConnectAssetsStep} from '../AssetConnectByCertificateFlow/steps/ConnectAssetsStep';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {CreateCodefAccountByAccountFlow} from '^_components/pages/assets/flows/CreateCodefAccountByAccountFlow';

@@ -13,6 +13,7 @@ import {SuccessCreditCardsSection} from '^clients/private/orgs/assets/create-ste
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {SuccessBankAccountsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessBankAccountsSection';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 export const OrgAssetCreateCompletePage = memo(() => {
     const router = useRouter();
@@ -24,7 +25,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
 
     return (
         <PureLayout>
-            <div className="flex flex-col gap-20">
+            <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
                     title="자산 연동이 완료되었어요"
                     icon={
@@ -62,7 +63,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
                         }}
                     />
                 </section>
-            </div>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });

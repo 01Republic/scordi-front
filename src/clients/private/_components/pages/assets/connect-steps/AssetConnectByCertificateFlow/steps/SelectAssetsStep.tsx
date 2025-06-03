@@ -17,6 +17,7 @@ import {NextStepButton} from '../../common/NextStepButton';
 import {AssetsConnectStepFlashHandler} from '../../common/AssetsConnectStepFlashHandler';
 import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
 import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -85,7 +86,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
 
     return (
         <PureLayout>
-            <div className="flex flex-col gap-20">
+            <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
                     title={(() => {
                         if (isLoadingMsg) return isLoadingMsg;
@@ -175,7 +176,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                         })()}
                     />
                 </div>
-            </div>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });
