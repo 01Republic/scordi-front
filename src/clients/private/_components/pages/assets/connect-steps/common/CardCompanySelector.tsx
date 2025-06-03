@@ -10,25 +10,22 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
 import {InstitutionOption} from './InstitutionOption';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
 interface CardCompanySelectorProps {
     createMoreAccountContext?: boolean;
+    codefAccounts?: CodefAccountDto[];
     onSelect: (company: CardAccountsStaticData) => any;
 }
 
 // 홈페이지계정 > 카드사 한개 선택
 export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
-    const {createMoreAccountContext = false, onSelect} = props;
+    const {createMoreAccountContext = false, codefAccounts = [], onSelect} = props;
     const orgId = useOrgIdParam();
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount, useCodefAccountsInConnector} = useCodefAccount(CodefLoginType.IdAccount);
+    const {removeCodefAccount} = useCodefAccount(CodefLoginType.IdAccount);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
-
-    const {
-        data: {items: codefAccounts},
-    } = useCodefAccountsInConnector(orgId);
-
     const companies = CardAccountsStaticData.findByClientType(clientType);
 
     const onDisconnect = async (companyName: string, accountId?: number) => {

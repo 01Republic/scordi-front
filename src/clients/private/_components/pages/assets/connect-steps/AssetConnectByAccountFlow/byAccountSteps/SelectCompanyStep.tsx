@@ -7,15 +7,17 @@ import {BusinessTypeSelector} from '^_components/pages/assets/connect-steps/comm
 import {CardCompanySelector} from '^_components/pages/assets/connect-steps/common/CardCompanySelector';
 import {LinkTo} from '^components/util/LinkTo';
 import {ArrowLeft} from 'lucide-react';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
 interface AccountConnectStepProps {
     createMoreAccountContext?: boolean;
+    codefAccounts?: CodefAccountDto[];
     onBack: () => any;
     onNext: (company: CardAccountsStaticData) => any;
 }
 
 export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
-    const {createMoreAccountContext = false, onBack, onNext} = props;
+    const {createMoreAccountContext = false, codefAccounts, onBack, onNext} = props;
 
     return (
         <PureLayout className="py-14">
@@ -44,7 +46,11 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
             </PureLayoutContainerSection>
 
             <PureLayoutContainerSection>
-                <CardCompanySelector createMoreAccountContext={createMoreAccountContext} onSelect={onNext} />
+                <CardCompanySelector
+                    createMoreAccountContext={createMoreAccountContext}
+                    codefAccounts={codefAccounts}
+                    onSelect={onNext}
+                />
             </PureLayoutContainerSection>
         </PureLayout>
     );

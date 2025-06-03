@@ -78,7 +78,8 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
 
     const notSelected = selectedCodefBanks.length === 0 && selectedCodefCards.length === 0;
-    const disabled = codefAccounts.length === 0;
+    // const disabled = codefAccounts.length === 0;
+    const disabled = codefBankAccountsQuery.data.length === 0 && codefCardsQuery.data.length === 0;
     const isLoadingMsg = ((): string => {
         if (codefCardsQuery.isLoading) return '카드 정보 조회중';
         if (codefBankAccountsQuery.isLoading) return '계좌 정보 조회중';
@@ -165,7 +166,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     <EmptyTable message="연동된 자산이 없어요" />
                 ) : (
                     <>
-                        {successBanks.length > 0 && (
+                        {codefBankAccountsQuery.data.length > 0 && (
                             <SuccessConnectBankSelector
                                 codefBankAccounts={codefBankAccountsQuery.data}
                                 isLoading={codefBankAccountsQuery.isLoading}
@@ -173,7 +174,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                             />
                         )}
 
-                        {successCards.length > 0 && (
+                        {codefCardsQuery.data.length > 0 && (
                             <SuccessConnectCardSelector
                                 codefCards={codefCardsQuery.data}
                                 isLoading={codefCardsQuery.isLoading}
