@@ -32,7 +32,7 @@ export const OrgListPage = memo(function OrgListPage() {
     });
 
     return (
-        <BaseLayout outOfWorkspace>
+        <BaseLayout workspace={false}>
             <BaseNav />
             <main className="w-full h-screen bg-gray-50 flex items-center justify-center">
                 <div className="px-4 w-full max-h-[80vh] overflow-scroll no-scrollbar">

@@ -1,9 +1,8 @@
 import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
+import {BaseLayout, BaseLayoutProps} from '^clients/private/_layouts/BaseLayout';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
-interface PureLayoutProps extends WithChildren {
+interface PureLayoutProps extends BaseLayoutProps {
     //
 }
 

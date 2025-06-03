@@ -32,7 +32,7 @@ export const OrgCreatePage = memo(() => {
     };
 
     return (
-        <BaseLayout outOfWorkspace>
+        <BaseLayout workspace={false}>
             <main className="w-full h-screen flex items-center justify-center">
                 <FormProvider {...form}>
                     <form onSubmit={(e) => e.preventDefault()}>
