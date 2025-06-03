@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosResponse} from 'axios';
 import {plainToInstance} from 'class-transformer';
 import {padStart} from 'lodash';
@@ -16,6 +16,7 @@ import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {pick} from '^types/utils/one-of-list.type';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 export const creditCardSubjectAtom = atom<CreditCardDto | null>({
     key: 'OrgCreditCardShowPage/creditCardSubjectAtom',
@@ -86,11 +87,12 @@ export const useCurrentCreditCardEdit = () => {
                 number4: cardNumbers.number4,
             });
 
-            setExpiryValues(() => {
-                const year = currentCreditCard.expireYear || 0;
-                const month = currentCreditCard.expireMonth || 0;
-                return [`${year}`, padStart(`${month}`, 2, '0')];
-            });
+            const {expireYear, expireMonth} = currentCreditCard;
+            if (expireYear != null && expireMonth != null) {
+                setExpiryValues([`${expireYear}`, padStart(`${expireMonth}`, 2, '0')]);
+            } else {
+                setExpiryValues([]);
+            }
         }
     }, [currentCreditCard, isEditMode]);
 
@@ -119,16 +121,14 @@ export const useCurrentCreditCardEdit = () => {
             return;
         }
 
-        if (expiryValues.length) {
-            if (expiryValues.length != 2) {
-                toast.error('유효기간 입력이 완료되지 않았습니다');
-                return;
-            }
-            if (expiryValues[0].length != 4 || expiryValues[1].length != 2) {
-                toast.error('유효기간 입력이 올바르지 않습니다');
-                return;
-            }
-            const [year, month] = expiryValues;
+        const [year = '', month = ''] = expiryValues;
+
+        if ((year && !month) || (!year && month)) {
+            toast.error('유효기간의 년과 월을 모두 선택해주세요');
+            return;
+        }
+
+        if (year && month) {
             data.expiry = `${month}${year.slice(2, 4)}`;
         }
 
@@ -218,4 +218,17 @@ export const useCurrentCreditCardSync = () => {
     };
 
     return {startSync, isSyncRunning, onFinish, currentCodefCard};
+};
+
+export const useCreditCardUpdate = (orgId: number, id: number) => {
+    const {reload} = useCurrentCreditCard();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: UpdateCreditCardDto) => creditCardApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: (creditCard) => {
+            reload();
+            queryClient.setQueryData(['page/subject', 'creditCards', 'detail', id], creditCard);
+            queryClient.invalidateQueries({queryKey: ['page/subject', 'creditCards', 'list']});
+        },
+    });
 };

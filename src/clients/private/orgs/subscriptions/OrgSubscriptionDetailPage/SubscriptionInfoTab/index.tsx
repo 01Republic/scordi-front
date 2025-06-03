@@ -23,11 +23,11 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
 
     return (
         <div className={'py-4 space-y-4'}>
-            <div className={'bg-gray-200 grid grid-cols-4 p-4 space-x-4 rounded'}>
+            <div className={'bg-gray-200 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 rounded'}>
                 <StatusCard
                     title={'구독상태'}
                     titleValue={subscription?.isFreeTier ? '무료' : '유료'}
-                    icon={<Folder className="size-6 text-white" />}
+                    icon={<Folder className="size-5 text-white" />}
                     iconColor={'bg-purple-400'}
                 />
                 <StatusCard
@@ -41,7 +41,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 <StatusCard
                     title={'다음 결제 예정일'}
                     titleValue={subscription?.nextBillingDate || '-'}
-                    icon={<Calendar className="size-6 text-white" />}
+                    icon={<Calendar className="size-5 text-white" />}
                     iconColor={'bg-pink-400'}
                 />
                 <StatusCard

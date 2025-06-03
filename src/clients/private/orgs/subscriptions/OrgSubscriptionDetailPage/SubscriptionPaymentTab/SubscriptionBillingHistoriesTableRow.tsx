@@ -12,6 +12,8 @@ import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/b
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
+import {PriceText} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/PriceText';
+import {LatestPayAmount} from '^models/Subscription/components';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -58,7 +60,10 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
             {/* 결제금액 */}
             <td className={'text-14'}>
-                {billingHistory.payAmount?.symbol} {billingHistory.payAmount?.amount.toLocaleString()}
+                {billingHistory.subscription ? <LatestPayAmount subscription={billingHistory.subscription} /> : '-'}
+
+                {/*<PriceText billingHistory={billingHistory} status={billingHistory.about} />*/}
+                {/*{billingHistory.payAmount?.symbol} {billingHistory.payAmount?.amount.toLocaleString()}*/}
             </td>
 
             {/* 연결된 결제수단 */}

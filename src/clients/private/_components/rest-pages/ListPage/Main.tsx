@@ -22,6 +22,9 @@ interface ListPageProps extends WithChildren {
     searchInputPosition?: 'start-of-buttons' | 'end-of-buttons' | 'right-of-scopes';
     scopeWrapperClass?: string;
     onDownload?: () => void;
+
+    //
+    containerFluid?: boolean;
 }
 
 export const ListPageMain = memo((props: ListPageProps) => {
@@ -39,6 +42,9 @@ export const ListPageMain = memo((props: ListPageProps) => {
         scopeWrapperClass = '',
         children,
         onDownload,
+
+        //
+        containerFluid = false,
     } = props;
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
@@ -55,7 +61,7 @@ export const ListPageMain = memo((props: ListPageProps) => {
 
     return (
         <MainLayout>
-            <MainContainer>
+            <MainContainer containerFluid={containerFluid}>
                 {breadcrumb && <Breadcrumb paths={breadcrumb} />}
 
                 <div className="flex items-center justify-between mb-8">
@@ -77,10 +83,7 @@ export const ListPageMain = memo((props: ListPageProps) => {
                         {ScopeHandler ? ScopeHandler : <div />}
                         <div className={'flex space-x-2'}>
                             {onDownload && (
-                                <button
-                                    className="btn btn-outline animate-none btn-animation bg-white border-gray-300"
-                                    onClick={onDownload}
-                                >
+                                <button className="btn btn-header-action" onClick={onDownload}>
                                     <Download fontSize={20} />
                                 </button>
                             )}

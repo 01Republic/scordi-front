@@ -4,18 +4,28 @@ import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/C
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
 import {plainToInstance} from 'class-transformer';
+import {CodefCompanyCode} from '^models/CodefAccount/type/CodefCompanyStaticData';
 
 export class CardAccountsStaticData {
     displayName: string;
+    shortName: string;
     param: CodefCardCompanyCode;
     logo: string;
     themeColor: string;
-    clientType: CodefCustomerType; //
-    loginType: CodefLoginType; // 공인인증서는 아직 안쓰므로, 일단 id-pw 만 씁니다.
+    clientType: CodefCustomerType;
+    loginType: CodefLoginType;
     loginPageUrl: string;
 
-    static all() {
-        return plainToInstance(CardAccountsStaticData, cardAccountsStaticData);
+    static all(dataset = cardAccountsStaticData) {
+        return plainToInstance(CardAccountsStaticData, dataset);
+    }
+
+    static cardOnly(dataset: {param: CodefCompanyCode}[]) {
+        const items = dataset.filter((data) => {
+            const cardCodes = Object.values(CodefCardCompanyCode) as string[];
+            return cardCodes.includes(data.param);
+        });
+        return plainToInstance(CardAccountsStaticData, items);
     }
 
     static clientTypeOf(clientType: CodefCustomerType) {
@@ -48,7 +58,28 @@ export class CardAccountsStaticData {
 /** 카드사 로그인 계정을 통한 연동시, 카드사별 필요한 정적데이터 */
 export const cardAccountsStaticData: CardAccountsStaticData[] = [
     {
+        displayName: '씨티카드',
+        shortName: '씨티',
+        param: CodefCardCompanyCode.씨티카드,
+        logo: '/logo/cards/CITI.png',
+        themeColor: '#066bae',
+        clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://www.citibank.co.kr/ComLognLogn0100.act',
+    },
+    {
+        displayName: '씨티카드',
+        shortName: '씨티',
+        param: CodefCardCompanyCode.씨티카드,
+        logo: '/logo/cards/CITI.png',
+        themeColor: '#066bae',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://www.citibank.co.kr/ComLognLogn0100.act',
+    },
+    {
         displayName: '신한카드',
+        shortName: '신한',
         param: CodefCardCompanyCode.신한카드,
         logo: '/logo/cards/ShinHan.png',
         themeColor: '#2b64ff',
@@ -58,6 +89,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '신한카드',
+        shortName: '신한',
         param: CodefCardCompanyCode.신한카드,
         logo: '/logo/cards/ShinHan.png',
         themeColor: '#2b64ff',
@@ -67,6 +99,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '롯데카드',
+        shortName: '롯데',
         param: CodefCardCompanyCode.롯데카드,
         logo: '/logo/cards/lotte.png',
         themeColor: '#e30614',
@@ -76,6 +109,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '롯데카드',
+        shortName: '롯데',
         param: CodefCardCompanyCode.롯데카드,
         logo: '/logo/cards/lotte.png',
         themeColor: '#e30614',
@@ -85,6 +119,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: 'KB국민카드',
+        shortName: 'KB국민',
         param: CodefCardCompanyCode.KB국민카드,
         logo: '/logo/cards/KBCard.png',
         themeColor: '#60584c',
@@ -94,6 +129,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: 'KB국민카드',
+        shortName: 'KB국민',
         param: CodefCardCompanyCode.KB국민카드,
         logo: '/logo/cards/KBCard.png',
         themeColor: '#60584c',
@@ -103,6 +139,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: 'BC카드',
+        shortName: 'BC',
         param: CodefCardCompanyCode.BC카드,
         logo: '/logo/cards/BC.png',
         themeColor: '#f14755',
@@ -112,6 +149,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: 'BC카드',
+        shortName: 'BC',
         param: CodefCardCompanyCode.BC카드,
         logo: '/logo/cards/BC.png',
         themeColor: '#f14755',
@@ -121,6 +159,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '하나카드',
+        shortName: '하나',
         param: CodefCardCompanyCode.하나카드,
         logo: '/logo/cards/keb.png',
         themeColor: '#008485',
@@ -130,6 +169,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '하나카드',
+        shortName: '하나',
         param: CodefCardCompanyCode.하나카드,
         logo: '/logo/cards/keb.png',
         themeColor: '#008485',
@@ -139,6 +179,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '삼성카드',
+        shortName: '삼성',
         param: CodefCardCompanyCode.삼성카드,
         logo: '/logo/cards/samsungcard.png',
         themeColor: '#034ea2',
@@ -148,6 +189,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '삼성카드',
+        shortName: '삼성',
         param: CodefCardCompanyCode.삼성카드,
         logo: '/logo/cards/samsungcard.png',
         themeColor: '#034ea2',
@@ -157,6 +199,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '우리카드',
+        shortName: '우리',
         param: CodefCardCompanyCode.우리카드,
         logo: '/logo/cards/woori.png',
         themeColor: '#a7d8f6',
@@ -166,6 +209,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '우리카드',
+        shortName: '우리',
         param: CodefCardCompanyCode.우리카드,
         logo: '/logo/cards/woori.png',
         themeColor: '#a7d8f6',
@@ -175,6 +219,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '현대카드',
+        shortName: '현대',
         param: CodefCardCompanyCode.현대카드,
         logo: '/logo/cards/hyundaicard.png',
         themeColor: '#333c45',
@@ -184,6 +229,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: '현대카드',
+        shortName: '현대',
         param: CodefCardCompanyCode.현대카드,
         logo: '/logo/cards/hyundaicard.png',
         themeColor: '#333c45',
@@ -193,6 +239,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: 'NH카드',
+        shortName: 'NH',
         param: CodefCardCompanyCode.NH카드,
         logo: '/logo/cards/nh.png',
         themeColor: '#0da842',
@@ -202,6 +249,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
     },
     {
         displayName: 'NH카드',
+        shortName: 'NH',
         param: CodefCardCompanyCode.NH카드,
         logo: '/logo/cards/nh.png',
         themeColor: '#0da842',
@@ -226,6 +274,7 @@ export const cardsStaticDataAlt = [
     },
     {
         displayName: '롯데카드',
+        shortName: '롯데',
         param: '71',
         ko: '롯데',
         en: 'LOTTE',
@@ -238,12 +287,14 @@ export const cardsStaticDataAlt = [
     },
     {
         displayName: 'BC카드',
+        shortName: 'BC',
         param: '31',
         ko: 'BC',
         en: 'BC',
     },
     {
         displayName: '삼성카드',
+        shortName: '삼성',
         param: '51',
         ko: '삼성',
         en: 'SAMSUNG',
@@ -256,6 +307,7 @@ export const cardsStaticDataAlt = [
     },
     {
         displayName: '신한카드',
+        shortName: '신한',
         param: '41',
         ko: '신한',
         en: 'SHINHAN',
@@ -268,6 +320,7 @@ export const cardsStaticDataAlt = [
     },
     {
         displayName: '씨티카드',
+        shortName: '씨티',
         param: '36',
         ko: '씨티',
         en: 'CITI',
@@ -330,24 +383,28 @@ export const cardsStaticDataAlt = [
     },
     {
         displayName: '하나카드',
+        shortName: '하나',
         param: '21',
         ko: '하나',
         en: 'HANA',
     },
     {
         displayName: '현대카드',
+        shortName: '현대',
         param: '61',
         ko: '현대',
         en: 'HYUNDAI',
     },
     {
         displayName: 'KB국민카드',
+        shortName: 'KB국민',
         param: '11',
         ko: '국민',
         en: 'KOOKMIN',
     },
     {
         displayName: 'NH농협카드',
+        shortName: 'NH농협',
         param: '91',
         ko: '농협',
         en: 'NONGHYEOP',

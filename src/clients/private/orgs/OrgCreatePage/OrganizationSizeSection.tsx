@@ -53,14 +53,14 @@ export const OrganizationSizeSection = () => {
                             const value = e.target.value;
                         }}
                         {...restRegister}
-                        className="w-full bg-white h-14 cursor-pointer border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
+                        className="w-full bg-white h-14 cursor-pointer border border-gray-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <LaptopMinimal className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                     </div>
                     <div
                         className={cn(
-                            'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-neutral-400',
+                            'absolute flex pl-12 left-0 pointer-events-none transition duration-700 ease text-gray-400',
                             isActive || organizationSize ? 'flex-col top-1 text-xs' : 'items-center inset-y-0 text-14',
                         )}
                     >
@@ -81,11 +81,11 @@ export const OrganizationSizeSection = () => {
                     onClick={() => setIsActive(true)}
                     className="absolute inset-y-0 flex items-center right-4"
                 >
-                    <ChevronDown className="text-neutral-600 text-20" />
+                    <ChevronDown className="text-gray-600 text-20" />
                 </button>
 
                 {isActive && (
-                    <ul className="absolute z-10 bg-white border border-neutral-300 w-full mt-1 rounded-lg max-h-60 overflow-auto">
+                    <ul className="absolute z-10 bg-white border border-gray-300 w-full mt-1 rounded-lg max-h-60 overflow-auto">
                         {organizationSizeData.organizationSize.map((size, index) => (
                             <li
                                 key={index}

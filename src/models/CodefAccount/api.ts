@@ -1,15 +1,19 @@
 import {api} from '^api/api';
-import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
-import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
+import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {ClassConstructor} from 'class-transformer';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
-import {ClassConstructor} from 'class-transformer';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
+import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
+import {UpdateAccountRequestDto} from '^models/CodefAccount/type/update-account.request.dto';
 import {FindAllAccountQueryForAdminDto} from '^models/CodefAccount/type/find-all-account.query.for-admin.dto';
+import {UpdateAccountResponseDto} from '^models/CodefAccount/type/update-account.response.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 
 /** [연동] Connect CODEF Accounts API */
 export const codefAccountApi = {
@@ -31,6 +35,18 @@ export const codefAccountApi = {
         return api.post(url, dto).then(oneDtoOf(AccountCreatedResponseDto));
     },
 
+    /** 계정 수정 - 비밀번호 변경 등 */
+    update(orgId: number, accountId: number, dto: UpdateAccountRequestDto) {
+        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}`;
+        return api.patch(url, dto).then(oneDtoOf(UpdateAccountResponseDto));
+    },
+
+    /** 계정 삭제 */
+    destroy(orgId: number, accountId: number) {
+        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}`;
+        return api.delete(url);
+    },
+
     /** 코드에프 카드 조회 (보유카드 조회) - 계정의 카드 조회 */
     findCards<Dto = CodefCardDto, Query = FindAllCardQueryDto>(
         orgId: number,
@@ -39,6 +55,16 @@ export const codefAccountApi = {
     ) {
         const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/cards`;
         return api.get(url, {params}).then(paginatedDtoOf<Dto>(CodefCardDto as ClassConstructor<Dto>));
+    },
+
+    /** 코드에프 계좌 조회 (보유계좌 조회) - 계정의 계좌 조회 */
+    findBankAccounts<Dto = CodefBankAccountDto, Query = FindAllBankAccountQueryDto>(
+        orgId: number,
+        accountId: number,
+        params: Query = {} as any,
+    ) {
+        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/bank-accounts`;
+        return api.get(url, {params}).then(paginatedDtoOf<Dto>(CodefBankAccountDto as ClassConstructor<Dto>));
     },
 
     // 계정의 카드 동기화

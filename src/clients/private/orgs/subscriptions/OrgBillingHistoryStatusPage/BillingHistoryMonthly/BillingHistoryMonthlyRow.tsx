@@ -7,17 +7,20 @@ import {CurrencyCode} from '^models/Money';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {WideMode} from '../../OrgBillingHistoryStatusPage';
 
 interface BillingHistoryMonthlyRowProps {
     data: BillingHistoriesMonthlySumBySubscriptionDto;
     ratio: number;
     renderColumns: (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => JSX.Element[];
     exchangeRate: number;
+    wideMode?: WideMode;
+    stickyPos?: number;
 }
 
 export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
-    const {data, ratio, renderColumns, exchangeRate} = props;
+    const {data, ratio, renderColumns, exchangeRate, wideMode = WideMode.Narrow, stickyPos = 0} = props;
     const {subscription, items} = data;
 
     const currentCode = subscription.currentBillingAmount?.code;
@@ -31,6 +34,8 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
         }
     };
 
+    const isHidden = wideMode === WideMode.WideHideColumn;
+
     return (
         <tr className="group">
             <td className="sticky left-0 bg-white min-w-64 flex z-10 border-r-2">
@@ -42,17 +47,26 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
                     </OpenButtonColumn>
                 </div>
             </td>
-            <td />
-            <td>
+            <td className={isHidden ? 'hidden' : ''} />
+
+            {/* 상태 */}
+            <td className={isHidden ? 'hidden' : ''}>
                 <IsFreeTierTagUI value={subscription.isFreeTier || false} />
             </td>
-            <td className={'text-right font-medium min-w-28'}>{ratio.toFixed(2)}%</td>
+
+            {/* 지출 비중 */}
+            <td className={isHidden ? 'hidden' : 'text-right font-medium min-w-28'}>{ratio.toFixed(2)}%</td>
+
+            {/* 총 지출액 */}
             <td className={'text-right font-medium min-w-28'}>
                 {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
             </td>
+
+            {/* 평균지출액 */}
             <td className={'text-right font-medium min-w-28'}>
                 {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
             </td>
+
             {renderColumns(items)}
         </tr>
     );

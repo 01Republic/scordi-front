@@ -76,7 +76,10 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
                 hideTopPaginator
                 hideBottomPaginator={totalItemCount === 0}
             >
-                <BillingHistoryTableControl excelUploadModalClose={excelUploadModalClose} />
+                <BillingHistoryTableControl
+                    creditCard={currentCreditCard}
+                    excelUploadModalClose={excelUploadModalClose}
+                />
                 {isEmptyResult ? (
                     <EmptyTable message="결제된 내역이 없어요." />
                 ) : (

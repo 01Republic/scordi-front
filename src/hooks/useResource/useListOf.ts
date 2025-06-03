@@ -35,17 +35,23 @@ export const useListOf = <T>(atom: RecoilState<T[]>, option: UseListOfOption<T>)
     };
 };
 
-export function useList<T>(initialState: T[] | (() => T[]), option: UseListOfOption<T>) {
+interface UseListOption<T, V> {
+    getKey?: keyof T | ((item: T) => V);
+}
+
+export function useList<T, V>(initialState: T[] | (() => T[]), option: UseListOption<T, V> = {}) {
     const {getKey} = option;
     const [list, setList] = useState(initialState);
     const reset = () => setList(initialState);
 
-    const keyOf = (item: T) => {
-        return typeof getKey === 'function' ? getKey(item) : item[getKey];
+    const keyOf = (item: T): V => {
+        if (!getKey) return item as unknown as V;
+        if (typeof getKey === 'function') return getKey(item);
+        return item[getKey] as V;
     };
 
-    const add = (item: T) => {
-        setList((prev) => [...prev, item]);
+    const add = (...items: T[]) => {
+        setList((prev) => [...prev, ...items]);
     };
 
     const remove = (item: T) => {

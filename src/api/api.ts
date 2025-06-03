@@ -25,6 +25,14 @@ export type ApiErrorDto<T = any> = {
 export class ApiError<T = ApiErrorDto, D = any> extends AxiosError<T, D> {}
 export type ApiErrorResponse<T> = ApiError<ApiErrorDto<T>>;
 
+export function parseError<T extends any>(error: ApiErrorResponse<T> | null | undefined) {
+    const axiosResponse = error?.response;
+    const axiosResData = axiosResponse?.data;
+    const apiErrorBody = axiosResData?.data;
+
+    return {axiosResponse, axiosResData, apiErrorBody, body: apiErrorBody};
+}
+
 export function errorToast(e: ApiError) {
     if (e.response) {
         const message = e.response.data.message as string | string[];

@@ -7,8 +7,8 @@ export class CodefCardSearchResultDto {
     organization: OrganizationDto;
 
     @TypeCast(() => OrganizationDto)
-    organizations: OrganizationDto[];
+    organizations: OrganizationDto[] = [];
 
     @TypeCast(() => CodefCardDto)
-    codefCards: CodefCardDto[];
+    codefCards: CodefCardDto[] = [];
 }

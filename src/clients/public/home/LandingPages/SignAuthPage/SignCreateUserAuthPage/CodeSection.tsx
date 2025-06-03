@@ -83,7 +83,7 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                         }}
                         {...restRegister}
                         className={cn(
-                            'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                            'w-full bg-white h-14 border text-sm text-gray-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                             errors.code
                                 ? 'border-red-400 focus:outline-red-400'
                                 : 'border-neutral-300 focus:outline-primaryColor-900',
@@ -127,12 +127,7 @@ export const CodeSection = memo((props: CodeSectionProps) => {
                         <button
                             type="button"
                             onClick={onCodeConfirm}
-                            className={cn(
-                                'btn btn-sm',
-                                disabled
-                                    ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
-                                    : 'bg-primaryColor-900 text-white',
-                            )}
+                            className={cn('btn btn-sm', disabled ? 'btn-disabled2' : 'btn-scordi')}
                         >
                             <p className="whitespace-nowrap">인증 확인</p>
                         </button>

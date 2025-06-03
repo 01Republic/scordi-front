@@ -102,13 +102,12 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
                                 <span />
                             </FormControl>
 
-                            <FormControl label="전화번호" required={isEditMode}>
+                            <FormControl label="전화번호">
                                 {isEditMode ? (
                                     <input
                                         type="tel"
                                         className="input input-underline !bg-slate-100 w-full"
                                         {...form.register('phone')}
-                                        required
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>

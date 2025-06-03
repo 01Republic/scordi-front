@@ -1,4 +1,6 @@
 import {captures} from '^utils/array';
+import {format, formatDistance} from 'date-fns';
+import {ko} from 'date-fns/locale';
 
 export const zeroPad = (num: string): string => (num.length == 1 ? `0${num}` : num);
 
@@ -258,6 +260,24 @@ export function d_day(target: Date, base?: Date) {
 
     const distanceOfDay = Math.ceil(distance / (1000 * 3600 * 24));
     return distanceOfDay * direction;
+}
+
+export function ago(
+    target: Date,
+    base: Date = new Date(),
+    options: {
+        locale?: Locale;
+        weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+        firstWeekContainsDate?: number;
+        useAdditionalWeekYearTokens?: boolean;
+        useAdditionalDayOfYearTokens?: boolean;
+    } = {locale: ko},
+) {
+    const diff = target.getTime() - base.getTime(); // ms 기준 차이 계산하여 정수 반환
+    const distance = Math.abs(diff); // 절대값 적용하여 차이를 양수로 만듦.
+    const distanceOfDay = Math.floor(distance / (1000 * 3600 * 24));
+
+    return distanceOfDay > 0 ? format(target, 'yyyy-MM-dd', options) : `${formatDistance(target, base, options)}전`;
 }
 
 /**

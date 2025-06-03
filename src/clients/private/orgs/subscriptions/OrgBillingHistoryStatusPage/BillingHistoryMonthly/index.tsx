@@ -15,13 +15,16 @@ import {debounce} from 'lodash';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {CurrencyCode} from '^models/Money';
 import {useCurrentOrg2} from '^models/Organization/hook';
+import {WideMode} from '../../OrgBillingHistoryStatusPage';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
+    wideMode?: WideMode;
+    stickyPos?: number;
 }
 
 export const BillingHistoryMonthly = memo(
-    forwardRef(({focusYear}: BillingHistoryMonthlyProps, ref) => {
+    forwardRef(({focusYear, wideMode = WideMode.Narrow, stickyPos = 0}: BillingHistoryMonthlyProps, ref) => {
         const orgId = useRecoilValue(orgIdParamState);
         const [displayCurrency, setDisplayCurrency] = useRecoilState(displayCurrencyAtom);
         const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +54,8 @@ export const BillingHistoryMonthly = memo(
             }
 
             const result = histories.filter((his) => {
-                return his.subscription.product.name().includes(keyword);
+                const productName = his.subscription.product.name();
+                return productName.toLowerCase().includes(keyword.toLowerCase());
             });
             setFilteredHistories(result);
         };
@@ -91,7 +95,12 @@ export const BillingHistoryMonthly = memo(
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full hide-scrollbar">
                         <table className="table w-full text-sm">
-                            <BillingHistoryMonthlyHeader months={months} />
+                            <BillingHistoryMonthlyHeader
+                                focusYear={focusYear}
+                                months={months}
+                                wideMode={wideMode}
+                                stickyPos={stickyPos}
+                            />
                             <tbody>
                                 {histories.length === 0 ? (
                                     <tr>
@@ -103,6 +112,8 @@ export const BillingHistoryMonthly = memo(
                                     sortedHistories.map((history, i) => (
                                         <BillingHistoryMonthlyRow
                                             key={i}
+                                            wideMode={wideMode}
+                                            stickyPos={stickyPos}
                                             data={history}
                                             ratio={ratioOf(history.getCostSumToKRW(exchangeRate), totalAmount)}
                                             exchangeRate={exchangeRate}

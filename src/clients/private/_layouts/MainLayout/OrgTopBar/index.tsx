@@ -12,6 +12,7 @@ import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/Expire
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentMembership} from '^models/Membership/hook';
 import {Bell, Plus, Snail} from 'lucide-react';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -55,7 +56,7 @@ export const OrgTopBar = memo(() => {
             <div className="ml-auto flex items-center gap-8">
                 <div className="hidden sm:block">
                     <LinkTo
-                        href={currentOrg ? OrgSubscriptionSelectPageRoute.path(currentOrg.id) : '#'}
+                        href={currentOrg ? OrgSubscriptionConnectionPageRoute.path(currentOrg.id) : '#'}
                         className={`btn btn-sm btn-scordi gap-2 no-animation btn-animation ${
                             !currentOrg ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
                         }`}

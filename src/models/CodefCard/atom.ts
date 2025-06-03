@@ -3,6 +3,8 @@ import {CodefCardDto, ConnectedCodefCardDto} from '^models/CodefCard/type/CodefC
 import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
+import {atom} from 'recoil';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 
 /** 코드에프 카드 리스트 */
 export const codefCardsAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDto>({

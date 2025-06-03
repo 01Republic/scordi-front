@@ -101,6 +101,7 @@ PageFlash.displayName = 'PageFlash';
 function topLineBannerThemeClass(theme: PageFlashTheme) {
     return {
         notice: 'bg-[#A3E635] !text-black',
+        alert: 'bg-yellowColor-100 !text-yellowColor-400',
         waring: 'bg-red-400',
         danger: '',
         basicInfo: '',
@@ -120,6 +121,8 @@ export const defaultThemeIcon = (theme: PageFlashTheme) => {
     switch (theme) {
         case 'notice':
             return <PencilLine />;
+        case 'alert':
+            return <TriangleAlert className="text-yellowColor-300 fill-yellowColor-200 size-5" />;
         case 'waring':
             return <TriangleAlert className="text-red-400 fill-white size-5" />;
         case 'danger':

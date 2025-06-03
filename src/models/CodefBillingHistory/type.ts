@@ -3,21 +3,24 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 
 export class CodefBillingHistoryDto {
     id: number;
-    codefCardId: number;
+    codefCardId: number | null;
+    codefBankAccountId: number | null;
     billingHistoryId: number | null;
     fromApproval: boolean; // 승인내역 데이터 사용여부
     fromPurchase: boolean; // 매입내역 데이터 사용여부
 
-    // 결제일시
-    @TypeCast(() => Date) usedAt: Date;
+    @TypeCast(() => Date) usedAt: Date; // 결제일시
     identifyKey: string; // 승인내역-매입내역 매칭키
+
     isForeign: boolean; // 해외결제여부
     finalPrice: number; // 최종결제금액
     resUsedDate: string; // '20240218';
     resUsedTime: string; // '103945';
+
     resCardNo: string; // '************9880';
     resCardNo1: string; // "";
     resCardName: string; // "";
@@ -49,19 +52,29 @@ export class CodefBillingHistoryDto {
     resExchangeRate: string; // '';
     resCashBack: string; // "";
 
-    @TypeCast(() => Date) createdAt: Date;
-    @TypeCast(() => Date) updatedAt: Date;
-    @TypeCast(() => Date) paidAt: Date | undefined;
+    /** ### 계좌 수시입출내역 관련 컬럼 */
+    @TypeCast(() => Number) resAccountOut: number; // 출금금액
+    @TypeCast(() => Number) resAccountIn: number; // 입금금액
+    resAccountDesc1: string; // 거래내역 비고1 [보낸분/받는분]
+    resAccountDesc2: string; // 거래내역 비고2 [거래구분/메모]
+    resAccountDesc3: string; // 거래내역 비고3 [적요]
+    resAccountDesc4: string; // 거래내역 비고4 [거래점]
+    @TypeCast(() => Number) resAfterTranBalance: number; // 거래후 잔액
 
+    @TypeCast(() => Date) paidAt: Date | undefined;
     memo: string;
+
     isCanceled: boolean;
     isFailed: boolean;
     isSuccess: boolean;
 
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
     drainedCodefBillingHistoryId?: number;
 
     @TypeCast(() => CodefCardDto) codefCard?: CodefCardDto;
-    @TypeCast(() => BillingHistoryDto) billingHistory?: BillingHistoryDto;
+    @TypeCast(() => CodefBankAccountDto) codefBankAccount?: CodefBankAccountDto;
 }
 
 export class FindAllCodefBillingHistoryQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {

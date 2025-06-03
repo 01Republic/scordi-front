@@ -83,7 +83,7 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                         }}
                         {...restRegister}
                         className={cn(
-                            'w-full bg-white h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                            'w-full bg-white h-14 border text-sm text-gray-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                             {
                                 'bg-gray-100': isCodeConfirmed,
                                 'bg-white': !isCodeConfirmed,
@@ -119,10 +119,10 @@ export const PhoneNumberSection = (props: PhoneNumberSectionProps) => {
                             className={cn(
                                 'btn btn-sm',
                                 disabled
-                                    ? 'bg-neutral-100 cursor-none text-neutral-300 pointer-events-none'
+                                    ? 'btn-disabled2'
                                     : isCodeSent && !isCodeConfirmed
                                     ? 'btn-white'
-                                    : 'btn-scordi text-white',
+                                    : 'btn-scordi',
                             )}
                         >
                             <p className="whitespace-nowrap">

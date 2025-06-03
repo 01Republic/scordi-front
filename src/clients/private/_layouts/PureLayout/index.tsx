@@ -15,7 +15,7 @@ export const PureLayout = memo((props: PureLayoutProps) => {
             <ChannelTalkHideStyle />
 
             {/* Body */}
-            <div className="flex min-h-screen w-full mx-auto max-w-6xl px-4 py-14">{children}</div>
+            <div className="flex flex-col min-h-screen w-full mx-auto max-w-6xl px-4 py-14">{children}</div>
         </BaseLayout>
     );
 });
