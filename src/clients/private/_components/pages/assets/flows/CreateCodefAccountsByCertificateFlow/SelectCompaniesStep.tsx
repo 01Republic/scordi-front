@@ -1,20 +1,23 @@
 import {memo, useState} from 'react';
+import {useFormContext} from 'react-hook-form';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
-import {BusinessTypeSelector} from '^_components/pages/assets/connect-steps/common/BusinessTypeSelector';
-import {BankCompaniesSelector} from '^_components/pages/assets/connect-steps/common/BankCompaniesSelector';
-import {CardCompaniesSelector} from '^_components/pages/assets/connect-steps/common/CardCompaniesSelector';
-import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {useFormContext} from 'react-hook-form';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {codefCertificate} from '^lib/codef/certificate/main';
-import {JsonpError} from '^lib/codef/certificate/utils/jsonp';
-import {InstallCheckErrorCode} from '^lib/codef/certificate/main/errors';
-import {CertificateSignModal, InstallCertProgramModal} from '^lib/codef/certificate/components';
 import {CodefCertificateType, CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
+import {
+    CertificateSignModal,
+    InstallCertProgramModal,
+    codefCertificate,
+    InstallCheckErrorCode,
+    JsonpError,
+} from '^lib/codef/certificate';
+import {StatusHeader} from '../../connect-steps/common/StatusHeader';
+import {BusinessTypeSelector} from '../../connect-steps/common/BusinessTypeSelector';
+import {BankCompaniesSelector} from '../../connect-steps/common/BankCompaniesSelector';
+import {CardCompaniesSelector} from '../../connect-steps/common/CardCompaniesSelector';
+import {NextStepButton} from '../../connect-steps/common/NextStepButton';
 
 interface SelectCompaniesStepProps {
     onBack: () => any;
