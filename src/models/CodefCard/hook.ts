@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import {useState} from 'react';
 import {RecoilState, useRecoilValue} from 'recoil';
 import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
@@ -20,12 +20,9 @@ import {
     subscriptionsForAccountAtom,
     subscriptionsForCardAtom,
 } from '^models/CodefCard/atom';
-import {confirm3} from '^components/util/dialog/confirm3';
-import {confirmed} from '^components/util/dialog';
-import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {uniqBy} from 'lodash';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -180,7 +177,6 @@ export const useFindCardAccounts = (orgId: number, accountIds: number[], params?
         queries: accountIds.map((accountId) => {
             const queryParams = {
                 relations: ['account'],
-                where: {accountId: accountId},
                 sync: true,
                 itemsPerPage: 0,
                 ...params,
@@ -226,8 +222,19 @@ export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsS
         initialData: [],
     });
 
-    return useFindCardAccounts(
-        orgId,
-        codefAccounts.map((account) => account.id),
-    );
+    const codefAccountIds = codefAccounts.map((account) => account.id);
+
+    const dbQuery = useFindCardAccounts(orgId, codefAccountIds, {sync: false});
+
+    const syncQuery = useFindCardAccounts(orgId, codefAccountIds);
+
+    return {
+        dbQuery,
+        syncQuery,
+        data: uniqBy([...syncQuery.data, ...dbQuery.data], (item) => item.id),
+        isLoading: dbQuery.isLoading || syncQuery.isLoading,
+        isError: dbQuery.isError || syncQuery.isError,
+        errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
+        allConnected: syncQuery.allConnected,
+    };
 };

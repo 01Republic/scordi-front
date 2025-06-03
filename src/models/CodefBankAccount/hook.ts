@@ -1,6 +1,5 @@
-/* 코드에프 계좌 조회 */
 import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
-import {CodefLoginType} from '^models/CodefAccount/type/enums';
+import {uniqBy} from 'lodash';
 import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
 import {codefBankAccountApi} from '^models/CodefBankAccount/api';
@@ -8,9 +7,8 @@ import {ErrorResponse} from '^models/User/types';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {useMemo} from 'react';
-import {useCodefAccounts} from '^models/CodefAccount/hook';
 
+/* 코드에프 계좌 조회 */
 export const useCodefBankAccount = () => {
     const queryClient = useQueryClient();
     const params: FindAllBankAccountQueryDto = {
@@ -96,8 +94,19 @@ export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAc
         initialData: [],
     });
 
-    return useFindBankAccounts(
-        orgId,
-        codefAccounts.map((account) => account.id),
-    );
+    const codefAccountIds = codefAccounts.map((account) => account.id);
+
+    const dbQuery = useFindBankAccounts(orgId, codefAccountIds, {sync: false});
+
+    const syncQuery = useFindBankAccounts(orgId, codefAccountIds);
+
+    return {
+        dbQuery,
+        syncQuery,
+        data: uniqBy([...syncQuery.data, ...dbQuery.data], (item) => item.id),
+        isLoading: dbQuery.isLoading || syncQuery.isLoading,
+        isError: dbQuery.isError || syncQuery.isError,
+        errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
+        allConnected: syncQuery.allConnected,
+    };
 };
