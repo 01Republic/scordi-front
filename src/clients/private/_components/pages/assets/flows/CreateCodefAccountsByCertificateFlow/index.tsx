@@ -14,8 +14,9 @@ import {CreateAccountsStep} from './CreateAccountsStep';
 interface CreateCodefAccountsByCertificateFlowProps {
     onBack: () => any;
     onFinish: (
-        createdAccountIds: number[],
+        selectedCompanies: CodefCompanyStaticData[],
         failedCompanies: CodefApiAccountItemDto[],
+        createdAccountIds: number[],
         queryResults: UseQueryResult<AccountCreatedResponseDto, ApiErrorResponse<CodefAccountCreateErrorResponseDto>>[],
     ) => any;
 }
@@ -42,7 +43,14 @@ export const CreateCodefAccountsByCertificateFlow = memo((props: CreateCodefAcco
             {selectedCompanies.length === 0 && <SelectCompaniesStep onBack={onBack} onNext={setSelectedCompanies} />}
 
             {/* 계정 등록 진행중 페이지 */}
-            {selectedCompanies.length > 0 && <CreateAccountsStep companies={selectedCompanies} onNext={onFinish} />}
+            {selectedCompanies.length > 0 && (
+                <CreateAccountsStep
+                    companies={selectedCompanies}
+                    onNext={(createdAccountIds, failedCompanies, queryResults) => {
+                        onFinish(selectedCompanies, failedCompanies, createdAccountIds, queryResults);
+                    }}
+                />
+            )}
         </>
     );
 });

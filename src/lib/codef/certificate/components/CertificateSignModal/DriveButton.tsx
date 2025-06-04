@@ -5,10 +5,11 @@ interface DriveButtonProps {
     Icon: () => JSX.Element;
     name: string;
     onClick?: () => void;
+    className?: string;
 }
 
 export const DriveButton = memo((props: DriveButtonProps) => {
-    const {isActive = false, Icon, onClick, name} = props;
+    const {isActive = false, Icon, onClick, name, className = ''} = props;
 
     return (
         <button
@@ -16,7 +17,7 @@ export const DriveButton = memo((props: DriveButtonProps) => {
                 isActive
                     ? 'bg-scordi-50 border-scordi'
                     : 'bg-white hover:bg-scordi-50 border-gray-300 hover:border-scordi'
-            }`}
+            } ${className}`}
             onClick={onClick}
         >
             <div className="size-16 flex items-center justify-center">

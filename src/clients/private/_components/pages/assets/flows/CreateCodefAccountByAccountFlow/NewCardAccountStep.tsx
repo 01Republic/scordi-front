@@ -19,6 +19,7 @@ import {ApiErrorResponse} from '^api/api';
 import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-common';
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {plainToast as toast} from '^hooks/useToast';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface NewCardAccountStepProps {
     company: CardAccountsStaticData;
@@ -116,7 +117,7 @@ export const NewCardAccountStep = memo((props: NewCardAccountStepProps) => {
 
     return (
         <PureLayout>
-            <main className="w-full flex flex-col gap-10">
+            <PureLayoutContainer className="flex flex-col gap-10">
                 <StatusHeader
                     className="gap-14"
                     title={
@@ -126,13 +127,34 @@ export const NewCardAccountStep = memo((props: NewCardAccountStepProps) => {
                                     src={company.logo}
                                     alt={company.displayName}
                                     className="avatar w-[48px] h-[48px] bg-white"
+                                    data-aos="fade-up"
+                                    data-aos-anchor-placement="center-bottom"
                                 />
                             </div>
-                            <h1 className="text-3xl text-gray-400">
-                                <span className="text-black">{cardName}</span>
-                                로 부터
-                                <br /> 자산을 불러올게요
-                            </h1>
+                            {!!errorMessages.length ? (
+                                <h1 className="text-3xl text-gray-400">
+                                    <span className="text-black">{cardName}</span>
+                                    의 계정을
+                                    <br /> 다시 확인해주세요
+                                </h1>
+                            ) : isLoading ? (
+                                <h1 className="text-3xl text-gray-400">
+                                    <span className="text-black">{cardName}</span>
+                                    에
+                                    <br /> 로그인 하고있어요
+                                </h1>
+                            ) : (
+                                <h1
+                                    className="text-3xl text-gray-400"
+                                    data-aos="fade-up"
+                                    data-aos-anchor-placement="center-bottom"
+                                    data-aos-delay="100"
+                                >
+                                    <span className="text-black">{cardName}</span>
+                                    로 부터
+                                    <br /> 자산을 불러올게요
+                                </h1>
+                            )}
                         </div>
                     }
                     onBack={onBack}
@@ -249,7 +271,7 @@ export const NewCardAccountStep = memo((props: NewCardAccountStepProps) => {
                         </div>
                     </section>
                 </form>
-            </main>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });

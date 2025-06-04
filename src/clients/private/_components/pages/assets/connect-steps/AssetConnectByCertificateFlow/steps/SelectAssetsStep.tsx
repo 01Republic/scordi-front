@@ -17,6 +17,9 @@ import {NextStepButton} from '../../common/NextStepButton';
 import {AssetsConnectStepFlashHandler} from '../../common/AssetsConnectStepFlashHandler';
 import {SuccessConnectBankSelector} from './_component/SuccessConnectBankSelector';
 import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelector';
+import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
+import {LinkTo} from '^components/util/LinkTo';
+import {ArrowLeft} from 'lucide-react';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -75,7 +78,8 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
 
     const notSelected = selectedCodefBanks.length === 0 && selectedCodefCards.length === 0;
-    const disabled = codefAccounts.length === 0;
+    // const disabled = codefAccounts.length === 0;
+    const disabled = codefBankAccountsQuery.data.length === 0 && codefCardsQuery.data.length === 0;
     const isLoadingMsg = ((): string => {
         if (codefCardsQuery.isLoading) return '카드 정보 조회중';
         if (codefBankAccountsQuery.isLoading) return '계좌 정보 조회중';
@@ -84,68 +88,85 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const allConnected = codefBankAccountsQuery.allConnected && codefCardsQuery.allConnected;
 
     return (
-        <PureLayout>
-            <div className="flex flex-col gap-20">
-                <StatusHeader
-                    title={(() => {
-                        if (isLoadingMsg) return isLoadingMsg;
+        <PureLayout className="py-14">
+            <PureLayoutContainerSection className="mb-12">
+                <div>
+                    <LinkTo
+                        className="flex gap-1 items-center text-14 cursor-pointer text-gray-600 transition-all hover:text-gray-800 hover:font-semibold"
+                        onClick={onBack}
+                        displayLoading={false}
+                    >
+                        <ArrowLeft />
+                        뒤로가기
+                    </LinkTo>
+                </div>
+            </PureLayoutContainerSection>
 
-                        if (isAfterAccountCreated) {
-                            // 방금 등록하고 넘어온 경우
-                            return disabled
-                                ? '선택하신 금융기관에서는 자산을 조회하지 못했어요 💦'
-                                : '자산 연동이 완료되었어요';
-                        } else {
-                            // 이미 연결된게 있어서 다이렉트로 넘어온 경우
-                            return allConnected
-                                ? '조회된 모든 자산이 이미 연결되어있네요!'
-                                : title ?? '어떤 자산으로부터 구독을 불러올까요?';
-                        }
-                    })()}
-                    subTitle={(() => {
-                        if (isLoadingMsg) return '';
+            <PureLayoutContainerSection className="mb-16 max-w-full sticky top-0 pt-8 pb-4 px-0 bg-layout-background z-10">
+                <div className="mx-auto max-w-6xl flex flex-col gap-10 px-4">
+                    <StatusHeader
+                        title={(() => {
+                            if (isLoadingMsg) return isLoadingMsg;
 
-                        if (isAfterAccountCreated) {
-                            // 방금 등록하고 넘어온 경우
-                            return disabled ? '' : '어떤 자산으로부터 구독을 불러올까요?';
-                        } else {
-                            // 이미 연결된게 있어서 다이렉트로 넘어온 경우
-                            return allConnected
-                                ? '자산 추가를 클릭해 더 많은 연결수단을 등록 할 수 있어요.'
-                                : subTitle ?? '개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.';
-                        }
-                    })()}
-                    icon={(() => {
-                        const empty = <div className="w-0 h-24 -mr-1">&nbsp;</div>;
-                        if (isLoadingMsg) return undefined;
+                            if (isAfterAccountCreated) {
+                                // 방금 등록하고 넘어온 경우
+                                return disabled
+                                    ? '선택하신 금융기관에서는 자산을 조회하지 못했어요 💦'
+                                    : '자산 연동이 완료되었어요';
+                            } else {
+                                // 이미 연결된게 있어서 다이렉트로 넘어온 경우
+                                return allConnected
+                                    ? '조회된 모든 자산이 이미 연결되어있네요!'
+                                    : title ?? '어떤 자산으로부터 구독을 불러올까요?';
+                            }
+                        })()}
+                        subTitle={(() => {
+                            if (isLoadingMsg) return '';
 
-                        if (isAfterAccountCreated) {
-                            // 방금 등록하고 넘어온 경우
-                            return disabled ? undefined : (
-                                <LottieNoSSR
-                                    src="https://lottie.host/9e42fdb6-462d-47b1-8c05-b7c407ea89a6/71V7dYZsgm.lottie"
-                                    loop
-                                    autoplay
-                                    className={`w-[82px] h-24`}
-                                    layout={{fit: 'fill'}}
-                                />
-                            );
-                        } else {
-                            // 이미 연결된게 있어서 다이렉트로 넘어온 경우
-                            return allConnected ? undefined : undefined;
-                        }
-                    })()}
-                    onBack={onBack}
-                    onMove={isAfterAccountCreated ? undefined : onMove}
-                />
+                            if (isAfterAccountCreated) {
+                                // 방금 등록하고 넘어온 경우
+                                return disabled ? '' : '어떤 자산으로부터 구독을 불러올까요?';
+                            } else {
+                                // 이미 연결된게 있어서 다이렉트로 넘어온 경우
+                                return allConnected
+                                    ? '자산 추가를 클릭해 더 많은 연결수단을 등록 할 수 있어요.'
+                                    : subTitle ??
+                                          '개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.';
+                            }
+                        })()}
+                        icon={(() => {
+                            const empty = <div className="w-0 h-24 -mr-1">&nbsp;</div>;
+                            if (isLoadingMsg) return undefined;
 
+                            if (isAfterAccountCreated) {
+                                // 방금 등록하고 넘어온 경우
+                                return disabled ? undefined : (
+                                    <LottieNoSSR
+                                        src="https://lottie.host/9e42fdb6-462d-47b1-8c05-b7c407ea89a6/71V7dYZsgm.lottie"
+                                        loop
+                                        autoplay
+                                        className={`w-[82px] h-24`}
+                                        layout={{fit: 'fill'}}
+                                    />
+                                );
+                            } else {
+                                // 이미 연결된게 있어서 다이렉트로 넘어온 경우
+                                return allConnected ? undefined : undefined;
+                            }
+                        })()}
+                        onMove={isAfterAccountCreated ? undefined : onMove}
+                    />
+                </div>
+            </PureLayoutContainerSection>
+
+            <PureLayoutContainerSection className="flex flex-col gap-20 mb-20">
                 {failedCompanies.length > 0 && <AssetsConnectStepFlashHandler failures={failedCompanies} />}
 
                 {disabled ? (
                     <EmptyTable message="연동된 자산이 없어요" />
                 ) : (
                     <>
-                        {successBanks.length > 0 && (
+                        {codefBankAccountsQuery.data.length > 0 && (
                             <SuccessConnectBankSelector
                                 codefBankAccounts={codefBankAccountsQuery.data}
                                 isLoading={codefBankAccountsQuery.isLoading}
@@ -153,7 +174,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                             />
                         )}
 
-                        {successCards.length > 0 && (
+                        {codefCardsQuery.data.length > 0 && (
                             <SuccessConnectCardSelector
                                 codefCards={codefCardsQuery.data}
                                 isLoading={codefCardsQuery.isLoading}
@@ -162,20 +183,20 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                         )}
                     </>
                 )}
+            </PureLayoutContainerSection>
 
-                <div className="flex w-full justify-center">
-                    <NextStepButton
-                        disabled={!!isLoadingMsg || notSelected}
-                        onClick={() => onNext(selectedCodefBanks, selectedCodefCards, disabled, allConnected)}
-                        text={(() => {
-                            if (isLoadingMsg) return '불러오는중';
-                            if (allConnected) return disabledCTAButtonText || '완료';
-                            if (disabled) return disabledCTAButtonText || '완료';
-                            return '다음';
-                        })()}
-                    />
-                </div>
-            </div>
+            <PureLayoutContainerSection className="max-w-full sticky bottom-0 py-4 bg-layout-background flex items-center justify-center">
+                <NextStepButton
+                    disabled={!!isLoadingMsg || notSelected}
+                    onClick={() => onNext(selectedCodefBanks, selectedCodefCards, disabled, allConnected)}
+                    text={(() => {
+                        if (isLoadingMsg) return '불러오는중';
+                        if (allConnected) return disabledCTAButtonText || '완료';
+                        if (disabled) return disabledCTAButtonText || '완료';
+                        return '다음';
+                    })()}
+                />
+            </PureLayoutContainerSection>
         </PureLayout>
     );
 });

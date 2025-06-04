@@ -1,9 +1,6 @@
-import {memo, useEffect, useState} from 'react';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {memo, useEffect, useMemo, useState} from 'react';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {SelectCompanyStep} from './byAccountSteps/SelectCompanyStep';
-import {ConnectSuccessAssetSelectStep} from './byAccountSteps/ConnectSuccessAssetSelectStep';
-import {ConnectAssetsStep} from '../AssetConnectByCertificateFlow/steps/ConnectAssetsStep';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {CreateCodefAccountByAccountFlow} from '^_components/pages/assets/flows/CreateCodefAccountByAccountFlow';
@@ -36,17 +33,17 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
     const orgId = useOrgIdParam();
     const [selectedCompany, setSelectedCompany] = useState<CardAccountsStaticData>();
     const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
-    const idAccounts = codefAccounts.filter((account) => {
+
+    const companyCodes = useMemo(() => CardAccountsStaticData.all().map((company) => company.param), []);
+    const cardAccounts = codefAccounts.filter((account) => {
+        // @ts-ignore
+        if (!companyCodes.includes(account.organization)) return false;
+        if (selectedCompany && selectedCompany.param !== account.organization) return false;
         return account.loginType === CodefLoginType.IdAccount;
     });
 
-    const companyAccounts = idAccounts.filter((codefAccount) => {
-        if (!selectedCompany) return false;
-        return codefAccount.organization === selectedCompany.param;
-    });
-
     const createAccountAllowed =
-        ignorePreCheck || (!!selectedCompany && isFetchedAfterMount && companyAccounts.length === 0);
+        ignorePreCheck || (!!selectedCompany && isFetchedAfterMount && cardAccounts.length === 0);
 
     useUnmount(() => {
         setSelectedCompany(undefined);
@@ -56,16 +53,21 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
         if (ignorePreCheck) return;
         if (!selectedCompany) return;
         if (!isFetchedAfterMount) return;
-        if (companyAccounts.length > 0) {
-            onFinish(companyAccounts, [], false);
+        if (cardAccounts.length > 0) {
+            onFinish(cardAccounts, [], false);
         }
-    }, [ignorePreCheck, selectedCompany, isFetchedAfterMount, companyAccounts]);
+    }, [ignorePreCheck, selectedCompany, isFetchedAfterMount, cardAccounts]);
 
     return (
         <>
             {/* 연동할 기관 선택 */}
             {!selectedCompany && (
-                <SelectCompanyStep createMoreAccountContext={false} onBack={onBack} onNext={setSelectedCompany} />
+                <SelectCompanyStep
+                    createMoreAccountContext={false}
+                    codefAccounts={cardAccounts}
+                    onBack={onBack}
+                    onNext={setSelectedCompany}
+                />
             )}
 
             {/* 홈페이지계정 등록 플로우 (계정등록) */}
@@ -73,12 +75,12 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
                 <CreateCodefAccountByAccountFlow
                     company={selectedCompany}
                     onBack={() => setSelectedCompany(undefined)}
-                    onFinish={(createdAccountId) => {
+                    onFinish={() => {
                         codefAccountApi
                             .index(orgId, {
                                 where: {
                                     loginType: CodefLoginType.IdAccount,
-                                    id: createdAccountId,
+                                    organization: selectedCompany.param,
                                 },
                                 sync: false,
                                 itemsPerPage: 0,

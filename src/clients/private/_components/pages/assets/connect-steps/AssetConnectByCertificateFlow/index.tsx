@@ -7,6 +7,8 @@ import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
+import {isDefinedValue} from '^utils/array';
 
 interface CreateCodefAccountsByCertificateFlowProps {
     ignorePreCheck?: boolean;
@@ -46,12 +48,13 @@ export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByC
             {renderActive && (
                 <CreateCodefAccountsByCertificateFlow
                     onBack={onBack}
-                    onFinish={async (createdAccountIds, failedCompanies) => {
+                    onFinish={async (selectedCompanies, failedCompanies) => {
                         codefAccountApi
                             .index(orgId, {
                                 where: {
                                     loginType: CodefLoginType.Certificate,
-                                    id: {op: 'in', val: createdAccountIds},
+                                    organization: {op: 'in', val: selectedCompanies.map((company) => company.param)},
+                                    // id: {op: 'in', val: createdAccountIds},
                                 },
                                 sync: false,
                                 itemsPerPage: 0,

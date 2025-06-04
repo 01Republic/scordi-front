@@ -4,6 +4,7 @@ import NumberFlow from '@number-flow/react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface LoadingScreenProps extends WithChildren {
     message?: string;
@@ -97,7 +98,7 @@ export const LoadingScreen2 = (props: Props) => {
 
     return (
         <PureLayout>
-            <div className="flex flex-col items-center justify-center m-auto">
+            <PureLayoutContainer className="flex flex-col items-center justify-center m-auto">
                 <div className="text-center space-y-2">
                     <h2 className="text-2xl font-bold text-gray-800 leading-tight">{message}</h2>
                 </div>
@@ -111,7 +112,7 @@ export const LoadingScreen2 = (props: Props) => {
                         <NumberFlow value={percentage} duration={800} />% 완료
                     </div>
                 )}
-            </div>
+            </PureLayoutContainer>
         </PureLayout>
     );
 };

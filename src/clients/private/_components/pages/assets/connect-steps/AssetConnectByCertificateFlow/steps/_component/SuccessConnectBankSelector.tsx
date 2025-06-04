@@ -5,7 +5,6 @@ import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-d
 import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
 import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {useCodefBankAccountsByCompanies} from '^models/CodefBankAccount/hook';
 import {unitFormat} from '^utils/number';
 import Tippy from '@tippyjs/react';
 
@@ -19,13 +18,14 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
     const [selectedItems, setSelectedItems] = useState<CodefBankAccountDto[]>([]);
     const {codefBankAccounts = [], isLoading = false, onSelect} = props;
 
-    const select = (changedItems: CodefBankAccountDto[]) => {
-        setSelectedItems(changedItems);
-        onSelect && onSelect(changedItems);
+    const select = (items: CodefBankAccountDto[]) => {
+        setSelectedItems(items);
+        onSelect && onSelect(items);
     };
 
-    const isAllSelected = codefBankAccounts.length > 0 && selectedItems.length === codefBankAccounts.length;
-    const handleSelectAll = () => select(isAllSelected ? [] : codefBankAccounts);
+    const selectables = codefBankAccounts.filter((codefBankAccount) => !codefBankAccount.bankAccountId);
+    const isAllSelected = codefBankAccounts.length > 0 && selectedItems.length === selectables.length;
+    const handleSelectAll = () => select(isAllSelected ? [] : selectables);
 
     const handleToggle = (item: CodefBankAccountDto) => {
         const changedItems = selectedItems.some(({id}) => id === item.id) // included?
@@ -43,7 +43,7 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
                 </span>
             }
             isAllSelected={isAllSelected}
-            handleSelectAll={handleSelectAll}
+            handleSelectAll={selectables.length > 0 ? handleSelectAll : undefined}
             isLoading={isLoading}
         >
             <ul className="grid grid-cols-2 gap-3">

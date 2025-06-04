@@ -1,21 +1,18 @@
 import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
-import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import {BaseLayout, BaseLayoutProps} from '^clients/private/_layouts/BaseLayout';
+import {cn} from '^public/lib/utils';
 
-interface PureLayoutProps extends WithChildren {
-    //
+interface PureLayoutProps extends BaseLayoutProps {
+    className?: string;
 }
 
 export const PureLayout = memo((props: PureLayoutProps) => {
-    const {children} = props;
+    const {className = '', children} = props;
 
     return (
-        <BaseLayout>
-            <ChannelTalkHideStyle />
-
+        <BaseLayout ignoreChannelTalk>
             {/* Body */}
-            <div className="flex flex-col min-h-screen w-full mx-auto max-w-6xl px-4 py-14">{children}</div>
+            <div className={cn('w-full min-h-screen', className)}>{children}</div>
         </BaseLayout>
     );
 });

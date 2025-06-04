@@ -191,3 +191,5 @@ class CodefCertificate {
 }
 
 export const codefCertificate = new CodefCertificate();
+
+export * from './errors';

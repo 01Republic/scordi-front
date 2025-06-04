@@ -175,7 +175,8 @@ class CodefCert {
                     throw new JsonpError('Port retrieval failed', InstallCheckErrorCode.NotInstalled);
                 }
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log('e', e);
                 throw new JsonpError('Port request failed', InstallCheckErrorCode.Unknown);
             });
     }

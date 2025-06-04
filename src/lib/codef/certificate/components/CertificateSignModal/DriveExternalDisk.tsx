@@ -1,8 +1,9 @@
-import {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {Usb} from 'lucide-react';
 import {codefCertificate} from '^lib/codef/certificate/main';
 import {MoreDropdown} from '^_components/MoreDropdown';
 import {DriveButton} from './DriveButton';
+import {toast} from 'react-hot-toast';
 
 interface DriveExternalDiskProps {
     activeDrivePath: string | undefined;
@@ -13,6 +14,41 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
     const {activeDrivePath, onSelect} = props;
     const [externalDrivePaths, setExternalDrivePaths] = useState<string[]>([]);
 
+    const loadExtraDrive = async () => {
+        return codefCertificate.fn_OnLoadExtraDrive().then((paths) =>
+            paths.filter((path) => {
+                if (!path.startsWith('D:')) return false;
+                if (!path.startsWith('C:')) return false;
+                if (!path.startsWith('/Volumes/')) return false;
+                if (path.includes('/Volumes/codef')) return false;
+
+                return true;
+            }),
+        );
+    };
+
+    useEffect(() => {
+        loadExtraDrive().then(setExternalDrivePaths);
+    }, []);
+
+    if (externalDrivePaths.length === 0) {
+        return (
+            <DriveButton
+                Icon={() => <Usb className="size-14" />}
+                name="이동식디스크"
+                className="opacity-20"
+                onClick={() => {
+                    loadExtraDrive()
+                        .then((paths) => {
+                            if (paths.length === 0) toast('이동식디스크가 연결되어있지 않아요.');
+                            return paths;
+                        })
+                        .then(setExternalDrivePaths);
+                }}
+            />
+        );
+    }
+
     return (
         <MoreDropdown
             Trigger={() => (
@@ -20,7 +56,6 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
                     isActive={typeof activeDrivePath !== 'undefined' && activeDrivePath !== ''}
                     Icon={() => <Usb className="size-14" />}
                     name="이동식디스크"
-                    onClick={() => codefCertificate.fn_OnLoadExtraDrive().then(setExternalDrivePaths)}
                 />
             )}
         >

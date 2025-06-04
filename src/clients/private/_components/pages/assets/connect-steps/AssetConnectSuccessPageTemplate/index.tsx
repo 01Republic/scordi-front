@@ -16,6 +16,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {FindOptionsWhere} from '^types/utils/find-options';
 import {queriesCombine} from '^utils/useQueries';
 import {LoadableBox} from '^components/util/loading';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 interface AssetConnectSuccessPageTemplateProps {
     assets: (CreditCardDto | BankAccountDto)[];
@@ -60,7 +61,7 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
 
     return (
         <PureLayout>
-            <div className="w-full flex flex-col gap-20">
+            <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
                     title={
                         isLoading ? (
@@ -120,7 +121,7 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                 <section className="w-full flex items-center justify-center">
                     <NextStepButton text="완료" onClick={onNext} />
                 </section>
-            </div>
+            </PureLayoutContainer>
         </PureLayout>
     );
 });
