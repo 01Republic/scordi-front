@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {ArrowLeft} from 'lucide-react';
 import {Avatar} from '^components/Avatar';
-import { NextImage } from '^components/NextImage';
+import {NextImage} from '^components/NextImage';
 
 export interface NewMember {
     profileImageUrl?: string;
@@ -36,8 +36,7 @@ export const ConnectingResultScreen = memo((props: ConnectingResultScreenProps) 
                     height={64}
                     loading="lazy"
                 />
-                총{' '}
-                {newMembers.length}명의 구성원을 불러왔어요
+                총 {newMembers.length}명의 구성원을 불러왔어요
             </div>
             <div className="grid grid-cols-2 gap-3">
                 {newMembers.map((member, index) => (

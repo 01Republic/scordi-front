@@ -2,11 +2,11 @@ import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
 import {Connectors} from '^pages/orgs/[id]/onboarding/members/connects/[connectorName]';
 import {OrgOnboardingNotificationsConnectsPageRoute} from '^pages/orgs/[id]/onboarding/notifications/connects/[connectorName]';
-import {OnboadingLayout} from '../OnboadingLayout';
+import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
 import {ConnectButton} from '../OrgOnboardingMembersPage/ConnectButton';
+import {OnboadingLayout} from '../OnboadingLayout';
 
 export const OrgOnboardingNotificationsPage = memo(() => {
     const router = useRouter();
@@ -18,7 +18,7 @@ export const OrgOnboardingNotificationsPage = memo(() => {
             title={`놓치기 쉬운 구독 변동, \n슬랙 알림 받아보세요 `}
             description={`월별 구독 현황 레포트와 비용과 시트 변동 사항을\n슬랙 알림을 통해 빠르게 확인할 수 있어요.`}
             image="/images/examples/ex_slack.png"
-            onSkip={() => router.push(OrgOnboardingRequestPageRoute.path(orgId))}
+            onSkip={() => router.push(OrgOnboardingCompletePageRoute.path(orgId))}
             button={
                 <ConnectButton
                     src="/images/logo/external/logo_slack.png"

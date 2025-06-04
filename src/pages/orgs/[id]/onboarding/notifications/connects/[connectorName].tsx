@@ -48,7 +48,14 @@ export default function OrgConnectorDetailPage() {
     if (!orgId || isNaN(orgId) || !connectorName) return <></>;
 
     if (connectorName === Connectors.slack)
-        return <SlackConnectorPage onNext={() => router.push(OrgOnboardingCompletePageRoute.path(orgId))} />;
+        return (
+            <SlackConnectorPage
+                onNext={() => {
+                    console.log('onNext');
+                    router.push(OrgOnboardingCompletePageRoute.path(orgId));
+                }}
+            />
+        );
 
     return (
         <div>

@@ -3,8 +3,8 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {Button} from '^public/components/ui/button';
-import {OrgSubscriptionConnectsPageRoute} from '^pages/orgs/[id]/subscriptions/connects';
-import {OnboadingLayout} from './OnboadingLayout';
+import {OrgOnboardingSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/onboarding/subscription/connection';
+import {OnboadingLayout} from '../OnboadingLayout';
 
 export const OrgOnboardingSubscriptionPage = memo(() => {
     const router = useRouter();
@@ -21,8 +21,7 @@ export const OrgOnboardingSubscriptionPage = memo(() => {
                     variant="scordi"
                     size="xxl"
                     onClick={() => {
-                        /* TODO: 구독 등록 완료하면 다음 스텝으로 가야겠지? 어떻게 보낼지 고민 필요 */
-                        router.push(OrgSubscriptionConnectsPageRoute.path(orgId));
+                        router.push(OrgOnboardingSubscriptionConnectionPageRoute.path(orgId));
                     }}
                 >
                     구독 불러오기

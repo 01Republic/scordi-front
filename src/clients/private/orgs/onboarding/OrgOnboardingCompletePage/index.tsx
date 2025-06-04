@@ -1,10 +1,10 @@
-import { useRecoilValue } from 'recoil';
-import { orgIdParamState } from '^atoms/common';
-import { OrgMainPageRoute } from '^pages/orgs/[id]';
-import { LinkTo } from '^components/util/LinkTo';
-import { BackButton } from '^components/BackButton';
-import { FullLogoImg } from '../../home/OrgMainPage/LogoImg';
-import { RotatingLogoCarousel } from './RotatingLogoCarousel';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {LinkTo} from '^components/util/LinkTo';
+import {BackButton} from '^components/BackButton';
+import {FullLogoImg} from '../../home/OrgMainPage/LogoImg';
+import {RotatingLogoCarousel} from './RotatingLogoCarousel';
 
 export const OrgOnboardingCompletePage = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -24,7 +24,7 @@ export const OrgOnboardingCompletePage = () => {
                         <RotatingLogoCarousel />
                     </div>
                     <LinkTo
-                        href={OrgMainPageRoute.path(orgId, { confetti: 'true' })}
+                        href={OrgMainPageRoute.path(orgId, {confetti: 'true'})}
                         className="btn btn-lg btn-scordi w-72"
                     >
                         완료

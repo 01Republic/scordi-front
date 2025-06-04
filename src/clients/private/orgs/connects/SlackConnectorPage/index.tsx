@@ -45,7 +45,7 @@ export const SlackConnectorPage = memo(function SlackConnectorPage({onNext}: Sla
     if (slackConfig) {
         return (
             <ConnectingResultScreen
-                onNext={() => (onNext ? onNext : router.push(OrgOnboardingRequestPageRoute.path(orgId)))}
+                onNext={() => (onNext ? onNext() : router.push(OrgOnboardingRequestPageRoute.path(orgId)))}
                 newMembers={newMembers}
             />
         );
