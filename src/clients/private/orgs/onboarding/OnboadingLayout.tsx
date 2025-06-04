@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
-import { NextImage } from '^components/NextImage';
+import {NextImage} from '^components/NextImage';
 
 interface OnboadingLayoutProps {
     step: number;

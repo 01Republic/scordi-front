@@ -8,7 +8,11 @@ import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request
 import {ConnectingResultScreen, NewMember} from '../ConnectingResultScreen';
 import {SlackBeforeConnectPage} from './SlackBeforeConnectPage';
 
-export const SlackConnectorPage = memo(function SlackConnectorPage() {
+interface SlackConnectorPageProps {
+    onNext?: () => void;
+}
+
+export const SlackConnectorPage = memo(function SlackConnectorPage({onNext}: SlackConnectorPageProps) {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {findSlack} = useIntegrationWorkspaceInSettingPage(orgId);
@@ -41,7 +45,7 @@ export const SlackConnectorPage = memo(function SlackConnectorPage() {
     if (slackConfig) {
         return (
             <ConnectingResultScreen
-                onNext={() => router.push(OrgOnboardingRequestPageRoute.path(orgId))}
+                onNext={() => (onNext ? onNext : router.push(OrgOnboardingRequestPageRoute.path(orgId)))}
                 newMembers={newMembers}
             />
         );
