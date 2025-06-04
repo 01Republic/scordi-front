@@ -1,8 +1,7 @@
 import {ImgHTMLAttributes, memo} from 'react';
-import {useRouter} from 'next/router';
 import {useSetRecoilState} from 'recoil';
-import { NextImage } from '^components/NextImage';
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import {NextImage} from '^components/NextImage';
 import {OutLink} from '^components/OutLink';
 import {BackButton} from '^components/BackButton';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
@@ -12,7 +11,6 @@ import {SafeBadge} from '../SafeBadge';
 import {googleWorkspaceAccessTokenAtom} from './atom';
 
 export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBeforeConnectPage() {
-    const router = useRouter();
     const setAccessToken = useSetRecoilState(googleWorkspaceAccessTokenAtom);
 
     return (
@@ -30,7 +28,6 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                         width={48}
                         height={48}
                     />
-
 
                     <SafeBadge />
                 </div>

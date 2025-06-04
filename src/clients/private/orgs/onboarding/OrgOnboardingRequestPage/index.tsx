@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
-import { LinkTo } from '^components/util/LinkTo';
+import {LinkTo} from '^components/util/LinkTo';
 import {OnboadingLayout} from '^clients/private/orgs/onboarding/OnboadingLayout';
 import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
 import {OrgOnboardingRequestNewPageRoute} from '^pages/orgs/[id]/onboarding/request/new';
