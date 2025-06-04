@@ -3,11 +3,11 @@ import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
-import LoadingScreen from '../../subscriptions/connection-steps/common/LoadingScreen';
 import {ErrorScreen} from '../ErrorScreen';
 import {ConnectingResultScreen, NewMember} from '../ConnectingResultScreen';
 import {useExcelUpload} from './useExcelUpload';
 import {ExcelBeforeConnectPage} from './ExcelBeforeConnectPage';
+import {LoadingScreen} from '^clients/private/_components/pages/assets/connect-steps/common/LoadingScreen';
 
 export const ExcelConnectorPage = memo(function ExcelConnectorPage() {
     const router = useRouter();
@@ -48,7 +48,7 @@ export const ExcelConnectorPage = memo(function ExcelConnectorPage() {
             <div className="h-lvh flex flex-col items-center justify-center">
                 <LoadingScreen
                     message="입력한 정보를 기반으로\n구성원을 불러오고 있어요"
-                    onComplete={() => {
+                    onClose={() => {
                         const {state: currentState} = useExcelUpload(orgId);
                         currentState.isLoading = false;
                         currentState.isComplete = true;

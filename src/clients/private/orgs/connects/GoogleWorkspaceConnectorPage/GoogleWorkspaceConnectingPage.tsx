@@ -5,8 +5,8 @@ import {ApiError} from '^api/api';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
-import LoadingScreen from '../../subscriptions/connection-steps/common/LoadingScreen';
 import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
+import {LoadingScreen} from '^clients/private/_components/pages/assets/connect-steps/common/LoadingScreen';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
@@ -83,7 +83,13 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
 
     return (
         <div className="h-lvh flex flex-col items-center justify-center">
-            <LoadingScreen message="입력한 정보를 기반으로\n구성원을 불러오고 있어요" onComplete={() => {}} />
+            <LoadingScreen
+                message="입력한 정보를 기반으로\n구성원을 불러오고 있어요"
+                onClose={() => {
+                    setIsLoading(false);
+                    setAccessToken(null);
+                }}
+            />
         </div>
 
         // <div className="py-10 px-12">
