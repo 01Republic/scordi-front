@@ -66,7 +66,10 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
                         CodefApiResultCode.UNREGISTERED_OR_DELETED_CERTIFICATE,
                         CodefApiResultCode.CERTIFICATION_CREATE_FAILED,
                         CodefApiResultCode.ORG_NOT_FOUND,
+                        CodefApiResultCode.ORGANIZATION_ACTION_UNSUPPORTED,
                         CodefApiResultCode.CHECK_ORG_AGAIN,
+                        CodefApiResultCode.SIGNATURE_DATA_INVALID,
+                        CodefApiResultCode.CERTIFICATE_PROCESS_ERROR,
                     ].includes(error.code)
                 ) {
                     return false;
