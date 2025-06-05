@@ -65,7 +65,7 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
                     className="w-full"
                     Trigger={() => (
                         <DriveButton
-                            isActive={typeof activeDrivePath !== 'undefined' && activeDrivePath !== ''}
+                            isActive={isHovered || (typeof activeDrivePath !== 'undefined' && activeDrivePath !== '')}
                             Icon={() => <Usb className="size-14" />}
                             name="이동식디스크"
                         />
