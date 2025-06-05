@@ -164,7 +164,22 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                 {failedCompanies.length > 0 && <AssetsConnectStepFlashHandler failures={failedCompanies} />}
 
                 {disabled ? (
-                    <EmptyTable message="연동된 자산이 없어요" />
+                    isLoadingMsg ? (
+                        <EmptyTable
+                            className="py-0"
+                            Icon={() => (
+                                <DotLottieReact
+                                    src={LOTTIE_SRC.LOADING_SEARCHING}
+                                    loop
+                                    autoplay
+                                    className="h-40 -mb-4"
+                                />
+                            )}
+                            message={isLoadingMsg || '계좌 정보 조회중'}
+                        />
+                    ) : (
+                        <EmptyTable message="연동된 자산이 없어요" />
+                    )
                 ) : (
                     <>
                         {codefBankAccountsQuery.data.length > 0 && (
