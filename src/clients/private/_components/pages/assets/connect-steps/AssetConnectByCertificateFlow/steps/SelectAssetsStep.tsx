@@ -2,7 +2,7 @@ import React, {memo, ReactNode, useMemo, useState} from 'react';
 import {isDefinedValue} from '^utils/array';
 import {useOrgIdParam} from '^atoms/common';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {LottieNoSSR} from '^components/LottieNoSSR';
+import {LOTTIE_SRC, LottieNoSSR} from '^components/LottieNoSSR';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
@@ -20,6 +20,7 @@ import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelecto
 import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
 import {LinkTo} from '^components/util/LinkTo';
 import {ArrowLeft} from 'lucide-react';
+import {DotLottieReact} from '@lottiefiles/dotlottie-react';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -142,7 +143,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                                 // 방금 등록하고 넘어온 경우
                                 return disabled ? undefined : (
                                     <LottieNoSSR
-                                        src="https://lottie.host/9e42fdb6-462d-47b1-8c05-b7c407ea89a6/71V7dYZsgm.lottie"
+                                        src={LOTTIE_SRC.CLAP}
                                         loop
                                         autoplay
                                         className={`w-[82px] h-24`}

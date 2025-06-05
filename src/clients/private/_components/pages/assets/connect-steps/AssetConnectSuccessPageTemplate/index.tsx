@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {LottieNoSSR} from '^components/LottieNoSSR';
+import {LOTTIE_SRC, LottieNoSSR} from '^components/LottieNoSSR';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {NextStepButton} from '../common/NextStepButton';
 import {StatusHeader} from '../common/StatusHeader';
@@ -82,7 +82,7 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                     icon={
                         isLoading ? undefined : subscriptions.length > 0 ? (
                             <LottieNoSSR
-                                src="https://lottie.host/9e42fdb6-462d-47b1-8c05-b7c407ea89a6/71V7dYZsgm.lottie"
+                                src={LOTTIE_SRC.CLAP}
                                 loop
                                 autoplay
                                 className="w-[82px] h-24"
