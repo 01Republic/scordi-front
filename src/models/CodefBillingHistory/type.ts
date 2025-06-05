@@ -59,6 +59,8 @@ export class CodefBillingHistoryDto {
     resAccountDesc2: string; // 거래내역 비고2 [거래구분/메모]
     resAccountDesc3: string; // 거래내역 비고3 [적요]
     resAccountDesc4: string; // 거래내역 비고4 [거래점]
+    computedAccountDesc: string; // 파서를 위한 비고들이 합쳐진 컬럼
+
     @TypeCast(() => Number) resAfterTranBalance: number; // 거래후 잔액
 
     @TypeCast(() => Date) paidAt: Date | undefined;
