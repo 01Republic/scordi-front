@@ -70,7 +70,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/NH.png',
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://ibz.nonghyup.com/servlet/ICCNP1000S.view',
     },
     {
@@ -80,7 +80,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/NH.png',
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://banking.nonghyup.com/servlet/IPCNPA000I.view',
     },
     {
@@ -90,7 +90,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/IBK.png',
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
     },
     {
@@ -100,7 +100,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/IBK.png',
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.shinhancard.com/pconts/html/main.html',
     },
     {
@@ -110,7 +110,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SU.png',
         themeColor: '#e30614',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
     },
     {
@@ -120,7 +120,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SU.png',
         themeColor: '#e30614',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.lottecard.co.kr/app/LPMAIAA_V100.lc?LPTKN=',
     },
     {
@@ -130,7 +130,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KB.png',
         themeColor: '#60584c',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://biz.kbcard.com/CXORMPIC0001.cms',
     },
     {
@@ -140,7 +140,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KB.png',
         themeColor: '#60584c',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://card.kbcard.com/CMN/DVIEW/HOAMCXPRIZZC0002',
     },
     {
@@ -150,7 +150,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SHP.png',
         themeColor: '#f14755',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://wisebiz.bccard.com/app/corp/ComLoginActn.corp',
     },
     {
@@ -160,7 +160,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SHP.png',
         themeColor: '#f14755',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.bccard.com/app/card/MainActn.do',
     },
     {
@@ -170,7 +170,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/HN.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -180,7 +180,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/HN.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -190,7 +190,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SHN.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -200,7 +200,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SHN.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -210,7 +210,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SC.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -220,7 +220,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SC.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -230,7 +230,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/WR.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -240,7 +240,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/WR.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -250,7 +250,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/CITI.png',
         themeColor: '#066bae',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://koreacitidirect.citigroup.com/index.jsp',
     },
     {
@@ -260,7 +260,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/CITI.png',
         themeColor: '#066bae',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.citibank.co.kr/ComLognLogn0100.act',
     },
     {
@@ -270,7 +270,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/IM.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -280,7 +280,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/IM.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -290,7 +290,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KBANK.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -300,7 +300,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KBANK.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -310,7 +310,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/JB.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -320,7 +320,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/JB.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -330,7 +330,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/BNK.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -340,7 +340,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/BNK.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -350,7 +350,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SM.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -360,7 +360,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SM.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -370,7 +370,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SHB.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -380,7 +380,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SHB.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -390,7 +390,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/UC.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -400,7 +400,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/UC.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -410,7 +410,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/TOSS.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -420,7 +420,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/TOSS.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -430,7 +430,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/BS.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -440,7 +440,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/BS.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -450,7 +450,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KKO.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -460,7 +460,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KKO.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -470,7 +470,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SBI.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -480,7 +480,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/SBI.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -490,7 +490,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KJ.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -500,7 +500,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/KJ.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
@@ -510,7 +510,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/JJ.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
@@ -520,7 +520,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         logo: '/logo/banks/JJ.png',
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
-        loginType: CodefLoginType.IdAccount,
+        loginType: CodefLoginType.Certificate,
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
 ];
