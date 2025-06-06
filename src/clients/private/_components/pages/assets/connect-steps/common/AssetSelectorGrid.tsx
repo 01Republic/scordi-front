@@ -1,9 +1,9 @@
-import React, {memo} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {WithChildren} from '^types/global.type';
 import {AllSelectInstitutionOptions} from './AllSelectInstitutionOptions';
 
 interface AssetSelectorGridProps extends WithChildren {
-    title: string;
+    title: ReactNode;
     isAllSelected?: boolean;
     onSelectAll?: () => any;
     isLoading?: boolean;

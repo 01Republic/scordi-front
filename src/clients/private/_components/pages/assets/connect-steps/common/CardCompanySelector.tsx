@@ -3,14 +3,14 @@ import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
-import {useCodefAccount} from '^models/CodefCard/hook';
-import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
 import {InstitutionOption} from './InstitutionOption';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {codefAccountApi} from '^models/CodefAccount/api';
 
 interface CardCompanySelectorProps {
     createMoreAccountContext?: boolean;
@@ -24,7 +24,6 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
     const {createMoreAccountContext = false, codefAccounts = [], onSelect, reload} = props;
     const orgId = useOrgIdParam();
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount} = useCodefAccount(CodefLoginType.IdAccount);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
     const companies = CardAccountsStaticData.findByClientType(clientType);
@@ -45,7 +44,7 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
             );
 
         confirmed(disconnectConfirm())
-            .then(() => removeCodefAccount({orgId, accountId}))
+            .then(() => codefAccountApi.destroy(orgId, accountId))
             .then(() => toast.success('연결을 해제했어요.'))
             .then(() => reload && reload())
             .catch(errorToast);
