@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {isDefinedValue} from '^utils/array';
 import {useOrgIdParam} from '^atoms/common';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
@@ -7,6 +7,9 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {useSyncCodefAssets} from '^models/_codef/hooks';
 import {LoadingScreen2} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
+import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
+import {LoopText, WithLoopText} from '^utils/TypeWritter';
+import {Typewriter} from 'react-simple-typewriter';
 
 interface ConnectAssetsStepProps {
     codefAssets: (CodefBankAccountDto | CodefCardDto)[];
@@ -25,18 +28,76 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
 
     const totalCount = results.length;
     const finishedCount = results.filter((result) => result.isFetched).length;
+    const percentage = totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0;
 
     // const successes = results.filter((result) => !result.isError);
     // const failures = results.filter((result) => result.isError);
     // const errors = results.map((result) => result.error).filter(isDefinedValue);
     const scordiAssets = results.map((result) => result.data).filter(isDefinedValue);
 
+    /** 결제내역 불러오고 구독 파싱하는 중인 상태 */
     return (
         <LoadingScreen2
-            message={title || `선택한 계좌와 카드를 기준으로 구독을 찾고 있어요`}
-            percentage={totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0}
+            message={(() => (
+                <Sequence
+                    steps={[
+                        (props) => (
+                            <SequenceStep delay={5000} {...props}>
+                                <WithLoopText text="연동한 자산을 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 5s
+                        (props) => (
+                            <SequenceStep delay={15000} {...props}>
+                                <WithLoopText text="반복 결제내역을 추리고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 20s
+                        (props) => (
+                            <SequenceStep delay={15000} {...props}>
+                                <WithLoopText text="매칭되는 서비스를 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 35s
+                        (props) => (
+                            <SequenceStep delay={25000} {...props}>
+                                <WithLoopText text="꼼꼼히 확인하는 중이에요. 잠시만 기다려주세요" absolute />
+                            </SequenceStep>
+                        ), // 50s
+                        (props) => (
+                            <SequenceStep delay={10000} {...props}>
+                                <WithLoopText text="마지막으로 데이터를 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 60s
+                    ]}
+                />
+            ))()}
+            percentage={percentage}
             onFinish={() => onNext(scordiAssets)}
             minTimeout={5 * 1000}
+            children={
+                percentage > 0 ? undefined : (
+                    <div className="text-primaryColor-900 text-lg font-medium">
+                        <Sequence
+                            steps={[
+                                (props) => (
+                                    <SequenceStep delay={10000} {...props}>
+                                        <Typewriter words={['동기화 하는 중']} />
+                                    </SequenceStep>
+                                ), // 10s
+                                (props) => (
+                                    <SequenceStep delay={20000} {...props}>
+                                        <Typewriter words={['최대 1분 정도 소요될 수 있어요']} />
+                                    </SequenceStep>
+                                ), // 30s
+                                (props) => (
+                                    <SequenceStep delay={70000} {...props}>
+                                        <Typewriter words={['열심히 찾는 중이에요']} />
+                                    </SequenceStep>
+                                ), // 100s -> loop
+                            ]}
+                            loop
+                        />
+                    </div>
+                )
+            }
         />
     );
 });

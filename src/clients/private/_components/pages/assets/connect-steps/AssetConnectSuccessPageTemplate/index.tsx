@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -17,6 +17,8 @@ import {FindOptionsWhere} from '^types/utils/find-options';
 import {queriesCombine} from '^utils/useQueries';
 import {LoadableBox} from '^components/util/loading';
 import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
+import {unitFormat} from '^utils/number';
+import {WithLoopText} from '^utils/TypeWritter';
 
 interface AssetConnectSuccessPageTemplateProps {
     assets: (CreditCardDto | BankAccountDto)[];
@@ -63,22 +65,24 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
         <PureLayout>
             <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
-                    title={
-                        isLoading ? (
-                            '로딩중...'
-                        ) : subscriptions.length > 0 ? (
-                            `총 ${subscriptions.length}개의 구독을 불러왔어요`
-                        ) : (
-                            <span onClick={() => refetch()}>구독을 찾지 못했어요</span>
-                        )
-                    }
-                    subTitle={
-                        isLoading
-                            ? ''
-                            : subscriptions.length > 0
+                    title={(() => {
+                        if (isLoading) return <WithLoopText text="로딩중" />;
+
+                        return (
+                            <span onClick={() => refetch()}>
+                                {subscriptions.length > 0
+                                    ? `총 ${unitFormat(subscriptions.length)}의 구독을 불러왔어요`
+                                    : `구독을 찾지 못했어요`}
+                            </span>
+                        );
+                    })()}
+                    subTitle={(() => {
+                        if (isLoading) return '';
+
+                        return subscriptions.length > 0
                             ? undefined
-                            : '결제수단에서 구독서비스 지출 이력이 없거나, 스코디가 처음보는 서비스일 수도 있어요.'
-                    }
+                            : '결제수단에서 구독서비스 지출 이력이 없거나, 스코디가 처음보는 서비스일 수도 있어요.';
+                    })()}
                     icon={
                         isLoading ? undefined : subscriptions.length > 0 ? (
                             <LottieNoSSR

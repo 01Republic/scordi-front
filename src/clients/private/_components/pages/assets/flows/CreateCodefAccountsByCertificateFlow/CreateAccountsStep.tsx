@@ -87,46 +87,45 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
             .filter(isDefinedValue);
     })();
 
+    /** 공동인증서로 기관 계정 등록 진행중 상태 */
     return (
         <LoadingScreen2
-            message={(() => {
-                return (
-                    <Sequence
-                        steps={[
-                            (props) => (
-                                <SequenceStep delay={3000} {...props}>
-                                    <WithLoopText text="안전한 연결을 확인하고 있어요" />
-                                </SequenceStep>
-                            ), // 3s
-                            (props) => (
-                                <SequenceStep delay={5000} {...props}>
-                                    <WithLoopText text="선택한 기관에서 인증서를 확인하고 있어요" />
-                                </SequenceStep>
-                            ), // 8s
-                            (props) => (
-                                <SequenceStep delay={3000} {...props}>
-                                    <WithLoopText text="인증서를 통해 계좌와 카드를 찾고 있어요" />
-                                </SequenceStep>
-                            ), // 11s
-                            (props) => (
-                                <SequenceStep delay={10000} {...props}>
-                                    <WithLoopText text="최신 정보를 불러오고 있어요" />
-                                </SequenceStep>
-                            ), // 21s
-                            (props) => (
-                                <SequenceStep delay={10000} {...props}>
-                                    <WithLoopText text="데이터를 정리하고 있어요" />
-                                </SequenceStep>
-                            ), // 31s
-                            (props) => (
-                                <SequenceStep delay={19000} {...props}>
-                                    <WithLoopText text="거의 다 마쳤어요 잠시만 기다려주세요" />
-                                </SequenceStep>
-                            ), // 50s
-                        ]}
-                    />
-                );
-            })()}
+            message={(() => (
+                <Sequence
+                    steps={[
+                        (props) => (
+                            <SequenceStep delay={3000} {...props}>
+                                <WithLoopText text="안전한 연결을 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 3s
+                        (props) => (
+                            <SequenceStep delay={5000} {...props}>
+                                <WithLoopText text="선택한 기관에서 인증서를 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 8s
+                        (props) => (
+                            <SequenceStep delay={3000} {...props}>
+                                <WithLoopText text="인증서를 통해 계좌와 카드를 찾고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 11s
+                        (props) => (
+                            <SequenceStep delay={10000} {...props}>
+                                <WithLoopText text="최신 정보를 불러오고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 21s
+                        (props) => (
+                            <SequenceStep delay={10000} {...props}>
+                                <WithLoopText text="데이터를 정리하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 31s
+                        (props) => (
+                            <SequenceStep delay={19000} {...props}>
+                                <WithLoopText text="거의 다 마쳤어요 잠시만 기다려주세요" absolute />
+                            </SequenceStep>
+                        ), // 50s
+                    ]}
+                />
+            ))()}
             percentage={percentage}
             onFinish={() => onNext(createdAccountIds, failedCompanies, results)}
             minTimeout={3 * 1000}
