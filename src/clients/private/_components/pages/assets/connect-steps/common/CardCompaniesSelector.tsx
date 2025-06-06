@@ -25,7 +25,7 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
     const {selectedCompanies, setSelectedCompanies} = props;
 
     const orgId = useOrgIdParam();
-    const {getCardAccounts, isFetching} = useCodefAccountsInConnectorV2(orgId);
+    const {getCardAccounts, isFetching, refetch} = useCodefAccountsInConnectorV2(orgId);
     const form = useFormContext<CreateAccountRequestDto>();
     const {removeCodefAccount} = useCodefAccount(CodefLoginType.Certificate);
 
@@ -76,6 +76,7 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
         confirmed(disconnectConfirm())
             .then(() => removeCodefAccount({orgId, accountId}))
             .then(() => toast.success('연결을 해제했어요.'))
+            .then(() => refetch())
             .catch(errorToast);
     };
 

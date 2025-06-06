@@ -16,11 +16,12 @@ interface CardCompanySelectorProps {
     createMoreAccountContext?: boolean;
     codefAccounts?: CodefAccountDto[];
     onSelect: (company: CardAccountsStaticData) => any;
+    reload?: () => any;
 }
 
 // 홈페이지계정 > 카드사 한개 선택
 export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
-    const {createMoreAccountContext = false, codefAccounts = [], onSelect} = props;
+    const {createMoreAccountContext = false, codefAccounts = [], onSelect, reload} = props;
     const orgId = useOrgIdParam();
     const form = useFormContext<CreateAccountRequestDto>();
     const {removeCodefAccount} = useCodefAccount(CodefLoginType.IdAccount);
@@ -46,6 +47,7 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
         confirmed(disconnectConfirm())
             .then(() => removeCodefAccount({orgId, accountId}))
             .then(() => toast.success('연결을 해제했어요.'))
+            .then(() => reload && reload())
             .catch(errorToast);
     };
 

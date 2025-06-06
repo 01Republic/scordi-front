@@ -32,7 +32,7 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
     const {ignorePreCheck = false, onBack, onFinish} = props;
     const orgId = useOrgIdParam();
     const [selectedCompany, setSelectedCompany] = useState<CardAccountsStaticData>();
-    const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
+    const {codefAccounts, isFetchedAfterMount, refetch} = useCodefAccountsInConnectorV2(orgId);
 
     const companyCodes = useMemo(() => CardAccountsStaticData.all().map((company) => company.param), []);
     const cardAccounts = codefAccounts.filter((account) => {
@@ -67,6 +67,7 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
                     codefAccounts={cardAccounts}
                     onBack={onBack}
                     onNext={setSelectedCompany}
+                    reload={() => refetch()}
                 />
             )}
 

@@ -14,10 +14,11 @@ interface AccountConnectStepProps {
     codefAccounts?: CodefAccountDto[];
     onBack: () => any;
     onNext: (company: CardAccountsStaticData) => any;
+    reload?: () => any;
 }
 
 export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
-    const {createMoreAccountContext = false, codefAccounts, onBack, onNext} = props;
+    const {createMoreAccountContext = false, codefAccounts, onBack, onNext, reload} = props;
 
     return (
         <PureLayout className="py-14">
@@ -50,6 +51,7 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
                     createMoreAccountContext={createMoreAccountContext}
                     codefAccounts={codefAccounts}
                     onSelect={onNext}
+                    reload={reload}
                 />
             </PureLayoutContainerSection>
         </PureLayout>
