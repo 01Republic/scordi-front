@@ -21,9 +21,7 @@ import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/P
 import {LinkTo} from '^components/util/LinkTo';
 import {ArrowLeft} from 'lucide-react';
 import {DotLottieReact} from '@lottiefiles/dotlottie-react';
-import {LoopText, WithLoopText} from '^utils/TypeWritter';
-import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
-import {delay} from '^components/util/delay';
+import {WithLoopText} from '^utils/TypeWritter';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -110,70 +108,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                 <div className="mx-auto max-w-6xl flex flex-col gap-10 px-4">
                     <StatusHeader
                         title={(() => {
-                            // return (
-                            //     <Sequence
-                            //         steps={[
-                            //             [
-                            //                 '어떤 자산으로부터 구독을 불러올까요?',
-                            //                 async () => {
-                            //                     await delay(3000);
-                            //                     return true;
-                            //                 },
-                            //             ],
-                            //             (props) => <SequenceStep content="hihi" delay={5000} {...props} />,
-                            //             (props) => (
-                            //                 <SequenceStep delay={5000} {...props}>
-                            //                     <div>
-                            //                         byebye <LoopText />
-                            //                     </div>
-                            //                 </SequenceStep>
-                            //             ),
-                            //             ['안전한 연결을 확인하고 있어요.', 5000],
-                            //             ['기관에서 정보를 불러오고 있어요.', 5000],
-                            //             ['거의 다 마쳤어요 잠시만 기다려주세요.', 5000],
-                            //         ]}
-                            //         loop
-                            //     />
-                            // );
-
-                            if (isLoadingMsg) {
-                                return (
-                                    <Sequence
-                                        steps={[
-                                            (props) => (
-                                                <SequenceStep delay={5000} {...props}>
-                                                    <WithLoopText text={isLoadingMsg} />
-                                                </SequenceStep>
-                                            ), // 5s
-                                            (props) => (
-                                                <SequenceStep delay={3000} {...props}>
-                                                    <WithLoopText text="최신 정보를 불러올게요" />
-                                                </SequenceStep>
-                                            ), // 8s
-                                            (props) => (
-                                                <SequenceStep delay={3000} {...props}>
-                                                    <WithLoopText text="안전한 연결을 확인하고 있어요" />
-                                                </SequenceStep>
-                                            ), // 11s
-                                            (props) => (
-                                                <SequenceStep delay={10000} {...props}>
-                                                    <WithLoopText text="최신 정보를 불러오고 있어요" />
-                                                </SequenceStep>
-                                            ), // 21s
-                                            (props) => (
-                                                <SequenceStep delay={10000} {...props}>
-                                                    <WithLoopText text="데이터를 정리하고 있어요" />
-                                                </SequenceStep>
-                                            ), // 31s
-                                            (props) => (
-                                                <SequenceStep delay={19000} {...props}>
-                                                    <WithLoopText text="거의 다 마쳤어요 잠시만 기다려주세요" />
-                                                </SequenceStep>
-                                            ), // 50s
-                                        ]}
-                                    />
-                                );
-                            }
+                            if (isLoadingMsg) return <WithLoopText text={isLoadingMsg} />;
 
                             if (isAfterAccountCreated) {
                                 // 방금 등록하고 넘어온 경우

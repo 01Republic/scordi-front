@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {UseQueryResult} from '@tanstack/react-query';
 import {ApiErrorResponse} from '^api/api';
@@ -15,6 +15,8 @@ import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStat
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {LoadingScreen2} from '../../connect-steps/common/LoadingScreen';
 import {CodefApiResultCode} from '^models/CodefAccount/codef-common';
+import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
+import {WithLoopText} from '^utils/TypeWritter';
 
 interface CreateAccountsStepProps {
     companies: CodefCompanyStaticData[];
@@ -42,6 +44,7 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
 
     const totalCount = results.length;
     const finishedCount = results.filter((result) => result.isFetched).length;
+    const percentage = totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0;
 
     // const successes = results.filter((result) => !result.isError);
     // const failures = results.filter((result) => result.isError);
@@ -86,8 +89,45 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
 
     return (
         <LoadingScreen2
-            message={'은행사 또는 카드사를 기준으로 계좌와 카드를 찾고 있어요'}
-            percentage={totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0}
+            message={(() => {
+                return (
+                    <Sequence
+                        steps={[
+                            (props) => (
+                                <SequenceStep delay={3000} {...props}>
+                                    <WithLoopText text="안전한 연결을 확인하고 있어요" />
+                                </SequenceStep>
+                            ), // 3s
+                            (props) => (
+                                <SequenceStep delay={5000} {...props}>
+                                    <WithLoopText text="선택한 기관에서 인증서를 확인하고 있어요" />
+                                </SequenceStep>
+                            ), // 8s
+                            (props) => (
+                                <SequenceStep delay={3000} {...props}>
+                                    <WithLoopText text="인증서를 통해 계좌와 카드를 찾고 있어요" />
+                                </SequenceStep>
+                            ), // 11s
+                            (props) => (
+                                <SequenceStep delay={10000} {...props}>
+                                    <WithLoopText text="최신 정보를 불러오고 있어요" />
+                                </SequenceStep>
+                            ), // 21s
+                            (props) => (
+                                <SequenceStep delay={10000} {...props}>
+                                    <WithLoopText text="데이터를 정리하고 있어요" />
+                                </SequenceStep>
+                            ), // 31s
+                            (props) => (
+                                <SequenceStep delay={19000} {...props}>
+                                    <WithLoopText text="거의 다 마쳤어요 잠시만 기다려주세요" />
+                                </SequenceStep>
+                            ), // 50s
+                        ]}
+                    />
+                );
+            })()}
+            percentage={percentage}
             onFinish={() => onNext(createdAccountIds, failedCompanies, results)}
             minTimeout={3 * 1000}
         />
