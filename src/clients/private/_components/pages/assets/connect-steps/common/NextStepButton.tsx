@@ -6,19 +6,24 @@ interface NextStepButtonProps {
     onClick?: () => void;
     disabled?: boolean;
     isLoading?: boolean;
+    className?: string;
 }
 
 export const NextStepButton = memo((props: NextStepButtonProps) => {
-    const {text = '다음', onClick, disabled, isLoading} = props;
+    const {text = '다음', onClick, disabled, isLoading, className = ''} = props;
     return (
         <button
             type="button"
             onClick={onClick}
-            className={cn('btn btn-lg btn-scordi btn-block sm:btn-wide no-animation btn-animation', {
-                'btn-scordi': !disabled,
-                'btn-disabled2 pointer-events-none': disabled,
-                loading: isLoading,
-            })}
+            className={cn(
+                'btn btn-lg btn-scordi btn-block sm:btn-wide no-animation btn-animation',
+                {
+                    'btn-scordi': !disabled,
+                    'btn-disabled2 pointer-events-none': disabled,
+                    loading: isLoading,
+                },
+                className,
+            )}
         >
             {text}
         </button>

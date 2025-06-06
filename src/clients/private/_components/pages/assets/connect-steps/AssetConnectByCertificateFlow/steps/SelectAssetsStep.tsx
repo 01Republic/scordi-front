@@ -203,16 +203,21 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
             </PureLayoutContainerSection>
 
             <PureLayoutContainerSection className="max-w-full sticky bottom-0 py-4 bg-layout-background flex items-center justify-center">
-                <NextStepButton
-                    disabled={!!isLoadingMsg || notSelected}
-                    onClick={() => onNext(selectedCodefBanks, selectedCodefCards, disabled, allConnected)}
-                    text={(() => {
-                        if (isLoadingMsg) return '불러오는중';
-                        if (allConnected) return disabledCTAButtonText || '완료';
-                        if (disabled) return disabledCTAButtonText || '완료';
-                        return '다음';
-                    })()}
-                />
+                {isLoadingMsg ? (
+                    <NextStepButton text="불러오는중" disabled />
+                ) : allConnected ? (
+                    <NextStepButton text="처음으로" onClick={onBack} />
+                ) : (
+                    <NextStepButton
+                        // 선택된 항목 유무에 따라 결정
+                        disabled={notSelected}
+                        onClick={() => onNext(selectedCodefBanks, selectedCodefCards, disabled, allConnected)}
+                        text={(() => {
+                            if (disabled) return disabledCTAButtonText || '완료';
+                            return '다음';
+                        })()}
+                    />
+                )}
             </PureLayoutContainerSection>
         </PureLayout>
     );
