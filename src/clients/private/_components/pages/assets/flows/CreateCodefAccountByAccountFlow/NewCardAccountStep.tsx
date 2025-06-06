@@ -20,6 +20,7 @@ import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-com
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {plainToast as toast} from '^hooks/useToast';
 import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
+import {LoopText} from '^utils/TypeWritter';
 
 interface NewCardAccountStepProps {
     company: CardAccountsStaticData;
@@ -142,6 +143,7 @@ export const NewCardAccountStep = memo((props: NewCardAccountStepProps) => {
                                     <span className="text-black">{cardName}</span>
                                     에
                                     <br /> 로그인 하고있어요
+                                    <LoopText text="..." />
                                 </h1>
                             ) : (
                                 <h1

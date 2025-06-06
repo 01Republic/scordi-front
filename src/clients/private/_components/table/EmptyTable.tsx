@@ -1,12 +1,12 @@
+import {memo, ReactNode} from 'react';
 import {Inbox} from 'lucide-react';
 import {ReactComponentLike} from 'prop-types';
-import {memo} from 'react';
 import {cn} from '^public/lib/utils';
 
 interface EmptyTableProps {
     className?: string;
     Icon?: () => JSX.Element;
-    message?: string;
+    message?: ReactNode;
     buttonText?: string;
     buttonAction?: () => void;
     Buttons?: ReactComponentLike;
