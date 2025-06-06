@@ -95,7 +95,6 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                         ) : undefined
                     }
                     onBack={() => router.back()}
-                    onMove={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
                 />
 
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
@@ -123,7 +122,20 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                 </LoadableBox>
 
                 <section className="w-full flex items-center justify-center">
-                    <NextStepButton text="완료" onClick={onNext} />
+                    <div className="flex items-center gap-2">
+                        <NextStepButton
+                            text="완료하고 마치기"
+                            onClick={onNext}
+                            className="btn-secondary"
+                            localLoading
+                        />
+                        <NextStepButton
+                            text="다른 자산도 찾아보기"
+                            onClick={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
+                            className="btn-scordi"
+                            localLoading
+                        />
+                    </div>
                 </section>
             </PureLayoutContainer>
         </PureLayout>
