@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {LOTTIE_SRC, LottieNoSSR} from '^components/LottieNoSSR';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 import {AssetAgreeTermSection} from './AssetAgreeTermSection';
 
 export const AssetCreateMethodSelect = memo(() => {
@@ -14,7 +14,7 @@ export const AssetCreateMethodSelect = memo(() => {
             <div className="flex flex-col gap-16">
                 <section className="flex flex-col gap-10">
                     <div className="flex items-center gap-2">
-                        <LottieNoSSR
+                        <Lottie
                             src={LOTTIE_SRC.SECURITY_SHIELD_FOR_CERT}
                             loop
                             autoplay

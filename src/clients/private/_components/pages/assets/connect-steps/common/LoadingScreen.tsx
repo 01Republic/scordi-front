@@ -1,11 +1,10 @@
 import {Fragment, ReactNode, useEffect, useState} from 'react';
-import {DotLottieReact} from '@lottiefiles/dotlottie-react';
 import NumberFlow from '@number-flow/react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
 import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
-import {LOTTIE_SRC} from '^components/LottieNoSSR';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 
 interface LoadingScreenProps extends WithChildren {
     message?: string;
@@ -58,7 +57,7 @@ export const LoadingScreen = (props: LoadingScreenProps) => {
                 </div>
 
                 <div className="w-64">
-                    <DotLottieReact src={LOTTIE_SRC.LOADING_BUBBLE_SWIPE} loop autoplay />
+                    <Lottie src={LOTTIE_SRC.LOADING_BUBBLE_SWIPE} loop autoplay />
                 </div>
 
                 {children || (
@@ -105,7 +104,7 @@ export const LoadingScreen2 = (props: Props) => {
                 </div>
 
                 <div className="w-64">
-                    <DotLottieReact src={LOTTIE_SRC.LOADING_BUBBLE_SWIPE} loop autoplay />
+                    <Lottie src={LOTTIE_SRC.LOADING_BUBBLE_SWIPE} loop autoplay />
                 </div>
 
                 {children || (

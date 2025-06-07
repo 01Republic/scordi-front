@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {LOTTIE_SRC, LottieNoSSR} from '^components/LottieNoSSR';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
@@ -29,13 +29,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
                 <StatusHeader
                     title="자산 연동이 완료되었어요"
                     icon={
-                        <LottieNoSSR
-                            src={LOTTIE_SRC.CLAP}
-                            loop
-                            autoplay
-                            className="w-[82px] h-24"
-                            layout={{fit: 'fill'}}
-                        />
+                        <Lottie src={LOTTIE_SRC.CLAP} loop autoplay className="w-[82px] h-24" layout={{fit: 'fill'}} />
                     }
                     onBack={() => router.back()}
                 />

@@ -2,7 +2,7 @@ import React, {memo, ReactNode, useMemo, useState} from 'react';
 import {isDefinedValue} from '^utils/array';
 import {useOrgIdParam} from '^atoms/common';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {LOTTIE_SRC, LottieNoSSR} from '^components/LottieNoSSR';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
@@ -20,7 +20,6 @@ import {SuccessConnectCardSelector} from './_component/SuccessConnectCardSelecto
 import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
 import {LinkTo} from '^components/util/LinkTo';
 import {ArrowLeft} from 'lucide-react';
-import {DotLottieReact} from '@lottiefiles/dotlottie-react';
 import {WithLoopText} from '^utils/TypeWritter';
 
 interface SelectAssetsStepProps {
@@ -143,7 +142,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                             if (isAfterAccountCreated) {
                                 // 방금 등록하고 넘어온 경우
                                 return disabled ? undefined : (
-                                    <LottieNoSSR
+                                    <Lottie
                                         src={LOTTIE_SRC.CLAP}
                                         loop
                                         autoplay
@@ -169,12 +168,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                         <EmptyTable
                             className="py-0"
                             Icon={() => (
-                                <DotLottieReact
-                                    src={LOTTIE_SRC.LOADING_SEARCHING}
-                                    loop
-                                    autoplay
-                                    className="h-40 -mb-4"
-                                />
+                                <Lottie src={LOTTIE_SRC.LOADING_SEARCHING} loop autoplay className="h-40 -mb-4" />
                             )}
                             message={isLoadingMsg || '계좌 정보 조회중'}
                         />
