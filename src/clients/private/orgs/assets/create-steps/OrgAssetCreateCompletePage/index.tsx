@@ -38,8 +38,8 @@ export const OrgAssetCreateCompletePage = memo(() => {
                     <EmptyTable message="연동된 자산이 없어요" />
                 ) : (
                     <div className="flex flex-col gap-10">
-                        <SuccessBankAccountsSection bankAccounts={bankAccounts} />
                         <SuccessCreditCardsSection creditCards={creditCards} />
+                        <SuccessBankAccountsSection bankAccounts={bankAccounts} />
                     </div>
                 )}
 

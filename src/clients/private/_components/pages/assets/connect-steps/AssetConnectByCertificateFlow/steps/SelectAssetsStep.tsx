@@ -177,19 +177,19 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     )
                 ) : (
                     <>
-                        {codefBankAccountsQuery.data.length > 0 && (
-                            <SuccessConnectBankSelector
-                                codefBankAccounts={codefBankAccountsQuery.data}
-                                isLoading={codefBankAccountsQuery.isLoading}
-                                onSelect={setSelectedCodefBanks}
-                            />
-                        )}
-
                         {codefCardsQuery.data.length > 0 && (
                             <SuccessConnectCardSelector
                                 codefCards={codefCardsQuery.data}
                                 isLoading={codefCardsQuery.isLoading}
                                 onSelect={setSelectedCodefCards}
+                            />
+                        )}
+
+                        {codefBankAccountsQuery.data.length > 0 && (
+                            <SuccessConnectBankSelector
+                                codefBankAccounts={codefBankAccountsQuery.data}
+                                isLoading={codefBankAccountsQuery.isLoading}
+                                onSelect={setSelectedCodefBanks}
                             />
                         )}
                     </>
