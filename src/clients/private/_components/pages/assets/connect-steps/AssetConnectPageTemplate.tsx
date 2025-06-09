@@ -98,7 +98,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                                         setStep(AssetConnectStep.SelectAssetsStep);
                                         setIsAppendable(false);
                                     } else {
-                                        form.resetField('loginType');
+                                        form.reset({loginType: undefined});
                                     }
                                 }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
@@ -119,7 +119,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                                         setStep(AssetConnectStep.SelectAssetsStep);
                                         setIsAppendable(false);
                                     } else {
-                                        form.resetField('loginType');
+                                        form.reset({loginType: undefined});
                                     }
                                 }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
@@ -145,7 +145,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                     onBack={() => {
                         // 공동인증서로 조회한 경우 => 등록방법 선택p 로 이동. (그렇지않으면 기관 선택p 로 이동.)
                         if (form.getValues('loginType') === CodefLoginType.Certificate) {
-                            form.resetField('loginType');
+                            form.reset({loginType: undefined});
                         }
                         setIsAfterAccountCreated(false);
                         setStep(AssetConnectStep.AccountCreateStep);
