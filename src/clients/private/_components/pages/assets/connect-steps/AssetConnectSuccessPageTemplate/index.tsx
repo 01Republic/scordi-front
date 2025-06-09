@@ -83,8 +83,10 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                             ? undefined
                             : '결제수단에서 구독서비스 지출 이력이 없거나, 스코디가 처음보는 서비스일 수도 있어요.';
                     })()}
-                    icon={
-                        isLoading ? undefined : subscriptions.length > 0 ? (
+                    icon={(() => {
+                        if (isLoading) return undefined;
+
+                        return subscriptions.length > 0 ? (
                             <Lottie
                                 src={LOTTIE_SRC.CLAP}
                                 loop
@@ -92,36 +94,36 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                                 className="w-[82px] h-24"
                                 layout={{fit: 'fill'}}
                             />
-                        ) : undefined
-                    }
+                        ) : undefined;
+                    })()}
                     onBack={() => router.back()}
                 />
 
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                     {subscriptions.length === 0 ? (
                         isLoading ? (
-                            ''
+                            <EmptyTable message="불러온 구독이 없어요" className="invisible" />
                         ) : (
                             <EmptyTable message="불러온 구독이 없어요" />
                         )
                     ) : (
                         <ul className="grid grid-cols-4 gap-8 w-full">
-                            {subscriptions.map((subscription) => {
-                                const {product} = subscription;
-
-                                return (
-                                    <SubscriptionItem
-                                        key={subscription.id}
-                                        title={product.name()}
-                                        logo={product.image}
-                                    />
-                                );
-                            })}
+                            {subscriptions.map((subscription) => (
+                                <SubscriptionItem
+                                    key={subscription.id}
+                                    title={subscription.product.name()}
+                                    logo={subscription.product.image}
+                                />
+                            ))}
                         </ul>
                     )}
                 </LoadableBox>
 
-                <section className="w-full flex items-center justify-center">
+                <section
+                    className={`w-full flex items-center justify-center transition-all ${
+                        subscriptions.length === 0 && isLoading ? 'opacity-0' : ''
+                    }`}
+                >
                     <div className="flex items-center gap-2">
                         <NextStepButton
                             text="완료하고 마치기"
@@ -131,7 +133,7 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                         />
                         <NextStepButton
                             text="다른 자산도 찾아보기"
-                            onClick={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
+                            onClick={() => router.replace(OrgSubscriptionConnectionPageRoute.path(orgId))}
                             className="btn-scordi"
                             localLoading
                         />
