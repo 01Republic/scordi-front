@@ -17,12 +17,16 @@ interface ConnectionSuccessItemSelectProps {
 export const ConnectedItem = memo((props: ConnectionSuccessItemSelectProps) => {
     const {url, mainText, subText, icon, onClick, isSelected = false, isDisabled = false, comment = ''} = props;
 
+    const isClickable = !!onClick;
+
     return (
         <li
             onClick={isDisabled ? undefined : onClick}
             className={cn(
                 'w-full rounded-btn py-3.5 px-4 flex items-center justify-between transition-all group',
-                isDisabled ? 'cursor-not-allowed bg-gray-500/20' : 'cursor-pointer hover:shadow-lg',
+                isDisabled
+                    ? 'cursor-not-allowed bg-gray-500/20'
+                    : `${isClickable ? 'cursor-pointer hover:shadow-lg' : ''}`,
                 isSelected ? 'bg-primaryColor-bg border border-primaryColor-900' : 'bg-white border border-white',
             )}
         >
@@ -47,7 +51,9 @@ export const ConnectedItem = memo((props: ConnectionSuccessItemSelectProps) => {
                     strokeWidth={3}
                     className={cn(
                         'text-20',
-                        isSelected ? 'text-indigo-500' : 'text-transparent group-hover:text-indigo-200',
+                        isSelected
+                            ? 'text-indigo-500'
+                            : `text-transparent ${isClickable ? 'group-hover:text-indigo-200' : ''}`,
                     )}
                 />
             </div>
