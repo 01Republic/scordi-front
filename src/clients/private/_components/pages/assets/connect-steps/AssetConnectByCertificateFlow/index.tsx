@@ -7,11 +7,9 @@ import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
-import {isDefinedValue} from '^utils/array';
 
 interface CreateCodefAccountsByCertificateFlowProps {
-    ignorePreCheck?: boolean;
+    isAppendable?: boolean;
     onBack: () => any;
     onFinish: (
         codefAccounts: CodefAccountDto[],
@@ -28,7 +26,7 @@ interface CreateCodefAccountsByCertificateFlowProps {
  * - 만약 연결된 기관이 없으면 공동인증서를 등록하고 기관을 연결해 반환합니다.
  */
 export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByCertificateFlowProps) => {
-    const {ignorePreCheck = false, onBack, onFinish} = props;
+    const {isAppendable = false, onBack, onFinish} = props;
     const orgId = useOrgIdParam();
     const {codefAccounts, isFetchedAfterMount} = useCodefAccountsInConnectorV2(orgId);
     const certAccounts = codefAccounts.filter((account) => {
@@ -36,11 +34,11 @@ export const AssetConnectByCertificateFlow = memo((props: CreateCodefAccountsByC
     });
 
     useEffect(() => {
-        if (ignorePreCheck) return;
+        if (isAppendable) return;
         if (isFetchedAfterMount && certAccounts.length > 0) onFinish(certAccounts, [], false);
-    }, [ignorePreCheck, isFetchedAfterMount, certAccounts]);
+    }, [isAppendable, isFetchedAfterMount, certAccounts]);
 
-    const renderActive = ignorePreCheck || (isFetchedAfterMount && certAccounts.length === 0);
+    const renderActive = isAppendable || (isFetchedAfterMount && certAccounts.length === 0);
 
     return (
         <>

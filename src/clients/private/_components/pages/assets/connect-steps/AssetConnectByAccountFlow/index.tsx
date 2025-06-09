@@ -12,7 +12,7 @@ import {useUnmount} from '^hooks/useUnmount';
 import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
 
 interface AssetConnectByAccountFlowProps {
-    ignorePreCheck?: boolean;
+    isAppendable?: boolean;
     onBack: () => any;
     onFinish: (
         codefAccounts: CodefAccountDto[],
@@ -29,7 +29,7 @@ interface AssetConnectByAccountFlowProps {
  * - 만약 연결된 기관이 없으면 계정을 등록하고 기관을 연결해 반환합니다.
  */
 export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowProps) => {
-    const {ignorePreCheck = false, onBack, onFinish} = props;
+    const {isAppendable = false, onBack, onFinish} = props;
     const orgId = useOrgIdParam();
     const [selectedCompany, setSelectedCompany] = useState<CardAccountsStaticData>();
     const {codefAccounts, isFetchedAfterMount, refetch} = useCodefAccountsInConnectorV2(orgId);
@@ -43,20 +43,20 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
     });
 
     const createAccountAllowed =
-        ignorePreCheck || (!!selectedCompany && isFetchedAfterMount && cardAccounts.length === 0);
+        isAppendable || (!!selectedCompany && isFetchedAfterMount && cardAccounts.length === 0);
 
     useUnmount(() => {
         setSelectedCompany(undefined);
     }, []);
 
     useEffect(() => {
-        if (ignorePreCheck) return;
+        if (isAppendable) return;
         if (!selectedCompany) return;
         if (!isFetchedAfterMount) return;
         if (cardAccounts.length > 0) {
             onFinish(cardAccounts, [], false);
         }
-    }, [ignorePreCheck, selectedCompany, isFetchedAfterMount, cardAccounts]);
+    }, [isAppendable, selectedCompany, isFetchedAfterMount, cardAccounts]);
 
     return (
         <>

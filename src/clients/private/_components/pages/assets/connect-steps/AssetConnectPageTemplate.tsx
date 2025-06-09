@@ -50,7 +50,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
     const orgId = useOrgIdParam();
     useCodefAccountsInConnectorV2(orgId);
     const [step, setStep] = useState(AssetConnectStep.AccountCreateStep);
-    const [ignorePreCheck, setIgnorePreCheck] = useState(false);
+    const [isAppendable, setIsAppendable] = useState(false);
     const [codefAccounts, setCodefAccounts] = useState<CodefAccountDto[]>();
     const [failedCompanies, setFailedCompanies] = useState<CodefApiAccountItemDto[]>();
     const [isAfterAccountCreated, setIsAfterAccountCreated] = useState(false);
@@ -73,7 +73,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             isAgreeForPrivacyPolicyTerm: false,
             isAgreeForServiceUsageTerm: false,
         });
-        setIgnorePreCheck(false);
+        setIsAppendable(false);
         setIsAfterAccountCreated(false);
         setStep(AssetConnectStep.AccountCreateStep);
         setSelectedCodefAssets(undefined);
@@ -92,11 +92,14 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         {/* 공동인증서로 자산 불러오기 Flow */}
                         {loginType === CodefLoginType.Certificate && (
                             <AssetConnectByCertificateFlow
-                                ignorePreCheck={ignorePreCheck}
+                                isAppendable={isAppendable}
                                 onBack={() => {
-                                    form.reset({loginType: undefined});
-                                    setIgnorePreCheck(false);
-                                    setIsAfterAccountCreated(false);
+                                    if (isAppendable) {
+                                        setStep(AssetConnectStep.SelectAssetsStep);
+                                        setIsAppendable(false);
+                                    } else {
+                                        form.resetField('loginType');
+                                    }
                                 }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
                                     setCodefAccounts(codefAccounts);
@@ -110,13 +113,13 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         {/* 홈페이지계정으로 자산 불러오기 Flow */}
                         {loginType === CodefLoginType.IdAccount && (
                             <AssetConnectByAccountFlow
-                                ignorePreCheck={ignorePreCheck}
+                                isAppendable={isAppendable}
                                 onBack={() => {
-                                    if (ignorePreCheck) {
+                                    if (isAppendable) {
                                         setStep(AssetConnectStep.SelectAssetsStep);
-                                        setIgnorePreCheck(false);
+                                        setIsAppendable(false);
                                     } else {
-                                        form.reset({loginType: undefined});
+                                        form.resetField('loginType');
                                     }
                                 }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
@@ -138,20 +141,17 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                     isAfterAccountCreated={isAfterAccountCreated}
                     codefAccounts={codefAccounts || []}
                     failedCompanies={failedCompanies}
+                    // 뒤로가기 버튼 클릭시 동작을 정의
                     onBack={() => {
-                        if (isAfterAccountCreated) {
-                            setIgnorePreCheck(true);
-                        } else {
-                            if (form.getValues('loginType') === CodefLoginType.Certificate) {
-                                form.reset({loginType: undefined});
-                            }
-                            setIgnorePreCheck(false);
+                        // 공동인증서로 조회한 경우 => 등록방법 선택p 로 이동. (그렇지않으면 기관 선택p 로 이동.)
+                        if (form.getValues('loginType') === CodefLoginType.Certificate) {
+                            form.resetField('loginType');
                         }
                         setIsAfterAccountCreated(false);
                         setStep(AssetConnectStep.AccountCreateStep);
                     }}
                     onMove={() => {
-                        setIgnorePreCheck(true);
+                        setIsAppendable(true);
                         setStep(AssetConnectStep.AccountCreateStep);
                     }}
                     onNext={(codefBanks, codefCards, disabled, allConnected) => {
