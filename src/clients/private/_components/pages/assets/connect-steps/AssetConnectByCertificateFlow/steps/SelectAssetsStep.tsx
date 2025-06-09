@@ -155,7 +155,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                                 return allConnected ? undefined : undefined;
                             }
                         })()}
-                        onMove={isAfterAccountCreated ? undefined : onMove}
+                        onMove={onMove}
                     />
                 </div>
             </PureLayoutContainerSection>
