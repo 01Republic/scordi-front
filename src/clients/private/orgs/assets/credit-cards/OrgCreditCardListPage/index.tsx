@@ -1,22 +1,18 @@
 import React, {memo} from 'react';
 import {debounce} from 'lodash';
-import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
+import {StepbyTutorialButton} from '^components/ExternalCDNScripts/step-by';
+import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
+import {AddAssetButton} from '../../AddAssetButton';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
-import {AddCreditCardModal} from './AddCreditCardModal';
-import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
-import {StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
-import {StepbyTutorialButton} from '^components/ExternalCDNScripts/step-by';
-import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
-import {ListPagePlusIconButton} from '^clients/private/_layouts/_shared/ListPagePlusIconButton';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
-    const router = useRouter();
     const organizationId = useOrgIdParam();
     const {
         search,
@@ -58,10 +54,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             Buttons={() => (
                 <>
                     <StepbyTutorialButton onClick={StepByTutorialPaymentMethodCard} />
-                    <ListPagePlusIconButton
-                        text="자산 추가"
-                        onClick={() => router.push(OrgAssetsCreateMethodSelectPageRoute.path(organizationId))}
-                    />
+                    <AddAssetButton />
                 </>
             )}
             ScopeHandler={<CreditCardScopeHandler />}
@@ -77,7 +70,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddCreditCardModal reload={refresh} />}
+                EmptyButtons={() => <AddAssetButton />}
             >
                 <ListTable
                     items={result.items}
