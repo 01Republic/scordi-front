@@ -49,11 +49,11 @@ export const OrgAssetCreateCompletePage = memo(() => {
                             // 연동 결과에 카드가 없이 계좌만 있다면,
                             // if () {
                             //     // 계좌 목록 페이지로 이동하고,
-                            //     return router.push(OrgBankAccountListPageRoute.path(orgId));
+                            //     return router.replace(OrgBankAccountListPageRoute.path(orgId));
                             // }
                             //
                             // 그게 아니면, 기본적으로 카드 목록페이지로 이동.
-                            return router.push(OrgCreditCardListPageRoute.path(orgId));
+                            return router.replace(OrgCreditCardListPageRoute.path(orgId));
                         }}
                     />
                 </section>

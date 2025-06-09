@@ -15,7 +15,7 @@ export const OrgSubscriptionConnectionSuccessPage = memo(function OrgSubscriptio
     return (
         <AssetConnectSuccessPageTemplate
             assets={connectedAssets}
-            onNext={() => router.push(OrgSubscriptionListPageRoute.path(orgId))}
+            onNext={() => router.replace(OrgSubscriptionListPageRoute.path(orgId))}
         />
     );
 });
