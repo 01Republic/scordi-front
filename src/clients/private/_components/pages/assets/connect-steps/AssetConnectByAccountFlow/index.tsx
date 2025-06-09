@@ -37,9 +37,13 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
     const companyCodes = useMemo(() => CardAccountsStaticData.all().map((company) => company.param), []);
     const cardAccounts = codefAccounts.filter((account) => {
         // @ts-ignore
-        if (!companyCodes.includes(account.organization)) return false;
+        if (!companyCodes.includes(account.organization)) return false; // 은행빼고 카드사만 필터링
+        // if (account.loginType !== CodefLoginType.IdAccount) return false; // 홈피에지 로그인 방식으로 연동된 계정만 필터링 <--- 적용X (기관에서는 공동인증서로 등록된 계정이 있으면, 중복된 기관등록으로 에러처리함)
+
+        // 기관을 선택하면, 선택된 기관의 계정만 걸러본다. (선택된 기관의 계정이 존재하면 useEffect 에서 onFinish 가 호출된다.)
         if (selectedCompany && selectedCompany.param !== account.organization) return false;
-        return account.loginType === CodefLoginType.IdAccount;
+
+        return true;
     });
 
     const createAccountAllowed =
