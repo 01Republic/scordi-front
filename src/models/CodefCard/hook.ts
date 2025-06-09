@@ -179,7 +179,11 @@ export const useFindCardAccounts = (orgId: number, accountIds: number[], params?
 /** 기관코드를 통해 연결된 카드목록을 조회 */
 export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsStaticData[]) => {
     const companyCodes = companies.map((company) => company.param);
-    const {data: codefAccounts} = useQuery({
+    const {
+        data: codefAccounts,
+        isFetching,
+        isError,
+    } = useQuery({
         queryKey: ['codefAccounts.useCodefCardsByCompanies', orgId, companies],
         queryFn: () => {
             return codefAccountApi
@@ -193,6 +197,8 @@ export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsS
         },
         enabled: !!orgId && companies.length > 0,
         initialData: [],
+        refetchOnWindowFocus: false,
+        // refetchOnMount: false,
     });
 
     const codefAccountIds = codefAccounts.map((account) => account.id);
@@ -205,8 +211,8 @@ export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsS
         dbQuery,
         syncQuery,
         data: uniqBy([...syncQuery.data, ...dbQuery.data], (item) => item.id),
-        isLoading: dbQuery.isLoading || syncQuery.isLoading,
-        isError: dbQuery.isError || syncQuery.isError,
+        isLoading: isFetching || dbQuery.isLoading || syncQuery.isLoading,
+        isError: isError || dbQuery.isError || syncQuery.isError,
         errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
         allConnected: syncQuery.allConnected,
     };
