@@ -9,6 +9,7 @@ import {CertFileDto} from '../../cert-file.dto';
 import {DriveHardDisk} from './DriveHardDisk';
 import {DriveExternalDisk} from './DriveExternalDisk';
 import {CertificateList} from './CertificateList';
+import {KeepBodyStickyStyle} from '^components/util/dialog/KeepBodyStickyStyle';
 
 interface CertificateSignModalProps {
     isOpen: boolean;
@@ -69,13 +70,14 @@ export const CertificateSignModal = memo((props: CertificateSignModalProps) => {
     const errorAlert = (count: number) => {
         confirm3(
             '인증서 비밀번호 오류',
-            <span className="text-16 text-gray-800 font-normal">
+            <div className="text-16 text-gray-800 font-normal">
                 인증서 비밀번호 {count}회 오류.
                 <br />
                 {count === 5
                     ? '5회 이상 오류로 인해 프로그램이 종료 됩니다.'
                     : '5회 이상 오류 시 프로그램이 종료 됩니다.'}
-            </span>,
+                <KeepBodyStickyStyle />
+            </div>,
             undefined,
             {showCancelButton: false},
         ).then(() => {
