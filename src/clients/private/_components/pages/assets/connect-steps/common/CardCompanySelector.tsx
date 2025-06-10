@@ -68,8 +68,20 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
                             key={company.param}
                             logo={company.logo}
                             title={company.displayName}
-                            isConnected={connectedAccounts.length > 0}
-                            onClick={() => onSelect(company)}
+                            isConnected={!!connectedAccount}
+                            onClick={() => {
+                                if (isAppendable && connectedAccount) {
+                                    if (
+                                        confirm(
+                                            `[${company.displayName}]에는 연결된 계정이 존재합니다.\n다른 계정을 추가로 등록할까요?`,
+                                        )
+                                    ) {
+                                        onSelect(company);
+                                    }
+                                } else {
+                                    onSelect(company);
+                                }
+                            }}
                             onDisconnect={() => onDisconnect(company.displayName, connectedAccount?.id)}
                         />
                     );
