@@ -10,17 +10,18 @@ interface StepCTASectionProps {
     notSelected: boolean;
     onBack?: () => any;
     onNext?: () => any;
+    onReset?: () => any;
 }
 
 export const StepCTASection = memo((props: StepCTASectionProps) => {
-    const {isLoading, allConnected, disabled, notSelected, onBack, onNext, disabledCTAButtonText} = props;
+    const {isLoading, allConnected, disabled, notSelected, onBack, onReset, onNext, disabledCTAButtonText} = props;
 
     return (
         <PureLayoutContainerSection className="max-w-full sticky bottom-0 py-4 bg-layout-background flex items-center justify-center">
             {isLoading ? (
                 <NextStepButton text="불러오는중" disabled />
             ) : allConnected ? (
-                <NextStepButton text="처음으로" onClick={onBack} />
+                <NextStepButton text="처음으로" onClick={onReset || onBack} />
             ) : (
                 <NextStepButton
                     // 선택된 항목 유무에 따라 결정

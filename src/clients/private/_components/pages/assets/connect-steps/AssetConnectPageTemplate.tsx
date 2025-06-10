@@ -150,6 +150,12 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         setIsAfterAccountCreated(false);
                         setStep(AssetConnectStep.AccountCreateStep);
                     }}
+                    // 처음으로
+                    onReset={() => {
+                        form.reset({loginType: undefined});
+                        setIsAfterAccountCreated(false);
+                        setStep(AssetConnectStep.AccountCreateStep);
+                    }}
                     onMove={() => {
                         setIsAppendable(true);
                         setStep(AssetConnectStep.AccountCreateStep);

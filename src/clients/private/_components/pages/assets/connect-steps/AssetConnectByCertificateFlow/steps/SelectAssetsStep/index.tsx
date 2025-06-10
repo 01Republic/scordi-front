@@ -1,6 +1,4 @@
 import React, {memo, ReactNode, useMemo, useState} from 'react';
-import {Transition} from '@headlessui/react';
-import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 import {useOrgIdParam} from '^atoms/common';
 import {isDefinedValue} from '^utils/array';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
@@ -14,14 +12,13 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
 import {EmptyTable} from '^_components/table/EmptyTable';
-import {NextStepButton} from '../../../common/NextStepButton';
 import {AssetsConnectStepFlashHandler} from '../../../common/AssetsConnectStepFlashHandler';
 import {SuccessConnectCardSelector} from '../_component/SuccessConnectCardSelector';
 import {SuccessConnectBankSelector} from '../_component/SuccessConnectBankSelector';
 import {StepHeaderSection} from './StepHeaderSection';
 import {StepBackSection} from './StepBackSection';
-import {StepCTASection} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateFlow/steps/SelectAssetsStep/StepCTASection';
-import {Searching} from '^_components/pages/assets/connect-steps/AssetConnectByCertificateFlow/steps/SelectAssetsStep/Searching';
+import {StepCTASection} from './StepCTASection';
+import {Searching} from './Searching';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -35,6 +32,7 @@ interface SelectAssetsStepProps {
         disabled: boolean,
         allConnected: boolean,
     ) => any;
+    onReset?: () => any;
 
     // UI
     title?: ReactNode;
@@ -54,6 +52,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
         onBack,
         onMove,
         onNext,
+        onReset,
         title,
         subTitle,
         disabledCTAButtonText,
@@ -138,6 +137,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                 allConnected={allConnected}
                 notSelected={selectedCodefBanks.length === 0 && selectedCodefCards.length === 0}
                 onBack={onBack}
+                onReset={onReset}
                 onNext={() => onNext(selectedCodefBanks, selectedCodefCards, disabled, allConnected)}
             />
         </PureLayout>
