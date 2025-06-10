@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {Landmark} from 'lucide-react';
 import Tippy from '@tippyjs/react';
 import {unitFormat} from '^utils/number';
@@ -16,6 +16,13 @@ export const SuccessConnectBankSelector = memo((props: Props) => {
     const {codefBankAccounts = [], isLoading = false, onSelect} = props;
     const selectables = codefBankAccounts.filter((codefBankAccount) => !codefBankAccount.bankAccountId);
     const [selectedItems, setSelectedItems] = useState(selectables);
+
+    useEffect(() => {
+        if (!isLoading) {
+            setSelectedItems(selectables);
+            onSelect && onSelect(selectables);
+        }
+    }, [isLoading]);
 
     const select = (items: CodefBankAccountDto[]) => {
         setSelectedItems(items);

@@ -16,7 +16,7 @@ export const ContentSection = memo((props: ContentSectionProps) => {
             <div className="flex items-center justify-between">
                 <span className="text-xl text-gray-900 font-semibold">{text}</span>
 
-                {handleSelectAll && (
+                {handleSelectAll && !isLoading && (
                     <button
                         type="button"
                         onClick={handleSelectAll}

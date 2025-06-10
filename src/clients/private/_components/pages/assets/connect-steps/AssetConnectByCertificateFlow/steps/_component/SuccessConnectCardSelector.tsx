@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {Landmark} from 'lucide-react';
 import Tippy from '@tippyjs/react';
 import {unitFormat} from '^utils/number';
@@ -16,6 +16,13 @@ export const SuccessConnectCardSelector = memo((props: Props) => {
     const {codefCards = [], isLoading = false, onSelect} = props;
     const selectables = codefCards.filter((codefCard) => !codefCard.creditCardId);
     const [selectedItems, setSelectedItems] = useState(selectables);
+
+    useEffect(() => {
+        if (!isLoading) {
+            setSelectedItems(selectables);
+            onSelect && onSelect(selectables);
+        }
+    }, [isLoading, selectables]);
 
     const select = (items: CodefCardDto[]) => {
         setSelectedItems(items);
