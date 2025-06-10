@@ -67,7 +67,7 @@ export const AssetConnectByAccountFlow = memo((props: AssetConnectByAccountFlowP
             {/* 연동할 기관 선택 */}
             {!selectedCompany && (
                 <SelectCompanyStep
-                    createMoreAccountContext={false}
+                    isAppendable={isAppendable}
                     codefAccounts={cardAccounts}
                     onBack={onBack}
                     onNext={setSelectedCompany}

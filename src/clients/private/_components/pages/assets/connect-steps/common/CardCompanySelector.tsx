@@ -13,7 +13,7 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {codefAccountApi} from '^models/CodefAccount/api';
 
 interface CardCompanySelectorProps {
-    createMoreAccountContext?: boolean;
+    isAppendable?: boolean;
     codefAccounts?: CodefAccountDto[];
     onSelect: (company: CardAccountsStaticData) => any;
     reload?: () => any;
@@ -21,7 +21,7 @@ interface CardCompanySelectorProps {
 
 // 홈페이지계정 > 카드사 한개 선택
 export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
-    const {createMoreAccountContext = false, codefAccounts = [], onSelect, reload} = props;
+    const {isAppendable = false, codefAccounts = [], onSelect, reload} = props;
     const orgId = useOrgIdParam();
     const form = useFormContext<CreateAccountRequestDto>();
 
