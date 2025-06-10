@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {Landmark} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
@@ -34,6 +34,10 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
 
         select(changedItems);
     };
+
+    useEffect(() => {
+        if (selectables.length > 0) select(selectables);
+    }, [selectables]);
 
     return (
         <ContentSection

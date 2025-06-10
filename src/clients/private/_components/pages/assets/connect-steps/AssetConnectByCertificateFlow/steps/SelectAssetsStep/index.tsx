@@ -1,4 +1,4 @@
-import React, {memo, ReactNode, useEffect, useMemo, useState} from 'react';
+import React, {memo, ReactNode, useMemo, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {isDefinedValue} from '^utils/array';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
@@ -76,15 +76,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const codefBankAccountsQuery = useCodefBankAccountsByCompanies(orgId, successBanks);
 
     const [selectedCodefCards, setSelectedCodefCards] = useState<CodefCardDto[]>([]);
-    const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>(codefBankAccountsQuery.data);
-
-    useEffect(() => {
-        if (codefCardsQuery.data.length > 0) setSelectedCodefCards(codefCardsQuery.data);
-    }, [codefCardsQuery.data]);
-
-    useEffect(() => {
-        if (codefBankAccountsQuery.data.length > 0) setSelectedCodefBanks(codefBankAccountsQuery.data);
-    }, [codefBankAccountsQuery.data]);
+    const [selectedCodefBanks, setSelectedCodefBanks] = useState<CodefBankAccountDto[]>([]);
 
     const disabled = codefBankAccountsQuery.data.length === 0 && codefCardsQuery.data.length === 0;
     const allConnected = codefBankAccountsQuery.allConnected && codefCardsQuery.allConnected;

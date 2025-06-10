@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {Landmark} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {useCodefCardsByCompanies} from '^models/CodefCard/hook';
@@ -35,6 +35,10 @@ export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelecto
 
         select(changedItems);
     };
+
+    useEffect(() => {
+        if (selectables.length > 0) select(selectables);
+    }, [selectables]);
 
     return (
         <ContentSection

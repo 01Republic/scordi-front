@@ -49,7 +49,7 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
                         ), // 5s
                         (props) => (
                             <SequenceStep delay={15000} {...props}>
-                                <WithLoopText text="반복 결제내역을 추리고 있어요" absolute />
+                                <WithLoopText text="결제내역을 추리고 있어요" absolute />
                             </SequenceStep>
                         ), // 20s
                         (props) => (
