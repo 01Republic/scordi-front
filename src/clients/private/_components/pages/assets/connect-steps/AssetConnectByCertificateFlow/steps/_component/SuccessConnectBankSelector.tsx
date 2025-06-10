@@ -1,29 +1,27 @@
-import {memo, useEffect, useState} from 'react';
+import {memo, useState} from 'react';
 import {Landmark} from 'lucide-react';
-import {useOrgIdParam} from '^atoms/common';
-import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
-import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {unitFormat} from '^utils/number';
 import Tippy from '@tippyjs/react';
+import {unitFormat} from '^utils/number';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {ContentSection} from '../../../common/ContentSection';
+import {ConnectedItem} from '../../../AssetConnectSuccessPageTemplate/ConnectedItem';
 
-interface SuccessConnectBankSelectorProps {
+interface Props {
     codefBankAccounts: CodefBankAccountDto[];
     isLoading?: boolean;
     onSelect?: (codefBanks: CodefBankAccountDto[]) => any;
 }
 
-export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelectorProps) => {
-    const [selectedItems, setSelectedItems] = useState<CodefBankAccountDto[]>([]);
+export const SuccessConnectBankSelector = memo((props: Props) => {
     const {codefBankAccounts = [], isLoading = false, onSelect} = props;
+    const selectables = codefBankAccounts.filter((codefBankAccount) => !codefBankAccount.bankAccountId);
+    const [selectedItems, setSelectedItems] = useState(selectables);
 
     const select = (items: CodefBankAccountDto[]) => {
         setSelectedItems(items);
         onSelect && onSelect(items);
     };
 
-    const selectables = codefBankAccounts.filter((codefBankAccount) => !codefBankAccount.bankAccountId);
     const isAllSelected = codefBankAccounts.length > 0 && selectedItems.length === selectables.length;
     const handleSelectAll = () => select(isAllSelected ? [] : selectables);
 
@@ -34,10 +32,6 @@ export const SuccessConnectBankSelector = memo((props: SuccessConnectBankSelecto
 
         select(changedItems);
     };
-
-    useEffect(() => {
-        if (selectables.length > 0) select(selectables);
-    }, [selectables]);
 
     return (
         <ContentSection
