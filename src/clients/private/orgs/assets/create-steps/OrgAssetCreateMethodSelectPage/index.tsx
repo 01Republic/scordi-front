@@ -3,10 +3,12 @@ import {useRouter} from 'next/router';
 import {useSetRecoilState} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
-import {OrgAssetsCreateCompletePageRoute} from '^pages/orgs/[id]/assets/new/complete';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {LinkTo} from '^components/util/LinkTo';
 import {AssetConnectPageTemplate, ConnectAssetsStepStrategy} from '^_components/pages/assets/connect-steps';
 import {connectedAssetsAtom} from '../atom';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 /**
  * 자산 등록
@@ -28,8 +30,15 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
                 </LinkTo>
             )}
             onSuccess={(connectedAssets) => {
-                setConnectedAssets(connectedAssets);
-                return router.push(OrgAssetsCreateCompletePageRoute.path(orgId));
+                const bankAccountExist = connectedAssets.some((asset) => asset instanceof BankAccountDto);
+                // 연동 결과에 카드가 없이 계좌만 있다면,
+                if (bankAccountExist) {
+                    // 계좌 목록 페이지로 이동하고,
+                    return router.replace(OrgBankAccountListPageRoute.path(orgId));
+                }
+
+                // 그게 아니면, 기본적으로 카드 목록페이지로 이동.
+                return router.push(OrgCreditCardListPageRoute.path(orgId));
             }}
             assetConnectMethodSelectStep={{
                 title: '자산을 연동해 볼까요?',

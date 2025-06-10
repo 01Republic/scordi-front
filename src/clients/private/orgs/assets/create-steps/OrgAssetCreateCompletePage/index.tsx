@@ -15,6 +15,7 @@ import {BankAccountDto} from '^models/BankAccount/type';
 import {SuccessBankAccountsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessBankAccountsSection';
 import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
+/** DEPRECATED PAGE */
 export const OrgAssetCreateCompletePage = memo(() => {
     const router = useRouter();
     const orgId = useOrgIdParam();
