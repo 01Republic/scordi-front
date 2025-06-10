@@ -27,7 +27,7 @@ export const CodefBankAccountParserNewPage = memo(function CodefBankAccountParse
         form.reset({
             title: '',
             productId: undefined,
-            resMemberStoreName: {ops: FindOperatorType.Like, fo: false, bo: true, value: ''},
+            computedAccountDesc: {ops: FindOperatorType.Like, fo: false, bo: true, value: ''},
             groupingMethod: GroupingMethod.byDate,
             fixedRecurringType: null,
             isActive: false,
@@ -37,8 +37,8 @@ export const CodefBankAccountParserNewPage = memo(function CodefBankAccountParse
 
     const onSubmit = (dto: UpdateCodefBankAccountParserRequestDto) => {
         const data = plainToInstance(CreateCodefBankAccountParserRequestDto, dto);
-        const {resMemberStoreName} = data;
-        if (resMemberStoreName) data.resMemberStoreName = resMemberStoreName.asApiValues!();
+        const {computedAccountDesc} = data;
+        if (computedAccountDesc) data.computedAccountDesc = computedAccountDesc.asApiValues!();
 
         setIsLoading(true);
         adminCodefBankAccountParserApi

@@ -33,7 +33,7 @@ export const CodefBankAccountParserEditPage = memo(function CodefBankAccountPars
         form.reset({
             title: parser?.title,
             productId: parser?.productId,
-            resMemberStoreName: {ops, fo, bo, value},
+            computedAccountDesc: {ops, fo, bo, value},
             groupingMethod: parser?.groupingMethod,
             fixedRecurringType: parser?.fixedRecurringType,
             isActive: parser?.isActive,
@@ -43,11 +43,11 @@ export const CodefBankAccountParserEditPage = memo(function CodefBankAccountPars
 
     const onSubmit = (dto: UpdateCodefBankAccountParserRequestDto) => {
         const data = plainToInstance(CreateCodefBankAccountParserRequestDto, dto);
-        const {resMemberStoreName} = data;
-        if (resMemberStoreName) data.resMemberStoreName = resMemberStoreName.asApiValues!();
+        const {computedAccountDesc} = data;
+        if (computedAccountDesc) data.computedAccountDesc = computedAccountDesc.asApiValues!();
 
         adminCodefBankAccountParserApi
-            .update(id, dto)
+            .update(id, data)
             .then(() => toast.success('Successfully Saved!'))
             .then(() => router.push(CodefBankAccountParserListPageRoute.path()))
             .catch(errorToast);
