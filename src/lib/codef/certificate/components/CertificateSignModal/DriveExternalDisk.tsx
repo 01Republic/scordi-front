@@ -27,10 +27,17 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
             const os = getOS();
             console.log('loadExtraDrive', 'os', os);
             console.log('loadExtraDrive', 'paths', paths);
-            if (!os || !['MacOS', 'Windows'].includes(os)) return [];
+            if (!os || !['MacOS', 'Windows'].includes(os)) {
+                console.log('os 검사에서 막힘');
+                return [];
+            }
 
             return paths.filter((path) => {
-                if (!path) return false;
+                console.log('loadExtraDrive', 'path', path);
+                if (!path) {
+                    console.log('loadExtraDrive', '!path');
+                    return false;
+                }
 
                 if (os === 'MacOS') {
                     if (!path.startsWith('/Volumes/')) return false;
@@ -38,8 +45,10 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
                 }
 
                 if (os === 'Windows') {
+                    console.log('loadExtraDrive', "os === 'Windows'", path);
                     // if (!path.startsWith('D:')) return false;
-                    if (!path.startsWith('C:')) return false;
+                    if (path.startsWith('C:')) return false;
+                    console.log('loadExtraDrive', "os === 'Windows'", path, true);
                 }
 
                 return true;
