@@ -84,7 +84,7 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
                                         }`}
                                         onClick={() => onSelect(path).then(hide)}
                                     >
-                                        {path}
+                                        {getPathName(path)}
                                     </div>
                                 ))}
                             </div>
@@ -96,3 +96,22 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
     );
 });
 DriveExternalDisk.displayName = 'DriveExternalDisk';
+
+function getPathName(path: string) {
+    const os = getOS();
+
+    if (os === 'MacOS') {
+        return path.replace(/^\/Volumes\//, '');
+    }
+
+    if (os === 'Windows') {
+        const [driveName] = path.split(':');
+        return `외부저장장치 (${driveName})`;
+    }
+
+    if (path.length < 8) {
+        return `외부저장장치 (${path})`;
+    }
+
+    return path;
+}
