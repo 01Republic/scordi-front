@@ -32,6 +32,9 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
                 setConnectedAssets(connectedAssets);
                 return router.push(OrgAssetsCreateCompletePageRoute.path(orgId));
             }}
+            assetConnectMethodSelectStep={{
+                title: '자산을 연동해 볼까요?',
+            }}
             selectAssetsStep={{
                 title: '선택하신 기관에서 조회된 자산이에요',
                 subTitle: '어느 것을 스코디에 연결할까요?',

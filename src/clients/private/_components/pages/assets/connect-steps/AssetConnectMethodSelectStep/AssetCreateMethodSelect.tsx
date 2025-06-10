@@ -1,13 +1,17 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 import {AssetAgreeTermSection} from './AssetAgreeTermSection';
+import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
 
 export const AssetCreateMethodSelect = memo(() => {
+    const {assetConnectMethodSelectStep} = useContext(AssetConnectOptionContext);
     const {setValue, watch} = useFormContext<CreateAccountRequestDto>();
     const isEnabled = watch('isAgreeForPrivacyPolicyTerm') && watch('isAgreeForServiceUsageTerm');
+
+    const {title, subTitle} = assetConnectMethodSelectStep || {};
 
     return (
         <article className="w-full flex flex-col">
@@ -29,9 +33,10 @@ export const AssetCreateMethodSelect = memo(() => {
                     </div>
 
                     <div className="flex flex-col gap-5">
-                        <span className="text-28 text-gray-900 font-semibold">자산을 연동해 볼까요?</span>
+                        <span className="text-28 text-gray-900 font-semibold">{title || '자산을 연동해 볼까요?'}</span>
                         <span className="text-15 text-gray-600 font-normal whitespace-pre-line">
-                            공동인증서를 연동해 사업용으로 쓰고있는 카드의 입출금 내역을 자동으로 조회할 수 있어요.
+                            {subTitle ||
+                                '공동인증서를 연동해 사업용으로 쓰고있는 카드의 입출금 내역을 자동으로 조회할 수 있어요.'}
                         </span>
                     </div>
 

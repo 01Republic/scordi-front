@@ -30,13 +30,15 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
             if (!os || !['MacOS', 'Windows'].includes(os)) return [];
 
             return paths.filter((path) => {
+                if (!path) return false;
+
                 if (os === 'MacOS') {
                     if (!path.startsWith('/Volumes/')) return false;
                     if (path.includes('/Volumes/codef')) return false;
                 }
 
                 if (os === 'Windows') {
-                    if (!path.startsWith('D:')) return false;
+                    // if (!path.startsWith('D:')) return false;
                     if (!path.startsWith('C:')) return false;
                 }
 

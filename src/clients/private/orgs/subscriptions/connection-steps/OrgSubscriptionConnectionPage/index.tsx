@@ -31,6 +31,10 @@ export const OrgSubscriptionConnectionPage = memo(() => {
                 setConnectedAssets(connectedAssets);
                 return router.replace(OrgSubscriptionConnectionSuccessPageRoute.path(orgId));
             }}
+            assetConnectMethodSelectStep={{
+                title: '구독을 불러올까요?',
+                subTitle: '공동인증서를 연동하면 금융자산으로부터 한번에 구독을 불러올 수 있어요.',
+            }}
             selectAssetsStep={{
                 title: '어떤 자산으로부터 구독을 불러올까요?',
                 subTitle: '',

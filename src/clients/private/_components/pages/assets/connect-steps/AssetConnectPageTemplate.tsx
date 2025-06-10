@@ -27,6 +27,10 @@ export enum ConnectAssetsStepStrategy {
 interface AssetConnectOption {
     ConnectMethodAltActionButton?: () => JSX.Element;
     onSuccess?: (connectedAssets: (CreditCardDto | BankAccountDto)[]) => any;
+    assetConnectMethodSelectStep?: {
+        title?: ReactNode;
+        subTitle?: ReactNode;
+    };
     selectAssetsStep?: {
         title?: ReactNode;
         subTitle?: ReactNode;
