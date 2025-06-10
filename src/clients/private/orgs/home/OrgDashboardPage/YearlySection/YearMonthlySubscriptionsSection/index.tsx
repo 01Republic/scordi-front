@@ -36,7 +36,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     if (!isLoading && !pagination.totalItemCount) {
         return (
             <EmptyTableLayout
-                title="구독"
+                title="구독 리스트"
                 Icon={LayoutGrid}
                 url={orgId ? OrgSubscriptionConnectionPageRoute.path(orgId) : '#'}
                 className="h-full"
