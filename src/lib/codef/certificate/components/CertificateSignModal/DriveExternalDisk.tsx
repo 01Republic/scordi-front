@@ -25,6 +25,8 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
     const loadExtraDrive = async () => {
         return codefCertificate.fn_OnLoadExtraDrive().then((paths) => {
             const os = getOS();
+            console.log('loadExtraDrive', 'os', os);
+            console.log('loadExtraDrive', 'paths', paths);
             if (!os || !['MacOS', 'Windows'].includes(os)) return [];
 
             return paths.filter((path) => {
@@ -42,6 +44,7 @@ export const DriveExternalDisk = memo((props: DriveExternalDiskProps) => {
             });
         });
     };
+    console.log('externalDrivePaths', externalDrivePaths);
 
     return (
         <div
