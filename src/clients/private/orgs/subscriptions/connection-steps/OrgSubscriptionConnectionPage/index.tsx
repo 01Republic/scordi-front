@@ -5,7 +5,7 @@ import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {OrgSubscriptionConnectionSuccessPageRoute} from '^pages/orgs/[id]/subscriptions/connection/success';
 import {LinkTo} from '^components/util/LinkTo';
-import {AssetConnectPageTemplate} from '^_components/pages/assets/connect-steps';
+import {AssetConnectPageTemplate, ConnectAssetsStepStrategy} from '^_components/pages/assets/connect-steps';
 import {connectedAssetsAtom} from '../atom';
 
 /**
@@ -34,6 +34,9 @@ export const OrgSubscriptionConnectionPage = memo(() => {
             selectAssetsStep={{
                 title: '어떤 자산으로부터 구독을 불러올까요?',
                 subTitle: '',
+            }}
+            connectAssetsStep={{
+                strategy: ConnectAssetsStepStrategy.SyncSubscriptions,
             }}
         />
     );

@@ -5,13 +5,15 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
-import {useSyncCodefAssets} from '^models/_codef/hooks';
+import {useCreateAssets, useSyncCodefAssets} from '^models/_codef/hooks';
 import {LoadingScreen2} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
 import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
-import {LoopText, WithLoopText} from '^utils/TypeWritter';
+import {WithLoopText} from '^utils/TypeWritter';
 import {Typewriter} from 'react-simple-typewriter';
+import {ConnectAssetsStepStrategy} from '../../AssetConnectPageTemplate';
 
 interface ConnectAssetsStepProps {
+    strategy: ConnectAssetsStepStrategy;
     codefAssets: (CodefBankAccountDto | CodefCardDto)[];
     onNext: (results: (CreditCardDto | BankAccountDto)[]) => any;
     title?: string;
@@ -21,19 +23,18 @@ interface ConnectAssetsStepProps {
  * 자산 연동중p : 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김
  */
 export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
-    const {codefAssets, onNext, title = ''} = props;
+    const {strategy, codefAssets, onNext, title = ''} = props;
     const orgId = useOrgIdParam();
 
-    const results = useSyncCodefAssets(orgId, codefAssets);
+    const results =
+        strategy === ConnectAssetsStepStrategy.SyncSubscriptions
+            ? useSyncCodefAssets(orgId, codefAssets)
+            : useCreateAssets(orgId, codefAssets);
+    const scordiAssets = results.map((result) => result.data).filter(isDefinedValue);
 
     const totalCount = results.length;
     const finishedCount = results.filter((result) => result.isFetched).length;
     const percentage = totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0;
-
-    // const successes = results.filter((result) => !result.isError);
-    // const failures = results.filter((result) => result.isError);
-    // const errors = results.map((result) => result.error).filter(isDefinedValue);
-    const scordiAssets = results.map((result) => result.data).filter(isDefinedValue);
 
     /** 결제내역 불러오고 구독 파싱하는 중인 상태 */
     return (

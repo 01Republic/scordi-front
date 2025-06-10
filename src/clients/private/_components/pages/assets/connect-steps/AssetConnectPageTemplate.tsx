@@ -19,6 +19,11 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {useUnmount} from '^hooks/useUnmount';
 
+export enum ConnectAssetsStepStrategy {
+    CreateScordiAssets = 'createScordiAssets',
+    SyncSubscriptions = 'syncSubscriptions',
+}
+
 interface AssetConnectOption {
     ConnectMethodAltActionButton?: () => JSX.Element;
     onSuccess?: (connectedAssets: (CreditCardDto | BankAccountDto)[]) => any;
@@ -26,12 +31,16 @@ interface AssetConnectOption {
         title?: ReactNode;
         subTitle?: ReactNode;
     };
+    connectAssetsStep: {
+        strategy: ConnectAssetsStepStrategy;
+    };
 }
 
 export const AssetConnectOptionContext = createContext<AssetConnectOption>({
     // onSuccess: console.log,
     // onSuccessfullyCreateByCertificate: console.log,
     // onSuccessfullyCreatedByAccount: console.log,
+    connectAssetsStep: {strategy: ConnectAssetsStepStrategy.SyncSubscriptions},
 });
 
 enum AssetConnectStep {
@@ -45,7 +54,7 @@ enum AssetConnectStep {
  * ---
  */
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
-    const {onSuccess, selectAssetsStep} = props;
+    const {onSuccess, selectAssetsStep, connectAssetsStep} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
     useCodefAccountsInConnectorV2(orgId);
@@ -172,6 +181,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {/* 자산 연동중p : 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김 */}
             {step === AssetConnectStep.ConnectAssetsStep && (
                 <ConnectAssetsStep
+                    {...connectAssetsStep}
                     codefAssets={selectedCodefAssets || []}
                     onNext={(results) => {
                         onSuccess && onSuccess(results);

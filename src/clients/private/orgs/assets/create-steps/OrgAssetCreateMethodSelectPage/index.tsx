@@ -5,7 +5,7 @@ import {useOrgIdParam} from '^atoms/common';
 import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
 import {OrgAssetsCreateCompletePageRoute} from '^pages/orgs/[id]/assets/new/complete';
 import {LinkTo} from '^components/util/LinkTo';
-import {AssetConnectPageTemplate} from '^_components/pages/assets/connect-steps';
+import {AssetConnectPageTemplate, ConnectAssetsStepStrategy} from '^_components/pages/assets/connect-steps';
 import {connectedAssetsAtom} from '../atom';
 
 /**
@@ -35,6 +35,9 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
             selectAssetsStep={{
                 title: '선택하신 기관에서 조회된 자산이에요',
                 subTitle: '어느 것을 스코디에 연결할까요?',
+            }}
+            connectAssetsStep={{
+                strategy: ConnectAssetsStepStrategy.CreateScordiAssets,
             }}
         />
     );
