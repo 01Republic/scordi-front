@@ -5,7 +5,6 @@ import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-d
 import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {Company} from './Company';
-import Tippy from '@tippyjs/react';
 
 interface ErrorGroupSectionProps {
     title: string;
@@ -15,7 +14,6 @@ interface ErrorGroupSectionProps {
 export const ErrorGroupSection = memo((props: ErrorGroupSectionProps) => {
     const {title, errors} = props;
 
-    // const title = getErrorGroupTitle(code) || errors[0].message;
     const cards = companyTypeof(errors, CodefRequestBusinessType.Card);
     const banks = companyTypeof(errors, CodefRequestBusinessType.Bank);
 
