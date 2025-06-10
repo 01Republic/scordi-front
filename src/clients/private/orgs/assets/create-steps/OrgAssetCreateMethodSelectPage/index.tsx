@@ -11,7 +11,6 @@ import {connectedAssetsAtom} from '../atom';
 /**
  * 자산 등록
  */
-
 export const OrgAssetCreateMethodSelectPage = memo(() => {
     const router = useRouter();
     const orgId = useOrgIdParam();
@@ -36,8 +35,8 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
                 title: '자산을 연동해 볼까요?',
             }}
             selectAssetsStep={{
-                title: '선택하신 기관에서 조회된 자산이에요',
-                subTitle: '어느 것을 스코디에 연결할까요?',
+                title: '금융기관으로부터 불러온 자산이에요.',
+                subTitle: '어떤 자산을 연결할까요?',
             }}
             connectAssetsStep={{
                 strategy: ConnectAssetsStepStrategy.CreateScordiAssets,
