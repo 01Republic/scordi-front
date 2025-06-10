@@ -63,16 +63,16 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
                 if (!error) return false;
                 if (
                     [
-                        CodefApiResultCode.ALREADY_REGISTERED_COMPANY_IN_CONNECT_ID,
-                        CodefApiResultCode.SERVICE_NOT_FOUND,
-                        CodefApiResultCode.UNREGISTERED_CERTIFICATE,
-                        CodefApiResultCode.UNREGISTERED_OR_DELETED_CERTIFICATE,
-                        CodefApiResultCode.CERTIFICATION_CREATE_FAILED,
-                        CodefApiResultCode.ORG_NOT_FOUND,
-                        CodefApiResultCode.ORGANIZATION_ACTION_UNSUPPORTED,
-                        CodefApiResultCode.CHECK_ORG_AGAIN,
-                        CodefApiResultCode.SIGNATURE_DATA_INVALID,
-                        CodefApiResultCode.CERTIFICATE_PROCESS_ERROR,
+                        CodefApiResultCode.ALREADY_REGISTERED_COMPANY_IN_CONNECT_ID, // 이미 연결된 기관 (=> 에러 안보여주고 바로 디비에서 꺼내서 연결된내용 보여줌)
+                        // CodefApiResultCode.SERVICE_NOT_FOUND, // 인증서로 로그인하는 기능이 제공되지 않는 기관
+                        // CodefApiResultCode.UNREGISTERED_CERTIFICATE, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
+                        // CodefApiResultCode.UNREGISTERED_OR_DELETED_CERTIFICATE, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
+                        // CodefApiResultCode.CERTIFICATION_CREATE_FAILED, // (기관에서 인증서가 확인되지 않음)
+                        // CodefApiResultCode.ORG_NOT_FOUND, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
+                        // CodefApiResultCode.ORGANIZATION_ACTION_UNSUPPORTED, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
+                        // CodefApiResultCode.CHECK_ORG_AGAIN, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
+                        // CodefApiResultCode.SIGNATURE_DATA_INVALID, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
+                        // CodefApiResultCode.CERTIFICATE_PROCESS_ERROR, // (기관에서 인증서가 확인되지 않음) (이 기관에 그런 인증서 없음 (like 존재하지않는 아이디))
                     ].includes(error.code)
                 ) {
                     return false;
