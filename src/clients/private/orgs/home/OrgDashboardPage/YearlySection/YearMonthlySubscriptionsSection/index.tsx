@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {firstDayOfMonth, firstDayOfYear, monthAfter, yearAfter} from '^utils/dateTime';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 import {
     DashboardSummaryYearMonthlyItemDto,
     DashboardSummaryYearMonthlyResultDto,
@@ -38,7 +38,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
             <EmptyTableLayout
                 title="구독"
                 Icon={LayoutGrid}
-                url={orgId ? OrgSubscriptionSelectPageRoute.path(orgId) : '#'}
+                url={orgId ? OrgSubscriptionConnectionPageRoute.path(orgId) : '#'}
                 className="h-full"
             />
         );
