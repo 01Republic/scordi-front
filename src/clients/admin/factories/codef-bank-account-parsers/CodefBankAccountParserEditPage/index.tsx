@@ -29,7 +29,7 @@ export const CodefBankAccountParserEditPage = memo(function CodefBankAccountPars
     useEffect(() => {
         setParser(parser || null);
 
-        const {ops = FindOperatorType.Like, fo = false, bo = true, value = ''} = parser?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo = false, bo = true, value = ''} = parser?.query || {};
         form.reset({
             title: parser?.title,
             productId: parser?.productId,
