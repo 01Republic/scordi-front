@@ -64,7 +64,6 @@ export class CodefBillingHistoryDto {
 
     @TypeCast(() => CodefCardDto) codefCard?: CodefCardDto;
     @TypeCast(() => CodefBankAccountDto) codefBankAccount?: CodefBankAccountDto;
-    @TypeCast(() => BillingHistoryDto) billingHistory?: BillingHistoryDto;
 }
 
 export class FindAllCodefBillingHistoryQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
