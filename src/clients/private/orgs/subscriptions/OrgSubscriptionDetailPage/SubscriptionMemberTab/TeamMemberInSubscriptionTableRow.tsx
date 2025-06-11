@@ -47,10 +47,10 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
     const showPagePath = OrgTeamMemberShowPageRoute.path(orgId, teamMember.id);
 
-    const update = async (dto: UpdateSubscriptionSeatRequestDto) => {
+    const update = (dto: UpdateSubscriptionSeatRequestDto) => {
         setIsLoading(true);
 
-        await updateSubscriptionSeat({orgId, subscriptionId: subscription.id, id: seat.id, dto})
+        updateSubscriptionSeat({orgId, subscriptionId: subscription.id, id: seat.id, dto})
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
             .finally(() => setIsLoading(false));

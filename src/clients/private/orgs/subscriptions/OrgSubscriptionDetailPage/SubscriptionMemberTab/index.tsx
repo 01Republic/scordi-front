@@ -53,16 +53,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
             });
     };
 
-    // const orderBy = async (sortKey: string, value: 'ASC' | 'DESC'): Promise<void> => {
-    //     console.log('value', value);
-    //
-    //     setQuery((prev) => ({
-    //         ...prev,
-    //         page: 1,
-    //         order: Qs.parse(`${sortKey}=${value}`),
-    //     }));
-    // };
-
     const changePageSize = (itemsPerPage: number) => {
         setQuery((prev) => ({
             ...prev,

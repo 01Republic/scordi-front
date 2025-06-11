@@ -17,6 +17,9 @@ interface MultiCalenderProps {
 export const MultiCalender = memo((props: MultiCalenderProps) => {
     const {startAt, finishAt, onChange} = props;
     const {textColor = 'text-gray-400', textSize = 'text-14', fontSize = 'font-normal', textHover = ''} = props;
+
+    const value = startAt || finishAt ? ([startAt, finishAt] as [Date, Date]) : undefined;
+
     return (
         <DatesProvider settings={{locale: 'ko'}}>
             <DatePickerInput
@@ -25,7 +28,7 @@ export const MultiCalender = memo((props: MultiCalenderProps) => {
                 allowSingleDateInRange
                 variant="unstyled"
                 valueFormat="YYYY-MM-DD"
-                defaultValue={[startAt, finishAt]}
+                value={value}
                 placeholder="선택해주세요.."
                 onChange={([start, end]) => {
                     if (!start || !end) return;
@@ -34,9 +37,8 @@ export const MultiCalender = memo((props: MultiCalenderProps) => {
                 }}
                 popoverProps={{position: 'bottom-end', offset: {mainAxis: 3, crossAxis: 0}}}
                 classNames={{
-                    input: `!placeholder-gray-200 !${textColor} !${textSize} !${fontSize} !${textHover}`,
-                    wrapper: '!w-full',
-                    section: '!w-full',
+                    root: '!w-full',
+                    input: `!${textColor} !${textSize} !${fontSize} !${textHover}`,
                     placeholder: '!group-hover:text-gray-400 !hover:text-gray-400',
                     day: '[&[data-selected]]:bg-primaryColor-700 [&[data-in-range]]:bg-primaryColor-bg hover:!bg-primaryColor-weak focus:!bg-primaryColor-800 active:!bg-primaryColor-900',
                 }}
