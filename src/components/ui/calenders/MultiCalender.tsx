@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {DatesProvider, DatePickerInput} from '@mantine/dates';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
@@ -18,6 +18,8 @@ export const MultiCalender = memo((props: MultiCalenderProps) => {
     const {startAt, finishAt, onChange} = props;
     const {textColor = 'text-gray-400', textSize = 'text-14', fontSize = 'font-normal', textHover = ''} = props;
 
+    const [date, setDate] = useState<[Date | null, Date | null]>([null, null]);
+
     const value = startAt || finishAt ? ([startAt, finishAt] as [Date, Date]) : undefined;
 
     return (
@@ -31,9 +33,15 @@ export const MultiCalender = memo((props: MultiCalenderProps) => {
                 value={value}
                 placeholder="선택해주세요.."
                 onChange={([start, end]) => {
+                    setDate([start ? new Date(start) : null, end ? new Date(end) : null]);
                     if (!start || !end) return;
 
                     onChange?.({startAt: new Date(start), finishAt: new Date(end)});
+                }}
+                onDropdownClose={() => {
+                    if (date[0] !== null && date[1] === null) {
+                        onChange?.({startAt: new Date(date[0]), finishAt: null});
+                    }
                 }}
                 popoverProps={{position: 'bottom-end', offset: {mainAxis: 3, crossAxis: 0}}}
                 classNames={{
