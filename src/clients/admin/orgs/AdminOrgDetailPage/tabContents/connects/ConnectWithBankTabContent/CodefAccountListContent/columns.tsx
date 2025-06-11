@@ -90,18 +90,18 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
             ),
         },
         {
-            th: '조회된 카드수',
+            th: '조회된 계좌수',
             className: 'text-12',
             render: (account: CodefAccountDto) => (
                 <div className="cursor-pointer" onClick={() => goCodefBankAccountList(account)}>
-                    {unitFormat((account.codefCards || []).length)}
+                    {unitFormat((account.codefBankAccounts || []).length)}
                 </div>
             ),
         },
         {
-            th: '등록된 카드수',
+            th: '등록된 계좌수',
             className: 'text-12',
-            render: (account: CodefAccountDto) => <div>{unitFormat((account.creditCards || []).length)}</div>,
+            render: (account: CodefAccountDto) => <div>{unitFormat((account.bankAccounts || []).length)}</div>,
         },
         {
             th: '',
