@@ -59,12 +59,13 @@ export const WebPush2 = memo(() => {
             const notification = payload.notification!;
             payload.data ||= {} as {[p: string]: string};
             if (payload.fcmOptions?.link) payload.data.link = payload.fcmOptions.link;
+
             new Notification(`${notification.title}`, {
                 body: notification.body,
-                image: notification.image,
+                // image: notification.image,
                 icon: notification.icon || scordiIcon,
                 data: payload.data,
-                vibrate: 100,
+                // vibrate: 100,
                 requireInteraction: true,
             });
         });

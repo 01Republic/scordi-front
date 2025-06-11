@@ -17,9 +17,13 @@ import {
     addableTeamMemberListInAddTeamMemberModal,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {Paginated} from '^types/utils/paginated.dto';
 import {useState} from 'react';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
+import {ErrorResponse} from '^models/User/types';
+import {SUBSCRIPTION_SEAT_HOOK_KEY} from '^models/SubscriptionSeat/hook/key';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -145,4 +149,28 @@ export const useCurrentTeamMember = () => {
     };
 
     return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
+};
+
+//팀 멤버 불러오기
+export const useTeamMembers2 = (orgId: number) => {
+    const [query, setQuery] = useState<FindAllQueryDto<TeamMemberDto>>({});
+    const {data, isLoading, isFetched} = useQuery({
+        queryKey: [TEAM_MEMBER_HOOK_KEY.base, orgId, query],
+        queryFn: () => teamMemberApi.index(orgId, query).then((res) => res.data),
+        initialData: Paginated.init() as Paginated<TeamMemberDto>,
+        enabled: !!orgId && !isNaN(orgId),
+    });
+    return {query, setQuery, data, isLoading, isFetched};
+};
+
+//팀 멤버 업데이트
+export const useUpdateTeamMembers2 = () => {
+    const queryClient = useQueryClient();
+    return useMutation<TeamMemberDto, ErrorResponse, {orgId: number; id: number; data: UpdateTeamMemberDto}>({
+        mutationFn: ({orgId, id, data}) => teamMemberApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
+        },
+    });
 };

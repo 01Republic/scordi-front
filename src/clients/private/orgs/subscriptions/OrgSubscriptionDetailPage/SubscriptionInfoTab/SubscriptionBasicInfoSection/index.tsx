@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -10,20 +10,23 @@ import {SubscriptionDesc} from './SubscriptionDesc';
 import {SubscriptionMaster} from './SubscriptionMaster';
 import {SubscriptionTeam} from './SubscriptionTeam';
 import {errorToast} from '^api/api';
+import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const {reload, currentSubscription: subscription} = useCurrentSubscription();
+    const {reload, currentSubscription} = useCurrentSubscription();
 
-    if (!subscription) return <></>;
+    if (!currentSubscription) return <></>;
+
+    const {mutateAsync: updateSubscription} = useUpdateSubscription();
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
-        subscriptionApi
-            .update(subscription.id, dto)
+        if (!currentSubscription) return;
+        updateSubscription({subscriptionId: currentSubscription.id, data: dto})
             .then(() => setIsSaving(true))
-            .then(() => reload())
+            // .then(() => reload())
             .then(() => toast.success('변경사항을 저장했어요.'))
             .then(() => setIsEditMode(false))
             .catch(errorToast)

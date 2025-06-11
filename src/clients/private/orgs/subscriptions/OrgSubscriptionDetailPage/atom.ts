@@ -15,18 +15,7 @@ export const useCurrentSubscription = () => {
     const findOne = async (id: number) => {
         return subscriptionApi
             .show(id, {
-                relations: [
-                    'organization',
-                    'teamMembers',
-                    'vendorContracts',
-                    'vendorContracts.vendorCompany',
-                    'vendorContracts.vendorManager',
-                    'invoiceAccounts',
-                    'invoiceAccounts.googleTokenData',
-                    'billingHistories',
-                    'subscriptionSeats',
-                    'bankAccount',
-                ],
+                relations: ['invoiceAccounts.googleTokenData'],
             })
             .then((res) => {
                 setCurrentSubscription(res.data);
