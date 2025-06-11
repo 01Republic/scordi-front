@@ -1,28 +1,26 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
+import {MinusCircle} from 'lucide-react';
 import Tippy from '@tippyjs/react';
+import {errorToast} from '^api/api';
 import {TeamMemberDto} from '^models/TeamMember';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
+import {orgIdParamState} from '^atoms/common';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {orgIdParamState} from '^atoms/common';
-import {errorToast} from '^api/api';
+import {useUpdateSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import Datepicker from 'react-tailwindcss-datepicker';
 import {
     SubscriptionSeatDto,
     SubscriptionSeatStatus,
     UpdateSubscriptionSeatRequestDto,
 } from '^models/SubscriptionSeat/type';
-import {subscriptionApi} from '^models/Subscription/api';
-import {yyyy_mm_dd} from '^utils/dateTime';
-import {debounce} from 'lodash';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
+import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
 import {SubscriptionSeatStatusTag} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusTag';
-import {MinusCircle} from 'lucide-react';
+import {MultiCalender} from '^components/ui/calenders/MultiCalender';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
@@ -38,11 +36,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const [isLoading, setIsLoading] = useState(false);
     const {seat, onClick, reload, selected, onSelect, onDelete} = props;
-
-    const [seatDateValue, setSeatDateValue] = useState({
-        startDate: seat.startAt || null,
-        endDate: seat.finishAt || null,
-    });
+    const {mutateAsync: updateSubscriptionSeat} = useUpdateSubscriptionSeat();
 
     if (!seat.teamMember || !subscription) return null;
 
@@ -53,15 +47,14 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
     const showPagePath = OrgTeamMemberShowPageRoute.path(orgId, teamMember.id);
 
-    const update = debounce(async (dto: UpdateSubscriptionSeatRequestDto) => {
+    const update = async (dto: UpdateSubscriptionSeatRequestDto) => {
         setIsLoading(true);
-        return subscriptionApi.seatsApi
-            .update(orgId, subscription.id, seat.id, dto)
-            .then(() => reload())
+
+        await updateSubscriptionSeat({orgId, subscriptionId: subscription.id, id: seat.id, dto})
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
-    }, 500);
+    };
 
     return (
         <tr className="group">
@@ -123,32 +116,18 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             </td>
 
             {/* 계정부여(예정)일 ~ 계정회수(예정)일 */}
-            <td className={`flex items-center text-gray-400 ${hoverBgColor} ${loadingStyle}`}>
-                <Datepicker
-                    containerClassName="min-w-[220px] relative"
-                    inputClassName="input px-1.5 py-1 rounded-md w-full input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0"
-                    toggleClassName="hidden"
-                    useRange={true}
-                    placeholder={`${seat.startAt ? yyyy_mm_dd(seat.startAt) : ''} ~ ${
-                        seat.finishAt ? yyyy_mm_dd(seat.finishAt) : ''
-                    }`}
-                    minDate={new Date()}
-                    value={seatDateValue}
-                    onChange={async (newValue) => {
-                        if (!newValue?.startDate || !newValue?.endDate) return;
-                        setSeatDateValue(newValue);
-                        return update({startAt: newValue?.startDate, finishAt: newValue?.endDate});
-                    }}
+            <td className={`flex items-center text-gray-400 justify-between gap-2 ${hoverBgColor} ${loadingStyle}`}>
+                <MultiCalender
+                    startAt={seat.startAt || null}
+                    finishAt={seat.finishAt || null}
+                    onChange={({startAt, finishAt}) => update({startAt, finishAt})}
+                    textHover="group-hover:text-scordi-300"
                 />
-                <button
-                    type="button"
-                    onClick={() => {
-                        setSeatDateValue({startDate: null, endDate: null});
-                        update({startAt: null, finishAt: null});
-                    }}
-                >
-                    <MinusCircle />
-                </button>
+                {(seat.startAt || seat.finishAt) && (
+                    <button type="button" onClick={() => update({startAt: null, finishAt: null})}>
+                        <MinusCircle />
+                    </button>
+                )}
             </td>
 
             {/* 비고 */}
