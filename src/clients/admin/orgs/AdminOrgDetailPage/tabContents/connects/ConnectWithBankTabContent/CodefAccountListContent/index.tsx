@@ -1,18 +1,18 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {useAdminCodefAccounts} from '^models/CodefAccount/hook';
-import {PagePerSelect} from '^components/Paginator';
-import {LoadableBox} from '^components/util/loading';
-import {CardTablePanel} from '^admin/share';
-import {getCodefAccountColumns} from './columns';
-import {TabPaneProps} from '^components/util/tabs';
-import {selectedCodefAccountAtom} from '../atoms';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {codefAccountAdminApi} from '^models/CodefAccount/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {CardTablePanel} from '^admin/share';
+import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
+import {useAdminCodefAccounts} from '^models/CodefAccount/hook';
+import {codefAccountAdminApi} from '^models/CodefAccount/api';
+import {PagePerSelect} from '^components/Paginator';
+import {LoadableBox} from '^components/util/loading';
+import {TabPaneProps} from '^components/util/tabs';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {selectedCodefAccountAtom} from '../atoms';
+import {getCodefAccountColumns} from './columns';
 
 export const CodefAccountListContent = memo(function (props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -23,8 +23,8 @@ export const CodefAccountListContent = memo(function (props: TabPaneProps) {
     useEffect(() => {
         if (!org) return;
         search({
-            relations: ['connectedIdentity', 'codefCards', 'creditCards'],
-            where: {orgId: org.id, businessType: CodefRequestBusinessType.Card},
+            relations: ['connectedIdentity', 'codefBankAccounts', 'bankAccounts'],
+            where: {orgId: org.id, businessType: CodefRequestBusinessType.Bank},
             order: {id: 'DESC'},
         });
         setSelectedCodefAccount(undefined);

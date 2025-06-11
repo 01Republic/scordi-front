@@ -6,6 +6,8 @@ import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers
 import {Check, EyeOff} from 'lucide-react';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {BANK_ACCOUNT_STOP_WORDS} from '^models/CodefBillingHistory/types/bank-account-stop-words';
+import {format} from 'date-fns';
+import {ko} from 'date-fns/locale';
 
 interface SearchedCodefBillingHistoryItemProps {
     data: CodefBillingHistoryDto;
@@ -18,23 +20,10 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
     const {data: codefBillingHistory, onSelect, preventHidden = false} = props;
     const [isHidden, setIsHidden] = useState(false);
 
-    const yyyymmdd = yyyy_mm_dd(codefBillingHistory.usedAt);
-    const hhmmss = hh_mm(codefBillingHistory.usedAt);
-    const content = (() => {
-        const {
-            resAccountDesc1: d1,
-            resAccountDesc2: d2,
-            resAccountDesc3: d3,
-            resAccountDesc4: d4,
-        } = codefBillingHistory;
-        return `${d3} ${d1 && d1 !== d3 ? `/ ${d1}` : ''}`.trim() || `${d2} ${d4 && d4 !== d2 ? `/ ${d4}` : ''}`.trim();
-    })();
-
-    const finalPrice = (() => {
-        if (codefBillingHistory.resAccountOut > 0) return codefBillingHistory.resAccountOut;
-        if (codefBillingHistory.resAccountIn > 0) return -1 * codefBillingHistory.resAccountIn;
-        return 0;
-    })();
+    const codefBankBillingHistory = codefBillingHistory.asBankAccount;
+    const usedDate = codefBankBillingHistory.usedDate;
+    const content = codefBankBillingHistory.content;
+    const finalPrice = codefBankBillingHistory.amount;
     const currency = codefBillingHistory.resAccountCurrency || '';
     const status = codefBillingHistory.memo;
 
@@ -58,12 +47,14 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
                     <div className="col-span-2 flex items-center gap-1">
                         <span
                             className="tooltip tooltip-primary"
-                            data-tip={`등록일: ${yyyy_mm_dd_hh_mm(codefBillingHistory.createdAt)}`}
+                            data-tip={`등록일: ${format(codefBillingHistory.createdAt, 'yyyy-MM-dd HH:mm', {
+                                locale: ko,
+                            })}`}
                         >
-                            {yyyymmdd}
+                            {format(usedDate, 'yyyy-MM-dd', {locale: ko})}
                         </span>
                     </div>
-                    <div className="flex items-center">{hhmmss}</div>
+                    <div className="flex items-center">{format(usedDate, 'HH:mm:ss', {locale: ko})}</div>
                     <div className="col-span-2 flex items-center">
                         <div>
                             <CodefBankAccountTagUI

@@ -2,7 +2,10 @@ import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {ClassConstructor} from 'class-transformer';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
+import {
+    FindAllBankAccountAdminQueryDto,
+    FindAllBankAccountQueryDto,
+} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {RangeQueryDto} from '^models/CodefBankAccount/type/range.query.dto';
 
 /** [연동] Connect CODEF BankAccount API */
@@ -47,5 +50,20 @@ export const codefBankAccountApi = {
     patchHistories(orgId: number, codefBankAccountId: number, params: RangeQueryDto = {}) {
         const url = `/connect/organizations/${orgId}/codef/bank-accounts/${codefBankAccountId}/histories`;
         return api.patch(url, {}, {params});
+    },
+
+    /**
+     * 코드에프 구독 동기화
+     */
+    patchSubscriptions(orgId: number, codefBankAccountId: number) {
+        const url = `/connect/organizations/${orgId}/codef/bank-accounts/${codefBankAccountId}/subscriptions`;
+        return api.patch(url);
+    },
+};
+
+export const codefBankAccountAdminApi = {
+    index(params: FindAllBankAccountAdminQueryDto) {
+        const url = `/admin/codef-bank-accounts`;
+        return api.get(url, {params}).then(paginatedDtoOf(CodefBankAccountDto));
     },
 };

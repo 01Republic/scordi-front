@@ -105,6 +105,13 @@ export const codefAccountAdminApi = {
         return api.patch(url, body);
     },
 
+    // 카드사 계정내 계좌 목록 동기화
+    syncBankAccounts(organizationId: number, id: number) {
+        const url = `/admin/codef-accounts/${id}/codef-bank-accounts`;
+        const body = {organizationId};
+        return api.patch(url, body);
+    },
+
     // 카드사 계정 삭제
     destroy(organizationId: number, id: number) {
         const url = `/admin/codef-accounts/${id}`;

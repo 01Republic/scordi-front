@@ -1,15 +1,17 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
+import {defineTabs, useTabs} from '^components/util/tabs';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {ConnectedWorkspaceListTabContent} from './ConnectedWorkspaceListTabContent';
 import {InvoiceAccountListTabContent} from './InvoiceAccountListTabContent';
 import {ConnectWithCardTabContent} from './ConnectWithCardTabContent';
-import {defineTabs, useTabs} from '^components/util/tabs';
+import {ConnectWithBankTabContent} from './ConnectWithBankTabContent';
 
 const connectionTab = defineTabs('adminOrgDetailPage/connections', [
     {label: '구성원(워크스페이스)', TabPane: ConnectedWorkspaceListTabContent},
     {label: '결제메일', TabPane: InvoiceAccountListTabContent},
     {label: '카드', TabPane: ConnectWithCardTabContent},
+    {label: '계좌', TabPane: ConnectWithBankTabContent},
 ]);
 
 export const AdminOrgConnectionTabContent = memo(() => {

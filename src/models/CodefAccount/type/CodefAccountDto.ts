@@ -15,6 +15,8 @@ import {
     CodefRequestBusinessType,
     t_codefCustomerType,
 } from './enums';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 /** [Codef] 계정 */
 export class CodefAccountDto {
@@ -56,8 +58,10 @@ export class CodefAccountDto {
 
     @TypeCast(() => CodefConnectedIdentityDto) connectedIdentity?: CodefConnectedIdentityDto; // 커넥티드 아이디
     @TypeCast(() => OrganizationDto) org?: OrganizationDto; // 조직
-    @TypeCast(() => CodefCardDto) codefCards?: CodefCardDto[]; // 등록된 카드
+    @TypeCast(() => CodefCardDto) codefCards?: CodefCardDto[]; // 연동된 카드
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 등록된 카드
+    @TypeCast(() => CodefBankAccountDto) codefBankAccounts?: CodefBankAccountDto[]; // 연동된 계좌
+    @TypeCast(() => BankAccountDto) bankAccounts?: BankAccountDto[]; // 등록된 계좌
 
     get profile() {
         if (!this.connectedIdentityId) return `${this.company ? `${this.company} ` : ''}(엑셀등록 가계정)`;

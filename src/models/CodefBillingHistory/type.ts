@@ -4,6 +4,8 @@ import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/Codef
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {plainToInstance} from 'class-transformer';
+import {parse} from 'date-fns';
 
 export class CodefBillingHistoryDto {
     id: number;
@@ -52,6 +54,10 @@ export class CodefBillingHistoryDto {
     resExchangeRate: string; // '';
     resCashBack: string; // "";
 
+    get asBankAccount() {
+        return plainToInstance(CodefBankAccountBillingHistoryDto, this);
+    }
+
     /** ### 계좌 수시입출내역 관련 컬럼 */
     @TypeCast(() => Number) resAccountOut: number; // 출금금액
     @TypeCast(() => Number) resAccountIn: number; // 입금금액
@@ -85,4 +91,24 @@ export class FindAllCodefBillingHistoryQueryDto extends FindAllQueryDto<CodefBil
 
 export class FindAllCodefBillingHistoryAdminQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
     organizationId?: number;
+}
+
+class CodefBankAccountBillingHistoryDto extends CodefBillingHistoryDto {
+    get content() {
+        const d1 = this.resAccountDesc1;
+        const d2 = this.resAccountDesc2;
+        const d3 = this.resAccountDesc3;
+        const d4 = this.resAccountDesc4;
+        return `${d3} ${d1 && d1 !== d3 ? `/ ${d1}` : ''}`.trim() || `${d2} ${d4 && d4 !== d2 ? `/ ${d4}` : ''}`.trim();
+    }
+
+    get amount() {
+        if (this.resAccountOut > 0) return this.resAccountOut;
+        if (this.resAccountIn > 0) return -1 * this.resAccountIn;
+        return 0;
+    }
+
+    get usedDate() {
+        return parse(`${this.resUsedDate} ${this.resUsedTime}`, 'yyyyMMdd HHmmss', new Date());
+    }
 }

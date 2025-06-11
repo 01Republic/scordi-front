@@ -1,44 +1,44 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import {X} from 'lucide-react';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {useAdminCodefBillingHistories} from '^models/CodefBillingHistory/hook';
 import {LoadableBox} from '^components/util/loading';
 import {CardTablePanel, CardTableTH} from '^admin/share';
 import {PagePerSelect} from '^components/Paginator';
-import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {selectedCodefCardAtom} from '../atoms';
+import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
+import {selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
-import {X} from 'lucide-react';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
-    const [selectedCodefCard, setSelectedCodefCard] = useRecoilState(selectedCodefCardAtom);
+    const [selectedCodefAsset, setSelectedCodefAsset] = useRecoilState(selectedCodefBankAccountAtom);
     const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories();
 
     useEffect(() => {
         if (!org) return;
 
         const orgId = org.id;
-        if (!selectedCodefCard) {
+        if (!selectedCodefAsset) {
             search({
-                relations: ['codefCard'],
+                relations: ['codefBankAccount', 'codefBankAccount.account'],
                 where: {
-                    codefCard: {account: {orgId}},
+                    codefBankAccount: {account: {orgId}},
                 },
                 order: {usedAt: 'DESC'},
             });
         } else {
             search({
-                relations: ['codefCard'],
+                relations: ['codefBankAccount', 'codefBankAccount.account'],
                 where: {
-                    codefCard: {account: {orgId}},
-                    codefCardId: selectedCodefCard.id,
+                    codefBankAccount: {account: {orgId}},
+                    codefBankAccountId: selectedCodefAsset.id,
                 },
                 page: 1,
                 order: {usedAt: 'DESC'},
             });
         }
-    }, [org, selectedCodefCard]);
+    }, [org, selectedCodefAsset]);
 
     // useUnmount(() => setSelectedCodefCard(undefined));
 
@@ -63,18 +63,21 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
 
             <br />
 
-            {selectedCodefCard && (
+            {selectedCodefAsset && (
                 // Filter Section
                 <section className="flex items-center text-12 gap-4 mb-4">
                     {/* Filter: CodefCard */}
                     <div className="flex items-center">
-                        <div className="mr-2">선택된 카드:</div>
+                        <div className="mr-2">선택된 계좌:</div>
                         <div
                             className="flex items-center group cursor-pointer"
-                            onClick={() => setSelectedCodefCard(undefined)}
+                            onClick={() => setSelectedCodefAsset(undefined)}
                         >
                             <div>
-                                <CodefCardTagUI codefCard={selectedCodefCard} />
+                                <CodefBankAccountTagUI
+                                    codefBankAccount={selectedCodefAsset}
+                                    render={(item) => item.title}
+                                />
                             </div>
                             <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                         </div>
@@ -90,22 +93,21 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                         <CodefBillingHistoryItem
                             key={i}
                             codefBillingHistory={codefBillingHistory}
-                            onCardSelect={setSelectedCodefCard}
+                            onAssetSelect={setSelectedCodefAsset}
                         />
                     )}
                     pagination={pagination}
                     pageMove={movePage}
                 >
-                    <CardTableTH gridClass="grid-cols-14" className="text-12 items-center">
+                    <CardTableTH gridClass="grid-cols-12" className="text-12 items-center">
                         <div>ID</div>
-                        <div className="col-span-3">결제일시</div>
-                        <div>카드</div>
+                        <div className="col-span-2">결제일시</div>
+                        <div>계좌</div>
                         <div className="col-span-3">제목</div>
                         <div className="col-span-2 text-right">금액</div>
                         <div>결제상태</div>
                         {/*<div>해외결제여부</div>*/}
                         <div>스코디 연동</div>
-                        <div></div>
                         <div></div>
                     </CardTableTH>
                 </CardTablePanel>

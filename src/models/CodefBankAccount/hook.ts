@@ -1,12 +1,17 @@
 import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {uniqBy} from 'lodash';
-import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
+import {
+    FindAllBankAccountAdminQueryDto,
+    FindAllBankAccountQueryDto,
+} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
-import {codefBankAccountApi} from '^models/CodefBankAccount/api';
+import {codefBankAccountAdminApi, codefBankAccountApi} from '^models/CodefBankAccount/api';
 import {ErrorResponse} from '^models/User/types';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {codefBankAccountsAdminAtom} from '^models/CodefBankAccount/atom';
 
 /* 코드에프 계좌 조회 */
 export const useCodefBankAccount = () => {
@@ -117,4 +122,23 @@ export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAc
         errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
         allConnected: syncQuery.allConnected,
     };
+};
+
+/***
+ * ADMIN
+ */
+
+export const useAdminCodefBankAccounts = () => useCodefBankAccountsAdmin(codefBankAccountsAdminAtom);
+
+const useCodefBankAccountsAdmin = (
+    atoms: PagedResourceAtoms<CodefBankAccountDto, FindAllBankAccountAdminQueryDto>,
+    mergeMode = false,
+) => {
+    return usePagedResource(atoms, {
+        useOrgId: false,
+        endpoint: (params) => codefBankAccountAdminApi.index(params),
+        // @ts-ignore
+        getId: 'id',
+        mergeMode,
+    });
 };
