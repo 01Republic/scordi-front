@@ -41,7 +41,7 @@ export const JobSection = () => {
                                 setIsActive(false);
                             }
                         }}
-                        className="w-full bg-white pt-6 h-14 cursor-pointer border border-neutral-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 focus:outline focus:outline-1 focus:outline-primaryColor-900"
+                        className="w-full bg-white pt-6 h-14 cursor-pointer border border-gray-300 text-sm text-neutral-900 rounded-lg pl-12 pr-5 focus:outline focus:outline-1 focus:outline-primaryColor-900"
                     >
                         {t_userJob(selectedJob)}
                     </div>

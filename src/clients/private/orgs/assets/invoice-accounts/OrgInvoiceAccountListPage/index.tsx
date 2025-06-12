@@ -3,6 +3,7 @@ import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialInvoiceMail} from '^components/ExternalCDNScripts/step-by';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountScopeHandler} from './InvoiceAccountScopeHandler';
 import {InvoiceAccountTableHeader} from './InvoiceAccountTableHeader';
@@ -54,7 +55,12 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
             onUnmount={() => reset()}
             breadcrumb={['자산', {text: '청구서 메일', active: true}]}
             titleText="청구서 메일"
-            Buttons={() => <AddInvoiceAccountDropdown reload={refresh} />}
+            Buttons={() => (
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialInvoiceMail} />
+                    <AddInvoiceAccountDropdown reload={refresh} />
+                </>
+            )}
             ScopeHandler={<InvoiceAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}

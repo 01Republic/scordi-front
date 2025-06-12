@@ -38,7 +38,7 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
                     <HelpCircle className="text-gray-300 h-full w-full p-1" />
                 </div>
             )}
-            <span className={`text-neutral-900 whitespace-nowrap ${textClassName}`}>
+            <span className={`text-gray-900 whitespace-nowrap ${textClassName}`}>
                 {product.name()} {isAlias && subscription.alias && `- ${subscription.alias}`}
             </span>
         </div>

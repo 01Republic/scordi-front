@@ -1,15 +1,15 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {orgIdParamState} from '^atoms/common';
-import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
-import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
-import {QuickButton} from './QuickButton';
-import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {CreditCard} from 'lucide-react';
+import {useOrgIdParam} from '^atoms/common';
+import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
+import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
+import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
+import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
+import {QuickButton} from './QuickButton';
 
 export const AddCreditCardButton = memo(function AddCreditCardButton() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const router = useRouter();
 
     const {refetch} = useDashboardCreditCardsSectionResultDto(orgId);
@@ -17,14 +17,13 @@ export const AddCreditCardButton = memo(function AddCreditCardButton() {
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
 
-    if (!orgId || isNaN(orgId)) return <></>;
-
     return (
         <>
             <QuickButton
                 text="결제수단 추가"
                 Icon={() => <CreditCard />}
-                onClick={() => setIsCardCreateMethodModalOpen(true)}
+                url={OrgAssetsCreateMethodSelectPageRoute.path(orgId)}
+                // onClick={() => setIsCardCreateMethodModalOpen(true)}
             />
 
             {/* 결제수단 등록 > 등록 방법 선택 */}

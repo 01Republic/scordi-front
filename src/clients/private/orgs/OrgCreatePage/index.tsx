@@ -32,12 +32,12 @@ export const OrgCreatePage = memo(() => {
     };
 
     return (
-        <BaseLayout outOfWorkspace>
+        <BaseLayout workspace={false}>
             <main className="w-full h-screen flex items-center justify-center">
                 <FormProvider {...form}>
                     <form onSubmit={(e) => e.preventDefault()}>
                         <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
-                            <span className="text-28 font-bold text-neutral-900">회사 정보를 입력해주세요</span>
+                            <span className="text-28 font-bold text-gray-900">회사 정보를 입력해주세요</span>
                             <section className="w-full flex flex-col gap-3">
                                 <OrganizationNameSection />
                                 <BusinessRegistrationNumberSection />

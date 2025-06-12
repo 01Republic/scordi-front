@@ -1,8 +1,7 @@
 import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {currencyFormat, unitFormat} from '^utils/number';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
@@ -12,9 +11,10 @@ import {PaymentMethodItem} from './PaymentMethodItem';
 import {EmptyTableLayout} from '../EmptyTableLayout';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {CreditCard} from 'lucide-react';
+import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
 
 export const PaymentMethodsSection = memo(() => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const router = useRouter();
 
     const {
@@ -33,7 +33,8 @@ export const PaymentMethodsSection = memo(() => {
                 <EmptyTableLayout
                     title="결제수단"
                     Icon={() => <CreditCard />}
-                    onClick={() => setIsCardCreateMethodModalOpen(true)}
+                    url={OrgAssetsCreateMethodSelectPageRoute.path(orgId)}
+                    // onClick={() => setIsCardCreateMethodModalOpen(true)}
                 />
 
                 {/* 결제수단 등록 > 등록 방법 선택 */}

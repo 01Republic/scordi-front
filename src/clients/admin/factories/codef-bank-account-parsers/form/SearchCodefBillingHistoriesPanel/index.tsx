@@ -14,6 +14,7 @@ import {SearchedCodefBillingHistoryItem} from './SearchedCodefBillingHistoryItem
 import {SelectedCodefBankAccount} from './SelectedCodefBankAccount';
 import {SearchBankAccountInput} from './SearchBankAccountInput';
 import {SetRecurringGroupPanel} from '../SetRecurringGroupPanel';
+import {unitFormat} from '^utils/number';
 
 export const SearchCodefBillingHistoriesPanel = memo(() => {
     const form = useFormContext<UpdateCodefBankAccountParserRequestDto>();
@@ -22,20 +23,20 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
 
     useEffect(() => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.computedAccountDesc || {};
         search({ops, fo, bo, value});
     }, []);
 
     const onBankAccountSelect = (codefBankAccount?: CodefBankAccountDto) => {
         selectCodefBankAccount(codefBankAccount);
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.computedAccountDesc || {};
         search({ops, fo, bo, value}, codefBankAccount);
     };
 
     const onChangeOps = (ops: FindOperatorType) => {
         const values = form.getValues();
-        const old = values?.resMemberStoreName;
+        const old = values?.computedAccountDesc;
         const value = old?.value || '';
         let fo = old?.fo;
         let bo = old?.bo;
@@ -53,30 +54,30 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                 fo = false;
                 bo = true;
         }
-        form.setValue('resMemberStoreName.ops', ops);
-        form.setValue('resMemberStoreName.fo', fo);
-        form.setValue('resMemberStoreName.bo', bo);
+        form.setValue('computedAccountDesc.ops', ops);
+        form.setValue('computedAccountDesc.fo', fo);
+        form.setValue('computedAccountDesc.bo', bo);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     };
 
     const onChangeFo = debounce((fo?: boolean) => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, bo, value = ''} = values?.resMemberStoreName || {};
-        form.setValue('resMemberStoreName.fo', fo);
+        const {ops = FindOperatorType.Like, bo, value = ''} = values?.computedAccountDesc || {};
+        form.setValue('computedAccountDesc.fo', fo);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     }, 500);
 
     const onChangeBo = debounce((bo?: boolean) => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, value = ''} = values?.resMemberStoreName || {};
-        form.setValue('resMemberStoreName.bo', bo);
+        const {ops = FindOperatorType.Like, fo, value = ''} = values?.computedAccountDesc || {};
+        form.setValue('computedAccountDesc.bo', bo);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     }, 500);
 
     const onChangeInput = debounce((value: string = '') => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo} = values?.resMemberStoreName || {};
-        form.setValue('resMemberStoreName.value', value);
+        const {ops = FindOperatorType.Like, fo, bo} = values?.computedAccountDesc || {};
+        form.setValue('computedAccountDesc.value', value);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     }, 500);
 
@@ -90,67 +91,73 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
             >
                 <ContentPanelList>
                     <ContentPanelItem itemsAlign="start">
-                        <div className="flex-1 pr-4 pt-2">
-                            <SelectedCodefBankAccount
-                                codefBankAccount={selectedCodefBankAccount}
-                                onClick={() => onBankAccountSelect(undefined)}
-                            />
-                            <LoadableBox loadingType={2} isLoading={isLoading} noPadding>
-                                <div className="grid grid-cols-7 text-12 text-gray-500">
-                                    <div>결과: {codefBillingHistories.length}개</div>
-                                </div>
-                                {codefBillingHistories.map((codefBillingHistory, i) => (
-                                    <SearchedCodefBillingHistoryItem
-                                        key={i}
-                                        data={codefBillingHistory}
-                                        onSelect={onBankAccountSelect}
-                                    />
-                                ))}
-                            </LoadableBox>
-                        </div>
+                        <div className="w-full grid grid-cols-12 gap-2 items-start">
+                            <div className="col-span-7 pr-4 pt-2">
+                                <SelectedCodefBankAccount
+                                    codefBankAccount={selectedCodefBankAccount}
+                                    onClick={() => onBankAccountSelect(undefined)}
+                                />
+                                <LoadableBox loadingType={2} isLoading={isLoading} noPadding>
+                                    <div className="grid grid-cols-7 text-12 text-gray-500">
+                                        <div>결과: {unitFormat(codefBillingHistories.length)}</div>
+                                    </div>
 
-                        <div className="flex-1">
-                            <div className="mb-4">
-                                <SearchBankAccountInput onSelect={onBankAccountSelect} />
+                                    {codefBillingHistories.map((codefBillingHistory, i) => (
+                                        <SearchedCodefBillingHistoryItem
+                                            key={i}
+                                            data={codefBillingHistory}
+                                            onSelect={onBankAccountSelect}
+                                        />
+                                    ))}
+                                </LoadableBox>
                             </div>
 
-                            <div className="mb-4">
-                                <div className="form-control w-full mb-4">
-                                    <label htmlFor="select-resMemberStoreName_condition_type" className="label px-0">
-                                        <span className="label-text">입출금 내역의 텍스트에 변칙이 있나요?</span>
-                                    </label>
-
-                                    <select
-                                        id="select-resMemberStoreName_condition_type"
-                                        className="select select-bordered"
-                                        onChange={(e) => onChangeOps(e.currentTarget.value as FindOperatorType)}
-                                        defaultValue={values.resMemberStoreName?.ops}
-                                    >
-                                        <option value={FindOperatorType.Like}>여러 케이스가 있어요.</option>
-                                        <option value={FindOperatorType.Equal}>한 가지 케이스만 있어요.</option>
-                                        <option value={FindOperatorType.Regexp}>정규표현식!</option>
-                                    </select>
+                            <div className="col-span-5">
+                                <div className="mb-4">
+                                    <SearchBankAccountInput onSelect={onBankAccountSelect} />
                                 </div>
 
-                                {values.resMemberStoreName?.ops === FindOperatorType.Equal ? (
-                                    <ConditionEqualInputGroup
-                                        isLoading={isLoading}
-                                        value={values.resMemberStoreName?.value}
-                                        onChange={onChangeInput}
-                                    />
-                                ) : values.resMemberStoreName?.ops === FindOperatorType.Regexp ? (
-                                    <ConditionRegexpInputGroup
-                                        isLoading={isLoading}
-                                        value={{value: values.resMemberStoreName?.value, onChange: onChangeInput}}
-                                    />
-                                ) : (
-                                    <ConditionLikeInputGroup
-                                        isLoading={isLoading}
-                                        fo={{value: values.resMemberStoreName?.fo, onChange: onChangeFo}}
-                                        bo={{value: values.resMemberStoreName?.bo, onChange: onChangeBo}}
-                                        value={{value: values.resMemberStoreName?.value, onChange: onChangeInput}}
-                                    />
-                                )}
+                                <div className="mb-4">
+                                    <div className="form-control w-full mb-4">
+                                        <label
+                                            htmlFor="select-resMemberStoreName_condition_type"
+                                            className="label px-0"
+                                        >
+                                            <span className="label-text">입출금 내역의 텍스트에 변칙이 있나요?</span>
+                                        </label>
+
+                                        <select
+                                            id="select-resMemberStoreName_condition_type"
+                                            className="select select-bordered"
+                                            onChange={(e) => onChangeOps(e.currentTarget.value as FindOperatorType)}
+                                            defaultValue={values.computedAccountDesc?.ops}
+                                        >
+                                            <option value={FindOperatorType.Like}>여러 케이스가 있어요.</option>
+                                            <option value={FindOperatorType.Equal}>한 가지 케이스만 있어요.</option>
+                                            <option value={FindOperatorType.Regexp}>정규표현식!</option>
+                                        </select>
+                                    </div>
+
+                                    {values.computedAccountDesc?.ops === FindOperatorType.Equal ? (
+                                        <ConditionEqualInputGroup
+                                            isLoading={isLoading}
+                                            value={values.computedAccountDesc?.value}
+                                            onChange={onChangeInput}
+                                        />
+                                    ) : values.computedAccountDesc?.ops === FindOperatorType.Regexp ? (
+                                        <ConditionRegexpInputGroup
+                                            isLoading={isLoading}
+                                            value={{value: values.computedAccountDesc?.value, onChange: onChangeInput}}
+                                        />
+                                    ) : (
+                                        <ConditionLikeInputGroup
+                                            isLoading={isLoading}
+                                            fo={{value: values.computedAccountDesc?.fo, onChange: onChangeFo}}
+                                            bo={{value: values.computedAccountDesc?.bo, onChange: onChangeBo}}
+                                            value={{value: values.computedAccountDesc?.value, onChange: onChangeInput}}
+                                        />
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </ContentPanelItem>

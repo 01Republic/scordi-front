@@ -75,3 +75,40 @@ export async function allRejected<T>(
     callback && (await callback(fulfilled));
     return rejected;
 }
+
+/**
+ * Promise 배열을 병렬로 처리할 때,
+ * 성공 시 요청값은 item 에 응답값 중 마지막 배열을 response 로 담아줌
+ * 실패 시 요청값은 item 에 따른 실패 값을 reason 에 담아줌
+ * */
+export async function allSettledGroupWithContext<T, U>(
+    items: T[],
+    fn: (item: T) => Promise<{data: {accessList: U[]}}>,
+): Promise<{
+    successes: Array<{item: T; response: U}>;
+    failures: Array<{item: T; reason: any}>;
+}> {
+    const results = await Promise.allSettled(
+        items.map((item) =>
+            fn(item)
+                .then((res) => {
+                    const [response] = lastOf(res.data.accessList, 1);
+                    return {item, response};
+                })
+                .catch((reason) => Promise.reject({item, reason})),
+        ),
+    );
+
+    const successes: Array<{item: T; response: U}> = [];
+    const failures: Array<{item: T; reason: any}> = [];
+
+    for (const res of results) {
+        if (res.status === 'fulfilled') {
+            successes.push(res.value);
+        } else {
+            failures.push(res.reason);
+        }
+    }
+
+    return {successes, failures};
+}

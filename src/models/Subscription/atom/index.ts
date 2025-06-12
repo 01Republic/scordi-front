@@ -5,6 +5,7 @@ import {pagedResourceAtom} from '^hooks/usePagedResource';
 import {SubscriptionDto, FindAllSubscriptionsQuery, CreateSubscriptionRequestDto} from '../types';
 import {subscriptionApi} from '../api';
 import {localStorageAtoms} from '^atoms/localStorage.atom';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 
 export const subscriptionListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListAtom',

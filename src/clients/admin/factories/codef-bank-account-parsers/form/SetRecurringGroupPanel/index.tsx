@@ -42,7 +42,7 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
 
     const fetchBeforeStepData = () => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.computedAccountDesc || {};
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     };
 
@@ -68,26 +68,28 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
             <ContentPanelBody>
                 <ContentPanelList>
                     <ContentPanelItem itemsAlign="start">
-                        <div className="flex-1 pr-4">
-                            <LoadableBox loadingType={2} isLoading={isLoading || isGrouping} noPadding>
-                                {recurringGroups.map((group, i) => (
-                                    <RecurringGroup key={i} group={group} index={i} />
-                                ))}
-                            </LoadableBox>
-                        </div>
+                        <div className="w-full grid grid-cols-12 gap-2 items-start">
+                            <div className="col-span-7 pr-4">
+                                <LoadableBox loadingType={2} isLoading={isLoading || isGrouping} noPadding>
+                                    {recurringGroups.map((group, i) => (
+                                        <RecurringGroup key={i} group={group} index={i} />
+                                    ))}
+                                </LoadableBox>
+                            </div>
 
-                        <div className="flex-1">
-                            <div className="mb-4">
-                                <h3 className="text-14 mb-4">
-                                    반복결제(구독 워크스페이스)에 따른 그룹을 어떻게 묶을까요?
-                                </h3>
+                            <div className="col-span-5">
+                                <div className="mb-4">
+                                    <h3 className="text-14 mb-4">
+                                        반복결제(구독 워크스페이스)에 따른 그룹을 어떻게 묶을까요?
+                                    </h3>
 
-                                <div className="flex flex-col gap-3">
-                                    <GroupingMethodRadioGroup
-                                        onChange={changeGroupingMethod}
-                                        defaultValue={form.getValues('groupingMethod')}
-                                        defaultFixedRecurringType={form.getValues('fixedRecurringType')}
-                                    />
+                                    <div className="flex flex-col gap-3">
+                                        <GroupingMethodRadioGroup
+                                            onChange={changeGroupingMethod}
+                                            defaultValue={form.getValues('groupingMethod')}
+                                            defaultFixedRecurringType={form.getValues('fixedRecurringType')}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

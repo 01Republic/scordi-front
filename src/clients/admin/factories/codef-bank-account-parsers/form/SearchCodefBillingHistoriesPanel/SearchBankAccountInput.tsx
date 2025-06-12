@@ -11,6 +11,7 @@ import {CodefBankAccountTagUI} from '../share/CodefBankAccountTagUI';
 import {Check, Search, X} from 'lucide-react';
 import {CodefBankAccountSearchResultDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefBankAccountSearchResult.dto';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
+import {unitFormat} from '^utils/number';
 
 interface SearchBankAccountInputProps {
     onSelect: (codefBankAccount?: CodefBankAccountDto) => any;
@@ -125,6 +126,7 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
                             <div
                                 className="flex items-center group cursor-pointer"
                                 onClick={() => {
+                                    // Clear result
                                     onSelect(undefined);
                                     setSearchResult(undefined);
                                     if (searchKey === SearchKey.Name) nameInputRef.current?.focus();
@@ -171,6 +173,10 @@ export const SearchBankAccountInput = memo((props: SearchBankAccountInputProps) 
                         </div>
                     </div>
 
+                    <div>
+                        <span className="text-12 text-gray-500">계좌: {unitFormat(codefBankAccounts.length)}</span>
+                    </div>
+
                     {!isFold && (
                         <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
                             {codefBankAccounts.map((codefBankAccount, i) => (
@@ -206,7 +212,7 @@ SearchBankAccountInput.displayName = 'SearchCardInput';
 const SearchedItem = memo((props: {item: CodefBankAccountDto; onClick: () => any}) => {
     const {item, onClick} = props;
 
-    const company = item.account?.company || ' - ';
+    const company = item.company?.displayName || ' - ';
     const isConnected = !!item.bankAccountId;
 
     return (

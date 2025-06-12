@@ -11,11 +11,11 @@ export class CreateCodefBankAccountParserRequestDto {
     // queryObj: FindAllCodefBillingHistoryQueryDto;
     // queryObj: {
     //     where: {
-    //         resMemberStoreName: FindOptionsWhere<CodefBillingHistoryDto>['resMemberStoreName'];
+    //         computedAccountDesc: FindOptionsWhere<CodefBillingHistoryDto>['computedAccountDesc'];
     //     };
     // };
     @TypeCast(() => FindOperatorUnitDto)
-    resMemberStoreName: FindOperatorUnitDto;
+    computedAccountDesc: FindOperatorUnitDto;
 
     groupingMethod: GroupingMethod;
     fixedRecurringType: BillingCycleOptions | null;

@@ -23,34 +23,41 @@ export class CodefBankAccountParserDto {
     @TypeCast(() => ProductDto) product?: ProductDto;
     @TypeCast(() => CodefBillingHistoryDto) codefBillingHistories?: CodefBillingHistoryDto[];
 
-    get resMemberStoreName(): FindOperatorUnitDto {
-        const resMemberStoreName = this.queryObj.where?.resMemberStoreName;
+    get query(): FindOperatorUnitDto {
+        const q = this.queryObj.where?.computedAccountDesc;
 
-        if (typeof resMemberStoreName === 'string') {
+        if (typeof q === 'string') {
             return {
                 ops: FindOperatorType.Equal,
                 fo: false,
                 bo: false,
-                value: resMemberStoreName,
+                value: q,
             };
         }
 
-        if (typeof resMemberStoreName === 'object') {
-            const value = resMemberStoreName.val;
-            if (resMemberStoreName.op === 'like') {
-                return {
-                    ops: FindOperatorType.Like,
-                    fo: value.startsWith('%'),
-                    bo: value.endsWith('%'),
-                    value: value.replace(/%/g, ''),
-                };
-            } else {
-                return {
-                    ops: FindOperatorType.Regexp,
-                    fo: false,
-                    bo: false,
-                    value,
-                };
+        if (typeof q === 'object') {
+            switch (q.op) {
+                case 'like':
+                    return {
+                        ops: FindOperatorType.Like,
+                        fo: q.val.startsWith('%'),
+                        bo: q.val.endsWith('%'),
+                        value: q.val.replace(/%/g, ''),
+                    };
+                case 'in':
+                    return {
+                        ops: FindOperatorType.Regexp,
+                        fo: false,
+                        bo: false,
+                        value: q.val.join(', '),
+                    };
+                default:
+                    return {
+                        ops: FindOperatorType.Regexp,
+                        fo: false,
+                        bo: false,
+                        value: q.val,
+                    };
             }
         }
 

@@ -5,9 +5,10 @@ import {Plus} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {orgIdParamState} from '^atoms/common';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/ExternalCDNScripts/step-by';
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRemoveSubscription, useSubscriptionTableListAtom} from '^models/Subscription/hook';
@@ -44,7 +45,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const AddSubscriptionButton = () => (
         <div>
             <LinkTo
-                href={OrgSubscriptionSelectPageRoute.path(orgId)}
+                href={OrgSubscriptionConnectionPageRoute.path(orgId)}
                 className="btn btn-scordi gap-2 no-animation btn-animation"
                 loadingOnBtn
             >
@@ -82,6 +83,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             titleText="구독 리스트"
             Buttons={() => (
                 <div className="flex gap-4">
+                    <StepbyTutorialButton onClick={StepByTutorialSubscriptionList} />
                     <ExcelDownLoadButton />
                     <AddSubscriptionButton />
                 </div>

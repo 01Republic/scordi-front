@@ -13,7 +13,7 @@ export const QuickButton = (props: QuickButtonProps) => {
     const {text, url, Icon, onClick} = props;
 
     return (
-        <LinkTo href={url} onClick={onClick} className="btn-dashboard">
+        <LinkTo href={url} onClick={onClick} className="btn-dashboard" displayLoading={false}>
             <Icon />
             <p className="whitespace-nowrap text-xs md:text-sm  font-semibold">{text}</p>
         </LinkTo>

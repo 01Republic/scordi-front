@@ -19,7 +19,7 @@ export class TopLineBannerDto {
     onClick?: () => void | null;
 }
 
-export type PageFlashTheme = 'notice' | 'waring' | 'danger' | 'basicInfo' | 'thanksTo';
+export type PageFlashTheme = 'notice' | 'alert' | 'waring' | 'danger' | 'basicInfo' | 'thanksTo';
 export type PageFlashType = 'text' | 'button' | 'link';
 
 export class PageFlashDto {

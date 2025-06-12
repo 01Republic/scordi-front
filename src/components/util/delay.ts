@@ -78,3 +78,13 @@ export function timeoutChain2(startTimeout: number, chains: ([number, () => any]
 export function tChainStep(duration: number, cb: () => any): [number, () => any] {
     return [duration, cb];
 }
+
+export async function waitFor(func: () => boolean, interval = 1000, retry = 10) {
+    let result = false;
+    for (let i = 0; i < retry; i++) {
+        await delay(interval);
+        result = func();
+        if (result) break;
+    }
+    return result;
+}

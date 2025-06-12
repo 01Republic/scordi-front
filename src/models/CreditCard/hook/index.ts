@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
+import {useQueries} from '@tanstack/react-query';
 import {CreditCardManager} from '^models/CreditCard/manager';
 import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
@@ -80,3 +81,24 @@ const useCreditCardsV3 = (atoms: PagedResourceAtoms<CreditCardDto, FindAllCredit
 
 // 자산 > 결제수단 > 목록 페이지 테이블
 export const useCreditCardListForListPage = () => useCreditCardsV3(creditCardListForCreditCardListPageAtom);
+
+// 원하는 카드들을 조회
+export const useSomeCreditCards = (orgId: number, codefCardIds: (number | null)[]) => {
+    const nonNullIds = codefCardIds.filter((codefCardId): codefCardId is number => codefCardId != null);
+
+    const results = useQueries({
+        queries: nonNullIds.map((id) => ({
+            queryKey: ['useSomeCreditCards', orgId, id],
+            queryFn: () => creditCardApi.show(orgId, id).then((res) => res.data),
+            enabled: !!orgId && !isNaN(orgId) && !!id,
+        })),
+    });
+
+    const data = results //
+        .map((res) => res.data)
+        .filter((res): res is CreditCardDto => res != null);
+
+    const isLoading = results.some((res) => res.isLoading);
+
+    return {data, isLoading};
+};

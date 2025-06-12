@@ -26,7 +26,7 @@ export const oneNullableDtoOf =
 export const listDtoOf =
     <T>(DtoClass: ClassConstructor<T>) =>
     (res: AxiosResponse<T[]>) => {
-        res.data = plainToInstance(DtoClass, res.data);
+        res.data = plainToInstance(DtoClass, res.data || []);
         return res;
     };
 
