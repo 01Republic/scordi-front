@@ -9,6 +9,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {AssetConnectPageTemplate, ConnectAssetsStepStrategy} from '^_components/pages/assets/connect-steps';
 import {connectedAssetsAtom} from '../atom';
 import {BankAccountDto} from '^models/BankAccount/type';
+import {toast} from 'react-hot-toast';
 
 /**
  * 자산 등록
@@ -29,17 +30,6 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
                     수동으로 등록하기
                 </LinkTo>
             )}
-            onSuccess={(connectedAssets) => {
-                const bankAccountExist = connectedAssets.some((asset) => asset instanceof BankAccountDto);
-                // 연동 결과에 카드가 없이 계좌만 있다면,
-                if (bankAccountExist) {
-                    // 계좌 목록 페이지로 이동하고,
-                    return router.replace(OrgBankAccountListPageRoute.path(orgId));
-                }
-
-                // 그게 아니면, 기본적으로 카드 목록페이지로 이동.
-                return router.push(OrgCreditCardListPageRoute.path(orgId));
-            }}
             assetConnectMethodSelectStep={{
                 title: '자산을 연동해 볼까요?',
             }}
@@ -49,6 +39,19 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
             }}
             connectAssetsStep={{
                 strategy: ConnectAssetsStepStrategy.CreateScordiAssets,
+            }}
+            onSuccess={(connectedAssets) => {
+                if (connectedAssets.length > 0) toast.success('자산이 추가되었어요.');
+
+                const bankAccountExist = connectedAssets.some((asset) => asset instanceof BankAccountDto);
+                // 연동 결과에 카드가 없이 계좌만 있다면,
+                if (bankAccountExist) {
+                    // 계좌 목록 페이지로 이동하고,
+                    return router.replace(OrgBankAccountListPageRoute.path(orgId));
+                }
+
+                // 그게 아니면, 기본적으로 카드 목록페이지로 이동.
+                return router.push(OrgCreditCardListPageRoute.path(orgId));
             }}
         />
     );
