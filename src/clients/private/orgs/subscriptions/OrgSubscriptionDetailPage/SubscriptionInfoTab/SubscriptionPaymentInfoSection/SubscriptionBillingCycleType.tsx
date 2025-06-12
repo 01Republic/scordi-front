@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {UseFormReturn, useWatch} from 'react-hook-form';
-import {useCurrentSubscription} from '../../atom';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {BillingCycleSelect} from './BillingCycleTypeSelect';
@@ -9,13 +8,11 @@ import {BillingCycleSelect} from './BillingCycleTypeSelect';
 interface SubscriptionBillingCycleTypeProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionBillingCycleType = memo((props: SubscriptionBillingCycleTypeProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
+    const {isEditMode, form, subscription} = props;
 
     const billingCycleType = useWatch({
         control: form.control,

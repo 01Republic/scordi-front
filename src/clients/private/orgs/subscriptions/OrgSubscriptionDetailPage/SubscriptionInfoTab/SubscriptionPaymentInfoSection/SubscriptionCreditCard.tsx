@@ -1,20 +1,17 @@
 import React, {memo} from 'react';
-import {useCurrentSubscription} from '../../atom';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 
 interface SubscriptionCreditCardProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionCreditCard = memo((props: SubscriptionCreditCardProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
+    const {isEditMode, form, subscription} = props;
 
     return (
         <FormControl label="연결된 카드">

@@ -1,23 +1,20 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import Tippy from '@tippyjs/react';
-import {useCurrentSubscription} from '../../atom';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {InvoiceAccountProfileCompact, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
+import {InvoiceAccountSelectForTableView} from '^models/InvoiceAccount/components/InvoiceAccountSelectForTableView';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {EmptyValue} from '../../EmptyValue';
-import {InvoiceAccountSelectForTableView} from '^models/InvoiceAccount/components/InvoiceAccountSelectForTableView';
 
 interface SubscriptionInvoiceAccountProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionInvoiceAccount = memo((props: SubscriptionInvoiceAccountProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
+    const {isEditMode, form, subscription} = props;
 
     return (
         <FormControl label="청구서메일">
