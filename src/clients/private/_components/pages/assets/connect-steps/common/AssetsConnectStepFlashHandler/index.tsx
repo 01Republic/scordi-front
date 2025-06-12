@@ -28,7 +28,7 @@ export const AssetsConnectStepFlashHandler = memo((props: AssetsConnectStepFlash
                 <div className="mt-4 px-4 shadow rounded-lg w-full overflow-hidden transition-all h-[3rem] text-14 flex items-center justify-between bg-yellowColor-100 !text-yellowColor-400">
                     <div className="min-w-[48px] flex items-center justify-center">&nbsp;</div>
                     <div className="flex-1 text-center">
-                        <span className="mr-8">⚠️ 연동에 실패한 금융기관이 있어요</span>
+                        <span className="mr-8">⚠️ 불러오지 못한 금융기관이 있어요</span>
                         <LinkTo
                             className="btn-link underline-offset-2 cursor-pointer transition-all hover:text-blue-700"
                             onClick={() => setIsFailModalOpened(true)}

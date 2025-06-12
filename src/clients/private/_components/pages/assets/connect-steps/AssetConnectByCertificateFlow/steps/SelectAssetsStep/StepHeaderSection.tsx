@@ -41,7 +41,9 @@ export const StepHeaderSection = memo((props: StepHeaderSectionProps) => {
 
                         if (isAfterAccountCreated) {
                             // 방금 등록하고 넘어온 경우
-                            return disabled ? '' : '어떤 자산으로부터 구독을 불러올까요?';
+                            return disabled
+                                ? '해당 기관에 등록된 인증서가 맞는지 확인해주세요.'
+                                : '어떤 자산으로부터 구독을 불러올까요?';
                         } else {
                             // 이미 연결된게 있어서 다이렉트로 넘어온 경우
                             return allConnected
