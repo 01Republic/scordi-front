@@ -22,7 +22,7 @@ export const SuccessConnectCardSelector = memo((props: Props) => {
             setSelectedItems(selectables);
             onSelect && onSelect(selectables);
         }
-    }, [isLoading, selectables]);
+    }, [isLoading]);
 
     const select = (items: CodefCardDto[]) => {
         setSelectedItems(items);
