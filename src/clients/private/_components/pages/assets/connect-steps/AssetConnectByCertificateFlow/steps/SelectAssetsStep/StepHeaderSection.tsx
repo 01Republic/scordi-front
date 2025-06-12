@@ -28,7 +28,7 @@ export const StepHeaderSection = memo((props: StepHeaderSectionProps) => {
                             // 방금 등록하고 넘어온 경우
                             return disabled
                                 ? '선택하신 금융기관에서는 자산을 조회하지 못했어요 💦'
-                                : '자산 연동이 완료되었어요';
+                                : '자산을 선택해주세요'; // (구) 자산 연동이 완료되었어요
                         } else {
                             // 이미 연결된게 있어서 다이렉트로 넘어온 경우
                             return allConnected
