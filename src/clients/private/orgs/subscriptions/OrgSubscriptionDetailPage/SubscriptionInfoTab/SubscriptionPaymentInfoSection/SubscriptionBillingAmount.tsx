@@ -1,10 +1,7 @@
 import React, {memo} from 'react';
-import {UseFormReturn, useWatch} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/FreeTireSelect';
-import {IsFreeTierTagUI} from '^models/Subscription/components';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {useCurrentSubscription} from '../../atom';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {
     CurrencySelect,
     InputSection,
@@ -15,11 +12,11 @@ import {CurrencyCode} from '^models/Money';
 interface SubscriptionBillingAmountProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionBillingAmount = memo((props: SubscriptionBillingAmountProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
+    const {isEditMode, form, subscription} = props;
 
     if (!subscription) return <></>;
 

@@ -134,21 +134,21 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 isSaving={isSaving}
             >
-                <SubscriptionIsFreeTier isEditMode={isEditMode} form={form} />
-                <SubscriptionStartAt isEditMode={isEditMode} form={form} />
-                <SubscriptionFinishAt isEditMode={isEditMode} form={form} />
-                <SubscriptionBillingAmount isEditMode={isEditMode} form={form} />
-                <SubscriptionBillingCycleType isEditMode={isEditMode} form={form} />
-                <SubscriptionPricingModel isEditMode={isEditMode} form={form} />
+                <SubscriptionIsFreeTier isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionStartAt isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionFinishAt isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionBillingAmount isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionBillingCycleType isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionPricingModel isEditMode={isEditMode} form={form} subscription={subscription} />
                 <SubscriptionSeats
                     isEditMode={isEditMode}
                     setUpdateSeatCount={setUpdateSeatCount}
                     currentSeatCount={currentSeatCount}
                     currentAssignedSeatCount={currentAssignedSeatCount}
                 />
-                <SubscriptionCreditCard isEditMode={isEditMode} form={form} />
-                <SubscriptionBankAccount isEditMode={isEditMode} form={form} />
-                <SubscriptionInvoiceAccount isEditMode={isEditMode} form={form} />
+                <SubscriptionCreditCard isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionBankAccount isEditMode={isEditMode} form={form} subscription={subscription} />
+                <SubscriptionInvoiceAccount isEditMode={isEditMode} form={form} subscription={subscription} />
             </CardSection.Form>
         </CardSection.Base>
     );

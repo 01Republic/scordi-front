@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useCurrentSubscription} from '../../atom';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {
     PayingTypeSelect,
@@ -11,13 +10,11 @@ import {
 interface SubscriptionPricingModelProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionPricingModel = memo((props: SubscriptionPricingModelProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
+    const {isEditMode, form, subscription} = props;
 
     return (
         <FormControl label="과금방식">

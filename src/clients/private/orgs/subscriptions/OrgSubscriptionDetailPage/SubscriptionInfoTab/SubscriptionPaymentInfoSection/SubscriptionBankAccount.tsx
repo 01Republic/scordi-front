@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useCurrentSubscription} from '../../atom';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {BankAccountSelect} from '^models/BankAccount/components/BankAccountSelect';
@@ -9,13 +8,11 @@ import {BankAccountSelect} from '^models/BankAccount/components/BankAccountSelec
 interface SubscriptionBankAccountProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionBankAccount = memo((props: SubscriptionBankAccountProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
+    const {isEditMode, form, subscription} = props;
 
     return (
         <FormControl label="연결된 계좌">
