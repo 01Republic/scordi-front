@@ -1,3 +1,5 @@
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import '../styles/packs/app.scss';
 import '../styles/packs/admin.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,8 +19,6 @@ import {SEO} from '^components/SEO';
 import {OnResizeProvider} from '^components/util/onResize2';
 import ExternalCDNScripts from '^components/ExternalCDNScripts';
 import {MantineProvider} from '@mantine/core';
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
