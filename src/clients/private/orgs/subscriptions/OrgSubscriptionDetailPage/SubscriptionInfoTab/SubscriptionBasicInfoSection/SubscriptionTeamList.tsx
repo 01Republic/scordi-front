@@ -42,7 +42,7 @@ const SubscriptionTeamList = memo(function TeamList() {
     if (!teams.length) return <EmptyValue />;
 
     return (
-        <div className="flex items-center gap-1" style={{height: '49.5px'}}>
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar" style={{height: '49.5px'}}>
             {teams.map((team) => (
                 <TeamTag key={team.id} id={team.id} name={team.name} />
             ))}
