@@ -132,8 +132,8 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                             localLoading
                         />
                         <NextStepButton
-                            text="다른 자산으로 구독 불러오기"
-                            onClick={() => router.replace(OrgSubscriptionConnectionPageRoute.path(orgId))}
+                            text="다른 자산으로 불러오기"
+                            onClick={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
                             className="btn-scordi"
                             localLoading
                         />
