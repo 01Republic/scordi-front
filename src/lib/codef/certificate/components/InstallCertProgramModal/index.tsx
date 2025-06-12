@@ -1,12 +1,12 @@
-import {memo} from 'react';
-import {X} from 'lucide-react';
+import {memo, useState} from 'react';
+import {RotateCw, X} from 'lucide-react';
 import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {NextImage} from '^components/NextImage';
 import windowsLogo from 'src/images/icon/os/windows.png';
 import macLogo from 'src/images/icon/os/mac.png';
 import {codefCertificate, InstallCheckErrorCode, JsonpError} from '^lib/codef/certificate';
 import {delay} from '^components/util/delay';
-import {minuteAfter} from '^utils/dateTime';
+import {minuteAfter, secondAfter} from '^utils/dateTime';
 import {getOS} from '^utils/os';
 
 interface InstallCertProgramModalProps {
@@ -47,19 +47,17 @@ export const InstallCertProgramModal = memo((props: InstallCertProgramModalProps
     return (
         <BasicModal open={isOpen} onClose={onClose}>
             <div className="modal-box screen-sm flex flex-col p-8 relative gap-5">
-                <section className="flex items-center justify-between">
-                    <span className="text-20 font-bold text-gray-900">공동인증서 프로그램 설치</span>
-                    <X onClick={onClose} className="size-6 text-gray-700 hover:text-gray-200 cursor-pointer" />
-                </section>
-
                 <section className="mb-5">
-                    <span className="text-16 font-normal text-gray-800">
-                        안전한 연결을 위해 프로그램 설치가 필요해요
-                    </span>
+                    <div className="flex items-center justify-between mb-2">
+                        <span className="text-20 font-bold text-gray-900">공동인증서 프로그램 설치</span>
+                        <X onClick={onClose} className="size-6 text-gray-700 hover:text-gray-200 cursor-pointer" />
+                    </div>
+
+                    <div className="text-16 text-gray-800">안전한 연결을 위해 프로그램 설치가 필요해요</div>
                 </section>
 
                 <section>
-                    <div className="flex justify-center text-gray-700 font-semibold">
+                    <div className="mb-4 flex justify-center text-gray-700 font-semibold">
                         {os === 'MacOS' ? (
                             <a
                                 href="/codef/installers/codefCertMac.dmg"
@@ -115,8 +113,39 @@ export const InstallCertProgramModal = memo((props: InstallCertProgramModalProps
                             </div>
                         )}
                     </div>
+
+                    <div className="flex items-center justify-center">
+                        <ReloadButton onClick={() => checkInstall(secondAfter(10))} timeoutSec={10} />
+                    </div>
                 </section>
             </div>
         </BasicModal>
+    );
+});
+
+interface Props {
+    onClick: () => void;
+    timeoutSec: number;
+}
+
+const ReloadButton = memo((props: Props) => {
+    const {onClick, timeoutSec} = props;
+    const [isLoading, setIsLoading] = useState(false);
+
+    return (
+        <div
+            className={`${
+                isLoading ? 'pointer-events-none opacity-40' : 'hover:text-gray-900 hover:border-gray-900'
+            } cursor-pointer text-gray-500 transition-all border-b border-transparent flex items-center gap-2 btn-animation`}
+            onClick={() => {
+                if (isLoading) return;
+                setIsLoading(true);
+                onClick();
+                setTimeout(() => setIsLoading(false), 1000 * timeoutSec);
+            }}
+        >
+            <span>Reload</span>
+            <RotateCw fontSize={13} className={isLoading ? 'animate-spin' : ''} />
+        </div>
     );
 });
