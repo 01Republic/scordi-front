@@ -7,13 +7,13 @@ import {confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {CodefCardCompanyCode, CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useCodefAccount} from '^models/CodefCard/hook';
 import {useCodefAccountsInConnectorV2} from '^models/CodefAccount/hook';
 import {AssetSelectorGrid} from '^_components/pages/assets/connect-steps/common/AssetSelectorGrid';
 import {InstitutionOption} from './InstitutionOption';
 import Tippy from '@tippyjs/react';
+import {codefAccountApi} from '^models/CodefAccount/api';
 
 interface CardCompaniesSelectorProps {
     selectedCompanies: CardAccountsStaticData[];
@@ -25,9 +25,8 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
     const {selectedCompanies, setSelectedCompanies} = props;
 
     const orgId = useOrgIdParam();
-    const {getCardAccounts, isFetching} = useCodefAccountsInConnectorV2(orgId);
+    const {getCardAccounts, isFetching, refetch} = useCodefAccountsInConnectorV2(orgId);
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount} = useCodefAccount(CodefLoginType.Certificate);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
     const codefAccounts = getCardAccounts(clientType);
@@ -74,13 +73,19 @@ export const CardCompaniesSelector = memo((props: CardCompaniesSelectorProps) =>
             );
 
         confirmed(disconnectConfirm())
-            .then(() => removeCodefAccount({orgId, accountId}))
+            .then(() => codefAccountApi.destroy(orgId, accountId))
             .then(() => toast.success('연결을 해제했어요.'))
+            .then(() => refetch())
             .catch(errorToast);
     };
 
     return (
-        <AssetSelectorGrid title="카드" isLoading={isFetching} isAllSelected={isAllSelected} onSelectAll={toggleAll}>
+        <AssetSelectorGrid
+            title={<span onClick={() => refetch()}>카드</span>}
+            isLoading={isFetching}
+            isAllSelected={isAllSelected}
+            onSelectAll={toggleAll}
+        >
             {companies.map((company) => {
                 const connectedAccount = codefAccounts.find((account) => account.organization === company.param);
                 const isConnected = !!connectedAccount;

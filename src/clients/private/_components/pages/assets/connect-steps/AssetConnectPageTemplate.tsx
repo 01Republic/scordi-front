@@ -19,12 +19,26 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {useUnmount} from '^hooks/useUnmount';
 
+export enum ConnectAssetsStepStrategy {
+    CreateScordiAssets = 'createScordiAssets',
+    SyncSubscriptions = 'syncSubscriptions',
+}
+
 interface AssetConnectOption {
     ConnectMethodAltActionButton?: () => JSX.Element;
     onSuccess?: (connectedAssets: (CreditCardDto | BankAccountDto)[]) => any;
+    /** 방법선택 페이지 설정 */
+    assetConnectMethodSelectStep?: {
+        title?: ReactNode;
+        subTitle?: ReactNode;
+    };
+    /** 자산선택 페이지 설정 */
     selectAssetsStep?: {
         title?: ReactNode;
         subTitle?: ReactNode;
+    };
+    connectAssetsStep: {
+        strategy: ConnectAssetsStepStrategy;
     };
 }
 
@@ -32,6 +46,7 @@ export const AssetConnectOptionContext = createContext<AssetConnectOption>({
     // onSuccess: console.log,
     // onSuccessfullyCreateByCertificate: console.log,
     // onSuccessfullyCreatedByAccount: console.log,
+    connectAssetsStep: {strategy: ConnectAssetsStepStrategy.SyncSubscriptions},
 });
 
 enum AssetConnectStep {
@@ -45,12 +60,12 @@ enum AssetConnectStep {
  * ---
  */
 export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
-    const {onSuccess, selectAssetsStep} = props;
+    const {onSuccess, selectAssetsStep, connectAssetsStep} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
     useCodefAccountsInConnectorV2(orgId);
     const [step, setStep] = useState(AssetConnectStep.AccountCreateStep);
-    const [ignorePreCheck, setIgnorePreCheck] = useState(false);
+    const [isAppendable, setIsAppendable] = useState(false);
     const [codefAccounts, setCodefAccounts] = useState<CodefAccountDto[]>();
     const [failedCompanies, setFailedCompanies] = useState<CodefApiAccountItemDto[]>();
     const [isAfterAccountCreated, setIsAfterAccountCreated] = useState(false);
@@ -73,7 +88,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             isAgreeForPrivacyPolicyTerm: false,
             isAgreeForServiceUsageTerm: false,
         });
-        setIgnorePreCheck(false);
+        setIsAppendable(false);
         setIsAfterAccountCreated(false);
         setStep(AssetConnectStep.AccountCreateStep);
         setSelectedCodefAssets(undefined);
@@ -92,11 +107,14 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         {/* 공동인증서로 자산 불러오기 Flow */}
                         {loginType === CodefLoginType.Certificate && (
                             <AssetConnectByCertificateFlow
-                                ignorePreCheck={ignorePreCheck}
+                                isAppendable={isAppendable}
                                 onBack={() => {
-                                    form.reset({loginType: undefined});
-                                    setIgnorePreCheck(false);
-                                    setIsAfterAccountCreated(false);
+                                    if (isAppendable) {
+                                        setStep(AssetConnectStep.SelectAssetsStep);
+                                        setIsAppendable(false);
+                                    } else {
+                                        form.reset({loginType: undefined});
+                                    }
                                 }}
                                 onFinish={(codefAccounts, failedCompanies, afterAccountCreated) => {
                                     setCodefAccounts(codefAccounts);
@@ -110,11 +128,11 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                         {/* 홈페이지계정으로 자산 불러오기 Flow */}
                         {loginType === CodefLoginType.IdAccount && (
                             <AssetConnectByAccountFlow
-                                ignorePreCheck={ignorePreCheck}
+                                isAppendable={isAppendable}
                                 onBack={() => {
-                                    if (ignorePreCheck) {
+                                    if (isAppendable) {
                                         setStep(AssetConnectStep.SelectAssetsStep);
-                                        setIgnorePreCheck(false);
+                                        setIsAppendable(false);
                                     } else {
                                         form.reset({loginType: undefined});
                                     }
@@ -138,20 +156,23 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
                     isAfterAccountCreated={isAfterAccountCreated}
                     codefAccounts={codefAccounts || []}
                     failedCompanies={failedCompanies}
+                    // 뒤로가기 버튼 클릭시 동작을 정의
                     onBack={() => {
-                        if (isAfterAccountCreated) {
-                            setIgnorePreCheck(true);
-                        } else {
-                            if (form.getValues('loginType') === CodefLoginType.Certificate) {
-                                form.reset({loginType: undefined});
-                            }
-                            setIgnorePreCheck(false);
+                        // 공동인증서로 조회한 경우 => 등록방법 선택p 로 이동. (그렇지않으면 기관 선택p 로 이동.)
+                        if (form.getValues('loginType') === CodefLoginType.Certificate) {
+                            form.reset({loginType: undefined});
                         }
                         setIsAfterAccountCreated(false);
                         setStep(AssetConnectStep.AccountCreateStep);
                     }}
+                    // 처음으로
+                    onReset={() => {
+                        form.reset({loginType: undefined});
+                        setIsAfterAccountCreated(false);
+                        setStep(AssetConnectStep.AccountCreateStep);
+                    }}
                     onMove={() => {
-                        setIgnorePreCheck(true);
+                        setIsAppendable(true);
                         setStep(AssetConnectStep.AccountCreateStep);
                     }}
                     onNext={(codefBanks, codefCards, disabled, allConnected) => {
@@ -166,6 +187,7 @@ export const AssetConnectPageTemplate = memo((props: AssetConnectOption) => {
             {/* 자산 연동중p : 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김 */}
             {step === AssetConnectStep.ConnectAssetsStep && (
                 <ConnectAssetsStep
+                    {...connectAssetsStep}
                     codefAssets={selectedCodefAssets || []}
                     onNext={(results) => {
                         onSuccess && onSuccess(results);

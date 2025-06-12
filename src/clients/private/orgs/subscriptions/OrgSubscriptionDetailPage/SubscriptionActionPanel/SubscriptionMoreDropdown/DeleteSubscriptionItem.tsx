@@ -35,8 +35,8 @@ export const DeleteSubscriptionItem = memo(() => {
         return confirmed(removeConfirm())
             .then(() => deleteSubscription(id))
             .then(() => toast.success('구독이 삭제되었어요.'))
-            .then(() => reload())
             .then(() => router.replace(OrgSubscriptionListPageRoute.path(organizationId)))
+            .then(() => reload())
             .catch(errorToast);
     };
 

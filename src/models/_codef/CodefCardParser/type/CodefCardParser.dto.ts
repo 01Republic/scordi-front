@@ -25,39 +25,39 @@ export class CodefCardParserDto {
     @TypeCast(() => CodefBillingHistoryDto) codefBillingHistories?: CodefBillingHistoryDto[];
 
     get resMemberStoreName(): FindOperatorUnitDto {
-        const resMemberStoreName = this.queryObj.where?.resMemberStoreName;
+        const q = this.queryObj.where?.resMemberStoreName;
 
-        if (typeof resMemberStoreName === 'string') {
+        if (typeof q === 'string') {
             return {
                 ops: FindOperatorType.Equal,
                 fo: false,
                 bo: false,
-                value: resMemberStoreName,
+                value: q,
             };
         }
 
-        if (typeof resMemberStoreName === 'object') {
-            switch (resMemberStoreName.op) {
+        if (typeof q === 'object') {
+            switch (q.op) {
                 case 'like':
                     return {
                         ops: FindOperatorType.Like,
-                        fo: resMemberStoreName.val.startsWith('%'),
-                        bo: resMemberStoreName.val.endsWith('%'),
-                        value: resMemberStoreName.val.replace(/%/g, ''),
+                        fo: q.val.startsWith('%'),
+                        bo: q.val.endsWith('%'),
+                        value: q.val.replace(/%/g, ''),
                     };
                 case 'in':
                     return {
                         ops: FindOperatorType.Regexp,
                         fo: false,
                         bo: false,
-                        value: resMemberStoreName.val.join(', '),
+                        value: q.val.join(', '),
                     };
                 default:
                     return {
                         ops: FindOperatorType.Regexp,
                         fo: false,
                         bo: false,
-                        value: resMemberStoreName.val,
+                        value: q.val,
                     };
             }
         }

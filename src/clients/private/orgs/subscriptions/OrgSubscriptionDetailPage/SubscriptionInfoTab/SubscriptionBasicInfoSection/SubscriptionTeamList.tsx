@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
+import {useTeamMembers2, useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {TeamDto} from '^models/Team/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {subscriptionSubjectAtom} from '../../atom';
@@ -12,8 +12,10 @@ const SubscriptionTeamList = memo(function TeamList() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {search, result} = useTeamMembersInSubscriptionShowModal();
 
+    const {setQuery, data} = useTeamMembers2(orgId);
+
     const onReady = () => {
-        search({
+        setQuery({
             where: {
                 // @ts-ignore
                 subscriptions: {id: subscription.id},
@@ -25,7 +27,7 @@ const SubscriptionTeamList = memo(function TeamList() {
 
     const teams = Array.from(
         new Map(
-            result.items
+            data.items
                 .map((teamMember) => teamMember.teams)
                 .flat()
                 .filter((team): team is TeamDto => !!team)
@@ -40,7 +42,7 @@ const SubscriptionTeamList = memo(function TeamList() {
     if (!teams.length) return <EmptyValue />;
 
     return (
-        <div className="flex items-center gap-1" style={{height: '49.5px'}}>
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar" style={{height: '49.5px'}}>
             {teams.map((team) => (
                 <TeamTag key={team.id} id={team.id} name={team.name} />
             ))}

@@ -18,17 +18,22 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
     useEffect(() => {
         if (!org) return;
 
+        const orgId = org.id;
         if (!selectedCodefCard) {
             search({
                 relations: ['codefCard'],
-                organizationId: org.id,
+                where: {
+                    codefCard: {account: {orgId}},
+                },
                 order: {usedAt: 'DESC'},
             });
         } else {
             search({
                 relations: ['codefCard'],
-                organizationId: org.id,
-                where: {codefCardId: selectedCodefCard.id},
+                where: {
+                    codefCard: {account: {orgId}},
+                    codefCardId: selectedCodefCard.id,
+                },
                 page: 1,
                 order: {usedAt: 'DESC'},
             });

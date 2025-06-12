@@ -1,20 +1,29 @@
+import {memo, ReactNode} from 'react';
 import {Inbox} from 'lucide-react';
 import {ReactComponentLike} from 'prop-types';
-import {memo} from 'react';
+import {cn} from '^public/lib/utils';
 
 interface EmptyTableProps {
+    className?: string;
     Icon?: () => JSX.Element;
-    message?: string;
+    message?: ReactNode;
     buttonText?: string;
     buttonAction?: () => void;
     Buttons?: ReactComponentLike;
 }
 
 export const EmptyTable = memo((props: EmptyTableProps) => {
-    const {Icon = DefaultEmptyIcon, message = '조회된 결과가 없어요.', buttonText, buttonAction, Buttons} = props;
+    const {
+        className = '',
+        Icon = DefaultEmptyIcon,
+        message = '조회된 결과가 없어요.',
+        buttonText,
+        buttonAction,
+        Buttons,
+    } = props;
 
     return (
-        <div className={'flex flex-col items-center justify-center py-16'}>
+        <div className={cn('flex flex-col items-center justify-center py-16', className)}>
             <p className={'text-2xl text-slate-200 mb-4'}>{Icon && <Icon />}</p>
             <p className="text-16 font-semibold text-gray-400 mb-1.5 whitespace-pre-line">{message}</p>
 

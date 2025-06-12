@@ -1,25 +1,29 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {ChevronRight} from 'lucide-react';
 import {termsUrl} from '^config/environments';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {LinkTo} from '^components/util/LinkTo';
-import {AgreeItem} from '^_components/pages/assets/connect-steps/AssetConnectMethodSelectStep/AgreeItem';
+import {AgreeItem} from './AgreeItem';
 
 export const AssetAgreeTermSection = memo(() => {
     const {setValue, watch} = useFormContext<CreateAccountRequestDto>();
+    const allCheckRef = useRef<HTMLInputElement>(null);
 
     const formData = watch();
-    const privacy = formData.isAgreeForPrivacyPolicyTerm;
-    const service = formData.isAgreeForServiceUsageTerm;
-    // const privacy = watch('isAgreeForPrivacyPolicyTerm');
-    // const service = watch('isAgreeForServiceUsageTerm');
+    const privacy = formData.isAgreeForPrivacyPolicyTerm || false;
+    const service = formData.isAgreeForServiceUsageTerm || false;
     const allChecked = privacy && service;
+
+    useEffect(() => {
+        if (allCheckRef.current) {
+            allCheckRef.current.checked = allChecked;
+        }
+    }, [allCheckRef, allChecked]);
 
     return (
         <section className="flex flex-col gap-4 text-16 text-neutral-900 font-normal">
             <AgreeItem label="전체 동의">
                 <input
+                    ref={allCheckRef}
                     type="checkbox"
                     defaultChecked={allChecked}
                     onChange={(e) => {

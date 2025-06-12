@@ -23,20 +23,20 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
 
     useEffect(() => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.computedAccountDesc || {};
         search({ops, fo, bo, value});
     }, []);
 
     const onBankAccountSelect = (codefBankAccount?: CodefBankAccountDto) => {
         selectCodefBankAccount(codefBankAccount);
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.computedAccountDesc || {};
         search({ops, fo, bo, value}, codefBankAccount);
     };
 
     const onChangeOps = (ops: FindOperatorType) => {
         const values = form.getValues();
-        const old = values?.resMemberStoreName;
+        const old = values?.computedAccountDesc;
         const value = old?.value || '';
         let fo = old?.fo;
         let bo = old?.bo;
@@ -54,30 +54,30 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                 fo = false;
                 bo = true;
         }
-        form.setValue('resMemberStoreName.ops', ops);
-        form.setValue('resMemberStoreName.fo', fo);
-        form.setValue('resMemberStoreName.bo', bo);
+        form.setValue('computedAccountDesc.ops', ops);
+        form.setValue('computedAccountDesc.fo', fo);
+        form.setValue('computedAccountDesc.bo', bo);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     };
 
     const onChangeFo = debounce((fo?: boolean) => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, bo, value = ''} = values?.resMemberStoreName || {};
-        form.setValue('resMemberStoreName.fo', fo);
+        const {ops = FindOperatorType.Like, bo, value = ''} = values?.computedAccountDesc || {};
+        form.setValue('computedAccountDesc.fo', fo);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     }, 500);
 
     const onChangeBo = debounce((bo?: boolean) => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, value = ''} = values?.resMemberStoreName || {};
-        form.setValue('resMemberStoreName.bo', bo);
+        const {ops = FindOperatorType.Like, fo, value = ''} = values?.computedAccountDesc || {};
+        form.setValue('computedAccountDesc.bo', bo);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     }, 500);
 
     const onChangeInput = debounce((value: string = '') => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo} = values?.resMemberStoreName || {};
-        form.setValue('resMemberStoreName.value', value);
+        const {ops = FindOperatorType.Like, fo, bo} = values?.computedAccountDesc || {};
+        form.setValue('computedAccountDesc.value', value);
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     }, 500);
 
@@ -130,7 +130,7 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                                             id="select-resMemberStoreName_condition_type"
                                             className="select select-bordered"
                                             onChange={(e) => onChangeOps(e.currentTarget.value as FindOperatorType)}
-                                            defaultValue={values.resMemberStoreName?.ops}
+                                            defaultValue={values.computedAccountDesc?.ops}
                                         >
                                             <option value={FindOperatorType.Like}>여러 케이스가 있어요.</option>
                                             <option value={FindOperatorType.Equal}>한 가지 케이스만 있어요.</option>
@@ -138,23 +138,23 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                                         </select>
                                     </div>
 
-                                    {values.resMemberStoreName?.ops === FindOperatorType.Equal ? (
+                                    {values.computedAccountDesc?.ops === FindOperatorType.Equal ? (
                                         <ConditionEqualInputGroup
                                             isLoading={isLoading}
-                                            value={values.resMemberStoreName?.value}
+                                            value={values.computedAccountDesc?.value}
                                             onChange={onChangeInput}
                                         />
-                                    ) : values.resMemberStoreName?.ops === FindOperatorType.Regexp ? (
+                                    ) : values.computedAccountDesc?.ops === FindOperatorType.Regexp ? (
                                         <ConditionRegexpInputGroup
                                             isLoading={isLoading}
-                                            value={{value: values.resMemberStoreName?.value, onChange: onChangeInput}}
+                                            value={{value: values.computedAccountDesc?.value, onChange: onChangeInput}}
                                         />
                                     ) : (
                                         <ConditionLikeInputGroup
                                             isLoading={isLoading}
-                                            fo={{value: values.resMemberStoreName?.fo, onChange: onChangeFo}}
-                                            bo={{value: values.resMemberStoreName?.bo, onChange: onChangeBo}}
-                                            value={{value: values.resMemberStoreName?.value, onChange: onChangeInput}}
+                                            fo={{value: values.computedAccountDesc?.fo, onChange: onChangeFo}}
+                                            bo={{value: values.computedAccountDesc?.bo, onChange: onChangeBo}}
+                                            value={{value: values.computedAccountDesc?.value, onChange: onChangeInput}}
                                         />
                                     )}
                                 </div>

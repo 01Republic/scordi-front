@@ -1,12 +1,17 @@
 import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {uniqBy} from 'lodash';
-import {FindAllBankAccountQueryDto} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
+import {
+    FindAllBankAccountAdminQueryDto,
+    FindAllBankAccountQueryDto,
+} from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
-import {codefBankAccountApi} from '^models/CodefBankAccount/api';
+import {codefBankAccountAdminApi, codefBankAccountApi} from '^models/CodefBankAccount/api';
 import {ErrorResponse} from '^models/User/types';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {codefBankAccountsAdminAtom} from '^models/CodefBankAccount/atom';
 
 /* 코드에프 계좌 조회 */
 export const useCodefBankAccount = () => {
@@ -80,7 +85,11 @@ export const useFindBankAccounts = (orgId: number, accountIds: number[], params?
 /** 기관코드를 통해 연결된 계좌목록을 조회 */
 export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAccountsStaticData[]) => {
     const companyCodes = companies.map((company) => company.param);
-    const {data: codefAccounts} = useQuery({
+    const {
+        data: codefAccounts,
+        isFetching,
+        isError,
+    } = useQuery({
         queryKey: ['codefAccounts.useCodefBankAccountsByCompanies', orgId, companies],
         queryFn: () => {
             return codefAccountApi
@@ -94,6 +103,8 @@ export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAc
         },
         enabled: !!orgId && companies.length > 0,
         initialData: [],
+        refetchOnWindowFocus: false,
+        // refetchOnMount: false,
     });
 
     const codefAccountIds = codefAccounts.map((account) => account.id);
@@ -106,9 +117,28 @@ export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAc
         dbQuery,
         syncQuery,
         data: uniqBy([...syncQuery.data, ...dbQuery.data], (item) => item.id),
-        isLoading: dbQuery.isLoading || syncQuery.isLoading,
-        isError: dbQuery.isError || syncQuery.isError,
+        isLoading: isFetching || dbQuery.isLoading || syncQuery.isLoading,
+        isError: isError || dbQuery.isError || syncQuery.isError,
         errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
         allConnected: syncQuery.allConnected,
     };
+};
+
+/***
+ * ADMIN
+ */
+
+export const useAdminCodefBankAccounts = () => useCodefBankAccountsAdmin(codefBankAccountsAdminAtom);
+
+const useCodefBankAccountsAdmin = (
+    atoms: PagedResourceAtoms<CodefBankAccountDto, FindAllBankAccountAdminQueryDto>,
+    mergeMode = false,
+) => {
+    return usePagedResource(atoms, {
+        useOrgId: false,
+        endpoint: (params) => codefBankAccountAdminApi.index(params),
+        // @ts-ignore
+        getId: 'id',
+        mergeMode,
+    });
 };

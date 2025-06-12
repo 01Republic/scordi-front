@@ -1,7 +1,10 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {roundNumber} from '^utils/number';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {
+    subscriptionSubjectAtom,
+    useCurrentSubscription,
+} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {StatusCard} from './StatusCard';
 import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
 import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';

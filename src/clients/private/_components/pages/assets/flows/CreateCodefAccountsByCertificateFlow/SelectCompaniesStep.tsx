@@ -94,16 +94,16 @@ export const SelectCompaniesStep = memo((props: SelectCompaniesStepProps) => {
             </PureLayoutContainerSection>
 
             <PureLayoutContainerSection className="mb-20">
-                <BankCompaniesSelector
-                    selectedCompanies={selectedBankCompanies}
-                    setSelectedCompanies={setSelectedBankCompanies}
+                <CardCompaniesSelector
+                    selectedCompanies={selectedCardCompanies}
+                    setSelectedCompanies={setSelectedCardCompanies}
                 />
             </PureLayoutContainerSection>
 
             <PureLayoutContainerSection className="mb-20">
-                <CardCompaniesSelector
-                    selectedCompanies={selectedCardCompanies}
-                    setSelectedCompanies={setSelectedCardCompanies}
+                <BankCompaniesSelector
+                    selectedCompanies={selectedBankCompanies}
+                    setSelectedCompanies={setSelectedBankCompanies}
                 />
             </PureLayoutContainerSection>
 

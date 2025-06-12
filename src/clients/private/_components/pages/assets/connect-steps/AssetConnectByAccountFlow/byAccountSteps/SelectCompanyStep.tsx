@@ -10,14 +10,15 @@ import {ArrowLeft} from 'lucide-react';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 
 interface AccountConnectStepProps {
-    createMoreAccountContext?: boolean;
+    isAppendable?: boolean;
     codefAccounts?: CodefAccountDto[];
     onBack: () => any;
     onNext: (company: CardAccountsStaticData) => any;
+    reload?: () => any;
 }
 
 export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
-    const {createMoreAccountContext = false, codefAccounts, onBack, onNext} = props;
+    const {isAppendable = false, codefAccounts, onBack, onNext, reload} = props;
 
     return (
         <PureLayout className="py-14">
@@ -36,10 +37,17 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
 
             <PureLayoutContainerSection className="mb-16 max-w-full sticky top-0 pt-8 pb-4 px-0 bg-layout-background z-10">
                 <div className="mx-auto max-w-6xl flex flex-col gap-10 px-4">
-                    <StatusHeader
-                        title="어떤 자산을 연결할까요?"
-                        subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
-                    />
+                    {isAppendable ? (
+                        <StatusHeader
+                            title={<span onClick={() => reload && reload()}>새로운 자산을 추가로 등록할까요?</span>}
+                            subTitle="이미 연결된 계정이 있는 곳이라도, 추가로 계정을 연결 할 수 있어요."
+                        />
+                    ) : (
+                        <StatusHeader
+                            title={<span onClick={() => reload && reload()}>어떤 자산을 연결할까요?</span>}
+                            subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
+                        />
+                    )}
 
                     <BusinessTypeSelector />
                 </div>
@@ -47,9 +55,10 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
 
             <PureLayoutContainerSection>
                 <CardCompanySelector
-                    createMoreAccountContext={createMoreAccountContext}
+                    isAppendable={isAppendable}
                     codefAccounts={codefAccounts}
                     onSelect={onNext}
+                    reload={reload}
                 />
             </PureLayoutContainerSection>
         </PureLayout>

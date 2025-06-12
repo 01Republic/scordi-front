@@ -42,7 +42,7 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
 
     const fetchBeforeStepData = () => {
         const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.computedAccountDesc || {};
         search({ops, fo, bo, value}, selectedCodefBankAccount);
     };
 

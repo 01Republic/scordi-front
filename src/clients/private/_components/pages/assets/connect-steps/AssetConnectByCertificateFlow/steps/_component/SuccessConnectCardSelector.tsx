@@ -1,30 +1,34 @@
-import React, {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {Landmark} from 'lucide-react';
-import {useOrgIdParam} from '^atoms/common';
-import {useCodefCardsByCompanies} from '^models/CodefCard/hook';
+import Tippy from '@tippyjs/react';
+import {unitFormat} from '^utils/number';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {ContentSection} from '../../../common/ContentSection';
 import {ConnectedItem} from '../../../AssetConnectSuccessPageTemplate/ConnectedItem';
-import {unitFormat} from '^utils/number';
-import Tippy from '@tippyjs/react';
 
-interface SuccessConnectCardSelectorProps {
+interface Props {
     codefCards?: CodefCardDto[];
     isLoading?: boolean;
     onSelect?: (codefCards: CodefCardDto[]) => any;
 }
 
-export const SuccessConnectCardSelector = memo((props: SuccessConnectCardSelectorProps) => {
-    const [selectedItems, setSelectedItems] = useState<CodefCardDto[]>([]);
+export const SuccessConnectCardSelector = memo((props: Props) => {
     const {codefCards = [], isLoading = false, onSelect} = props;
+    const selectables = codefCards.filter((codefCard) => !codefCard.creditCardId);
+    const [selectedItems, setSelectedItems] = useState(selectables);
+
+    useEffect(() => {
+        if (!isLoading) {
+            setSelectedItems(selectables);
+            onSelect && onSelect(selectables);
+        }
+    }, [isLoading]);
 
     const select = (items: CodefCardDto[]) => {
         setSelectedItems(items);
         onSelect && onSelect(items);
     };
 
-    const selectables = codefCards.filter((codefCard) => !codefCard.creditCardId);
     const isAllSelected = codefCards.length > 0 && selectedItems.length === selectables.length;
     const handleSelectAll = () => select(isAllSelected ? [] : selectables);
 

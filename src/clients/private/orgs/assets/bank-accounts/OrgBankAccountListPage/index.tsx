@@ -1,23 +1,18 @@
 import React, {memo} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
-import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
+import {useOrgIdParam} from '^atoms/common';
 import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialPaymentMethodAccount} from '^components/ExternalCDNScripts/step-by';
-import {ListPagePlusIconButton} from '^clients/private/_layouts/_shared/ListPagePlusIconButton';
+import {AddAssetButton} from '../../AddAssetButton';
 import TitleScopeHandler from './TitleScopeHandler';
 import {BankAccountTableRow} from './BankAccountTableRow';
 import {BankAccountTableHeader} from './BankAccountTableHeader';
 import {BankAccountScopeHandler} from './BankAccountScopeHandler';
-import {AddBankAccountModal} from './AddBankAccountModal/AddBankAccountModal';
 
 export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
-    const router = useRouter();
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {
         search,
         reset,
@@ -58,10 +53,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             Buttons={() => (
                 <>
                     <StepbyTutorialButton onClick={StepByTutorialPaymentMethodAccount} />
-                    <ListPagePlusIconButton
-                        text="자산 추가"
-                        onClick={() => router.push(OrgAssetsCreateMethodSelectPageRoute.path(organizationId))}
-                    />
+                    <AddAssetButton />
                 </>
             )}
             ScopeHandler={<BankAccountScopeHandler />}
@@ -77,7 +69,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddBankAccountModal reload={refresh} />}
+                EmptyButtons={() => <AddAssetButton />}
             >
                 <ListTable
                     items={result.items}

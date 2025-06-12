@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {UseQueryResult} from '@tanstack/react-query';
 import {ApiErrorResponse} from '^api/api';
@@ -13,8 +13,10 @@ import {useCreateCodefAccounts} from '^models/CodefAccount/hook';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {CodefCompanyStaticData} from '^models/CodefAccount/type/CodefCompanyStaticData';
 import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
-import {LoadingScreen2} from '../../connect-steps/common/LoadingScreen';
 import {CodefApiResultCode} from '^models/CodefAccount/codef-common';
+import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
+import {WithLoopText} from '^utils/TypeWritter';
+import {LoadingScreen2} from '../../connect-steps/common/LoadingScreen';
 
 interface CreateAccountsStepProps {
     companies: CodefCompanyStaticData[];
@@ -42,6 +44,7 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
 
     const totalCount = results.length;
     const finishedCount = results.filter((result) => result.isFetched).length;
+    const percentage = totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0;
 
     // const successes = results.filter((result) => !result.isError);
     // const failures = results.filter((result) => result.isError);
@@ -60,13 +63,7 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
                 if (!error) return false;
                 if (
                     [
-                        CodefApiResultCode.ALREADY_REGISTERED_COMPANY_IN_CONNECT_ID,
-                        CodefApiResultCode.SERVICE_NOT_FOUND,
-                        CodefApiResultCode.UNREGISTERED_CERTIFICATE,
-                        CodefApiResultCode.UNREGISTERED_OR_DELETED_CERTIFICATE,
-                        CodefApiResultCode.CERTIFICATION_CREATE_FAILED,
-                        CodefApiResultCode.ORG_NOT_FOUND,
-                        CodefApiResultCode.CHECK_ORG_AGAIN,
+                        CodefApiResultCode.ALREADY_REGISTERED_COMPANY_IN_CONNECT_ID, // 이미 연결된 기관 (=> 에러 안보여주고 바로 디비에서 꺼내서 연결된내용 보여줌)
                     ].includes(error.code)
                 ) {
                     return false;
@@ -81,10 +78,46 @@ export const CreateAccountsStep = memo((props: CreateAccountsStepProps) => {
             .filter(isDefinedValue);
     })();
 
+    /** 공동인증서로 기관 계정 등록 진행중 상태 */
     return (
         <LoadingScreen2
-            message={'은행사 또는 카드사를 기준으로 계좌와 카드를 찾고 있어요'}
-            percentage={totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0}
+            message={(() => (
+                <Sequence
+                    steps={[
+                        (props) => (
+                            <SequenceStep delay={3000} {...props}>
+                                <WithLoopText text="안전한 연결을 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 3s
+                        (props) => (
+                            <SequenceStep delay={5000} {...props}>
+                                <WithLoopText text="선택한 기관에서 인증서를 확인하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 8s
+                        (props) => (
+                            <SequenceStep delay={3000} {...props}>
+                                <WithLoopText text="인증서를 통해 계좌와 카드를 찾고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 11s
+                        (props) => (
+                            <SequenceStep delay={10000} {...props}>
+                                <WithLoopText text="최신 정보를 불러오고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 21s
+                        (props) => (
+                            <SequenceStep delay={10000} {...props}>
+                                <WithLoopText text="데이터를 정리하고 있어요" absolute />
+                            </SequenceStep>
+                        ), // 31s
+                        (props) => (
+                            <SequenceStep delay={19000} {...props}>
+                                <WithLoopText text="거의 다 마쳤어요 잠시만 기다려주세요" absolute />
+                            </SequenceStep>
+                        ), // 50s
+                    ]}
+                />
+            ))()}
+            percentage={percentage}
             onFinish={() => onNext(createdAccountIds, failedCompanies, results)}
             minTimeout={3 * 1000}
         />

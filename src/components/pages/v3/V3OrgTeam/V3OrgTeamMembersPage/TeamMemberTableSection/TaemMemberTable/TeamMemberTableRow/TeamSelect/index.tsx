@@ -5,7 +5,12 @@ import {useToast} from '^hooks/useToast';
 import {teamApi} from '^models/Team/api';
 import {TeamDto} from '^models/Team/type';
 import {useTeamsV2} from '^models/Team/hook';
-import {teamMemberApi, TeamMemberDto, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import {
+    teamMemberApi,
+    TeamMemberDto,
+    useTeamMembersInTeamMembersTable,
+    useUpdateTeamMembers2,
+} from '^models/TeamMember';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
@@ -21,6 +26,7 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
     const {search} = useTeamsV2();
     const {toast} = useToast();
     const {teamMember, onChange} = props;
+    const {mutateAsync: upDatTeamMember} = useUpdateTeamMembers2();
 
     const getOptions = async (keyword?: string) => {
         return search({keyword, order: {id: 'DESC'}}, false, true).then((res) => {
@@ -31,8 +37,7 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
     const onSelect = async (team: TeamDto) => {
         if (team.id === teamMember.team?.id) return;
 
-        return teamMemberApi
-            .update(orgId, teamMember.id, {teamIds: [team.id]})
+        return upDatTeamMember({orgId, id: teamMember.id, data: {teamIds: [team.id]}})
             .then(() => onChange(team))
             .finally(() => toast.success('변경사항을 저장했어요.'));
     };

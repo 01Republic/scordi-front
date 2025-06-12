@@ -12,6 +12,7 @@ import {confirm2, confirmed} from '^components/util/dialog';
 import {codefAccountAdminApi} from '^models/CodefAccount/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
 
 export const CodefAccountListContent = memo(function (props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -23,7 +24,7 @@ export const CodefAccountListContent = memo(function (props: TabPaneProps) {
         if (!org) return;
         search({
             relations: ['connectedIdentity', 'codefCards', 'creditCards'],
-            where: {orgId: org.id},
+            where: {orgId: org.id, businessType: CodefRequestBusinessType.Card},
             order: {id: 'DESC'},
         });
         setSelectedCodefAccount(undefined);

@@ -3,27 +3,27 @@ import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
-import {useCodefAccount} from '^models/CodefCard/hook';
-import {CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
 import {InstitutionOption} from './InstitutionOption';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {codefAccountApi} from '^models/CodefAccount/api';
 
 interface CardCompanySelectorProps {
-    createMoreAccountContext?: boolean;
+    isAppendable?: boolean;
     codefAccounts?: CodefAccountDto[];
     onSelect: (company: CardAccountsStaticData) => any;
+    reload?: () => any;
 }
 
 // 홈페이지계정 > 카드사 한개 선택
 export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
-    const {createMoreAccountContext = false, codefAccounts = [], onSelect} = props;
+    const {isAppendable = false, codefAccounts = [], onSelect, reload} = props;
     const orgId = useOrgIdParam();
     const form = useFormContext<CreateAccountRequestDto>();
-    const {removeCodefAccount} = useCodefAccount(CodefLoginType.IdAccount);
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
     const companies = CardAccountsStaticData.findByClientType(clientType);
@@ -44,8 +44,9 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
             );
 
         confirmed(disconnectConfirm())
-            .then(() => removeCodefAccount({orgId, accountId}))
+            .then(() => codefAccountApi.destroy(orgId, accountId))
             .then(() => toast.success('연결을 해제했어요.'))
+            .then(() => reload && reload())
             .catch(errorToast);
     };
 
@@ -67,8 +68,20 @@ export const CardCompanySelector = memo((props: CardCompanySelectorProps) => {
                             key={company.param}
                             logo={company.logo}
                             title={company.displayName}
-                            isConnected={connectedAccounts.length > 0}
-                            onClick={() => onSelect(company)}
+                            isConnected={!!connectedAccount}
+                            onClick={() => {
+                                if (isAppendable && connectedAccount) {
+                                    if (
+                                        confirm(
+                                            `[${company.displayName}]에는 연결된 계정이 존재합니다.\n다른 계정을 추가로 등록할까요?`,
+                                        )
+                                    ) {
+                                        onSelect(company);
+                                    }
+                                } else {
+                                    onSelect(company);
+                                }
+                            }}
                             onDisconnect={() => onDisconnect(company.displayName, connectedAccount?.id)}
                         />
                     );

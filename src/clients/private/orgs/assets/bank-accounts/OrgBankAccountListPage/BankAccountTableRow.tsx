@@ -93,8 +93,8 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
             <td>
                 {bankAccount.creditCards && bankAccount.creditCards?.length > 0 ? (
                     <span className={'whitespace-nowrap flex items-center gap-1 text-sm'}>
-                        <CreditCardProfileCompact className={'inline-flex'} item={bankAccount.creditCards[0]} /> 외{' '}
-                        {bankAccount.creditCards.length - 1}개
+                        <CreditCardProfileCompact className={'inline-flex'} item={bankAccount.creditCards[0]} />
+                        {bankAccount.creditCards.length > 1 && `외 ${bankAccount.creditCards.length - 1}개`}
                     </span>
                 ) : (
                     <i className="text-gray-300">-</i>

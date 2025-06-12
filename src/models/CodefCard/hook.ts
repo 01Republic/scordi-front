@@ -142,35 +142,6 @@ const useSubscriptionsOfCodefAccount = (
     });
 };
 
-export const useCodefAccount = (loginType: CodefLoginType) => {
-    const queryClient = useQueryClient();
-    const params: FindAllAccountQueryDto = {
-        where: {loginType},
-        sync: true,
-        itemsPerPage: 0,
-    };
-
-    // codef 연결된 계정 조회
-    const useCodefAccountsInConnector = (orgId: number) => {
-        return useQuery({
-            queryKey: ['codefAccount', orgId, params],
-            queryFn: () => codefAccountApi.index(orgId, params).then((res) => res.data),
-            enabled: !!orgId && !isNaN(orgId),
-            initialData: Paginated.init(),
-        });
-    };
-
-    // codef 연결된 계정 삭제
-    const {mutate: removeCodefAccount} = useMutation<boolean, ErrorResponse, {orgId: number; accountId: number}>({
-        mutationFn: ({orgId, accountId}) => codefAccountApi.destroy(orgId, accountId).then((res) => res.data),
-        onSuccess: (_, {orgId}) => {
-            queryClient.invalidateQueries({queryKey: ['codefAccount', orgId, params]});
-        },
-    });
-
-    return {useCodefAccountsInConnector, removeCodefAccount};
-};
-
 /* 코드에프 계좌 조회 - 여러커드사의 카드를 조회 */
 export const useFindCardAccounts = (orgId: number, accountIds: number[], params?: FindAllCardQueryDto) => {
     const results = useQueries({
@@ -208,7 +179,11 @@ export const useFindCardAccounts = (orgId: number, accountIds: number[], params?
 /** 기관코드를 통해 연결된 카드목록을 조회 */
 export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsStaticData[]) => {
     const companyCodes = companies.map((company) => company.param);
-    const {data: codefAccounts} = useQuery({
+    const {
+        data: codefAccounts,
+        isFetching,
+        isError,
+    } = useQuery({
         queryKey: ['codefAccounts.useCodefCardsByCompanies', orgId, companies],
         queryFn: () => {
             return codefAccountApi
@@ -222,6 +197,8 @@ export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsS
         },
         enabled: !!orgId && companies.length > 0,
         initialData: [],
+        refetchOnWindowFocus: false,
+        // refetchOnMount: false,
     });
 
     const codefAccountIds = codefAccounts.map((account) => account.id);
@@ -234,8 +211,8 @@ export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsS
         dbQuery,
         syncQuery,
         data: uniqBy([...syncQuery.data, ...dbQuery.data], (item) => item.id),
-        isLoading: dbQuery.isLoading || syncQuery.isLoading,
-        isError: dbQuery.isError || syncQuery.isError,
+        isLoading: isFetching || dbQuery.isLoading || syncQuery.isLoading,
+        isError: isError || dbQuery.isError || syncQuery.isError,
         errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
         allConnected: syncQuery.allConnected,
     };

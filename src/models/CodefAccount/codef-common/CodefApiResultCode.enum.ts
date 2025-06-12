@@ -9,7 +9,10 @@ export enum CodefApiResultCode {
     BAD_REQUEST = 'CF-11021', // 요청 처리에 실패했습니다. 요청 주소와 요청 파라미터가 올바른지 확인하세요.
 
     ORGANIZATION_OFFICE_NOT_OPENED = 'CF-12041', // 이용 가능 시간이 아닙니다.
+    ORGANIZATION_ACTION_UNSUPPORTED = 'CF-12050', // 대상기관에서 제공하지 않는 업무입니다.
+    SIGNATURE_DATA_INVALID = 'CF-12304', // 전자서명 데이터 오류입니다.
     WRONG_ID_PASSWORD = 'CF-12803', // 아이디 또는 비밀번호 오류입니다. 확인 후 거래하시기 바랍니다.
+    CERTIFICATE_PROCESS_ERROR = 'CF-12809', // 인증서관련 기타 오류입니다. 확인 후 거래하시기 바랍니다.
     LOGIN_PARAMETER_LOST = 'CF-12401', // 로그인 파라미터가 누락되었습니다.
     UNREGISTERED_CERTIFICATE = 'CF-12805', // 미등록 인증서입니다. 확인 후 거래하시기 바랍니다.
     UNREGISTERED_OR_DELETED_CERTIFICATE = 'CF-12813', // 미등록 또는 폐기된 인증서입니다. 확인 후 거래하시기 바랍니다.

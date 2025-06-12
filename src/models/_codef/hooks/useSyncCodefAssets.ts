@@ -7,7 +7,13 @@ import {codefCardApi} from '^models/CodefCard/api';
 import {bankAccountApi} from '^models/BankAccount/api';
 import {creditCardApi} from '^models/CreditCard/api';
 
-export async function syncCodefAsset(orgId: number, codefAsset: CodefBankAccountDto | CodefCardDto) {
+/**
+ * 코드에프 자산으로부터 스코디 자산 등록 및 구독 불러오기
+ * ---
+ * @param orgId
+ * @param codefAsset
+ */
+async function syncCodefAsset(orgId: number, codefAsset: CodefBankAccountDto | CodefCardDto) {
     if (codefAsset instanceof CodefBankAccountDto) {
         // 1) 스코디 계좌 생성 + 거래내역 불러오기 + 구독 파싱
         return (
@@ -35,6 +41,7 @@ export async function syncCodefAsset(orgId: number, codefAsset: CodefBankAccount
     }
 }
 
+/** 구독불러오기까지 실행 */
 export function useSyncCodefAssets(orgId: number, codefAssets: (CodefBankAccountDto | CodefCardDto)[]) {
     return useQueries({
         queries: codefAssets.map((codefAsset) => {

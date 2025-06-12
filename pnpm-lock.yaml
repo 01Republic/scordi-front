@@ -24,6 +24,12 @@ importers:
       '@lottiefiles/dotlottie-react':
         specifier: ^0.13.3
         version: 0.13.3(react@18.2.0)
+      '@mantine/core':
+        specifier: ^8.0.2
+        version: 8.0.2(@mantine/hooks@8.0.2(react@18.2.0))(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@mantine/dates':
+        specifier: ^8.0.2
+        version: 8.0.2(@mantine/core@8.0.2(@mantine/hooks@8.0.2(react@18.2.0))(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@mantine/hooks@8.0.2(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@measured-im/browser':
         specifier: ^1.3.1
         version: 1.3.1
@@ -95,7 +101,7 @@ importers:
         version: 3.2.3(react@18.2.0)
       '@tosspayments/payment-widget-sdk':
         specifier: ^0.12.0
-        version: 0.12.0(typescript@4.9.5)
+        version: 0.12.0(typescript@5.8.3)
       '@tosspayments/tosspayments-sdk':
         specifier: ^2.2.4
         version: 2.3.2
@@ -160,7 +166,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       dayjs:
-        specifier: ^1.11.8
+        specifier: ^1.11.13
         version: 1.11.13
       env-cmd:
         specifier: ^10.1.0
@@ -264,6 +270,9 @@ importers:
       react-select:
         specifier: ^5.4.0
         version: 5.8.3(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react-simple-typewriter:
+        specifier: ^5.0.1
+        version: 5.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-svg-unique-id:
         specifier: ^1.3.3
         version: 1.3.3(react@18.2.0)
@@ -360,10 +369,10 @@ importers:
         version: 5.1.34
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.35.1
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint@8.19.0)(typescript@4.9.5)
+        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint@8.19.0)(typescript@5.8.3)
       '@typescript-eslint/parser':
         specifier: ^5.35.1
-        version: 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+        version: 5.62.0(eslint@8.19.0)(typescript@5.8.3)
       autoprefixer:
         specifier: ^10.4.7
         version: 10.4.20(postcss@8.4.49)
@@ -372,7 +381,7 @@ importers:
         version: 8.19.0
       eslint-config-next:
         specifier: 14.2.26
-        version: 14.2.26(eslint@8.19.0)(typescript@4.9.5)
+        version: 14.2.26(eslint@8.19.0)(typescript@5.8.3)
       eslint-config-prettier:
         specifier: ^8.5.0
         version: 8.10.0(eslint@8.19.0)
@@ -392,8 +401,8 @@ importers:
         specifier: ^4.1.0
         version: 4.2.0
       typescript:
-        specifier: ^4.9.5
-        version: 4.9.5
+        specifier: ^5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -1233,6 +1242,12 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
+  '@floating-ui/react@0.26.28':
+    resolution: {integrity: sha512-yORQuuAtVpiRjpMhdc0wJj06b9JFjrYF4qp96j++v2NBpbi6SEGF7donUJ3TMieerQ6qVkAv1tgr7L4r5roTqw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
 
@@ -1302,6 +1317,27 @@ packages:
 
   '@lottiefiles/dotlottie-web@0.42.0':
     resolution: {integrity: sha512-Zr2LCaOAoPCsdAQgeLyCSiQ1+xrAJtRCyuEYDj0qR5heUwpc+Pxbb88JyTVumcXFfKOBMOMmrlsTScLz2mrvQQ==}
+
+  '@mantine/core@8.0.2':
+    resolution: {integrity: sha512-2Ps7bRTeTbRwAKTCL9xdflPz0pwOlTq6ohyTbDZMCADqecf09GHI7GiX+HJatqbPZ2t8jK0fN1b48YhjJaxTqg==}
+    peerDependencies:
+      '@mantine/hooks': 8.0.2
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
+
+  '@mantine/dates@8.0.2':
+    resolution: {integrity: sha512-V1xU00gECfykA4UFln8ulPsPHvaTncsg9zUbzCwqwEAYlZFG3Nnj5eBzzpV3IN1LNDPEVGb1gAOM6jZ+fi2uRQ==}
+    peerDependencies:
+      '@mantine/core': 8.0.2
+      '@mantine/hooks': 8.0.2
+      dayjs: '>=1.0.0'
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
+
+  '@mantine/hooks@8.0.2':
+    resolution: {integrity: sha512-0jpEdC0KIAZ54D5kd9rJudrEm6vkvnrL9yYHnkuNbxokXSzDdYA/wpHnKR5WW+u6fW4JF6A6A7gN1vXKeC9MSw==}
+    peerDependencies:
+      react: ^18.x || ^19.x
 
   '@measured-im/browser@1.3.1':
     resolution: {integrity: sha512-plEpasjXzVp8uQMh5akeUeixFSEMioQpAMvSfaEWZdZw49Y2uu7FvW4R/aRT0jV8ir+69f0qj7tPW8TQO3AAfw==}
@@ -4449,6 +4485,12 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
+  react-number-format@5.4.4:
+    resolution: {integrity: sha512-wOmoNZoOpvMminhifQYiYSTCLUDOiUbBunrMrMjA+dV52sY+vck1S4UhR6PkgnoCquvvMSeJjErXZ4qSaWCliA==}
+    peerDependencies:
+      react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   react-popper@2.3.0:
     resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
     peerDependencies:
@@ -4481,6 +4523,13 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  react-simple-typewriter@5.0.1:
+    resolution: {integrity: sha512-vA5HkABwJKL/DJ4RshSlY/igdr+FiVY4MLsSQYJX6FZG/f1/VwN4y1i3mPXRyfaswrvI8xii1kOVe1dYtO2Row==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
 
   react-smooth@4.0.4:
     resolution: {integrity: sha512-gnGKTpYwqL0Iii09gHobNolvX4Kiq4PKx6eWBCYYix+8cdw+cGo3do906l1NBPKkSWx1DghC1dlWG9L2uGd61Q==}
@@ -4515,6 +4564,12 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  react-textarea-autosize@8.5.9:
+    resolution: {integrity: sha512-U1DGlIQN5AwgjTyOEnI1oCcMuEr1pv1qOtklB2l4nyMGbHzWrI0eFsYK0zos2YWqAolJyG0IWJaqWmWj5ETh0A==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react-toastify@9.1.3:
     resolution: {integrity: sha512-fPfb8ghtn/XMxw3LkxQBk3IyagNpF/LIKjOBflbexr2AWxAH1MJgvnESwEwBn9liLFXgTKWgBSdZpw9m4OTHTg==}
@@ -4892,6 +4947,9 @@ packages:
   sweetalert2@11.14.5:
     resolution: {integrity: sha512-8MWk5uc/r6bWhiJWkUXyEuApfXAhSCZT8FFX7pZXL7YwaPxq+9Ynhi2dUzWkOFn9jvLjKj22CXuccZ+IHcnjvQ==}
 
+  tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
+
   tailwind-merge@3.0.2:
     resolution: {integrity: sha512-l7z+OYZ7mu3DTqrL88RiKrKIqO3NcpEO8V/Od04bNpvk0kiIFndGEoqfuzvj4yuhRkHKjRkII2z+KS2HfPcSxw==}
 
@@ -4992,6 +5050,10 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
+
   typed-array-buffer@1.0.2:
     resolution: {integrity: sha512-gEymJYKZtKXzzBzM4jqa9w6Q1Jjm7x2d+sh19AdsD4wqnMPDYyvwpsIc2Q/835kHuo3BEQ7CjelGhfTsoBb2MQ==}
     engines: {node: '>= 0.4'}
@@ -5008,9 +5070,9 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
-  typescript@4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
     hasBin: true
 
   ua-parser-js@1.0.39:
@@ -6426,6 +6488,14 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
+  '@floating-ui/react@0.26.28(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@floating-ui/utils': 0.2.8
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      tabbable: 6.2.0
+
   '@floating-ui/utils@0.2.8': {}
 
   '@googleapis/docs@2.0.5':
@@ -6506,6 +6576,33 @@ snapshots:
       react: 18.2.0
 
   '@lottiefiles/dotlottie-web@0.42.0': {}
+
+  '@mantine/core@8.0.2(@mantine/hooks@8.0.2(react@18.2.0))(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@floating-ui/react': 0.26.28(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@mantine/hooks': 8.0.2(react@18.2.0)
+      clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-number-format: 5.4.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react-remove-scroll: 2.6.3(@types/react@18.0.15)(react@18.2.0)
+      react-textarea-autosize: 8.5.9(@types/react@18.0.15)(react@18.2.0)
+      type-fest: 4.41.0
+    transitivePeerDependencies:
+      - '@types/react'
+
+  '@mantine/dates@8.0.2(@mantine/core@8.0.2(@mantine/hooks@8.0.2(react@18.2.0))(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@mantine/hooks@8.0.2(react@18.2.0))(dayjs@1.11.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@mantine/core': 8.0.2(@mantine/hooks@8.0.2(react@18.2.0))(@types/react@18.0.15)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@mantine/hooks': 8.0.2(react@18.2.0)
+      clsx: 2.1.1
+      dayjs: 1.11.13
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
+  '@mantine/hooks@8.0.2(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
 
   '@measured-im/browser@1.3.1': {}
 
@@ -7373,24 +7470,24 @@ snapshots:
       '@toast-ui/editor': 3.2.2
       react: 18.2.0
 
-  '@tosspayments/brandpay-types@0.2.6(typescript@4.9.5)':
+  '@tosspayments/brandpay-types@0.2.6(typescript@5.8.3)':
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
 
-  '@tosspayments/payment-widget-sdk@0.12.0(typescript@4.9.5)':
+  '@tosspayments/payment-widget-sdk@0.12.0(typescript@5.8.3)':
     dependencies:
-      '@tosspayments/payment-widget__types': 1.1.0(typescript@4.9.5)
+      '@tosspayments/payment-widget__types': 1.1.0(typescript@5.8.3)
     transitivePeerDependencies:
       - typescript
 
-  '@tosspayments/payment-widget-types@0.0.5(typescript@4.9.5)':
+  '@tosspayments/payment-widget-types@0.0.5(typescript@5.8.3)':
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
 
-  '@tosspayments/payment-widget__types@1.1.0(typescript@4.9.5)':
+  '@tosspayments/payment-widget__types@1.1.0(typescript@5.8.3)':
     dependencies:
-      '@tosspayments/brandpay-types': 0.2.6(typescript@4.9.5)
-      '@tosspayments/payment-widget-types': 0.0.5(typescript@4.9.5)
+      '@tosspayments/brandpay-types': 0.2.6(typescript@5.8.3)
+      '@tosspayments/payment-widget-types': 0.0.5(typescript@5.8.3)
       '@tosspayments/payment__types': 1.69.0
     transitivePeerDependencies:
       - typescript
@@ -7527,34 +7624,34 @@ snapshots:
     dependencies:
       '@types/node': 22.9.1
 
-  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint@8.19.0)(typescript@4.9.5)':
+  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint@8.19.0)(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
       '@typescript-eslint/scope-manager': 5.62.0
-      '@typescript-eslint/type-utils': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
-      '@typescript-eslint/utils': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+      '@typescript-eslint/type-utils': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
+      '@typescript-eslint/utils': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
       debug: 4.3.7(supports-color@5.5.0)
       eslint: 8.19.0
       graphemer: 1.4.0
       ignore: 5.3.2
       natural-compare-lite: 1.4.0
       semver: 7.6.3
-      tsutils: 3.21.0(typescript@4.9.5)
+      tsutils: 3.21.0(typescript@5.8.3)
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5)':
+  '@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
-      '@typescript-eslint/typescript-estree': 5.62.0(typescript@4.9.5)
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.8.3)
       debug: 4.3.7(supports-color@5.5.0)
       eslint: 8.19.0
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
 
@@ -7563,21 +7660,21 @@ snapshots:
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/visitor-keys': 5.62.0
 
-  '@typescript-eslint/type-utils@5.62.0(eslint@8.19.0)(typescript@4.9.5)':
+  '@typescript-eslint/type-utils@5.62.0(eslint@8.19.0)(typescript@5.8.3)':
     dependencies:
-      '@typescript-eslint/typescript-estree': 5.62.0(typescript@4.9.5)
-      '@typescript-eslint/utils': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.8.3)
+      '@typescript-eslint/utils': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
       debug: 4.3.7(supports-color@5.5.0)
       eslint: 8.19.0
-      tsutils: 3.21.0(typescript@4.9.5)
+      tsutils: 3.21.0(typescript@5.8.3)
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
 
   '@typescript-eslint/types@5.62.0': {}
 
-  '@typescript-eslint/typescript-estree@5.62.0(typescript@4.9.5)':
+  '@typescript-eslint/typescript-estree@5.62.0(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/visitor-keys': 5.62.0
@@ -7585,20 +7682,20 @@ snapshots:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.6.3
-      tsutils: 3.21.0(typescript@4.9.5)
+      tsutils: 3.21.0(typescript@5.8.3)
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@5.62.0(eslint@8.19.0)(typescript@4.9.5)':
+  '@typescript-eslint/utils@5.62.0(eslint@8.19.0)(typescript@5.8.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.1(eslint@8.19.0)
       '@types/json-schema': 7.0.15
       '@types/semver': 7.5.8
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
-      '@typescript-eslint/typescript-estree': 5.62.0(typescript@4.9.5)
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.8.3)
       eslint: 8.19.0
       eslint-scope: 5.1.1
       semver: 7.6.3
@@ -8436,21 +8533,21 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-next@14.2.26(eslint@8.19.0)(typescript@4.9.5):
+  eslint-config-next@14.2.26(eslint@8.19.0)(typescript@5.8.3):
     dependencies:
       '@next/eslint-plugin-next': 14.2.26
       '@rushstack/eslint-patch': 1.10.4
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint@8.19.0)(typescript@4.9.5)
-      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint@8.19.0)(typescript@5.8.3)
+      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
       eslint: 8.19.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@8.19.0)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.19.0)
       eslint-plugin-react: 7.37.2(eslint@8.19.0)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.19.0)
     optionalDependencies:
-      typescript: 4.9.5
+      typescript: 5.8.3
     transitivePeerDependencies:
       - eslint-import-resolver-webpack
       - eslint-plugin-import-x
@@ -8479,22 +8576,22 @@ snapshots:
       tinyglobby: 0.2.12
       unrs-resolver: 1.3.3
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
-      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
       eslint: 8.19.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@8.19.0)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -8505,7 +8602,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.19.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.19.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@8.19.0)
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -8517,7 +8614,7 @@ snapshots:
       string.prototype.trimend: 1.0.8
       tsconfig-paths: 3.15.0
     optionalDependencies:
-      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@4.9.5)
+      '@typescript-eslint/parser': 5.62.0(eslint@8.19.0)(typescript@5.8.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -9917,6 +10014,11 @@ snapshots:
     dependencies:
       react: 18.2.0
 
+  react-number-format@5.4.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
   react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@popperjs/core': 2.11.8
@@ -9961,6 +10063,11 @@ snapshots:
       - '@types/react'
       - supports-color
 
+  react-simple-typewriter@5.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
   react-smooth@4.0.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       fast-equals: 5.2.2
@@ -9989,6 +10096,15 @@ snapshots:
       react: 18.2.0
 
   react-textarea-autosize@8.5.5(@types/react@18.0.15)(react@18.2.0):
+    dependencies:
+      '@babel/runtime': 7.26.0
+      react: 18.2.0
+      use-composed-ref: 1.3.0(react@18.2.0)
+      use-latest: 1.2.1(@types/react@18.0.15)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+
+  react-textarea-autosize@8.5.9(@types/react@18.0.15)(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.26.0
       react: 18.2.0
@@ -10415,6 +10531,8 @@ snapshots:
 
   sweetalert2@11.14.5: {}
 
+  tabbable@6.2.0: {}
+
   tailwind-merge@3.0.2: {}
 
   tailwindcss-animate@1.0.7(tailwindcss@3.4.15):
@@ -10527,10 +10645,10 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsutils@3.21.0(typescript@4.9.5):
+  tsutils@3.21.0(typescript@5.8.3):
     dependencies:
       tslib: 1.14.1
-      typescript: 4.9.5
+      typescript: 5.8.3
 
   tunnel-agent@0.6.0:
     dependencies:
@@ -10545,6 +10663,8 @@ snapshots:
   type-fest@0.7.1: {}
 
   type-fest@2.19.0: {}
+
+  type-fest@4.41.0: {}
 
   typed-array-buffer@1.0.2:
     dependencies:
@@ -10578,7 +10698,7 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
 
-  typescript@4.9.5: {}
+  typescript@5.8.3: {}
 
   ua-parser-js@1.0.39: {}
 
