@@ -7,6 +7,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentUser} from '^models/User/hook';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
+import {OrgOnboardingSubscriptionPageRoute} from '^pages/orgs/[id]/onboarding/subscription';
 import {useIdParam} from '^atoms/common';
 
 export const SuccessSign = () => {
@@ -18,8 +19,12 @@ export const SuccessSign = () => {
 
     const url = (() => {
         if (!currentUser) return '#';
+        /* 유저가 워크스페이스를 새로 생성한 경우 온보딩으로 이동 */
+        if (createdOrgId) {
+            return OrgOnboardingSubscriptionPageRoute.path(createdOrgId);
+        }
         const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
-        return OrgMainPageRoute.path(createdOrgId || id);
+        return OrgMainPageRoute.path(id);
     })();
 
     const onClick = async () => {
