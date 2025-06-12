@@ -6,7 +6,12 @@ import {teamApi} from '^models/Team/api';
 import {subscriptionApi} from '^models/Subscription/api';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {FindAllSubscriptionsQuery, SubscriptionDto} from 'src/models/Subscription/types';
+import {
+    FindAllSubscriptionsQuery,
+    FindOneSubscriptionQueryDto,
+    SubscriptionDto,
+    UpdateSubscriptionRequestDto,
+} from 'src/models/Subscription/types';
 import {invoiceAccountIdParamState, teamIdParamState} from '^atoms/common';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {usePagedResource, PagedResourceAtoms} from '^hooks/usePagedResource';
@@ -24,6 +29,10 @@ import {
     subscriptionsInTeamShowPageAtom,
     subscriptionTableListAtom,
 } from '^models/Subscription/atom';
+import {api} from '^api/api';
+import {oneDtoOf} from '^types/utils/response-of';
+import {ErrorResponse} from '^models/User/types';
+import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -185,13 +194,37 @@ export const useWorkspaceSubscriptionCount = (orgId: number) => {
 
 /* tanstack Query   */
 
+// 구독 상세조회
+export const useShowSubscription = (subscriptionId: number, params?: FindOneSubscriptionQueryDto) => {
+    return useQuery<SubscriptionDto, ErrorResponse>({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.detail, subscriptionId, params],
+        queryFn: () => subscriptionApi.show(subscriptionId, params).then((res) => res.data),
+        enabled: !!subscriptionId && !isNaN(subscriptionId),
+    });
+};
+
+// 구독 업데이트
+export const useUpdateSubscription = () => {
+    const queryClient = useQueryClient();
+    return useMutation<SubscriptionDto, ErrorResponse, {subscriptionId: number; data: UpdateSubscriptionRequestDto}>({
+        mutationFn: ({subscriptionId, data}) => subscriptionApi.update(subscriptionId, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
+        },
+    });
+};
+
 //구독 삭제하기
 export const useRemoveSubscription = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (subscriptionId: number) => subscriptionApi.destroy(subscriptionId),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['subscriptions']});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
         },
     });
 };

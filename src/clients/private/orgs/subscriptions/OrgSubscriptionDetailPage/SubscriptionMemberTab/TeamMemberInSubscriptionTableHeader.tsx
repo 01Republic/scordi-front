@@ -1,14 +1,17 @@
 import React, {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 
-interface TeamMemberInSubscriptionTableHeaderProps extends ListTableHeaderProps {
+interface TeamMemberInSubscriptionTableHeaderProps {
+    sortVal: 'ASC' | 'DESC';
+    orderBy: (sortKey: string) => void;
     allSelected: boolean;
     onAllSelect: () => any;
 }
 
 export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubscriptionTableHeaderProps) => {
-    const {orderBy} = props;
+    const {sortVal, orderBy} = props;
     const {allSelected, onAllSelect} = props;
 
     return (
@@ -22,13 +25,13 @@ export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubs
                 />
             </th>
 
-            <SortableTH sortKey="[name]" onClick={orderBy}>
+            <SortableTH2 sortKey="[teamMember][name]" sortVal={sortVal} onClick={orderBy}>
                 이름
-            </SortableTH>
+            </SortableTH2>
 
-            <SortableTH sortKey="[teams][id]" onClick={orderBy}>
+            <SortableTH2 sortKey="[teamMember][teams][name]" sortVal={sortVal} onClick={orderBy}>
                 팀
-            </SortableTH>
+            </SortableTH2>
 
             <th>상태</th>
 

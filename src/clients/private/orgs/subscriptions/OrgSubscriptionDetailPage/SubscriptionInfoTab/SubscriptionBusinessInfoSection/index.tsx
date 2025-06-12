@@ -2,13 +2,14 @@ import React, {memo, useEffect, useState} from 'react';
 import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
 import cn from 'classnames';
+import {AlertOctagon} from 'lucide-react';
 import {errorToast} from '^api/api';
-import {subscriptionApi} from '^models/Subscription/api';
-import {vendorManagerApi} from '^models/vendor/VendorManager/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {useUpdateVendorManager, useUpsertVendorManager} from '^models/vendor/VendorManager/hooks';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorManagerSelectModal';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
@@ -16,19 +17,23 @@ import {CardSection} from '^clients/private/_components/CardSection';
 import {VendorContractMemo} from './VendorContractMemo';
 import {VendorCompanyName} from './VendorCompanyName';
 import {VendorManager} from './VendorManager';
-import {AlertOctagon} from 'lucide-react';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const {reload, currentSubscription: subscription} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
+    const {mutateAsync: updateVendorManger} = useUpdateVendorManager();
+    const {mutateAsync: upsertVendorManger} = useUpsertVendorManager();
+    const {mutateAsync: updateSubscription} = useUpdateSubscription();
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
     const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
     const [isError, setIsError] = useState<boolean>(false);
     const [isEmailError, setIsEmailError] = useState<boolean>(false);
     const [isPhoneError, setIsPhoneError] = useState<boolean>(false);
+
+    if (!subscription?.id) return <></>;
 
     useEffect(() => {
         if (selectedCompany) {
@@ -44,6 +49,15 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const [phone, setPhone] = useState<string>('');
 
     if (!subscription) return <></>;
+
+    const orgId = subscription.organizationId;
+    const subscriptionId = subscription.id;
+    const {data, isLoading} = useShowSubscription(subscriptionId, {
+        relations: ['vendorContracts', 'vendorContracts.vendorCompany', 'vendorContracts.vendorManager'],
+    });
+
+    const vendorContract =
+        data?.vendorContracts && data?.vendorContracts.length > 0 ? data?.vendorContracts[0] : undefined;
 
     const onCompanyChange = (vendorCompany?: VendorCompanyDto) => {
         form.setValue('vendorContract.vendorCompanyId', vendorCompany?.id || null);
@@ -77,22 +91,24 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         // 연결된 매니저 변경 시
         const updateManagerPromise = selectedManager
-            ? vendorManagerApi.update(subscription.organizationId, selectedManager.id)
+            ? updateVendorManger({orgId, vendorMangerId: selectedManager.id})
             : Promise.resolve();
 
         // 매니저 이메일, 전화번호 업데이트
-        const upsertManagerPromise = vendorManagerApi.upsert(subscription.organizationId, {
-            vendorCompanyName: selectedCompany?.name || '',
-            name: selectedManager?.name || '',
-            email,
-            phone,
+        const upsertManagerPromise = upsertVendorManger({
+            orgId,
+            dto: {
+                vendorCompanyName: selectedCompany?.name || '',
+                name: selectedManager?.name || '',
+                email,
+                phone,
+            },
         });
 
-        const updateSubscriptionPromise = subscriptionApi.update(subscription.id, data);
+        const updateSubscriptionPromise = updateSubscription({subscriptionId: subscription.id, data});
 
         Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise])
             .then(() => setIsSaving(true))
-            .then(() => reload())
             .then(() => {
                 toast.success('변경사항을 저장했어요.');
                 setIsEditMode(false);
@@ -102,11 +118,6 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                 setIsSaving(false);
             });
     };
-
-    const vendorContract =
-        subscription?.vendorContracts && subscription?.vendorContracts.length > 0
-            ? subscription?.vendorContracts[0]
-            : undefined;
 
     useEffect(() => {
         setSelectedCompany(vendorContract?.vendorCompany);
@@ -165,7 +176,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                         </div>
                     ) : (
                         <div className="flex items-center" style={{height: '49.5px'}}>
-                            {selectedManager?.email || <EmptyValue />}
+                            {vendorContract?.vendorManager?.email || <EmptyValue />}
                         </div>
                     )}
                 </FormControl>
@@ -193,7 +204,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                         </>
                     ) : (
                         <div className="flex items-center" style={{height: '49.5px'}}>
-                            {selectedManager?.phone || <EmptyValue />}
+                            {vendorContract?.vendorManager?.phone || <EmptyValue />}
                         </div>
                     )}
                     <span />

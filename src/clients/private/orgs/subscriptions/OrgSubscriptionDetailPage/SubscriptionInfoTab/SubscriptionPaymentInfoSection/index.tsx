@@ -29,6 +29,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
     if (!subscription) return null;
 
+    useEffect(() => {
+        reload();
+    }, []);
+
     const removeInvoiceAccount = () => {
         if (!subscription.invoiceAccounts) return;
         const defaultInvoiceAccountIds = subscription.invoiceAccounts.map((invoiceAccount) => invoiceAccount.id);
@@ -39,8 +43,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
         return {removedIds, addedIds};
     };
 
-    const currentSeatCount = subscription.subscriptionSeats?.length || 0;
-    const currentAssignedSeatCount = subscription.subscriptionSeats?.filter((seat) => seat.teamMemberId).length || 0;
+    const currentSeatCount = subscription.paidMemberCount || 0;
+    const currentAssignedSeatCount = subscription.usedMemberCount;
 
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {

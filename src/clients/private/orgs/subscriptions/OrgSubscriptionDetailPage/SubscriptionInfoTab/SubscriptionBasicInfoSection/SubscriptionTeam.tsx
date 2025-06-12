@@ -5,7 +5,7 @@ import SubscriptionTeamList from './SubscriptionTeamList';
 export const SubscriptionTeam = memo(() => {
     return (
         <FormControl label="이용중인 팀">
-            <div className="flex items-center gap-2 h-[50px] overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-2 h-[50px] ">
                 <SubscriptionTeamList />
             </div>
         </FormControl>

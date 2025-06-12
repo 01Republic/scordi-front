@@ -1,15 +1,14 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {debounce} from 'lodash';
-import {useOrgIdParam} from '^atoms/common';
-import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {LoadableBox} from '^components/util/loading';
-import {vendorCompanyApi} from '^models/vendor/VendorCompany/api';
-import {useVendorCompanyListInCreateSubscription} from '^models/vendor/VendorCompany/hook';
-import {SearchVendorCompanyInput} from './SearchVendorCompanyInput';
-import {VendorCompanyItem} from './VendorCompanyItem';
 import {toast} from 'react-hot-toast';
 import {ChevronLeft} from 'lucide-react';
+import {useOrgIdParam} from '^atoms/common';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {useCreateVendorCompany, useVendorCompanyListInCreateSubscription} from '^models/vendor/VendorCompany/hook';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {LoadableBox} from '^components/util/loading';
+import {SearchVendorCompanyInput} from './SearchVendorCompanyInput';
+import {VendorCompanyItem} from './VendorCompanyItem';
 
 interface VendorCompanySelectModalProps {
     isOpened: boolean;
@@ -21,6 +20,7 @@ interface VendorCompanySelectModalProps {
 export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalProps) => {
     const {isOpened, onClose, vendorCompanyId, onSelect = console.log} = props;
     const orgId = useOrgIdParam();
+    const {mutateAsync: upsertVendorCompany} = useCreateVendorCompany();
     const {search, result, query, isLoading} = useVendorCompanyListInCreateSubscription();
 
     useEffect(() => {
@@ -46,9 +46,9 @@ export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalPro
     };
 
     const createVendorCompany = debounce((name: string) => {
-        vendorCompanyApi.upsert(orgId, {name}).then((res) => {
+        upsertVendorCompany({orgId, dto: {name}}).then((res) => {
             toast.success('파트너사 기업 정보를 추가했어요.');
-            clickCompany(res.data);
+            clickCompany(res);
         });
     }, 500);
 
