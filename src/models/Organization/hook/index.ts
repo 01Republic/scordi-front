@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {useAlert} from '^hooks/useAlert';
-import {getToken} from '^api/api';
+import {errorToast, getToken} from '^api/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {currentOrgAtom, currentOrgIsLoadingAtom, getCurrentOrgQueryAtom, getOrgQuery} from '^models/Organization/atom';
 import {organizationApi} from '^models/Organization/api';
@@ -38,10 +38,7 @@ export function useCurrentOrg(id: number) {
                         resolve(res);
                     })
                     .catch((e) => {
-                        router.replace('/404').then(() => {
-                            console.warn(e.response.data.message);
-                            console.warn(e);
-                        });
+                        router.replace('/404').then(() => errorToast(e, console.warn));
                     });
 
                 return newQuery;
