@@ -2,7 +2,6 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {bankAccountIdParamState} from '^atoms/common';
 import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
 import {OrgBankAccountShowPage} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage';
 import {bankAccountApi} from '^models/BankAccount/api';
@@ -35,7 +34,6 @@ export default function Page() {
     return (
         <ShowRoutingPage
             subjectIdParamKey="bankAccountId"
-            subjectIdParamAtom={bankAccountIdParamState}
             subjectAtom={bankAccountSubjectAtom}
             endpoint={(subjectId, orgId) => bankAccountApi.show(orgId, subjectId)}
         >

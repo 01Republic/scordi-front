@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useTeamMembers2, useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {TeamDto} from '^models/Team/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
@@ -8,7 +8,7 @@ import {subscriptionSubjectAtom} from '../../atom';
 import {EmptyValue} from '../../EmptyValue';
 
 const SubscriptionTeamList = memo(function TeamList() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {search, result} = useTeamMembersInSubscriptionShowModal();
 

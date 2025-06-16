@@ -1,10 +1,9 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {MinusCircle, Plus} from 'lucide-react';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {ApiError, errorToast} from '^api/api';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
 import {useDestroyAllSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
@@ -17,7 +16,7 @@ import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect'
 import Qs from 'qs';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {currentSubscription: subscription} = useCurrentSubscription();
 
     if (!orgId || !subscription) return <></>;

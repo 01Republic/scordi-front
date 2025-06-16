@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentCreditCard} from '../../atom';
@@ -21,7 +20,7 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
     props: BillingHistoryListOfCreditCardTabContentProps,
 ) {
     const {excelUploadModalClose} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {currentCreditCard} = useCurrentCreditCard();
     const {isLoading, isEmptyResult, isNotLoaded, search, result, reload, movePage, changePageSize, orderBy} =
         useBillingHistoryListOfCreditCard();
