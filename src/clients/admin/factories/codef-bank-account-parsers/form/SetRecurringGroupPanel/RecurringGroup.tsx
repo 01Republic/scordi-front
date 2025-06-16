@@ -80,7 +80,7 @@ const RecurringGroupTitleCommon = memo((props: RecurringGroupProps & WithChildre
     const {codefBankAccount} = group.metadata;
 
     return (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1" onClick={() => console.log(group)}>
             <div className="text-12 font-semibold pt-[2px] pr-1">Group {index + 1}.</div>
             <div className="flex items-center gap-1">
                 <div>
