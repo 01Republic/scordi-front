@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {UserPlus} from 'lucide-react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useSeatCounter} from '^models/SubscriptionSeat/hook/useSeatCounter';
-import {User, UserPlus} from 'lucide-react';
+import {useCurrentSubscription} from '../../atom';
+import {StatusCard} from '../../SubscriptionInfoTab/StatusCard';
 
 export const usePaidSeatCounter = (subscription: SubscriptionDto | null) => {
     return useSeatCounter(subscription, {
@@ -17,8 +17,8 @@ export const PaidSeatCounter = memo(() => {
 
     return (
         <StatusCard
-            title="구매된 시트"
-            titleValue={count.toLocaleString()}
+            label="구매된 시트"
+            value={count.toLocaleString()}
             icon={<UserPlus className="size-6 text-white" />}
             iconColor="bg-orange-400"
         />

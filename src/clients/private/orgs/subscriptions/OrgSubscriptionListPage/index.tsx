@@ -22,7 +22,7 @@ import {usePaginatedQueryContext} from '^hooks/usePagedResource';
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const queryContext = usePaginatedQueryContext(FindAllSubscriptionsQueryContext, {
         queryKey: (query, orgId) => ['subscriptionList', orgId, query],
-        queryFn: (query, orgId) => {
+        queryFn: async (query, orgId) => {
             query.where = {organizationId: orgId, ...query.where};
             return subscriptionApi.index(query).then((res) => res.data);
         },
