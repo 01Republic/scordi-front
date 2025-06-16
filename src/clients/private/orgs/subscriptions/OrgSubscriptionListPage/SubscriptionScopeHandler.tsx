@@ -1,10 +1,12 @@
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {SubscriptionUsingStatus, t_SubscriptionUsingStatus} from '^models/Subscription/types';
+import {FindAllSubscriptionsQueryContext} from '^pages/orgs/[id]/subscriptions';
 
 export function SubscriptionScopeHandler() {
-    const {query, search} = useSubscriptionTableListAtom();
+    // const {query, search} = useSubscriptionTableListAtom();
+    const {query, search} = useContext(FindAllSubscriptionsQueryContext);
     const [activeStatus, setActiveUsingStatus] = useState<SubscriptionUsingStatus>();
 
     const searchResource = (usingStatus?: SubscriptionUsingStatus) => {

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {createContext, useState} from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, useOrgIdParam, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {OrgSubscriptionListPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage';
+import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 
 export const OrgSubscriptionListPageRoute = pathRoute({
     pathname: '/orgs/[id]/subscriptions',
@@ -25,11 +26,30 @@ export const getStaticProps = async ({locale}: any) => ({
     },
 });
 
+export const FindAllSubscriptionsQueryContext = createContext<{
+    query: FindAllSubscriptionsQuery;
+    search: (query: FindAllSubscriptionsQuery) => void;
+}>({
+    query: {where: {}},
+    search: () => {},
+});
+
 export default function Page() {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    useRouterIdParamState('id', orgIdParamState);
+    const orgId = useOrgIdParam();
     useCurrentOrg(orgId);
+
+    const [query, search] = useState<FindAllSubscriptionsQuery>({
+        where: {organizationId: orgId},
+        relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
+        order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+    });
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgSubscriptionListPage />;
+    return (
+        <FindAllSubscriptionsQueryContext.Provider value={{query, search}}>
+            <OrgSubscriptionListPage />
+        </FindAllSubscriptionsQueryContext.Provider>
+    );
 }
