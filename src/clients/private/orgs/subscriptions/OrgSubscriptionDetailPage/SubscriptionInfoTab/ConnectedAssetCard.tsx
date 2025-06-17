@@ -1,13 +1,11 @@
 import React, {memo} from 'react';
 import {CreditCard} from 'lucide-react';
-import {useQuery} from '@tanstack/react-query';
+import Tippy from '@tippyjs/react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {creditCardApi} from '^models/CreditCard/api';
-import {bankAccountApi} from '^models/BankAccount/api';
 import {LoadableBox} from '^components/util/loading';
 import {NextImage} from '^components/NextImage';
+import {useCreditCardOfSubscription, useBankAccountOfSubscription} from '../hooks';
 import {StatusCard} from './StatusCard';
-import Tippy from '@tippyjs/react';
 
 interface ConnectedAssetCardProps {
     subscription: SubscriptionDto;
@@ -15,23 +13,9 @@ interface ConnectedAssetCardProps {
 
 export const ConnectedAssetCard = memo((props: ConnectedAssetCardProps) => {
     const {subscription} = props;
-    const {id, organizationId: orgId, creditCardId, bankAccountId} = subscription;
-
-    const creditCardQuery = useQuery({
-        queryKey: ['subscription.creditCard', id, creditCardId],
-        queryFn: async () => {
-            return creditCardApi.show(orgId, creditCardId!).then((res) => res.data);
-        },
-        enabled: !!creditCardId,
-    });
-
-    const bankAccountQuery = useQuery({
-        queryKey: ['subscription.bankAccount', id, bankAccountId],
-        queryFn: async () => {
-            return bankAccountApi.show(orgId, bankAccountId!).then((res) => res.data);
-        },
-        enabled: !!bankAccountId,
-    });
+    const {creditCardId, bankAccountId} = subscription;
+    const creditCardQuery = useCreditCardOfSubscription(subscription);
+    const bankAccountQuery = useBankAccountOfSubscription(subscription);
 
     if (creditCardId) {
         const creditCard = creditCardQuery.data;

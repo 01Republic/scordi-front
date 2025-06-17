@@ -18,6 +18,9 @@ import {Avatar} from '^components/Avatar';
 import {NextImage} from '^components/NextImage';
 import {ConnectedAssetCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/ConnectedAssetCard';
 
+/**
+ * 구독 상세p > 정보탭
+ */
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 
@@ -51,8 +54,13 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 <ConnectedAssetCard subscription={subscription} />
             </div>
 
+            {/* 기본 정보 */}
             <SubscriptionBasicInfoSection />
+
+            {/* 결제 정보 */}
             <SubscriptionPaymentInfoSection />
+
+            {/* 거래처 정보 */}
             <SubscriptionBusinessInfoSection />
         </div>
     );

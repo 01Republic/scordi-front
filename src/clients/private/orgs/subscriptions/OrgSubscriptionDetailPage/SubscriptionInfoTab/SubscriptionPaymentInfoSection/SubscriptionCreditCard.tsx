@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useQuery} from '@tanstack/react-query';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {creditCardApi} from '^models/CreditCard/api';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
+import {useCreditCardOfSubscription} from '../../hooks';
 
 interface SubscriptionCreditCardProps {
     isEditMode?: boolean;
@@ -14,14 +13,7 @@ interface SubscriptionCreditCardProps {
 
 export const SubscriptionCreditCard = memo((props: SubscriptionCreditCardProps) => {
     const {isEditMode, form, subscription} = props;
-    const {id, organizationId: orgId, creditCardId} = subscription;
-    const creditCardQuery = useQuery({
-        queryKey: ['subscription.creditCard', id, creditCardId],
-        queryFn: async () => {
-            return creditCardApi.show(orgId, creditCardId!).then((res) => res.data);
-        },
-        enabled: !!creditCardId,
-    });
+    const creditCardQuery = useCreditCardOfSubscription(subscription);
 
     const defaultCreditCard = creditCardQuery.data || subscription.creditCard;
 

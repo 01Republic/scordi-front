@@ -1,15 +1,17 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useCurrentSubscription} from '../atom';
 import {SubscriptionBillingHistoriesTableHeader} from './SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from './SubscriptionBillingHistoriesTableRow';
 import {PaymentScopeHandler} from './PaymentScopeHandler';
 import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
 
+/**
+ * 구독 상세p > 결제탭
+ */
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
-    const subscription = useRecoilValue(subscriptionSubjectAtom);
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
         useAppBillingHistoriesInSubscriptionDetail();
 

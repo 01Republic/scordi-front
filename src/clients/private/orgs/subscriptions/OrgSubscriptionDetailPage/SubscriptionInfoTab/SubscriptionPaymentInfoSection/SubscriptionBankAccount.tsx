@@ -4,8 +4,7 @@ import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscriptio
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {BankAccountSelect} from '^models/BankAccount/components/BankAccountSelect';
-import {useQuery} from '@tanstack/react-query';
-import {bankAccountApi} from '^models/BankAccount/api';
+import {useBankAccountOfSubscription} from '../../hooks';
 
 interface SubscriptionBankAccountProps {
     isEditMode?: boolean;
@@ -15,14 +14,7 @@ interface SubscriptionBankAccountProps {
 
 export const SubscriptionBankAccount = memo((props: SubscriptionBankAccountProps) => {
     const {isEditMode, form, subscription} = props;
-    const {id, organizationId: orgId, bankAccountId} = subscription;
-    const bankAccountQuery = useQuery({
-        queryKey: ['subscription.bankAccount', id, bankAccountId],
-        queryFn: async () => {
-            return bankAccountApi.show(orgId, bankAccountId!).then((res) => res.data);
-        },
-        enabled: !!bankAccountId,
-    });
+    const bankAccountQuery = useBankAccountOfSubscription(subscription);
 
     const defaultBankAccount = bankAccountQuery.data || subscription.bankAccount;
 

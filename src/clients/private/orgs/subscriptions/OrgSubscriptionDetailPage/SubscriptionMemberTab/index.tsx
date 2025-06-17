@@ -15,6 +15,9 @@ import {TeamMemberInSubscriptionTableRow} from './TeamMemberInSubscriptionTableR
 import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect';
 import Qs from 'qs';
 
+/**
+ * 구독 상세p > 시트탭
+ */
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useOrgIdParam();
     const {currentSubscription: subscription} = useCurrentSubscription();
