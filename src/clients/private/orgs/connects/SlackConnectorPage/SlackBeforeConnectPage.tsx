@@ -49,7 +49,7 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
             <DescriptionSection
                 title="슬랙 워크스페이스 연동으로 구성원 불러오기"
                 steps={[
-                    <>설정{'>'} 서비스 연동을 클릭 해주세요.</>,
+                    <>설정{' >'} 서비스 연동을 클릭 해주세요.</>,
                     <>슬랙 우측에 있는 세부설정 버튼을 클릭 해주세요.</>,
                     <>설정 탭에서 워크스페이스 제거하고 연결해제를 할 수 있어요.</>,
                 ]}

@@ -18,7 +18,7 @@ export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutPro
     const {src, alt, title, warnTexts, connectButton, onClick, children} = props;
     return (
         <PureLayout>
-            <div className="px-32 py-14 grid grid-cols-2 gap-24 items-start">
+            <div className="px-40 py-14 grid grid-cols-2 gap-24 items-start">
                 {/* connection section */}
                 <section className="sticky top-14 col-span-1 w-full flex flex-col gap-10">
                     <BackButton />
@@ -27,9 +27,9 @@ export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutPro
                         <SafeBadge />
                     </div>
                     <span className="text-32 font-semibold text-gray-900 whitespace-pre-line">{title}</span>
-                    <div className="rounded-box p-4 bg-red-50 text-red-400 border border-red-400">
-                        <p className="font-medium text-18 mb-2">잠깐, 다음과 같은 안내를 확인해주세요.</p>
-                        <ul className="list-disc pl-4 text-16">
+                    <div className="flex flex-col gap-3 rounded-box p-4 bg-red-50 text-red-400 border border-red-400">
+                        <p className="font-semibold text-20">잠깐, 다음과 같은 안내를 확인해주세요.</p>
+                        <ul className="list-disc pl-4 font-normal text-18">
                             {warnTexts.map((warn, idx) => (
                                 <li key={idx}>{warn}</li>
                             ))}
