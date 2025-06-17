@@ -1,7 +1,8 @@
-import React, {memo, useEffect} from 'react';
-import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
+import React, {memo} from 'react';
+import {useOrgIdParam} from '^atoms/common';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentSubscription} from '../atom';
+import {useBillingHistoriesOfSubscription} from '../hooks';
 import {SubscriptionBillingHistoriesTableHeader} from './SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from './SubscriptionBillingHistoriesTableRow';
 import {PaymentScopeHandler} from './PaymentScopeHandler';
@@ -11,33 +12,24 @@ import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
  * 구독 상세p > 결제탭
  */
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
+    const orgId = useOrgIdParam();
     const {currentSubscription: subscription} = useCurrentSubscription();
     const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
-        useAppBillingHistoriesInSubscriptionDetail();
-
-    const onReady = () => {
-        if (!subscription) return;
-
-        search({
+        useBillingHistoriesOfSubscription(subscription, {
             relations: ['invoiceApp', 'invoiceApp.invoiceAccount', 'invoiceApp.invoiceAccount.googleTokenData'],
-            // relations: ['invoiceAccountSubscriptions', 'invoiceAccountSubscriptions.invoiceAccounts'],
             where: {
-                subscriptionId: subscription.id,
+                organizationId: orgId,
+                subscriptionId: subscription?.id,
             },
             order: {paidAt: 'DESC'},
         });
-    };
 
-    useEffect(() => {
-        if (subscription) onReady();
-    }, [subscription]);
-
-    if (!subscription) return <></>;
+    if (!orgId || !subscription) return <></>;
 
     return (
         <div className={'py-4 space-y-4'}>
             <div className={'flex justify-between'}>
-                <PaymentScopeHandler />
+                <PaymentScopeHandler onSearch={search} />
 
                 <AddPaymentHistoryDropdown subscription={subscription} reload={reload} />
             </div>

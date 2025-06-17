@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useState} from 'react';
+import {Dispatch, SetStateAction, useCallback, useContext, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {AxiosResponse} from 'axios';
 import Qs from 'qs';
@@ -144,41 +144,14 @@ function ensureKeyOfIsFunction<DTO>(finder: keyof DTO | ((dto: DTO) => any)) {
     return typeof finder == 'function' ? finder : (dto: DTO) => dto[finder];
 }
 
-interface UsePaginatedQueryContextOption<Query, DTO> {
-    useOrgId?: boolean;
-    queryKey: (query: Query, orgId?: number) => any[];
-    queryFn: (query: Query, orgId?: number) => Promise<Paginated<DTO>>;
-}
-
-export function usePaginatedQueryContext<Query, DTO>(
-    context: React.Context<{query: Query; search: (query: Query) => void}>,
-    option: UsePaginatedQueryContextOption<Query, DTO>,
-) {
-    const {useOrgId = true, queryKey, queryFn} = option;
-    const orgId = useOrgIdParam();
-
-    const {query, search} = useContext(context);
-    const _queryKey = queryKey(query, orgId);
-    const queryResult = useQuery({
-        queryKey: _queryKey,
-        queryFn: () => queryFn(query, orgId),
-        initialData: Paginated.init(),
-        enabled: !!orgId && !isNaN(orgId),
-    });
-
-    const controls = usePaginateUtils({query, search, queryResult});
-
-    return {queryKey: _queryKey, ...controls};
-}
-
-interface Base<Query, DTO, ERR> {
+interface Base<Query extends FindAllQueryDto<DTO>, DTO, ERR> {
     query: Query;
-    search: (query: Query) => void;
+    setQuery: Dispatch<SetStateAction<Query>>;
     queryResult: DefinedUseQueryResult<Paginated<DTO>, ERR>;
 }
 
-export function usePaginateUtils<Query, DTO, ERR>(base: Base<Query, DTO, ERR>) {
-    const {query, search, queryResult} = base;
+export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(base: Base<Query, DTO, ERR>) {
+    const {query, setQuery, queryResult} = base;
     const {data: result, isFetching: isLoading, refetch: reload, isFetched} = queryResult;
     const [isFirstLoaded, setIsFirstLoaded] = useState(false);
 
@@ -186,6 +159,12 @@ export function usePaginateUtils<Query, DTO, ERR>(base: Base<Query, DTO, ERR>) {
         if (isFetched) setIsFirstLoaded(true);
     }, [isFetched]);
 
+    const search = (params?: Partial<Query>) => {
+        return setQuery((_params) => {
+            if (!params) return _params;
+            return {..._params, ...params};
+        });
+    };
     const movePage = (page: number) => search({...query, page});
     const resetPage = () => search({...query, page: 1});
     const changePageSize = (itemsPerPage: number) => search({...query, page: 1, itemsPerPage});

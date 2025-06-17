@@ -11,26 +11,20 @@ import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRemoveSubscription} from '^models/Subscription/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {useSubscriptionList} from './hooks/useSubscriptionList';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
-import {subscriptionApi} from '^models/Subscription/api';
-import {FindAllSubscriptionsQueryContext} from '^pages/orgs/[id]/subscriptions';
-import {usePaginatedQueryContext} from '^hooks/usePagedResource';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
-    const queryContext = usePaginatedQueryContext(FindAllSubscriptionsQueryContext, {
-        queryKey: (query, orgId) => ['subscriptionList', orgId, query],
-        queryFn: async (query, orgId) => {
-            query.where = {organizationId: orgId, ...query.where};
-            return subscriptionApi.index(query).then((res) => res.data);
-        },
-    });
-    const {result, query, search, isLoading, reload, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy} =
-        queryContext;
     const orgId = useOrgIdParam();
-
+    const {result, query, search, isLoading, reload, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy} =
+        useSubscriptionList({
+            where: {organizationId: orgId},
+            relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
+            order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+        });
     const {mutate: deleteSubscription} = useRemoveSubscription();
 
     const onSearch = (keyword?: string) => {
@@ -87,7 +81,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <AddSubscriptionButton />
                 </div>
             )}
-            ScopeHandler={<SubscriptionScopeHandler />}
+            ScopeHandler={<SubscriptionScopeHandler onSearch={search} />}
             onSearch={onSearch}
         >
             <ListTableContainer
