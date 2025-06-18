@@ -7,7 +7,7 @@ import {swalHTML} from '^components/util/dialog';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {codefBankAccountApi} from '^models/CodefBankAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
+import {PatchHistoriesQueryDto, RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {RangeDateSwalForm} from './RangeDateSwalForm';
 
@@ -21,7 +21,7 @@ export const FetchBillingHistoriesItem = memo((props: FetchBillingHistoriesItemP
     const org = useRecoilValue(adminOrgDetail);
     const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
 
-    const onSubmit = async (dto: RangeQueryDto) => {
+    const onSubmit = async (dto: PatchHistoriesQueryDto) => {
         if (!org) return;
 
         setIsSyncRunning(true);
