@@ -2,7 +2,7 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, useOrgIdParam, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {OrgSubscriptionListPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage';
 
@@ -26,7 +26,8 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    useRouterIdParamState('id', orgIdParamState);
+    const orgId = useOrgIdParam();
     useCurrentOrg(orgId);
 
     if (!orgId || isNaN(orgId)) return <></>;

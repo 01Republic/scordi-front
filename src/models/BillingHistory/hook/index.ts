@@ -14,7 +14,7 @@ import {
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
 } from '../type';
-import {appBillingHistoryApi, billingHistoryApi} from '../api';
+import {billingHistoryApi} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
@@ -25,7 +25,6 @@ import {
     billingHistoryLoadingState,
     getBillingHistoryQuery,
 } from '../atom';
-import {usePagedResource2} from '^hooks/usePagedResource/usePagedResource2';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {ErrorResponse} from '^models/User/types';
 import {UploadFileDto} from '^api/file.api';
@@ -210,20 +209,6 @@ export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>)
 
     return {billingHistory, loadBillingHistory, updateBillingHistory, deleteBillingHistory, isLoading};
 }
-
-export const useAppBillingHistoriesInSubscriptionDetail = () => useAppBillingHistories(billingHistoriesAtom);
-
-const useAppBillingHistories = (
-    atoms: PagedResourceAtoms<BillingHistoryDto, GetBillingHistoriesParams>,
-    mergeMode = false,
-) => {
-    return usePagedResource2(atoms, {
-        endpoint: (params, orgId, subscriptionId) => appBillingHistoryApi.index(subscriptionId, params),
-        useOrgId: false,
-        mergeMode,
-        getId: 'id',
-    });
-};
 
 export const useCreateCreditCardBillingHistoryByExcel = () => {
     const queryClient = useQueryClient();

@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, useIdParam, useOrgIdParam, useRouterIdParamState} from '^atoms/common';
 import {RecoilState, useRecoilState, useSetRecoilState} from 'recoil';
 import {useCurrentOrg} from '^models/Organization/hook';
 import React, {useEffect} from 'react';
@@ -9,7 +9,7 @@ import {useUnmount} from '^hooks/useUnmount';
 
 interface ShowRoutingPageProps<T> extends WithChildren {
     subjectIdParamKey: string;
-    subjectIdParamAtom: RecoilState<number>;
+    subjectIdParamAtom?: RecoilState<number>;
     subjectAtom: RecoilState<T | null>;
 
     endpoint: (subjectId: number, orgId: number) => Promise<AxiosResponse<T, any>>;
@@ -17,10 +17,12 @@ interface ShowRoutingPageProps<T> extends WithChildren {
 
 export function ShowRoutingPage<T>(props: ShowRoutingPageProps<T>) {
     const {subjectIdParamKey, subjectIdParamAtom, subjectAtom, endpoint, children} = props;
-    const orgId = useRouterIdParamState('id', orgIdParamState);
-    const subjectId = useRouterIdParamState(subjectIdParamKey, subjectIdParamAtom);
-    const setSubjectId = useSetRecoilState(subjectIdParamAtom);
+    useRouterIdParamState('id', orgIdParamState);
+    if (subjectIdParamAtom) useRouterIdParamState(subjectIdParamKey, subjectIdParamAtom);
+    const setSubjectId = subjectIdParamAtom ? useSetRecoilState(subjectIdParamAtom) : undefined;
     const setSubject = useSetRecoilState(subjectAtom);
+    const orgId = useOrgIdParam();
+    const subjectId = useIdParam(subjectIdParamKey);
     useCurrentOrg(orgId);
 
     useEffect(() => {
@@ -32,11 +34,8 @@ export function ShowRoutingPage<T>(props: ShowRoutingPageProps<T>) {
 
     useUnmount(() => {
         setSubject(null);
-        setSubjectId(NaN);
+        if (setSubjectId) setSubjectId(NaN);
     });
-
-    if (!orgId || isNaN(orgId)) return <></>;
-    if (!subjectId || isNaN(subjectId)) return <></>;
 
     return <>{children}</>;
 }

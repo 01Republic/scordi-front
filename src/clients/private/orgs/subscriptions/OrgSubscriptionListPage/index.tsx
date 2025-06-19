@@ -1,46 +1,40 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {debounce} from 'lodash';
 import {Plus} from 'lucide-react';
 import {toast} from 'react-hot-toast';
+import {useOrgIdParam} from '^atoms/common';
 import {errorToast} from '^api/api';
-import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/ExternalCDNScripts/step-by';
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
-import {useRemoveSubscription, useSubscriptionTableListAtom} from '^models/Subscription/hook';
+import {useRemoveSubscription} from '^models/Subscription/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {useSubscriptionList} from './hooks/useSubscriptionList';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, query, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy, reload} =
-        useSubscriptionTableListAtom();
-
-    const {mutate: deleteSubscription} = useRemoveSubscription();
-
-    const onReady = () => {
-        search({
+    const orgId = useOrgIdParam();
+    const {result, query, search, isLoading, reload, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy} =
+        useSubscriptionList({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
             order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
         });
-    };
+    const {mutate: deleteSubscription} = useRemoveSubscription();
 
-    const onSearch = debounce((keyword?: string) => {
+    const onSearch = (keyword?: string) => {
         return search({
             ...query,
             keyword: keyword || undefined,
             page: 1,
             itemsPerPage: 30,
         });
-    }, 500);
+    };
 
     const AddSubscriptionButton = () => (
         <div>
@@ -78,7 +72,6 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
 
     return (
         <ListPage
-            onReady={onReady}
             breadcrumb={['구독', {text: '구독 리스트', active: true}]}
             titleText="구독 리스트"
             Buttons={() => (
@@ -88,9 +81,8 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <AddSubscriptionButton />
                 </div>
             )}
-            ScopeHandler={<SubscriptionScopeHandler />}
+            ScopeHandler={<SubscriptionScopeHandler onSearch={search} />}
             onSearch={onSearch}
-            // searchInputPosition="start-of-buttons"
         >
             <ListTableContainer
                 pagination={result.pagination}
@@ -126,15 +118,3 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         </ListPage>
     );
 });
-
-// export const fetchSubscriptionQueryById = selectorFamily({
-//     key: 'fetchSubscriptionQueryById',
-//     get: (id: number) => async () => {
-//         try {
-//             const res = await subscriptionApi.show(id);
-//             return res.data;
-//         } catch (e) {
-//             errorNotify(e);
-//         }
-//     },
-// });

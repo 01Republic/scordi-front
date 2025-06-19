@@ -2,7 +2,6 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {subscriptionIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {OrgSubscriptionDetailPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage';
@@ -35,7 +34,7 @@ export default function Page() {
     return (
         <ShowRoutingPage
             subjectIdParamKey="subscriptionId"
-            subjectIdParamAtom={subscriptionIdParamState}
+            // subjectIdParamAtom={subscriptionIdParamState}
             subjectAtom={subscriptionSubjectAtom}
             endpoint={(subjectId) => subscriptionApi.show(subjectId)}
         >

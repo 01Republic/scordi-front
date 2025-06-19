@@ -1,14 +1,17 @@
 import React, {memo, useState} from 'react';
 import {ScopeButton} from '^clients/private/_components/rest-pages/ListPage/ScopeButton';
-import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
 import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
 
-export const PaymentScopeHandler = memo(function InviteStatusScopeHandler() {
+interface Props {
+    onSearch: (query: FindAllBillingHistoriesQueryDto) => any;
+}
+
+export const PaymentScopeHandler = memo(function (props: Props) {
+    const {onSearch} = props;
     const [selected, setSelected] = useState<number>(0);
-    const {search} = useAppBillingHistoriesInSubscriptionDetail();
 
     const getBillingHistories = (where: FindAllBillingHistoriesQueryDto['where'] | null) => {
-        search({
+        onSearch({
             where: {
                 ...where,
             },

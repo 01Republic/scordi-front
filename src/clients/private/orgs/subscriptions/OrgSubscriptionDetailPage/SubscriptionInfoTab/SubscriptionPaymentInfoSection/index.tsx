@@ -26,7 +26,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const {currentSubscription} = useCurrentSubscription();
+    const {currentSubscription, reload} = useCurrentSubscription();
     const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
 
     if (!currentSubscription) return null;
@@ -115,7 +115,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
             const {invoiceAccountIdsForMulti, ...dtoWithoutInvoiceAccountIdsForMulti} = dto;
             await subscriptionApi.update(subscription.id, dtoWithoutInvoiceAccountIdsForMulti);
-            await refetch();
+            await reload();
+            refetch();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
         } catch (error) {

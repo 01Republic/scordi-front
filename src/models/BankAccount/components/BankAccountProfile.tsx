@@ -176,7 +176,7 @@ export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactP
 
             <div className="flex items-center text-14 leading-none whitespace-nowrap overflow-hidden">
                 <span className="truncate">
-                    {bankAccount.alias} {bankAccount.displayNumber && `(${bankAccount.endNumber()})`}
+                    {bankAccount.alias || bankAccount.bankName} ({bankAccount.endNumber(3)})
                 </span>
             </div>
         </div>

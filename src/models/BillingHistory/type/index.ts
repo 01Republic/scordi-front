@@ -214,6 +214,7 @@ export enum StatusQueryOptions {
     Failed = 'failed',
 }
 
+// DEPRECATED: Use FindAllBillingHistoriesQueryDto
 export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StartEndParams &
     StatusParams &

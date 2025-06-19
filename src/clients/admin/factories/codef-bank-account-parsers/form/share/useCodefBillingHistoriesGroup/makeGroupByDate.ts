@@ -62,7 +62,7 @@ export function makeGroupByDate(codefBillingHistories: CodefBillingHistoryDto[],
         // 그룹별로 자료구조를 맞추어 목록에 담는다.
         Object.entries(container).forEach(([key, entries]) => {
             const keyObj = JSON.parse(key) as GroupContainerKey;
-            const regularRecurringList = entries.filter((his) => getDay(his) === keyObj.groupKey);
+            // const regularRecurringList = entries.filter((his) => getDay(his) === keyObj.groupKey);
 
             groups.push({
                 metadata: {
@@ -70,7 +70,7 @@ export function makeGroupByDate(codefBillingHistories: CodefBillingHistoryDto[],
                     groupMethod,
                     codefBankAccountId: keyObj.codefBankAccountId,
                     codefBankAccount: bankAccountMap[keyObj.codefBankAccountId],
-                    billingCycleType: getRecurringType(regularRecurringList),
+                    billingCycleType: getRecurringType(entries),
                 },
                 entries: entries.reverse(), // asc 를 desc 로 반전시킴
             });
