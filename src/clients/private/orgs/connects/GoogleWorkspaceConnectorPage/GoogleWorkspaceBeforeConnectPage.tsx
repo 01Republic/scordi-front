@@ -48,7 +48,12 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                 title="관리자 계정인지 3초만에 확인하기"
                 steps={[
                     <>
-                        <LinkTo href="https://google.com" text="구글" className="cursor-pointer link-primary" />
+                        <LinkTo
+                            href="https://google.com"
+                            target="_blank"
+                            text="구글"
+                            className="cursor-pointer link-primary"
+                        />
                         사이트에 접속해 주세요
                     </>,
                     <>
@@ -68,6 +73,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                     <>
                         <LinkTo
                             href="https://admin.google.com"
+                            target="_blank"
                             text="https://admin.google.com"
                             className="cursor-pointer link-primary"
                         />
@@ -104,6 +110,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                     <>
                         <LinkTo
                             href="https://admin.google.com"
+                            target="_blank"
                             text="https://admin.google.com"
                             className="cursor-pointer link-primary"
                         />

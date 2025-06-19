@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {useAlert} from '^hooks/useAlert';
 import {ApiError} from '^api/api';
@@ -7,6 +7,7 @@ import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
 import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 import {LoadingScreen} from '^clients/private/_components/pages/assets/connect-steps/common/LoadingScreen';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
@@ -82,15 +83,13 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
     }, [accessToken]);
 
     return (
-        <div className="h-lvh flex flex-col items-center justify-center">
-            <LoadingScreen
-                message="입력한 정보를 기반으로\n구성원을 불러오고 있어요"
-                onClose={() => {
-                    setIsLoading(false);
-                    setAccessToken(null);
-                }}
-            />
-        </div>
+        <LoadingScreen
+            message={`입력한 정보를 기반으로 \n구성원을 불러오고 있어요`}
+            onClose={() => {
+                setIsLoading(false);
+                setAccessToken(null);
+            }}
+        />
 
         // <div className="py-10 px-12">
         //     <header className="mb-12">
