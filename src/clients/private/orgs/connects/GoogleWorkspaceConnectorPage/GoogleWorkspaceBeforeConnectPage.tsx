@@ -7,7 +7,7 @@ import {googleWorkspaceAccessTokenAtom} from './atom';
 import {LinkTo} from '^components/util/LinkTo';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {NextImage} from '^components/NextImage';
-import {ConnectionAndDescriptionSection} from '^clients/private/orgs/connects/ConnectionAndDescriptionSection';
+import {ConnectionAndDescriptionSection} from '^clients/private/orgs/onboarding/ConnectionAndDescriptionSection';
 import {DescriptionSection} from '^clients/private/orgs/connects/DescriptionSection';
 import adminCheck3s from 'src/images/onboarding/googleDirection/admin-check-3s.png';
 import adminViewButton from 'src/images/onboarding/googleDirection/admin-view-button.png';
@@ -150,5 +150,3 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
 const Code = ({children}: WithChildren) => (
     <code className="rounded text-14 px-1.5 py-0.5 bg-gray-600 text-white">{children}</code>
 );
-
-const Img = (props: ImgHTMLAttributes<any>) => <img src="" alt="" style={{width: '70%'}} loading="lazy" {...props} />;
