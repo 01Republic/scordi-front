@@ -1,0 +1,194 @@
+import React, {Dispatch, memo, SetStateAction} from 'react';
+import {plainToInstance} from 'class-transformer';
+import {Bell, X} from 'lucide-react';
+import {Paginated} from '^types/utils/paginated.dto';
+import {
+    FindAllNotificationMessagesQueryDto,
+    NotificationMessageDto,
+} from '^models/_notification/NotificationMessage/types';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {NotificationMessageItem} from './NotificationMessageItem';
+
+interface NotificationModalProps {
+    open: boolean;
+    onClose: () => void;
+    data: Paginated<NotificationMessageDto>;
+    params: FindAllNotificationMessagesQueryDto;
+    search: Dispatch<SetStateAction<FindAllNotificationMessagesQueryDto>>;
+    reload: () => any;
+}
+
+const dummyItems = plainToInstance(NotificationMessageDto, [
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: null,
+        sentAt: new Date(),
+        url: 'https://naver.com',
+    },
+    {
+        title: '구독 가격이 변경됐어요. 내용이 더 길어지면 생략하는 대신 늘어나도 될 듯 합니다.',
+        readAt: null,
+        sentAt: new Date('2025-06-18T00:00:00.000Z'),
+        url: 'https://naver.com',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-06-16T06:00:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: null,
+        sentAt: new Date('2025-05-10T10:00:00.000Z'),
+        url: 'https://naver.com',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-04-28T00:00:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: null,
+        sentAt: new Date('2025-03-11T00:00:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-02-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+    {
+        title: '구독 가격이 변경됐어요.',
+        readAt: new Date(),
+        sentAt: new Date('2025-01-05T12:45:00.000Z'),
+        url: '/',
+    },
+]);
+
+export const NotificationModal = memo((props: NotificationModalProps) => {
+    const {open, onClose, data, params, search, reload} = props;
+
+    // const items = [];
+    const items = dummyItems;
+    // const items = data.items;
+    const {totalItemCount} = data.pagination;
+    const unreadItems = items.filter((item) => !item.readAt);
+
+    return (
+        <AnimatedModal backdrop={{opacity: 0.0, className: ''}} open={open} onClose={onClose} allowScroll>
+            <div className="fixed top-[56px] right-8 mx-auto max-w-80 w-full">
+                <div className="w-4 h-4 absolute -top-2 right-[67px] bg-white border-t border-l shadow-xl rotate-45" />
+                <div className={'bg-white rounded-2xl shadow-xl overflow-hidden'}>
+                    <header className="pt-4 px-6 pb-2.5 border-b border-gray-400/30">
+                        <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-18 font-bold">
+                                알림{' '}
+                                {totalItemCount > 0 && (
+                                    <span className="text-orange-600 ml-1">{totalItemCount.toLocaleString()}</span>
+                                )}
+                            </h4>
+
+                            <div>
+                                <X
+                                    fontSize={20}
+                                    onClick={onClose}
+                                    className="text-gray-700 hover:text-black cursor-pointer transition-all"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-end">
+                            <p
+                                className={`text-12 ${
+                                    unreadItems.length > 0
+                                        ? 'text-scordi hover:text-scordi-600 cursor-pointer'
+                                        : 'text-gray-500/50 cursor-default'
+                                } transition-all`}
+                            >
+                                모두 읽음 상태로 표시
+                            </p>
+                        </div>
+                    </header>
+
+                    <section className="">
+                        {items.length > 0 ? (
+                            <div className="w-full h-full max-h-[60vh] overflow-auto no-scrollbar">
+                                {items.map((item, i) => (
+                                    <NotificationMessageItem key={i} item={item} reload={reload} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="w-full h-full min-h-[60vh] flex items-center justify-center">
+                                <div className="pb-6 text-gray-500/50 flex flex-col items-center gap-4">
+                                    <Bell fontSize={28} />
+                                    <div className="text-14">도착한 알림이 없습니다.</div>
+                                </div>
+                            </div>
+                        )}
+                    </section>
+                </div>
+            </div>
+        </AnimatedModal>
+    );
+
+    // return (
+    //     <Transition
+    //         show={open}
+    //         as={Fragment}
+    //         enter="transition ease-out duration-200"
+    //         enterFrom="opacity-0 translate-y-1"
+    //         enterTo="opacity-100 translate-y-0"
+    //         leave="transition ease-in duration-150"
+    //         leaveFrom="opacity-100 translate-y-0"
+    //         leaveTo="opacity-0 translate-y-1"
+    //     >
+    //         {/* Mark this component as `static` */}
+    //         <Popover.Panel
+    //             static
+    //             className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
+    //         >
+    //             <div>NotificationModal</div>
+    //         </Popover.Panel>
+    //     </Transition>
+    // );
+});
+NotificationModal.displayName = 'NotificationModal';

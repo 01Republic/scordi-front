@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {NotificationMessageDto} from '../../NotificationMessage/types/NotificationMessage.dto';
+import {NotificationMessageDto} from '^models/_notification/NotificationMessage/types';
 import {NotificationTemplateAbout} from './NotificationTemplateAbout.enum';
 
 /**
