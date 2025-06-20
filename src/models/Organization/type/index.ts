@@ -83,10 +83,14 @@ export class OrganizationConnectStatusDto {
     name: string;
     workspaceSyncHistoriesCount: number;
     invoiceAccountsCount: number;
-    isCodefSigned: boolean;
-    codefAccountsCount: number;
+    isCodefCardsSigned: boolean;
+    codefAccountsCardsCount: number;
     codefCardsCount: number;
     creditCardsCount: number;
+    isCodefBanksSigned: boolean;
+    codefAccountsBanksCount: number;
+    codefBankAccountsCount: number;
+    bankAccountsCount: number;
     subscriptionsCount: number;
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
