@@ -2,10 +2,12 @@ import React, {Fragment, memo, ReactNode} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {ModalLayoutProps} from './Modal.types';
 
-export interface AnimationLayoutProps extends ModalLayoutProps {}
+export interface AnimationLayoutProps extends ModalLayoutProps {
+    allowScroll?: boolean;
+}
 
 export const AnimatedModal = memo((props: AnimationLayoutProps) => {
-    const {name, children, open, onClose, backdrop} = props;
+    const {name, children, open, onClose, backdrop, allowScroll = false} = props;
     const backdropOption = backdrop || {};
     backdropOption.opacity ??= 0.25;
     backdropOption.hidden ??= false;
@@ -37,6 +39,9 @@ export const AnimatedModal = memo((props: AnimationLayoutProps) => {
                     <span className="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">
                         &#8203;
                     </span>
+
+                    {allowScroll && <style dangerouslySetInnerHTML={{__html: `html { overflow: auto !important; }`}} />}
+
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
