@@ -7,7 +7,7 @@ import {googleWorkspaceAccessTokenAtom} from './atom';
 import {LinkTo} from '^components/util/LinkTo';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {NextImage} from '^components/NextImage';
-import {ConnectionAndDescriptionSection} from '^clients/private/orgs/onboarding/ConnectionAndDescriptionSection';
+import {ConnectionAndDescriptionSection} from '^clients/private/orgs/connects/ConnectionAndDescriptionSection';
 import {DescriptionSection} from '^clients/private/orgs/connects/DescriptionSection';
 import adminCheck3s from 'src/images/onboarding/googleDirection/admin-check-3s.png';
 import adminViewButton from 'src/images/onboarding/googleDirection/admin-view-button.png';
