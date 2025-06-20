@@ -1,18 +1,20 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {useAlert} from '^hooks/useAlert';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ApiError} from '^api/api';
 import {userSocialGoogleApi} from '^api/social-google.api';
+import {orgIdParamState} from '^atoms/common';
+import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
+import {useAlert} from '^hooks/useAlert';
 import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
-import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 import {LoadingScreen} from '^clients/private/_components/pages/assets/connect-steps/common/LoadingScreen';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
+    const orgId = useRecoilValue(orgIdParamState);
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('15초 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
+
     const setReportData = useSetRecoilState(reportState);
     const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
@@ -90,37 +92,5 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
                 setAccessToken(null);
             }}
         />
-
-        // <div className="py-10 px-12">
-        //     <header className="mb-12">
-        //         <div className="mb-12">
-        //             <LinkTo
-        //                 onClick={routerBack}
-        //                 className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
-        //             >
-        //                 <ArrowLeft /> 뒤로가기
-        //             </LinkTo>
-        //         </div>
-
-        //         <div className="mb-4 flex items-center justify-between">
-        //             <img
-        //                 src="https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/192px.svg"
-        //                 alt="google workspace logo"
-        //                 className="avatar w-[48px] h-[48px] bg-white"
-        //             />
-        //         </div>
-
-        //         <div className="mb-12 animate-pulse">
-        //             <h1 className="text-3xl mb-4">{title}</h1>
-        //             <h2 className="text-xl mb-4">{desc}</h2>
-
-        //             <br />
-        //         </div>
-        //     </header>
-
-        //     <section className="py-8">
-        //         <Loader size={60} className="animate-spin text-scordi-500 m-auto" />
-        //     </section>
-        // </div>
     );
 });
