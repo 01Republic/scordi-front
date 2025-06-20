@@ -17,7 +17,7 @@ export const RangeDateSwalForm = memo((props: RangeDateSwalFormProps) => {
     const {startDate, endDate, onSubmit, className = ''} = props;
     const [isLoading, setIsLoading] = useState(false);
     const form = useForm<PatchHistoriesQueryDto>({
-        defaultValues: {startDate, endDate, strategy: 'pessimistic'},
+        defaultValues: {startDate, endDate, strategy: 'optimistic'},
     });
 
     const submitHandler = async (dto: PatchHistoriesQueryDto) => {
@@ -76,24 +76,7 @@ export const RangeDateSwalForm = memo((props: RangeDateSwalFormProps) => {
                         <div className="text-12 text-gray-500 mb-1.5">
                             <p className="text-12">조회 방법</p>
                         </div>
-                        <label className="flex items-center gap-2 mb-1.5">
-                            <input
-                                type="radio"
-                                className="radio radio-sm radio-primary"
-                                name="strategy"
-                                value="pessimistic"
-                                defaultChecked={form.watch('strategy') === 'pessimistic'}
-                                onChange={(e) => {
-                                    form.setValue('strategy', 'pessimistic');
-                                }}
-                            />
-                            <div className="text-14">
-                                <div className="font-bold">안전모드</div>
-                                <div className="text-12">
-                                    안전하게 1개월씩 쪼개서 거슬러올라가며 끝까지 조회. 느림. (5분 정도 소요)
-                                </div>
-                            </div>
-                        </label>
+
                         <label className="flex items-center gap-2">
                             <input
                                 type="radio"
@@ -109,6 +92,25 @@ export const RangeDateSwalForm = memo((props: RangeDateSwalFormProps) => {
                                 <div className="font-bold">일반모드</div>
                                 <div className="text-12">
                                     전체범위를 한번에 코드에프에 조회. 빠르지만 기관에 따라 안불러와질때가 있음.
+                                </div>
+                            </div>
+                        </label>
+
+                        <label className="flex items-center gap-2 mb-1.5">
+                            <input
+                                type="radio"
+                                className="radio radio-sm radio-primary"
+                                name="strategy"
+                                value="pessimistic"
+                                defaultChecked={form.watch('strategy') === 'pessimistic'}
+                                onChange={(e) => {
+                                    form.setValue('strategy', 'pessimistic');
+                                }}
+                            />
+                            <div className="text-14">
+                                <div className="font-bold">안전모드</div>
+                                <div className="text-12">
+                                    안전하게 1개월씩 쪼개서 거슬러올라가며 끝까지 조회. 느림. (5분 정도 소요)
                                 </div>
                             </div>
                         </label>
