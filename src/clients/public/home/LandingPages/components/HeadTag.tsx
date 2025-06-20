@@ -15,6 +15,7 @@ export const HeadTag = memo((props: HeadTagProps) => {
 
     return (
         <Head>
+            <></>
             {/* <title>{title}</title>
             <meta name="description" content={description} />
             <meta name="author" content="Team Scordi" />

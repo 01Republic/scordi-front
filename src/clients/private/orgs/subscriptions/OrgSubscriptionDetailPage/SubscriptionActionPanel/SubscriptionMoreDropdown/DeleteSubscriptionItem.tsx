@@ -7,10 +7,13 @@ import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/Show
 import {subscriptionApi} from '^models/Subscription/api';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {useCurrentSubscription} from '../../atom';
+import {useRemoveSubscription, useSubscriptionTableListAtom} from '^models/Subscription/hook';
 
 export const DeleteSubscriptionItem = memo(() => {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const router = useRouter();
+    const {reload} = useSubscriptionTableListAtom();
+    const {mutate: deleteSubscription} = useRemoveSubscription();
 
     if (!subscription) return <></>;
 
@@ -30,9 +33,10 @@ export const DeleteSubscriptionItem = memo(() => {
             );
 
         return confirmed(removeConfirm())
-            .then(() => subscriptionApi.destroy(id))
+            .then(() => deleteSubscription(id))
             .then(() => toast.success('구독이 삭제되었어요.'))
             .then(() => router.replace(OrgSubscriptionListPageRoute.path(organizationId)))
+            .then(() => reload())
             .catch(errorToast);
     };
 

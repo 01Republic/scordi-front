@@ -1,19 +1,18 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialPaymentMethodAccount} from '^components/ExternalCDNScripts/step-by';
+import {AddAssetButton} from '../../AddAssetButton';
 import TitleScopeHandler from './TitleScopeHandler';
 import {BankAccountTableRow} from './BankAccountTableRow';
 import {BankAccountTableHeader} from './BankAccountTableHeader';
-import {AddBankAccountDropdown} from './AddBankAccountDropdown';
 import {BankAccountScopeHandler} from './BankAccountScopeHandler';
-import {AddBankAccountModal} from './AddBankAccountModal/AddBankAccountModal';
 
 export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {
         search,
         reset,
@@ -51,7 +50,12 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => <AddBankAccountDropdown reload={refresh} />}
+            Buttons={() => (
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialPaymentMethodAccount} />
+                    <AddAssetButton />
+                </>
+            )}
             ScopeHandler={<BankAccountScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
@@ -65,7 +69,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddBankAccountModal reload={refresh} />}
+                EmptyButtons={() => <AddAssetButton />}
             >
                 <ListTable
                     items={result.items}

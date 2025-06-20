@@ -11,9 +11,6 @@ interface SubscriptionSeatsProps {
 
 export const SubscriptionSeats = memo((props: SubscriptionSeatsProps) => {
     const {isEditMode, currentSeatCount, currentAssignedSeatCount, setUpdateSeatCount} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
 
     return (
         <FormControl label="구매수량">
@@ -27,7 +24,7 @@ export const SubscriptionSeats = memo((props: SubscriptionSeatsProps) => {
                         onChange={(e) => {
                             const value = e.target.value.toString().replace(/\D/g, '');
                             e.target.value = value.toString();
-                            if (value) setUpdateSeatCount(Number(value) - currentSeatCount);
+                            if (value) setUpdateSeatCount(Number(value));
                         }}
                     />
                     <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">

@@ -1,62 +1,73 @@
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {memo, useState} from 'react';
 import {toast} from 'react-hot-toast';
 import {MinusCircle, Plus} from 'lucide-react';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {ApiError, errorToast} from '^api/api';
-import {subscriptionApi} from '^models/Subscription/api';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {orgIdParamState} from '^atoms/common';
-import {TeamMemberInSubscriptionTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/TeamMemberInSubscriptionTableRow';
-import {TeamMemberInSubscriptionTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/TeamMemberInSubscriptionTableHeader';
-import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/MemberStatusScopeHandler';
-import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionTeamMemberSelect';
-import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
+import {useOrgIdParam} from '^atoms/common';
 import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
-import {SubscriptionSeatStatusSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection';
-import {useAssignedSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/AssignedSeatCounter';
-import {useFinishTargetSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/FinishTargetSeatCounter';
-import {usePaidSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/PaidSeatCounter';
-import {useQuitStatusSeatCounter} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusSection/QuitStatusSeatCounter';
+import {useDestroyAllSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {MemberStatusScopeHandler} from '../SubscriptionMemberTab/MemberStatusScopeHandler';
+import {SubscriptionSeatStatusSection} from '../SubscriptionMemberTab/SubscriptionSeatStatusSection';
+import {TeamMemberInSubscriptionTableHeader} from './TeamMemberInSubscriptionTableHeader';
+import {TeamMemberInSubscriptionTableRow} from './TeamMemberInSubscriptionTableRow';
+import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect';
+import Qs from 'qs';
 
+/**
+ * 구독 상세p > 시트탭
+ */
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {currentSubscription: subscription, reload: reloadSubscription} = useCurrentSubscription();
-    const {search, result, isLoading, isEmptyResult, isNotLoaded, movePage, changePageSize, reload, orderBy} =
-        useSubscriptionSeatsInMemberTab();
-    const [isOpened, setIsOpened] = useState(false);
-    const {refetch: refetchAssignedSeatCount} = useAssignedSeatCounter(subscription);
-    const {refetch: refetchPaidSeatCount} = usePaidSeatCounter(subscription);
-    const {refetch: refetchFinishTargetSeatCounter} = useFinishTargetSeatCounter(subscription);
-    const {refetch: refetchQuitStatusSeatCount} = useQuitStatusSeatCounter(subscription);
-
-    const teamMembers = result.items.filter((item) => item.teamMember);
-    const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+    const orgId = useOrgIdParam();
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
     if (!orgId || !subscription) return <></>;
 
-    const onPageReload = () => {
-        reload();
-        reloadSubscription();
-        refetchAssignedSeatCount();
-        refetchPaidSeatCount();
-        refetchFinishTargetSeatCounter();
-        refetchQuitStatusSeatCount();
-    };
+    const {
+        query,
+        setQuery,
+        data: subscriptionSeat,
+        isLoading,
+        isFetched,
+        sortVal,
+        orderBy,
+    } = useSubscriptionSeat(orgId, subscription.id);
+    const {mutateAsync: destroySubscriptionSeat} = useDestroyAllSubscriptionSeat();
+    const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+    const [isOpened, setIsOpened] = useState(false);
+
+    const teamMembers = subscriptionSeat?.items.filter((item) => item.teamMember);
 
     const onChangeScopeHandler = (status: SubscriptionSeatStatus | null) => {
         setSelectedMembers([]);
 
         if (!status) {
-            search({
+            setQuery({
+                relations: ['teamMember', 'teamMember.teams'],
                 order: {id: 'DESC'},
             });
         } else
-            search({
+            setQuery({
+                ...query,
                 order: {id: 'DESC'},
                 where: {status},
             });
+    };
+
+    const changePageSize = (itemsPerPage: number) => {
+        setQuery((prev) => ({
+            ...prev,
+            page: 1,
+            itemsPerPage,
+        }));
+    };
+
+    const movePage = (page: number) => {
+        setQuery((prev) => ({
+            ...prev,
+            page,
+        }));
     };
 
     const onDeleteMembers = (targetMembers: number[]) => {
@@ -74,10 +85,9 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     showLoaderOnConfirm: true,
                     preConfirm: async () => {
                         try {
-                            await subscriptionApi.seatsApi.destroyAll(orgId, subscription.id, targetMembers);
+                            await destroySubscriptionSeat({orgId, subscriptionId: subscription.id, ids: targetMembers});
                             setSelectedMembers([]);
                             toast.success('계정을 회수했어요.');
-                            reload();
                         } catch (e) {
                             errorToast(e as ApiError);
                         }
@@ -89,10 +99,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
             ),
         ).catch(errorToast);
     };
-
-    useEffect(() => {
-        orgId && onPageReload();
-    }, [orgId]);
 
     return (
         <div className={'py-4 space-y-4'}>
@@ -107,13 +113,13 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
             </div>
 
             <ListTableContainer
-                pagination={result.pagination}
+                pagination={subscriptionSeat.pagination}
                 movePage={movePage}
                 changePageSize={changePageSize}
                 unit="명"
-                isNotLoaded={isNotLoaded}
+                isNotLoaded={!isFetched}
                 isLoading={isLoading}
-                isEmptyResult={isEmptyResult}
+                isEmptyResult={subscriptionSeat.pagination.totalItemCount === 0 && !isLoading}
                 emptyMessage="조회된 구성원이 없어요."
                 emptyButtonText="구성원 등록"
                 EmptyButtons={() => (
@@ -141,9 +147,9 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 <ListTable
                     items={teamMembers}
                     isLoading={false}
-                    addBottomPadding={true}
                     Header={() => (
                         <TeamMemberInSubscriptionTableHeader
+                            sortVal={sortVal}
                             orderBy={orderBy}
                             allSelected={selectedMembers.length > 0 && selectedMembers.length === teamMembers.length}
                             onAllSelect={() =>
@@ -155,8 +161,9 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     )}
                     Row={({item}) => (
                         <TeamMemberInSubscriptionTableRow
+                            key={item.id}
                             seat={item}
-                            reload={onPageReload}
+                            reload={() => {}}
                             selected={selectedMembers.includes(item.id)}
                             onSelect={(value: boolean) =>
                                 setSelectedMembers((prev) =>
@@ -176,7 +183,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 }}
                 onCreate={() => {
                     setIsOpened(false);
-                    reload();
                 }}
             />
         </div>

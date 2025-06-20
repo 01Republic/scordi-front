@@ -5,6 +5,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {UserLocale} from '^models/User/types/UserLocale.enum';
 import {TeamMemberDto} from '^models/TeamMember';
 import {PartialType} from '^types/utils/partial-type';
+import {NotificationMessageDto} from '^models/_notification/NotificationMessage/types';
 
 export enum MembershipLevel {
     MEMBER = 'MEMBER',
@@ -59,6 +60,7 @@ export class MembershipDto {
     @TypeCast(() => OrganizationDto) organization: OrganizationDto;
     @TypeCast(() => UserDto) user?: UserDto;
     @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto;
+    @TypeCast(() => NotificationMessageDto) notificationMessages?: NotificationMessageDto[]; // 알림 메세지
 }
 
 export class FindAllMembershipQuery extends FindAllQueryDto<MembershipDto> {

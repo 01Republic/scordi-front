@@ -1,8 +1,7 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useBillingHistoryListOfBankAccount} from '^models/BillingHistory/hook';
@@ -15,7 +14,7 @@ import {BillingHistoryRowOfBankAccount} from './BillingHistoryRowOfBankAccount';
 import {BillingHistoryTableControl} from './BillingHistoryTableControl';
 
 export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHistoryListOfBankAccountTabContent() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {currentBankAccount} = useCurrentBankAccount();
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useBillingHistoryListOfBankAccount();

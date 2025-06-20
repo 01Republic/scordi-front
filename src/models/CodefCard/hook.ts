@@ -1,6 +1,15 @@
+import {useState} from 'react';
+import {RecoilState, useRecoilValue} from 'recoil';
+import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CodefCardDto} from './type/CodefCard.dto';
+import {ErrorResponse} from '^models/User/types';
+import {Paginated} from '^types/utils/paginated.dto';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
 import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from './type/find-all.card.query.dto';
+import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
+import {codefAccountApi} from '^models/CodefAccount/api';
 import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {
     codefCardsAdminAtom,
@@ -11,13 +20,9 @@ import {
     subscriptionsForAccountAtom,
     subscriptionsForCardAtom,
 } from '^models/CodefCard/atom';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
-import {RecoilState, useRecoilValue} from 'recoil';
-import {codefAccountApi} from '^models/CodefAccount/api';
-import {useState} from 'react';
-import {useQuery} from '@tanstack/react-query';
-import {Paginated} from '^types/utils/paginated.dto';
+import {CodefLoginType} from '^models/CodefAccount/type/enums';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {uniqBy} from 'lodash';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
@@ -135,4 +140,80 @@ const useSubscriptionsOfCodefAccount = (
         getId: 'id',
         mergeMode,
     });
+};
+
+/* 코드에프 계좌 조회 - 여러커드사의 카드를 조회 */
+export const useFindCardAccounts = (orgId: number, accountIds: number[], params?: FindAllCardQueryDto) => {
+    const results = useQueries({
+        queries: accountIds.map((accountId) => {
+            const queryParams = {
+                relations: ['account'],
+                sync: true,
+                itemsPerPage: 0,
+                ...params,
+            };
+
+            return {
+                queryKey: ['findCardsByAccountIds', orgId, accountId, queryParams],
+                queryFn: () => codefAccountApi.findCards(orgId, accountId, queryParams).then((res) => res.data.items),
+                enabled: !!orgId && !isNaN(orgId) && !!accountId,
+                // initialData: [],
+                retry: 0,
+                retryOnMount: false,
+                refetchOnReconnect: false,
+                refetchOnWindowFocus: false,
+            };
+        }),
+    });
+
+    const data = results.flatMap((result) => result.data || []);
+    const loadings = results.filter((result) => result.isFetching);
+    const isLoading = loadings.length > 0;
+    const isError = results.some((result) => result.isError);
+    const errors = results.filter((result) => result.isError);
+    const allConnected = data.every((item) => item.isConnected);
+
+    return {data, loadings, isLoading, isError, errors, allConnected};
+};
+
+/** 기관코드를 통해 연결된 카드목록을 조회 */
+export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsStaticData[]) => {
+    const companyCodes = companies.map((company) => company.param);
+    const {
+        data: codefAccounts,
+        isFetching,
+        isError,
+    } = useQuery({
+        queryKey: ['codefAccounts.useCodefCardsByCompanies', orgId, companies],
+        queryFn: () => {
+            return codefAccountApi
+                .index(orgId, {
+                    where: {
+                        organization: {op: 'in', val: companyCodes},
+                    },
+                    itemsPerPage: 0,
+                })
+                .then((res) => res.data.items);
+        },
+        enabled: !!orgId && companies.length > 0,
+        initialData: [],
+        refetchOnWindowFocus: false,
+        // refetchOnMount: false,
+    });
+
+    const codefAccountIds = codefAccounts.map((account) => account.id);
+
+    const dbQuery = useFindCardAccounts(orgId, codefAccountIds, {sync: false});
+
+    const syncQuery = useFindCardAccounts(orgId, codefAccountIds);
+
+    return {
+        dbQuery,
+        syncQuery,
+        data: uniqBy([...syncQuery.data, ...dbQuery.data], (item) => item.id),
+        isLoading: isFetching || dbQuery.isLoading || syncQuery.isLoading,
+        isError: isError || dbQuery.isError || syncQuery.isError,
+        errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
+        allConnected: syncQuery.allConnected,
+    };
 };

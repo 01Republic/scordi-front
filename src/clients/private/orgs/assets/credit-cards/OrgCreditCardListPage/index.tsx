@@ -4,12 +4,13 @@ import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
+import {StepbyTutorialButton} from '^components/ExternalCDNScripts/step-by';
+import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
+import {AddAssetButton} from '../../AddAssetButton';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
-import {AddCreditCardDropdown} from './AddCreditCardDropdown';
-import {AddCreditCardModal} from './AddCreditCardModal';
-import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useOrgIdParam();
@@ -50,7 +51,12 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => <AddCreditCardDropdown reload={refresh} />}
+            Buttons={() => (
+                <>
+                    <StepbyTutorialButton onClick={StepByTutorialPaymentMethodCard} />
+                    <AddAssetButton />
+                </>
+            )}
             ScopeHandler={<CreditCardScopeHandler />}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
@@ -64,7 +70,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddCreditCardModal reload={refresh} />}
+                EmptyButtons={() => <AddAssetButton />}
             >
                 <ListTable
                     items={result.items}

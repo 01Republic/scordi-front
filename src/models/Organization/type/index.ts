@@ -11,6 +11,7 @@ import {BankAccountDto} from '^models/BankAccount/type';
 
 export class CreateOrganizationRequestDto {
     name: string; // 조직명
+    isDemo?: boolean; // 테스트 워크스페이스 유무
 
     @TypeCast(() => CreateOrganizationBizInfoRequestDto)
     bizInfo?: CreateOrganizationBizInfoRequestDto; // 사업자 정보
@@ -26,6 +27,7 @@ export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto>
     image?: File | string;
     address?: string;
     addressDetail?: string;
+    isDemo?: boolean; // 테스트 워크스페이스 유무
 };
 
 export type SearchOrgQueryDto = {
@@ -44,6 +46,7 @@ export class OrganizationDto {
     lastGoogleSyncHistoryId: number | null; // 최신 워크스페이스 동기화 내역 ID
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
+    isDemo?: boolean;
 
     // relations
     @TypeCast(() => MembershipDto) memberships?: MembershipDto[];

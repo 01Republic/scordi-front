@@ -3,19 +3,18 @@ import {UseFormReturn, useWatch} from 'react-hook-form';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/FreeTireSelect';
 import {IsFreeTierTagUI} from '^models/Subscription/components';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useCurrentSubscription} from '../../atom';
+import {useShowSubscription} from '^models/Subscription/hook';
 
 interface SubscriptionIsFreeTierProps {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    subscription: SubscriptionDto;
 }
 
 export const SubscriptionIsFreeTier = memo((props: SubscriptionIsFreeTierProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
+    const {isEditMode, form, subscription} = props;
 
     const isFreeTier = useWatch({
         control: form.control,

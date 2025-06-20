@@ -64,6 +64,7 @@ export const DropdownBackdrop = (props: DropdownBackdropProps) => {
             onHide={scrollUnlock}
             render={(attrs, content, instance) => (
                 <div {...attrs}>
+                    <style dangerouslySetInnerHTML={{__html: `body.modal-opened { overflow: visible !important; }`}} />
                     <div
                         className="dropdown-backdrop2"
                         data-allow-scroll={allowScroll}

@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
@@ -12,7 +11,7 @@ import {SubscriptionListOfBankAccountTabContent} from './SubscriptionListOfBankA
 import {BillingHistoryListOfBankAccountTabContent} from './BillingHistoryListOfBankAccountTabContent';
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (

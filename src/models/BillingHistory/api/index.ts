@@ -89,7 +89,7 @@ export const billingHistoryApi = {
 };
 
 export const appBillingHistoryApi = {
-    index: (subscriptionId: number, params?: GetBillingHistoriesParams) => {
+    index: (subscriptionId: number, params?: FindAllBillingHistoriesQueryDto) => {
         const url = `/subscriptions/${subscriptionId}/${NAMESPACE}`;
         return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
     },

@@ -1,12 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionApi} from '^models/Subscription/api';
-import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
+import {useTeamMembers2} from '^models/TeamMember';
+import {useCreateSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
-import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {SlideUpAllSelectModal} from '^clients/private/_modals/SlideUpAllSelectModal';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 
 interface SubscriptionTeamMemberSelectModalProps {
     isOpened: boolean;
@@ -18,26 +17,27 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
     const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {isOpened, onClose, onCreate} = props;
-    const {search, result} = useSubscriptionSeatsInMemberTab();
+    const {mutateAsync: createSubscriptionSeat} = useCreateSubscriptionSeat();
 
-    const {result: teamMemberList, search: teamMemberSearch} = useTeamMemberListInCreateSubscription();
+    if (!subscription) return <></>;
+    const {data: subscriptionSeat} = useSubscriptionSeat(orgId, subscription?.id);
+    const {setQuery: teamMemberSearch, data: teamMemberList} = useTeamMembers2(orgId);
 
     if (!orgId || !subscription) return null;
 
     const handleUpdate = async (selectedIds: number[]) => {
         const requests = selectedIds.map((teamMemberId) => {
-            return subscriptionApi.seatsApi.create(orgId, subscription.id, {teamMemberId: teamMemberId});
+            return createSubscriptionSeat({orgId, subscriptionId: subscription.id, dto: {teamMemberId: teamMemberId}});
         });
 
         await Promise.allSettled(requests);
     };
 
     const filterTeamMemberSeatList = teamMemberList.items.filter(
-        (teamMember) => !result.items.find((seat) => seat.teamMember?.id === teamMember.id),
+        (teamMember) => !subscriptionSeat.items.find((seat) => seat.teamMember?.id === teamMember.id),
     );
 
     useEffect(() => {
-        search({});
         teamMemberSearch({itemsPerPage: 0});
     }, []);
 

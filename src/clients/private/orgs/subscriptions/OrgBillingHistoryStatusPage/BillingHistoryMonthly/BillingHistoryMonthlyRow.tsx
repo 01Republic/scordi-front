@@ -15,11 +15,12 @@ interface BillingHistoryMonthlyRowProps {
     renderColumns: (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => JSX.Element[];
     exchangeRate: number;
     wideMode?: WideMode;
+    stickyPos?: number;
 }
 
 export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
-    const {data, ratio, renderColumns, exchangeRate, wideMode = WideMode.Narrow} = props;
+    const {data, ratio, renderColumns, exchangeRate, wideMode = WideMode.Narrow, stickyPos = 0} = props;
     const {subscription, items} = data;
 
     const currentCode = subscription.currentBillingAmount?.code;
@@ -62,7 +63,7 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
             </td>
 
             {/* 평균지출액 */}
-            <td className={isHidden ? 'hidden' : 'text-right font-medium min-w-28'}>
+            <td className={'text-right font-medium min-w-28'}>
                 {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
             </td>
 

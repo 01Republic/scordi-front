@@ -1,23 +1,20 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
+import {subscriptionSubjectAtom} from './atom';
 import {SubscriptionProfilePanel} from './SubscriptionProfilePanel';
-
 import {SubscriptionInfoTab} from './SubscriptionInfoTab';
 import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './SubscriptionMemberTab';
-import {SubscriptionActionPanel} from '../OrgSubscriptionDetailPage/SubscriptionActionPanel';
+import {SubscriptionActionPanel} from './SubscriptionActionPanel';
 
 export const OrgSubscriptionDetailPage = memo(() => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
-
-    if (!subscription) return <></>;
 
     return (
         <ShowPage
@@ -29,7 +26,7 @@ export const OrgSubscriptionDetailPage = memo(() => {
         >
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
-                    <SubscriptionProfilePanel subscription={subscription} />
+                    {subscription && <SubscriptionProfilePanel subscription={subscription} />}
                 </div>
                 <SubscriptionActionPanel />
             </header>

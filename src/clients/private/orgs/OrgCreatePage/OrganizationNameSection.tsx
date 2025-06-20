@@ -39,7 +39,7 @@ export const OrganizationNameSection = (props: OrganizationNameSectionProps) => 
                         }}
                         {...restRegister}
                         className={cn(
-                            'w-full h-14 border text-sm text-neutral-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
+                            'w-full h-14 border text-sm text-gray-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                             {
                                 'bg-gray-100': isDisabled,
                                 'bg-white': !isDisabled,

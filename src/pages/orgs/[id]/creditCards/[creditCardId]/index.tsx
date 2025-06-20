@@ -2,7 +2,6 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {creditCardIdParamState} from '^atoms/common';
 import {creditCardApi} from '^models/CreditCard/api';
 import {creditCardSubjectAtom} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {OrgCreditCardShowPage} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage';
@@ -35,7 +34,6 @@ export default function Page() {
     return (
         <ShowRoutingPage
             subjectIdParamKey="creditCardId"
-            subjectIdParamAtom={creditCardIdParamState}
             subjectAtom={creditCardSubjectAtom}
             endpoint={(subjectId, orgId) => creditCardApi.show(orgId, subjectId)}
         >

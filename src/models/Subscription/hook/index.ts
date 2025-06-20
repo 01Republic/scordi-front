@@ -1,8 +1,20 @@
+import {useState} from 'react';
+import {AxiosResponse} from 'axios';
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
-import {FindAllSubscriptionsQuery, SubscriptionDto} from 'src/models/Subscription/types';
-import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {teamApi} from '^models/Team/api';
 import {subscriptionApi} from '^models/Subscription/api';
-import {usePagedResource, PagedResourceAtoms, cachePagedQuery, UsePagedResourceOption} from '^hooks/usePagedResource';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {Paginated} from '^types/utils/paginated.dto';
+import {
+    FindAllSubscriptionsQuery,
+    FindOneSubscriptionQueryDto,
+    SubscriptionDto,
+    UpdateSubscriptionRequestDto,
+} from 'src/models/Subscription/types';
+import {invoiceAccountIdParamState, teamIdParamState} from '^atoms/common';
+import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
+import {usePagedResource, PagedResourceAtoms} from '^hooks/usePagedResource';
 import {
     addableSubscriptionsOfCreditCardAtom,
     addableSubscriptionsOfInvoiceAccountAtom,
@@ -17,13 +29,10 @@ import {
     subscriptionsInTeamShowPageAtom,
     subscriptionTableListAtom,
 } from '^models/Subscription/atom';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {useQuery} from '@tanstack/react-query';
-import {useState} from 'react';
-import {invoiceAccountIdParamState, teamIdParamState} from '^atoms/common';
-import {Paginated} from '^types/utils/paginated.dto';
-import {AxiosResponse} from 'axios';
-import {teamApi} from '^models/Team/api';
+import {api} from '^api/api';
+import {oneDtoOf} from '^types/utils/response-of';
+import {ErrorResponse} from '^models/User/types';
+import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -158,31 +167,6 @@ const useInvoiceAccountSubscriptions = (
     });
 };
 
-// const useInvoiceAccountSubscriptions = () => {
-//     return useQuery({
-//         queryKey: ['useInvoiceAccountSubscriptions'],
-//         queryFn: () => invoiceAccountApi.subscriptionsApi.index(),
-//     });
-// };
-
-// export const useSubscription = () => {
-//     const router = useRouter();
-//     const appId = router.query.appId;
-//     const [application, setSubscription] = useState<SubscriptionDto | null>(null);
-//
-//     useEffect(() => {
-//         if (!appId || isNaN(appId)) return;
-//
-//         getSubscription(appId)
-//             .then((res) => {
-//                 setSubscription(res.data);
-//             })
-//             .catch(errorNotify);
-//     }, [appId]);
-//
-//     return application;
-// };
-
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
     return {currentSubscription, reload: () => reload((v) => v)};
@@ -205,5 +189,42 @@ export const useWorkspaceSubscriptionCount = (orgId: number) => {
         queryFn: () => subscriptionApi.index({where: {organizationId: orgId}}).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
         initialData: Paginated.init(),
+    });
+};
+
+/* tanstack Query   */
+
+// 구독 상세조회
+export const useShowSubscription = (subscriptionId: number, params?: FindOneSubscriptionQueryDto) => {
+    return useQuery<SubscriptionDto, ErrorResponse>({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.detail, subscriptionId, params],
+        queryFn: () => subscriptionApi.show(subscriptionId, params).then((res) => res.data),
+        enabled: !!subscriptionId && !isNaN(subscriptionId),
+    });
+};
+
+// 구독 업데이트
+export const useUpdateSubscription = () => {
+    const queryClient = useQueryClient();
+    return useMutation<SubscriptionDto, ErrorResponse, {subscriptionId: number; data: UpdateSubscriptionRequestDto}>({
+        mutationFn: ({subscriptionId, data}) => subscriptionApi.update(subscriptionId, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
+        },
+    });
+};
+
+//구독 삭제하기
+export const useRemoveSubscription = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (subscriptionId: number) => subscriptionApi.destroy(subscriptionId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
+        },
     });
 };
