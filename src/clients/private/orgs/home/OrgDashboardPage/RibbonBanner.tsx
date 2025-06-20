@@ -3,6 +3,7 @@ import {OrgReviewUncategoriedPageRoute} from '^pages/orgs/[id]/reviewUncategoriz
 import {TriangleAlert, X} from 'lucide-react';
 import Link from 'next/link';
 import {memo} from 'react';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const RibbonBanner = memo(() => {
     const orgId = useIdParam('id');
@@ -18,10 +19,14 @@ export const RibbonBanner = memo(() => {
             <div></div>
             <div className="flex items-center gap-2">
                 <TriangleAlert className="w-5 h-5 text-[#D97707]" />
-                <div className="text-[#78350F] text-18">분류가 필요한 내역이 있어요!</div>
-                <Link href={linkToUncategorized} className="text-[#004FCF] underline ml-2">
+                <div className="text-[#78350F] text-14">분류가 필요한 내역이 있어요!</div>
+                <LinkTo
+                    href={linkToUncategorized}
+                    className="text-blue-500 underline ml-2 text-14"
+                    displayLoading={false}
+                >
                     자세히 알아보기
-                </Link>
+                </LinkTo>
             </div>
             <X className="w-5 h-5 text-[#7D7C78]" />
         </div>
