@@ -1,118 +1,36 @@
 import React, {Dispatch, memo, SetStateAction} from 'react';
-import {plainToInstance} from 'class-transformer';
 import {Bell, X} from 'lucide-react';
+import {errorToast} from '^api/api';
+import {useOrgIdParam} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {notificationSessionApi} from '^models/_notification/NotificationSession/api';
+import {notificationMessagesApi} from '^models/_notification/NotificationMessage/api';
 import {
     FindAllNotificationMessagesQueryDto,
     NotificationMessageDto,
 } from '^models/_notification/NotificationMessage/types';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {NotificationMessageItem} from './NotificationMessageItem';
 
 interface NotificationModalProps {
     open: boolean;
     onClose: () => void;
+    unreadCount: number;
     data: Paginated<NotificationMessageDto>;
     params: FindAllNotificationMessagesQueryDto;
     search: Dispatch<SetStateAction<FindAllNotificationMessagesQueryDto>>;
     reload: () => any;
 }
 
-const dummyItems = plainToInstance(NotificationMessageDto, [
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: null,
-        sentAt: new Date(),
-        url: 'https://naver.com',
-    },
-    {
-        title: '구독 가격이 변경됐어요. 내용이 더 길어지면 생략하는 대신 늘어나도 될 듯 합니다.',
-        readAt: null,
-        sentAt: new Date('2025-06-18T00:00:00.000Z'),
-        url: 'https://naver.com',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-06-16T06:00:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: null,
-        sentAt: new Date('2025-05-10T10:00:00.000Z'),
-        url: 'https://naver.com',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-04-28T00:00:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: null,
-        sentAt: new Date('2025-03-11T00:00:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-02-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-    {
-        title: '구독 가격이 변경됐어요.',
-        readAt: new Date(),
-        sentAt: new Date('2025-01-05T12:45:00.000Z'),
-        url: '/',
-    },
-]);
-
 export const NotificationModal = memo((props: NotificationModalProps) => {
-    const {open, onClose, data, params, search, reload} = props;
+    const {open, onClose, unreadCount, data, params, search, reload} = props;
+    const orgId = useOrgIdParam();
 
     // const items = [];
-    const items = dummyItems;
-    // const items = data.items;
-    const {totalItemCount} = data.pagination;
-    const unreadItems = items.filter((item) => !item.readAt);
+    // const items = dummyItems;
+    const items = data.items;
+    // const {totalItemCount} = data.pagination;
+    // const unreadItems = items.filter((item) => !item.readAt);
 
     return (
         <AnimatedModal backdrop={{opacity: 0.0, className: ''}} open={open} onClose={onClose} allowScroll>
@@ -121,10 +39,10 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
                 <div className={'bg-white rounded-2xl shadow-xl overflow-hidden'}>
                     <header className="pt-4 px-6 pb-2.5 border-b border-gray-400/30">
                         <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-18 font-bold">
+                            <h4 className="text-18 font-bold" onClick={() => notificationSessionApi.test(orgId)}>
                                 알림{' '}
-                                {totalItemCount > 0 && (
-                                    <span className="text-orange-600 ml-1">{totalItemCount.toLocaleString()}</span>
+                                {unreadCount > 0 && (
+                                    <span className="text-orange-600 ml-1">{unreadCount.toLocaleString()}</span>
                                 )}
                             </h4>
 
@@ -139,10 +57,28 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
                         <div className="flex items-center justify-end">
                             <p
                                 className={`text-12 ${
-                                    unreadItems.length > 0
+                                    unreadCount > 0
                                         ? 'text-scordi hover:text-scordi-600 cursor-pointer'
                                         : 'text-gray-500/50 cursor-default'
                                 } transition-all`}
+                                onClick={() => {
+                                    if (unreadCount === 0) return;
+                                    notificationMessagesApi
+                                        .updateAll(
+                                            orgId,
+                                            {
+                                                where: {
+                                                    readAt: 'NULL',
+                                                    sentAt: {op: 'not', val: 'NULL'},
+                                                },
+                                            },
+                                            {
+                                                readAt: new Date(),
+                                            },
+                                        )
+                                        .then(() => reload())
+                                        .catch(errorToast);
+                                }}
                             >
                                 모두 읽음 상태로 표시
                             </p>
