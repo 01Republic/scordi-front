@@ -13,6 +13,7 @@ import {
     NotificationMessageDto,
 } from '^models/_notification/NotificationMessage/types';
 import {NotificationMessageItem} from './NotificationMessageItem';
+import {eventCut} from '^utils/event';
 
 interface NotificationModalProps {
     open: boolean;
@@ -63,7 +64,14 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
                 <div className={'bg-white rounded-2xl shadow-xl overflow-hidden'}>
                     <header className="pt-4 px-6 pb-2.5 border-b border-gray-400/30">
                         <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-18 font-bold" onClick={() => notificationSessionApi.test(orgId)}>
+                            <h4
+                                className="text-18 font-bold"
+                                onClick={() => notificationSessionApi.test(orgId)}
+                                onContextMenu={(e) => {
+                                    eventCut(e);
+                                    return notificationSessionApi.test(orgId, {isAppend: true});
+                                }}
+                            >
                                 알림{' '}
                                 {unreadCount > 0 && (
                                     <span className="text-orange-600 ml-1">{unreadCount.toLocaleString()}</span>

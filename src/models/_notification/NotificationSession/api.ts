@@ -1,6 +1,7 @@
 import {EventSourcePolyfill, NativeEventSource, MessageEvent} from 'event-source-polyfill';
 import {api, getToken} from '^api/api';
 import {log2} from '^utils/log';
+import {NotificationSessionTestQuery} from './type';
 
 /**
  * [알림] 알림 구독 세션 API
@@ -64,8 +65,9 @@ export const notificationSessionApi = {
         }
     },
 
-    test(orgId: number) {
-        return api.get(`/organizations/${orgId}/notification-session/test`);
+    test(orgId: number, params?: NotificationSessionTestQuery) {
+        const url = `/organizations/${orgId}/notification-session/test`;
+        return api.get<void>(url, {params});
     },
 
     /**

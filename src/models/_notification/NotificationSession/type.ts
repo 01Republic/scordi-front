@@ -11,3 +11,7 @@ export class NotificationMessageEvent {
     @TypeCast(() => NotificationMessageDto)
     data: NotificationMessageDto;
 }
+
+export class NotificationSessionTestQuery {
+    isAppend?: boolean;
+}
