@@ -1,6 +1,5 @@
 import {memo, useState} from 'react';
 import {Bell} from 'lucide-react';
-import {SseFlashMessageConnector} from '^models/_notification/NotificationSession/components';
 import {
     useNotificationMessageUnreadCount,
     useNotificationMessageReceived,
@@ -19,7 +18,6 @@ export const NotificationDropdown = memo(() => {
 
     return (
         <>
-            <SseFlashMessageConnector reload={reload} />
             <div
                 className={`relative ${
                     isOpened ? 'text-scordi-500' : 'text-gray-400 hover:text-scordi-500'

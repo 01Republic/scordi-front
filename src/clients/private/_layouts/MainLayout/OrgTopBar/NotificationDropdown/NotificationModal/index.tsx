@@ -11,6 +11,7 @@ import {
     NotificationMessageDto,
 } from '^models/_notification/NotificationMessage/types';
 import {NotificationMessageItem} from './NotificationMessageItem';
+import {useSetFlashMessages} from '^models/_notification/NotificationSession/hooks';
 
 interface NotificationModalProps {
     open: boolean;
@@ -25,12 +26,34 @@ interface NotificationModalProps {
 export const NotificationModal = memo((props: NotificationModalProps) => {
     const {open, onClose, unreadCount, data, params, search, reload} = props;
     const orgId = useOrgIdParam();
+    const flashMessages = useSetFlashMessages();
 
     // const items = [];
     // const items = dummyItems;
     const items = data.items;
     // const {totalItemCount} = data.pagination;
     // const unreadItems = items.filter((item) => !item.readAt);
+
+    const unreadAll = () => {
+        notificationMessagesApi
+            .updateAll(
+                orgId,
+                {
+                    where: {
+                        readAt: 'NULL',
+                        sentAt: {op: 'not', val: 'NULL'},
+                    },
+                },
+                {
+                    readAt: new Date(),
+                },
+            )
+            .then(() => {
+                reload();
+                flashMessages.reset();
+            })
+            .catch(errorToast);
+    };
 
     return (
         <AnimatedModal backdrop={{opacity: 0.0, className: ''}} open={open} onClose={onClose} allowScroll>
@@ -61,24 +84,7 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
                                         ? 'text-scordi hover:text-scordi-600 cursor-pointer'
                                         : 'text-gray-500/50 cursor-default'
                                 } transition-all`}
-                                onClick={() => {
-                                    if (unreadCount === 0) return;
-                                    notificationMessagesApi
-                                        .updateAll(
-                                            orgId,
-                                            {
-                                                where: {
-                                                    readAt: 'NULL',
-                                                    sentAt: {op: 'not', val: 'NULL'},
-                                                },
-                                            },
-                                            {
-                                                readAt: new Date(),
-                                            },
-                                        )
-                                        .then(() => reload())
-                                        .catch(errorToast);
-                                }}
+                                onClick={() => unreadCount > 0 && unreadAll()}
                             >
                                 모두 읽음 상태로 표시
                             </p>
@@ -105,26 +111,5 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
             </div>
         </AnimatedModal>
     );
-
-    // return (
-    //     <Transition
-    //         show={open}
-    //         as={Fragment}
-    //         enter="transition ease-out duration-200"
-    //         enterFrom="opacity-0 translate-y-1"
-    //         enterTo="opacity-100 translate-y-0"
-    //         leave="transition ease-in duration-150"
-    //         leaveFrom="opacity-100 translate-y-0"
-    //         leaveTo="opacity-0 translate-y-1"
-    //     >
-    //         {/* Mark this component as `static` */}
-    //         <Popover.Panel
-    //             static
-    //             className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
-    //         >
-    //             <div>NotificationModal</div>
-    //         </Popover.Panel>
-    //     </Transition>
-    // );
 });
 NotificationModal.displayName = 'NotificationModal';

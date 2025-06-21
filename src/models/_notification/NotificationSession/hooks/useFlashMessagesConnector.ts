@@ -2,19 +2,30 @@ import {useEffect} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {plainToInstance} from 'class-transformer';
 import {useOrgIdParam} from '^atoms/common';
-import {NotificationMessageEvent, NotificationMessageEventType} from '^models/_notification/NotificationSession/type';
+import {notificationFlashMessagesAtom} from '^models/_notification/NotificationSession/atom';
 import {NotificationMessageDto} from '^models/_notification/NotificationMessage/types';
-import {notificationSessionApi} from '../api';
-import {notificationFlashMessagesAtom} from '../atom';
+import {notificationSessionApi} from '^models/_notification/NotificationSession/api';
+import {NotificationMessageEvent, NotificationMessageEventType} from '^models/_notification/NotificationSession/type';
+import {
+    useNotificationMessageReceived,
+    useNotificationMessageUnreadCount,
+} from '^models/_notification/NotificationMessage/hooks';
 
-interface Props {
-    reload: () => any;
+interface FlashMessagesConnectorOption {
+    reload?: () => any;
 }
 
-export const SseFlashMessageConnector = (props: Props) => {
-    const {reload} = props;
+export function useFlashMessagesConnector(option: FlashMessagesConnectorOption = {}) {
     const orgId = useOrgIdParam();
     const setFlashMessages = useSetRecoilState(notificationFlashMessagesAtom);
+    const unreadCountQuery = useNotificationMessageUnreadCount();
+    const receivedQuery = useNotificationMessageReceived();
+
+    const reload = () => {
+        unreadCountQuery.refetch();
+        receivedQuery.refetch();
+        if (option.reload) option.reload();
+    };
 
     const appendFlash = (message: NotificationMessageDto) => {
         setFlashMessages((prev) => [...prev, message]);
@@ -41,8 +52,4 @@ export const SseFlashMessageConnector = (props: Props) => {
             eventSource?.close();
         };
     }, [orgId]);
-
-    if (!orgId) return <></>;
-
-    return <></>;
-};
+}

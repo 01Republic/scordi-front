@@ -6,6 +6,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {notificationMessagesApi} from '^models/_notification/NotificationMessage/api';
 import {useOrgIdParam} from '^atoms/common';
 import {errorToast} from '^api/api';
+import {useSetFlashMessages} from '^models/_notification/NotificationSession/hooks';
 
 interface NotificationMessageItemProps {
     item: NotificationMessageDto;
@@ -15,11 +16,13 @@ interface NotificationMessageItemProps {
 export const NotificationMessageItem = memo((props: NotificationMessageItemProps) => {
     const {item, reload} = props;
     const orgId = useOrgIdParam();
+    const {removeOne} = useSetFlashMessages();
 
     const onClick = () => {
         if (!item.readAt) {
             return notificationMessagesApi
                 .update(orgId, item.id, {readAt: new Date()})
+                .then(() => removeOne(item.id))
                 .then(() => reload && reload())
                 .catch(errorToast);
         }
