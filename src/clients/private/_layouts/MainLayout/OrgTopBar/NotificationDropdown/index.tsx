@@ -1,20 +1,22 @@
 import {memo, useState} from 'react';
 import {Bell} from 'lucide-react';
 import {
-    useNotificationMessageUnreadCount,
+    useNotificationMessageUnread,
     useNotificationMessageReceived,
 } from '^models/_notification/NotificationMessage/hooks';
 import {NotificationModal} from './NotificationModal';
 
 export const NotificationDropdown = memo(() => {
     const [isOpened, setIsOpened] = useState(false);
-    const unreadCountQuery = useNotificationMessageUnreadCount();
+    const unreadCountQuery = useNotificationMessageUnread();
     const receivedQuery = useNotificationMessageReceived();
 
     const reload = () => {
         unreadCountQuery.refetch();
         receivedQuery.refetch();
     };
+
+    const {unreadCount} = unreadCountQuery;
 
     return (
         <>
@@ -25,7 +27,7 @@ export const NotificationDropdown = memo(() => {
                 onClick={() => setIsOpened(true)}
             >
                 <Bell className={`size-5`} />
-                {unreadCountQuery.data > 0 && (
+                {unreadCount > 0 && (
                     <span className="absolute top-[0px] right-[3px] text-[9px] text-white bg-red-500 w-[6px] h-[6px] rounded-full flex items-center justify-center font-bold">
                         {/*{count.toLocaleString()}*/}
                     </span>
@@ -35,7 +37,7 @@ export const NotificationDropdown = memo(() => {
             <NotificationModal
                 open={isOpened}
                 onClose={() => setIsOpened(false)}
-                unreadCount={unreadCountQuery.data}
+                unreadCount={unreadCount}
                 data={receivedQuery.data}
                 params={receivedQuery.query}
                 search={receivedQuery.search}

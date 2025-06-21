@@ -5,7 +5,7 @@ import {
     UpdateNotificationMessageRequestDto,
 } from '^models/_notification/NotificationMessage/types';
 import {api} from '^api/api';
-import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {findAndCountDtoOf, listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 /**
  * [알림] 알림 메세지 API
@@ -20,10 +20,10 @@ export const notificationMessagesApi = {
         return api.get(url, {params}).then(paginatedDtoOf(NotificationMessageDto));
     },
 
-    /** 읽지않은 메세지 수 조회 */
-    unreadCount(orgId: number) {
-        const url = `/organizations/${orgId}/notification-messages/count-by/unread`;
-        return api.get<number>(url);
+    /** 읽지않은 메세지 조회 */
+    findByUnread(orgId: number) {
+        const url = `/organizations/${orgId}/notification-messages/find-by/unread`;
+        return api.get(url).then(paginatedDtoOf(NotificationMessageDto));
     },
 
     /** 상세 */

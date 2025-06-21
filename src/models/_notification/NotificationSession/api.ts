@@ -1,5 +1,6 @@
 import {EventSourcePolyfill, NativeEventSource, MessageEvent} from 'event-source-polyfill';
 import {api, getToken} from '^api/api';
+import {log2} from '^utils/log';
 
 /**
  * [알림] 알림 구독 세션 API
@@ -25,7 +26,7 @@ export const notificationSessionApi = {
 
             // 연결 성공 이벤트
             eventSource.addEventListener('connect', (event: any) => {
-                console.log(event); // 연결 완료 콜백 호출
+                log2(event); // 연결 완료 콜백 호출
                 if (event.data === 'SSE 연결이 완료되었습니다.') {
                     // onConnect?.(); // 연결 완료 콜백 호출
                 }
@@ -39,9 +40,19 @@ export const notificationSessionApi = {
             // 에러 처리
             eventSource.onerror = (error: any) => {
                 if (error?.error?.message) {
-                    console.log(error.error.message);
+                    log2(error.error.message);
                 } else {
-                    console.error('SSE Error:', error);
+                    log2('SSE Error:', error);
+                    // console.log(error instanceof MessageEvent);
+                    // const e = {
+                    //     type: 'error',
+                    //     data: 'Request Timeout',
+                    //     lastEventId: '1',
+                    // };
+                    // console.log(error instanceof ErrorEvent);
+                    // const e = {
+                    //     type: 'error',
+                    // };
                 }
                 onError?.(error); // 에러 콜백 호출
                 // eventSource.close(); // 연결 종료

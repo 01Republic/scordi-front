@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
 import {formatDate} from '^utils/dateTime';
 import {ChevronRight} from 'lucide-react';
-import {NotificationMessageDto} from '^models/_notification/NotificationMessage/types';
-import {LinkTo} from '^components/util/LinkTo';
-import {notificationMessagesApi} from '^models/_notification/NotificationMessage/api';
-import {useOrgIdParam} from '^atoms/common';
 import {errorToast} from '^api/api';
-import {useSetFlashMessages} from '^models/_notification/NotificationSession/hooks';
+import {useOrgIdParam} from '^atoms/common';
+import {LinkTo} from '^components/util/LinkTo';
+import {NotificationMessageDto} from '^models/_notification/NotificationMessage/types';
+import {notificationMessagesApi} from '^models/_notification/NotificationMessage/api';
+import {useNotificationMessageUnread} from '^models/_notification/NotificationMessage/hooks';
 
 interface NotificationMessageItemProps {
     item: NotificationMessageDto;
@@ -16,7 +16,7 @@ interface NotificationMessageItemProps {
 export const NotificationMessageItem = memo((props: NotificationMessageItemProps) => {
     const {item, reload} = props;
     const orgId = useOrgIdParam();
-    const {removeOne} = useSetFlashMessages();
+    const {removeOne} = useNotificationMessageUnread();
 
     const onClick = () => {
         if (!item.readAt) {

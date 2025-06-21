@@ -16,6 +16,7 @@ export const FlashNotificationMessageItem = memo((props: FlashNotificationMessag
             type={'link'}
             theme={'notice'}
             url={item.url}
+            animation
         />
     );
 });

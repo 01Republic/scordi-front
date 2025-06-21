@@ -1,9 +1,11 @@
 import React, {Dispatch, memo, SetStateAction} from 'react';
+import {useSetRecoilState} from 'recoil';
 import {Bell, X} from 'lucide-react';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {notificationFlashMessagesAtom} from '^models/_notification/NotificationSession/atom';
 import {notificationSessionApi} from '^models/_notification/NotificationSession/api';
 import {notificationMessagesApi} from '^models/_notification/NotificationMessage/api';
 import {
@@ -11,7 +13,6 @@ import {
     NotificationMessageDto,
 } from '^models/_notification/NotificationMessage/types';
 import {NotificationMessageItem} from './NotificationMessageItem';
-import {useSetFlashMessages} from '^models/_notification/NotificationSession/hooks';
 
 interface NotificationModalProps {
     open: boolean;
@@ -26,7 +27,7 @@ interface NotificationModalProps {
 export const NotificationModal = memo((props: NotificationModalProps) => {
     const {open, onClose, unreadCount, data, params, search, reload} = props;
     const orgId = useOrgIdParam();
-    const flashMessages = useSetFlashMessages();
+    const setFlashMessages = useSetRecoilState(notificationFlashMessagesAtom);
 
     // const items = [];
     // const items = dummyItems;
@@ -50,7 +51,7 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
             )
             .then(() => {
                 reload();
-                flashMessages.reset();
+                setFlashMessages([]);
             })
             .catch(errorToast);
     };

@@ -1,2 +1,2 @@
-export * from './useNotificationMessageUnreadCount';
+export * from './useNotificationMessageUnread';
 export * from './useNotificationMessageReceived';
