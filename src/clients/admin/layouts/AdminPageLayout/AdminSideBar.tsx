@@ -13,6 +13,7 @@ import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 import {AdminScordiSubscriptionListPageRoute} from '^pages/admin/billing/scordi-subscriptions';
 import {Home, LogOut} from 'lucide-react';
 import {CodefCardParserListPageRoute} from '^pages/admin/factories/codef-card-parsers';
+import {AdminNotificationTemplateListPageRoute} from '^pages/admin/notification/templates';
 
 interface AdminSideBarProps extends WithChildren {}
 
@@ -48,6 +49,9 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                 </li>
                 <li>
                     <LinkTo text="파서 공장 (신)" href={CodefCardParserListPageRoute.path()} />
+                </li>
+                <li>
+                    <LinkTo text="알림 관리" href={AdminNotificationTemplateListPageRoute.path()} />
                 </li>
             </ul>
 
