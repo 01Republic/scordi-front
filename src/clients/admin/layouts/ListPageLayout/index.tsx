@@ -25,8 +25,8 @@ export const AdminListPageLayout = memo((props: AdminListPageLayoutProps & WithC
 
                     {/* Add New Button */}
                     {createPageRoute && (
-                        <LinkTo href={createPageRoute} className="btn btn-primary font-semibold">
-                            <Plus size={20} />
+                        <LinkTo href={createPageRoute} displayLoading={false} className="btn btn-primary font-semibold">
+                            <Plus fontSize={18} />
                         </LinkTo>
                     )}
                 </div>
