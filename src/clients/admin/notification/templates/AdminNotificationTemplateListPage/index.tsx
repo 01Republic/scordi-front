@@ -9,6 +9,7 @@ import {CardTablePanel} from '^admin/share';
 import {NotificationTemplateDto} from '^models/_notification/NotificationTemplate/types';
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
+import {AdminNotificationTemplateNewPageRoute} from '^pages/admin/notification/templates/new';
 
 export const AdminNotificationTemplateListPage = memo(function AdminNotificationTemplateListPage() {
     const {data, params, search, clearQuery} = useAdminNotificationTemplates({
@@ -23,7 +24,8 @@ export const AdminNotificationTemplateListPage = memo(function AdminNotification
     return (
         <AdminListPageLayout
             title={<ListPageTitle domain="templates" />}
-            breadcrumbs={[{text: '알림 관리'}, {text: '알림 템플릿 목록'}]}
+            breadcrumbs={[{text: '알림 관리'}, {text: '알림 목록'}]}
+            createPageRoute={AdminNotificationTemplateNewPageRoute.path()}
         >
             <AdminPageContainer>
                 <div className="flex flex-col gap-2">
@@ -42,7 +44,7 @@ export const AdminNotificationTemplateListPage = memo(function AdminNotification
                         entries={items}
                         columns={[
                             {
-                                th: '템플릿 ID',
+                                th: '알림 ID',
                                 render: (item: NotificationTemplateDto) => <div className="text-13">{item.id}</div>,
                             },
                             {

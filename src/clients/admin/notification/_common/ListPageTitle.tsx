@@ -12,7 +12,7 @@ export const ListPageTitle = memo((props: ListPageTitleProps) => {
     return (
         <span className="flex items-center gap-4">
             <SubjectLink
-                text="알림 템플릿"
+                text="알림"
                 href={AdminNotificationTemplateListPageRoute.path()}
                 active={domain === 'templates'}
             />
