@@ -1,42 +1,49 @@
-import {memo} from 'react';
-import {useRouter} from 'next/router';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
+import {memo, useEffect} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {useIdParam} from '^atoms/common';
 import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {AdminNotificationTemplateListPageRoute} from '^pages/admin/notification/templates';
-import {AdminNotificationTemplateDetailPageRoute} from '^pages/admin/notification/templates/[id]';
 import {adminNotificationTemplatesApi} from '^models/_notification/NotificationTemplate/api';
-import {CreateNotificationTemplateRequestDto} from '^models/_notification/NotificationTemplate/types';
+import {useForm} from 'react-hook-form';
+import {UpdateNotificationTemplateRequestDto} from '^models/_notification/NotificationTemplate/types';
+import {toast} from 'react-hot-toast';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
 
-export const AdminNotificationTemplateNewPage = memo(function AdminNotificationTemplateNewPage() {
-    const router = useRouter();
-    const form = useForm<CreateNotificationTemplateRequestDto>({
-        defaultValues: {
-            activatedAt: null,
-        },
+export const AdminNotificationTemplateDetailPage = memo(function AdminNotificationTemplateDetailPage() {
+    const id = useIdParam('id');
+    const {data: template, refetch} = useQuery({
+        queryKey: ['notification-template/show', id],
+        queryFn: () => adminNotificationTemplatesApi.show(id).then((res) => res.data),
+        enabled: !!id,
     });
 
-    const onSubmit = (dto: CreateNotificationTemplateRequestDto) => {
+    const form = useForm<UpdateNotificationTemplateRequestDto>();
+
+    useEffect(() => {
+        if (!template) return;
+        form.setValue('title', template.title);
+        form.setValue('about', template.about);
+        form.setValue('titleTemplate', template.titleTemplate);
+        form.setValue('contentTemplate', template.contentTemplate);
+    }, [template]);
+
+    const onSubmit = (dto: UpdateNotificationTemplateRequestDto) => {
         adminNotificationTemplatesApi
-            .create(dto)
-            .then((res) => {
-                toast.success('생성 완료');
-                const template = res.data;
-                return router.replace(AdminNotificationTemplateDetailPageRoute.path(template.id));
-            })
-            .catch(errorToast);
+            .update(id, dto)
+            .then(() => toast.success('수정 완료'))
+            .then(() => refetch());
     };
+
+    const title = `#${id} ${template?.title || ''}`;
 
     return (
         <AdminDetailPageLayout
-            title="새 알림 등록"
+            title={title}
             breadcrumbs={[
                 {text: '알림 관리'},
                 {text: '알림 목록', href: AdminNotificationTemplateListPageRoute.path()},
-                {text: '새 알림 등록'},
+                {text: title},
             ]}
         >
             <AdminPageContainer>

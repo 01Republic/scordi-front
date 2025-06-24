@@ -11,6 +11,7 @@ export const useAdminNotificationTemplates = (params: FindAllQueryDto<Notificati
         queryKey: ['useAdminNotificationTemplates', query],
         queryFn: () => adminNotificationTemplatesApi.index(query).then((res) => res.data),
         initialData: Paginated.init(),
+        refetchOnWindowFocus: false,
     });
 
     const search = setQuery;

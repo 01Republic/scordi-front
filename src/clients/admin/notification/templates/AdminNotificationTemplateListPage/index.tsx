@@ -10,6 +10,8 @@ import {NotificationTemplateDto} from '^models/_notification/NotificationTemplat
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {AdminNotificationTemplateNewPageRoute} from '^pages/admin/notification/templates/new';
+import {OpenButtonColumn} from '^_components/table/OpenButton';
+import {AdminNotificationTemplateDetailPageRoute} from '^pages/admin/notification/templates/[id]';
 
 export const AdminNotificationTemplateListPage = memo(function AdminNotificationTemplateListPage() {
     const {data, params, search, clearQuery} = useAdminNotificationTemplates({
@@ -98,10 +100,14 @@ export const AdminNotificationTemplateListPage = memo(function AdminNotification
                                 th: '이름',
                                 className: 'col-span-2',
                                 render: (item: NotificationTemplateDto) => (
-                                    <div className="text-13 flex flex-col gap-0.5">
-                                        <div className="leading-none text-13 font-semibold">{item.title}</div>
-                                        <div className="leading-none text-12 text-gray-600">{item.titleTemplate}</div>
-                                    </div>
+                                    <OpenButtonColumn href={AdminNotificationTemplateDetailPageRoute.path(item.id)}>
+                                        <div className="text-13 flex flex-col gap-0.5">
+                                            <div className="leading-none text-13 font-semibold">{item.title}</div>
+                                            <div className="leading-none text-12 text-gray-600">
+                                                {item.titleTemplate}
+                                            </div>
+                                        </div>
+                                    </OpenButtonColumn>
                                 ),
                             },
                             {
