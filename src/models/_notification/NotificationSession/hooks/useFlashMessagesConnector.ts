@@ -14,6 +14,9 @@ interface FlashMessagesConnectorOption {
     reload?: () => any;
 }
 
+/**
+ * Flash 알림 메세지를 수신하는 SSE 연결을 관장합니다.
+ */
 export function useFlashMessagesConnector(option: FlashMessagesConnectorOption = {}) {
     const orgId = useOrgIdParam();
     const setFlashMessages = useSetRecoilState(notificationFlashMessagesAtom);
@@ -52,6 +55,6 @@ export function useFlashMessagesConnector(option: FlashMessagesConnectorOption =
     }, [orgId]);
 
     useEffect(() => {
-        setFlashMessages(unreadCountQuery.visibleItems);
+        // setFlashMessages(unreadCountQuery.visibleItems);
     }, [unreadCountQuery.visibleItems]);
 }
