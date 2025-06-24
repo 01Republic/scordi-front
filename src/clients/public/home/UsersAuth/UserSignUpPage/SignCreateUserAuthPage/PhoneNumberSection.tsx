@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {Dot, TriangleAlert} from 'lucide-react';
-import {Check} from 'lucide-react';
-import {Phone} from 'lucide-react';
 import cn from 'classnames';
+import {Dot, TriangleAlert, Check, Phone} from 'lucide-react';
 import {CreateUserRequestDto} from '^models/User/types';
+import {useCodeSend} from '../SignAuthPage.atom';
 import {CodeSection} from './CodeSection';
-import {useCodeSend} from '^clients/public/home/LandingPages/SignAuthPage/SignAuthPage.atom';
 
 interface PhoneNumberSectionProps {
     isCodeConfirmed: boolean;

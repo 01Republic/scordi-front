@@ -10,7 +10,7 @@ import {
     useCreateUserAuth,
     useInvitedCreateUserAuth,
     useLogin,
-} from '^clients/public/home/LandingPages/SignAuthPage/SignAuthPage.atom';
+} from '^clients/public/home/UsersAuth/UserSignUpPage/SignAuthPage.atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
 import {StepButton} from '../StepButton';
 import {NameSection} from './NameSection';
@@ -19,6 +19,11 @@ import {PhoneNumberSection} from './PhoneNumberSection';
 import {JobSection} from './JopSection';
 import {AgreeTermModal} from './AgreeTermModal';
 import {OrgCreatePageRoute} from '^pages/orgs/new';
+import {NoTokenNameSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenNameSection';
+import {NoTokenEmailSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenEmailSection';
+import {NoTokenPasswordSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenPasswordSection';
+import {NoTokenPasswordConfirmSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenPasswordConfirmSection';
+import {encryptValue} from '^utils/crypto';
 
 export const SignCreateUserAuthPage = () => {
     const {mutate, isPending} = useCreateUserAuth();
@@ -77,6 +82,23 @@ export const SignCreateUserAuthPage = () => {
     const onSubmit = () => {
         methods.handleSubmit((data: CreateUserRequestDto & {code?: string}) => {
             const {code, ...userData} = data;
+
+            if (!tokenData && !accessToken) {
+                const encryptedPassword = {
+                    ...userData,
+                    password: userData.password ? encryptValue(userData.password) : undefined,
+                    passwordConfirmation: userData.passwordConfirmation
+                        ? encryptValue(userData.passwordConfirmation)
+                        : undefined,
+                };
+
+                mutate(
+                    {data: encryptedPassword, accessToken},
+                    {
+                        onSuccess: () => login(OrgCreatePageRoute.path()),
+                    },
+                );
+            }
 
             if ((!isValid && !isCodeConfirmed) || !accessToken) return;
 
@@ -138,15 +160,30 @@ export const SignCreateUserAuthPage = () => {
                 >
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
                         <span className="text-28 font-bold text-gray-900">딱 필요한 정보만 받을게요</span>
-                        <section className="w-full flex flex-col gap-3">
-                            <NameSection />
-                            <EmailSection />
-                            <PhoneNumberSection
-                                isCodeConfirmed={isCodeConfirmed}
-                                setIsCodeConfirmed={setIsCodeConfirmed}
-                            />
-                            <JobSection />
-                        </section>
+                        {tokenData ? (
+                            <section className="w-full flex flex-col gap-3">
+                                <NameSection />
+                                <EmailSection />
+                                <PhoneNumberSection
+                                    isCodeConfirmed={isCodeConfirmed}
+                                    setIsCodeConfirmed={setIsCodeConfirmed}
+                                />
+                                <JobSection />
+                            </section>
+                        ) : (
+                            <section className="w-full flex flex-col gap-3">
+                                <NoTokenNameSection />
+                                <NoTokenEmailSection />
+                                <NoTokenPasswordSection />
+                                <NoTokenPasswordConfirmSection />
+                                <PhoneNumberSection
+                                    isCodeConfirmed={isCodeConfirmed}
+                                    setIsCodeConfirmed={setIsCodeConfirmed}
+                                />
+                                <JobSection />
+                            </section>
+                        )}
+
                         <StepButton
                             text="계속"
                             disabled={isTermModalValid}

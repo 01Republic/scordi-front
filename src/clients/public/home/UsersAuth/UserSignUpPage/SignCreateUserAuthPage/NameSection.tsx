@@ -4,10 +4,7 @@ import cn from 'classnames';
 import {Pencil} from 'lucide-react';
 import {CreateUserRequestDto} from '^models/User/types';
 
-interface NameSectionProps {}
-
-export const NameSection = memo((props: NameSectionProps) => {
-    const {} = props;
+export const NameSection = memo(() => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const {register, watch} = useFormContext<CreateUserRequestDto>();
     const value = watch('name');
