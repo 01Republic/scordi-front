@@ -12,6 +12,7 @@ import {GoogleLoginBtn} from '../common/GoogleLoginBtn';
 import {EmailLoginButton} from '^clients/public/userAuth/UserSignUpPage/EmailLoginButton';
 
 export const UserSignUpPage = memo(() => {
+    const isNotProduction = process.env.NEXT_PUBLIC_APP_STAGE === 'staging' || 'development';
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {currentUser, loginRedirect} = useCurrentUser();
@@ -26,10 +27,12 @@ export const UserSignUpPage = memo(() => {
                         <UserAuthTitleSection text="팀 생산성을 높이는 소프트웨어 구독 비용 관리" />
 
                         {/* 이메일 회원가입 */}
-                        <EmailLoginButton
-                            onClick={() => router.push(SignAuthCreateUserPageRoute.path())}
-                            buttonText="이메일로 시작하기"
-                        />
+                        {isNotProduction && (
+                            <EmailLoginButton
+                                onClick={() => router.push(SignAuthCreateUserPageRoute.path())}
+                                buttonText="이메일로 시작하기"
+                            />
+                        )}
 
                         {/* 구글 회원가입 */}
                         <GoogleLoginBtn
