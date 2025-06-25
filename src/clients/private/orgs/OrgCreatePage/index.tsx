@@ -5,10 +5,10 @@ import {SignUserDetailRoute} from '^pages/sign/detail';
 import {CreateOrganizationRequestDto} from '^models/Organization/type';
 import {useCreateOrganization} from '^models/Organization/hook';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
-import {StepButton} from '^clients/public/home/UsersAuth/UserSignUpPage/StepButton';
 import {OrganizationNameSection} from './OrganizationNameSection';
 import {BusinessRegistrationNumberSection} from './BusinessRegistrationNumberSection';
 import {OrganizationSizeSection} from './OrganizationSizeSection';
+import {StepButton} from '^clients/public/userAuth/UserSignUpPage/StepButton';
 
 export const OrgCreatePage = memo(() => {
     const router = useRouter();

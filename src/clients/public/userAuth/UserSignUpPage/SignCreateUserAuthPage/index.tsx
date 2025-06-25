@@ -1,33 +1,37 @@
-import {useRouter} from 'next/router';
 import React, {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {FormProvider, useForm} from 'react-hook-form';
+import {SignUserDetailRoute} from '^pages/sign/detail';
+import {OrgCreatePageRoute} from '^pages/orgs/new';
 import {googleTokenDataAtom} from '^atoms/common';
 import {CreateUserRequestDto} from '^models/User/types';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
-import {SignUserDetailRoute} from '^pages/sign/detail';
+import {encryptValue} from '^utils/crypto';
 import {
     useCreateUserAuth,
+    useGoogleLogin,
     useInvitedCreateUserAuth,
     useLogin,
-} from '^clients/public/home/UsersAuth/UserSignUpPage/SignAuthPage.atom';
+} from '^clients/public/userAuth/UserSignUpPage/SignAuthPage.atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
-import {StepButton} from '../StepButton';
-import {NameSection} from './NameSection';
-import {EmailSection} from './EmailSection';
+import {StepButton} from '^clients/public/userAuth/UserSignUpPage/StepButton';
+import {NameSection} from './signUpSocialInput/NameSection';
+import {EmailSection} from './signUpSocialInput/EmailSection';
+import {
+    NoTokenEmailSection,
+    NoTokenNameSection,
+    NoTokenPasswordConfirmSection,
+    NoTokenPasswordSection,
+} from './signUpEmailInput';
 import {PhoneNumberSection} from './PhoneNumberSection';
-import {JobSection} from './JopSection';
+import {JobSection} from './JobSection';
 import {AgreeTermModal} from './AgreeTermModal';
-import {OrgCreatePageRoute} from '^pages/orgs/new';
-import {NoTokenNameSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenNameSection';
-import {NoTokenEmailSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenEmailSection';
-import {NoTokenPasswordSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenPasswordSection';
-import {NoTokenPasswordConfirmSection} from '^clients/public/home/UsersAuth/UserSignUpPage/SignCreateUserAuthPage/NoTokenPasswordConfirmSection';
-import {encryptValue} from '^utils/crypto';
 
 export const SignCreateUserAuthPage = () => {
     const {mutate, isPending} = useCreateUserAuth();
     const {mutate: inviteMutate, isPending: isInvitePending} = useInvitedCreateUserAuth();
+    const {mutate: googleLoginMutate, isPending: isGoogleLoginPending} = useGoogleLogin();
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const [isOpenTermModal, setIsOpenTermModal] = useState(false);
     const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
@@ -84,30 +88,45 @@ export const SignCreateUserAuthPage = () => {
             const {code, ...userData} = data;
 
             if (!tokenData && !accessToken) {
+                if (!userData.password) return;
+                /* 이메일,패스워드 로그인
+                 * 유저 생성 후 로그인.
+                 * 로그인 이후 상세정보, 조직 생성이 가능
+                 * */
+                const login = (email: string, password: string, redirectPath: string) => {
+                    loginMutate(
+                        {data: {email, password}},
+                        {
+                            onSuccess: () => {
+                                router.push(redirectPath);
+                            },
+                        },
+                    );
+                };
+
                 const encryptedPassword = {
                     ...userData,
-                    password: userData.password ? encryptValue(userData.password) : undefined,
+                    password: encryptValue(userData.password),
                     passwordConfirmation: userData.passwordConfirmation
                         ? encryptValue(userData.passwordConfirmation)
                         : undefined,
                 };
-
                 mutate(
-                    {data: encryptedPassword, accessToken},
+                    {data: encryptedPassword},
                     {
-                        onSuccess: () => login(OrgCreatePageRoute.path()),
+                        onSuccess: () => login(userData.email, userData.password!, OrgCreatePageRoute.path()),
                     },
                 );
             }
 
             if ((!isValid && !isCodeConfirmed) || !accessToken) return;
 
-            /* 로그인
+            /* 구글 로그인
              * 유저 생성 후 로그인.
              * 로그인 이후 상세정보, 조직 생성이 가능
              * */
-            const login = (redirectPath: string) => {
-                loginMutate(accessToken, {
+            const googleLogin = (redirectPath: string) => {
+                googleLoginMutate(accessToken, {
                     onSuccess: () => {
                         router.push(redirectPath);
                     },
@@ -132,7 +151,7 @@ export const SignCreateUserAuthPage = () => {
                         accessToken,
                     },
                     {
-                        onSuccess: () => login(SignUserDetailRoute.path()),
+                        onSuccess: () => googleLogin(SignUserDetailRoute.path()),
                     },
                 );
                 /* 초대받은 아이디가 없다면,
@@ -143,7 +162,7 @@ export const SignCreateUserAuthPage = () => {
                 mutate(
                     {data: userData, accessToken},
                     {
-                        onSuccess: () => login(OrgCreatePageRoute.path()),
+                        onSuccess: () => googleLogin(OrgCreatePageRoute.path()),
                     },
                 );
             }
@@ -160,35 +179,31 @@ export const SignCreateUserAuthPage = () => {
                 >
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
                         <span className="text-28 font-bold text-gray-900">딱 필요한 정보만 받을게요</span>
-                        {tokenData ? (
-                            <section className="w-full flex flex-col gap-3">
-                                <NameSection />
-                                <EmailSection />
-                                <PhoneNumberSection
-                                    isCodeConfirmed={isCodeConfirmed}
-                                    setIsCodeConfirmed={setIsCodeConfirmed}
-                                />
-                                <JobSection />
-                            </section>
-                        ) : (
-                            <section className="w-full flex flex-col gap-3">
-                                <NoTokenNameSection />
-                                <NoTokenEmailSection />
-                                <NoTokenPasswordSection />
-                                <NoTokenPasswordConfirmSection />
-                                <PhoneNumberSection
-                                    isCodeConfirmed={isCodeConfirmed}
-                                    setIsCodeConfirmed={setIsCodeConfirmed}
-                                />
-                                <JobSection />
-                            </section>
-                        )}
-
+                        <section className="w-full flex flex-col gap-3">
+                            {tokenData ? (
+                                <>
+                                    <NameSection />
+                                    <EmailSection />
+                                </>
+                            ) : (
+                                <>
+                                    <NoTokenNameSection />
+                                    <NoTokenEmailSection />
+                                    <NoTokenPasswordSection />
+                                    <NoTokenPasswordConfirmSection />
+                                </>
+                            )}
+                            <PhoneNumberSection
+                                isCodeConfirmed={isCodeConfirmed}
+                                setIsCodeConfirmed={setIsCodeConfirmed}
+                            />
+                            <JobSection />
+                        </section>
                         <StepButton
                             text="계속"
                             disabled={isTermModalValid}
                             onClick={() => setIsOpenTermModal(true)}
-                            isPending={isPending || isLoginPending || isInvitePending}
+                            isPending={isPending || isGoogleLoginPending || isLoginPending || isInvitePending}
                         />
                     </div>
                     <AgreeTermModal

@@ -2,7 +2,7 @@ import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {SignDetailAuthPage} from '^clients/public/home/UsersAuth/UserSignUpPage/SignDetail';
+import {SignDetailAuthPage} from '^clients/public/userAuth/UserSignUpPage/SignDetail';
 
 export const SignUserDetailRoute = pathRoute({
     pathname: '/sign/detail',

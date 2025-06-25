@@ -5,7 +5,7 @@ import cn from 'classnames';
 import {Dot, TriangleAlert, Check, Phone} from 'lucide-react';
 import {CreateUserRequestDto} from '^models/User/types';
 import {useCodeSend} from '../SignAuthPage.atom';
-import {CodeSection} from './CodeSection';
+import {CodeSection} from '^clients/public/userAuth/UserSignUpPage/SignCreateUserAuthPage/CodeSection';
 
 interface PhoneNumberSectionProps {
     isCodeConfirmed: boolean;
