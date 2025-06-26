@@ -5,6 +5,7 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import Tippy from '@tippyjs/react';
 import {Check, ChevronDown, EyeOff} from 'lucide-react';
+import {eventCut} from '^utils/event';
 
 interface SearchedCodefBillingHistoryItemProps {
     data: CodefBillingHistoryDto;
@@ -28,7 +29,10 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
     const status = codefBillingHistory.memo;
 
     return (
-        <div className={isHidden ? 'hidden' : 'grid grid-cols-12 text-12 h-[22px]'}>
+        <div
+            className={isHidden ? 'hidden' : 'grid grid-cols-12 text-12 h-[22px]'}
+            onClick={() => console.log(codefBillingHistory)}
+        >
             <div className="col-span-2 flex items-center gap-1">
                 <span
                     className="tooltip tooltip-primary"
@@ -39,7 +43,7 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
             </div>
             <div className="flex items-center">{hhmmss}</div>
             <div className="flex items-center">
-                <div>
+                <div onClick={eventCut}>
                     <CodefCardTagUI codefCard={codefBillingHistory.codefCard} onClick={onCardSelect} />
                 </div>
             </div>
@@ -59,7 +63,7 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
             <div className={`col-span-3 flex items-center justify-end ${status && 'opacity-50 line-through'}`}>
                 {codefBillingHistory.billingHistoryId && (
                     <div data-tip="파서로 연동된 결제내역" className="tooltip tooltip-primary">
-                        <Check className="text-green-400 mr-1 cursor-pointer" />
+                        <Check className="text-green-500 mr-1 cursor-pointer" fontSize={14} />
                     </div>
                 )}
                 <span>{finalPrice}</span> <small>({currency})</small>{' '}

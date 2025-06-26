@@ -43,11 +43,11 @@ export const OrgItemForConnectStatus = memo((props: OrgItemForConnectStatusProps
 
             {/* 카드사연동_여부 */}
             <Cell className="bg-yellow-100 text-center">
-                <input type="checkbox" readOnly checked={org.isCodefSigned} />
+                <input type="checkbox" readOnly checked={org.isCodefCardsSigned} />
             </Cell>
 
             {/* 카드사수 */}
-            <Cell className="bg-yellow-100 text-right">{org.codefAccountsCount}</Cell>
+            <Cell className="bg-yellow-100 text-right">{org.codefAccountsCardsCount}</Cell>
 
             {/* 불러온_카드수 */}
             <Cell className="bg-yellow-100 text-right">{org.codefCardsCount}</Cell>
