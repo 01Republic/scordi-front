@@ -1,41 +1,29 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {Building, TriangleAlert, Dot} from 'lucide-react';
+import {Pencil, Dot, TriangleAlert} from 'lucide-react';
 import cn from 'classnames';
-import {CreateOrganizationRequestDto} from '^models/Organization/type';
-import {validBizNoRegex} from '^utils/valildation';
+import {CreateUserRequestDto} from '^models/User/types';
 
-export const BusinessRegistrationNumberSection = () => {
+export const NoTokenNameSection = memo(() => {
     const [isActive, setIsActive] = useState<boolean>(false);
-
     const {
         register,
         watch,
-        setValue,
         formState: {errors},
-    } = useFormContext<CreateOrganizationRequestDto>();
-
-    const value = watch('bizInfo.bizNo');
+    } = useFormContext<CreateUserRequestDto>();
 
     const {
         onBlur: registerOnBlur,
         onChange: registerOnChange,
         ...restRegister
-    } = register('bizInfo.bizNo', {
-        required: '사업자등록번호를 입력해주세요.',
-        pattern: {
-            value: validBizNoRegex,
-            message: '사업자등록번호 형식이 올바르지 않습니다. (예: 000-00-00000)',
-        },
-        validate: (value = '') => {
-            const digits = value.replace(/\D/g, '');
-            return digits.length === 10 || '사업자등록번호는 숫자 10자리여야 합니다.';
-        },
+    } = register('name', {
+        required: '이름을 입력해주세요.',
     });
+    const value = watch('name');
 
     return (
         <>
-            <label htmlFor="사업자등록번호" className="block relative">
+            <label htmlFor="이름" className="block relative">
                 <div className="relative">
                     <input
                         type="text"
@@ -48,20 +36,19 @@ export const BusinessRegistrationNumberSection = () => {
                             }
                         }}
                         onChange={(e) => {
-                            const rawValue = e.target.value.replace(/[^0-9-]/g, '');
-                            setValue('bizInfo.bizNo', rawValue, {shouldValidate: true});
+                            registerOnChange(e);
                         }}
                         {...restRegister}
                         className={cn(
                             'w-full bg-white h-14 border text-sm text-gray-900 rounded-lg pl-12 pr-5 pt-3 focus:outline focus:outline-1',
                             {
-                                'border-red-400 focus:outline-red-400': errors.bizInfo?.bizNo,
-                                'border-gray-300 focus:outline-primaryColor-900': !errors.bizInfo?.bizNo,
+                                'border-red-400 focus:outline-red-400': errors.name,
+                                'border-gray-300 focus:outline-primaryColor-900': !errors.name,
                             },
                         )}
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
+                        <Pencil className="absolute left-4 top-1/2 transform -translate-y-1/2 text-violet-200 text-20" />
                     </div>
                     <div
                         className={cn(
@@ -70,18 +57,18 @@ export const BusinessRegistrationNumberSection = () => {
                         )}
                     >
                         <span className="w-full flex items-center justify-center">
-                            사업자등록번호
+                            이름
                             <Dot className={cn('text-[#f57453] text-lg', isActive || value ? 'hidden' : 'flex')} />
                         </span>
                     </div>
                 </div>
             </label>
-            {errors.bizInfo?.bizNo && (
+            {errors.name && (
                 <section className="flex gap-1 text-red-400 w-full justify-start -mt-1">
                     <TriangleAlert className="text-red-400" />
-                    <p className="font-normal text-12">{errors.bizInfo?.bizNo.message}</p>
+                    <p className="font-normal text-12">{errors.name.message}</p>
                 </section>
             )}
         </>
     );
-};
+});
