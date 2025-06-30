@@ -15,6 +15,7 @@ export const UserSignUpPage = memo(() => {
     const isNotProduction = process.env.NEXT_PUBLIC_APP_STAGE === 'staging' || 'development';
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const {currentUser, loginRedirect} = useCurrentUser();
 
     if (currentUser) loginRedirect(currentUser);
@@ -26,11 +27,17 @@ export const UserSignUpPage = memo(() => {
                     <div className="flex flex-col items-center justify-center w-[400px] gap-5">
                         <UserAuthTitleSection text="팀 생산성을 높이는 소프트웨어 구독 비용 관리" />
 
-                        {/* 이메일 회원가입 */}
+                        {/* 이메일 회원가입
+                        스테이징 환경에서만 이메일 회원가입이 가능합니다.
+                        */}
                         {isNotProduction && (
                             <EmailLoginButton
-                                onClick={() => router.push(SignAuthCreateUserPageRoute.path())}
+                                isLoading={isLoading}
                                 buttonText="이메일로 시작하기"
+                                onClick={() => {
+                                    setIsLoading(true);
+                                    router.push(SignAuthCreateUserPageRoute.path());
+                                }}
                             />
                         )}
 
