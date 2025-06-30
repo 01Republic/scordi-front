@@ -31,13 +31,14 @@ function FormInputInner<TForm extends FieldValues = FieldValues>(props: FormInpu
 
     return (
         <>
-            <label className="block relative">
+            <label htmlFor={label} className="block relative">
                 <div className="relative">
                     <input
                         type={type === 'password' && showPwd ? 'text' : type}
                         autoComplete={autoComplete}
                         value={value || ''}
                         onClick={() => setIsActive(true)}
+                        onFocus={() => setIsActive(true)}
                         onBlur={(e) => {
                             onBlur(e);
                             if (!value) setIsActive(false);
@@ -67,6 +68,7 @@ function FormInputInner<TForm extends FieldValues = FieldValues>(props: FormInpu
                     {showTogglePassword && (isActive || value) && (
                         <button
                             type="button"
+                            tabIndex={-1}
                             className="absolute pr-5 inset-y-0 right-0"
                             onClick={() => setShowPwd((prev) => !prev)}
                         >
