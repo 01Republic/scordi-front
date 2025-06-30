@@ -1,11 +1,10 @@
 import React, {memo, useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {TriangleAlert} from 'lucide-react';
-import {KeyRound, Dot} from 'lucide-react';
+import {TriangleAlert, KeyRound, Dot} from 'lucide-react';
 import cn from 'classnames';
 import {PhoneAuthConfirmDto} from '^models/User/types';
 import {Timer} from '^components/pages/UserSignUp/AuthenticationCode';
-import {useCodeConfirm, useCodeSend} from '^clients/public/home/LandingPages/SignAuthPage/SignAuthPage.atom';
+import {useCodeConfirm, useCodeSend} from '../SignAuthPage.atom';
 
 interface CodeSectionProps {
     setIsCodeSent: (val: boolean) => void;

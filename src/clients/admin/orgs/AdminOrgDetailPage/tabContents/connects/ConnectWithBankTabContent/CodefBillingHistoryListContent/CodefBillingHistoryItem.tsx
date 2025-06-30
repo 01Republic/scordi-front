@@ -92,7 +92,7 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
             {/*<div>{codefBillingHistory}</div>*/}
 
             {/* 스코디 연동 */}
-            <div>{codefBillingHistory.billingHistoryId && <Check className="text-success" size={14} />}</div>
+            <div>{codefBillingHistory.billingHistoryId && <Check className="text-green-600" fontSize={18} />}</div>
 
             <div></div>
         </CardTableTR>

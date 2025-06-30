@@ -19,12 +19,20 @@ export const AgreeTermModal = (props: AgreeTermModalProps) => {
 
     const {t} = useTranslation('sign');
 
+    const formData = watch();
+    const privacy = formData.isAgreeForPrivacyPolicyTerm || false;
+    const service = formData.isAgreeForServiceUsageTerm || false;
+    const marketing = formData.isAgreeForMarketingTerm || false;
+    const allChecked = privacy && service && marketing;
+
+    const isTermModalValid = privacy && service;
+
     const onCloseModal = () => {
         setIsOpenTermModal(false);
     };
 
     const confirmBtnClick = () => {
-        if (watch('isAgreeForServiceUsageTerm') && watch('isAgreeForPrivacyPolicyTerm')) {
+        if (isTermModalValid) {
             onCloseModal();
             onSubmit();
         } else {
@@ -38,15 +46,9 @@ export const AgreeTermModal = (props: AgreeTermModalProps) => {
             : document.body.classList.remove('hide-channel-talk');
     }, [isOpenTermModal]);
 
-    const [isAgreeForServiceUsageTerm, isAgreeForPrivacyPolicyTerm] = watch([
-        'isAgreeForServiceUsageTerm',
-        'isAgreeForPrivacyPolicyTerm',
-    ]);
-    const isTermModalValid = !!isAgreeForServiceUsageTerm && !!isAgreeForPrivacyPolicyTerm;
-
     return (
         <>
-            <input type="checkbox" id="TermModal" className="modal-toggle" checked={isOpenTermModal} />
+            <input type="checkbox" id="TermModal" className="modal-toggle" readOnly checked={isOpenTermModal} />
             <div className="modal modal-bottom">
                 <div className="modal-box max-w-lg">
                     <h3 className="font-bold text-lg">{t('terms_modal.title')}</h3>
@@ -56,19 +58,12 @@ export const AgreeTermModal = (props: AgreeTermModalProps) => {
                             id="all_check"
                             type="checkbox"
                             className="checkbox checkbox-primary w-4 h-4 rounded"
-                            checked={
-                                watch('isAgreeForServiceUsageTerm') &&
-                                watch('isAgreeForPrivacyPolicyTerm') &&
-                                watch('isAgreeForMarketingTerm')
-                            }
-                            onClick={() => {
-                                const privacy = getValues('isAgreeForPrivacyPolicyTerm');
-                                const serviceUsage = getValues('isAgreeForServiceUsageTerm');
-                                const marketing = getValues('isAgreeForMarketingTerm');
-                                const allChecked = privacy && serviceUsage && marketing;
-                                setValue('isAgreeForPrivacyPolicyTerm', !allChecked);
-                                setValue('isAgreeForServiceUsageTerm', !allChecked);
-                                setValue('isAgreeForMarketingTerm', !allChecked);
+                            checked={allChecked}
+                            onChange={(e) => {
+                                const checked = e.target.checked;
+                                setValue('isAgreeForPrivacyPolicyTerm', checked, {shouldValidate: true});
+                                setValue('isAgreeForServiceUsageTerm', checked, {shouldValidate: true});
+                                setValue('isAgreeForMarketingTerm', checked, {shouldValidate: true});
                             }}
                         />
                         <label htmlFor="all_check" className="ml-2 text-sm font-medium text-gray-500 cursor-pointer">

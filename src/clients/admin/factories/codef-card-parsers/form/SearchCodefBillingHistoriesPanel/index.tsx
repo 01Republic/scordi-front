@@ -14,6 +14,7 @@ import {ConditionRegexpInputGroup} from '../share/ConditionRegexpInputGroup';
 import {SearchedCodefBillingHistoryItem} from './SearchedCodefBillingHistoryItem';
 import {SelectedCodefCard} from './SelectedCodefCard';
 import {SearchCardInput} from './SearchCardInput';
+import {unitFormat} from '^utils/number';
 
 export const SearchCodefBillingHistoriesPanel = memo(() => {
     const form = useFormContext<UpdateCodefCardParserRequestDto>();
@@ -82,6 +83,8 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
 
     const values = form.getValues();
 
+    const displayItems = codefBillingHistories;
+
     return (
         <>
             <ContentPanel
@@ -94,9 +97,9 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                             <SelectedCodefCard codefCard={selectedCodefCard} onClick={() => onCardSelect(undefined)} />
                             <LoadableBox loadingType={2} isLoading={isLoading} noPadding>
                                 <div className="grid grid-cols-7 text-12 text-gray-500">
-                                    <div>결과: {codefBillingHistories.length}개</div>
+                                    <div>결과: {unitFormat(displayItems.length)}</div>
                                 </div>
-                                {codefBillingHistories.map((codefBillingHistory, i) => (
+                                {displayItems.map((codefBillingHistory, i) => (
                                     <SearchedCodefBillingHistoryItem
                                         key={i}
                                         data={codefBillingHistory}

@@ -7,6 +7,7 @@ import {
     FindAllBankAccountQueryDto,
 } from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {RangeQueryDto} from '^models/CodefBankAccount/type/range.query.dto';
+import {PatchHistoriesQueryDto} from '^models/CodefCard/type/range.query.dto';
 
 /** [연동] Connect CODEF BankAccount API */
 export const codefBankAccountApi = {
@@ -47,7 +48,7 @@ export const codefBankAccountApi = {
     },
 
     /** 코드에프 수시입출내역 패치 (코드에프 수시입출내역만 불러와서 저장) */
-    patchHistories(orgId: number, codefBankAccountId: number, params: RangeQueryDto = {}) {
+    patchHistories(orgId: number, codefBankAccountId: number, params: PatchHistoriesQueryDto = {}) {
         const url = `/connect/organizations/${orgId}/codef/bank-accounts/${codefBankAccountId}/histories`;
         return api.patch(url, {}, {params});
     },
