@@ -79,7 +79,7 @@ export const EmailLoginSection = memo(() => {
                         required: '비밀번호를 입력해주세요.',
                         pattern: {
                             value: validPasswordRegex,
-                            message: '8~16자의 영문, 숫자, 특수문자를 사용해 주세요.',
+                            message: '8~20자의 영문, 숫자를 사용해 주세요.',
                         },
                     }}
                 />

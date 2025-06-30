@@ -7,7 +7,7 @@ import {Modal} from '^components/Modal';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 import {UserAuthTitleSection} from '../common/UserAuthTitleSection';
 import {GoogleLoginBtn} from '../common/GoogleLoginBtn';
-import {EmailLoginSection} from '^clients/public/userAuth/LoginPage/emailLogoin/EmailLoginSection';
+import {EmailLoginSection} from '^clients/public/userAuth/LoginPage/EmailLoginSection';
 
 export const UsersLoginPage = memo(() => {
     const isNotProduction = process.env.NEXT_PUBLIC_APP_STAGE === 'staging' || 'development';
