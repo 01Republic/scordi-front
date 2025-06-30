@@ -35,6 +35,7 @@ export const SignCreateUserAuthPage = () => {
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const [isOpenTermModal, setIsOpenTermModal] = useState(false);
     const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const isCopied = useRecoilValue(isCopiedAtom);
     const setTokenData = useSetRecoilState(googleTokenDataAtom);
@@ -46,13 +47,16 @@ export const SignCreateUserAuthPage = () => {
     const methods = useForm<CreateUserRequestDto>({
         mode: 'all',
         defaultValues: {
-            name: tokenData?.name,
-            email: tokenData?.email,
+            name: tokenData?.name || '',
+            email: tokenData?.email || '',
+            password: '',
+            passwordConfirmation: '',
         },
     });
 
     const {
         reset,
+        setError,
         formState: {isValid},
     } = methods;
 
@@ -84,6 +88,8 @@ export const SignCreateUserAuthPage = () => {
     const isTermModalValid = isValid && isCodeConfirmed;
 
     const onSubmit = () => {
+        setIsLoading(true);
+
         methods.handleSubmit((data: CreateUserRequestDto & {code?: string}) => {
             const {code, ...userData} = data;
 
@@ -98,12 +104,17 @@ export const SignCreateUserAuthPage = () => {
                         {data: {email, password}},
                         {
                             onSuccess: () => {
+                                setIsLoading(false);
                                 router.push(redirectPath);
                             },
                         },
                     );
                 };
 
+                /* 이메일,패스워드 로그인
+                 * 유저 생성 후 로그인.
+                 * 로그인 이후 상세정보, 조직 생성 가능
+                 */
                 const encryptedPassword = {
                     ...userData,
                     password: encryptValue(userData.password),
@@ -111,10 +122,21 @@ export const SignCreateUserAuthPage = () => {
                         ? encryptValue(userData.passwordConfirmation)
                         : undefined,
                 };
+
                 mutate(
                     {data: encryptedPassword},
                     {
                         onSuccess: () => login(userData.email, userData.password!, OrgCreatePageRoute.path()),
+                        onError: (err: any) => {
+                            setIsLoading(false);
+                            const status = err.response?.status;
+                            if (status === 422) {
+                                setError('email', {
+                                    type: 'server',
+                                    message: '이미 가입된 이메일입니다.',
+                                });
+                            }
+                        },
                     },
                 );
             }
@@ -203,7 +225,9 @@ export const SignCreateUserAuthPage = () => {
                             text="계속"
                             disabled={isTermModalValid}
                             onClick={() => setIsOpenTermModal(true)}
-                            isPending={isPending || isGoogleLoginPending || isLoginPending || isInvitePending}
+                            isPending={
+                                isPending || isGoogleLoginPending || isLoginPending || isInvitePending || isLoading
+                            }
                         />
                     </div>
                     <AgreeTermModal
