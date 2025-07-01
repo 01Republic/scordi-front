@@ -25,10 +25,7 @@ interface TopNavBarProps {
 
 const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
     {name: '홈', routeProps: OrgMainPageRoute},
-    {
-        name: '업무',
-        items: [{name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute}],
-    },
+
     {
         name: '구독',
         items: [
@@ -49,6 +46,10 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
             {name: '결제수단', Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
             {name: '청구서 메일', Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
         ],
+    },
+    {
+        name: '업무',
+        items: [{name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute}],
     },
     {
         name: '설정',
