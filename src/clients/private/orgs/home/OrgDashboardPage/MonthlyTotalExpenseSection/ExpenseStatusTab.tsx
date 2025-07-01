@@ -11,13 +11,14 @@ interface ExpenseStatusTabProps {
     onClick: (tab: BillingHistoryStatus, summaryData: SummaryOfState) => any;
     summaryData?: SummaryOfState;
     activeBorderColorClass: string;
+    hoverBorderColorClass: string;
     activeTextColorClass: string;
     activeBgColorClass: string;
 }
 
 export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
     const {status, currentStatus, onClick, summaryData} = props;
-    const {activeTextColorClass, activeBorderColorClass, activeBgColorClass} = props;
+    const {activeTextColorClass, activeBorderColorClass, hoverBorderColorClass, activeBgColorClass} = props;
 
     const isActive = currentStatus === status;
 
@@ -30,6 +31,7 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
             onClick={activeThisTab}
             className={cn(
                 'flex justify-between md:justify-start md:items-center md:gap-3 lg:gap-4 pb-3 cursor-pointer border-b-2',
+                hoverBorderColorClass,
                 {
                     'font-semibold': isActive,
                     'border-transparent': !isActive,
