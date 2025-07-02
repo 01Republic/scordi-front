@@ -1,6 +1,6 @@
 import {FindAllInvoiceAccountQueryDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {invoiceAccountApi} from '../api';
 import {
     invoiceAccountListAtom,
@@ -10,6 +10,12 @@ import {
     invoiceAccountsSearchAtom,
 } from '../atom';
 import {toast} from 'react-toastify';
+import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
+import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
+import {useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {appBillingHistoryApi} from '^models/BillingHistory/api';
+import {Paginated} from '^types/utils/paginated.dto';
 
 export const useInvoiceAccounts = () => useInvoiceAccountsV3(invoiceAccountListAtom);
 
@@ -43,6 +49,26 @@ export const deleteInvoiceAccount = async (invoiceAccountId: number, subscriptio
         .then(() => toast.success('삭제했습니다.'))
         .then((res) => res)
         .catch((err) => toast.error(err.message));
+};
+
+export const useSubscriptionListOfInvoiceAccount = (
+    invoiceAccount: InvoiceAccountDto | null,
+    params: FindAllSubscriptionsQuery,
+) => {
+    const {id, organizationId: orgId} = invoiceAccount || {};
+    const [query, setQuery] = useState(params);
+
+    const queryResult = useQuery({
+        queryKey: ['invoiceAccount.subscriptions', orgId, id, query],
+        queryFn: async () => {
+            return invoiceAccountApi.subscriptionsApi.index(id!, query).then((res) => res.data);
+        },
+        initialData: Paginated.init(),
+        enabled: !!orgId && !!id,
+        refetchOnWindowFocus: false,
+    });
+
+    return usePaginateUtils({query, setQuery, queryResult});
 };
 
 export * from './useInvoiceAccountCreate';
