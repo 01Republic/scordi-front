@@ -13,7 +13,7 @@ export const ScopeButton = memo((props: ScopeButtonProps) => {
 
     return (
         <button
-            className={`btn btn-sm rounded-full transition-all ${
+            className={`btn btn-sm rounded-full transition-all no-animation btn-animation ${
                 active
                     ? '!bg-scordi-50 !border-scordi-300 !text-scordi'
                     : 'border-gray-300 bg-white hover:bg-scordi-50 hover:border-scordi-300'
