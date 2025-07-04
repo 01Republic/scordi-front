@@ -1,10 +1,11 @@
-import React, {memo} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
 import {NextStepButton} from '../../../common/NextStepButton';
 
 interface StepCTASectionProps {
     disabled?: boolean;
     disabledCTAButtonText?: string;
+    nextButtonText?: ReactNode;
     isLoading?: boolean;
     allConnected: boolean;
     notSelected: boolean;
@@ -14,7 +15,17 @@ interface StepCTASectionProps {
 }
 
 export const StepCTASection = memo((props: StepCTASectionProps) => {
-    const {isLoading, allConnected, disabled, notSelected, onBack, onReset, onNext, disabledCTAButtonText} = props;
+    const {
+        isLoading,
+        allConnected,
+        disabled,
+        notSelected,
+        onBack,
+        onReset,
+        onNext,
+        disabledCTAButtonText,
+        nextButtonText,
+    } = props;
 
     return (
         <PureLayoutContainerSection className="max-w-full sticky bottom-0 py-4 bg-layout-background flex items-center justify-center">
@@ -29,7 +40,7 @@ export const StepCTASection = memo((props: StepCTASectionProps) => {
                     onClick={onNext}
                     text={(() => {
                         if (disabled) return disabledCTAButtonText || '완료';
-                        return '다음';
+                        return nextButtonText || '다음';
                     })()}
                 />
             )}

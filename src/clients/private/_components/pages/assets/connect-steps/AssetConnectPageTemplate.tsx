@@ -36,7 +36,9 @@ interface AssetConnectOption {
     selectAssetsStep?: {
         title?: ReactNode;
         subTitle?: ReactNode;
+        nextButtonText?: ReactNode;
     };
+    /** 연동중 페이지 설정 */
     connectAssetsStep: {
         strategy: ConnectAssetsStepStrategy;
     };
