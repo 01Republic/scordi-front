@@ -4,6 +4,7 @@ const {i18n} = require('./next-i18next.config');
 
 /** @types {import('next').NextConfig} */
 const nextConfig = {
+    productionBrowserSourceMaps: true,
     reactStrictMode: true,
     swcMinify: false,
     webpack(config) {

@@ -1,4 +1,4 @@
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {useOrgIdParam} from '^atoms/common';
@@ -11,30 +11,63 @@ import {errorNotify} from '^utils/toast-notify';
 import {useSubscriptionListOfInvoiceAccount} from '^models/Subscription/hook';
 import {useBillingHistoryListOfInvoiceAccount} from '^models/BillingHistory/hook';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {oneDtoOf} from '^types/utils/response-of';
 
 export const invoiceAccountSubjectAtom = atom<InvoiceAccountDto | null>({
     key: 'OrgInvoiceAccountShowPage/invoiceAccountSubjectAtom',
     default: null,
 });
 
-export const useCurrentInvoiceAccount = () => {
+// export const useCurrentInvoiceAccount = () => {
+//     const [currentInvoiceAccount, setCurrentInvoiceAccount] = useRecoilState(invoiceAccountSubjectAtom);
+//
+//     const findOne = async (orgId: number, id: number) => {
+//         return invoiceAccountApi.show(orgId, id).then((res) => {
+//             setCurrentInvoiceAccount(res.data);
+//             return res.data;
+//         });
+//     };
+//
+//     const reload = async () => {
+//         if (!currentInvoiceAccount) return;
+//         return findOne(currentInvoiceAccount.organizationId, currentInvoiceAccount.id);
+//     };
+//
+//     const clear = () => setCurrentInvoiceAccount(null);
+//
+//     return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload, clear};
+// };
+
+export const useCurrentInvoiceAccount = (accountId?: number) => {
+    const orgId = useOrgIdParam();
     const [currentInvoiceAccount, setCurrentInvoiceAccount] = useRecoilState(invoiceAccountSubjectAtom);
+    const queryClient = useQueryClient();
 
-    const findOne = async (orgId: number, id: number) => {
-        return invoiceAccountApi.show(orgId, id).then((res) => {
-            setCurrentInvoiceAccount(res.data);
-            return res.data;
-        });
+    const result = useQuery({
+        queryKey: ['currentInvoiceAccount', orgId, accountId],
+        queryFn: () =>
+            invoiceAccountApi.show(orgId!, accountId!).then((res) => {
+                setCurrentInvoiceAccount(res.data);
+                return res.data;
+            }),
+        enabled: !!orgId && !!accountId,
+    });
+
+    const reload = () => result.refetch();
+
+    const clear = () => {
+        queryClient.removeQueries({queryKey: ['currentInvoiceAccount', orgId, accountId]});
+        setCurrentInvoiceAccount(null);
     };
 
-    const reload = async () => {
-        if (!currentInvoiceAccount) return;
-        return findOne(currentInvoiceAccount.organizationId, currentInvoiceAccount.id);
+    return {
+        currentInvoiceAccount,
+        setCurrentInvoiceAccount,
+        isLoading: result.isLoading,
+        reload,
+        clear,
     };
-
-    const clear = () => setCurrentInvoiceAccount(null);
-
-    return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload, clear};
 };
 
 export const useCurrentInvoiceAccountEdit = () => {

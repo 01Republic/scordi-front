@@ -8,74 +8,128 @@ import {currentOrgAtom, currentOrgIsLoadingAtom, getCurrentOrgQueryAtom, getOrgQ
 import {organizationApi} from '^models/Organization/api';
 import {CreateOrganizationRequestDto, OrganizationDto} from '^models/Organization/type';
 import {UserLoginPageRoute} from '^pages/users/login';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {ErrorResponse} from '^models/User/types';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);
 
 // side effect 발생으로 페이지 컴포넌트에서만 사용하기
+// export function useCurrentOrg(id: number) {
+//     const router = useRouter();
+//     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
+//     const [isLoading, setIsLoading] = useRecoilState(currentOrgIsLoadingAtom);
+//     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
+//     const {alert} = useAlert();
+//
+//     const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
+//         new Promise((resolve, reject) => {
+//             setIsLoading(true);
+//             setQuery((oldQuery) => {
+//                 const newQuery = {...params, id: orgId};
+//                 if (!force && JSON.stringify(oldQuery) === JSON.stringify(newQuery)) {
+//                     resolve(undefined);
+//                     return oldQuery;
+//                 }
+//
+//                 organizationApi
+//                     .show(orgId, params)
+//                     .then((res) => {
+//                         setCurrentOrg(res.data);
+//                         resolve(res);
+//                     })
+//                     .catch((e) => {
+//                         router.replace('/404').then(() => errorToast(e, console.warn));
+//                     });
+//
+//                 return newQuery;
+//             });
+//         }).finally(() => setIsLoading(false));
+//     };
+//
+//     const reload = () => search(id, query, true);
+//
+//     const checkLogin = () => {
+//         const loginToken = getToken();
+//         if (!loginToken) {
+//             alert.error('로그인이 필요합니다!', '로그인 페이지로 이동할까요?').then((result) => {
+//                 result.isConfirmed ? router.push(UserLoginPageRoute.path()) : router.back();
+//             });
+//             return false;
+//         }
+//         return !!loginToken;
+//     };
+//
+//     useEffect(() => {
+//         if (!id || isNaN(id)) return;
+//
+//         const signedIn = checkLogin();
+//         if (!signedIn) return;
+//
+//         search(id, {
+//             relations: [
+//                 'lastGoogleSyncHistory',
+//                 'lastGoogleSyncHistory.googleTokenData',
+//                 'invoiceAccounts',
+//                 'scordiSubscriptions',
+//             ],
+//         });
+//     }, [id]);
+//
+//     return {currentOrg, setCurrentOrg, search, reload, isLoading};
+// }
+
 export function useCurrentOrg(id: number) {
     const router = useRouter();
-    const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
-    const [isLoading, setIsLoading] = useRecoilState(currentOrgIsLoadingAtom);
-    const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
+    const token = getToken();
     const {alert} = useAlert();
+    const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
 
-    const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
-        new Promise((resolve, reject) => {
-            setIsLoading(true);
-            setQuery((oldQuery) => {
-                const newQuery = {...params, id: orgId};
-                if (!force && JSON.stringify(oldQuery) === JSON.stringify(newQuery)) {
-                    resolve(undefined);
-                    return oldQuery;
-                }
-
-                organizationApi
-                    .show(orgId, params)
-                    .then((res) => {
-                        setCurrentOrg(res.data);
-                        resolve(res);
-                    })
-                    .catch((e) => {
-                        router.replace('/404').then(() => errorToast(e, console.warn));
-                    });
-
-                return newQuery;
+    const query = useQuery({
+        queryKey: ['currentOrg', id],
+        queryFn: async () => {
+            const res = await organizationApi.show(id, {
+                relations: [
+                    'lastGoogleSyncHistory',
+                    'lastGoogleSyncHistory.googleTokenData',
+                    'invoiceAccounts',
+                    'scordiSubscriptions',
+                ],
             });
-        }).finally(() => setIsLoading(false));
-    };
-
-    const reload = () => search(id, query, true);
+            // setCurrentOrg(res.data);
+            return res.data;
+        },
+        enabled: !!id && !!token,
+    });
 
     const checkLogin = () => {
-        const loginToken = getToken();
-        if (!loginToken) {
+        if (!token) {
             alert.error('로그인이 필요합니다!', '로그인 페이지로 이동할까요?').then((result) => {
                 result.isConfirmed ? router.push(UserLoginPageRoute.path()) : router.back();
             });
             return false;
         }
-        return !!loginToken;
+        return !!token;
     };
+
+    useEffect(() => {
+        if (!query.data) return;
+
+        setCurrentOrg((prev) => {
+            if (prev?.id === query.data.id) {
+                return prev;
+            }
+            return query.data;
+        });
+    }, [query.data, setCurrentOrg]);
 
     useEffect(() => {
         if (!id || isNaN(id)) return;
 
         const signedIn = checkLogin();
         if (!signedIn) return;
-
-        search(id, {
-            relations: [
-                'lastGoogleSyncHistory',
-                'lastGoogleSyncHistory.googleTokenData',
-                'invoiceAccounts',
-                'scordiSubscriptions',
-            ],
-        });
     }, [id]);
 
-    return {currentOrg, setCurrentOrg, search, reload, isLoading};
+    return {currentOrg, setCurrentOrg, reload: query.refetch, isLoading: query.isLoading};
 }
 
 export const useCurrentOrg2 = () => {

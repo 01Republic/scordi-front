@@ -13,6 +13,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
 import {OrgListPageRoute} from '^pages/orgs';
+import {useQuery} from '@tanstack/react-query';
 
 type AxiosErrorData = {
     status: number;
@@ -48,34 +49,51 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
     const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
     const currentUserMembership = currentUser?.memberships?.[0];
 
-    const getSession = (force = false) => {
-        const apiToken = getToken();
-        setQuery((oldQuery) => {
-            if (!force && oldQuery === apiToken) return oldQuery;
+    // const getSession = (force = false) => {
+    //     const apiToken = getToken();
+    //     setQuery((oldQuery) => {
+    //         if (!force && oldQuery === apiToken) return oldQuery;
+    //
+    //         new Promise((resolve, reject) => {
+    //             userSessionApi
+    //                 .index()
+    //                 .then((res) => {
+    //                     setCurrentUser(res.data);
+    //                     resolve(res.data);
+    //                 })
+    //                 .catch((err) => {
+    //                     // invalid token 에러가 발생하면 localStorage token 삭제
+    //                     localStorage.removeItem('token');
+    //                     loginRequiredHandler(err, router, fallbackPath);
+    //                     reject();
+    //                 });
+    //         });
+    //
+    //         return apiToken;
+    //     });
+    // };
 
-            new Promise((resolve, reject) => {
-                userSessionApi
-                    .index()
-                    .then((res) => {
-                        setCurrentUser(res.data);
-                        resolve(res.data);
-                    })
-                    .catch((err) => {
-                        // invalid token 에러가 발생하면 localStorage token 삭제
-                        localStorage.removeItem('token');
-                        loginRequiredHandler(err, router, fallbackPath);
-                        reject();
-                    });
-            });
+    const token = getToken();
 
-            return apiToken;
-        });
-    };
+    const query = useQuery({
+        queryKey: ['currentUser'],
+        queryFn: async () => {
+            const res = await userSessionApi.index();
+            return res.data;
+        },
+        enabled: !!token,
+    });
 
     useEffect(() => {
-        if (!router.isReady) return;
-        getSession();
-    }, [router.isReady]);
+        if (!router.isReady || !query.data) return;
+
+        setCurrentUser((prev) => {
+            if (prev?.id === query.data.id) {
+                return prev;
+            }
+            return query.data;
+        });
+    }, [router.isReady, query.data]);
 
     // const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
     //     return (
