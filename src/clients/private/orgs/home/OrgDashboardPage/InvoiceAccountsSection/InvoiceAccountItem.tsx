@@ -23,9 +23,9 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                 <div className="flex items-center justify-between">
                     <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
 
-                    <p className="font-medium text-12 sm:text-14 md:text-13 lg:text-16 text-gray-900 whitespace-nowrap">
+                    <div className="font-medium text-12 sm:text-14 md:text-13 lg:text-16 text-gray-900 whitespace-nowrap">
                         <CountText product={product} count={subscriptionCount} />
-                    </p>
+                    </div>
                 </div>
             </LinkTo>
         </li>
