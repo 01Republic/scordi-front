@@ -42,7 +42,7 @@ export const AdminProductListPage = memo(() => {
             breadcrumbs={[{text: '앱 관리'}, {text: '앱 목록'}]}
             createPageRoute={AdminNewProductPageRoute.path()}
             Buttons={() => (
-                <div className="flex items-center justify-end gap-2 mr-4 invisible">
+                <div className="flex items-center justify-end gap-2 mr-4">
                     <LinkTo
                         text="차단된 서비스 목록 보기"
                         href={AdminProductSimilarNamesPageRoute.path()}
