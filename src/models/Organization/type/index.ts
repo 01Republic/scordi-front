@@ -44,9 +44,10 @@ export class OrganizationDto {
     memberCount: number; // 조직내 사용자 수
     subscriptionCount?: number; // 조직내 구독 수
     lastGoogleSyncHistoryId: number | null; // 최신 워크스페이스 동기화 내역 ID
+    isDemo?: boolean;
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
-    isDemo?: boolean;
+    @TypeCast(() => Date) onboardingFinishedAt: Date | null; // 온보딩 완료 일시
 
     // relations
     @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
