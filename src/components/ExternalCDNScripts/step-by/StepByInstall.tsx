@@ -1,6 +1,6 @@
+import {isStepByEnabled, stepByKey} from '^config/environments';
 import {useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {stepByKey} from '^config/environments';
 import {StepBy} from './StepBy.interface';
 // import {currentOrgAtom} from '^models/Organization/atom';
 import {currentUserAtom} from '^models/User/atom';
@@ -11,6 +11,11 @@ export const StepByInstall = () => {
     // const currentOrg = useRecoilValue(currentOrgAtom);
     const currentUser = useRecoilValue(currentUserAtom);
     const router = useRouter();
+
+    // StepBy 기능이 비활성화된 경우 렌더링하지 않음
+    if (!isStepByEnabled) {
+        return <></>;
+    }
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -119,6 +124,10 @@ interface StepbyTutorialButtonProps {
 }
 
 export const StepbyTutorialButton = ({onClick}: StepbyTutorialButtonProps) => {
+    if (!isStepByEnabled) {
+        return <></>;
+    }
+
     return (
         <button className="btn btn-outline animate-none btn-animation bg-white border-gray-300" onClick={onClick}>
             <BadgeInfo className="w-5 h-5" />

@@ -1,9 +1,9 @@
 import {useQuery} from '@tanstack/react-query';
 import {integrationSlackWorkspaceApi} from '^models/integration/IntegrationSlackWorkspace/api';
-import {useIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 
 export const useSlackWorkspaceInDetailPage = () => {
-    const orgId = useIdParam('id');
+    const orgId = useOrgIdParam();
     const workspaceId = useIdParam('slackWorkspaceId');
 
     return useQuery({

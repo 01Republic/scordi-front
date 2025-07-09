@@ -6,23 +6,25 @@ import {IntegrationProviderItemButton} from './IntegrationProviderItemButton';
 import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
 import {LinkProps} from 'next/dist/client/link';
+import {WithChildren} from '^types/global.type';
 
-interface IntegrationProviderItemProps {
+interface IntegrationProviderItemProps extends WithChildren {
     id: string;
     name: string;
     logo: ImageProps['src'];
     isInstalled: boolean;
     onClick?: () => any;
     href?: LinkProps['href'];
-    install: () => any;
-    onAuthorized: (data: any) => any;
+    install?: () => any;
+    onAuthorized?: (data: any) => any;
     onSuccess?: (data: any) => any;
     onFailure?: (error: {message: any; error: string}) => any;
     disabled?: boolean;
+    isLoading?: boolean;
 }
 
 export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps) => {
-    const {id, logo, name, isInstalled, href, onClick, disabled = false} = props;
+    const {id, logo, name, isInstalled, href, onClick, disabled = false, isLoading = false, children} = props;
     const {
         install,
         onAuthorized,
@@ -38,6 +40,7 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
     const logoSize = 30;
 
     async function onCallback(callback: string) {
+        if (!onAuthorized) return;
         try {
             const data = JSON.parse(callback);
             if (data.error) return onFailure(data);
@@ -49,9 +52,11 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
     }
 
     useEffect(() => {
-        const [pathOnly, queryStr] = router.asPath.split('?');
-        if (callback && queryStr) {
-            router.replace(pathOnly).then(() => onCallback(callback));
+        if (onAuthorized) {
+            const [pathOnly, queryStr] = router.asPath.split('?');
+            if (callback && queryStr) {
+                router.replace(pathOnly).then(() => onCallback(callback));
+            }
         }
     }, [callback]);
 
@@ -67,10 +72,17 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
                 </div>
             </div>
             <div className={`ml-auto ${disabled ? 'pointer-event-none opacity-40' : ''}`}>
-                {isInstalled ? (
-                    <IntegrationProviderItemButton isInstalled={isInstalled} href={href} onClick={onClick} />
+                {children ? (
+                    children
+                ) : isInstalled ? (
+                    <IntegrationProviderItemButton
+                        isLoading={isLoading}
+                        isInstalled={isInstalled}
+                        href={href}
+                        onClick={onClick}
+                    />
                 ) : (
-                    <IntegrationProviderItemButton isInstalled={isInstalled} onClick={install} />
+                    <IntegrationProviderItemButton isLoading={isLoading} isInstalled={isInstalled} onClick={install} />
                 )}
             </div>
         </div>
