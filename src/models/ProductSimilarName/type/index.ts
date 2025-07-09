@@ -6,6 +6,7 @@ export class ProductSimilarNameDto {
     id: number;
     name: string;
     productId: number | null;
+    isBlock: boolean;
 
     @TypeCast(() => ProductDto) product?: ProductDto;
 }
