@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import {OrgSettingsListSection} from '^clients/private/_layouts/OrgSettingsLayout';
 import {ChangeOrgInformationModal} from './ChangeOrgInformationModal';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {LoadableBox} from '^components/util/loading';
+import {useTranslation} from 'next-i18next';
 
 interface OrgBasicInfoSectionProps {
     orgId: number;
@@ -12,6 +12,7 @@ export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
     const {orgId} = props;
     const {currentOrg, reload, isLoading} = useCurrentOrg(orgId);
     const [isChangeOrgInformationModalOpened, setIsChangeOrgInformationModalOpened] = useState(false);
+    const {t} = useTranslation('workspaceSettings');
 
     const onCloseModal = () => {
         setIsChangeOrgInformationModalOpened(false);
@@ -21,20 +22,20 @@ export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
     return (
         <>
             <OrgSettingsListSection
-                title={'기본'}
+                title={t('basic')}
                 buttonOnClick={() => setIsChangeOrgInformationModalOpened(true)}
                 isLoading={isLoading}
                 items={[
-                    {title: '워크스페이스명', desc: currentOrg?.name || ''},
+                    {title: t('workspaceName'), desc: currentOrg?.name || ''},
                     {
-                        title: '주소',
+                        title: t('address'),
                         desc: currentOrg?.address ? (
                             `${currentOrg?.address || ''} ${currentOrg?.addressDetail || ''}`
                         ) : (
-                            <span className={'text-gray-400'}>주소를 등록해주세요</span>
+                            <span className={'text-gray-400'}>{t('registerAddress')}</span>
                         ),
                     },
-                    {title: '멤버', desc: `${currentOrg?.memberCount.toLocaleString() || ''}명`},
+                    {title: t('member'), desc: `${currentOrg?.memberCount.toLocaleString() || ''} ${t('memberUnit')}`},
                 ]}
             />
             <ChangeOrgInformationModal isOpened={isChangeOrgInformationModalOpened} onClose={onCloseModal} />

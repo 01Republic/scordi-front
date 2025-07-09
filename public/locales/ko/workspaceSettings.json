@@ -1,0 +1,54 @@
+{
+  "breadcrumb": {
+    "settings": "설정"
+  },
+  "menu": {
+    "general": "일반",
+    "workspace-info": "워크스페이스 정보",
+    "subscription-payment": "구독 및 결제",
+    "management-integration": "관리 및 연동",
+    "member-management": "멤버 관리",
+    "asset-connection": "자산 연결",
+    "service-integration": "서비스 연동"
+  },
+  "title": "워크스페이스 정보",
+  "basic": "기본",
+  "workspaceName": "워크스페이스명",
+  "address": "주소",
+  "registerAddress": "주소를 등록해주세요",
+  "member": "멤버",
+  "memberUnit": "명",
+  "subscription": "구독",
+  "plan": "플랜",
+  "freeTrial": "scordi 무료 체험",
+  "renewalDate": "갱신일",
+  "danger": {
+    "title": "워크스페이스 삭제",
+    "prompt": "삭제하려는 워크스페이스 이름 (\"{{orgName}}\") 을 입력해주세요.",
+    "promptRetry": "\"{{text}}\"를 입력하셨습니다. 삭제를 위해 \"{{orgName}}\" 를 입력해주세요.",
+    "cancel": "삭제를 취소했어요",
+    "success": "워크스페이스를 삭제했어요",
+    "desc1": "이 작업은 취소할 수 없습니다.",
+    "desc2": "워크스페이스 전체",
+    "desc3": "가 삭제됩니다.",
+    "deleteBtn": "삭제하기"
+  },
+  "setting": {
+    "title": "워크스페이스 설정",
+    "language": "언어 설정",
+    "languagePlaceholder": "언어를 선택해주세요.",
+    "korean": "한국어"
+  },
+  "changeModal": {
+    "title": "워크스페이스 정보 수정",
+    "desc": "워크스페이스의 기본 정보를 수정합니다.",
+    "addressPlaceholder": "주소를 입력해주세요",
+    "addressDetailPlaceholder": "상세 주소를 입력해주세요",
+    "saveBtn": "저장하기",
+    "saveSuccess": "변경사항을 저장했어요."
+  },
+  "addressModal": {
+    "searchAddress": "주소를 검색해주세요.",
+    "close": "닫기"
+  }
+} 

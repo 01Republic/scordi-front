@@ -1,0 +1,54 @@
+{
+  "breadcrumb": {
+    "settings": "Settings"
+  },
+  "menu": {
+    "general": "General",
+    "workspace-info": "Workspace Info",
+    "subscription-payment": "Subscription & Payment",
+    "management-integration": "Management & Integration",
+    "member-management": "Member Management",
+    "asset-connection": "Asset Connection",
+    "service-integration": "Service Integration"
+  },
+  "title": "Workspace Information",
+  "basic": "Basic",
+  "workspaceName": "Workspace Name",
+  "address": "Address",
+  "registerAddress": "Please register the address",
+  "member": "Members",
+  "memberUnit": "members",
+  "subscription": "Subscription",
+  "plan": "Plan",
+  "freeTrial": "scordi Free Trial",
+  "renewalDate": "Renewal Date",
+  "danger": {
+    "title": "Delete Workspace",
+    "prompt": "Enter the name of the workspace to delete (\"{{orgName}}\").",
+    "promptRetry": "You entered \"{{text}}\". Please enter \"{{orgName}}\" to confirm deletion.",
+    "cancel": "Deletion cancelled",
+    "success": "Workspace deleted successfully",
+    "desc1": "This action cannot be undone.",
+    "desc2": "The entire workspace",
+    "desc3": " will be deleted.",
+    "deleteBtn": "Delete"
+  },
+  "setting": {
+    "title": "Workspace Settings",
+    "language": "Language Settings",
+    "languagePlaceholder": "Select a language.",
+    "korean": "Korean"
+  },
+  "changeModal": {
+    "title": "Edit Workspace Information",
+    "desc": "Edit the basic information of the workspace.",
+    "addressPlaceholder": "Enter address",
+    "addressDetailPlaceholder": "Enter detailed address",
+    "saveBtn": "Save",
+    "saveSuccess": "Changes have been saved."
+  },
+  "addressModal": {
+    "searchAddress": "Search for address.",
+    "close": "Close"
+  }
+} 

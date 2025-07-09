@@ -7,7 +7,7 @@ export enum LocalList {
 }
 
 export const publicPageRequires = ['common', 'sign', 'profile', 'publicFooter'];
-export const v3CommonRequires = ['common', 'sign', 'profile'];
+export const v3CommonRequires = ['common', 'sign', 'profile', 'workspaceSettings'];
 
 export function useI18n<T extends string>(localeFilenames: T[]) {
     // @ts-ignore

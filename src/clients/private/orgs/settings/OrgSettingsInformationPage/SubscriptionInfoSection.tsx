@@ -3,6 +3,7 @@ import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsListSection} from '^clients/private/_layouts/OrgSettingsLayout';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
 
 interface SubscriptionInfoSectionProps {
     orgId: number;
@@ -11,6 +12,7 @@ interface SubscriptionInfoSectionProps {
 export const SubscriptionInfoSection = memo((props: SubscriptionInfoSectionProps) => {
     const {orgId} = props;
     const {isLoading, currentSubscription, fetch} = useCurrentScordiSubscription();
+    const {t} = useTranslation('workspaceSettings');
 
     useEffect(() => {
         if (orgId && !isNaN(orgId)) fetch(orgId);
@@ -20,12 +22,12 @@ export const SubscriptionInfoSection = memo((props: SubscriptionInfoSectionProps
 
     return (
         <OrgSettingsListSection
-            title="구독"
+            title={t('subscription')}
             buttonHref={OrgSettingsPaymentPageRoute.path(orgId)}
             isLoading={isLoading}
             items={[
-                {title: '플랜', desc: currentSubscription?.scordiPlan.name || 'scordi 무료 체험'},
-                {title: '갱신일', desc: nextDate ? yyyy_mm_dd(nextDate) : '-'},
+                {title: t('plan'), desc: currentSubscription?.scordiPlan.name || t('freeTrial')},
+                {title: t('renewalDate'), desc: nextDate ? yyyy_mm_dd(nextDate) : '-'},
             ]}
         />
     );

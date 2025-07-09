@@ -18,49 +18,47 @@ import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 import {MembershipDto, MembershipLevel} from '^models/Membership/types';
 import {BarChart4, CreditCard, Mail, MessagesSquare, LayoutGrid, User, Users} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface TopNavBarProps {
     //
 }
 
-const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
-    {name: '홈', routeProps: OrgMainPageRoute},
-
+const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}, t: (key: string) => string) => [
+    {name: t('home'), routeProps: OrgMainPageRoute},
     {
-        name: '구독',
+        name: t('subscription'),
         items: [
-            {name: '구독리스트', Icon: LayoutGrid, routeProps: OrgSubscriptionListPageRoute},
-            {name: '결제현황', Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
+            {name: t('subscriptionList'), Icon: LayoutGrid, routeProps: OrgSubscriptionListPageRoute},
+            {name: t('billingStatus'), Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
         ],
     },
     {
-        name: '팀',
+        name: t('team'),
         items: [
-            {name: '팀 목록', Icon: User, routeProps: OrgTeamListPageRoute},
-            {name: '구성원', Icon: Users, routeProps: OrgTeamMemberListPageRoute},
+            {name: t('teamList'), Icon: User, routeProps: OrgTeamListPageRoute},
+            {name: t('members'), Icon: Users, routeProps: OrgTeamMemberListPageRoute},
         ],
     },
     {
-        name: '자산',
+        name: t('asset'),
         items: [
-            {name: '결제수단', Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
-            {name: '청구서 메일', Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
+            {name: t('creditCard'), Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
+            {name: t('invoiceMail'), Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
     {
-        name: '업무',
-        items: [{name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute}],
+        name: t('work'),
+        items: [{name: t('request'), Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute}],
     },
     {
-        name: '설정',
+        name: t('settings'),
         routeProps: OrgSettingsInformationPageRoute,
         isValid() {
             const level = props.currentUserMembership?.level;
             if (!level) return false;
-
             if (level === MembershipLevel.ADMIN) return true;
             if (level === MembershipLevel.OWNER) return true;
-
             return false;
         },
     },
@@ -72,8 +70,8 @@ export const TopNavBar = memo((props: TopNavBarProps) => {
     const {currentOrg} = useCurrentOrg2();
     const currentUser = useRecoilValue(currentUserAtom);
     const currentUserMembership = getMembership(currentUser, currentOrg?.id);
-
-    const TopNavStructure = getTopNavStructure({currentUserMembership});
+    const {t} = useTranslation('navBar');
+    const TopNavStructure = getTopNavStructure({currentUserMembership}, t);
 
     const routeProps = <T extends (...args: any) => any>(
         route: {pathname: string; path: T},

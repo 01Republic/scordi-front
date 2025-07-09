@@ -2,11 +2,12 @@ import React, {memo, useState} from 'react';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {useForm} from 'react-hook-form';
-import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
+import {UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
 import {toast} from 'react-hot-toast';
 import {useRecoilValue} from 'recoil';
 import {AddressSearchModal} from '^clients/private/orgs/settings/OrgSettingsInformationPage/AddressSearchModal';
+import {useTranslation} from 'next-i18next';
 
 interface ChangeOrgInformationModalProps {
     isOpened: boolean;
@@ -19,13 +20,14 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
     const {currentOrg} = useCurrentOrg2();
     const form = useForm<UpdateOrganizationRequestDto>();
     const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+    const {t} = useTranslation('workspaceSettings');
 
     const onSave = () => {
         form.handleSubmit(async (data) => {
             organizationApi
                 .update(orgId, data)
                 .then(() => {
-                    toast.success('변경사항을 저장했어요.');
+                    toast.success(t('changeModal.saveSuccess'));
                     onClose();
                 })
                 .catch((err) => {
@@ -54,14 +56,14 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                     }}
                 >
                     <div className="p-4 bg-scordi">
-                        <h3 className="font-bold text-lg text-white">워크스페이스 정보 수정</h3>
-                        <p className="text-sm text-white opacity-70">워크스페이스의 기본 정보를 수정합니다.</p>
+                        <h3 className="font-bold text-lg text-white">{t('changeModal.title')}</h3>
+                        <p className="text-sm text-white opacity-70">{t('changeModal.desc')}</p>
                     </div>
                     <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
                         <div className="flex-1 py-4 px-2 text-sm space-y-4">
                             <div className="flex flex-col gap-2">
                                 <label htmlFor="account-id" className="block text-16">
-                                    워크스페이스명
+                                    {t('workspaceName')}
                                 </label>
                                 <input
                                     id="name"
@@ -74,14 +76,14 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label htmlFor="account-id" className="block text-16">
-                                    주소
+                                    {t('address')}
                                 </label>
                                 <input
                                     id="address"
                                     type="text"
                                     autoComplete="one-time-code"
                                     className="input w-full input-bordered"
-                                    placeholder={'주소를 입력해주세요'}
+                                    placeholder={t('changeModal.addressPlaceholder') ?? ''}
                                     defaultValue={
                                         currentOrg && currentOrg.address !== null ? currentOrg.address : undefined
                                     }
@@ -94,7 +96,7 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                                     type="text"
                                     autoComplete="one-time-code"
                                     className="input w-full input-bordered"
-                                    placeholder={'상세 주소를 입력해주세요'}
+                                    placeholder={t('changeModal.addressDetailPlaceholder') ?? ''}
                                     defaultValue={
                                         currentOrg && currentOrg.addressDetail !== null
                                             ? currentOrg.addressDetail
@@ -110,7 +112,7 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                             className="btn btn-lg btn-scordi btn-block rounded-box disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
                             onClick={onSave}
                         >
-                            저장하기
+                            {t('changeModal.saveBtn')}
                         </button>
                     </div>
                 </div>

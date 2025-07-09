@@ -7,10 +7,9 @@ import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integrations';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {OrgSettingsContent} from './OrgSettingsContent';
-import {OrgSettingsLeftListBox} from './OrgSettingsLeftListBox';
 import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
-import {Building, CreditCard, Users, WalletMinimal, Grid2x2Plus} from 'lucide-react';
+import {Building, CreditCard, Users, Grid2x2Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface OrgSettingsLayoutProps extends WithChildren {
     breadcrumbPath: BreadcrumbPath;
@@ -31,46 +30,56 @@ interface OrgSettingsLayoutProps extends WithChildren {
 export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSettingsLayoutProps) {
     const {children, breadcrumbPath, ignoreCardWrap = false, clearBody = false, activeMenuName} = props;
     const orgId = useOrgIdParam();
+    const {t} = useTranslation('workspaceSettings');
 
     return (
         <MainLayout>
             <MainContainer>
-                <Breadcrumb paths={['설정', breadcrumbPath]} />
+                <Breadcrumb
+                    paths={[
+                        t('breadcrumb.settings') ?? '',
+                        typeof breadcrumbPath === 'string'
+                            ? t(breadcrumbPath) ?? ''
+                            : {...breadcrumbPath, text: t(breadcrumbPath.text) ?? ''},
+                    ]}
+                />
 
                 <div className={'grid grid-cols-5 gap-4 mt-4'}>
                     {/* 메뉴 영역 */}
                     <div className={'col-span-1'}>
                         <div className={''}>
-                            <div className={'pt-2 px-4 text-12 text-gray-400 mb-2'}>일반</div>
+                            <div className={'pt-2 px-4 text-12 text-gray-400 mb-2'}>{t('menu.general')}</div>
                             <div className={'text-sm mb-4'}>
                                 <OrgSettingLeftListItem
                                     Icon={Building}
-                                    name={'워크스페이스 정보'}
+                                    name={t('menu.workspace-info')}
                                     href={OrgSettingsInformationPageRoute.path(orgId)}
                                     forceActive={activeMenuName}
                                 />
                                 <OrgSettingLeftListItem
                                     Icon={CreditCard}
-                                    name={'구독 및 결제'}
+                                    name={t('menu.subscription-payment')}
                                     href={OrgSettingsPaymentPageRoute.path(orgId)}
                                     forceActive={activeMenuName}
                                 />
                             </div>
 
-                            <div className={'pt-2 px-4 text-12 text-gray-400 mb-2'}>관리 및 연동</div>
+                            <div className={'pt-2 px-4 text-12 text-gray-400 mb-2'}>
+                                {t('menu.management-integration')}
+                            </div>
                             <div className={'text-sm'}>
                                 <OrgSettingLeftListItem
                                     Icon={Users}
-                                    name={'멤버 관리'}
+                                    name={t('menu.member-management')}
                                     href={OrgSettingsMemberPageRoute.path(orgId)}
                                     forceActive={activeMenuName}
                                 />
 
-                                {/*<OrgSettingLeftListItem Icon={WalletMinimal} name={'자산 연결'} href="#" />*/}
+                                {/*<OrgSettingLeftListItem Icon={WalletMinimal} name={t('menu.asset-connection')} href="#" />*/}
 
                                 <OrgSettingLeftListItem
                                     Icon={Grid2x2Plus}
-                                    name={'서비스 연동'}
+                                    name={t('menu.service-integration')}
                                     href={OrgSettingsIntegrationsPageRoute.path(orgId)}
                                     forceActive={activeMenuName}
                                 />
@@ -83,7 +92,7 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                     ) : ignoreCardWrap ? (
                         <div className="col-span-4 px-6">
                             <div className="text-xl font-bold mb-4">
-                                {typeof breadcrumbPath === 'string' ? breadcrumbPath : breadcrumbPath.text}
+                                {typeof breadcrumbPath === 'string' ? t(breadcrumbPath) : t(breadcrumbPath.text)}
                             </div>
                             <div className="flex flex-col gap-6 mb-8">{children}</div>
                         </div>
