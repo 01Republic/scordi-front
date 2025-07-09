@@ -1,5 +1,5 @@
 export class CreateProductSimilarNameRequestDto {
     name: string;
-    productId?: number;
+    productId?: number | null;
     isBlock?: boolean;
 }
