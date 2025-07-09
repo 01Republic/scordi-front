@@ -25,11 +25,13 @@ const useIntegrationWorkspaces = (name: string, orgId: number, params: FindAllIn
         }) as IntegrationWorkspaceDto<Provider, any, any> | undefined;
     }
 
-    const findSlack = () => findProvider<IntegrationProvider.slack>(IntegrationProvider.slack);
+    const findSlack = () => findProvider(IntegrationProvider.slack);
+    const findGoogleWorkspace = () => findProvider(IntegrationProvider.googleWorkspace);
 
     return {
         data,
         ...methods,
         findSlack,
+        findGoogleWorkspace,
     };
 };

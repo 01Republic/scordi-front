@@ -28,6 +28,22 @@ export class GoogleTokenDataDto {
     updatedAt: Date;
 }
 
+export class GoogleTokenDataSecureDto {
+    id: number;
+    email: string; // 이메일
+    name: string; // 이름
+    picture: string | null; // 사진
+    locale: string | null; // 언어
+
+    @TypeCast(() => Date) expireAt: Date;
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
+    get isExpired() {
+        return this.expireAt.getTime() < Date.now();
+    }
+}
+
 @Exclude()
 export class GoogleTokenDataResponseDto extends GoogleTokenDataDto {
     @Expose() id: number;

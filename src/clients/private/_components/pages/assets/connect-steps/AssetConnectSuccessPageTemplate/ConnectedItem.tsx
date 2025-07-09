@@ -47,15 +47,17 @@ export const ConnectedItem = memo((props: ConnectionSuccessItemSelectProps) => {
             <div className="flex items-center gap-4">
                 {comment && <span className="text-12 text-gray-500">{comment}</span>}
 
-                <Check
-                    strokeWidth={3}
-                    className={cn(
-                        'text-20',
-                        isSelected
-                            ? 'text-indigo-500'
-                            : `text-transparent ${isClickable ? 'group-hover:text-indigo-200' : ''}`,
-                    )}
-                />
+                {!isDisabled && (
+                    <Check
+                        strokeWidth={3}
+                        className={cn(
+                            'text-20',
+                            isSelected
+                                ? 'text-indigo-500'
+                                : `text-transparent ${isClickable ? 'group-hover:text-indigo-200' : ''}`,
+                        )}
+                    />
+                )}
             </div>
         </li>
     );

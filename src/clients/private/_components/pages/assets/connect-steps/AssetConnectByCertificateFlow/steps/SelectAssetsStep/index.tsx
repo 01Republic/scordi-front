@@ -38,6 +38,7 @@ interface SelectAssetsStepProps {
     title?: ReactNode;
     subTitle?: ReactNode;
     disabledCTAButtonText?: string;
+    nextButtonText?: ReactNode;
 }
 
 /**
@@ -56,6 +57,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
         title,
         subTitle,
         disabledCTAButtonText,
+        nextButtonText,
     } = props;
 
     const [successBanks, successCards] = useMemo(() => {
@@ -133,6 +135,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
             <StepCTASection
                 disabled={disabled}
                 disabledCTAButtonText={disabledCTAButtonText}
+                nextButtonText={nextButtonText}
                 isLoading={!!isLoadingMsg}
                 allConnected={allConnected}
                 notSelected={selectedCodefBanks.length === 0 && selectedCodefCards.length === 0}

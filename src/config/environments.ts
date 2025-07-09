@@ -45,6 +45,9 @@ export const gtm_id = xxx('GTM-5RWDTWQF');
 export const measuredApiKey = xxx(process.env.NEXT_PUBLIC_MEASURED_API_KEY as string);
 export const stepByKey = xxx(process.env.NEXT_PUBLIC_STEPBY_KEY as string);
 
+// StepBy 기능 활성화 여부 (환경변수로 제어)
+export const isStepByEnabled = process.env.NEXT_PUBLIC_ENABLE_STEPBY === 'true';
+
 export const zero1_republic_workspace_id = 10;
 
 export const tossPaymentsKey = {

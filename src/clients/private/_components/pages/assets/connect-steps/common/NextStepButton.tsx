@@ -1,8 +1,8 @@
-import {memo, useState} from 'react';
+import {memo, ReactNode, useState} from 'react';
 import cn from 'classnames';
 
 interface NextStepButtonProps {
-    text?: string;
+    text?: ReactNode;
     onClick?: () => void;
     disabled?: boolean;
     isLoading?: boolean;

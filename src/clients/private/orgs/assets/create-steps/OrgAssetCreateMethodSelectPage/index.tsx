@@ -36,6 +36,8 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
             selectAssetsStep={{
                 title: '금융기관으로부터 불러온 자산이에요.',
                 subTitle: '어떤 자산을 연결할까요?',
+                // nextButtonText: '완료',
+                nextButtonText: '연결하고 마치기',
             }}
             connectAssetsStep={{
                 strategy: ConnectAssetsStepStrategy.CreateScordiAssets,

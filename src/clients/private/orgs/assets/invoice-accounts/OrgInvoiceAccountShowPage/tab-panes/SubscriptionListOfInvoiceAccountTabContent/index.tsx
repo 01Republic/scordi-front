@@ -1,34 +1,29 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useCurrentInvoiceAccount} from '../../atom';
-import {useSubscriptionListOfInvoiceAccount} from '^models/Subscription/hook';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import React, {memo, useState} from 'react';
+import {Plus, RotateCw} from 'lucide-react';
 import Tippy from '@tippyjs/react';
+import {useCurrentInvoiceAccount} from '../../atom';
+import {useSubscriptionListOfInvoiceAccount} from '^models/InvoiceAccount/hook';
 import {LinkTo} from '^components/util/LinkTo';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {InvoiceAccountSubscriptionTableHeader} from './InvoiceAccountSubscriptionTableHeader';
 import {InvoiceAccountSubscriptionTableRow} from './InvoiceAccountSubscriptionTableRow';
 import {InvoiceAccountAddSubscriptionModal} from './InvoiceAccountAddSubscriptionModal';
-import {useUnmount} from '^hooks/useUnmount';
-import {Plus, RotateCw} from 'lucide-react';
 
 export const SubscriptionListOfInvoiceAccountTabContent = memo(function SubscriptionListOfInvoiceAccountTabContent() {
     const {currentInvoiceAccount, reload: reloadCurrentInvoiceAccount} = useCurrentInvoiceAccount();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
-    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy, reset} =
-        useSubscriptionListOfInvoiceAccount();
-
-    const onReady = () => {
-        if (!currentInvoiceAccount) return;
-
-        search({
+    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
+        useSubscriptionListOfInvoiceAccount(currentInvoiceAccount, {
             relations: ['master', 'invoiceAccounts', 'creditCard'],
             where: {
                 // @ts-ignore
-                invoiceAccounts: {id: currentInvoiceAccount.id},
+                invoiceAccounts: {id: currentInvoiceAccount?.id},
             },
             order: {nextComputedBillingDate: 'DESC', id: 'DESC'},
         });
-    };
+
+    if (!currentInvoiceAccount) return <></>;
 
     const AddSubscriptionButton = () => (
         <LinkTo onClick={() => setAddSubscriptionModalOpened(true)} className="btn btn-scordi gap-2" loadingOnBtn>
@@ -36,13 +31,6 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
             <span>구독 연결</span>
         </LinkTo>
     );
-
-    useEffect(() => {
-        onReady();
-    }, [currentInvoiceAccount]);
-
-    useUnmount(() => reset());
-    if (!currentInvoiceAccount) return <></>;
 
     const refresh = () => Promise.allSettled([reload(), reloadCurrentInvoiceAccount()]);
     const {totalItemCount} = result.pagination;
