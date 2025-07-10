@@ -12,7 +12,7 @@ interface ConnectProductSectionProps {
 export const ConnectedProductsSection = memo((props: ConnectProductSectionProps) => {
     const {product, disconnectProduct, setDisConnectProduct} = props;
 
-    const {result} = useProductSimilarNameList({
+    const {result} = useProductSimilarNameList(product.id, {
         relations: [],
         where: {productId: product.id},
         order: {id: 'DESC'},
@@ -31,7 +31,7 @@ export const ConnectedProductsSection = memo((props: ConnectProductSectionProps)
     return (
         <section>
             <div className="pb-1.5 border-b border-gray-200">
-                <p className="text-12 font-medium">연결된 서비스 ({result.pagination.currentItemCount})</p>
+                <p className="text-12 font-medium">연결된 서비스 ({result.pagination.currentItemCount - 1})</p>
             </div>
             <div>
                 {productSimilarList.map((item) => {
