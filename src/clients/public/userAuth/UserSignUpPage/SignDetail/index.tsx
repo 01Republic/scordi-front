@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {FormProvider, useForm} from 'react-hook-form';
 import {useQueryClient} from '@tanstack/react-query';
-import {CreateUserDetailRequestDto, CreateUserResponseDto} from '^models/User/types';
-import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
-import {useCreateUserDetailAuth} from '../SignAuthPage.atom';
-import {FunnelSection} from './FunnelSection';
-import {useCurrentUser} from '^models/User/hook';
-import {SuccessSign} from '^clients/public/home/LandingPages/SignAuthPage/SignDetail/SuccessSign';
+import {FormProvider, useForm} from 'react-hook-form';
 import cn from 'classnames';
+import {useCurrentUser} from '^models/User/hook';
+import {CreateUserDetailRequestDto, CreateUserResponseDto} from '^models/User/types';
+import {useCreateUserDetailAuth} from '../SignAuthPage.atom';
+import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
+import {FunnelSection} from './FunnelSection';
+import {SuccessSign} from './SuccessSign';
 
 export const SignDetailAuthPage = () => {
     const [isSignSuccess, setSignSuccess] = useState(false);

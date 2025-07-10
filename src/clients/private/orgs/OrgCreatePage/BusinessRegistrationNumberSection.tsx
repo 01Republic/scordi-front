@@ -3,10 +3,10 @@ import {useFormContext} from 'react-hook-form';
 import {Building, TriangleAlert, Dot} from 'lucide-react';
 import cn from 'classnames';
 import {CreateOrganizationRequestDto} from '^models/Organization/type';
+import {validBizNoRegex} from '^utils/valildation';
 
 export const BusinessRegistrationNumberSection = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
-    const validBizNoRegex = /^(\d{3})-?(\d{2})-?(\d{5})$/;
 
     const {
         register,

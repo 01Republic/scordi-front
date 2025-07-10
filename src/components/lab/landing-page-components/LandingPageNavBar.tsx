@@ -7,6 +7,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {Img} from '^components/ui/Img';
 import ScordiLogo from '^public/images/logo/scordi/logo-black-transparent-2.png';
 import {Menu} from 'lucide-react';
+import {UserSignUpPageRoute} from '^pages/users/signup';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -88,7 +89,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
 
                                     <LinkTo
                                         text="무료로 시작하기"
-                                        href={UserLoginPageRoute.path()}
+                                        href={UserSignUpPageRoute.path()}
                                         className="btn hidden sm:inline-flex btn-scordi"
                                     />
                                 </>

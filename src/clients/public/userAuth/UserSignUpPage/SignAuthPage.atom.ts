@@ -9,8 +9,12 @@ import {
     SendPhoneAuthMessageDto,
     UserDto,
     UserGoogleSocialSignUpInvitedRequestDto,
+    UserLoginRequestDto,
+    UserSocialSignUpRequestDto,
 } from '^models/User/types';
-import {SignUserApi} from '^models/User/api/session';
+import {SignUserApi, userApi, userSessionApi} from '^models/User/api/session';
+import {AxiosResponse} from 'axios';
+import {useCurrentUser} from '^models/User/hook';
 
 // 인증번호 요청
 export const useCodeSend = () => {
@@ -64,12 +68,22 @@ export const useInvitedCreateUserAuth = () => {
     });
 };
 
-// 로그인
-export const useLogin = () => {
+// 구글 로그인
+export const useGoogleLogin = () => {
     return useMutation<JwtContainer, ErrorResponse, string>({
         mutationFn: (accessToken) => SignUserApi.login(accessToken).then((response) => response.data),
         onSuccess: (response) => {
             localStorage.setItem('token', response.token);
+        },
+    });
+};
+
+//이메일,패스워드 로그인
+export const useLogin = () => {
+    return useMutation<string, ErrorResponse, {data: UserLoginRequestDto}>({
+        mutationFn: ({data}) => userSessionApi.create(data).then((res) => res.data.token),
+        onSuccess: (response) => {
+            localStorage.setItem('token', response);
         },
     });
 };
@@ -83,6 +97,19 @@ export const useCreateUserDetailAuth = () => {
                 .then((response) => response.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['createUserDetail']});
+        },
+    });
+};
+
+// 유저 정보 조회
+export const useUser = () => {
+    const {setCurrentUser, loginRedirect} = useCurrentUser(null);
+    return useMutation<UserDto, ErrorResponse, void>({
+        mutationFn: () => userSessionApi.index().then((response) => response.data),
+        onSuccess: (response) => {
+            localStorage.setItem('locale', response?.locale ?? 'ko');
+            setCurrentUser(response);
+            loginRedirect(response);
         },
     });
 };
