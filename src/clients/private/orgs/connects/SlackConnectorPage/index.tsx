@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {IntegrationProvider, IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
 import {OrgOnboardingRequestPageRoute} from '^pages/orgs/[id]/onboarding/request';
-import {ConnectingResultScreen} from '../ConnectingResultScreen';
+import {ConnectingResultScreenForSlack} from '../ConnectingResultScreen';
 import {SlackBeforeConnectPage} from './SlackBeforeConnectPage';
 
 interface SlackConnectorPageProps {
@@ -19,7 +19,7 @@ export const SlackConnectorPage = memo(function SlackConnectorPage({onNext}: Sla
     if (!slackWorkspace) return <SlackBeforeConnectPage onNext={setSlackWorkspace} />;
 
     return (
-        <ConnectingResultScreen
+        <ConnectingResultScreenForSlack
             slackWorkspace={slackWorkspace}
             onNext={() => (onNext ? onNext() : router.push(OrgOnboardingRequestPageRoute.path(orgId)))}
         />
