@@ -23,9 +23,7 @@ export const ProductSimilarNameFormPanel = memo((props: ProductSimilarNameFormPa
 
     const onSubmit = () => {
         setIsLoading(true);
-        const createPs = createProduct.map((name) =>
-            createProductSimilarName({name, productId: product.id, isBlock: false}),
-        );
+        const createPs = createProduct.map((name) => createProductSimilarName({name, productId: product.id}));
         const updatePs = disconnectProduct.map((item) =>
             updateProductSimilarName({id: item.id, data: {name: item.name}}),
         );
