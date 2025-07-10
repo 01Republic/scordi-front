@@ -8,11 +8,11 @@ import {ErrorResponse} from '^models/User/types';
 import {UpdateProductSimilarNameRequestDto} from '^models/ProductSimilarName/type/UpdateProductSimilarName.request.dto';
 import {CreateProductSimilarNameRequestDto} from '^models/ProductSimilarName/type/CreateProductSimilarName.request.dto';
 
-export const useProductSimilarNameList = (params: FindAllProductSimilarNameQuery) => {
+export const useProductSimilarNameList = (id: number | null, params: FindAllProductSimilarNameQuery) => {
     const [query, setQuery] = useState(params);
 
     const queryResult = useQuery({
-        queryKey: ['productSimilarName', query],
+        queryKey: ['productSimilarName', query, id],
         queryFn: async () => {
             return productSimilarNameApi.index(query).then((res) => res.data);
         },
