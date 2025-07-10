@@ -194,7 +194,7 @@ export const t_userJob = (status?: UserJob) => {
 export class CreateUserRequestDto {
     name: string;
     email: string;
-    passWord?: string;
+    password?: string;
     passwordConfirmation?: string;
     phone: string;
     job: UserJob;

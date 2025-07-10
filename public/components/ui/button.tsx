@@ -1,11 +1,9 @@
-import * as React from 'react';
 import {Slot} from '@radix-ui/react-slot';
 import {cva, type VariantProps} from 'class-variance-authority';
+import * as React from 'react';
 
-import {cn} from '^public/lib/utils';
 import {LinkTo, LinkToProps} from '^components/util/LinkTo';
-import Link from 'next/link';
-import {LinkProps} from 'next/dist/client/link';
+import {cn} from '^public/lib/utils';
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -13,7 +11,8 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 scordi: 'bg-scordi text-white shadow hover:bg-primary/90',
-                scordiGhost: 'bg-white text-scordi hover:bg-gray-50',
+                scordiGhost: 'bg-transparent text-white hover:bg-gray-50 hover:text-scordi',
+                scordiWhite: 'bg-white text-scordi hover:bg-gray-100',
                 ghostGray: 'hover:bg-gray-50 hover:text-accent-foreground',
                 gray: 'bg-gray-300 text-black shadow hover:bg-primary/90',
                 grayOutline: 'bg-gray-100 text-black hover:bg-primary/90 border',
@@ -31,6 +30,7 @@ const buttonVariants = cva(
                 sm: 'h-8 rounded-md px-3 text-xs',
                 lg: 'h-10 rounded-md px-8',
                 xl: 'h-12 rounded-md px-12',
+                xxl: 'h-14 rounded-lg px-14',
                 icon: 'h-9 w-9',
             },
         },
