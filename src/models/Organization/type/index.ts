@@ -28,6 +28,7 @@ export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto>
     address?: string;
     addressDetail?: string;
     isDemo?: boolean; // 테스트 워크스페이스 유무
+    onboardingFinishedAt?: Date | null; // 온보딩 완료 일시
 };
 
 export type SearchOrgQueryDto = {

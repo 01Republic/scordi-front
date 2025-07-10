@@ -1,13 +1,47 @@
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {LinkTo} from '^components/util/LinkTo';
 import {BackButton} from '^components/BackButton';
 import {FullLogoImg} from '../../home/OrgMainPage/LogoImg';
 import {RotatingLogoCarousel} from './RotatingLogoCarousel';
+import {useQuery} from '@tanstack/react-query';
+import {organizationApi} from '^models/Organization/api';
+import {useEffect} from 'react';
+import {useRouter} from 'next/router';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 export const OrgOnboardingCompletePage = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const router = useRouter();
+    const orgId = useOrgIdParam();
+    const {currentOrg, reload} = useCurrentOrg(orgId);
+    const redirectPath = OrgMainPageRoute.path(orgId, {confetti: 'true'});
+
+    const {data: updatedOrg, isFetching} = useQuery({
+        queryKey: ['OrgOnboardingCompletePage.OrgUpdate', currentOrg?.id],
+        queryFn: () => organizationApi.update(orgId, {onboardingFinishedAt: new Date()}).then((res) => res.data),
+        initialData: null,
+        retry: 1,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        enabled: !!currentOrg && !currentOrg.onboardingFinishedAt,
+    });
+
+    useEffect(() => {
+        if (!currentOrg) return;
+        if (updatedOrg) return;
+        if (currentOrg.onboardingFinishedAt) {
+            confirm('이미 온보딩을 모두 진행하셨습니다!');
+            router.push(redirectPath);
+        }
+    }, [currentOrg, updatedOrg]);
+
+    useEffect(() => {
+        if (updatedOrg && updatedOrg.onboardingFinishedAt) {
+            reload();
+        }
+    }, [updatedOrg]);
+
+    const isReady = !isFetching && !!currentOrg?.onboardingFinishedAt;
 
     return (
         <div className="container mx-auto px-4 py-16 h-lvh">
@@ -24,8 +58,9 @@ export const OrgOnboardingCompletePage = () => {
                         <RotatingLogoCarousel />
                     </div>
                     <LinkTo
-                        href={OrgMainPageRoute.path(orgId, {confetti: 'true'})}
-                        className="btn btn-lg btn-scordi w-72"
+                        href={redirectPath}
+                        className={`btn btn-lg btn-scordi btn-wide ${isReady ? '' : 'loading'}`}
+                        displayLoading={false}
                     >
                         완료
                     </LinkTo>

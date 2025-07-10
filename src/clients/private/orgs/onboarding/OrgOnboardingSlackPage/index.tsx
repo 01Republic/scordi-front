@@ -16,9 +16,10 @@ export const OrgOnboardingNotificationsPage = memo(() => {
     return (
         <OnboardingLayout
             step={3}
-            title={`놓치기 쉬운 구독 변동, \n슬랙 알림 받아보세요 `}
+            title={`놓치기 쉬운 구독 변동,\n슬랙 알림 받아보세요`}
             description={`월별 구독 현황 레포트와 비용과 시트 변동 사항을\n슬랙 알림을 통해 빠르게 확인할 수 있어요.`}
             image={exampleSlackImage}
+            onBack={() => router.back()}
             onSkip={() => router.push(OrgOnboardingCompletePageRoute.path(orgId))}
             button={
                 <ConnectButton

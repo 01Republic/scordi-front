@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {slackScordiOauthApi} from '^models/_slack-bot/api';
 import howToConnectSlack from '^images/onboarding/how-to-connect-slack-1.png';
@@ -6,9 +6,25 @@ import howToConnectSlack2 from '^images/onboarding/how-to-connect-slack-2.png';
 import {ConnectionAndDescriptionSection} from '../ConnectionAndDescriptionSection';
 import {DescriptionSection} from '../DescriptionSection';
 import {CTASection} from '../CTASection';
+import {IntegrationProvider, IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
+import {useIntegrationWorkspaceInOnboardingPage} from '^models/IntegrationWorkspace/hook';
+import {useRouter} from 'next/router';
 
-export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
+interface Props {
+    onNext: (slackWorkspace: IntegrationWorkspaceDto<IntegrationProvider.slack>) => void;
+}
+
+export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage(props: Props) {
+    const {onNext} = props;
+    const router = useRouter();
     const orgId = useOrgIdParam();
+    const isSlackCallback = `${router.query['slack'] || ''}`.includes('"ok":true');
+    const {findSlack} = useIntegrationWorkspaceInOnboardingPage(isSlackCallback ? orgId : NaN);
+    const slackConfig = findSlack();
+
+    useEffect(() => {
+        if (slackConfig) onNext(slackConfig);
+    }, [slackConfig]);
 
     const onConnectButtonClick = () => {
         window.open(slackScordiOauthApi.authUrl(orgId), '_self');

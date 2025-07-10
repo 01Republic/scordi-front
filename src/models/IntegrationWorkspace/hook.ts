@@ -3,6 +3,12 @@ import {FindAllIntegrationWorkspaceQueryDto, IntegrationWorkspaceDto, Integratio
 import {integrationWorkspacesApi} from './api';
 import {Paginated} from '^types/utils/paginated.dto';
 
+export const useIntegrationWorkspaceInOnboardingPage = (orgId: number) => {
+    // 정적인 params.
+    const params: FindAllIntegrationWorkspaceQueryDto = {itemsPerPage: 0, order: {id: 'DESC'}};
+    return useIntegrationWorkspaces('useIntegrationWorkspaceInOnboardingPage', orgId, params);
+};
+
 export const useIntegrationWorkspaceInSettingPage = (orgId: number) => {
     // 정적인 params.
     const params: FindAllIntegrationWorkspaceQueryDto = {itemsPerPage: 0, order: {id: 'DESC'}};

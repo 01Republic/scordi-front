@@ -13,6 +13,7 @@ export enum Connectors {
     excel = 'excel',
 }
 
+// 온보딩 스텝3. / 슬랙 연동 / 시작 페이지
 export const OrgOnboardingNotificationsConnectsPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/notifications/connects/[connectorName]',
     path: (id: number, connectorName: Connectors) =>

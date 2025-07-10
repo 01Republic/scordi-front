@@ -1,4 +1,4 @@
-import {memo, useEffect} from 'react';
+import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useRouter} from 'next/router';

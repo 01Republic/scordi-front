@@ -23,7 +23,7 @@ export const OrgSubscriptionConnectionPage = memo(() => {
                     className="text-14 transition-all hover:font-semibold"
                     displayLoading={false}
                 >
-                    Skip
+                    건너뛰기
                 </LinkTo>
             )}
             onSuccess={(connectedAssets) => {

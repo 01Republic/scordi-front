@@ -11,10 +11,11 @@ interface DescriptionLayoutProps extends WithChildren {
     title: string;
     warnTexts: string[];
     ConnectButton: () => JSX.Element;
+    safeBadge?: boolean;
 }
 
 export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutProps) => {
-    const {src, alt, title, warnTexts, ConnectButton, children} = props;
+    const {src, alt, title, warnTexts, ConnectButton, children, safeBadge = false} = props;
 
     return (
         <PureLayout>
@@ -28,7 +29,7 @@ export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutPro
                         <section className="sticky top-[7.5rem] flex flex-col gap-10">
                             <div className="flex items-center justify-between">
                                 <NextImage src={src} alt={alt} className="avatar bg-white" width={48} height={48} />
-                                <SafeBadge />
+                                {safeBadge && <SafeBadge />}
                             </div>
                             <h1 className="text-3xl font-bold text-gray-900 whitespace-pre-line">{title}</h1>
                             <div className="flex flex-col gap-3 rounded-box py-4 px-6 bg-red-50 text-red-400 border border-red-400">
