@@ -1,13 +1,12 @@
-import React, {memo, useEffect} from 'react';
-import {useRecoilState} from 'recoil';
+import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
 import {
     scordiSubscriptionIsScheduledListLoadingAtom as scheduledIsLoadingAtom,
-    scordiSubscriptionIsScheduledListQueryAtom as scheduledQueryAtom,
     scordiSubscriptionScheduledListAtom as scheduledListAtom,
 } from '^models/_scordi/ScordiSubscription/atom';
-import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect} from 'react';
+import {useRecoilState} from 'recoil';
 import {OrgScheduledSubscriptionItem} from './OrgScheduledSubscriptionItem';
-import {useScheduledScordiSubscriptions} from '^models/_scordi/ScordiSubscription/hook';
 
 interface OrgScheduledSubscriptionListProps {
     orgId: number;
@@ -15,6 +14,7 @@ interface OrgScheduledSubscriptionListProps {
 
 export const OrgScheduledSubscriptionList = memo((props: OrgScheduledSubscriptionListProps) => {
     const {orgId} = props;
+    const {t} = useTranslation('workspaceSettings');
     // const {isLoading, scheduledSubscriptions, fetch} = useScheduledScordiSubscriptions();
     const [isLoading, setIsLoading] = useRecoilState(scheduledIsLoadingAtom);
     // const [query, setQuery] = useRecoilState(scheduledQueryAtom);
@@ -47,7 +47,7 @@ export const OrgScheduledSubscriptionList = memo((props: OrgScheduledSubscriptio
 
     return (
         <div className={`pt-4 ${isLoading ? 'no-click opacity-30' : ''}`}>
-            <p className="text-12 font-semibold mb-1.5">다음 플랜</p>
+            <p className="text-12 font-semibold mb-1.5">{t('payment.nextPlan')}</p>
             <div className="grid grid-cols-1 gap-2">
                 {scheduledSubscriptions.map((scheduledSubscription, i) => (
                     <OrgScheduledSubscriptionItem key={i} scordiSubscription={scheduledSubscription} />

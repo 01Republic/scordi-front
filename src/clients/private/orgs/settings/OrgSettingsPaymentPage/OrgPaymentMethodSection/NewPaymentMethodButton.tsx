@@ -1,4 +1,5 @@
-import React, {memo} from 'react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface NewPaymentMethodButtonProps {
     onClick: () => any;
@@ -6,10 +7,11 @@ interface NewPaymentMethodButtonProps {
 
 export const NewPaymentMethodButton = memo((props: NewPaymentMethodButtonProps) => {
     const {onClick} = props;
+    const {t} = useTranslation('workspaceSettings');
 
     return (
         <button className="btn3" onClick={onClick}>
-            카드 등록
+            {t('payment.cardRegistration')}
         </button>
     );
 });

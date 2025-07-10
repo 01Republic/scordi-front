@@ -1,14 +1,15 @@
-import React, {memo} from 'react';
+import Tippy from '@tippyjs/react';
+import {LinkTo} from '^components/util/LinkTo';
+import {ScordiPaymentDto, t_scordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
 import {CurrencyCode} from '^models/Money';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {ScordiPaymentDto, t_scordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
-import {LinkTo} from '^components/util/LinkTo';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {ScordiPaymentItemProps} from './ScordiPaymentItem';
-import Tippy from '@tippyjs/react';
-import {CreditCard} from 'lucide-react';
 
 export const ScordiPaymentItemNotionType = memo((props: ScordiPaymentItemProps) => {
     const {scordiPayment} = props;
+    const {t} = useTranslation('workspaceSettings');
 
     const onClick = () => {
         // console.log(scordiPayment);
@@ -44,19 +45,13 @@ export const ScordiPaymentItemNotionType = memo((props: ScordiPaymentItemProps) 
                     <PaidCard scordiPayment={scordiPayment} />
                 </div>
 
-                <div
-                    onClick={
-                        invoiceUrl
-                            ? undefined
-                            : () => alert('청구서 주소를 불러오지 못했습니다.\n관리자에게 문의해주세요.')
-                    }
-                >
+                <div onClick={invoiceUrl ? undefined : () => alert(t('payment.cannotLoadInvoice'))}>
                     <LinkTo
                         className={`btn3 btn-sm ${!invoiceUrl ? 'btn-disabled opacity-50 !cursor-not-allowed' : ''}`}
                         href={invoiceUrl}
                         target="_blank"
                     >
-                        청구서 보기
+                        {t('payment.viewInvoice')}
                     </LinkTo>
                 </div>
             </div>

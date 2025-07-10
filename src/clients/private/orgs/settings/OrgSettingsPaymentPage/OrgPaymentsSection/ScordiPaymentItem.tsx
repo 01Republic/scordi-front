@@ -1,6 +1,7 @@
-import {memo} from 'react';
 import {ScordiPaymentDto, t_scordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {ScordiPaymentItemNotionType} from './ScordiPaymentItemNotionType';
 
 export type ScordiPaymentItemUIType = 'default' | 'notion' | 'github' | 'sentry';
@@ -13,6 +14,7 @@ export interface ScordiPaymentItemProps {
 
 export const ScordiPaymentItem = memo((props: ScordiPaymentItemProps) => {
     const {scordiPayment, isLast = false, version = 'default'} = props;
+    const {t} = useTranslation('workspaceSettings');
 
     const onClick = () => {
         // console.log(scordiPayment);
@@ -40,7 +42,7 @@ export const ScordiPaymentItem = memo((props: ScordiPaymentItemProps) => {
             {/*결제 금액*/}
             <div>
                 {scordiPayment.price.toLocaleString()}
-                <span onClick={() => console.log(scordiPayment)}>원</span>
+                <span onClick={() => console.log(scordiPayment)}>{t('payment.won')}</span>
             </div>
         </div>
     );

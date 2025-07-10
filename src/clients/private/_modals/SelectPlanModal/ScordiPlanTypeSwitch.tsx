@@ -1,9 +1,11 @@
-import {memo} from 'react';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 export const ScordiPlanTypeSwitch = memo(() => {
+    const {t} = useTranslation('workspaceSettings');
     const {currentStepType, switchStepType} = useScordiPlanList();
 
     return (
@@ -16,8 +18,8 @@ export const ScordiPlanTypeSwitch = memo(() => {
                 }}
                 defaultValue={currentStepType}
                 options={[
-                    {label: '월간', value: ScordiPlanStepType.Month},
-                    {label: '연간', value: ScordiPlanStepType.Year},
+                    {label: t('planCard.stepType.month') || '월간', value: ScordiPlanStepType.Month},
+                    {label: t('planCard.stepType.year') || '연간', value: ScordiPlanStepType.Year},
                 ]}
             />
         </div>

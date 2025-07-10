@@ -1,19 +1,21 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
-import {OrgPlanSection} from './OrgPlanSection';
+import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {OrgPaymentMethodSection} from './OrgPaymentMethodSection';
 import {OrgPaymentsSection} from './OrgPaymentsSection';
+import {OrgPlanSection} from './OrgPlanSection';
 
 export const OrgSettingsPaymentPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
+    const {t} = useTranslation('workspaceSettings');
 
     return (
         <OrgSettingsLayout
             breadcrumbPath={{
-                text: '구독 및 결제',
+                text: t('menu.subscription-payment'),
                 active: true,
                 href: OrgSettingsPaymentPageRoute.path(orgId),
             }}

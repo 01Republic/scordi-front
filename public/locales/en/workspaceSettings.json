@@ -1,54 +1,164 @@
 {
-  "breadcrumb": {
-    "settings": "Settings"
-  },
-  "menu": {
-    "general": "General",
-    "workspace-info": "Workspace Info",
-    "subscription-payment": "Subscription & Payment",
-    "management-integration": "Management & Integration",
-    "member-management": "Member Management",
-    "asset-connection": "Asset Connection",
-    "service-integration": "Service Integration"
-  },
-  "title": "Workspace Information",
-  "basic": "Basic",
-  "workspaceName": "Workspace Name",
-  "address": "Address",
-  "registerAddress": "Please register the address",
-  "member": "Members",
-  "memberUnit": "members",
-  "subscription": "Subscription",
-  "plan": "Plan",
-  "freeTrial": "scordi Free Trial",
-  "renewalDate": "Renewal Date",
-  "danger": {
-    "title": "Delete Workspace",
-    "prompt": "Enter the name of the workspace to delete (\"{{orgName}}\").",
-    "promptRetry": "You entered \"{{text}}\". Please enter \"{{orgName}}\" to confirm deletion.",
-    "cancel": "Deletion cancelled",
-    "success": "Workspace deleted successfully",
-    "desc1": "This action cannot be undone.",
-    "desc2": "The entire workspace",
-    "desc3": " will be deleted.",
-    "deleteBtn": "Delete"
-  },
-  "setting": {
-    "title": "Workspace Settings",
-    "language": "Language Settings",
-    "languagePlaceholder": "Select a language.",
-    "korean": "Korean"
-  },
-  "changeModal": {
-    "title": "Edit Workspace Information",
-    "desc": "Edit the basic information of the workspace.",
-    "addressPlaceholder": "Enter address",
-    "addressDetailPlaceholder": "Enter detailed address",
-    "saveBtn": "Save",
-    "saveSuccess": "Changes have been saved."
-  },
-  "addressModal": {
-    "searchAddress": "Search for address.",
-    "close": "Close"
-  }
-} 
+    "breadcrumb": {
+        "settings": "Settings"
+    },
+    "menu": {
+        "general": "General",
+        "workspace-info": "Workspace Info",
+        "subscription-payment": "Subscription & Payment",
+        "management-integration": "Management & Integration",
+        "member-management": "Member Management",
+        "asset-connection": "Asset Connection",
+        "service-integration": "Service Integration"
+    },
+    "title": "Workspace Information",
+    "basic": "Basic",
+    "workspaceName": "Workspace Name",
+    "address": "Address",
+    "registerAddress": "Please register the address",
+    "member": "Members",
+    "memberUnit": "members",
+    "subscription": "Subscription",
+    "plan": "Plan",
+    "freeTrial": "scordi Free Trial",
+    "renewalDate": "Renewal Date",
+    "danger": {
+        "title": "Delete Workspace",
+        "prompt": "Enter the name of the workspace to delete (\"{{orgName}}\").",
+        "promptRetry": "You entered \"{{text}}\". Please enter \"{{orgName}}\" to confirm deletion.",
+        "cancel": "Deletion cancelled",
+        "success": "Workspace deleted successfully",
+        "desc1": "This action cannot be undone.",
+        "desc2": "The entire workspace",
+        "desc3": " will be deleted.",
+        "deleteBtn": "Delete"
+    },
+    "setting": {
+        "title": "Workspace Settings",
+        "language": "Language Settings",
+        "languagePlaceholder": "Select a language.",
+        "korean": "Korean"
+    },
+    "changeModal": {
+        "title": "Edit Workspace Information",
+        "desc": "Edit the basic information of the workspace.",
+        "addressPlaceholder": "Enter address",
+        "addressDetailPlaceholder": "Enter detailed address",
+        "saveBtn": "Save",
+        "saveSuccess": "Changes have been saved."
+    },
+    "addressModal": {
+        "searchAddress": "Search for address.",
+        "close": "Close"
+    },
+    "payment": {
+        "currentPlanInfo": "Current Plan Information",
+        "planChange": "Change Plan",
+        "loading": "Loading",
+        "cardInfo": "Card Information",
+        "cardRegistration": "Register Card",
+        "noCardInfo": "No card information available.",
+        "mainCard": "Main Card",
+        "subCard": "Sub Card",
+        "paymentHistory": "Payment History",
+        "noPaymentHistory": "No payment/refund history available.",
+        "cancelRefundInquiry": "Need help with cancellation/refund?",
+        "paymentInfo": "Payment Information",
+        "paymentDate": "Payment Date",
+        "paymentType": "Payment Type",
+        "paymentAmount": "Payment Amount",
+        "free": "Free",
+        "discounted": " (Discounted)",
+        "regularSubscription": "Regular Subscription",
+        "won": "won",
+        "cancelCancellation": "Cancel Cancellation",
+        "cancelCancellationConfirm": "Are you sure you want to cancel the cancellation?",
+        "cancellationCancelled": "Cancellation has been cancelled.",
+        "registrationDate": "Registration Date",
+        "changeToMainCard": "Change to Main Card",
+        "changeToMainCardDesc": "The current main card will be used as the standard for",
+        "scordiPaymentMethod": "Scordi payment method.",
+        "changePaymentMethod": "Do you want to change the payment method to this card?",
+        "changeToSubCard": "Change to Sub Card",
+        "changeToSubCardDesc": "If no main card is set,",
+        "cannotChangeToSubCard": "you cannot change to a sub card.",
+        "canChangeToMainCard": "You can change a sub card to a main card anytime.",
+        "changesSaved": "Changes have been saved.",
+        "deletePaymentCard": "Delete payment card?",
+        "cannotUndo": "This action cannot be undone.",
+        "deleteFromWorkspace": "It will be deleted from the entire workspace.",
+        "stillDelete": "Do you still want to delete it?",
+        "deleted": "Deleted successfully.",
+        "delete": "Delete",
+        "cannotUnsubscribe": "This plan cannot be unsubscribed.",
+        "reallyUnsubscribe": "Do you really want to unsubscribe from this subscription?",
+        "dontWorry": "Don't worry",
+        "canUseRemainingPeriod": "1) You can use it during the remaining subscription period even if you unsubscribe now.",
+        "until": "until",
+        "noRenewalFromNextPayment": "2) Payment will not be renewed from the next payment date.",
+        "unsubscribe": "Unsubscribe",
+        "goBack": "Go Back",
+        "unsubscribed": "Unsubscribed successfully.",
+        "unsubscribeSubscription": "Unsubscribe from subscription",
+        "unsubscribeHelp": "We help you unsubscribe through the inquiry channel.",
+        "clickConnectButton": "Please click the connect button below to request.",
+        "connect": "Connect",
+        "nextPlan": "Next Plan",
+        "scheduledChangeDate": "Scheduled Change Date",
+        "expirationDate": "Expiration Date",
+        "trialPeriodEnd": "Trial Period End",
+        "nextRenewalDate": "Next Renewal Date",
+        "cannotLoadInvoice": "Could not load invoice address.\nPlease contact the administrator.",
+        "viewInvoice": "View Invoice"
+    },
+    "planCard": {
+        "selectPlan": {
+            "title": "Select Plan"
+        },
+        "stepType": {
+            "month": "Monthly",
+            "year": "Yearly"
+        },
+        "secretCode": {
+            "placeholder": "Enter coupon code.",
+            "confirm": "Confirm",
+            "success": "Coupon code applied successfully.",
+            "error": "Please check the coupon code again."
+        },
+        "off": "OFF",
+        "from": "from",
+        "cancelScheduledPlan": "Cancel scheduled plan?",
+        "scheduledPlanCancelled": "Scheduled plan has been cancelled.",
+        "nextPlan": "Next Plan",
+        "cancel": "Cancel",
+        "currentPlan": "Current Plan",
+        "consultation": "Get Consultation",
+        "changePlan": "Change Plan",
+        "subscribe": "Subscribe",
+        "freeForOneMonth": "Free for 1 month",
+        "startNow": "Start Now",
+        "trialPeriodExpired": "Free trial period has expired",
+        "customInquiry": "Custom Inquiry",
+        "free": "Free",
+        "per": "per",
+        "basicPlan": {
+            "newMemberOnly": "New member only plan",
+            "saasSubscriptionManagement": "Team SaaS subscription management",
+            "unlimitedCardConnection": "Unlimited card connection for payment management",
+            "unlimitedEmailConnection": "Unlimited email connection for invoice reception",
+            "googleWorkspaceAccountManagement": "Google Workspace member account management"
+        },
+        "supportPlan": {
+            "allBasicFeatures": "All basic plan features included",
+            "pgPaymentClassification": "PG payment classification",
+            "saasBulkRegistration": "SaaS bulk registration",
+            "costChangeNotification": "Cost change notification",
+            "monthlySaaSExpenseReport": "Monthly SaaS expense report"
+        },
+        "customPlan": {
+            "allSupportFeatures": "All support plan features included",
+            "customFeatureDevelopment": "Custom feature development for enterprise",
+            "dedicatedManager": "Dedicated manager assignment"
+        }
+    }
+}

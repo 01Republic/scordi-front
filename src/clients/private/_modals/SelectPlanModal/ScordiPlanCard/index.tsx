@@ -1,11 +1,12 @@
-import React, {memo} from 'react';
-import {floatToPercent} from '^utils/number';
+import {usePlanDescriptions} from '^models/_scordi/ScordiPlan/components/descriptionList';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
-import {scordiPlanDescriptionList} from '^models/_scordi/ScordiPlan/components/descriptionList';
-import {ScordiPlanCardHeaderPrice} from './ScordiPlanCardHeaderPrice';
-import {ScordiPlanCardButton} from './ScordiPlanCardButton';
-import {selectDisplayPlanAtTier} from './selectDisplayPlanAtTier';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
+import {floatToPercent} from '^utils/number';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {ScordiPlanCardButton} from './ScordiPlanCardButton';
+import {ScordiPlanCardHeaderPrice} from './ScordiPlanCardHeaderPrice';
+import {selectDisplayPlanAtTier} from './selectDisplayPlanAtTier';
 
 interface ScordiPlanCardProps {
     scordiPlan: ScordiPlanDto;
@@ -14,10 +15,12 @@ interface ScordiPlanCardProps {
 
 export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
     const {scordiPlan, onClick} = props;
+    const {t} = useTranslation('workspaceSettings');
     const {currentSubscription} = useCurrentScordiSubscription();
     const {plan, isCurrent} = selectDisplayPlanAtTier(scordiPlan, currentSubscription);
+    const planDescriptions = usePlanDescriptions();
 
-    const descriptions = scordiPlanDescriptionList[plan.priority - 1];
+    const descriptions = planDescriptions[plan.priority - 1];
 
     return (
         <div
@@ -32,7 +35,7 @@ export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
 
                         {plan.price < plan.regularPrice && (
                             <div className={'btn btn-outline btn-xs btn-scordi-500'}>
-                                {floatToPercent(plan.discountRatio, 0)}% OFF
+                                {floatToPercent(plan.discountRatio, 0)}% {t('planCard.off')}
                             </div>
                         )}
                     </div>

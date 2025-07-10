@@ -1,11 +1,12 @@
-import React, {memo} from 'react';
-import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
-import {t_planStepType} from '^models/_scordi/ScordiPlan/type';
-import {OrgScordiSubscriptionItemExpireNote} from './OrgScordiSubscriptionItemExpireNote';
-import {OrgScordiSubscriptionItemDropdown} from './OrgScordiSubscriptionItemDropdown';
-import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
-import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {t_planStepType} from '^models/_scordi/ScordiPlan/type';
+import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
+import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
+import {OrgScordiSubscriptionItemDropdown} from './OrgScordiSubscriptionItemDropdown';
+import {OrgScordiSubscriptionItemExpireNote} from './OrgScordiSubscriptionItemExpireNote';
 
 interface OrgScordiSubscriptionItemProps {
     scordiSubscription: ScordiSubscriptionDto;
@@ -14,6 +15,7 @@ interface OrgScordiSubscriptionItemProps {
 
 export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemProps) => {
     const {scordiSubscription, reload} = props;
+    const {t} = useTranslation('workspaceSettings');
 
     return (
         <div className={'p-4 bg-slate-50 flex items-center justify-between rounded-lg text-14'}>
@@ -23,11 +25,15 @@ export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemP
                 </div>
                 <div className="font-semibold text-gray-500">
                     {scordiSubscription.scordiPlan.price === 0 ? (
-                        <span>(무료{scordiSubscription.scordiPlan.regularPrice > 0 ? ' (할인됨)' : ''})</span>
+                        <span>
+                            ({t('payment.free')}
+                            {scordiSubscription.scordiPlan.regularPrice > 0 ? t('payment.discounted') : ''})
+                        </span>
                     ) : (
                         <span>
-                            ({t_planStepType(scordiSubscription.scordiPlan.stepType)} 정기구독 /{' '}
-                            {scordiSubscription.scordiPlan.price.toLocaleString()}원)
+                            ({t_planStepType(scordiSubscription.scordiPlan.stepType)} {t('payment.regularSubscription')}{' '}
+                            / {scordiSubscription.scordiPlan.price.toLocaleString()}
+                            {t('payment.won')})
                         </span>
                     )}
                 </div>
@@ -45,16 +51,16 @@ export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemP
                                 <button
                                     className="btn btn-xs btn-white no-animation btn-animation !text-red-500"
                                     onClick={async () => {
-                                        if (!confirm('해지를 취소할까요?')) return;
+                                        if (!confirm(t('payment.cancelCancellationConfirm') || '')) return;
 
                                         scordiSubscriptionApi
                                             .revoke(scordiSubscription.organizationId)
-                                            .then(() => toast.success('해지를 취소 했어요'))
+                                            .then(() => toast.success(t('payment.cancellationCancelled')))
                                             .then(() => reload())
                                             .catch(errorToast);
                                     }}
                                 >
-                                    해지 취소
+                                    {t('payment.cancelCancellation')}
                                 </button>
                             )}
                         </div>

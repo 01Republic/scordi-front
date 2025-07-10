@@ -1,13 +1,11 @@
-import React, {memo, useEffect} from 'react';
-import {useRouter} from 'next/router';
-import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect} from 'react';
 import {SettingsPaymentSection} from '../SettingsPaymentSection';
 import {ScordiPaymentHeader} from './ScordiPaymentHeader';
 import {ScordiPaymentItem} from './ScordiPaymentItem';
-import {LinkTo} from '^components/util/LinkTo';
-import {ChannelTalk_Url} from '^config/constants';
-import {HelpCircle} from 'lucide-react';
 
 interface OrgPaymentsSectionProps {
     orgId: number;
@@ -15,6 +13,7 @@ interface OrgPaymentsSectionProps {
 
 export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
     const {orgId} = props;
+    const {t} = useTranslation('workspaceSettings');
     const router = useRouter();
     const {isLoading, result, search, isNotLoaded, isEmptyResult} = useScordiPaymentsInSettingPage();
     const uiVersion = 'notion';
@@ -32,7 +31,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
 
     return (
         <SettingsPaymentSection
-            title="결제 내역"
+            title={t('payment.paymentHistory')}
             // right={
             //     <div>
             //         {!isNotLoaded && !isEmptyResult && (
@@ -43,7 +42,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
             //                 displayLoading={false}
             //             >
             //                 <HelpCircle fontSize={18} className="relative top-[0px]" />
-            //                 <span>취소/환불을 원하시나요?</span>
+            //                 <span>{t('payment.cancelRefundInquiry')}</span>
             //             </LinkTo>
             //         )}
             //     </div>
@@ -52,11 +51,11 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
         >
             {isNotLoaded && (
                 <div className="invisible">
-                    <EmptyTable message="결제/환불 내역이 없어요." />
+                    <EmptyTable message={t('payment.noPaymentHistory')} />
                 </div>
             )}
             {isEmptyResult ? (
-                <EmptyTable message="결제/환불 내역이 없어요." />
+                <EmptyTable message={t('payment.noPaymentHistory')} />
             ) : (
                 <div className="grid grid-cols-1">
                     <ScordiPaymentHeader version={uiVersion} />

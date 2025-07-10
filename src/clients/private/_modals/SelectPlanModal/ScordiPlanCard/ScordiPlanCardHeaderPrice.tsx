@@ -1,5 +1,6 @@
-import React, {memo} from 'react';
-import {ScordiPlanDto, t_planStepType} from '^models/_scordi/ScordiPlan/type';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface ScordiPlanCardHeaderPriceProps {
     plan: ScordiPlanDto;
@@ -7,9 +8,10 @@ interface ScordiPlanCardHeaderPriceProps {
 
 export const ScordiPlanCardHeaderPrice = memo((props: ScordiPlanCardHeaderPriceProps) => {
     const {plan} = props;
+    const {t} = useTranslation('workspaceSettings');
 
-    if (plan.isCustomInquired) return <>도입 문의</>;
-    if (plan.regularPrice === 0 && plan.price === 0) return <>무료</>;
+    if (plan.isCustomInquired) return <>{t('planCard.customInquiry')}</>;
+    if (plan.regularPrice === 0 && plan.price === 0) return <>{t('planCard.free')}</>;
 
     return (
         <div>
@@ -18,7 +20,7 @@ export const ScordiPlanCardHeaderPrice = memo((props: ScordiPlanCardHeaderPriceP
             </span>
             <br />
             {plan.price === 0 ? (
-                <>무료</>
+                <>{t('planCard.free')}</>
             ) : (
                 <span>
                     {plan.price.toLocaleString()}

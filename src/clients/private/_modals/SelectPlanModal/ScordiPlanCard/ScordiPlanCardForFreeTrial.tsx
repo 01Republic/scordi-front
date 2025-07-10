@@ -1,7 +1,8 @@
-import React, {memo} from 'react';
+import {usePlanDescriptions} from '^models/_scordi/ScordiPlan/components/descriptionList';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
-import {scordiPlanDescriptionList} from '^models/_scordi/ScordiPlan/components/descriptionList';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface ScordiPlanCardForFreeTrialProps {
     scordiSubscriptions: ScordiSubscriptionDto[];
@@ -11,7 +12,9 @@ interface ScordiPlanCardForFreeTrialProps {
 
 export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTrialProps) => {
     const {scordiPlan, scordiSubscriptions, onClick} = props;
-    const descriptions = scordiPlanDescriptionList[0];
+    const {t} = useTranslation('workspaceSettings');
+    const planDescriptions = usePlanDescriptions();
+    const descriptions = planDescriptions[0];
 
     // 조직의 구독이력 중 무료체험판 구독이 포함되어 있다면, 찾아서 반환
     const freeTrialScordiSubscription = scordiSubscriptions.find((s) => s.scordiPlan.isFreeTrial);
@@ -40,7 +43,7 @@ export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTria
                 <div className="flex justify-between items-start">
                     <div>{scordiPlan.name}</div>
                 </div>
-                <div className={'font-bold text-xl'}>1개월 무료</div>
+                <div className={'font-bold text-xl'}>{t('planCard.freeForOneMonth')}</div>
             </div>
 
             <div className="flex flex-col justify-between flex-grow">
@@ -56,15 +59,17 @@ export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTria
                     {!scordiSubscriptions ? (
                         // 조직의 구독이력 자체가 조회되지 않으면 => 무료체험판 시작하기
                         <button className="btn bg-scordi-50 text-scordi w-full no-animation hover:bg-red-200 hover:text-red-600 border-none group">
-                            시작하기
+                            {t('planCard.startNow')}
                         </button>
                     ) : isCurrentPlan && !isExpiredPlan ? (
                         // 현재 무료체험판 플랜 구독중이고 만료도 안됐다면 => 무료체험판 진행중
-                        <button className="btn bg-scordi-50 text-scordi w-full no-animation no-click">현재플랜</button>
+                        <button className="btn bg-scordi-50 text-scordi w-full no-animation no-click">
+                            {t('planCard.currentPlan')}
+                        </button>
                     ) : (
                         // 그 외 => 무료체험판 만료
                         <button className="btn btn-block btn-gray no-animation !bg-[#e3e3e3] !text-white !border-transparent">
-                            무료 체험기간이 만료되었어요
+                            {t('planCard.trialPeriodExpired')}
                         </button>
                     )}
                 </div>

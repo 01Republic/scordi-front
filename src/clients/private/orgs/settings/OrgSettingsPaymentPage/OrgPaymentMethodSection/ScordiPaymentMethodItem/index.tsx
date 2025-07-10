@@ -1,12 +1,13 @@
-import React, {memo} from 'react';
 import Tippy from '@tippyjs/react';
+import {Avatar} from '^components/Avatar';
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {Avatar} from '^components/Avatar';
 import {Dropdown} from '^v3/share/Dropdown';
+import {CreditCard, MoreHorizontal} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {ChangeIsActiveButton} from './ChangeIsActiveButton';
 import {ScordiPaymentMethodRemoveButton} from './ScordiPaymentMethodRemoveButton';
-import {Bookmark, BookmarkMinus, CreditCard, MoreHorizontal} from 'lucide-react';
 
 interface ScordiPaymentMethodItemProps {
     data: ScordiPaymentMethodDto;
@@ -15,6 +16,7 @@ interface ScordiPaymentMethodItemProps {
 
 export const ScordiPaymentMethodItem = memo((props: ScordiPaymentMethodItemProps) => {
     const {data: paymentMethod, changeIsActiveButtonShow = false} = props;
+    const {t} = useTranslation('workspaceSettings');
 
     const company = paymentMethod.asCardCompany();
     const card = paymentMethod.response.card;
@@ -43,7 +45,7 @@ export const ScordiPaymentMethodItem = memo((props: ScordiPaymentMethodItemProps
 
             <div className="flex items-center">
                 <div className="flex items-center gap-1.5 mr-2">
-                    <span className="text-gray-500">등록일자 :</span>
+                    <span className="text-gray-500">{t('payment.registrationDate')}:</span>
                     <span>{yyyy_mm_dd(paymentMethod.createdAt, '. ')}</span>
                 </div>
 

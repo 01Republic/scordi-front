@@ -1,21 +1,22 @@
-import React, {memo, useEffect, useState} from 'react';
+import {ApiError} from '^api/api';
+import {PaymentPreviewModal} from '^clients/private/_modals/SelectPlanModal/PaymentPreviewModal';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {LoadableBox} from '^components/util/loading';
+import {ChannelTalk_Url} from '^config/constants';
+import {organizationApi} from '^models/Organization/api';
+import {OrganizationDto} from '^models/Organization/type';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {LoadableBox} from '^components/util/loading';
-import {ApiError} from '^api/api';
-import {TossPaymentAuthCallbackProvider} from './TossPaymentAuthCallbackProvider';
-import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
-import {ScordiPlanCard} from './ScordiPlanCard';
-import {ScordiPlanCardForFreeTrial} from './ScordiPlanCard/ScordiPlanCardForFreeTrial';
-import {PaymentPreviewModal} from '^clients/private/_modals/SelectPlanModal/PaymentPreviewModal';
-import {organizationApi} from '^models/Organization/api';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {oneDtoOf} from '^types/utils/response-of';
-import {OrganizationDto} from '^models/Organization/type';
-import {ChannelTalk_Url} from '^config/constants';
 import {X} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect, useState} from 'react';
+import {ScordiPlanCard} from './ScordiPlanCard';
+import {ScordiPlanCardForFreeTrial} from './ScordiPlanCard/ScordiPlanCardForFreeTrial';
+import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
+import {TossPaymentAuthCallbackProvider} from './TossPaymentAuthCallbackProvider';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -27,6 +28,7 @@ interface SelectPlanModalProps {
 }
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
+    const {t} = useTranslation('workspaceSettings');
     const {orgId, isOpened, onClose, onSuccess: _onSuccess, onFailure, onFinally} = props;
     const {isLoading, scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
@@ -123,7 +125,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                     />
                     <div className={'bg-white rounded-3xl p-12'}>
                         <div className={'flex justify-between items-center mb-6'}>
-                            <h3>플랜 선택</h3>
+                            <h3>{t('planCard.selectPlan.title') || '플랜 선택'}</h3>
                             <button
                                 onClick={onClose}
                                 className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200"
