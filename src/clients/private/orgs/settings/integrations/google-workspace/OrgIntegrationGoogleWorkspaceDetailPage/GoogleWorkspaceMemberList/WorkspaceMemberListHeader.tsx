@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {unitFormat} from '^utils/number';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
+import {unitFormat} from '^utils/number';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 
 interface WorkspaceMemberListHeaderProps {
