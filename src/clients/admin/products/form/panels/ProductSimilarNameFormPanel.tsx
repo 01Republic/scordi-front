@@ -1,13 +1,13 @@
 import React, {memo, useRef, useState} from 'react';
+import {errorToast} from '^api/api';
 import {ProductDto} from '^models/Product/type';
-import {ContentPanel} from '^layouts/ContentLayout';
+import {ProductSimilarNameDto} from '^models/ProductSimilarName/type';
 import {
     useCreateProductSimilarName,
     useProductSimilarNameList,
     useUpdateProductSimilarName,
 } from '^models/ProductSimilarName/hook';
-import {ProductSimilarNameDto} from '^models/ProductSimilarName/type';
-import {errorToast} from '^api/api';
+import {ContentPanel} from '^layouts/ContentLayout';
 
 interface ProductSimilarNameFormPanelProps {
     product: ProductDto;
@@ -70,7 +70,6 @@ export const ProductSimilarNameFormPanel = memo((props: ProductSimilarNameFormPa
             .finally(() => setIsLoading(false));
     };
 
-    console.log('result', result);
     return (
         <ContentPanel title="서비스명 등록 연결 및 연결 해제">
             <div className="grid grid-cols-4">
