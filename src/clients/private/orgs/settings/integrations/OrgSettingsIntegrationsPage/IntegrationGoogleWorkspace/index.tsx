@@ -1,14 +1,14 @@
 import {memo, useState} from 'react';
-import GoogleWorkspaceLogo from '^public/images/logo/external/logo_google_workspace.png';
-import {IntegrationProviderItem} from '../IntegrationProviderItem';
-import {IntegrationProvider, IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
-import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import GoogleWorkspaceLogo from '^public/images/logo/external/logo_google_workspace.png';
+import {OrgIntegrationGoogleWorkspaceDetailPageRoute} from '^pages/orgs/[id]/settings/integrations/google-workspace/[workspaceId]';
 import {IntegrationProviderItemButton} from '^clients/private/orgs/settings/integrations/OrgSettingsIntegrationsPage/IntegrationProviderItem/IntegrationProviderItemButton';
 import {integrationGoogleWorkspaceWorkspaceApi} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/api';
-import {errorToast} from '^api/api';
-import {OrgIntegrationGoogleWorkspaceDetailPageRoute} from '^pages/orgs/[id]/settings/integrations/google-workspace/[workspaceId]';
-import {toast} from 'react-hot-toast';
+import {IntegrationProvider, IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
+import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {IntegrationProviderItem} from '../IntegrationProviderItem';
 
 interface IntegrationGoogleWorkspaceProps {
     config: IntegrationWorkspaceDto<IntegrationProvider.googleWorkspace> | undefined;

@@ -11,7 +11,7 @@
     a {
         @apply text-scordi-600 underline;
     }
-  :root {
+    :root {
         --background: 0 0% 100%;
         --foreground: 222.2 84% 4.9%;
         --card: 0 0% 100%;
@@ -38,7 +38,7 @@
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
-  .dark {
+    .dark {
         --background: 222.2 84% 4.9%;
         --foreground: 210 40% 98%;
         --card: 222.2 84% 4.9%;
@@ -73,10 +73,11 @@
 }
 
 .container-fluid {
-  @apply px-4;
-  @media (min-width: 967px) { /* breakpoint sm, md, lg */
-    @apply px-6;
-  }
+    @apply px-4;
+    @media (min-width: 967px) {
+        /* breakpoint sm, md, lg */
+        @apply px-6;
+    }
 }
 
 html,
@@ -291,13 +292,13 @@ body.hide-channel-talk {
     margin-left: auto;
     margin-right: auto;
 
-  .svg-success {
-    display: inline-block;
-    vertical-align: top;
-    /*height: 300px;*/
-    width: 100%;
-    opacity: 1;
-    overflow: visible;
+    .svg-success {
+        display: inline-block;
+        vertical-align: top;
+        /*height: 300px;*/
+        width: 100%;
+        opacity: 1;
+        overflow: visible;
 
         @keyframes success-tick {
             0% {
@@ -358,14 +359,14 @@ body.hide-channel-talk {
             animation: success-circle-fill 300ms ease-out 1100ms forwards;
         }
 
-    /* Can't animate stroke-dashoffset on IE 10 and 11, just show svg instead */
-    @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
-      .success-tick {
-        stroke-dasharray: 0;
-        stroke-dashoffset: 0;
-        animation: none;
-        opacity: 1;
-      }
+        /* Can't animate stroke-dashoffset on IE 10 and 11, just show svg instead */
+        @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+            .success-tick {
+                stroke-dasharray: 0;
+                stroke-dashoffset: 0;
+                animation: none;
+                opacity: 1;
+            }
 
             .success-circle-outline {
                 stroke-dasharray: 0;
@@ -438,46 +439,46 @@ body.hide-channel-talk {
 }
 
 .NewsLetterSection {
-  z-index: 0;
-  position: relative;
-
-  .card.image-full {
-    /*height: 500px;*/
-    /*max-height: 50vw;*/
-    background-color: #232528;
+    z-index: 0;
     position: relative;
 
     .card.image-full {
-      /*
+        /*height: 500px;*/
+        /*max-height: 50vw;*/
+        background-color: #232528;
+        position: relative;
+
+        .card.image-full {
+            /*
       height: 500px;
       max-height: 50vw;
       */
-      background-color: #232528;
-      position: relative;
+            background-color: #232528;
+            position: relative;
 
-      &:before {
-        border-radius: 0;
-        opacity: 0;
-      }
-    }
+            &:before {
+                border-radius: 0;
+                opacity: 0;
+            }
+        }
 
-    figure {
-      position: absolute;
-      height: 100%;
-      left: 0;
-      right: 0;
-    }
+        figure {
+            position: absolute;
+            height: 100%;
+            left: 0;
+            right: 0;
+        }
 
-    .title {
-      font-weight: 500;
-      color: white;
-    }
+        .title {
+            font-weight: 500;
+            color: white;
+        }
 
-    .subtitle {
-      color: white;
-      flex-grow: initial;
+        .subtitle {
+            color: white;
+            flex-grow: initial;
+        }
     }
-  }
 }
 
 /**
@@ -485,10 +486,10 @@ body.hide-channel-talk {
  */
 
 .main-header-img--base {
-  position: relative;
-  /*top: -1em;*/
-  top: 0;
-  left: 0;
+    position: relative;
+    /*top: -1em;*/
+    top: 0;
+    left: 0;
 }
 @keyframes main-header-img {
     from {
@@ -500,11 +501,11 @@ body.hide-channel-talk {
     }
 }
 .main-header-img {
-  @apply main-header-img--base;
-  /*transform-origin: 0 100%;*/
-  /*animation: main-header-img auto ease-in-out;*/
-  /*animation-timeline: scroll();*/
-  /*animation-range: 0 70vh;*/
+    @apply main-header-img--base;
+    /*transform-origin: 0 100%;*/
+    /*animation: main-header-img auto ease-in-out;*/
+    /*animation-timeline: scroll();*/
+    /*animation-range: 0 70vh;*/
 }
 
 .main-header-img-left--base {
@@ -556,9 +557,9 @@ body.hide-channel-talk {
     align-items: center;
     justify-content: center;
 
-  img {
-    /*max-height: 36px;*/
-  }
+    img {
+        /*max-height: 36px;*/
+    }
 }
 
 #CollectAppSection {
@@ -566,9 +567,9 @@ body.hide-channel-talk {
     --anim-range-start: 160vh;
     --anim-range-end: calc(200vh + #{$height});
 
-  height: $height;
-  /*border: 10px dotted #000;*/
-  position: relative;
+    height: $height;
+    /*border: 10px dotted #000;*/
+    position: relative;
 
     visibility: hidden;
 
@@ -588,17 +589,17 @@ body.hide-channel-talk {
      * title 1,2 common
      */
 
-    p {
-      @apply text-4xl sm:text-5xl;
-      letter-spacing: -0.012em;
-      line-height: 130%;
-      /*line-height: 28px;*/
-      font-weight: bold;
-      text-align: center;
-      visibility: hidden;
-      background-color: rgba(255, 255, 255, 0.7);
-      box-shadow: 0 0 40px #fff;
-    }
+        p {
+            @apply text-4xl sm:text-5xl;
+            letter-spacing: -0.012em;
+            line-height: 130%;
+            /*line-height: 28px;*/
+            font-weight: bold;
+            text-align: center;
+            visibility: hidden;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 40px #fff;
+        }
 
         /**
      * title 1
@@ -775,7 +776,7 @@ body.hide-channel-talk {
     }
 
     .bg-container {
-      /*@keyframes logo-background {
+        /*@keyframes logo-background {
         0% {
           opacity: 0;
         }
@@ -820,7 +821,7 @@ body.hide-channel-talk {
     */
 
     .background {
-      /*
+        /*
       width: 100%;
       height: 100%;
       opacity: 0;
@@ -839,8 +840,8 @@ body.hide-channel-talk {
       justify-content: center;
       */
 
-      & > div {
-        /*
+        & > div {
+            /*
         $scordi-size: 150px;
         width: $scordi-size;
         height: $scordi-size;
@@ -848,9 +849,8 @@ body.hide-channel-talk {
         background-size: contain;
         background-repeat: no-repeat;
         */
-      }
+        }
     }
-
 }
 
 #faq-list {
@@ -867,10 +867,10 @@ body.hide-channel-talk {
             justify-content: space-between;
             cursor: pointer;
 
-      .question {
-        /*margin-right: auto;*/
-        @apply text-lg sm:text-xl md:text-2xl font-semibold;
-      }
+            .question {
+                /*margin-right: auto;*/
+                @apply text-lg sm:text-xl md:text-2xl font-semibold;
+            }
 
             .icon-wrapper {
                 transition: all 250ms ease-in-out;
@@ -992,13 +992,13 @@ body.hide-channel-talk {
  * Browser specific
  */
 body {
-  @each $browser-name in chrome, safari, firefox, kakaoWebview, naverWebview, whale, edge, ie, etc {
-    &.browser--#{$browser-name} {
-      .#{$browser-name}-hidden {
-        display: none !important;
-      }
+    @each $browser-name in chrome, safari, firefox, kakaoWebview, naverWebview, whale, edge, ie, etc {
+        &.browser--#{$browser-name} {
+            .#{$browser-name}-hidden {
+                display: none !important;
+            }
+        }
     }
-  }
 }
 
 progress::-webkit-progress-value,
@@ -1108,7 +1108,7 @@ progress::-moz-progress-bar {
 .link_to-loading-pulse {
     @apply opacity-40 cursor-default pointer-events-none relative animate-pulse-25;
 
-  /*
+    /*
   & > * {
     visibility: hidden;
   }
@@ -1215,13 +1215,56 @@ progress::-moz-progress-bar {
 
 @include makeUnscaledGenericClassByColorName('layout-background', $color-layout-background);
 
-
-
 @layer base {
-  * {
-    @apply border-border;
+    * {
+        @apply border-border;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-slide {
+    animation: slide 10s linear infinite;
+    display: flex;
+    will-change: transform;
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-slide-left {
+    animation: slide-left 10s linear infinite;
+    display: flex;
+    will-change: transform;
+}
+
+.animate-slide-right {
+    animation: slide-right 10s linear infinite;
+    display: flex;
+    will-change: transform;
 }

@@ -3,7 +3,7 @@ import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
 import {orgIdParamState} from '^atoms/common';
 import {teamMemberApi} from '../api';
-import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../type';
+import {CreateTeamMemberDto, FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../type';
 import {
     teamMemberLoadingState,
     currentTeamMemberState,
@@ -24,6 +24,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
 import {ErrorResponse} from '^models/User/types';
 import {SUBSCRIPTION_SEAT_HOOK_KEY} from '^models/SubscriptionSeat/hook/key';
+import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -151,6 +152,18 @@ export const useCurrentTeamMember = () => {
     return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
 };
 
+// 팀 멤버 생성 (25.07 온보딩에서 사용하다 제거됨)
+export const useCreateTeamMember = () => {
+    const queryClient = useQueryClient();
+    return useMutation<TeamMemberDto, ErrorResponse, {orgId: number; data: CreateTeamMemberDto}>({
+        mutationFn: ({orgId, data}) => teamMemberApi.create(orgId, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
+        },
+    });
+};
+
 //팀 멤버 불러오기
 export const useTeamMembers2 = (orgId: number) => {
     const [query, setQuery] = useState<FindAllQueryDto<TeamMemberDto>>({});
@@ -168,6 +181,19 @@ export const useUpdateTeamMembers2 = () => {
     const queryClient = useQueryClient();
     return useMutation<TeamMemberDto, ErrorResponse, {orgId: number; id: number; data: UpdateTeamMemberDto}>({
         mutationFn: ({orgId, id, data}) => teamMemberApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
+        },
+    });
+};
+
+//팀 멤버와 구독 연결하기 (25.07 온보딩에서 사용하다 제거됨)
+export const useConnectTeamMemberAndSubscription = () => {
+    const queryClient = useQueryClient();
+    return useMutation<SubscriptionSeatDto, ErrorResponse, {teamMemberId: number; subscriptionId: number}>({
+        mutationFn: ({teamMemberId, subscriptionId}) =>
+            teamMemberApi.subscriptions.connect(teamMemberId, subscriptionId).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
             queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});

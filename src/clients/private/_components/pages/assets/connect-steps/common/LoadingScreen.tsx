@@ -44,16 +44,9 @@ export const LoadingScreen = (props: LoadingScreenProps) => {
 
     return (
         <PureLayout>
-            <div className="flex flex-col items-center justify-center m-auto">
+            <div className="flex flex-col items-center justify-center min-h-screen">
                 <div className="text-center space-y-2">
-                    <h2 className="text-2xl font-bold text-gray-800 leading-tight">
-                        {message.split('\n').map((line, i) => (
-                            <Fragment key={i}>
-                                {line}
-                                {i < message.split('\n').length - 1 && <br />}
-                            </Fragment>
-                        ))}
-                    </h2>
+                    <h2 className="text-2xl font-bold text-gray-800 leading-tight whitespace-pre-line">{message}</h2>
                 </div>
 
                 <div className="w-64">
