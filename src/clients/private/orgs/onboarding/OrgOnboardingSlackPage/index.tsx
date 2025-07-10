@@ -1,7 +1,6 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {Connectors} from '^pages/orgs/[id]/onboarding/members/connects/[connectorName]';
 import {OrgOnboardingNotificationsConnectsPageRoute} from '^pages/orgs/[id]/onboarding/notifications/connects/[connectorName]';
 import {OrgOnboardingCompletePageRoute} from '^pages/orgs/[id]/onboarding/complete';
@@ -9,9 +8,10 @@ import exampleSlackImage from 'src/images/onboarding/ex_slack.png';
 import {ConnectButton} from '../OrgOnboardingMembersPage/ConnectButton';
 import {OnboardingLayout} from '../OnboardingLayout';
 
+// 온보딩 스텝3. / 슬랙 연동 / 커버 페이지
 export const OrgOnboardingNotificationsPage = memo(() => {
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
 
     return (
         <OnboardingLayout

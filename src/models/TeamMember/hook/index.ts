@@ -152,7 +152,7 @@ export const useCurrentTeamMember = () => {
     return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
 };
 
-// 팀 멤버 생성
+// 팀 멤버 생성 (25.07 온보딩에서 사용하다 제거됨)
 export const useCreateTeamMember = () => {
     const queryClient = useQueryClient();
     return useMutation<TeamMemberDto, ErrorResponse, {orgId: number; data: CreateTeamMemberDto}>({
@@ -188,7 +188,7 @@ export const useUpdateTeamMembers2 = () => {
     });
 };
 
-//팀 멤버와 구독 연결하기
+//팀 멤버와 구독 연결하기 (25.07 온보딩에서 사용하다 제거됨)
 export const useConnectTeamMemberAndSubscription = () => {
     const queryClient = useQueryClient();
     return useMutation<SubscriptionSeatDto, ErrorResponse, {teamMemberId: number; subscriptionId: number}>({

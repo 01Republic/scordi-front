@@ -20,7 +20,10 @@ import {BankAccountDto} from '^models/BankAccount/type';
 import {useUnmount} from '^hooks/useUnmount';
 
 export enum ConnectAssetsStepStrategy {
+    // 자산등록 시퀀스
     CreateScordiAssets = 'createScordiAssets',
+
+    // 구독불러오기 시퀀스
     SyncSubscriptions = 'syncSubscriptions',
 }
 

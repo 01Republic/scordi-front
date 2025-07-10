@@ -5,6 +5,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
+// 온보딩 스텝2. / 구글워크스페이스 연동 / 커버 페이지
 export const OrgOnboardingMembersPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/members',
     path: (orgId: number) => pathReplace(OrgOnboardingMembersPageRoute.pathname, {id: orgId}),

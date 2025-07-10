@@ -5,6 +5,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {OrgOnboardingNotificationsPage} from '^clients/private/orgs/onboarding/OrgOnboardingSlackPage';
 
+// 온보딩 스텝3. / 슬랙 연동 / 커버 페이지
 export const OrgOnboardingNotificationsPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/notifications',
     path: (orgId: number) => pathReplace(OrgOnboardingNotificationsPageRoute.pathname, {id: orgId}),

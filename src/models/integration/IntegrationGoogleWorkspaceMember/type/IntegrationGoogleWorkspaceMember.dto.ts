@@ -22,6 +22,7 @@ export class IntegrationGoogleWorkspaceMemberDto {
     name: string;
     realName: string | null;
     displayName: string | null;
+    subscriptionCount: number; // 구독 수
     @TypeCast(() => GoogleAdminDirectoryUser) response: GoogleAdminDirectoryUser; // 구글 워크스페이스 멤버데이터
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시

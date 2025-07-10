@@ -1,17 +1,18 @@
 import {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {slackScordiOauthApi} from '^models/_slack-bot/api';
-import {googleWorkspaceAccessTokenAtom} from '../GoogleWorkspaceConnectorPage/atom';
-import {ConnectionAndDescriptionSection} from '^clients/private/orgs/connects/ConnectionAndDescriptionSection';
-import {DescriptionSection} from '^clients/private/orgs/connects/DescriptionSection';
 import howToConnectSlack from '^images/onboarding/how-to-connect-slack-1.png';
 import howToConnectSlack2 from '^images/onboarding/how-to-connect-slack-2.png';
+import {ConnectionAndDescriptionSection} from '../ConnectionAndDescriptionSection';
+import {DescriptionSection} from '../DescriptionSection';
+import {CTASection} from '../CTASection';
 
 export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
-    const orgId = useRecoilValue(orgIdParamState);
-    const setAccessToken = useSetRecoilState(googleWorkspaceAccessTokenAtom);
+    const orgId = useOrgIdParam();
+
+    const onConnectButtonClick = () => {
+        window.open(slackScordiOauthApi.authUrl(orgId), '_self');
+    };
 
     return (
         <ConnectionAndDescriptionSection
@@ -23,18 +24,11 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
                 '안심하세요. 구성원 정보 외에 다른 데이터를 가져올 수 없어요.',
                 '구성원을 동기화하거나 슬랙 워크스페이스 연결해제도 가능해요.',
             ]}
-            connectButton={
-                <button
-                    id="google-workspace-connect-button"
-                    className="btn btn-md btn-block btn-scordi"
-                    onClick={debounce(() => {
-                        window.open(slackScordiOauthApi.authUrl(orgId), '_self');
-                    }, 500)}
-                >
+            ConnectButton={() => (
+                <button className="btn btn-wide btn-scordi no-animation btn-animation" onClick={onConnectButtonClick}>
                     연결 시작하기
                 </button>
-            }
-            onClick={() => document.getElementById('google-workspace-connect-button')?.click()}
+            )}
         >
             <DescriptionSection
                 title="슬랙 워크스페이스 연동으로 구성원 불러오기"
@@ -46,6 +40,7 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
                 image={howToConnectSlack}
                 alt="howToConnectSlack"
             />
+
             <DescriptionSection
                 title="슬랙 워크스페이스 연동으로 구성원 불러오기"
                 steps={[
@@ -56,6 +51,12 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage() {
                 image={howToConnectSlack2}
                 alt="howToConnectSlack2"
             />
+
+            <CTASection label="연결을 시작해볼까요?">
+                <button className="btn btn-block btn-scordi no-animation btn-animation" onClick={onConnectButtonClick}>
+                    연결 시작하기
+                </button>
+            </CTASection>
         </ConnectionAndDescriptionSection>
     );
 });

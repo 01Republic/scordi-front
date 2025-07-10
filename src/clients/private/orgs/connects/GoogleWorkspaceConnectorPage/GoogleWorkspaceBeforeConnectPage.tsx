@@ -1,21 +1,23 @@
-import {ImgHTMLAttributes, memo} from 'react';
-import {useSetRecoilState} from 'recoil';
-import {GoogleOAuthProvider} from '@react-oauth/google';
+import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {googleOAuth} from '^config/environments';
-import {googleWorkspaceAccessTokenAtom} from './atom';
 import {LinkTo} from '^components/util/LinkTo';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {NextImage} from '^components/NextImage';
-import {ConnectionAndDescriptionSection} from '^clients/private/orgs/connects/ConnectionAndDescriptionSection';
-import {DescriptionSection} from '^clients/private/orgs/connects/DescriptionSection';
-import adminCheck3s from 'src/images/onboarding/googleDirection/admin-check-3s.png';
-import adminViewButton from 'src/images/onboarding/googleDirection/admin-view-button.png';
-import accountPermissionCheck from 'src/images/onboarding/googleDirection/account-permission-check.png';
-import userAssignmentComplete from 'src/images/onboarding/googleDirection/user-assignment-complete.png';
+import adminCheck3s from '^images/onboarding/googleDirection/admin-check-3s.png';
+import adminViewButton from '^images/onboarding/googleDirection/admin-view-button.png';
+import accountPermissionCheck from '^images/onboarding/googleDirection/account-permission-check.png';
+import userAssignmentComplete from '^images/onboarding/googleDirection/user-assignment-complete.png';
+import {ConnectionAndDescriptionSection} from '../ConnectionAndDescriptionSection';
+import {DescriptionSection} from '../DescriptionSection';
+import {CTASection} from '../CTASection';
 
-export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBeforeConnectPage() {
-    const setAccessToken = useSetRecoilState(googleWorkspaceAccessTokenAtom);
+interface Props {
+    onCode: (code: string) => any;
+}
+
+// 온보딩 스텝2. / 구글워크스페이스 연동 / 시작 페이지
+export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBeforeConnectPage(props: Props) {
+    const {onCode} = props;
 
     return (
         <ConnectionAndDescriptionSection
@@ -27,22 +29,11 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                 '안심하세요. 구성원 정보 외에 다른 데이터를 가져올 수 없어요.',
                 '구성원을 동기화하거나 슬랙 워크스페이스 연결해제도 가능해요.',
             ]}
-            connectButton={
-                <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
-                    <GoogleLoginBtn
-                        about="admin"
-                        onToken={(accessToken) => setAccessToken(accessToken)}
-                        className="!btn-md"
-                        logoSize="w-4 h-4"
-                        ButtonComponent={() => (
-                            <button id="google-workspace-connect-button" className="btn btn-md btn-block btn-scordi">
-                                연결 시작하기
-                            </button>
-                        )}
-                    />
-                </GoogleOAuthProvider>
-            }
-            onClick={() => document.getElementById('google-workspace-connect-button')?.click()}
+            ConnectButton={() => (
+                <GoogleAdminOAuthButton onCode={onCode}>
+                    <button className="btn btn-wide btn-scordi no-animation btn-animation">연결 시작하기</button>
+                </GoogleAdminOAuthButton>
+            )}
         >
             <DescriptionSection
                 title="관리자 계정인지 3초만에 확인하기"
@@ -143,6 +134,12 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                 image={userAssignmentComplete}
                 alt="userAssignmentComplete"
             />
+
+            <CTASection label="연결을 시작해볼까요?">
+                <GoogleAdminOAuthButton onCode={onCode}>
+                    <button className="btn btn-block btn-scordi no-animation btn-animation">연결 시작하기</button>
+                </GoogleAdminOAuthButton>
+            </CTASection>
         </ConnectionAndDescriptionSection>
     );
 });

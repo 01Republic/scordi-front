@@ -1,6 +1,6 @@
-import {memo, ReactNode} from 'react';
+import {memo} from 'react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {BackButton} from '^components/BackButton';
+import {BackButton2} from '^components/BackButton';
 import {NextImage} from '^components/NextImage';
 import {SafeBadge} from '^clients/private/orgs/connects/SafeBadge';
 import {WithChildren} from '^types/global.type';
@@ -10,18 +10,18 @@ interface DescriptionLayoutProps extends WithChildren {
     alt: string;
     title: string;
     warnTexts: string[];
-    connectButton: ReactNode;
-    onClick: () => void;
+    ConnectButton: () => JSX.Element;
 }
 
 export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutProps) => {
-    const {src, alt, title, warnTexts, connectButton, onClick, children} = props;
+    const {src, alt, title, warnTexts, ConnectButton, children} = props;
+
     return (
         <PureLayout>
             <div className="px-40 py-14">
                 <div className="flex flex-col gap-10">
                     <section className="sticky top-14">
-                        <BackButton />
+                        <BackButton2 />
                     </section>
                     <div className="grid grid-cols-2 gap-24 items-start">
                         {/* connection 섹션 */}
@@ -30,29 +30,24 @@ export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutPro
                                 <NextImage src={src} alt={alt} className="avatar bg-white" width={48} height={48} />
                                 <SafeBadge />
                             </div>
-                            <span className="text-32 font-semibold text-gray-900 whitespace-pre-line">{title}</span>
-                            <div className="flex flex-col gap-3 rounded-box p-4 bg-red-50 text-red-400 border border-red-400">
-                                <p className="font-semibold text-20">잠깐, 다음과 같은 안내를 확인해주세요.</p>
-                                <ul className="list-disc pl-4 font-normal text-18">
+                            <h1 className="text-3xl font-bold text-gray-900 whitespace-pre-line">{title}</h1>
+                            <div className="flex flex-col gap-3 rounded-box py-4 px-6 bg-red-50 text-red-400 border border-red-400">
+                                <p className="font-semibold text-lg">잠깐, 다음과 같은 안내를 확인해주세요.</p>
+                                <ul className="list-disc pl-4 font-medium text-md">
                                     {warnTexts.map((warn, idx) => (
                                         <li key={idx}>{warn}</li>
                                     ))}
                                 </ul>
                             </div>
-                            <div className="w-full grid grid-cols-2 gap-4">{connectButton}</div>
+
+                            <div className="w-full grid grid-cols-2 gap-4">
+                                <ConnectButton />
+                            </div>
                         </section>
 
                         {/* description */}
                         <section className="col-span-1">
-                            <div className="w-full flex flex-col gap-20">
-                                {children}
-                                <section className="flex flex-col gap-6">
-                                    <p className="text-2xl font-bold">연결을 시작해볼까요?</p>
-                                    <button onClick={onClick} className="btn btn-md btn-block btn-scordi">
-                                        연결 시작하기
-                                    </button>
-                                </section>
-                            </div>
+                            <div className="w-full flex flex-col gap-20">{children}</div>
                         </section>
                     </div>
                 </div>

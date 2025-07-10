@@ -5,6 +5,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
+// 온보딩 스텝1. / 구독 불러오기 / 커버 페이지
 export const OrgOnboardingSubscriptionPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/subscription',
     path: (orgId: number) => pathReplace(OrgOnboardingSubscriptionPageRoute.pathname, {id: orgId}),

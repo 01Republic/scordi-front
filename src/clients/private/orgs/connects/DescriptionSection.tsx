@@ -3,7 +3,7 @@ import {StaticImageData} from 'next/image';
 import {NextImage} from '^components/NextImage';
 
 interface DescriptionSectionProps {
-    title: string;
+    title: ReactNode;
     steps: ReactNode[];
     image: StaticImageData;
     alt: string;

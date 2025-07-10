@@ -5,6 +5,7 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {OrgSubscriptionConnectionPage} from '^clients/private/orgs/onboarding/OrgOnboardingSubscriptionPage/SubscriptionConnectionPage';
 
+// 온보딩 스텝1. / 구독 불러오기 / 시작 페이지
 export const OrgOnboardingSubscriptionConnectionPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/subscription/connection',
     path: (orgId: number) => pathReplace(OrgOnboardingSubscriptionConnectionPageRoute.pathname, {id: orgId}),

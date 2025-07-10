@@ -1,21 +1,21 @@
-import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {googleWorkspaceAccessTokenAtom, reportState} from './atom';
+import {memo, useState} from 'react';
+import {IntegrationGoogleWorkspaceWorkspaceDto} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/type';
+import {ConnectingMemberAndSubscription} from '../../onboarding/OrgOnboardingMembersPage/ConnectingMemberAndSubscription';
 import {GoogleWorkspaceBeforeConnectPage} from './GoogleWorkspaceBeforeConnectPage';
 import {GoogleWorkspaceConnectingPage} from './GoogleWorkspaceConnectingPage';
-import {ConnectingMemberAndSubscription} from '^clients/private/orgs/onboarding/OrgOnboardingMembersPage/ConnectingMemberAndSubscription';
 
+// 온보딩 스텝2. / 구글워크스페이스 연동 / 시작 페이지
 export const GoogleWorkspaceConnectorPage = memo(function GoogleWorkspaceConnectorPage() {
-    const accessToken = useRecoilValue(googleWorkspaceAccessTokenAtom);
-    const reportData = useRecoilValue(reportState);
+    const [code, setCode] = useState<string>();
+    const [createdWorkspace, setCreatedWorkspace] = useState<IntegrationGoogleWorkspaceWorkspaceDto>();
 
-    if (reportData) {
-        return <ConnectingMemberAndSubscription />;
+    if (!code) return <GoogleWorkspaceBeforeConnectPage onCode={setCode} />; // before
+
+    if (!createdWorkspace) {
+        return (
+            <GoogleWorkspaceConnectingPage code={code} onBack={() => setCode(undefined)} onNext={setCreatedWorkspace} />
+        ); // ing
     }
 
-    if (accessToken) {
-        return <GoogleWorkspaceConnectingPage />;
-    }
-
-    return <GoogleWorkspaceBeforeConnectPage />;
+    return <ConnectingMemberAndSubscription workspace={createdWorkspace} onBack={() => setCode(undefined)} />; // done
 });

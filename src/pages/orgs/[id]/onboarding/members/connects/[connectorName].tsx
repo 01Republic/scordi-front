@@ -14,6 +14,7 @@ export enum Connectors {
     excel = 'excel',
 }
 
+// 온보딩 스텝2. / 구글워크스페이스 연동 / 시작 페이지
 export const OrgOnboardingMembersConnectsPageRoute = pathRoute({
     pathname: '/orgs/[id]/onboarding/members/connects/[connectorName]',
     path: (id: number, connectorName: Connectors) =>
