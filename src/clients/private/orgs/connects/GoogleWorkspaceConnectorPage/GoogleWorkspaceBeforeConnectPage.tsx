@@ -23,12 +23,20 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
         <ConnectionAndDescriptionSection
             src="https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/192px.svg"
             alt="google workspace logo"
-            title={`구성원 계정을 불러오기 위한 \n 간단한 절차를 안내드릴게요`}
-            warnTexts={[
-                '비활성 계정을 제외한 모든 구성원을 불러와요.',
-                '안심하세요. 구독 관리를 위해 필요한 구성원 정보와 접속 기록 외 다른 데이터를 가져올 수 없어요.',
-                '새로운 계정이 추가되었을 때 동기화 하거나 워크스페이스 연결 해제도 가능해요.',
-            ]}
+            // title={`구성원 계정을 불러오기 위한 \n 간단한 절차를 안내드릴게요`}
+            title={`구글 워크스페이스를 연결하고\n구성원 계정을 한 번에 등록해보세요`}
+            safeBadge
+            InfoBox={() => (
+                <div className="flex flex-col gap-3 rounded-box py-4 px-6 bg-red-50 text-red-400 border border-red-400">
+                    <p className="font-semibold text-lg">안심하세요</p>
+                    <ul className="list-disc pl-4 font-medium text-md">
+                        <li>비활성 계정을 제외한 모든 구성원을 불러와요.</li>
+                        <li>구독 관리에 필요한 구성원과 접속기록 이외의 정보를 가져올 수 없어요.</li>
+                        <li>새로운 계정이 추가되었을 때 동기화 할 수 있어요.</li>
+                        <li>워크스페이스 연결 해제도 언제든지 가능해요.</li>
+                    </ul>
+                </div>
+            )}
             ConnectButton={() => (
                 <GoogleAdminOAuthButton onCode={onCode}>
                     <button className="btn btn-wide btn-scordi no-animation btn-animation">연결 시작하기</button>

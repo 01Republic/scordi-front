@@ -35,11 +35,16 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage(props
             src="/images/logo/external/logo_slack.png"
             alt="slack logo"
             title={`슬랙 연동을 위해  \n 간단한 절차를 안내드릴게요`}
-            warnTexts={[
-                '비활성 계정을 제외한 모든 구성원을 불러와요.',
-                '안심하세요. 스코디 워크스페이스에 초대된 관리자를 대상으로 중요 알림이 발송 돼요.',
-                '구성원을 동기화하거나 슬랙 워크스페이스 연결해제도 가능해요.',
-            ]}
+            InfoBox={() => (
+                <div className="flex flex-col gap-3 rounded-box py-4 px-6 bg-red-50 text-red-400 border border-red-400">
+                    <p className="font-semibold text-lg">잠깐, 다음과 같은 안내를 확인해주세요.</p>
+                    <ul className="list-disc pl-4 font-medium text-md">
+                        <li>비활성 계정을 제외한 모든 구성원을 불러와요.</li>
+                        <li>안심하세요. 스코디 워크스페이스에 초대된 관리자를 대상으로 중요 알림이 발송 돼요.</li>
+                        <li>구성원을 동기화하거나 슬랙 워크스페이스 연결해제도 가능해요.</li>
+                    </ul>
+                </div>
+            )}
             ConnectButton={() => (
                 <button className="btn btn-wide btn-scordi no-animation btn-animation" onClick={onConnectButtonClick}>
                     연결 시작하기

@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, ReactNode} from 'react';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {BackButton2} from '^components/BackButton';
 import {NextImage} from '^components/NextImage';
@@ -8,14 +8,14 @@ import {WithChildren} from '^types/global.type';
 interface DescriptionLayoutProps extends WithChildren {
     src: string;
     alt: string;
-    title: string;
-    warnTexts: string[];
+    title: ReactNode;
+    InfoBox?: () => JSX.Element;
     ConnectButton: () => JSX.Element;
     safeBadge?: boolean;
 }
 
 export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutProps) => {
-    const {src, alt, title, warnTexts, ConnectButton, children, safeBadge = false} = props;
+    const {src, alt, title, InfoBox, ConnectButton, children, safeBadge = false} = props;
 
     return (
         <PureLayout>
@@ -32,14 +32,8 @@ export const ConnectionAndDescriptionSection = memo((props: DescriptionLayoutPro
                                 {safeBadge && <SafeBadge />}
                             </div>
                             <h1 className="text-3xl font-bold text-gray-900 whitespace-pre-line">{title}</h1>
-                            <div className="flex flex-col gap-3 rounded-box py-4 px-6 bg-red-50 text-red-400 border border-red-400">
-                                <p className="font-semibold text-lg">잠깐, 다음과 같은 안내를 확인해주세요.</p>
-                                <ul className="list-disc pl-4 font-medium text-md">
-                                    {warnTexts.map((warn, idx) => (
-                                        <li key={idx}>{warn}</li>
-                                    ))}
-                                </ul>
-                            </div>
+
+                            {InfoBox && <InfoBox />}
 
                             <div className="w-full grid grid-cols-2 gap-4">
                                 <ConnectButton />
