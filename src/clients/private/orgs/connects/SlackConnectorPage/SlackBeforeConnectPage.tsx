@@ -37,7 +37,7 @@ export const SlackBeforeConnectPage = memo(function SlackBeforeConnectPage(props
             title={`슬랙 연동을 위해  \n 간단한 절차를 안내드릴게요`}
             warnTexts={[
                 '비활성 계정을 제외한 모든 구성원을 불러와요.',
-                '안심하세요. 구성원 정보 외에 다른 데이터를 가져올 수 없어요.',
+                '안심하세요. 스코디 워크스페이스에 초대된 관리자를 대상으로 중요 알림이 발송 돼요.',
                 '구성원을 동기화하거나 슬랙 워크스페이스 연결해제도 가능해요.',
             ]}
             ConnectButton={() => (
