@@ -87,10 +87,7 @@ export const ConnectingMemberAndSubscription = memo((props: Props) => {
 
             <section className="grid grid-cols-2 gap-3 mt-12">
                 {googleWorkspaceMembers.map((googleMember, i) => (
-                    <div
-                        key={i}
-                        className="bg-white rounded-lg p-4 flex justify-between items-center gap-4 shadow hover:shadow-lg transition-all"
-                    >
+                    <div key={i} className="bg-white rounded-lg p-4 flex justify-between items-center gap-4">
                         <div className="flex items-center gap-4">
                             <Avatar src={googleMember.imageUrl || undefined} className="w-10 h-10" />
                             <div className="flex flex-col gap-1">
