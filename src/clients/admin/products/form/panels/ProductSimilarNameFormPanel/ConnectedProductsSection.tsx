@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {ProductSimilarNameDto} from '^models/ProductSimilarName/type';
 import {useProductSimilarNameList} from '^models/ProductSimilarName/hook';
 import {ProductDto} from '^models/Product/type';
@@ -12,11 +12,19 @@ interface ConnectProductSectionProps {
 export const ConnectedProductsSection = memo((props: ConnectProductSectionProps) => {
     const {product, disconnectProduct, setDisConnectProduct} = props;
 
-    const {result} = useProductSimilarNameList(product.id, {
+    const {result, search} = useProductSimilarNameList(product.id, {
         relations: [],
         where: {productId: product.id},
         order: {id: 'DESC'},
     });
+
+    useEffect(() => {
+        search({
+            relations: [],
+            where: {productId: product.id},
+            order: {id: 'DESC'},
+        });
+    }, [product.id]);
 
     const productSimilarList = result.items.filter((item) => item.name !== product.nameKo);
 
