@@ -26,8 +26,8 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
             title={`구성원 계정을 불러오기 위한 \n 간단한 절차를 안내드릴게요`}
             warnTexts={[
                 '비활성 계정을 제외한 모든 구성원을 불러와요.',
-                '안심하세요. 구성원 정보 외에 다른 데이터를 가져올 수 없어요.',
-                '구성원을 동기화하거나 슬랙 워크스페이스 연결해제도 가능해요.',
+                '안심하세요. 구독 관리를 위해 필요한 구성원 정보와 접속 기록 외 다른 데이터를 가져올 수 없어요.',
+                '새로운 계정이 추가되었을 때 동기화 하거나 워크스페이스 연결 해제도 가능해요.',
             ]}
             ConnectButton={() => (
                 <GoogleAdminOAuthButton onCode={onCode}>
