@@ -5,8 +5,9 @@ import {useOrgIdParam} from '^atoms/common';
 import {AssetConnectSuccessPageTemplate} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate';
 import {OrgOnboardingMembersPageRoute} from '^pages/orgs/[id]/onboarding/members';
 import {connectedAssetsAtom} from '^clients/private/orgs/subscriptions/connection-steps/atom';
+import {OrgOnboardingSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/onboarding/subscription/connection';
 
-/** 온보딩 스텝1. / 구독 불러오기 / 완료 페이지 */
+// 온보딩 스텝1. / 구독 불러오기 / 완료 페이지
 export const CompleteSubscriptionConnectionPage = memo(function CompleteSubscriptionConnectionPage() {
     const router = useRouter();
     const orgId = useOrgIdParam();
@@ -17,6 +18,8 @@ export const CompleteSubscriptionConnectionPage = memo(function CompleteSubscrip
         <AssetConnectSuccessPageTemplate
             assets={connectedAssets}
             onNext={() => router.push(OrgOnboardingMembersPageRoute.path(orgId))}
+            moveFirst={() => router.push(OrgOnboardingSubscriptionConnectionPageRoute.path(orgId))}
+            nextBtnText="다음 스텝으로 이동"
         />
     );
 });
