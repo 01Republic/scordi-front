@@ -38,7 +38,16 @@ export const SuccessSign = () => {
             <article className="flex flex-col items-center justify-center gap-10 w-[380px]">
                 <section className="flex flex-col items-center justify-center gap-5 w-full">
                     <div className="flex items-center justify-center w-14 h-14 rounded-full bg-primaryColor-900">
-                        <Check className="text-white text-32 font-semibold" />
+                        <Check
+                            className="text-white text-32 font-semibold"
+                            onClick={() =>
+                                console.log({
+                                    createdOrgId,
+                                    url,
+                                    query: router.query,
+                                })
+                            }
+                        />
                     </div>
                     <span className="text-36 font-bold text-gray-900">가입을 환영합니다!</span>
                     <div className="flex flex-col items-center font-normal text-neutral-800">
