@@ -1,9 +1,10 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {ChevronDown} from 'lucide-react';
 import {useProductList} from '^models/Product/hook';
 import {Path, useFormContext} from 'react-hook-form';
 import {ProductSimilarNameConnectModalFormValues} from '^admin/products/AdminProductListPage/ProductSimilarNameConnectModal/type';
 import {ProductDto} from '^models/Product/type';
+import {DropdownContent} from '^v3/share/Dropdown';
 
 interface ProductSearchFormProps {
     rowIndex: number;
@@ -13,6 +14,7 @@ interface ProductSearchFormProps {
 
 export const ProductSearchForm = memo((props: ProductSearchFormProps) => {
     const {rowIndex, products, search} = props;
+    const triggerRef = useRef<HTMLDivElement>(null);
 
     const {register, setValue} = useFormContext<ProductSimilarNameConnectModalFormValues>();
 
@@ -26,6 +28,7 @@ export const ProductSearchForm = memo((props: ProductSearchFormProps) => {
             <input type="hidden" {...register(fieldName)} />
 
             <div
+                ref={triggerRef}
                 className="flex items-center justify-between cursor-pointer px-4 py-2"
                 onClick={() => {
                     setIsDropDownOpen((prev) => !prev);
@@ -39,13 +42,24 @@ export const ProductSearchForm = memo((props: ProductSearchFormProps) => {
             </div>
 
             {/* 검색 & 앱 리스트가 보이는 드롭다운 */}
-            {isDropDownOpen && (
-                <ul className="absolute z-10 bg-white border border-gray-300 w-full mt-1 rounded-lg max-h-60 overflow-auto">
+            <DropdownContent
+                visible={isDropDownOpen}
+                hide={() => setIsDropDownOpen(false)}
+                triggerRef={triggerRef}
+                backdrop
+                allowScroll
+                placement="bottom-start"
+            >
+                <ul className="dropdown-portal-content relative z-10 bg-white border border-gray-300 w-full mt-1 rounded-lg max-h-60 overflow-auto">
                     <li className="border-b px-4 py-2">
                         <input
                             type="text"
                             className="w-full text-12"
                             placeholder="찾는 앱을 검색하세요"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }}
                             onChange={(e) => search(e.target.value)}
                             autoFocus
                         />
@@ -65,7 +79,7 @@ export const ProductSearchForm = memo((props: ProductSearchFormProps) => {
                         </li>
                     ))}
                 </ul>
-            )}
+            </DropdownContent>
         </div>
     );
 });
