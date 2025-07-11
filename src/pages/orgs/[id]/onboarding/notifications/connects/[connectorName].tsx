@@ -6,6 +6,9 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {useRouter} from 'next/router';
 import {OrgOnboardingCompletePageRoute} from '../../complete';
+import {useState} from 'react';
+import {useOnboardingComplete} from '^clients/private/orgs/onboarding/useOnboardingComplete';
+import {LoadableBox} from '^components/util/loading';
 
 export enum Connectors {
     googleWorkspace = 'google-workspace',
@@ -44,18 +47,16 @@ export default function OrgConnectorDetailPage() {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     useCurrentOrg(orgId);
+    const {isLoading, onComplete} = useOnboardingComplete();
     const connectorName = router.query.connectorName as string | undefined;
 
     if (!orgId || isNaN(orgId) || !connectorName) return <></>;
 
     if (connectorName === Connectors.slack)
         return (
-            <SlackConnectorPage
-                onNext={() => {
-                    console.log('onNext');
-                    router.push(OrgOnboardingCompletePageRoute.path(orgId));
-                }}
-            />
+            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
+                <SlackConnectorPage onNext={onComplete} />
+            </LoadableBox>
         );
 
     return (

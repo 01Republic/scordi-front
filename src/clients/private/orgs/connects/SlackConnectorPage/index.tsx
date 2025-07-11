@@ -16,8 +16,10 @@ export const SlackConnectorPage = memo(function SlackConnectorPage({onNext}: Sla
     const orgId = useOrgIdParam();
     const [slackWorkspace, setSlackWorkspace] = useState<IntegrationWorkspaceDto<IntegrationProvider.slack>>();
 
+    // 시작페이지
     if (!slackWorkspace) return <SlackBeforeConnectPage onNext={setSlackWorkspace} />;
 
+    // 완료페이지
     return (
         <ConnectingResultScreenForSlack
             slackWorkspace={slackWorkspace}
