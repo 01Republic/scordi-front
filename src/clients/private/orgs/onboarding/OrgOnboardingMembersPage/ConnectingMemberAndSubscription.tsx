@@ -51,27 +51,38 @@ export const ConnectingMemberAndSubscription = memo((props: Props) => {
             <section className={`flex items-center gap-2 mt-20 ${isFetching ? 'invisible' : ''}`}>
                 <Lottie src={LOTTIE_SRC.CLAP} loop autoplay className="w-[82px] h-24" layout={{fit: 'fill'}} />
 
-                {workspace.subscriptionCount > 0 ? (
-                    <div className="text-2xl font-bold">
-                        <span className="mr-2">
-                            총{' '}
-                            <span className="text-primaryColor-900">
-                                {unitFormat(googleWorkspaceMembers.length, '명')}
-                            </span>
-                            의 구성원이
-                        </span>
-                        <span>
-                            <span className="text-primaryColor-900">{unitFormat(workspace.subscriptionCount)}</span>의
-                            구독을 사용중이에요!
-                        </span>
-                    </div>
-                ) : (
-                    <div className="text-2xl font-bold">
+                <div className="text-2xl font-bold">
+                    <span className="mr-2">
                         총{' '}
                         <span className="text-primaryColor-900">{unitFormat(googleWorkspaceMembers.length, '명')}</span>
-                        의 구성원을 불러왔어요!
-                    </div>
-                )}
+                        의 구성원이
+                    </span>
+                    <span>
+                        <span className="text-primaryColor-900">{unitFormat(workspace.subscriptionCount)}</span>의
+                        구독을 사용중이에요!
+                    </span>
+                </div>
+                {/*{workspace.subscriptionCount > 0 ? (*/}
+                {/*    <div className="text-2xl font-bold">*/}
+                {/*        <span className="mr-2">*/}
+                {/*            총{' '}*/}
+                {/*            <span className="text-primaryColor-900">*/}
+                {/*                {unitFormat(googleWorkspaceMembers.length, '명')}*/}
+                {/*            </span>*/}
+                {/*            의 구성원이*/}
+                {/*        </span>*/}
+                {/*        <span>*/}
+                {/*            <span className="text-primaryColor-900">{unitFormat(workspace.subscriptionCount)}</span>의*/}
+                {/*            구독을 사용중이에요!*/}
+                {/*        </span>*/}
+                {/*    </div>*/}
+                {/*) : (*/}
+                {/*    <div className="text-2xl font-bold">*/}
+                {/*        총{' '}*/}
+                {/*        <span className="text-primaryColor-900">{unitFormat(googleWorkspaceMembers.length, '명')}</span>*/}
+                {/*        의 구성원을 불러왔어요!*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </section>
 
             <section className="grid grid-cols-2 gap-3 mt-12">
@@ -88,9 +99,10 @@ export const ConnectingMemberAndSubscription = memo((props: Props) => {
                             </div>
                         </div>
 
-                        {googleMember.subscriptionCount > 0 && (
-                            <span>{unitFormat(googleMember.subscriptionCount)}</span>
-                        )}
+                        <span>{unitFormat(googleMember.subscriptionCount)}</span>
+                        {/*{googleMember.subscriptionCount > 0 && (*/}
+                        {/*    <span>{unitFormat(googleMember.subscriptionCount)}</span>*/}
+                        {/*)}*/}
                     </div>
                 ))}
             </section>
