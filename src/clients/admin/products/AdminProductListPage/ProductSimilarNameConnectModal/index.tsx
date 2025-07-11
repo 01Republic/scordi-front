@@ -111,7 +111,7 @@ export const ProductSimilarNameConnectModal = memo((props: Props) => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardTable>
                                 <CardTableTH className="grid-cols-1 lg:grid-cols-5 text-14">
-                                    <div className="col-span-2">name</div>
+                                    <div className="col-span-2">발견된 앱</div>
                                     <div className="col-span-2">연결할 앱</div>
                                     <SortableTH
                                         sortKey="[isBlock]"
