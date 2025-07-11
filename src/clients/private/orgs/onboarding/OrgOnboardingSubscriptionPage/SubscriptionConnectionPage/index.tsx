@@ -19,8 +19,8 @@ export const OrgSubscriptionConnectionPage = memo(() => {
         <AssetConnectPageTemplate
             ConnectMethodAltActionButton={() => (
                 <LinkTo
-                    href={OrgOnboardingMembersPageRoute.path(orgId)}
-                    className="text-14 transition-all hover:font-semibold"
+                    // href={OrgOnboardingMembersPageRoute.path(orgId)}
+                    className="text-14 transition-all hover:font-semibold invisible"
                     displayLoading={false}
                 >
                     건너뛰기
