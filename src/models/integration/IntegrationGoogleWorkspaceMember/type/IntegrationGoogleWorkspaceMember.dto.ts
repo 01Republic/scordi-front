@@ -1,6 +1,6 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {TeamMemberDto} from '^models/TeamMember';
-import {IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
+import {IntegrationGoogleWorkspaceWorkspaceDto} from '../../IntegrationGoogleWorkspaceWorkspace/type';
 import {GoogleAdminDirectoryUser} from './GoogleAdminDirectoryUser';
 
 /**
@@ -27,7 +27,8 @@ export class IntegrationGoogleWorkspaceMemberDto {
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 
-    @TypeCast(() => IntegrationWorkspaceDto) integrationWorkspace?: IntegrationWorkspaceDto; // 워크스페이스
+    @TypeCast(() => IntegrationGoogleWorkspaceWorkspaceDto)
+    integrationWorkspace?: IntegrationGoogleWorkspaceWorkspaceDto; // 워크스페이스
     @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto; // 연결된 팀멤버
 
     get levelName() {

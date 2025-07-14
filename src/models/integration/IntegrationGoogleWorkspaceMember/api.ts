@@ -3,6 +3,9 @@ import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {IntegrationGoogleWorkspaceMemberDto} from './type/IntegrationGoogleWorkspaceMember.dto';
 import {FindAllIntegrationGoogleWorkspaceMemberQueryDto} from './type/FindAllIntegrationGoogleWorkspaceMember.query.dto';
 import {TeamMemberDto} from '^models/TeamMember';
+import {GoogleWorkspaceOauthTokenActivityDto} from '^models/integration/IntegrationGoogleWorkspaceOauthTokenActivity/type';
+import {UpdateGoogleWorkspaceActivityRequestDto} from '^models/integration/IntegrationGoogleWorkspaceOauthTokenActivity/type/UpdateGoogleWorkspaceActivity.request.dto';
+import {UpdateGoogleWorkspaceMemberRequestDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/UpdateGoogleWorkspaceMember.request.dto';
 
 export const integrationGoogleWorkspaceMemberApi = {
     // 워크스페이스에 등록된 계정 조회
@@ -34,5 +37,20 @@ export const integrationGoogleWorkspaceMemberAdminApi = {
     index(workspaceId: number, params: FindAllIntegrationGoogleWorkspaceMemberQueryDto) {
         const url = `admin/google-workspace/workspaces/${workspaceId}/google-workspace-members`;
         return api.get(url, {params}).then(paginatedDtoOf(IntegrationGoogleWorkspaceMemberDto));
+    },
+
+    create(workspaceId: number) {
+        const url = `admin/google-workspace/workspaces/${workspaceId}/google-workspace-members`;
+        return api.post(url).then(paginatedDtoOf(IntegrationGoogleWorkspaceMemberDto));
+    },
+
+    update(workspaceId: number, id: number, data: UpdateGoogleWorkspaceMemberRequestDto) {
+        const url = `admin/google-workspace/workspaces/${workspaceId}/google-workspace-members/${id}`;
+        return api.patch(url, data).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
+    },
+
+    destroy(workspaceId: number, id: number) {
+        const url = `admin/google-workspace/workspaces/${workspaceId}/google-workspace-members${id}`;
+        return api.delete(url).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
     },
 };
