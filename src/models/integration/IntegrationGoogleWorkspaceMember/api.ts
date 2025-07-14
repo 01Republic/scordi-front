@@ -29,3 +29,10 @@ export const integrationGoogleWorkspaceMemberApi = {
         return api.delete(url).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
     },
 };
+
+export const integrationGoogleWorkspaceMemberAdminApi = {
+    index(workspaceId: number, params: FindAllIntegrationGoogleWorkspaceMemberQueryDto) {
+        const url = `admin/google-workspace/workspaces/${workspaceId}/google-workspace-members`;
+        return api.get(url, {params}).then(paginatedDtoOf(IntegrationGoogleWorkspaceMemberDto));
+    },
+};
