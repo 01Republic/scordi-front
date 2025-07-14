@@ -28,9 +28,15 @@ export const integrationGoogleWorkspaceWorkspaceApi = {
         return api.post(url, dto).then(oneDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
     },
 
-    // 연결된 워크스페이스 최신화
+    // 연결된 워크스페이스 수정
     update(orgId: number, id: number) {
         const url = `/organizations/${orgId}/google-workspace/workspaces/${id}`;
+        return api.patch(url).then(oneDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
+    },
+
+    // 연결된 워크스페이스 최신화 (A + B) - 생성시 by-code 에서 했던걸 재실행 하는 개념
+    sync(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/google-workspace/workspaces/${id}/sync`;
         return api.patch(url).then(oneDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
     },
 

@@ -9,7 +9,7 @@ import {productSimilarNameApi} from '^models/ProductSimilarName/api';
 import {errorToast} from '^api/api';
 import {UpdateProductSimilarNameRequestDto} from '^models/ProductSimilarName/type';
 import {swalHTML} from '^components/util/dialog';
-import {ConnectProductForm} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectedWorkspaceListTabContent/GoogleWorkspaceActivityListTabContent/ConnectProductForm';
+import {ConnectProductForm} from './ConnectProductForm';
 
 interface ParserStatusColumnProps {
     activity: GoogleWorkspaceOauthTokenActivityDto;

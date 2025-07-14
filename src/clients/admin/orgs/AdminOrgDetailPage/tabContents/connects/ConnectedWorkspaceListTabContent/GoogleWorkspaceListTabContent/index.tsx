@@ -8,7 +8,10 @@ import {useGoogleWorkspaceListInAdmin} from '^models/integration/IntegrationGoog
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {unitFormat} from '^utils/number';
+import {PagePerSelect} from '^components/Paginator';
+import {IntegrationGoogleWorkspaceWorkspaceDto} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/type';
 import {GoogleProfileSimple} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
+import {GoogleWorkspaceActionColumn} from './GoogleWorkspaceActionColumn';
 import {selectedGoogleWorkspaceAtom} from '../atoms';
 
 export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps) {
@@ -17,11 +20,18 @@ export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps)
     const {
         data,
         isFetching: isLoading,
-        refetch: reload,
+        refetch,
+        changePageSize,
+        movePage,
     } = useGoogleWorkspaceListInAdmin(org?.id || NaN, {
         itemsPerPage: 0,
     });
     const setSelectedWorkspace = useSetRecoilState(selectedGoogleWorkspaceAtom);
+
+    const selectWorkspace = (workspace: IntegrationGoogleWorkspaceWorkspaceDto) => {
+        setSelectedWorkspace(workspace);
+        moveTab(1);
+    };
 
     if (!org) return <></>;
 
@@ -49,12 +59,12 @@ export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps)
                     {/*    [코드에프] 계정복원*/}
                     {/*</button>*/}
 
-                    {/*<PagePerSelect*/}
-                    {/*    className="select-sm"*/}
-                    {/*    defaultValue={pagination.itemsPerPage}*/}
-                    {/*    changePageSize={changePageSize}*/}
-                    {/*    allowAll*/}
-                    {/*/>*/}
+                    <PagePerSelect
+                        className="select-sm"
+                        defaultValue={pagination.itemsPerPage}
+                        changePageSize={changePageSize}
+                        allowAll
+                    />
                 </div>
             </div>
 
@@ -65,7 +75,7 @@ export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps)
                     gridClass={`grid-cols-8`}
                     entries={items}
                     pagination={pagination}
-                    // pageMove={movePage}
+                    pageMove={movePage}
                     columns={[
                         {
                             th: '워크스페이스명',
@@ -73,20 +83,15 @@ export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps)
                             render: (workspace) => (
                                 <div
                                     className="flex items-center gap-2 cursor-pointer hover:text-scordi"
-                                    onClick={() => {
-                                        setSelectedWorkspace(workspace);
-                                        moveTab(1);
-                                    }}
+                                    onClick={() => selectWorkspace(workspace)}
                                 >
                                     <span className="badge badge-xs">#{workspace.id}</span>
-                                    <span>{workspace.workspaceName}</span>
+                                    <div className="leading-none">
+                                        <div className="font-medium">{workspace.workspaceName}</div>
+                                        <div className="text-[10px] font-extralight">{workspace.unitId}</div>
+                                    </div>
                                 </div>
                             ),
-                        },
-                        {
-                            th: 'UID',
-                            className: 'text-12',
-                            render: (workspace) => <div>{workspace.unitId}</div>,
                         },
                         {
                             th: '호스트 계정 (토큰)',
@@ -103,6 +108,11 @@ export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps)
                             render: (workspace) => <div>{format(workspace.createdAt, 'Pp', {locale: ko})}</div>,
                         },
                         {
+                            th: '업데이트',
+                            className: 'text-12',
+                            render: (workspace) => <div>{format(workspace.updatedAt, 'Pp', {locale: ko})}</div>,
+                        },
+                        {
                             th: '등록된 구독수',
                             className: 'text-12',
                             render: (workspace) => <div>{unitFormat(workspace.subscriptionCount)}</div>,
@@ -110,7 +120,9 @@ export const GoogleWorkspaceListTabContent = memo(function (props: TabPaneProps)
                         {
                             th: '', // Actions column
                             className: 'text-12',
-                            render: (workspace) => <div></div>,
+                            render: (workspace) => (
+                                <GoogleWorkspaceActionColumn workspace={workspace} reload={refetch} />
+                            ),
                         },
                     ]}
                 />
