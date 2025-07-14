@@ -1,6 +1,6 @@
 import React from 'react';
 import {pathRoute} from '^types/pageRoute.type';
-import {UserSignUpPage} from '^components/pages/UserSignUp';
+import {UserSignUpPage} from '^clients/public/userAuth/UserSignUpPage/UserSignUpPage';
 
 export const UserSignUpPageRoute = pathRoute({
     pathname: '/users/signup',

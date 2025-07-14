@@ -1,4 +1,4 @@
-import {memo, useEffect} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {toast} from 'react-hot-toast';
 import {productApi} from '^models/Product/api';
 import {AdminNewProductPageRoute} from '^pages/admin/products/new';
@@ -15,10 +15,12 @@ import {ImageColumn, ThumbnailColumn} from './columns/ImageColumn';
 import {MobileItem} from './columns/MobileItem';
 import {ActionColumn} from './columns/ActionColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {ProductSimilarNameConnectModal} from '^admin/products/AdminProductListPage/ProductSimilarNameConnectModal';
 
 export const AdminProductListPage = memo(() => {
     const form = useListPageSearchForm(productApi.index);
     const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
+    const [isOpened, setIsOpened] = useState(false);
 
     useEffect(() => {
         fetchData({order: {id: 'DESC'}});
@@ -53,7 +55,9 @@ export const AdminProductListPage = memo(() => {
         >
             <AdminPageContainer>
                 <div className="flex items-center justify-between mb-5">
-                    <div></div>
+                    <button type="button" onClick={() => setIsOpened(true)} className="btn btn-sm btn-scordi">
+                        발견된 앱 이름 연결하기
+                    </button>
                     <div className="min-w-[25vw]">
                         <SearchForm
                             searchForm={searchForm}
@@ -176,6 +180,7 @@ export const AdminProductListPage = memo(() => {
                     </div>
                 </SearchResultContainer>
             </AdminPageContainer>
+            <ProductSimilarNameConnectModal isOpened={isOpened} onClose={() => setIsOpened(false)} />
         </AdminListPageLayout>
     );
 });
