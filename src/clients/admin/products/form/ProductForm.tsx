@@ -17,6 +17,7 @@ import {faviconUrlAtom, LogoImageFormPanel, logoUrlAtom} from './panels/ProductL
 import {ProductTagMultiSelect} from './ProductTagMultiSelect';
 import {InputNameKo} from './InputNameKo';
 import {InputNameEn} from './InputNameEn';
+import {ProductSimilarNameFormPanel} from '^admin/products/form/panels/ProductSimilarNameFormPanel';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -197,6 +198,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                     </ContentPanelList>
                 </ContentPanel>
             </ContentForm>
+            {product && <ProductSimilarNameFormPanel product={product} />}
             {product && <ProductCyclePanel product={product} />}
             {product && <ProductDeletePanel product={product} />}
         </div>

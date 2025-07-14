@@ -1,17 +1,30 @@
 import {api} from '^api/api';
-import {FindAllProductSimilarNameQuery, ProductSimilarNameDto} from '^models/ProductSimilarName/type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {Paginated} from '^types/utils/paginated.dto';
+import {
+    FindAllProductSimilarNameQuery,
+    ProductSimilarNameDto,
+    CreateProductSimilarNameRequestDto,
+    UpdateProductSimilarNameRequestDto,
+} from '../type';
 
-const namespace = 'products-similar-names';
 export const productSimilarNameApi = {
     index(params?: FindAllProductSimilarNameQuery) {
-        const url = `${namespace}`;
-        return api.get<Paginated<ProductSimilarNameDto>>(url, {params}).then(paginatedDtoOf(ProductSimilarNameDto));
+        const url = `/products-similar-names`;
+        return api.get(url, {params}).then(paginatedDtoOf(ProductSimilarNameDto));
+    },
+
+    create(data: CreateProductSimilarNameRequestDto) {
+        const url = `/products-similar-names`;
+        return api.post(url, data).then(oneDtoOf(ProductSimilarNameDto));
+    },
+
+    update(id: number, data: UpdateProductSimilarNameRequestDto) {
+        const url = `/products-similar-names/${id}`;
+        return api.patch(url, data).then(oneDtoOf(ProductSimilarNameDto));
     },
 
     destroy(id: number) {
-        const url = `${namespace}/${id}`;
-        return api.delete<ProductSimilarNameDto>(url).then(oneDtoOf(ProductSimilarNameDto));
+        const url = `/products-similar-names/${id}`;
+        return api.delete(url).then(oneDtoOf(ProductSimilarNameDto));
     },
 };

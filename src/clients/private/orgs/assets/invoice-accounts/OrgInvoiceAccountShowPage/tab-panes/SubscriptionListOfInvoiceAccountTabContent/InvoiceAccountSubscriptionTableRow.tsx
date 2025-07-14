@@ -93,9 +93,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
             </td>
 
             {/* 갱신일 */}
-            <td className="text-14">
-                {nextComputedBillingDate && yyyy_mm_dd(new Date(`${nextComputedBillingDate} `))}
-            </td>
+            <td className="text-14">{nextComputedBillingDate && yyyy_mm_dd(nextComputedBillingDate)}</td>
 
             {/*소지자*/}
             {/*<td>*/}

@@ -12,7 +12,6 @@ export const NextComputedBillingDateText = memo((props: NextComputedBillingDateT
     if (!subscription.nextComputedBillingDate) {
         return <p className="text-sm text-gray-400">-</p>;
     }
-
-    return <p className="text-sm">{yyyy_mm_dd(new Date(`${subscription.nextComputedBillingDate} `))}</p>;
+    return <p className="text-sm">{yyyy_mm_dd(subscription.nextComputedBillingDate)}</p>;
 });
 NextComputedBillingDateText.displayName = 'NextComputedBillingDateText';

@@ -79,21 +79,28 @@ interface SequenceStepProps extends WithChildren, StepProps {
 
     /** Promise function. If false, stop sequence, and if number, retry after number(ms). */
     promise?: () => Promise<boolean | number>;
+
+    onNext?: (nextIndex: number) => any;
 }
 
 export const SequenceStep = (props: SequenceStepProps) => {
-    const {content: Content, children, delay, promise, index, next} = props;
+    const {content: Content, children, delay, promise, index, next, onNext} = props;
+
+    const goNext = (nextIndex: number) => {
+        next(nextIndex);
+        onNext && onNext(nextIndex);
+    };
 
     useEffect(() => {
         if (typeof delay === 'number') {
-            setTimeout(() => next(index + 1), delay);
+            setTimeout(() => goNext(index + 1), delay);
         }
         if (typeof promise === 'function') {
             promise()
                 .then((result) => {
-                    if (result === false) return next(index);
-                    if (typeof result === 'number') return setTimeout(() => next(index + 1), result);
-                    return next(index + 1);
+                    if (result === false) return goNext(index);
+                    if (typeof result === 'number') return setTimeout(() => goNext(index + 1), result);
+                    return goNext(index + 1);
                 })
                 .catch(console.error);
         }

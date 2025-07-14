@@ -22,7 +22,7 @@ export const BackButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>)
             style={props.style}
         >
             <span className="mr-1">
-                <Icon.ChevronLeft />
+                <Icon.ChevronLeft className={`text-${size}`} />
             </span>
             <span>{props.text ?? '뒤로'}</span>
         </button>

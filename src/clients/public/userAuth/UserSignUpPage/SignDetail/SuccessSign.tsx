@@ -7,6 +7,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentUser} from '^models/User/hook';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
+import {OrgOnboardingSubscriptionPageRoute} from '^pages/orgs/[id]/onboarding/subscription';
 import {useIdParam} from '^atoms/common';
 
 export const SuccessSign = () => {
@@ -18,8 +19,12 @@ export const SuccessSign = () => {
 
     const url = (() => {
         if (!currentUser) return '#';
+        /* 유저가 워크스페이스를 새로 생성한 경우 온보딩으로 이동 */
+        if (createdOrgId) {
+            return OrgOnboardingSubscriptionPageRoute.path(createdOrgId);
+        }
         const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
-        return OrgMainPageRoute.path(createdOrgId || id);
+        return OrgMainPageRoute.path(id);
     })();
 
     const onClick = async () => {
@@ -33,7 +38,16 @@ export const SuccessSign = () => {
             <article className="flex flex-col items-center justify-center gap-10 w-[380px]">
                 <section className="flex flex-col items-center justify-center gap-5 w-full">
                     <div className="flex items-center justify-center w-14 h-14 rounded-full bg-primaryColor-900">
-                        <Check className="text-white text-32 font-semibold" />
+                        <Check
+                            className="text-white text-32 font-semibold"
+                            onClick={() =>
+                                console.log({
+                                    createdOrgId,
+                                    url,
+                                    query: router.query,
+                                })
+                            }
+                        />
                     </div>
                     <span className="text-36 font-bold text-gray-900">가입을 환영합니다!</span>
                     <div className="flex flex-col items-center font-normal text-neutral-800">
