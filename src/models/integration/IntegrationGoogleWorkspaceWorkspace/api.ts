@@ -1,15 +1,19 @@
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {IntegrationGoogleWorkspaceWorkspaceDto, CreateGoogleAdminTeamMembersRequestDto} from './type';
+import {
+    IntegrationGoogleWorkspaceWorkspaceDto,
+    CreateGoogleAdminTeamMembersRequestDto,
+    FindAllIntegrationGoogleWorkspaceQueryDto,
+} from './type';
 
 /**
  * [조직] Integration GoogleWorkspace Workspace API
  */
 export const integrationGoogleWorkspaceWorkspaceApi = {
     // 연결된 워크스페이스 조회
-    index(orgId: number) {
+    index(orgId: number, params?: FindAllIntegrationGoogleWorkspaceQueryDto) {
         const url = `/organizations/${orgId}/google-workspace/workspaces`;
-        return api.get(url).then(paginatedDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
+        return api.get(url, {params}).then(paginatedDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
     },
 
     // 연결된 워크스페이스 상세
