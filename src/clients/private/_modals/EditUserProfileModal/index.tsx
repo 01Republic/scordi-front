@@ -14,7 +14,7 @@ import {X} from 'lucide-react';
 import {useForm} from 'react-hook-form';
 import {useUpdateUser} from '^models/User/hook';
 import {validPasswordRegex} from '^utils/valildation';
-import {appEnv} from '^config/environments';
+import {deployEnv} from '^config/environments';
 
 interface EditUserProfileModalProps {
     isOpened: boolean;
@@ -23,7 +23,7 @@ interface EditUserProfileModalProps {
 
 export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
     const {isOpened, onClose} = props;
-    const isNotProduction = appEnv !== 'production';
+    const isNotProduction = deployEnv !== 'production';
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {mutateAsync} = useUpdateUser();

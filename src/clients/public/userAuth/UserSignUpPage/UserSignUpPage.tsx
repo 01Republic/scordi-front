@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {ArrowRight} from 'lucide-react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {appEnv, googleOAuth} from '^config/environments';
+import {deployEnv, googleOAuth} from '^config/environments';
 import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
@@ -12,7 +12,7 @@ import {GoogleLoginBtn} from '../common/GoogleLoginBtn';
 import {EmailLoginButton} from '^clients/public/userAuth/UserSignUpPage/EmailLoginButton';
 
 export const UserSignUpPage = memo(() => {
-    const isNotProduction = appEnv !== 'production';
+    const isNotProduction = deployEnv !== 'production';
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

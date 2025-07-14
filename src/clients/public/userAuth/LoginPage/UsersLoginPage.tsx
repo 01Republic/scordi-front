@@ -1,7 +1,7 @@
 import React, {memo, useState} from 'react';
 import {ArrowRight} from 'lucide-react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {appEnv, googleOAuth} from '^config/environments';
+import {deployEnv, googleOAuth} from '^config/environments';
 import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
@@ -10,7 +10,7 @@ import {GoogleLoginBtn} from '../common/GoogleLoginBtn';
 import {EmailLoginSection} from '^clients/public/userAuth/LoginPage/EmailLoginSection';
 
 export const UsersLoginPage = memo(() => {
-    const isNotProduction = appEnv !== 'production';
+    const isNotProduction = deployEnv !== 'production';
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {currentUser, loginRedirect} = useCurrentUser();
 
