@@ -12,6 +12,9 @@ import {Avatar} from '^components/Avatar';
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {SubscriptionProfile} from '^models/Subscription/components';
+import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/IntegrationGoogleWorkspaceMember.dto';
+import Tippy from '@tippyjs/react';
+import {ParserStatusColumn} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectedWorkspaceListTabContent/GoogleWorkspaceActivityListTabContent/ParserStatusColumn';
 
 export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -21,7 +24,7 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
         org?.id || 0,
         selectedWorkspaceMember?.integrationWorkspaceId || 0,
         {
-            relations: ['workspaceMember', 'subscription'],
+            relations: ['workspaceMember', 'subscription', 'productSimilarName', 'productSimilarName.product'],
             where: {
                 workspace: {organizationId: org?.id},
                 workspaceMemberId: selectedWorkspaceMember?.id,
@@ -32,6 +35,16 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
 
     const {data, movePage, changePageSize, search, isFetching, refetch} = query;
     const {items, pagination} = data;
+
+    const selectMember = (member?: IntegrationGoogleWorkspaceMemberDto) => {
+        setSelectedWorkspaceMember(member);
+        const workspaceMemberId = member?.id;
+        search((q) => ({
+            ...q,
+            where: {...q.where, workspaceMemberId},
+            page: 1,
+        }));
+    };
 
     return (
         <div>
@@ -58,13 +71,7 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
                     {/* Filter: CodefCard */}
                     <div className="flex items-center">
                         <div className="mr-2">선택된 워크스페이스 멤버:</div>
-                        <div
-                            className="flex items-center group cursor-pointer"
-                            onClick={() => {
-                                setSelectedWorkspaceMember(undefined);
-                                search((q) => ({...q, where: {...q.where, workspaceMemberId: undefined}}));
-                            }}
-                        >
+                        <div className="flex items-center group cursor-pointer" onClick={() => selectMember(undefined)}>
                             <div className="">{selectedWorkspaceMember.displayName}</div>
                             <X size={20} className="text-gray-400 group-hover:text-gray-800 transition-all" />
                         </div>
@@ -74,7 +81,7 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
 
             <LoadableBox isLoading={isFetching} loadingType={2} noPadding>
                 <CardTablePanel
-                    gridClass={`grid-cols-8`}
+                    gridClass={`grid-cols-9`}
                     entries={items}
                     pagination={pagination}
                     pageMove={movePage}
@@ -83,7 +90,7 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
                             th: 'ID',
                             className: 'text-12',
                             render: (activity) => (
-                                <div>
+                                <div onClick={() => console.log(activity)}>
                                     <span className="badge badge-xs">#{activity.id}</span>
                                 </div>
                             ),
@@ -97,7 +104,10 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
                                 return (
                                     <div>
                                         {member ? (
-                                            <div className="flex items-center gap-2">
+                                            <div
+                                                className="flex items-center gap-2 cursor-pointer hover:text-scordi"
+                                                onClick={() => selectMember(member)}
+                                            >
                                                 <div>
                                                     <Avatar
                                                         src={member.imageUrl || undefined}
@@ -118,7 +128,22 @@ export const GoogleWorkspaceActivityListTabContent = memo(function (props: TabPa
                         {
                             th: '로그인한 앱 이름',
                             className: 'text-12 col-span-2',
-                            render: (activity) => <div>{activity.originalAppName}</div>,
+                            render: (activity) => (
+                                <div
+                                    className={`${
+                                        activity.productSimilarName?.isBlock
+                                            ? 'line-through text-red-500 opacity-30'
+                                            : ''
+                                    }`}
+                                >
+                                    {activity.originalAppName}
+                                </div>
+                            ),
+                        },
+                        {
+                            th: '파서 설정여부',
+                            className: 'text-12',
+                            render: (activity) => <ParserStatusColumn activity={activity} reload={refetch} />,
                         },
                         {
                             th: '연결된 구독',

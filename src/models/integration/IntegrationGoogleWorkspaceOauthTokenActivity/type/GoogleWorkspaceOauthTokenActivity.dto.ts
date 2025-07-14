@@ -3,6 +3,7 @@ import {IntegrationGoogleWorkspaceWorkspaceDto} from '^models/integration/Integr
 import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/IntegrationGoogleWorkspaceMember.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {GoogleAdminDirectoryUserTokenDto} from './GoogleAdminDirectoryUserToken.dto';
+import {ProductSimilarNameDto} from '^models/ProductSimilarName/type';
 
 export class GoogleWorkspaceOauthTokenActivityDto {
     id: number;
@@ -18,6 +19,9 @@ export class GoogleWorkspaceOauthTokenActivityDto {
 
     originalAppName: string; // 오리지널 앱 이름
 
+    // 발견된 앱 이름 ID
+    productSimilarNameId: number;
+
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
@@ -25,4 +29,5 @@ export class GoogleWorkspaceOauthTokenActivityDto {
     @TypeCast(() => IntegrationGoogleWorkspaceMemberDto) workspaceMember: IntegrationGoogleWorkspaceMemberDto; // 구글 워크스페이스 멤버
     @TypeCast(() => SubscriptionDto) subscription?: SubscriptionDto; // 구독
     @TypeCast(() => GoogleAdminDirectoryUserTokenDto) response: GoogleAdminDirectoryUserTokenDto; // 토큰 결과 객체
+    @TypeCast(() => ProductSimilarNameDto) productSimilarName?: ProductSimilarNameDto; // 발견된 앱 이름
 }
