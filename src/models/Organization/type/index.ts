@@ -67,6 +67,7 @@ export class OrganizationDto {
         return this.id === zero1_republic_workspace_id;
     }
 
+    // V3 온보딩에서 사용됨.
     isOnboardingFinished() {
         return this.isSyncedWithGoogleWorkspace() && this.isSyncedWithInvoiceAccount();
     }

@@ -27,7 +27,16 @@ export const OrgItem = memo((props: OrgItemProps) => {
             displayLoading={false}
         >
             <div className="flex flex-col items-start">
-                <div>{membership.organization.name}</div>
+                <div className="flex items-center gap-2">
+                    <span>{org.name}</span>
+
+                    {!org.onboardingFinishedAt && (
+                        <div className="flex items-center">
+                            <span className="text-[34px] pb-[3px] text-red-500 font-bold">&middot;</span>
+                        </div>
+                    )}
+                </div>
+
                 {isAltMode && (
                     <div className="flex items-center gap-2 text-gray-400 text-12">
                         {/*<div>{org.createdAt.toISOString()}</div>*/}
