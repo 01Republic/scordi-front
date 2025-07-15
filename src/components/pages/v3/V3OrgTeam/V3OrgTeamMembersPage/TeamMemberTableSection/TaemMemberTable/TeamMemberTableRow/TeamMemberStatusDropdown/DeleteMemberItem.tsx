@@ -6,7 +6,7 @@ import {Loader, Trash2} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {errorToast} from '^api/api';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
-import {currentTeamMemberState, teamMemberApi, TeamMemberDto} from '^models/TeamMember';
+import {currentTeamMemberState, teamMemberApi, TeamMemberDto, useDeleteTeamMember} from '^models/TeamMember';
 import {confirm2} from '^components/util/dialog';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 
@@ -16,10 +16,11 @@ interface DeleteMemberItemProps {
 }
 
 export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
-    const orgId = useOrgIdParam();
-    const setTeamMember = useSetRecoilState(currentTeamMemberState);
-    const {reload, teamMember} = props;
     const router = useRouter();
+    const orgId = useOrgIdParam();
+    const {reload, teamMember} = props;
+    const setTeamMember = useSetRecoilState(currentTeamMemberState);
+    const {mutateAsync} = useDeleteTeamMember();
     const [isLoading, setIsLoading] = useState(false);
 
     const onClick = async () => {
@@ -36,11 +37,10 @@ export const DeleteMemberItem = memo((props: DeleteMemberItemProps) => {
         if (!isConfirmed) return;
 
         setIsLoading(true);
-        teamMemberApi
-            .destroy(teamMember.organizationId, teamMember.id)
+        mutateAsync({orgId, id: teamMember.id})
             .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
             .then(() => toast.success('구성원을 삭제했어요.'))
-            .then(() => reload && reload())
+            // .then(() => reload && reload())
             .then(() => setTeamMember(null))
             .catch(errorToast)
             .finally(() => setIsLoading(false));

@@ -1,7 +1,7 @@
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useOrgIdParam} from '^atoms/common';
 import {teamMemberApi} from '../api';
 import {CreateTeamMemberDto, FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../type';
 import {
@@ -25,6 +25,9 @@ import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
 import {ErrorResponse} from '^models/User/types';
 import {SUBSCRIPTION_SEAT_HOOK_KEY} from '^models/SubscriptionSeat/hook/key';
 import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
+import {api} from '^api/api';
+import {paginatedDtoOf} from '^types/utils/response-of';
+import {usePaginateUtils} from '^hooks/usePagedResource';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -165,15 +168,16 @@ export const useCreateTeamMember = () => {
 };
 
 //팀 멤버 불러오기
-export const useTeamMembers2 = (orgId: number) => {
-    const [query, setQuery] = useState<FindAllQueryDto<TeamMemberDto>>({});
-    const {data, isLoading, isFetched} = useQuery({
+export const useTeamMembers2 = (orgId: number, params: FindAllTeamMemberQueryDto) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
         queryKey: [TEAM_MEMBER_HOOK_KEY.base, orgId, query],
         queryFn: () => teamMemberApi.index(orgId, query).then((res) => res.data),
-        initialData: Paginated.init() as Paginated<TeamMemberDto>,
+        initialData: Paginated.init(),
         enabled: !!orgId && !isNaN(orgId),
     });
-    return {query, setQuery, data, isLoading, isFetched};
+
+    return usePaginateUtils({query, setQuery, queryResult});
 };
 
 //팀 멤버 업데이트
@@ -181,6 +185,18 @@ export const useUpdateTeamMembers2 = () => {
     const queryClient = useQueryClient();
     return useMutation<TeamMemberDto, ErrorResponse, {orgId: number; id: number; data: UpdateTeamMemberDto}>({
         mutationFn: ({orgId, id, data}) => teamMemberApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
+        },
+    });
+};
+
+//팀 멤버 삭제
+export const useDeleteTeamMember = () => {
+    const queryClient = useQueryClient();
+    return useMutation<TeamMemberDto, ErrorResponse, {orgId: number; id: number}>({
+        mutationFn: ({orgId, id}) => teamMemberApi.destroy(orgId, id).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
             queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
