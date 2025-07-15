@@ -105,7 +105,7 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
             <td>
                 <TeamMemberSelectColumn
                     compactView
-                    defaultValue={bankAccount.holdingMember || null}
+                    defaultValue={bankAccount.holdingMember || undefined}
                     onChange={async (holdingMember) => {
                         if (bankAccount.holdingMemberId === holdingMember?.id) return;
                         return update({holdingMemberId: holdingMember?.id || null});
