@@ -12,9 +12,9 @@ import {
     SubscriptionDto,
     UpdateSubscriptionRequestDto,
 } from 'src/models/Subscription/types';
-import {invoiceAccountIdParamState, teamIdParamState} from '^atoms/common';
+import {invoiceAccountIdParamState, teamIdParamState, useOrgIdParam} from '^atoms/common';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
-import {usePagedResource, PagedResourceAtoms} from '^hooks/usePagedResource';
+import {usePagedResource, PagedResourceAtoms, usePaginateUtils} from '^hooks/usePagedResource';
 import {
     addableSubscriptionsOfCreditCardAtom,
     addableSubscriptionsOfInvoiceAccountAtom,
@@ -193,6 +193,24 @@ export const useWorkspaceSubscriptionCount = (orgId: number) => {
 };
 
 /* tanstack Query   */
+
+//구독 조회
+export const useSubscription3 = (params: FindAllSubscriptionsQuery) => {
+    const orgId = useOrgIdParam();
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.base, orgId, query],
+        queryFn: () => subscriptionApi.index(query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId,
+    });
+
+    return usePaginateUtils({
+        query,
+        setQuery,
+        queryResult,
+    });
+};
 
 // 구독 상세조회
 export const useShowSubscription = (subscriptionId: number, params?: FindOneSubscriptionQueryDto) => {
