@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto, useUpdateTeamMembers2} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
 import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown';
@@ -20,6 +20,7 @@ interface TeamMemberTableRowProps {
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
     const orgId = useOrgIdParam();
     const [isLoading, setIsLoading] = useState(false);
+    const {mutateAsync} = useUpdateTeamMembers2();
     const {teamMember, onClick, reload} = props;
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
@@ -27,8 +28,7 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
     const loadingStyle = isLoading ? 'opacity-50 pointer-events-none' : '';
 
     const update = async (dto: UpdateTeamMemberDto) => {
-        return teamMemberApi
-            .update(orgId, teamMember.id, {notes: dto.notes})
+        return mutateAsync({orgId, id: teamMember.id, data: {notes: dto.notes}})
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
             .finally(() => reload && reload());
