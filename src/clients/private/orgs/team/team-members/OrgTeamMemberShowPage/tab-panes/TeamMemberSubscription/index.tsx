@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
+import {useSubscription3, useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentTeamMember} from '../../atom';
 import {TeamMemberSubscriptionTableHeader} from './TeamMemberSubscriptionTableHeader';
@@ -14,8 +14,15 @@ import {Plus, RotateCw} from 'lucide-react';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();
-    const {search, result, isLoading, reset, movePage, changePageSize, reload, orderBy, isNotLoaded, isEmptyResult} =
-        useSubscriptionsInTeamMemberShowPage();
+    const {result, isLoading, movePage, changePageSize, reload, orderBy, isEmptyResult} = useSubscription3({
+        relations: ['creditCard', 'invoiceAccounts'],
+        where: {
+            organizationId: teamMember?.organizationId,
+            // @ts-ignore
+            teamMembers: {id: teamMember.id},
+        },
+        order: {id: 'DESC'},
+    });
 
     const [isConnectSubscription, setConnectSubscriptionModalOpened] = useState(false);
 
@@ -30,20 +37,6 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     );
 
     if (!teamMember) return <></>;
-
-    const onReady = () => {
-        search({
-            relations: ['creditCard', 'invoiceAccounts'],
-            where: {
-                organizationId: teamMember.organizationId,
-                // @ts-ignore
-                teamMembers: {id: teamMember.id},
-            },
-            order: {id: 'DESC'},
-        });
-    };
-
-    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 
@@ -94,7 +87,6 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
                     <EmptyTable message="연결된 구독이 없어요." Buttons={ConnectSubscriptionButton} />
                 ) : (
                     <ListTable
-                        onReady={onReady}
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <TeamMemberSubscriptionTableHeader orderBy={orderBy} />}

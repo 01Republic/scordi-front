@@ -23,7 +23,7 @@ export const CreditCardSelectItem = memo((props: CreditCardSelectItemProps) => {
                 <button className="relative">
                     <Check
                         strokeWidth={3}
-                        className={`text-20 ${
+                        className={`size-5 ${
                             isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'
                         }`}
                     />

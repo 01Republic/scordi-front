@@ -24,6 +24,7 @@ export class IntegrationGoogleWorkspaceWorkspaceDto {
     workspaceName: string; // 워크스페이스 이름
     @TypeCast(() => GoogleAdminAuthAndOrgDto) authorizedResponse: GoogleAdminAuthAndOrgDto; // 인증 결과 객체
     content: any; // 서비스 통합 설정 내용
+    subscriptionCount: number; // 구독 수
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 

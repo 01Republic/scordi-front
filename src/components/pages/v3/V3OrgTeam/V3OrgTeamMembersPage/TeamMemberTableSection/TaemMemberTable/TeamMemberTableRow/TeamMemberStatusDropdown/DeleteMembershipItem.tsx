@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, TeamMemberDto, useDeleteTeamMember} from '^models/TeamMember';
 import {toast} from 'react-hot-toast';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {confirm2, confirmed} from '^components/util/dialog';
@@ -15,6 +15,7 @@ interface DeleteMembershipItemProps {
 export const DeleteMembershipItem = memo((props: DeleteMembershipItemProps) => {
     const {teamMember, reload} = props;
     const {organizationId} = teamMember;
+    const {mutateAsync: deleteTeamMember} = useDeleteTeamMember();
 
     const onClick = () => {
         const removeMembershipConfirm = () => {
@@ -53,7 +54,7 @@ export const DeleteMembershipItem = memo((props: DeleteMembershipItemProps) => {
             })
             .then(() => toast.success('워크스페이스에서 내보냈어요.'))
             .then(() => confirmed(removeTeamMemberConfirm(), '워크스페이스에서 내보낸 구성원을 삭제하지 않았습니다.'))
-            .then(() => teamMemberApi.destroy(organizationId, teamMember.id))
+            .then(() => deleteTeamMember({orgId: organizationId, id: teamMember.id}))
             .then(() => toast.success('구성원을 삭제했어요.'))
             .catch(errorToast)
             .finally(() => reload());

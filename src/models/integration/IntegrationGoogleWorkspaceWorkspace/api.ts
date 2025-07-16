@@ -1,15 +1,19 @@
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {IntegrationGoogleWorkspaceWorkspaceDto, CreateGoogleAdminTeamMembersRequestDto} from './type';
+import {
+    IntegrationGoogleWorkspaceWorkspaceDto,
+    CreateGoogleAdminTeamMembersRequestDto,
+    FindAllIntegrationGoogleWorkspaceQueryDto,
+} from './type';
 
 /**
  * [조직] Integration GoogleWorkspace Workspace API
  */
 export const integrationGoogleWorkspaceWorkspaceApi = {
     // 연결된 워크스페이스 조회
-    index(orgId: number) {
+    index(orgId: number, params?: FindAllIntegrationGoogleWorkspaceQueryDto) {
         const url = `/organizations/${orgId}/google-workspace/workspaces`;
-        return api.get(url).then(paginatedDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
+        return api.get(url, {params}).then(paginatedDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
     },
 
     // 연결된 워크스페이스 상세
@@ -24,9 +28,15 @@ export const integrationGoogleWorkspaceWorkspaceApi = {
         return api.post(url, dto).then(oneDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
     },
 
-    // 연결된 워크스페이스 최신화
+    // 연결된 워크스페이스 수정
     update(orgId: number, id: number) {
         const url = `/organizations/${orgId}/google-workspace/workspaces/${id}`;
+        return api.patch(url).then(oneDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
+    },
+
+    // 연결된 워크스페이스 최신화 (A + B) - 생성시 by-code 에서 했던걸 재실행 하는 개념
+    sync(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/google-workspace/workspaces/${id}/sync`;
         return api.patch(url).then(oneDtoOf(IntegrationGoogleWorkspaceWorkspaceDto));
     },
 

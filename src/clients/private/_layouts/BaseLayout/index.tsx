@@ -4,6 +4,7 @@ import {WithChildren} from '^types/global.type';
 import AOS from 'aos';
 import {AOSProvider} from '^clients/public/home/LandingPages/components';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import {realisticFire} from '^components/util/ConfettiEffect';
 import {AccessibleUserProvider} from './AccessibleUserProvider';
 
 export interface BaseLayoutProps extends WithChildren {
@@ -34,6 +35,11 @@ export const BaseLayout = memo((props: BaseLayoutProps) => {
     useEffect(() => {
         if (window && typeof window === 'object') {
             if (route.query.closeWindowOnReady) window.close();
+            if (route.query.confetti) {
+                realisticFire();
+                const {confetti: _, ...restQuery} = route.query;
+                route.replace({query: restQuery});
+            }
         }
     }, [route.isReady]);
 

@@ -1,14 +1,15 @@
-import {useEffect, useRef} from 'react';
+import {useEffect} from 'react';
+import {NextRouter, useRouter} from 'next/router';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
-import {userSessionApi} from '^models/User/api/session';
+import {errorNotify} from '^utils/toast-notify';
+import {userApi, userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgEmptyPageRoute} from '^pages/orgs/empty';
-import {NextRouter, useRouter} from 'next/router';
-import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
-import {errorNotify} from '^utils/toast-notify';
+import {ErrorResponse, UserDto, UserEditProfileRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
@@ -174,4 +175,18 @@ export const useSocialLoginV2 = () => {
                 return user;
             });
     };
+};
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation<UserDto, ErrorResponse, {data: UserEditProfileRequestDto}>({
+        mutationFn: ({data}) =>
+            userApi.registration
+                .update(data) //
+                .then((response) => response.data),
+
+        onSuccess: (response) => {
+            queryClient.invalidateQueries({queryKey: ['updateUser']});
+        },
+    });
 };

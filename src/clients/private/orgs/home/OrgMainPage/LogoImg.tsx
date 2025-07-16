@@ -10,3 +10,14 @@ export const LogoImg = memo(function LogoImg() {
         />
     );
 });
+
+export const FullLogoImg = memo(function LogoImg2() {
+    return (
+        <img
+            src="/images/renewallogo/base_nav-logo.png"
+            alt="scordi logo"
+            className="mx-auto h-9 mb-10"
+            loading="lazy"
+        />
+    );
+});

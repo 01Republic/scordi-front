@@ -18,6 +18,8 @@ import {useWorkspaceSubscriptionCount} from '^models/Subscription/hook';
 import {useOrgIdParam} from '^atoms/common';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {errorToast} from '^api/api';
+import {OrgOnboardingSubscriptionConnectionManualConnectsPageRoute} from '^pages/orgs/[id]/onboarding/subscription/connection/manual/connects';
+import {OrgOnboardingMembersPageRoute} from '^pages/orgs/[id]/onboarding/members';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     const router = useRouter();
@@ -36,7 +38,12 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
 
     const createSubscription = () => {
         const {invoiceAccountIds = []} = invoiceAccountData;
-        const redirect = (orgId: number) => router.push(OrgMainPageRoute.path(orgId));
+
+        /* 온보딩 중 구독 연결 페이지인 경우 다음 스텝으로 이동 */
+        const redirect = (orgId: number) =>
+            router.pathname === OrgOnboardingSubscriptionConnectionManualConnectsPageRoute.pathname
+                ? router.push(OrgOnboardingMembersPageRoute.path(orgId))
+                : router.push(OrgMainPageRoute.path(orgId));
 
         return subscriptionApi
             .create(formData)

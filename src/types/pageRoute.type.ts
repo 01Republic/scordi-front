@@ -21,6 +21,14 @@ export const pathReplace = <T extends {}, Q extends {}>(pathname: string, params
     Object.entries(params).forEach(([k, v]) => {
         pathname = pathname.replace(`[${k}]`, String(v));
     });
+
+    if (query) {
+        const queryString = Object.entries(query)
+            .map(([k, v]) => `${k}=${v}`)
+            .join('&');
+        return queryString ? `${pathname}?${queryString}` : pathname;
+    }
+
     return pathname;
 };
 

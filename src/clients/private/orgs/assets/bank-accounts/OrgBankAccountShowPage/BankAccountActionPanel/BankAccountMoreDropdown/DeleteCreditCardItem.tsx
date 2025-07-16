@@ -18,7 +18,7 @@ export const DeleteCreditCardItem = memo(function DeleteCreditCardButton() {
 
         confirmDestroy()
             .then(() => bankAccountApi.destroy(orgId, id))
-            .then(() => toast.success('삭제 성공'))
+            .then(() => toast.success('삭제 됐어요.'))
             .then(() => router.replace(OrgBankAccountListPageRoute.path(orgId)))
             .catch(errorToast);
     };

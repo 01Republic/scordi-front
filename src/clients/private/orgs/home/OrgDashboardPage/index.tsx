@@ -1,10 +1,9 @@
-import React from 'react';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {DashboardTitle} from './DashboardTitle';
-import {QuickButtonGroup} from './QuickButtonGroup';
+import {InvoiceAccountsSection} from './InvoiceAccountsSection';
 import {MonthlyTotalExpenseSection} from './MonthlyTotalExpenseSection';
 import {PaymentMethodsSection} from './PaymentMethodsSection';
-import {InvoiceAccountsSection} from './InvoiceAccountsSection';
+import {QuickButtonGroup} from './QuickButtonGroup';
 import {YearlySection} from './YearlySection';
 
 export const OrgDashboardPage = () => {

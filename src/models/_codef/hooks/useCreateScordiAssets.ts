@@ -20,7 +20,7 @@ export async function createScordiAsset(orgId: number, codefAsset: CodefBankAcco
             codefBankAccountApi
                 .patchHistories(orgId, codefAsset.id)
                 // 2) 스코디 계좌 생성
-                .then(() => codefBankAccountApi.show(orgId, codefAsset.id))
+                .then(() => codefBankAccountApi.createBankAccount(orgId, codefAsset.id))
                 .then((res) => res.data as NonNullableProp<CodefBankAccountDto, 'bankAccountId'>)
                 .then((codefBankAccount) => bankAccountApi.show(orgId, codefBankAccount.bankAccountId))
                 .then((res) => res.data)

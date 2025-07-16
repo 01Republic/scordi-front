@@ -154,6 +154,7 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
     const {query, setQuery, queryResult} = base;
     const {data: result, isFetching: isLoading, refetch: reload, isFetched} = queryResult;
     const [isFirstLoaded, setIsFirstLoaded] = useState(false);
+    const [sortVal, setSortVal] = useState<'ASC' | 'DESC'>('DESC');
 
     useEffect(() => {
         if (isFetched) setIsFirstLoaded(true);
@@ -175,6 +176,18 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
         return search({...query, page: 1, order: Qs.parse(`${sortKey}=${value}`)});
     }
 
+    const newOrderBy = (sortKey: string) => {
+        setSortVal((prev) => {
+            const next: 'ASC' | 'DESC' = prev === 'ASC' ? 'DESC' : 'ASC';
+            setQuery((prevQ) => ({
+                ...prevQ,
+                page: 1,
+                order: Qs.parse(`${sortKey}=${next}`),
+            }));
+            return next;
+        });
+    };
+
     const isNotLoaded = !isFirstLoaded;
     const isEmptyResult = !isNotLoaded && result.pagination.totalItemCount === 0;
 
@@ -184,11 +197,14 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
         search,
         isLoading,
         reload,
+        isFetched,
         isNotLoaded,
         isEmptyResult,
         movePage,
         resetPage,
         changePageSize,
         orderBy,
+        sortVal,
+        newOrderBy,
     };
 }

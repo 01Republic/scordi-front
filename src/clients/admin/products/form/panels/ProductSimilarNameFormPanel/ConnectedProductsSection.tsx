@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {ProductSimilarNameDto} from '^models/ProductSimilarName/type';
 import {useProductSimilarNameList} from '^models/ProductSimilarName/hook';
 import {ProductDto} from '^models/Product/type';
@@ -12,11 +12,19 @@ interface ConnectProductSectionProps {
 export const ConnectedProductsSection = memo((props: ConnectProductSectionProps) => {
     const {product, disconnectProduct, setDisConnectProduct} = props;
 
-    const {result} = useProductSimilarNameList({
+    const {result, search} = useProductSimilarNameList(product.id, {
         relations: [],
         where: {productId: product.id},
         order: {id: 'DESC'},
     });
+
+    useEffect(() => {
+        search({
+            relations: [],
+            where: {productId: product.id},
+            order: {id: 'DESC'},
+        });
+    }, [product.id]);
 
     const productSimilarList = result.items.filter((item) => item.name !== product.nameKo);
 
@@ -31,7 +39,7 @@ export const ConnectedProductsSection = memo((props: ConnectProductSectionProps)
     return (
         <section>
             <div className="pb-1.5 border-b border-gray-200">
-                <p className="text-12 font-medium">연결된 서비스 ({result.pagination.currentItemCount})</p>
+                <p className="text-12 font-medium">연결된 서비스 ({result.pagination.currentItemCount - 1})</p>
             </div>
             <div>
                 {productSimilarList.map((item) => {

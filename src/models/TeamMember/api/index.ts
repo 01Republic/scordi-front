@@ -1,6 +1,11 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {TeamMemberDto, CreateTeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
+import {
+    TeamMemberDto,
+    CreateTeamMemberDto,
+    UpdateTeamMemberDto,
+    FindAllTeamMemberQueryDto,
+} from '^models/TeamMember/type';
 import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
@@ -12,7 +17,7 @@ import {CreateGoogleAdminTeamMembersRequestDto} from '^models/integration/Integr
 // [유저] 팀 멤버 API
 export const teamMemberApi = {
     // 팀 멤버 조회
-    index(orgId: number, params?: FindAllQueryDto<TeamMemberDto>) {
+    index(orgId: number, params?: FindAllTeamMemberQueryDto) {
         const url = `/organizations/${orgId}/team_members`;
         return api.get<Paginated<TeamMemberDto>>(url, {params}).then(paginatedDtoOf(TeamMemberDto));
     },

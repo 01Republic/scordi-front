@@ -2,13 +2,13 @@ import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
 import {SignUserDetailRoute} from '^pages/sign/detail';
-import {StepButton} from '^clients/public/home/LandingPages/SignAuthPage/StepButton';
 import {CreateOrganizationRequestDto} from '^models/Organization/type';
-import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 import {useCreateOrganization} from '^models/Organization/hook';
+import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 import {OrganizationNameSection} from './OrganizationNameSection';
 import {BusinessRegistrationNumberSection} from './BusinessRegistrationNumberSection';
 import {OrganizationSizeSection} from './OrganizationSizeSection';
+import {StepButton} from '^clients/public/userAuth/UserSignUpPage/StepButton';
 
 export const OrgCreatePage = memo(() => {
     const router = useRouter();
