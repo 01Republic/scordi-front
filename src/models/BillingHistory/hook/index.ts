@@ -19,15 +19,17 @@ import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
     billingHistoryListOfBankAccountAtom,
-    billingHistoryListOfCreditCardAtom,
     billingHistoryListOfInvoiceAccountAtom,
     billingHistoryListOfSubscriptionAtom,
     billingHistoryLoadingState,
     getBillingHistoryQuery,
 } from '../atom';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {ErrorResponse} from '^models/User/types';
 import {UploadFileDto} from '^api/file.api';
+import {useState} from 'react';
+import {Paginated} from '^types/utils/paginated.dto';
+import {BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
 
 export const useBillingHistoriesV3 = () => useBillingHistories(billingHistoriesAtom);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -39,7 +41,49 @@ export const useBillingHistoryListOfSubscription = () => useBillingHistories(bil
 export const useBillingHistoryListInSiblings = () => useBillingHistories(billingHistoryListInSiblingsAtom);
 
 // 결제수단 상세페이지 / 결제내역
-export const useBillingHistoryListOfCreditCard = () => useBillingHistoriesOfOrg(billingHistoryListOfCreditCardAtom);
+export const useBillingHistoryListOfCreditCard2 = (
+    organizationId: number,
+    creditCardId: number,
+    params: FindAllBillingHistoriesQueryDto,
+) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2, organizationId, creditCardId, query],
+        queryFn: () =>
+            billingHistoryApi
+                .index({
+                    ...query,
+                    where: {organizationId, creditCardId, ...query.where},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!organizationId && !!creditCardId,
+    });
+
+    const isEmptyResult = queryResult.data.items.length === 0;
+
+    const search = (params: FindAllBillingHistoriesQueryDto) => setQuery((q) => ({...q, ...params}));
+    const movePage = (page: number) => search({page});
+    const resetPage = () => movePage(1);
+    const changePageSize = (pageSize: number) => search({page: 1, itemsPerPage: pageSize});
+    const orderBy = (sortKey: string, value: 'ASC' | 'DESC') => {
+        return setQuery((q) => ({
+            ...q,
+            order: {...q.order, [sortKey]: value},
+            page: 1,
+        }));
+    };
+
+    return {
+        ...queryResult,
+        query,
+        isEmptyResult,
+        search,
+        movePage,
+        changePageSize,
+        orderBy,
+    };
+};
 
 // 결제수단 상세페이지 / 결제내역
 export const useBillingHistoryListOfBankAccount = () => useBillingHistoriesOfOrg(billingHistoryListOfBankAccountAtom);

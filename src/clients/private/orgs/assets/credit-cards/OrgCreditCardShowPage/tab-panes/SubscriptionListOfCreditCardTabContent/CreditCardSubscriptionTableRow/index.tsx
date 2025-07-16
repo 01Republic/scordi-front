@@ -15,17 +15,16 @@ import {
 } from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {useCurrentCodefCard} from '../../../atom';
 import {MinusCircle} from 'lucide-react';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
+    isManuallyCreated: boolean;
     reload: () => any;
 }
 
 export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptionTableRowProps) => {
-    const {subscription, reload} = props;
-    const {isManuallyCreated} = useCurrentCodefCard();
+    const {subscription, isManuallyCreated, reload} = props;
 
     const update = async (dto: UpdateSubscriptionRequestDto) => {
         return subscriptionApi

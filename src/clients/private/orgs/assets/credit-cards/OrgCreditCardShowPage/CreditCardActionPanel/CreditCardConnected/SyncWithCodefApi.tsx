@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
-import {pick} from '^types/utils/one-of-list.type';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
+import {useCodefCardsOfCreditCardShow2} from '^models/CodefCard/hook';
 import {MakeSyncWithCodefAPI} from './MakeSyncWithCodefAPI';
 import {NewSyncWithCodefApi} from './NewSyncWithCodefApi';
+import {useIdParam} from '^atoms/common';
 
 export const SyncWithCodefApi = memo(() => {
-    const {result} = useCodefCardsOfCreditCardShow();
-    const currentCodefCard = pick(result.items[0]);
+    const creditCardId = useIdParam('creditCardId');
+    const {currentCodefCard} = useCodefCardsOfCreditCardShow2(creditCardId);
+    console.log('currentCodefCard', currentCodefCard);
 
     // creditCard.isManuallyCreated?
     if (!currentCodefCard) {

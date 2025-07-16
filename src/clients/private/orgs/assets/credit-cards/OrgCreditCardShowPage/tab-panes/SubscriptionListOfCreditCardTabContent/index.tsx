@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import Tippy from '@tippyjs/react';
 import {LinkTo} from '^components/util/LinkTo';
-import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
+import {useSubscriptionListOfCreditCard2} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useCurrentCodefCard, useCurrentCreditCard} from '../../atom';
@@ -10,23 +10,20 @@ import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
 import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
 import {HelpCircle, Plus, RotateCw} from 'lucide-react';
 import {BankDataFetchingIssueModal} from '^clients/private/_modals/BankDataFetchingIssueModal';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 
 export const SubscriptionListOfCreditCardTabContent = memo(() => {
+    const orgId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
     const {currentCreditCard} = useCurrentCreditCard();
     const {isManuallyCreated} = useCurrentCodefCard();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
     const [isNoSubscriptionFoundModalOpen, setIsNoSubscriptionFoundModalOpen] = useState(false);
-    const {isLoading, isNotLoaded, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
-        useSubscriptionListOfCreditCard();
-
-    const onReady = () => {
-        if (!currentCreditCard) return;
-        search({
-            relations: ['master'],
-            where: {creditCardId: currentCreditCard.id},
-            order: {nextComputedBillingDate: 'DESC', id: 'DESC'},
-        });
-    };
+    const query = useSubscriptionListOfCreditCard2(orgId, creditCardId, {
+        relations: ['master'],
+        order: {nextComputedBillingDate: 'DESC', id: 'DESC'},
+    });
+    const {data, isFetching: isLoading, isEmptyResult, refetch: reload, movePage, changePageSize, orderBy} = query;
 
     const AddSubscriptionButton = () => (
         <LinkTo
@@ -39,18 +36,14 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
         </LinkTo>
     );
 
-    useEffect(() => {
-        onReady();
-    }, [currentCreditCard]);
-
     if (!currentCreditCard) return <></>;
 
-    const {totalItemCount} = result.pagination;
+    const {totalItemCount} = data.pagination;
 
     return (
         <section className="py-4">
             <ListTableContainer
-                pagination={result.pagination}
+                pagination={data.pagination}
                 movePage={movePage}
                 changePageSize={changePageSize}
                 hideTopPaginator
@@ -89,10 +82,16 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                     />
                 ) : (
                     <ListTable
-                        items={result.items}
+                        items={data.items}
                         isLoading={isLoading}
                         Header={() => <CreditCardSubscriptionTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <CreditCardSubscriptionTableRow subscription={item} reload={reload} />}
+                        Row={({item}) => (
+                            <CreditCardSubscriptionTableRow
+                                subscription={item}
+                                isManuallyCreated={isManuallyCreated}
+                                reload={reload}
+                            />
+                        )}
                     />
                 )}
             </ListTableContainer>

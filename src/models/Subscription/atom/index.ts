@@ -46,11 +46,6 @@ export const subscriptionListOfBankAccountAtom = pagedResourceAtom<SubscriptionD
     key: 'subscriptionListOfBankAccountAtom',
 });
 
-// 카드 상세 페이지 > 구독 테이블
-export const subscriptionListOfCreditCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
-    key: 'subscriptionListOfCreditCardAtom',
-});
-
 // 카드 상세 페이지 > 구독 연결 모달
 export const addableSubscriptionsOfCreditCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'addableSubscriptionsOfCreditCardAtom',

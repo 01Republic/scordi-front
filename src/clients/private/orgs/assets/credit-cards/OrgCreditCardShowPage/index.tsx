@@ -11,12 +11,11 @@ import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
 import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 import {useCreditCardPageFlashForExcelUpload} from './CreditCardPageFlashHandler/atom';
-import {useRecoilValue} from 'recoil';
-import {creditCardSubjectAtom} from './atom';
+import {useCurrentCreditCard} from './atom';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
-    const currentCreditCard = useRecoilValue(creditCardSubjectAtom);
+    const {currentCreditCard} = useCurrentCreditCard();
     const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);

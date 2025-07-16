@@ -22,15 +22,12 @@ import {
     getCurrentSubscriptionQuery,
     subscriptionListAtom,
     subscriptionListOfBankAccountAtom,
-    subscriptionListOfCreditCardAtom,
     subscriptionListOfInvoiceAccountAtom,
     subscriptionsForSummaryState,
     subscriptionsInTeamMemberShowModalAtom,
     subscriptionsInTeamShowPageAtom,
     subscriptionTableListAtom,
 } from '^models/Subscription/atom';
-import {api} from '^api/api';
-import {oneDtoOf} from '^types/utils/response-of';
 import {ErrorResponse} from '^models/User/types';
 import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
 
@@ -62,8 +59,50 @@ export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subsc
 // 계좌 상세 페이지 > 구독 테이블
 export const useSubscriptionListOfBankAccount = () => useSubscriptions(subscriptionListOfBankAccountAtom);
 
-// 카드 상세 페이지 > 구독 테이블
-export const useSubscriptionListOfCreditCard = () => useSubscriptions(subscriptionListOfCreditCardAtom);
+// 카드 상세 페이지 > 구독 테이블 (신)
+export const useSubscriptionListOfCreditCard2 = (
+    organizationId: number,
+    creditCardId: number,
+    params: FindAllSubscriptionsQuery,
+) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.listOfCreditCard, organizationId, creditCardId, query],
+        queryFn: () =>
+            subscriptionApi
+                .index({
+                    ...query,
+                    where: {organizationId, creditCardId, ...query.where},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!organizationId && !!creditCardId,
+    });
+
+    const isEmptyResult = queryResult.data.items.length === 0;
+
+    const search = (params: FindAllSubscriptionsQuery) => setQuery((q) => ({...q, ...params}));
+    const movePage = (page: number) => search({page});
+    const resetPage = () => movePage(1);
+    const changePageSize = (pageSize: number) => search({page: 1, itemsPerPage: pageSize});
+    const orderBy = (sortKey: string, value: 'ASC' | 'DESC') => {
+        return setQuery((q) => ({
+            ...q,
+            order: {...q.order, [sortKey]: value},
+            page: 1,
+        }));
+    };
+
+    return {
+        ...queryResult,
+        query,
+        isEmptyResult,
+        search: setQuery,
+        movePage,
+        changePageSize,
+        orderBy,
+    };
+};
 
 // 카드 상세 페이지 > 구독 연결 모달
 export const useAddableSubscriptionsOfCreditCard = () => useSubscriptions(addableSubscriptionsOfCreditCardAtom);

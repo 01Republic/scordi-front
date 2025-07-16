@@ -1,13 +1,13 @@
 import React, {memo, useState} from 'react';
-import {useCurrentCreditCard, useCurrentCreditCardSync} from '../../atom';
+import {useCurrentCreditCard} from '../../atom';
 import {ConnectCodefModal} from './ConnectCodefModal';
 import {codefCardApi} from '^models/CodefCard/api';
-import {useOrgIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
+import {useCodefCardsOfCreditCardShow2} from '^models/CodefCard/hook';
 import {creditCardApi} from '^models/CreditCard/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRouter} from 'next/router';
@@ -16,10 +16,11 @@ import {Sparkles} from 'lucide-react';
 
 export const NewSyncWithCodefApi = memo(() => {
     const orgId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
     const router = useRouter();
     const {currentCreditCard} = useCurrentCreditCard();
     const {isSyncRunning, syncCard} = useCodefCardSync();
-    const {reload} = useCodefCardsOfCreditCardShow();
+    const {refetch} = useCodefCardsOfCreditCardShow2(creditCardId);
     const [isConnectModalOpened, setIsConnectModalOpened] = useState(false);
 
     if (!currentCreditCard) return <></>;
@@ -32,7 +33,7 @@ export const NewSyncWithCodefApi = memo(() => {
             .then((res) => {
                 setIsConnectModalOpened(false);
                 toast.success('연결 완료! 동기화를 시작합니다.');
-                return reload().then(() => syncCard(orgId, res.data));
+                return refetch().then(() => syncCard(orgId, res.data));
             })
             .catch(errorToast);
     };

@@ -3,4 +3,5 @@ export const SUBSCRIPTION_HOOK_KEY = {
     base: 'subscription3',
     list: 'subscriptions3',
     detail: 'detailSubscription',
+    listOfCreditCard: 'subscriptionListOfCreditCard',
 };
