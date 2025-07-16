@@ -12,6 +12,8 @@ import {SubscriptionTableHeaderOfBankAccount} from './SubscriptionTableHeaderOfB
 import {HelpCircle, Plus, RotateCw} from 'lucide-react';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {BankDataFetchingIssueModal} from '^clients/private/_modals/BankDataFetchingIssueModal';
+import {useCodefBankAccount, useCodefBankAccountsInConnector} from '^models/CodefBankAccount/hook';
+import {pick} from '^types/utils/one-of-list.type';
 
 export const SubscriptionListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
@@ -20,6 +22,12 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
     const [isBankDataFetchingIssueModalOpen, setBankDataFetchingIssueModalOpen] = useState(false);
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useSubscriptionListOfBankAccount();
+
+    const {data} = useCodefBankAccountsInConnector(currentBankAccount?.organizationId, {
+        where: {bankAccountId: currentBankAccount?.id},
+        order: {id: 'DESC'},
+    });
+    const currentCodefBank = pick(data.items[0]);
 
     const onReady = () => {
         if (!currentBankAccount) return;
@@ -74,14 +82,28 @@ export const SubscriptionListOfBankAccountTabContent = memo(() => {
                         </Tippy>
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={() => setBankDataFetchingIssueModalOpen(true)}
-                        className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
-                    >
-                        <HelpCircle className="size-4 fill-gray-500 text-white" />
-                        <span>찾는 구독이 없나요?</span>
-                    </button>
+                    {currentCodefBank ? (
+                        <button
+                            type="button"
+                            onClick={() => setBankDataFetchingIssueModalOpen(true)}
+                            className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
+                        >
+                            <HelpCircle className="size-4 fill-gray-500 text-white" />
+                            <span>찾는 구독이 없나요?</span>
+                        </button>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            {isManuallyCreated && (
+                                <button
+                                    className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
+                                    onClick={() => setAddSubscriptionModalOpened(true)}
+                                >
+                                    <Plus />
+                                    <span>구독 연결하기</span>
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {isEmptyResult ? (
