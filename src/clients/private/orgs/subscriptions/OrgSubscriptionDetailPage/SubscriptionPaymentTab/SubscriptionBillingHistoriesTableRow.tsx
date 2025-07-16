@@ -4,7 +4,7 @@ import {CreditCardProfileCompact, CreditCardProfileOption2} from '^models/Credit
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {BillingHistoryDto, BillingHistoryStatus, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components';
+import {BillingHistoryStatusTagUI, PayAmount} from '^models/BillingHistory/components';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import {InvoiceAccountProfile, InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
@@ -60,10 +60,7 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
             {/* 결제금액 */}
             <td className={'text-14'}>
-                {billingHistory.subscription ? <LatestPayAmount subscription={billingHistory.subscription} /> : '-'}
-
-                {/*<PriceText billingHistory={billingHistory} status={billingHistory.about} />*/}
-                {/*{billingHistory.payAmount?.symbol} {billingHistory.payAmount?.amount.toLocaleString()}*/}
+                {billingHistory.payAmount?.amount ? <PayAmount billingHistory={billingHistory} /> : '-'}
             </td>
 
             {/* 연결된 결제수단 */}
