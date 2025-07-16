@@ -13,7 +13,6 @@ import {codefAccountApi} from '^models/CodefAccount/api';
 import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {
     codefCardsAdminAtom,
-    codefCardsOfCreditCardShowAtom,
     connectedCodefCardsAtom,
     newCodefCardsAtom,
     subscriptionsForAccountAtom,
@@ -24,9 +23,6 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {uniqBy} from 'lodash';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {pick} from '^types/utils/one-of-list.type';
-
-// 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 (구)
-export const useCodefCardsOfCreditCardShow = () => useCodefCardsV3(codefCardsOfCreditCardShowAtom);
 
 // 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 (신)
 export const useCodefCardsOfCreditCardShow2 = (creditCardId: number) => {

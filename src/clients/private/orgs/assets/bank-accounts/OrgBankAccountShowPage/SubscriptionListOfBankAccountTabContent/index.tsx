@@ -11,7 +11,7 @@ import {SubscriptionTableHeaderOfBankAccount} from './SubscriptionTableHeaderOfB
 import {HelpCircle, Plus, RotateCw} from 'lucide-react';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {BankDataFetchingIssueModal} from '^clients/private/_modals/BankDataFetchingIssueModal';
-import {useCodefBankAccount, useCodefBankAccountsInConnector} from '^models/CodefBankAccount/hook';
+import {useCodefBankAccountsInConnector} from '^models/CodefBankAccount/hook';
 import {pick} from '^types/utils/one-of-list.type';
 
 export const SubscriptionListOfBankAccountTabContent = memo(() => {
