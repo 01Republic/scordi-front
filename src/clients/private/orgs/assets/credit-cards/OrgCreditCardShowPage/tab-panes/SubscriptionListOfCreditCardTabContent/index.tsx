@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import Tippy from '@tippyjs/react';
 import {LinkTo} from '^components/util/LinkTo';
 import {useSubscriptionListOfCreditCard2} from '^models/Subscription/hook';
@@ -16,7 +16,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
     const orgId = useOrgIdParam();
     const creditCardId = useIdParam('creditCardId');
     const {currentCreditCard} = useCurrentCreditCard();
-    const {isManuallyCreated} = useCurrentCodefCard();
+    const {isManuallyCreated, currentCodefCard} = useCurrentCodefCard();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
     const [isNoSubscriptionFoundModalOpen, setIsNoSubscriptionFoundModalOpen] = useState(false);
     const query = useSubscriptionListOfCreditCard2(orgId, creditCardId, {
@@ -65,14 +65,28 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                         </Tippy>
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={() => setIsNoSubscriptionFoundModalOpen(true)}
-                        className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
-                    >
-                        <HelpCircle className="size-4 fill-gray-500 text-white" />
-                        <span>찾는 구독이 없나요?</span>
-                    </button>
+                    {currentCodefCard ? (
+                        <button
+                            type="button"
+                            onClick={() => setIsNoSubscriptionFoundModalOpen(true)}
+                            className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
+                        >
+                            <HelpCircle className="size-4 fill-gray-500 text-white" />
+                            <span>찾는 구독이 없나요?</span>
+                        </button>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            {isManuallyCreated && (
+                                <button
+                                    className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
+                                    onClick={() => setAddSubscriptionModalOpened(true)}
+                                >
+                                    <Plus />
+                                    <span>구독 연결하기</span>
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {isEmptyResult ? (

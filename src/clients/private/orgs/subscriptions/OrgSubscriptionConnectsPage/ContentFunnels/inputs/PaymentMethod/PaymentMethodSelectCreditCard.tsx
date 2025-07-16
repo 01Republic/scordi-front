@@ -79,7 +79,10 @@ export const PaymentMethodSelectCreditCard = memo(function PaymentMethodSelectCr
                 entries={result.items}
                 defaultValue={formData.creditCardId}
                 onSelect={onChange}
-                onCtaButtonClick={() => setIsCardCreateMethodModalOpen(true)}
+                onCtaButtonClick={() => {
+                    selectModal.hide();
+                    setIsCardCreateMethodModalOpen(true);
+                }}
             />
 
             {/* 결제수단 등록 > 등록 방법 선택 */}
