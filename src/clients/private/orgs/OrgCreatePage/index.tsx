@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
 import {SignUserDetailRoute} from '^pages/sign/detail';
@@ -9,10 +9,25 @@ import {OrganizationNameSection} from './OrganizationNameSection';
 import {BusinessRegistrationNumberSection} from './BusinessRegistrationNumberSection';
 import {OrganizationSizeSection} from './OrganizationSizeSection';
 import {StepButton} from '^clients/public/userAuth/UserSignUpPage/StepButton';
+import {useMembershipInHeader2} from '^models/Membership/hook';
+import {useCurrentUser} from '^models/User/hook';
+import {SuccessSign} from '^clients/public/userAuth/UserSignUpPage/SignDetail/SuccessSign';
 
 export const OrgCreatePage = memo(() => {
     const router = useRouter();
-    const {mutate, isPending} = useCreateOrganization();
+    const [newOrgId, setNewOrgId] = useState<number | undefined>(undefined);
+    const {currentUser} = useCurrentUser();
+    const {mutate, isPending, isSuccess} = useCreateOrganization();
+    const {data} = useMembershipInHeader2(currentUser?.id, {
+        relations: ['organization'],
+        where: {userId: currentUser?.id},
+        includeAdmin: true,
+        itemsPerPage: 0,
+        order: {id: 'DESC'},
+    });
+
+    const {items} = data;
+
     const form = useForm<CreateOrganizationRequestDto>({
         mode: 'all',
     });
@@ -25,11 +40,16 @@ export const OrgCreatePage = memo(() => {
         form.handleSubmit((data: CreateOrganizationRequestDto) => {
             mutate(data, {
                 onSuccess: ({id: orgId}) => {
-                    router.push(SignUserDetailRoute.path() + `?orgId=${orgId}`);
+                    setNewOrgId(orgId);
+                    if (isSuccess && items.length < 1)
+                        return router.push(SignUserDetailRoute.path() + `?orgId=${orgId}`);
                 },
             });
         })();
     };
+    //
+    if (isSuccess && items.length > 1)
+        return <SuccessSign isWorkSpace={!!isSuccess && items.length > 1} newOrgId={newOrgId} />;
 
     return (
         <BaseLayout workspace={false}>
@@ -44,7 +64,7 @@ export const OrgCreatePage = memo(() => {
                                 <OrganizationSizeSection />
                             </section>
                             <StepButton
-                                text="계속"
+                                text={items.length > 0 ? '완료' : '계속'}
                                 disabled={form.formState.isValid}
                                 onClick={onNext}
                                 isPending={isPending}
