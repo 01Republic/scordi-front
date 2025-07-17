@@ -10,7 +10,14 @@ import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLanding
 import {OrgOnboardingSubscriptionPageRoute} from '^pages/orgs/[id]/onboarding/subscription';
 import {useIdParam} from '^atoms/common';
 
-export const SuccessSign = () => {
+interface SuccessSignProps {
+    isWorkSpace?: boolean;
+    newOrgId?: number;
+}
+
+export const SuccessSign = (props: SuccessSignProps) => {
+    const {isWorkSpace, newOrgId} = props;
+
     const router = useRouter();
     const createdOrgId: number | undefined = useIdParam('orgId');
     const {currentUser} = useCurrentUser();
@@ -20,8 +27,8 @@ export const SuccessSign = () => {
     const url = (() => {
         if (!currentUser) return '#';
         /* 유저가 워크스페이스를 새로 생성한 경우 온보딩으로 이동 */
-        if (createdOrgId) {
-            return OrgOnboardingSubscriptionPageRoute.path(createdOrgId);
+        if (createdOrgId || newOrgId) {
+            return OrgOnboardingSubscriptionPageRoute.path(newOrgId ? newOrgId : createdOrgId);
         }
         const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
         return OrgMainPageRoute.path(id);
@@ -49,7 +56,9 @@ export const SuccessSign = () => {
                             }
                         />
                     </div>
-                    <span className="text-36 font-bold text-gray-900">가입을 환영합니다!</span>
+                    <span className="text-36 font-bold text-gray-900 items-center text-center">
+                        {isWorkSpace ? '새 워크스페이스 생성 완료!' : '가입을 환영합니다!'}
+                    </span>
                     <div className="flex flex-col items-center font-normal text-neutral-800">
                         <p className="text-18">더 이상 엑셀 시트 매번 기입할 필요 없어요.</p>
                         <p className="text-18">지금 바로 SaaS 구독을 관리해보세요!</p>

@@ -34,7 +34,7 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
         setIsEditMode,
         isLoading,
     } = useCurrentCreditCardEdit();
-    const {mutateAsync: update} = useCreditCardUpdate(orgId, creditCardId);
+    const {mutateAsync: update} = useCreditCardUpdate();
 
     if (!currentCreditCard) return <></>;
 

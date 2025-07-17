@@ -13,10 +13,13 @@ import {errorToast} from '^api/api';
 import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
 
 export const SubscriptionBasicInfoSection = memo(() => {
+    const {reload, currentSubscription} = useCurrentSubscription();
+    const {data} = useShowSubscription(currentSubscription?.id, {
+        relations: ['invoiceAccounts.googleTokenData'],
+    });
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const {reload, currentSubscription} = useCurrentSubscription();
 
     if (!currentSubscription) return <></>;
 
@@ -26,7 +29,6 @@ export const SubscriptionBasicInfoSection = memo(() => {
         if (!currentSubscription) return;
         updateSubscription({subscriptionId: currentSubscription.id, data: dto})
             .then(() => setIsSaving(true))
-            // .then(() => reload())
             .then(() => toast.success('변경사항을 저장했어요.'))
             .then(() => setIsEditMode(false))
             .catch(errorToast)
@@ -44,9 +46,9 @@ export const SubscriptionBasicInfoSection = memo(() => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 isSaving={isSaving}
             >
-                <SubscriptionAlias isEditMode={isEditMode} form={form} />
-                <SubscriptionMaster isEditMode={isEditMode} form={form} />
-                <SubscriptionDesc isEditMode={isEditMode} form={form} />
+                <SubscriptionAlias isEditMode={isEditMode} form={form} defaultValue={data?.alias} />
+                <SubscriptionMaster isEditMode={isEditMode} form={form} defaultValue={data?.master} />
+                <SubscriptionDesc isEditMode={isEditMode} form={form} defaultValue={data?.desc} />
                 <SubscriptionTeam />
             </CardSection.Form>
         </CardSection.Base>

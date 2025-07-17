@@ -12,6 +12,7 @@ import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccoun
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {codefBankAccountsAdminAtom} from '^models/CodefBankAccount/atom';
+import {useState} from 'react';
 
 /* 코드에프 계좌 조회 */
 export const useCodefBankAccount = () => {
@@ -19,16 +20,6 @@ export const useCodefBankAccount = () => {
     const params: FindAllBankAccountQueryDto = {
         sync: true,
         itemsPerPage: 0,
-    };
-
-    // codef 연결된 계좌 조회
-    const useCodefBankAccountsInConnector = (orgId: number, params?: FindAllBankAccountQueryDto) => {
-        return useQuery({
-            queryKey: ['codefAccount', orgId, params],
-            queryFn: () => codefBankAccountApi.index(orgId, params).then((res) => res.data),
-            enabled: !!orgId && !isNaN(orgId),
-            initialData: Paginated.init(),
-        });
     };
 
     // 스코디 계좌 생성
@@ -44,7 +35,20 @@ export const useCodefBankAccount = () => {
         },
     });
 
-    return {useCodefBankAccountsInConnector, createScordiBankAccount};
+    return {createScordiBankAccount};
+};
+
+// codef 연결된 계좌 조회
+export const useCodefBankAccountsInConnector = (orgId?: number, params?: FindAllBankAccountQueryDto) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: ['codefAccount', orgId, query],
+        queryFn: () => codefBankAccountApi.index(orgId!, params).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId),
+        initialData: Paginated.init(),
+    });
+
+    return {query, setQuery, ...queryResult};
 };
 
 /* 코드에프 계좌 조회 - 여러은행사의 계좌를 조회 */
