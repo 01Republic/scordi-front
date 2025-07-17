@@ -32,6 +32,7 @@ export const useCodefCardsOfCreditCardShow2 = (creditCardId: number) => {
         queryFn: () =>
             codefCardApi
                 .index(orgId, {
+                    relations: ['account'],
                     where: {creditCardId},
                     order: {id: 'DESC'},
                 })
