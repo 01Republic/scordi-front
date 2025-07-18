@@ -44,9 +44,13 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                         alt={currentUser.name}
                                         className="w-8 h-8"
                                     />
-                                    <div>
-                                        <p className="text-sm font-semibold text-gray-900">{currentUser.name}님</p>
-                                        <p className="text-12 text-gray-400">{currentUser.email}</p>
+                                    <div className="overflow-hidden">
+                                        <p className="w-full overflow-hidden overflow-ellipsis text-sm font-semibold text-gray-900">
+                                            {currentUser.name}님
+                                        </p>
+                                        <p className="w-full overflow-hidden overflow-ellipsis text-12 text-gray-400">
+                                            {currentUser.email}
+                                        </p>
                                     </div>
                                 </div>
                             </li>
