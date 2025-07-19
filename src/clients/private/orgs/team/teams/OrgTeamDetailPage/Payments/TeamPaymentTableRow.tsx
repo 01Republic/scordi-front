@@ -13,6 +13,7 @@ import {confirm2} from '^components/util/dialog';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {MinusCircle} from 'lucide-react';
+import {useCreditCardUpdate} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -22,13 +23,13 @@ interface TeamPaymentTableRowProps {
 export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
     const teamId = useRecoilValue(teamIdParamState);
     const {creditCard, reload} = props;
+    const {mutateAsync} = useCreditCardUpdate();
 
     if (!creditCard) return null;
 
     const update = async (dto: UpdateCreditCardDto) => {
         const {id, organizationId: orgId} = creditCard;
-        return creditCardApi
-            .update(orgId, id, dto)
+        return mutateAsync({orgId, id, data: dto})
             .then(() => toast.success('수정했습니다'))
             .catch(() => toast.error('문제가 발생했습니다'))
             .finally(() => reload && reload());

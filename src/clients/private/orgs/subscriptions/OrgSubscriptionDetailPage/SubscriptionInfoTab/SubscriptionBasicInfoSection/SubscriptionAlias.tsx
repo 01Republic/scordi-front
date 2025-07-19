@@ -9,22 +9,20 @@ import {EmptyValue} from '../../EmptyValue';
 interface CardSectionInputProps extends WithChildren {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    defaultValue?: string;
 }
 
 export const SubscriptionAlias = memo((props: CardSectionInputProps) => {
-    const {isEditMode, form} = props;
-    const {currentSubscription: subscription} = useCurrentSubscription();
+    const {isEditMode, form, defaultValue} = props;
 
-    if (!subscription) return <></>;
-
-    const value = subscription.alias.length === 0 ? <EmptyValue /> : subscription.alias;
+    const value = defaultValue ? defaultValue : <EmptyValue />;
 
     return (
         <FormControl label="워크스페이스명">
             {isEditMode ? (
                 <input
                     className="w-full input border-gray-200 bg-gray-100 h-[50px]"
-                    defaultValue={subscription.alias}
+                    defaultValue={defaultValue}
                     {...form.register('alias')}
                 />
             ) : (

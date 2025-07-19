@@ -213,10 +213,10 @@ export const useSubscription3 = (params: FindAllSubscriptionsQuery) => {
 };
 
 // 구독 상세조회
-export const useShowSubscription = (subscriptionId: number, params?: FindOneSubscriptionQueryDto) => {
+export const useShowSubscription = (subscriptionId?: number, params?: FindOneSubscriptionQueryDto) => {
     return useQuery<SubscriptionDto, ErrorResponse>({
         queryKey: [SUBSCRIPTION_HOOK_KEY.detail, subscriptionId, params],
-        queryFn: () => subscriptionApi.show(subscriptionId, params).then((res) => res.data),
+        queryFn: () => subscriptionApi.show(subscriptionId!, params).then((res) => res.data),
         enabled: !!subscriptionId && !isNaN(subscriptionId),
     });
 };

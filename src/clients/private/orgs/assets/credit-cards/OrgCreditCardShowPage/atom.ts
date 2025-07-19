@@ -17,6 +17,7 @@ import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {pick} from '^types/utils/one-of-list.type';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {ErrorResponse} from '^models/User/types';
 
 export const creditCardSubjectAtom = atom<CreditCardDto | null>({
     key: 'OrgCreditCardShowPage/creditCardSubjectAtom',
@@ -220,11 +221,25 @@ export const useCurrentCreditCardSync = () => {
     return {startSync, isSyncRunning, onFinish, currentCodefCard};
 };
 
-export const useCreditCardUpdate = (orgId: number, id: number) => {
+export const useCreditCardUpdate = () => {
     const {reload} = useCurrentCreditCard();
     const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (data: UpdateCreditCardDto) => creditCardApi.update(orgId, id, data).then((res) => res.data),
+
+    return useMutation<CreditCardDto, ErrorResponse, {orgId: number; id: number; data: UpdateCreditCardDto}>({
+        mutationFn: ({orgId, id, data}) => creditCardApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: (creditCard) => {
+            reload();
+            queryClient.setQueryData(['page/subject', 'creditCards', 'detail', creditCard.id], creditCard);
+            queryClient.invalidateQueries({queryKey: ['page/subject', 'creditCards', 'list']});
+        },
+    });
+};
+
+export const useUpdateCreditCard = (id: number) => {
+    const {reload} = useCurrentCreditCard();
+    const queryClient = useQueryClient();
+    return useMutation<CreditCardDto, ErrorResponse, {orgId: number; data: UpdateCreditCardDto}>({
+        mutationFn: ({orgId, data}) => creditCardApi.update(orgId, id, data).then((res) => res.data),
         onSuccess: (creditCard) => {
             reload();
             queryClient.setQueryData(['page/subject', 'creditCards', 'detail', id], creditCard);
