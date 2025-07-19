@@ -1,11 +1,12 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {ChevronLeft} from 'lucide-react';
-import SlackLogo from '^public/logo/icons/ic_slack.png';
+import SlackLogo from '^public/images/logo/external/logo_slack.png';
 import {NextImage} from '^components/NextImage';
 import {useSlackWorkspaceInDetailPage} from '^models/integration/IntegrationSlackWorkspace/hook';
 import {useSlackMembersInDetailPage} from '^models/integration/IntegrationSlackMember/hooks';
 import {SlackWorkspaceMembersSyncButton} from './SlackWorkspaceMembersSyncButton';
+import {useTranslation} from 'next-i18next';
 
 interface SlackWorkspaceDetailPageHeaderProps {
     //
@@ -16,6 +17,7 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
     const router = useRouter();
     const {data: workspace} = useSlackWorkspaceInDetailPage();
     const {refetch} = useSlackMembersInDetailPage();
+    const {t} = useTranslation('integrations');
 
     return (
         <div className="flex items-center">
@@ -41,14 +43,16 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
                         {/* service name */}
                         <div className="flex items-center gap-2.5">
                             {/* service name */}
-                            <h2 className="leading-none">Slack</h2>
+                            <h2 className="leading-none">{t('slack')}</h2>
 
                             {/* connect status */}
                             <div></div>
                         </div>
 
                         {/* workspace name */}
-                        <div className="text-gray-500">{workspace?.workspaceName}</div>
+                        <div className="text-gray-500" onClick={() => console.log(workspace)}>
+                            {workspace?.workspaceName}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,7 +61,7 @@ export const SlackWorkspaceDetailPageHeader = memo((props: SlackWorkspaceDetailP
             <div className="flex items-center gap-3">
                 <div>
                     <div className="text-gray-400 text-14 font-medium" onClick={() => console.log(workspace)}>
-                        ID: {workspace?.uid}
+                        {t('id')}: {workspace?.uid}
                     </div>
                 </div>
                 <div>

@@ -8,6 +8,7 @@ import {LoadableBox} from '^components/util/loading';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {ChevronDown, Plus} from 'lucide-react';
 import {OrgCreatePageRoute} from '^pages/orgs/new';
+import {useTranslation} from 'next-i18next';
 
 interface WorkspaceDropdownProps {
     //
@@ -18,6 +19,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
     const {currentOrg} = useCurrentOrg2();
     const {currentUser} = useCurrentUser();
     const {search, result, isLoading} = useMembershipInHeader();
+    const {t} = useTranslation('common');
 
     useEffect(() => {
         if (!currentOrg || !currentUser) return;
@@ -77,7 +79,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     className={`!rounded-none bg-white hover:bg-scordi-50 text-scordi-600 cursor-pointer transition-all flex items-center gap-2`}
                                 >
                                     <Plus />
-                                    <span>새 워크스페이스 만들기</span>
+                                    <span>{t('orgTopBar.workspaceDropdown.createWorkspace')}</span>
                                 </LinkTo>
                             </li>
                         </ul>

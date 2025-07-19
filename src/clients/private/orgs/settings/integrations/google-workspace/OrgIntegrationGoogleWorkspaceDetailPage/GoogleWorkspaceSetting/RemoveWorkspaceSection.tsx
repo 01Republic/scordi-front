@@ -8,6 +8,7 @@ import {integrationSlackWorkspaceApi} from '^models/integration/IntegrationSlack
 import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integrations';
 import {IntegrationGoogleWorkspaceWorkspaceDto} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/type';
 import {integrationGoogleWorkspaceWorkspaceApi} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/api';
+import {useTranslation} from 'next-i18next';
 
 interface RemoveWorkspaceSectionProps {
     workspace?: IntegrationGoogleWorkspaceWorkspaceDto;
@@ -18,6 +19,7 @@ export const RemoveWorkspaceSection = memo((props: RemoveWorkspaceSectionProps) 
     const {workspace, reload} = props;
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const {t} = useTranslation('integrations');
 
     const request = async (orgId: number, id: number) => {
         return integrationGoogleWorkspaceWorkspaceApi.destroy(orgId, id);
@@ -25,21 +27,19 @@ export const RemoveWorkspaceSection = memo((props: RemoveWorkspaceSectionProps) 
 
     const onClick = async () => {
         if (!workspace) return;
-
         const {id, organizationId} = workspace;
         const continueConfirm = () => {
             return confirm2(
-                '워크스페이스 연결을 해제할까요?',
+                t('removeWorkspace') as string,
                 <div>
-                    <p>계속 진행할까요?</p>
+                    <p>{t('continue')}</p>
                 </div>,
             );
         };
-
         return confirmed(continueConfirm())
             .then(() => setIsLoading(true))
             .then(() => request(organizationId, id))
-            .then(() => toast.success('삭제 완료'))
+            .then(() => toast.success(t('deleted')))
             .then(() => router.push(OrgSettingsIntegrationsPageRoute.path(organizationId)))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
@@ -47,18 +47,13 @@ export const RemoveWorkspaceSection = memo((props: RemoveWorkspaceSectionProps) 
 
     return (
         <div className="mb-6 flex flex-col gap-4">
-            <h3 className="text-16">워크스페이스 연결 해제</h3>
-
+            <h3 className="text-16">{t('removeWorkspace')}</h3>
             <div className="flex flex-col gap-1.5">
                 <div className="text-14 text-gray-500">
-                    Google Workspace(<span className="font-medium text-black">@{workspace?.workspaceName}</span>) 와의
-                    연결을 해제하고 스코디에 저장된 모든 관련 데이터를 삭제합니다.
+                    {t('removeWorkspaceDesc1', {workspaceName: workspace?.workspaceName})}
                 </div>
-                <div className="text-14 text-gray-500">
-                    이 작업은 <u>연결된 구글 멤버 계정들</u> 뿐 아니라, <u>워크스페이스 정보</u> 역시 함께 삭제합니다.
-                </div>
+                <div className="text-14 text-gray-500" dangerouslySetInnerHTML={{__html: t('removeWorkspaceDesc2')}} />
             </div>
-
             <div>
                 <button
                     className={`btn btn-sm gap-2 !border-none bg-red-400 hover:bg-red-500 text-white no-animation btn-animation ${
@@ -66,7 +61,7 @@ export const RemoveWorkspaceSection = memo((props: RemoveWorkspaceSectionProps) 
                     }`}
                     onClick={onClick}
                 >
-                    <span>워크스페이스 제거하고 연결 해제</span>
+                    <span>{t('removeAndDisconnect')}</span>
                 </button>
             </div>
         </div>

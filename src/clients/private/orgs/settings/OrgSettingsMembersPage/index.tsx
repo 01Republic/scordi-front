@@ -12,8 +12,10 @@ import {OrgMembersTableRow} from './OrgMembersTableRow';
 import {InviteMemberModal} from '^clients/private/orgs/settings/OrgSettingsMembersPage/InviteMemberModal';
 import {OrgSettingsCardSection} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsCardSection';
 import {Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 export const OrgSettingsMembersPage = memo(function () {
+    const {t} = useTranslation('workspaceSettings');
     const orgId = useRecoilValue(orgIdParamState);
     const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy} =
         useMembershipInMembershipTable();
@@ -43,7 +45,7 @@ export const OrgSettingsMembersPage = memo(function () {
     return (
         <OrgSettingsLayout
             breadcrumbPath={{
-                text: '멤버 관리',
+                text: t('memberManagement.breadcrumb') as string,
                 active: true,
                 href: OrgSettingsMemberPageRoute.path(orgId),
             }}
@@ -52,18 +54,16 @@ export const OrgSettingsMembersPage = memo(function () {
             <OrgSettingsCardSection>
                 <div className={'flex items-center justify-between pb-4'}>
                     <div>
-                        {/*전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount.toLocaleString()}</span>*/}
                         <ListPageSearchInputStandAlone
                             className="input-sm"
                             onSearch={onSearch}
-                            placeholder={'검색어를 입력해주세요'}
+                            placeholder={t('memberManagement.searchPlaceholder') as string}
                         />
                     </div>
                     <div className={'flex space-x-4'}>
-                        {/*<ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />*/}
                         <button className="btn btn-scordi btn-sm gap-2 rounded-lg" onClick={() => setIsOpened(true)}>
                             <Plus fontSize={16} />
-                            <span>멤버 초대</span>
+                            <span>{t('memberManagement.inviteMember')}</span>
                         </button>
                     </div>
                 </div>
@@ -79,8 +79,8 @@ export const OrgSettingsMembersPage = memo(function () {
                     isLoading={isLoading}
                     isNotLoaded={isNotLoaded}
                     isEmptyResult={isEmptyResult}
-                    emptyMessage="구성원이 없어요."
-                    emptyButtonText="구성원 등록"
+                    emptyMessage={t('memberManagement.noMembers') as string}
+                    emptyButtonText={t('memberManagement.registerMember') as string}
                     emptyButtonOnClick={() => setIsOpened(true)}
                 >
                     <ListTable2

@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {RotateCw} from 'lucide-react';
 import {IntegrationGoogleWorkspaceWorkspaceDto} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/type';
 import {useGoogleWorkspaceMembersSync} from '^models/integration/IntegrationGoogleWorkspaceMember/hooks';
+import {useTranslation} from 'next-i18next';
 
 interface GoogleWorkspaceMembersSyncButtonProps {
     workspace?: IntegrationGoogleWorkspaceWorkspaceDto;
@@ -13,6 +14,7 @@ export const GoogleWorkspaceMembersSyncButton = memo((props: GoogleWorkspaceMemb
     const {isLoading, onClick} = useGoogleWorkspaceMembersSync(workspace?.organizationId, workspace?.id, {
         onSuccess: () => reload && reload(),
     });
+    const {t} = useTranslation('integrations');
 
     return (
         <button
@@ -24,7 +26,7 @@ export const GoogleWorkspaceMembersSyncButton = memo((props: GoogleWorkspaceMemb
             <div className={`inline-block ${isLoading ? 'animate-spin' : ''}`}>
                 <RotateCw />
             </div>
-            <span>{isLoading ? '불러오는중 ...' : '업데이트'}</span>
+            <span>{isLoading ? t('loading') : t('sync')}</span>
         </button>
     );
 });

@@ -13,6 +13,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentMembership} from '^models/Membership/hook';
 import {Bell, Plus, Snail} from 'lucide-react';
 import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
+import {useTranslation} from 'next-i18next';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -20,6 +21,7 @@ export const OrgTopBar = memo(() => {
     const {currentMembership} = useCurrentMembership();
     useMeasuredUserId();
     const [isHovered, setIsHovered] = useState(false);
+    const {t} = useTranslation('common');
 
     return (
         <header className="container-fluid h-[56px] flex items-center gap-6 border-b bg-white-blurred text-scordi sticky top-0 z-20">
@@ -33,12 +35,14 @@ export const OrgTopBar = memo(() => {
 
             <div className="hidden lg:block">
                 <div className="text-14 tracking-[0.01rem]">
-                    {currentUser?.name}님은{' '}
+                    {currentUser?.name}
+                    {t('orgTopBar.membershipLevelSuffix', {name: currentUser?.name})}
                     {currentMembership ? (
                         <span>
-                            {t_membershipLevel(currentMembership.level, {inWord: false})}입니다
+                            {t_membershipLevel(currentMembership.level, {inWord: false})}
+                            {t('orgTopBar.membershipLevelPostfix')}
                             <span onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                                .
+                                {t('orgTopBar.dot')}
                             </span>
                         </span>
                     ) : (
@@ -64,7 +68,7 @@ export const OrgTopBar = memo(() => {
                         loadingOnBtn
                     >
                         <Plus />
-                        <span>구독 등록하기</span>
+                        <span>{t('orgTopBar.subscriptionRegisterButton')}</span>
                     </LinkTo>
                 </div>
 

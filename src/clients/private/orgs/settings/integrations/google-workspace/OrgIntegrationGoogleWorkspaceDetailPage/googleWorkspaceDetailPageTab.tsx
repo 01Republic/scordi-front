@@ -3,15 +3,19 @@ import {WithChildren} from '^types/global.type';
 import {defineTabs, TabProps} from '^components/util/tabs';
 import {GoogleWorkspaceMemberList} from './GoogleWorkspaceMemberList';
 import {GoogleWorkspaceSetting} from './GoogleWorkspaceSetting';
+import {useTranslation} from 'next-i18next';
 
-export const googleWorkspaceDetailPageTab = defineTabs(
-    'googleWorkspaceDetailPageTab',
-    [
-        {label: '멤버', TabPane: GoogleWorkspaceMemberList},
-        {label: '설정', TabPane: GoogleWorkspaceSetting},
-    ],
-    {TabNav, Tab},
-);
+export function useGoogleWorkspaceDetailPageTab() {
+    const {t} = useTranslation('integrations');
+    return defineTabs(
+        'googleWorkspaceDetailPageTab',
+        [
+            {label: t('members'), TabPane: GoogleWorkspaceMemberList},
+            {label: t('settings'), TabPane: GoogleWorkspaceSetting},
+        ],
+        {TabNav, Tab},
+    );
+}
 
 function TabNav(props: WithChildren) {
     const {children} = props;

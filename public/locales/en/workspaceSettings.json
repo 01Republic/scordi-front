@@ -160,5 +160,54 @@
             "customFeatureDevelopment": "Custom feature development for enterprise",
             "dedicatedManager": "Dedicated manager assignment"
         }
+    },
+    "memberManagement": {
+        "breadcrumb": "Member Management",
+        "searchPlaceholder": "Enter a search keyword",
+        "inviteMember": "Invite Member",
+        "noMembers": "No members found.",
+        "registerMember": "Register Member",
+        "table": {
+            "count": "{{count}} members",
+            "role": "Role"
+        },
+        "row": {
+            "sendingEmail": "Sending email...",
+            "waitingInvitation": "Waiting for invitation acceptance..."
+        },
+        "inviteModal": {
+            "title": "Invite Member",
+            "desc": "Enter the company email and send the invitation.",
+            "inputLabel": "Email",
+            "add": "Add",
+            "remove": "Remove",
+            "registering": "Members to register ({{count}})",
+            "sendInvite": "Send Invitation Email",
+            "alreadyInvited": "This member is already invited.",
+            "inputEmail": "Please enter an email.",
+            "confirmSend": "Send invitation email?",
+            "confirmSendDesc": "All will be invited as members.\nYou can change to owner later.\nIf the member does not receive the invitation, you can resend it.",
+            "sent": "Invitation email sent."
+        },
+        "inviteInput": {
+            "add": "Add",
+            "remove": "Remove"
+        },
+        "remove": {
+            "cancelInvite": "Cancel member invitation?",
+            "removeMember": "Remove member?",
+            "cancelInviteDesc": "This member has already been sent an invitation.\n\nThe member will be removed from the entire workspace.\nStill cancel the invitation?",
+            "removeMemberDesc": "This action cannot be undone.\n\nThe member will be removed from the entire workspace.\nStill remove?",
+            "cancelled": "Invitation cancelled.",
+            "removed": "Removed.",
+            "cancelInviteBtn": "Cancel Invitation",
+            "removeBtn": "Remove"
+        },
+        "resend": {
+            "confirm": "Resend invitation email?",
+            "desc": "Will be invited as a member.\nYou can change to owner later.\nIf the member does not receive the invitation, you can resend it.",
+            "sent": "Invitation email resent.",
+            "resendBtn": "Resend"
+        }
     }
 }

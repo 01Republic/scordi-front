@@ -25,5 +25,18 @@
     }
   },
   "count_of_name": "{{count}} of {{name}}",
-  "subscribing_service": "Subs"
+  "subscribing_service": "Subs",
+  "orgTopBar": {
+    "membershipLevelSuffix": " is ",
+    "membershipLevelPostfix": "",
+    "dot": ".",
+    "subscriptionRegisterButton": "Register Subscription",
+    "profileDropdown": {
+      "nameSuffix": "",
+      "adminLink": "Scordi Admin"
+    },
+    "workspaceDropdown": {
+      "createWorkspace": "Create new workspace"
+    }
+  }
 }

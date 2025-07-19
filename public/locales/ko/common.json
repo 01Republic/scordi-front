@@ -40,5 +40,18 @@
     "work": "업무",
     "request": "요청",
     "settings": "설정"
+  },
+  "orgTopBar": {
+    "membershipLevelSuffix": "님은 ",
+    "membershipLevelPostfix": "입니다",
+    "dot": ".",
+    "subscriptionRegisterButton": "구독 등록하기",
+    "profileDropdown": {
+      "nameSuffix": "님",
+      "adminLink": "스코디 어드민"
+    },
+    "workspaceDropdown": {
+      "createWorkspace": "새 워크스페이스 만들기"
+    }
   }
 }

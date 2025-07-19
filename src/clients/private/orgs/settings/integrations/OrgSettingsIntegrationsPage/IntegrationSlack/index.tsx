@@ -8,6 +8,7 @@ import {toast} from 'react-hot-toast';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgIntegrationSlackWorkspaceDetailPageRoute} from '^pages/orgs/[id]/settings/integrations/slack/[slackWorkspaceId]';
 import {IntegrationProvider, IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
+import {useTranslation} from 'next-i18next';
 
 interface IntegrationSlackProps {
     config: IntegrationWorkspaceDto<IntegrationProvider.slack> | undefined;
@@ -18,11 +19,12 @@ interface IntegrationSlackProps {
 export const IntegrationSlack = memo((props: IntegrationSlackProps) => {
     const {config, reload, isLoading} = props;
     const orgId = useOrgIdParam();
+    const {t} = useTranslation('integrations');
 
     return (
         <IntegrationProviderItem
             id="slack"
-            name="슬랙"
+            name={t('slack') as string}
             logo={SlackLogo}
             disabled={isLoading}
             isInstalled={!!config}

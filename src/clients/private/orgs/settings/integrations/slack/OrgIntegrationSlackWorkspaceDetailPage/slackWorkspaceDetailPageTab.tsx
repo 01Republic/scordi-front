@@ -3,15 +3,19 @@ import {WithChildren} from '^types/global.type';
 import {defineTabs, TabProps} from '^components/util/tabs';
 import {SlackWorkspaceMemberList} from './SlackWorkspaceMemberList';
 import {SlackWorkspaceSetting} from './SlackWorkspaceSetting';
+import {useTranslation} from 'next-i18next';
 
-export const slackWorkspaceDetailPageTab = defineTabs(
-    'slackWorkspaceDetailPageTab',
-    [
-        {label: '멤버', TabPane: SlackWorkspaceMemberList},
-        {label: '설정', TabPane: SlackWorkspaceSetting},
-    ],
-    {TabNav, Tab},
-);
+export function useSlackWorkspaceDetailPageTab() {
+    const {t} = useTranslation('integrations');
+    return defineTabs(
+        'slackWorkspaceDetailPageTab',
+        [
+            {label: t('members'), TabPane: SlackWorkspaceMemberList},
+            {label: t('settings'), TabPane: SlackWorkspaceSetting},
+        ],
+        {TabNav, Tab},
+    );
+}
 
 function TabNav(props: WithChildren) {
     const {children} = props;

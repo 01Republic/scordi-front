@@ -3,6 +3,7 @@ import {IntegrationSlackMemberDto} from '^models/integration/IntegrationSlackMem
 import {SlackMemberProfile} from './SlackMemberProfile';
 import {TeamMemberConnectDropdown} from './TeamMemberConnectDropdown';
 import {SlackWorkspaceMemberMoreDropdown} from './SlackWorkspaceMemberMoreDropdown';
+import {useTranslation} from 'next-i18next';
 
 interface SlackWorkspaceMemberRowProps {
     item: IntegrationSlackMemberDto;
@@ -11,6 +12,23 @@ interface SlackWorkspaceMemberRowProps {
 
 export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps) => {
     const {item, reload} = props;
+    const {t} = useTranslation('integrations');
+
+    const getLevelNameKey = (levelName: string) => {
+        switch (levelName) {
+            case '워크스페이스 소유자':
+                return 'slack.level.owner';
+            case '워크스페이스 관리자':
+                return 'slack.level.admin';
+            case '단일 채널 게스트':
+                return 'slack.level.singleChannelGuest';
+            case '멀티 채널 게스트':
+                return 'slack.level.multiChannelGuest';
+            case '정식 멤버':
+            default:
+                return 'slack.level.member';
+        }
+    };
 
     return (
         <div
@@ -23,9 +41,9 @@ export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps
 
             <div className="flex items-center text-14">
                 <div className="flex items-center text-14 mr-8">
-                    <div className="">{item.levelName}</div>
+                    <div className="">{t(getLevelNameKey(item.levelName))}</div>
                     <span className="mx-1.5">&middot;</span>
-                    <div className="">{item.isActive ? '활성' : '비활성'}</div>
+                    <div className="">{item.isActive ? t('active') : t('inactive')}</div>
                 </div>
 
                 <div className="min-w-[10rem] flex items-center justify-end mr-2">

@@ -8,6 +8,7 @@ import {useInviteInputs} from './useInviteInputs.hook';
 import {InviteEmailInput} from './InviteEmailInput';
 import {debounce} from 'lodash';
 import {X} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface InviteMemberModalProps {
     organizationId: number;
@@ -21,13 +22,14 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const {inputs, addInput, updateInput, removeInput, resetInputs} = useInviteInputs();
     const newInputRef = useRef<HTMLLabelElement>(null);
+    const {t} = useTranslation('workspaceSettings');
 
     const checkInvitable = async (email: string) => {
         return inviteMembershipApi
             .available(organizationId, email)
             .then((res) => res.data)
             .then((found) => {
-                if (found) throw new Error('이미 초대되어있는 멤버에요');
+                if (found) throw new Error(t('memberManagement.inviteModal.alreadyInvited') as string);
                 return true;
             });
     };
@@ -39,13 +41,13 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
 
     const onSubmit = async (emails: string[]) => {
         if (emails.length < 1) {
-            toast.error('이메일을 입력해주세요.');
+            toast.error(t('memberManagement.inviteModal.inputEmail') as string);
             return;
         }
 
         const isConfirmed = await confirm2(
-            '초대 메일을 전송할까요?',
-            '구성원 권한으로 모두 초대됩니다. \n 추후 소유자 권한으로 변경 가능합니다. \n 멤버가 초대를 받지 못한다면, 다시 초대장을 보낼 수 있습니다.',
+            t('memberManagement.inviteModal.confirmSend') as string,
+            t('memberManagement.inviteModal.confirmSendDesc') as string,
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
 
@@ -53,7 +55,7 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
         inviteMemberships(emails)
             .then(() => {
                 reload && reload();
-                toast.success('초대 메일을 보냈어요.');
+                toast.success(t('memberManagement.inviteModal.sent') as string);
                 onClose();
                 resetInputs();
             })
@@ -70,8 +72,12 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
                     <div className="px-8 pt-10">
                         <div className="flex items-center justify-between relative">
                             <div>
-                                <p className="font-medium text-12 text-scordi">멤버 초대하기</p>
-                                <h3 className="font-bold text-xl">구성원 회사메일을 입력하고 초대장을 전송해요.</h3>
+                                <p className="font-medium text-12 text-scordi">
+                                    {t('memberManagement.inviteModal.title') as string}
+                                </p>
+                                <h3 className="font-bold text-xl">
+                                    {t('memberManagement.inviteModal.desc') as string}
+                                </h3>
                             </div>
                             <div>
                                 <button
@@ -99,7 +105,11 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
                             <div>
                                 <div className="pb-1.5">
                                     <p className="text-12 p-0 text-gray-400 font-medium">
-                                        등록할 멤버 ({inputs.length})
+                                        {
+                                            t('memberManagement.inviteModal.registering', {
+                                                count: inputs.length,
+                                            }) as string
+                                        }
                                     </p>
                                 </div>
                                 <div className="border-t border-gray-200">
@@ -123,7 +133,7 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
                             onClick={() => onSubmit(inputs)}
                             className={`btn btn-scordi ${isLoading ? 'link_to-loading' : ''}`}
                         >
-                            <span>초대 메일 보내기</span>
+                            <span>{t('memberManagement.inviteModal.sendInvite') as string}</span>
                         </button>
                     </div>
                 </div>

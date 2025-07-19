@@ -11,7 +11,8 @@ import {serviceHost} from '^config/environments';
 import {ArrowRight, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
-    const {t} = useTranslation('profile');
+    const {t: tProfile} = useTranslation('profile');
+    const {t} = useTranslation('common');
     const {currentUser, logout} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
@@ -45,7 +46,10 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                         className="w-8 h-8"
                                     />
                                     <div>
-                                        <p className="text-sm font-semibold text-gray-900">{currentUser.name}님</p>
+                                        <p className="text-sm font-semibold text-gray-900">
+                                            {currentUser.name}
+                                            {t('orgTopBar.profileDropdown.nameSuffix')}
+                                        </p>
                                         <p className="text-12 text-gray-400">{currentUser.email}</p>
                                     </div>
                                 </div>
@@ -56,7 +60,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     onClick={() => setIsProfileEditModalOpened(true)}
                                 >
                                     <Settings />
-                                    <span>{t('dropdown.setting')}</span>
+                                    <span>{tProfile('dropdown.setting')}</span>
                                 </a>
                             </li>
                             <li>
@@ -65,7 +69,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     onClick={() => window.open(ChannelTalk_Url, '_blank')}
                                 >
                                     <HelpCircle />
-                                    <span>{t('dropdown.help')}</span>
+                                    <span>{tProfile('dropdown.help')}</span>
                                 </a>
                             </li>
                             <li>
@@ -75,7 +79,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     displayLoading={false}
                                 >
                                     <Home />
-                                    <span>{t('dropdown.goHomePage')}</span>
+                                    <span>{tProfile('dropdown.goHomePage')}</span>
                                 </LinkTo>
                             </li>
                             <li className="" />
@@ -85,7 +89,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     onClick={() => logout()}
                                 >
                                     <LogOut />
-                                    <span>{t('dropdown.logout')}</span>
+                                    <span>{tProfile('dropdown.logout')}</span>
                                 </a>
                             </li>
                             {currentUser.isAdmin && (
@@ -96,7 +100,8 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                     >
                                         <Link />
                                         <span className="flex gap-2 items-center justify-between w-full">
-                                            스코디 어드민 <ArrowRight />
+                                            {t('orgTopBar.profileDropdown.adminLink')}
+                                            <ArrowRight />
                                         </span>
                                     </LinkTo>
                                 </li>

@@ -3,6 +3,7 @@ import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/Integrati
 import {GoogleWorkspaceMemberProfile} from './GoogleWorkspaceMemberProfile';
 import {TeamMemberConnectDropdown} from './TeamMemberConnectDropdown';
 import {GoogleWorkspaceMemberMoreDropdown} from './GoogleWorkspaceMemberMoreDropdown';
+import {useTranslation} from 'next-i18next';
 
 interface GoogleWorkspaceMemberRowProps {
     item: IntegrationGoogleWorkspaceMemberDto;
@@ -11,6 +12,7 @@ interface GoogleWorkspaceMemberRowProps {
 
 export const GoogleWorkspaceMemberRow = memo((props: GoogleWorkspaceMemberRowProps) => {
     const {item, reload} = props;
+    const {t} = useTranslation('integrations');
 
     return (
         <div
@@ -25,7 +27,7 @@ export const GoogleWorkspaceMemberRow = memo((props: GoogleWorkspaceMemberRowPro
                 <div className="flex items-center text-14 mr-8">
                     <div className="">{item.levelName}</div>
                     <span className="mx-1.5">&middot;</span>
-                    <div className="">{item.isActive ? '활성' : '비활성'}</div>
+                    <div className="">{item.isActive ? t('active') : t('inactive')}</div>
                 </div>
 
                 <div className="min-w-[10rem] flex items-center justify-end mr-2">

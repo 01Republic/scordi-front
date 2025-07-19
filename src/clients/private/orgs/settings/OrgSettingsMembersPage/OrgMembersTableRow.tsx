@@ -7,6 +7,7 @@ import {UserAvatar} from '^models/User/components/UserAvatar';
 import {UserProfile} from '^models/User/components/UserProfile';
 import {WithChildren} from '^types/global.type';
 import {MembershipMoreDropdown} from './MembershipMoreDropdown';
+import {useTranslation} from 'next-i18next';
 
 interface TeamMemberTableRowProps {
     membership?: MembershipDto;
@@ -17,6 +18,7 @@ interface TeamMemberTableRowProps {
 export const OrgMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const {membership, onClick, reload} = props;
     const [isLoading, setIsLoading] = useState(false);
+    const {t} = useTranslation('workspaceSettings');
 
     if (!membership) return null;
 
@@ -61,10 +63,12 @@ export const OrgMembersTableRow = memo((props: TeamMemberTableRowProps) => {
                 <div className="flex items-center justify-end gap-4">
                     {isLoading ? (
                         <div className="btn btn-sm !bg-white !border-none loading text-13 !text-gray-500">
-                            <span className="font-[400]">이메일 전송중...</span>
+                            <span className="font-[400]">{t('memberManagement.row.sendingEmail')}</span>
                         </div>
                     ) : (
-                        <div className="text-13 text-gray-500">{!membership.userId ? '초대 수락 대기중...' : ''}</div>
+                        <div className="text-13 text-gray-500">
+                            {!membership.userId ? t('memberManagement.row.waitingInvitation') : ''}
+                        </div>
                     )}
                     <MembershipMoreDropdown membership={membership} reload={reload} setIsLoading={setIsLoading} />
                 </div>

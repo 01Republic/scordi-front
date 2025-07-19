@@ -9,6 +9,7 @@ import {integrationGoogleWorkspaceWorkspaceApi} from '^models/integration/Integr
 import {IntegrationProvider, IntegrationWorkspaceDto} from '^models/IntegrationWorkspace/type';
 import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {IntegrationProviderItem} from '../IntegrationProviderItem';
+import {useTranslation} from 'next-i18next';
 
 interface IntegrationGoogleWorkspaceProps {
     config: IntegrationWorkspaceDto<IntegrationProvider.googleWorkspace> | undefined;
@@ -19,6 +20,7 @@ export const IntegrationGoogleWorkspace = memo((props: IntegrationGoogleWorkspac
     const {config, reload} = props;
     const orgId = useOrgIdParam();
     const [isCreating, setIsCreating] = useState(false);
+    const {t} = useTranslation('integrations');
 
     const onCode = (code: string) => {
         setIsCreating(true);
@@ -26,7 +28,12 @@ export const IntegrationGoogleWorkspace = memo((props: IntegrationGoogleWorkspac
             .create(orgId, {code})
             .then((res) => res.data)
             .then((workspace) => {
-                toast.success(`워크스페이스(@${workspace.workspaceName})를 연동했어요!`);
+                toast.success(
+                    t('workspaceConnected', {
+                        workspaceName: workspace.workspaceName,
+                        defaultValue: `워크스페이스(@${workspace.workspaceName})를 연동했어요!`,
+                    }),
+                );
             })
             .then(() => reload())
             .catch(errorToast)
@@ -36,7 +43,7 @@ export const IntegrationGoogleWorkspace = memo((props: IntegrationGoogleWorkspac
     return (
         <IntegrationProviderItem
             id="google-workspace"
-            name="구글 워크스페이스"
+            name={t('googleWorkspace') as string}
             logo={GoogleWorkspaceLogo}
             disabled={isCreating}
             isInstalled={!!config}

@@ -5,15 +5,17 @@ import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integr
 import {useIntegrationWorkspaceInSettingPage} from '^models/IntegrationWorkspace/hook';
 import {IntegrationSlack} from './IntegrationSlack';
 import {IntegrationGoogleWorkspace} from './IntegrationGoogleWorkspace';
+import {useTranslation} from 'next-i18next';
 
 export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrationsPage() {
     const orgId = useOrgIdParam();
     const {refetch, findSlack, findGoogleWorkspace, isLoading} = useIntegrationWorkspaceInSettingPage(orgId);
+    const {t} = useTranslation('integrations');
 
     return (
         <OrgSettingsLayout
             breadcrumbPath={{
-                text: '서비스 연동',
+                text: t('serviceIntegration') as string,
                 active: true,
                 href: OrgSettingsIntegrationsPageRoute.path(orgId),
             }}

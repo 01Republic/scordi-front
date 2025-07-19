@@ -2,6 +2,7 @@ import {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {LinkProps} from 'next/dist/client/link';
 import {Cog, Unplug} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface IntegrationProviderItemButtonProps {
     isInstalled?: boolean;
@@ -12,6 +13,7 @@ interface IntegrationProviderItemButtonProps {
 
 export const IntegrationProviderItemButton = memo((props: IntegrationProviderItemButtonProps) => {
     const {isInstalled = false, isLoading = false, href, onClick} = props;
+    const {t} = useTranslation('integrations');
 
     return (
         <LinkTo
@@ -23,7 +25,7 @@ export const IntegrationProviderItemButton = memo((props: IntegrationProviderIte
             displayLoading={false}
         >
             {isInstalled ? <Cog /> : <Unplug />}
-            {isInstalled ? <span>세부설정</span> : <span>연동하기</span>}
+            {isInstalled ? <span>{t('settings')}</span> : <span>{t('connect')}</span>}
         </LinkTo>
     );
 });

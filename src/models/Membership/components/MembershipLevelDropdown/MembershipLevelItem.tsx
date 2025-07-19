@@ -1,6 +1,7 @@
 import {memo} from 'react';
 import {MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {Check} from 'lucide-react';
+import {useCurrentLocale} from '^hooks/useCurrentLocale';
 
 interface MembershipLevelItemProps {
     level: MembershipLevel;
@@ -10,6 +11,7 @@ interface MembershipLevelItemProps {
 
 export const MembershipLevelItem = memo((props: MembershipLevelItemProps) => {
     const {level, onClick, isCurrent = false} = props;
+    const {currentLocale} = useCurrentLocale();
 
     return (
         <div
@@ -20,7 +22,7 @@ export const MembershipLevelItem = memo((props: MembershipLevelItemProps) => {
                 isCurrent ? 'text-gray-400' : 'text-gray-500 hover:bg-slate-100'
             }`}
         >
-            <div className="flex items-center gap-4">{t_membershipLevel(level)}</div>
+            <div className="flex items-center gap-4">{t_membershipLevel(level, {locale: currentLocale})}</div>
             {isCurrent && (
                 <div>
                     <Check fontSize={12} className="text-scordi" />

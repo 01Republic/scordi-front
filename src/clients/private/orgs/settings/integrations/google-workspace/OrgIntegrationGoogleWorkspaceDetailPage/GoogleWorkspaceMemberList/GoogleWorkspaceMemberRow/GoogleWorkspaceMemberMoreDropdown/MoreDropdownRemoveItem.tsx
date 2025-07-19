@@ -6,6 +6,7 @@ import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/Integrati
 import {useIdParam} from '^atoms/common';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {useTranslation} from 'next-i18next';
 
 interface MoreDropdownRemoveItemProps {
     item: IntegrationGoogleWorkspaceMemberDto;
@@ -16,30 +17,35 @@ export const MoreDropdownRemoveItem = memo((props: MoreDropdownRemoveItemProps) 
     const {item, reload} = props;
     const orgId = useIdParam('id');
     const workspaceId = item.integrationWorkspaceId;
+    const {t} = useTranslation('integrations');
 
     const onClick = () => {
         const removeConfirm = () => {
             return confirm2(
-                '진짜 삭제할까요?',
+                t('deleteConfirmTitle') as string,
                 <div>
-                    <p>
-                        동기화를 통해 추후 다시 불러올 수 있습니다. <br />
-                    </p>
-                    <p>계속 진행할까요?</p>
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: t('syncCanRestore', {
+                                defaultValue: '동기화를 통해 추후 다시 불러올 수 있습니다.<br />',
+                            }),
+                        }}
+                    />
+                    <p>{t('continue')}</p>
                 </div>,
             );
         };
 
         return confirmed(removeConfirm())
             .then(() => integrationGoogleWorkspaceMemberApi.destroy(orgId, workspaceId, item.id))
-            .then(() => toast.success('삭제했어요'))
+            .then(() => toast.success(t('deleted')))
             .then(() => reload && reload())
             .catch(errorToast);
     };
 
     return (
         <li>
-            <MoreDropdown.ItemButton text="삭제" onClick={onClick} className="text-red-500 hover:bg-red-50" />
+            <MoreDropdown.ItemButton text={t('delete')} onClick={onClick} className="text-red-500 hover:bg-red-50" />
         </li>
     );
 });

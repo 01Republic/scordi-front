@@ -4,6 +4,7 @@ import {WithChildren} from '^types/global.type';
 import {IntegrationSlackMemberDto} from '^models/integration/IntegrationSlackMember/type/IntegrationSlackMember.dto';
 import {ConnectedTeamMemberTag} from './ConnectedTeamMemberTag';
 import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/IntegrationGoogleWorkspaceMember.dto';
+import {useTranslation} from 'next-i18next';
 
 interface TeamMemberConnectDropdownProps extends WithChildren {
     item: IntegrationGoogleWorkspaceMemberDto;
@@ -11,6 +12,7 @@ interface TeamMemberConnectDropdownProps extends WithChildren {
 
 export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownProps) => {
     const {item, children} = props;
+    const {t} = useTranslation('integrations');
 
     return (
         <div
@@ -23,10 +25,10 @@ export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownP
                     item.teamMember ? (
                         <ConnectedTeamMemberTag teamMember={item.teamMember} />
                     ) : (
-                        <div className="text-gray-400">Load Error.</div>
+                        <div className="text-gray-400">{t('loadError')}</div>
                     )
                 ) : (
-                    <div className="text-gray-500 opacity-40">선택해주세요</div>
+                    <div className="text-gray-500 opacity-40">{t('select')}</div>
                 )}
             </div>
 

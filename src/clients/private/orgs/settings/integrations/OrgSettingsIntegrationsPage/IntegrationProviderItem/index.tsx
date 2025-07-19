@@ -7,6 +7,7 @@ import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
 import {LinkProps} from 'next/dist/client/link';
 import {WithChildren} from '^types/global.type';
+import {useTranslation} from 'next-i18next';
 
 interface IntegrationProviderItemProps extends WithChildren {
     id: string;
@@ -36,6 +37,7 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
     } = props;
     const router = useRouter();
     const callback = router.query[id] as string;
+    const {t} = useTranslation('integrations');
 
     const logoSize = 30;
 
@@ -67,7 +69,7 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
                 <div>
                     <div className="text-14">{name}</div>
                     <div className="text-12 flex items-center whitespace-nowrap">
-                        <InstalledStatusBadge isInstalled={isInstalled} />
+                        <InstalledStatusBadge isInstalled={isInstalled} t={t} />
                     </div>
                 </div>
             </div>

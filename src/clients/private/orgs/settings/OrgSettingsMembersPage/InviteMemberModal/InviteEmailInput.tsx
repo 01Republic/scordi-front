@@ -1,6 +1,7 @@
 import React, {memo, useRef} from 'react';
 import {eventCut} from '^utils/event';
 import {ApiError, errorToast} from '^api/api';
+import {useTranslation} from 'next-i18next';
 
 interface InviteEmailInputProps {
     defaultValue: string;
@@ -16,6 +17,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     const isEditMode = !!onRemove;
     const formRef = useRef<HTMLFormElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const {t} = useTranslation('workspaceSettings');
 
     return (
         <form
@@ -50,7 +52,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
                         type="email"
                         defaultValue={defaultValue}
                         className="input rounded-none p-0 text-14 w-full focus:outline-0 disabled:bg-white disabled:border-none disabled:opacity-30"
-                        placeholder={defaultValue || `이메일`}
+                        placeholder={defaultValue || (t('memberManagement.inviteModal.inputLabel') as string)}
                         disabled={isLoading}
                         onBlur={(e) => {
                             const input = e.target;
@@ -73,7 +75,9 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
                             isEditMode ? onRemove(defaultValue) : formRef.current?.requestSubmit();
                         }}
                     >
-                        {isEditMode ? '삭제' : '추가'}
+                        {isEditMode
+                            ? (t('memberManagement.inviteInput.remove') as string)
+                            : (t('memberManagement.inviteInput.add') as string)}
                     </button>
                 </div>
             </div>
