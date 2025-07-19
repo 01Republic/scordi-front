@@ -38,5 +38,16 @@
     "workspaceDropdown": {
       "createWorkspace": "Create new workspace"
     }
+  },
+  "footer": {
+    "companyName": "01Republic, Inc.",
+    "ceo": "CEO: Yonghyun Kim, Gyuri Kim",
+    "regNo": "Business Registration No: 227-86-02683",
+    "salesNo": "Online Sales Registration No: 2023-Seoul Seocho-3752",
+    "address": "Address: 5F, 6 Jongno, Jongno-gu, Seoul",
+    "customerService": "Customer Service: 02-2088-6337",
+    "copyright": "Copyright 2024 © 01Republic. All Rights Reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
   }
 }

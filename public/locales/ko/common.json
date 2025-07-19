@@ -53,5 +53,16 @@
     "workspaceDropdown": {
       "createWorkspace": "새 워크스페이스 만들기"
     }
+  },
+  "footer": {
+    "companyName": "(주) 제로원리퍼블릭 (01Republic, Inc.)",
+    "ceo": "대표: 김용현, 김규리",
+    "regNo": "사업자등록번호: 227-86-02683",
+    "salesNo": "통신판매업번호: 2023-서울서초-3752",
+    "address": "주소: 서울시 종로구 종로 6, 5층",
+    "customerService": "고객센터 유선전화: 02-2088-6337",
+    "copyright": "Copyright 2024 © 01Republic. All Rights Reserved",
+    "privacy": "개인정보처리방침",
+    "terms": "이용약관"
   }
 }
