@@ -1,4 +1,5 @@
 import {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {Trash2} from 'lucide-react';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {TeamDto} from '^models/Team/type';
@@ -13,25 +14,27 @@ interface TeamRemoveMenuItemProps {
 }
 
 export const TeamRemoveMenuItem = memo((props: TeamRemoveMenuItemProps) => {
+    const {t} = useTranslation('teams');
     const {team, reload} = props;
 
     const onClick = () => {
         const removeConfirm = () => {
             return confirm2(
                 <span className="text-20">
-                    <span className="text-scordi">{team.name}</span>팀을 삭제할까요?
+                    <span className="text-scordi">{team.name}</span>
+                    {t('messages.confirmDelete')}
                 </span>,
                 <div className="text-16 -mt-4 -mx-2 px-[10px]">
-                    <div>팀과 관련된 모든 정보를 삭제합니다.</div>
-                    <div className="mb-4">이 작업은 되돌릴 수 없어요.</div>
-                    <div>지금 삭제할까요?</div>
+                    <div>{t('messages.deleteAllTeamInfo')}</div>
+                    <div className="mb-4">{t('messages.cannotUndo')}</div>
+                    <div>{t('messages.confirmDeleteNow')}</div>
                 </div>,
             );
         };
 
         return confirmed(removeConfirm())
             .then(() => teamApi.destroy(team.organizationId, team.id))
-            .then(() => toast.success('삭제했어요.'))
+            .then(() => toast.success(t('messages.teamDeleted')))
             .then(() => reload && reload())
             .catch(errorToast);
     };
@@ -39,7 +42,7 @@ export const TeamRemoveMenuItem = memo((props: TeamRemoveMenuItemProps) => {
     return (
         <MoreDropdown.MenuItem onClick={onClick} className="flex items-center gap-2 text-red-400 hover:text-red-500">
             <Trash2 />
-            <div>삭제하기</div>
+            <div>{t('actions.delete')}</div>
         </MoreDropdown.MenuItem>
     );
 });

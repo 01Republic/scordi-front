@@ -1,0 +1,164 @@
+{
+      "list": {
+      "title": "Team List",
+      "createTeam": "Create Team",
+      "searchPlaceholder": "Search by team name",
+      "noTeams": "No teams found",
+      "noMembers": "No members connected.",
+      "loadMore": "Load More",
+      "teamName": "Team Name",
+      "memberCount": "Members",
+      "subscriptionCount": "Subscriptions",
+      "lastUpdated": "Last Updated",
+      "actions": "Actions"
+    },
+  "detail": {
+    "title": "Team Details",
+    "backToList": "Back to Team List",
+    "editTeam": "Edit Team",
+    "deleteTeam": "Delete Team",
+    "profile": {
+      "title": "Team Profile",
+      "teamName": "Team Name",
+      "description": "Description",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
+    },
+    "stats": {
+      "title": "Items connected to this team",
+      "members": "Members",
+      "subscriptions": "Subscriptions",
+      "invoices": "Invoices",
+      "payments": "Payments"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "members": "Members",
+      "subscriptions": "Subscriptions",
+      "invoices": "Invoices",
+      "payments": "Payments"
+    }
+  },
+  "members": {
+    "title": "Member Management",
+    "addMember": "Add Member",
+    "inviteMember": "Invite Member",
+    "removeMember": "Remove Member",
+    "removeMemberDialog": {
+      "warning": "This action cannot be undone.",
+      "excluded": "Will be excluded from the team.",
+      "confirm": "Do you still want to disconnect?"
+    },
+    "bulkAction": {
+      "selected": "Selected",
+      "items": " items:",
+      "confirmRemove": " members to disconnect?",
+      "removed": " members disconnected."
+    },
+    "addMemberModal": {
+      "caption": "Members already in use are excluded.",
+      "title": "Please select all members in use.",
+      "ctaInactive": "Please select members in use.",
+      "ctaActive": "Connect %n members in use",
+      "empty": "No members to connect"
+    },
+    "role": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "inactive": "Inactive"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subscriptionCount": "Apps",
+      "note": "Note",
+      "empty": "Empty",
+      "role": "Role",
+      "status": "Status",
+      "joinedAt": "Joined At",
+      "actions": "Actions"
+    }
+  },
+  "subscriptions": {
+    "title": "Subscription Management",
+    "addSubscription": "Add Subscription",
+    "cancelSubscription": "Cancel Subscription",
+    "table": {
+      "service": "Service",
+      "plan": "Plan",
+      "status": "Status",
+      "nextBilling": "Next Billing",
+      "amount": "Amount",
+      "usedMembers": "Used Members",
+      "note": "Note",
+      "actions": "Actions"
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "addInvoice": "Connect Invoice Mail",
+    "empty": "No invoice mails connected.",
+    "table": {
+      "invoiceNumber": "Invoice Number",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    }
+  },
+  "payments": {
+    "title": "Payment History",
+    "addPayment": "Connect Payment Method",
+    "empty": "No payment methods connected.",
+    "table": {
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    }
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "download": "Download",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+    "expired": "Expired"
+  },
+        "common": {
+    "team": "Team",
+    "teamName": "Team Name",
+    "teamInfo": "Team Info",
+    "teamFrom": "from team",
+    "teamExcluded": "excluded from team",
+    "teamRemoved": "removed from team",
+    "teamRelated": "team-related"
+  },
+  "messages": {
+    "teamCreated": "Team created successfully",
+    "teamUpdated": "Team updated successfully",
+    "teamDeleted": "Team deleted successfully",
+    "memberAdded": "Member added successfully",
+    "memberRemoved": "Member removed successfully",
+    "confirmDelete": "Delete this team?",
+    "confirmRemoveMember": "Are you sure you want to remove this member?",
+    "deleteAllTeamInfo": "This will delete all information related to the team.",
+    "cannotUndo": "This action cannot be undone.",
+    "confirmDeleteNow": "Delete now?"
+  }
+} 

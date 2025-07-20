@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {WithChildren} from '^types/global.type';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface ListTablePaginatorProps {
     pagination: PaginationMetaData;
@@ -12,6 +13,7 @@ interface ListTablePaginatorProps {
 
 export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
     const {pagination, movePage, onChangePerPage, unit = '개'} = props;
+    const {t} = useTranslation('common');
 
     const totalCount = pagination.totalItemCount;
     const currentCount = pagination.currentItemCount;
@@ -20,12 +22,12 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
     return (
         <div className="flex items-center gap-6">
             <div>
-                전체{' '}
+                {t('pagination.total')}{' '}
                 <span>
                     <span>{totalCount.toLocaleString()}</span>
                     {unit}
                 </span>{' '}
-                중{' '}
+                {t('pagination.of')}{' '}
                 <span>
                     <span>{currentCount.toLocaleString()}</span>
                     {unit}
@@ -34,7 +36,7 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
 
             {onChangePerPage && (
                 <div className="flex items-center gap-2">
-                    <div>최대 표시</div>
+                    <div>{t('pagination.maxDisplay')}</div>
                     <select
                         className="select select-sm select-bordered"
                         key={pagination.itemsPerPage}
@@ -45,7 +47,7 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
                     >
                         {[10, 30, 50, 100, 0].map((num, i) => (
                             <option value={num} key={i}>
-                                {num ? `${num}${unit}` : '전체'}
+                                {num ? `${num}${unit}` : t('pagination.all')}
                             </option>
                         ))}
                     </select>
@@ -56,14 +58,14 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
                 <div className="flex items-center gap-2">
                     <PageButton onClick={() => movePage(currentPage - 1)} disabled={pagination.currentPage <= 1}>
                         <ChevronLeft fontSize={14} />
-                        <span>이전</span>
+                        <span>{t('pagination.previous')}</span>
                     </PageButton>
 
                     <PageButton
                         onClick={() => movePage(currentPage + 1)}
                         disabled={pagination.totalPage <= pagination.currentPage}
                     >
-                        <span>다음</span>
+                        <span>{t('pagination.next')}</span>
                         <ChevronRight fontSize={14} />
                     </PageButton>
                 </div>

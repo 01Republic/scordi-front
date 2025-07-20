@@ -1,4 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useTranslation} from 'next-i18next';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useTeamInvoiceAccountListInTeamDetail} from '^models/TeamInvoiceAccount/hook';
 import {AddInvoiceModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/AddInvoiceModal';
@@ -14,6 +15,8 @@ import {useUnmount} from '^hooks/useUnmount';
 import {Plus} from 'lucide-react';
 
 export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
+    const {t} = useTranslation('teams');
+    const {t: tCommon} = useTranslation('common');
     const {reload: reloadParent} = props;
     const teamId = useRecoilValue(teamIdParamState);
     const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy, reset} =
@@ -46,10 +49,11 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
+                    {tCommon('table.total')}{' '}
+                    <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
-                    <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
+                    <ListPageSearchInput onSearch={onSearch} placeholder={t('list.searchPlaceholder') as string} />
                     <button
                         className="btn btn-square btn-scordi animate-none btn-animation"
                         onClick={() => setIsOpened(true)}
@@ -68,8 +72,8 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="연결된 청구서 메일이 없어요."
-                emptyButtonText="청구서 메일 연결"
+                emptyMessage={t('invoices.empty') as string}
+                emptyButtonText={t('invoices.addInvoice') as string}
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable

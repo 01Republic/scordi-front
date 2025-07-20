@@ -1,4 +1,5 @@
 import React, {memo, useEffect} from 'react';
+import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {teamMembershipApi} from '^models/TeamMembership/api';
@@ -13,6 +14,7 @@ interface AddMemberModalProps {
 }
 
 export const AddMemberModal = memo((props: AddMemberModalProps) => {
+    const {t} = useTranslation('teams');
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
     const {isOpened, onClose, onCreate} = props;
@@ -57,12 +59,12 @@ export const AddMemberModal = memo((props: AddMemberModalProps) => {
                 <TeamMemberSelectItem teamMember={item} onClick={onClick} isSelected={isSelected} />
             )}
             onSubmit={onSave}
-            titleCaption="이미 이용중인 구성원은 제외했어요."
-            title="이용중인 구성원을 모두 선택해주세요."
-            ctaInactiveText="이용중인 구성원을 선택해주세요."
-            ctaActiveText="%n명의 이용중인 구성원 연결하기"
-            successMessage="선택한 구성원을 연결했어요."
-            emptyText="연결할 구성원이 없어요"
+            titleCaption={t('members.addMemberModal.caption') as string}
+            title={t('members.addMemberModal.title') as string}
+            ctaInactiveText={t('members.addMemberModal.ctaInactive') as string}
+            ctaActiveText={t('members.addMemberModal.ctaActive') as string}
+            successMessage={t('messages.memberAdded') as string}
+            emptyText={t('members.addMemberModal.empty') as string}
         />
     );
 });

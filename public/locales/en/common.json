@@ -65,5 +65,19 @@
     "copyright": "Copyright 2024 © 01Republic. All Rights Reserved",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"
+  },
+  "pagination": {
+    "total": "Total",
+    "of": "of",
+    "maxDisplay": "Maximum",
+    "all": "All",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "table": {
+    "emptyMessage": "No results found.",
+    "underConstruction": "Under construction",
+    "open": "Open",
+    "total": "Total"
   }
 }

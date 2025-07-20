@@ -1,4 +1,5 @@
 import React, {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 import {TeamMembershipDto} from '^models/TeamMembership/type';
 import {confirm2, confirmed} from '^components/util/dialog';
@@ -13,6 +14,7 @@ interface BulkRemoveButtonProps {
 }
 
 export const BulkRemoveButton = memo((props: BulkRemoveButtonProps) => {
+    const {t} = useTranslation('teams');
     const orgId = useOrgIdParam();
     const {checkboxHandler, reload} = props;
     const {checkedItems} = checkboxHandler;
@@ -22,12 +24,13 @@ export const BulkRemoveButton = memo((props: BulkRemoveButtonProps) => {
     const onClick = () => {
         const deleteConfirm = () => {
             return confirm2(
-                `${countStr}명의 구성원 연결을 해제할까요?`,
+                `${countStr}${t('members.bulkAction.confirmRemove')}`,
                 <span>
-                    이 작업은 취소할 수 없습니다.
+                    {t('members.removeMemberDialog.warning')}
                     <br />
-                    <b>팀에서 제외</b>됩니다. <br />
-                    그래도 연결을 해제 하시겠어요?
+                    <b>{t('members.removeMemberDialog.excluded')}</b>
+                    <br />
+                    {t('members.removeMemberDialog.confirm')}
                 </span>,
                 'warning',
             );
@@ -43,7 +46,7 @@ export const BulkRemoveButton = memo((props: BulkRemoveButtonProps) => {
                     })),
                 );
             })
-            .then(() => toast.success(`${countStr}명의 연결을 해제했어요.`))
+            .then(() => toast.success(`${countStr}${t('members.bulkAction.removed')}`))
             .then(() => reload && reload())
             .catch(errorToast);
     };
@@ -54,7 +57,7 @@ export const BulkRemoveButton = memo((props: BulkRemoveButtonProps) => {
             onClick={onClick}
             className="btn btn-xs btn-gray btn-outline normal-case no-animation btn-animation"
         >
-            팀에서 제외하기
+            {t('members.removeMember')}
         </button>
     );
 });

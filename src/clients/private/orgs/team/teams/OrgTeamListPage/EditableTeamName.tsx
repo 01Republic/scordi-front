@@ -1,4 +1,5 @@
 import {memo, KeyboardEvent, FocusEvent} from 'react';
+import {useTranslation} from 'next-i18next';
 import {TeamDto} from '^models/Team/type';
 import {teamApi} from '^models/Team/api';
 import {toast} from 'react-hot-toast';
@@ -13,6 +14,7 @@ interface EditableTeamNameProps {
 }
 
 export const EditableTeamName = memo((props: EditableTeamNameProps) => {
+    const {t} = useTranslation('teams');
     const {team, isEditMode, setIsEditMode, reload} = props;
     const orgId = team.organizationId;
 
@@ -32,7 +34,7 @@ export const EditableTeamName = memo((props: EditableTeamNameProps) => {
             .update(orgId, team.id, {name})
             .then(() => {
                 setIsEditMode(false);
-                toast.success('수정했어요.');
+                toast.success(t('messages.teamUpdated'));
                 reload && reload();
             })
             .catch(errorToast);

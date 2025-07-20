@@ -1,11 +1,13 @@
 import React, {memo} from 'react';
 import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useTeamsForListPage} from '^models/Team/hook';
 import {TeamListSection} from './TeamListSection';
 
 export const OrgTeamListPage = memo(function OrgTeamListPage() {
+    const {t} = useTranslation('teams');
     const organizationId = useOrgIdParam();
     const {search, query, clearCache} = useTeamsForListPage();
 
@@ -30,12 +32,12 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
         <ListPage
             onReady={onReady}
             onUnmount={() => clearCache()}
-            breadcrumb={['팀', {text: '팀 목록', active: true}]}
-            titleText="팀 목록"
+            breadcrumb={[t('common.team') as string, {text: t('list.title') as string, active: true}]}
+            titleText={t('list.title') as string}
             Buttons={undefined}
             ScopeHandler={undefined}
             onSearch={onSearch}
-            searchInputPlaceholder="검색어를 입력해주세요"
+            searchInputPlaceholder={t('list.searchPlaceholder') as string}
             searchInputPosition="end-of-buttons"
         >
             <TeamListSection />

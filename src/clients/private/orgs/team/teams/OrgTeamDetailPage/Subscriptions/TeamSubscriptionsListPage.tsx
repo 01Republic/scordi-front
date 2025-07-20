@@ -1,4 +1,5 @@
 import React, {memo, useEffect} from 'react';
+import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {useUnmount} from '^hooks/useUnmount';
@@ -12,6 +13,8 @@ import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 
 export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
+    const {t} = useTranslation('teams');
+    const {t: tCommon} = useTranslation('common');
     const {reload: reloadParent} = props;
     const {team} = useCurrentTeam();
     const {search, result, isLoading, reset} = useSubscriptionsInTeamShowPage();
@@ -38,10 +41,11 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{team?.subscriptionCount.toLocaleString()}</span>
+                    {tCommon('table.total')}{' '}
+                    <span className={'text-scordi-500'}>{team?.subscriptionCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
-                    <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
+                    <ListPageSearchInput onSearch={onSearch} placeholder={t('list.searchPlaceholder') as string} />
                 </div>
             </div>
 

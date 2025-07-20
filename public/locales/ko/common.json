@@ -65,5 +65,19 @@
     "copyright": "Copyright 2024 © 01Republic. All Rights Reserved",
     "privacy": "개인정보처리방침",
     "terms": "이용약관"
+  },
+  "pagination": {
+    "total": "전체",
+    "of": "중",
+    "maxDisplay": "최대 표시",
+    "all": "전체",
+    "previous": "이전",
+    "next": "다음"
+  },
+  "table": {
+    "emptyMessage": "조회된 결과가 없어요.",
+    "underConstruction": "공사중이에요",
+    "open": "열기",
+    "total": "전체"
   }
 }

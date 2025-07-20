@@ -1,4 +1,5 @@
 import {memo, useRef, useState} from 'react';
+import {useTranslation} from 'next-i18next';
 import {LoadableBox} from '^components/util/loading';
 import {Paginated, PaginationMetaData} from '^types/utils/paginated.dto';
 import {debounce} from 'lodash';
@@ -20,6 +21,7 @@ interface TeamListSectionProps {
 
 export const TeamListSection = memo((props: TeamListSectionProps) => {
     // const {isLoading = false, result, movePage} = props;
+    const {t} = useTranslation('teams');
     const ref = useRef<HTMLDivElement>(null);
     const orgId = useOrgIdParam();
     const {isLoading, result, movePage, reload} = useTeamsForListPage();
@@ -33,12 +35,12 @@ export const TeamListSection = memo((props: TeamListSectionProps) => {
     const {items, pagination} = result;
 
     const addTeam = async () => {
-        const result = await prompt2(`팀 이름을 입력해주세요.`);
+        const result = await prompt2(t('list.createTeam') as string);
         if (result.isConfirmed && result.value) {
             setIsAdding(true);
             teamApi
                 .create(orgId, {name: result.value})
-                .then(() => toast.success(`'${result.value}' 팀을 추가했어요.`))
+                .then(() => toast.success(t('messages.teamCreated') as string))
                 .then(() => reload())
                 .catch(errorToast)
                 .finally(() => setIsAdding(false));

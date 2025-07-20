@@ -1,4 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {useUnmount} from '^hooks/useUnmount';
@@ -13,6 +14,8 @@ import {TeamPaymentTableHeader} from './TeamPaymentTableHeader';
 import {Plus} from 'lucide-react';
 
 export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
+    const {t} = useTranslation('teams');
+    const {t: tCommon} = useTranslation('common');
     const {reload: reloadParent} = props;
     const teamId = useRecoilValue(teamIdParamState);
     const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, orderBy, movePage, changePageSize, reset} =
@@ -40,10 +43,11 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
+                    {tCommon('table.total')}{' '}
+                    <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
-                    <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
+                    <ListPageSearchInput onSearch={onSearch} placeholder={t('list.searchPlaceholder') as string} />
                     <button
                         className="btn btn-square btn-scordi animate-none btn-animation"
                         onClick={() => setIsOpened(true)}
@@ -62,8 +66,8 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="연결된 결제수단이 없어요."
-                emptyButtonText="결제수단 연결"
+                emptyMessage={t('payments.empty') as string}
+                emptyButtonText={t('payments.addPayment') as string}
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable

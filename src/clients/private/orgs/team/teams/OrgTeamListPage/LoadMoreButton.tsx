@@ -1,4 +1,5 @@
 import {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 
 interface LoadMoreButtonProps {
@@ -7,6 +8,7 @@ interface LoadMoreButtonProps {
 }
 
 export const LoadMoreButton = memo((props: LoadMoreButtonProps) => {
+    const {t} = useTranslation('teams');
     const {pagination = new PaginationMetaData(), onClick} = props;
     const {currentPage = 0, totalPage = 0} = pagination;
 
@@ -18,7 +20,7 @@ export const LoadMoreButton = memo((props: LoadMoreButtonProps) => {
                 onClick={onClick}
                 className="btn btn-sm border !border-gray-300 !bg-white shadow hover:shadow-md btn-animation gap-1"
             >
-                <span>더 보기</span>
+                <span>{t('list.loadMore')}</span>
                 <small>
                     ({currentPage.toLocaleString()}/{totalPage.toLocaleString()})
                 </small>

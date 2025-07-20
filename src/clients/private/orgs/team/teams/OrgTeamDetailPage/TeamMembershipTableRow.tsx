@@ -1,4 +1,5 @@
 import React, {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {TeamMembershipDto} from '^models/TeamMembership/type';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {useRecoilValue} from 'recoil';
@@ -18,6 +19,7 @@ interface TeamMembershipTableRowProps {
 }
 
 export const TeamMembershipTableRow = memo((props: TeamMembershipTableRowProps) => {
+    const {t} = useTranslation('teams');
     const orgId = useRecoilValue(orgIdParamState);
     const {teamMembership, reload, onClick} = props;
     const {teamId, teamMemberId} = teamMembership;
@@ -28,11 +30,13 @@ export const TeamMembershipTableRow = memo((props: TeamMembershipTableRowProps) 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const removeFromTeam = async () => {
-        const isConfirmed = await confirm2('정말 팀에서 삭제할까요?', '').then((res) => res.isConfirmed);
+        const isConfirmed = await confirm2(t('messages.confirmRemoveMember') as string, '').then(
+            (res) => res.isConfirmed,
+        );
         if (!isConfirmed) return;
 
         teamMembershipApi.destroy(orgId, {teamId, teamMemberId}).then(() => {
-            toast.success('저장 완료');
+            toast.success(t('messages.memberRemoved'));
             reload && reload();
         });
     };
@@ -72,7 +76,8 @@ export const TeamMembershipTableRow = memo((props: TeamMembershipTableRowProps) 
             {/* 이용 앱 수 */}
             <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMembership)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.subscriptionCount.toLocaleString()} <small>Apps</small>
+                    {teamMember.subscriptionCount.toLocaleString()}{' '}
+                    <small>{t('members.table.subscriptionCount')}</small>
                 </p>
             </td>
 
@@ -85,7 +90,7 @@ export const TeamMembershipTableRow = memo((props: TeamMembershipTableRowProps) 
             <td className={`${hoverBgColor}`}>
                 {/*<TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />*/}
                 <div className="flex items-center justify-end">
-                    <Tippy content="이 팀에서 제거">
+                    <Tippy content={t('members.removeMember')}>
                         <div>
                             <MinusCircle
                                 fontSize={24}

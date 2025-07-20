@@ -6,6 +6,7 @@ import {ListTablePaginator} from './ListTablePaginator';
 import {CardContainerTableLayout} from './layouts';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {Play} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface ListTableContainerProps extends WithChildren {
     // data
@@ -41,6 +42,7 @@ export const ListTableContainer = memo((props: ListTableContainerProps) => {
     const {unit = '개', hideTopPaginator = false, hideBottomPaginator = false} = props;
     const {isLoading = false, isNotLoaded = false, isEmptyResult = false} = props;
     const {children} = props;
+    const {t} = useTranslation('common');
 
     // Empty State Props
     const {EmptyIcon, emptyMessage, emptyButtonText, emptyButtonOnClick, EmptyButtons} = props;
@@ -51,7 +53,7 @@ export const ListTableContainer = memo((props: ListTableContainerProps) => {
         return (
             <EmptyTable
                 Icon={EmptyIcon}
-                message={emptyMessage}
+                message={emptyMessage || t('table.emptyMessage')}
                 buttonText={emptyButtonText}
                 buttonAction={emptyButtonOnClick}
                 Buttons={EmptyButtons}
@@ -91,11 +93,15 @@ export const ListTableContainer = memo((props: ListTableContainerProps) => {
 });
 ListTableContainer.displayName = 'ListTableContainer';
 
-export const ListTableContainerNowAllowed = memo(() => (
-    <div className="flex items-center justify-center py-10">
-        <div className="flex flex-col items-center justify-center gap-4">
-            <Play fontSize={40} className="opacity-60" />
-            <div className="font-bold text-2xl text-gray-300">공사중이에요</div>
+export const ListTableContainerNowAllowed = memo(() => {
+    const {t} = useTranslation('common');
+
+    return (
+        <div className="flex items-center justify-center py-10">
+            <div className="flex flex-col items-center justify-center gap-4">
+                <Play fontSize={40} className="opacity-60" />
+                <div className="font-bold text-2xl text-gray-300">{t('table.underConstruction')}</div>
+            </div>
         </div>
-    </div>
-));
+    );
+});

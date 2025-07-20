@@ -1,4 +1,5 @@
 import React, {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
@@ -23,6 +24,7 @@ interface TeamMemberTableRowProps {
 }
 
 export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
+    const {t} = useTranslation('teams');
     const {teamMember, onClick, isChecked, onCheck, reload} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
@@ -36,7 +38,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const update = debounce((dto: UpdateTeamMemberDto) => {
         return teamMemberApi
             .update(orgId, teamMember.id, {notes: dto.notes})
-            .then(() => toast.success('변경사항을 저장했어요.'))
+            .then(() => toast.success(t('messages.teamUpdated')))
             .then(() => reload && reload())
             .catch(errorToast);
     }, 250);
@@ -44,12 +46,13 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const onDelete = () => {
         const deleteConfirm = () => {
             return confirm2(
-                `구성원 연결을 해제할까요?`,
+                t('messages.confirmRemoveMember') as string,
                 <span>
-                    이 작업은 취소할 수 없습니다.
+                    {t('members.removeMemberDialog.warning')}
                     <br />
-                    <b>팀에서 제외</b>됩니다. <br />
-                    그래도 연결을 해제 하시겠어요?
+                    <b>{t('members.removeMemberDialog.excluded')}</b>
+                    <br />
+                    {t('members.removeMemberDialog.confirm')}
                 </span>,
                 'warning',
             );
@@ -57,7 +60,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
         confirmed(deleteConfirm())
             .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
-            .then(() => toast.success('연결을 해제했어요.'))
+            .then(() => toast.success(t('messages.memberRemoved')))
             .then(() => reload && reload())
             .catch(errorToast);
     };
@@ -95,7 +98,9 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
             <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.subscriptionCount > 0 ? (
-                        <small>{teamMember.subscriptionCount.toLocaleString()} Apps</small>
+                        <small>
+                            {teamMember.subscriptionCount.toLocaleString()} {t('members.table.subscriptionCount')}
+                        </small>
                     ) : (
                         <small>-</small>
                     )}
@@ -112,7 +117,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
             {/* 전화번호 */}
             <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.phone || <span className="text-12 text-gray-300">비어있음</span>}
+                    {teamMember.phone || <span className="text-12 text-gray-300">{t('members.table.empty')}</span>}
                 </p>
             </td>
 
@@ -134,7 +139,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">
-                    <Tippy content="팀에서 제외">
+                    <Tippy content={t('members.removeMember')}>
                         <div>
                             <MinusCircle
                                 fontSize={24}

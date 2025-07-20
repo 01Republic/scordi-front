@@ -4,17 +4,19 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {WithChildren} from '^types/global.type';
 import Tippy from '@tippyjs/react/headless';
 import {FolderOpen} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface OpenButtonProps extends LinkToProps {}
 
 export const OpenButton = memo((props: OpenButtonProps) => {
     const {...res} = props;
+    const {t} = useTranslation('common');
 
     return (
         <LinkTo {...res} displayLoading={false}>
             <TagUI className="border border-gray-200 bg-white btn-animation no-selectable gap-1 shadow hover:shadow-lg">
                 <FolderOpen size={10} />
-                <span className="text-10">열기</span>
+                <span className="text-10">{t('table.open')}</span>
             </TagUI>
         </LinkTo>
     );

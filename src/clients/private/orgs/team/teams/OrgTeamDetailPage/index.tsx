@@ -1,5 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import {useTranslation} from 'next-i18next';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {useCurrentTeam} from '^models/Team/hook';
@@ -11,6 +12,7 @@ import {OrgTeamDetailPageTabContent, TabName} from './OrgTeamDetailPageTabConten
 import {useUnmount} from '^hooks/useUnmount';
 
 export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
+    const {t} = useTranslation('teams');
     const orgId = useRecoilValue(orgIdParamState);
     const [teamId, setTeamId] = useRecoilState(teamIdParamState);
     const {team, fetchData, clear, reloadWithUpdateCounters} = useCurrentTeam();
@@ -31,8 +33,8 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
             <MainContainer>
                 <Breadcrumb
                     paths={[
-                        '팀',
-                        {text: '팀 목록', active: false, href: OrgTeamListPageRoute.path(orgId)},
+                        t('common.team') as string,
+                        {text: t('list.title') as string, active: false, href: OrgTeamListPageRoute.path(orgId)},
                         {text: team?.name || '', active: true},
                     ]}
                 />
@@ -46,22 +48,22 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
                     <div className={'col-span-3'}>
                         <div className={'flex items-center mb-8'}>
                             <TeamNavItem
-                                text={'구성원'}
+                                text={t('detail.tabs.members') as string}
                                 onClick={() => setTab(TabName.members)}
                                 isActive={tab === TabName.members}
                             />
                             <TeamNavItem
-                                text={'구독'}
+                                text={t('detail.tabs.subscriptions') as string}
                                 onClick={() => setTab(TabName.subscriptions)}
                                 isActive={tab === TabName.subscriptions}
                             />
                             <TeamNavItem
-                                text={'결제수단'}
+                                text={t('detail.tabs.payments') as string}
                                 onClick={() => setTab(TabName.payments)}
                                 isActive={tab === TabName.payments}
                             />
                             <TeamNavItem
-                                text={'청구서'}
+                                text={t('detail.tabs.invoices') as string}
                                 onClick={() => setTab(TabName.invoices)}
                                 isActive={tab === TabName.invoices}
                             />

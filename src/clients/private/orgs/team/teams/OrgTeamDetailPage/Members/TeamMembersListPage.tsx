@@ -1,4 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {useUnmount} from '^hooks/useUnmount';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
@@ -15,6 +16,8 @@ import {TeamMembershipDto} from '^models/TeamMembership/type';
 import {TeamMembersBulkActionPanel} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersBulkActionPanel';
 
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
+    const {t} = useTranslation('teams');
+    const {t: tCommon} = useTranslation('common');
     const {reload: reloadParent} = props;
     const teamId = useRecoilValue(teamIdParamState);
     const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy, reset} =
@@ -47,10 +50,11 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
+                    {tCommon('table.total')}{' '}
+                    <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
-                    <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
+                    <ListPageSearchInput onSearch={onSearch} placeholder={t('list.searchPlaceholder') as string} />
                     <button
                         className="btn btn-square btn-scordi animate-none btn-animation"
                         onClick={() => setIsOpened(true)}
@@ -69,8 +73,8 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="연결된 구성원이 없어요."
-                emptyButtonText="구성원 연결"
+                emptyMessage={t('list.noMembers') as string}
+                emptyButtonText={t('members.addMember') as string}
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 {!ch.isEmpty && (

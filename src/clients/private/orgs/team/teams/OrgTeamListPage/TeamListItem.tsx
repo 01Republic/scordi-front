@@ -1,4 +1,5 @@
 import {memo, useState} from 'react';
+import {useTranslation} from 'next-i18next';
 import PushPin from '/src/images/pushpin.png';
 import {useOrgIdParam} from '^atoms/common';
 import {TeamDto} from '^models/Team/type';
@@ -21,6 +22,7 @@ interface TeamListItemProps {
  * 반복지출 금액                할당된 카드
  */
 export const TeamListItem = memo((props: TeamListItemProps) => {
+    const {t} = useTranslation('teams');
     const {team, reload} = props;
     const orgId = useOrgIdParam();
     const {members = []} = team;
@@ -42,11 +44,11 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
             <EditableTeamName team={team} isEditMode={isEditMode} setIsEditMode={setIsEditMode} reload={reload} />
 
             <div className="flex items-center justify-center gap-2.5 text-14 text-gray-400">
-                <div className="flex items-center gap-1" title="Members">
+                <div className="flex items-center gap-1" title={t('list.memberCount') as string}>
                     <Users />
                     <div>{team.teamMemberCount.toLocaleString()}</div>
                 </div>
-                <div className="flex items-center gap-1" title="Apps">
+                <div className="flex items-center gap-1" title={t('list.subscriptionCount') as string}>
                     <LayoutGrid />
                     <div>{team.subscriptionCount.toLocaleString()}</div>
                 </div>

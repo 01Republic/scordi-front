@@ -1,0 +1,164 @@
+{
+      "list": {
+      "title": "팀 목록",
+      "createTeam": "팀 만들기",
+      "searchPlaceholder": "팀 이름으로 검색",
+      "noTeams": "등록된 팀이 없습니다",
+      "noMembers": "연결된 구성원이 없어요.",
+      "loadMore": "더 보기",
+      "teamName": "팀명",
+      "memberCount": "구성원",
+      "subscriptionCount": "구독",
+      "lastUpdated": "최근 업데이트",
+      "actions": "작업"
+    },
+  "detail": {
+    "title": "팀 상세",
+    "backToList": "팀 목록으로",
+    "editTeam": "팀 정보 수정",
+    "deleteTeam": "팀 삭제",
+    "profile": {
+      "title": "팀 프로필",
+      "teamName": "팀명",
+      "description": "설명",
+      "createdAt": "생성일",
+      "updatedAt": "수정일"
+    },
+    "stats": {
+      "title": "이 팀에 연결된 항목",
+      "members": "구성원",
+      "subscriptions": "구독",
+      "invoices": "청구서",
+      "payments": "결제"
+    },
+    "tabs": {
+      "overview": "개요",
+      "members": "구성원",
+      "subscriptions": "구독",
+      "invoices": "청구서",
+      "payments": "결제"
+    }
+  },
+  "members": {
+    "title": "구성원 관리",
+    "addMember": "구성원 추가",
+    "inviteMember": "구성원 초대",
+    "removeMember": "구성원 제거",
+    "removeMemberDialog": {
+      "warning": "이 작업은 취소할 수 없습니다.",
+      "excluded": "팀에서 제외됩니다.",
+      "confirm": "그래도 연결을 해제 하시겠어요?"
+    },
+    "bulkAction": {
+      "selected": "선택된",
+      "items": "개의 항목을:",
+      "confirmRemove": "명의 구성원 연결을 해제할까요?",
+      "removed": "명의 연결을 해제했어요."
+    },
+    "addMemberModal": {
+      "caption": "이미 이용중인 구성원은 제외했어요.",
+      "title": "이용중인 구성원을 모두 선택해주세요.",
+      "ctaInactive": "이용중인 구성원을 선택해주세요.",
+      "ctaActive": "%n명의 이용중인 구성원 연결하기",
+      "empty": "연결할 구성원이 없어요"
+    },
+    "role": {
+      "owner": "소유자",
+      "admin": "관리자",
+      "member": "구성원"
+    },
+    "status": {
+      "active": "활성",
+      "pending": "대기중",
+      "inactive": "비활성"
+    },
+    "table": {
+      "name": "이름",
+      "email": "이메일",
+      "phone": "전화번호",
+      "subscriptionCount": "이용 앱 수",
+      "note": "비고",
+      "empty": "비어있음",
+      "role": "역할",
+      "status": "상태",
+      "joinedAt": "가입일",
+      "actions": "작업"
+    }
+  },
+  "subscriptions": {
+    "title": "구독 관리",
+    "addSubscription": "구독 추가",
+    "cancelSubscription": "구독 취소",
+    "table": {
+      "service": "서비스",
+      "plan": "플랜",
+      "status": "상태",
+      "nextBilling": "다음 결제일",
+      "amount": "금액",
+      "usedMembers": "사용인원",
+      "note": "비고",
+      "actions": "작업"
+    }
+  },
+  "invoices": {
+    "title": "청구서",
+    "addInvoice": "청구서 메일 연결",
+    "empty": "연결된 청구서 메일이 없어요.",
+    "table": {
+      "invoiceNumber": "청구서 번호",
+      "date": "날짜",
+      "amount": "금액",
+      "status": "상태",
+      "actions": "작업"
+    }
+  },
+  "payments": {
+    "title": "결제 내역",
+    "addPayment": "결제수단 연결",
+    "empty": "연결된 결제수단이 없어요.",
+    "table": {
+      "date": "날짜",
+      "description": "설명",
+      "amount": "금액",
+      "status": "상태",
+      "actions": "작업"
+    }
+  },
+  "actions": {
+    "edit": "수정",
+    "delete": "삭제",
+    "view": "보기",
+    "download": "다운로드",
+    "cancel": "취소",
+    "confirm": "확인",
+    "save": "저장"
+  },
+  "status": {
+    "active": "활성",
+    "inactive": "비활성",
+    "pending": "대기중",
+    "cancelled": "취소됨",
+    "expired": "만료됨"
+  },
+        "common": {
+    "team": "팀",
+    "teamName": "팀명",
+    "teamInfo": "팀 정보",
+    "teamFrom": "팀에서",
+    "teamExcluded": "팀에서 제외",
+    "teamRemoved": "팀에서 제거",
+    "teamRelated": "팀과 관련된"
+  },
+  "messages": {
+    "teamCreated": "팀이 성공적으로 생성되었습니다",
+    "teamUpdated": "팀 정보가 업데이트되었습니다",
+    "teamDeleted": "팀이 삭제되었습니다",
+    "memberAdded": "구성원이 추가되었습니다",
+    "memberRemoved": "구성원이 제거되었습니다",
+    "confirmDelete": "팀을 삭제할까요?",
+    "confirmRemoveMember": "정말로 이 구성원을 제거하시겠습니까?",
+    "deleteAllTeamInfo": "팀과 관련된 모든 정보를 삭제합니다.",
+    "cannotUndo": "이 작업은 되돌릴 수 없어요.",
+    "confirmDeleteNow": "지금 삭제할까요?"
+  }
+} 

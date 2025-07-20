@@ -1,15 +1,17 @@
 import React, {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {TeamAvatar} from './TeamAvatar';
 import {useCurrentTeam} from '^models/Team/hook';
 import {prompt2} from '^components/util/dialog';
 import {Pen, Users} from 'lucide-react';
 
 export const TeamProfileSection = memo(() => {
+    const {t} = useTranslation('teams');
     const {team, update} = useCurrentTeam();
 
     const editTeamName = async () => {
         if (!team) return;
-        const result = await prompt2(`변경할 팀 이름을 입력해주세요`, () => null, {
+        const result = await prompt2(t('detail.editTeam') as string, () => null, {
             inputValue: team.name,
             inputPlaceholder: team.name,
         });

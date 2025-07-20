@@ -1,10 +1,12 @@
 import {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
 type SubscriptionTableHeaderProps = ListTableHeaderProps;
 
 export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps) => {
+    const {t} = useTranslation('teams');
     const {orderBy} = props;
 
     return (
@@ -12,14 +14,14 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>
-                서비스 명
+                {t('subscriptions.table.service')}
             </SortableTH>
 
             <SortableTH sortKey="[usedMemberCount]" sortVal="DESC" onClick={orderBy}>
-                사용인원
+                {t('subscriptions.table.usedMembers')}
             </SortableTH>
 
-            <th>비고</th>
+            <th>{t('subscriptions.table.note')}</th>
             <th></th>
         </tr>
     );
