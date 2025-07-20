@@ -49,9 +49,6 @@
     "total": "Total: {{amount}} ({{count}})",
     "noHistory": "No {{status}} history."
   },
-  "teamScope": {
-    "all": "All"
-  },
   "invoiceAccount": {
     "andOthers": "and"
   },

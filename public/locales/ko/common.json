@@ -24,6 +24,7 @@
       "last": "지난 {{value}}"
     }
   },
+  "items": "개",
   "count_of_name": "{{count}}개의 {{name}}",
   "subscribing_service": "구독중인 서비스",
   "nav": {

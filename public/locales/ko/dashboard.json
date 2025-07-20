@@ -49,9 +49,6 @@
     "total": "합계: {{amount}} ({{count}}개)",
     "noHistory": "{{status}}된 내역이 없어요."
   },
-  "teamScope": {
-    "all": "전체"
-  },
   "invoiceAccount": {
     "andOthers": "외"
   },

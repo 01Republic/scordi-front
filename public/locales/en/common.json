@@ -24,6 +24,7 @@
       "last": "Last {{value}}"
     }
   },
+  "items": " items",
   "count_of_name": "{{count}} of {{name}}",
   "subscribing_service": "Subs",
   "nav": {
