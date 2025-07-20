@@ -1,0 +1,76 @@
+{
+  "list": {
+    "title": "Subscription List",
+    "breadcrumb": "Subscriptions",
+    "breadcrumbActive": "Subscription List",
+    "addButton": "Add Subscription",
+    "emptyMessage": "No subscriptions found.",
+    "unit": "items"
+  },
+  "scope": {
+    "all": "All",
+    "none": "Undefined",
+    "free": "Free",
+    "paid": "Paid",
+    "quit": "Cancelled"
+  },
+  "table": {
+    "header": {
+      "serviceName": "Service Name",
+      "status": "Status",
+      "billingCycle": "Billing Cycle",
+      "paymentAmount": "Payment Amount",
+      "renewalDate": "Renewal Date",
+      "userCount": "User Count",
+      "paymentMethod": "Payment Method",
+      "note": "Note"
+    },
+    "actions": {
+      "delete": "Delete",
+      "changeStatus": "Change usage status",
+      "changeBillingCycle": "Change billing cycle"
+    }
+  },
+  "excel": {
+    "downloadSuccess": "Subscription list Excel download completed.",
+    "filename": "subscription_list_download"
+  },
+  "delete": {
+    "confirmTitle": "Delete subscription?",
+    "confirmMessage": "This action cannot be undone.\nIt will be deleted from the entire workspace.\nAre you sure you want to delete it?",
+    "cancelText": "Cancel Delete",
+    "success": "Subscription deleted."
+  },
+  "update": {
+    "success": "Changes saved."
+  },
+      "billingHistory": {
+        "title": "Payment Status",
+        "breadcrumb": "Payment Status",
+        "searchPlaceholder": "Search service name",
+        "viewMode": {
+            "monthly": "Monthly",
+            "yearly": "Yearly"
+        },
+        "table": {
+            "header": {
+                "serviceName": "Service Name",
+                "status": "Status",
+                "expenseRatio": "Expense Ratio",
+                "totalExpense": "Total Expense",
+                "averageExpense": "Average Expense",
+                "freePaid": "Free/Paid"
+            },
+            "emptyMessage": "No data available.",
+            "yearFormat": "{{year}}",
+            "monthFormat": "{{month}}/{{year}}"
+        },
+        "excel": {
+            "monthlyDownloadSuccess": "Monthly payment status Excel downloaded.",
+            "yearlyDownloadSuccess": "Yearly payment status Excel downloaded.",
+            "monthlyFilename": "payment_status_monthly_download",
+            "yearlyFilename": "payment_status_yearly_download",
+            "sheetName": "Payment Status Query Result"
+        }
+    }
+} 

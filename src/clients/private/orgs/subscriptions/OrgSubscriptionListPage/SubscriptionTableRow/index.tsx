@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
+import {useTranslation} from 'next-i18next';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
@@ -40,13 +41,14 @@ interface SubscriptionTableRowProps {
 }
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
+    const {t} = useTranslation('subscription');
     const {subscription, onDelete, reload} = props;
     const currentUser = useRecoilValue(currentUserAtom);
 
     const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
         return subscriptionApi
             .update(subscription.id, dto)
-            .then(() => toast.success('변경사항을 저장했어요.'))
+            .then(() => toast.success(t('update.success') as string))
             .catch(errorToast)
             .finally(() => reload());
     }, 250);
@@ -83,7 +85,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                             <SubscriptionUsingStatusTag value={value} className="no-selectable !cursor-default" />
                         )}
                         contentMinWidth="240px"
-                        optionListBoxTitle="사용 상태를 변경합니다"
+                        optionListBoxTitle={t('table.actions.changeStatus') as string}
                         inputDisplay={false}
                     />
                 ) : (
@@ -108,7 +110,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                             <BillingCycleTypeTagUI value={value} className="no-selectable !cursor-default" short />
                         )}
                         contentMinWidth="240px"
-                        optionListBoxTitle="결제주기를 변경합니다"
+                        optionListBoxTitle={t('table.actions.changeBillingCycle') as string}
                         inputDisplay={false}
                     />
                 ) : (
@@ -191,7 +193,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                                         onDelete(subscription);
                                     }}
                                 >
-                                    삭제하기
+                                    {t('table.actions.delete') as string}
                                 </a>
                             </li>
                         </ul>

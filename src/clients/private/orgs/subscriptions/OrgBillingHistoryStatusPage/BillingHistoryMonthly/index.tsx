@@ -16,6 +16,7 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {CurrencyCode} from '^models/Money';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {WideMode} from '../../OrgBillingHistoryStatusPage';
+import {useTranslation} from 'next-i18next';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
@@ -25,6 +26,7 @@ interface BillingHistoryMonthlyProps {
 
 export const BillingHistoryMonthly = memo(
     forwardRef(({focusYear, wideMode = WideMode.Narrow, stickyPos = 0}: BillingHistoryMonthlyProps, ref) => {
+        const {t} = useTranslation('subscription');
         const orgId = useRecoilValue(orgIdParamState);
         const [displayCurrency, setDisplayCurrency] = useRecoilState(displayCurrencyAtom);
         const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +35,7 @@ export const BillingHistoryMonthly = memo(
 
         const {currentOrg} = useCurrentOrg2();
         const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
-        const filename = `${focusYear}_${orgName}_결제현황_월별_다운로드`;
+        const filename = `${focusYear}_${orgName}_${t('billingHistory.excel.monthlyFilename') as string}`;
 
         const months = rangeToArr(1, 12);
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
@@ -82,7 +84,7 @@ export const BillingHistoryMonthly = memo(
 
         // useImperativeHandle 로 상위 컴포넌트에 함수를 노출
         useImperativeHandle(ref, () => ({
-            downloadExcel: makeMonthlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency, filename),
+            downloadExcel: makeMonthlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency, filename, t),
             search,
         }));
 
@@ -105,7 +107,7 @@ export const BillingHistoryMonthly = memo(
                                 {histories.length === 0 ? (
                                     <tr>
                                         <td colSpan={5 + 12} className="text-center py-8">
-                                            <EmptyTable message="데이터가 없습니다." />
+                                            <EmptyTable message={t('billingHistory.table.emptyMessage') as string} />
                                         </td>
                                     </tr>
                                 ) : (

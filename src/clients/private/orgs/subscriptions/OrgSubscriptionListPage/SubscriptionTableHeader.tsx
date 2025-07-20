@@ -1,4 +1,5 @@
 import {memo} from 'react';
+import {useTranslation} from 'next-i18next';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
@@ -7,6 +8,7 @@ interface SubscriptionTableHeaderProps extends ListTableHeaderProps {
 }
 
 export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps) => {
+    const {t} = useTranslation('subscription');
     const {orderBy} = props;
 
     return (
@@ -14,11 +16,11 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>
-                서비스 명
+                {t('table.header.serviceName') as string}
             </SortableTH>
 
             {/* [상태] : 유료, 무료, 해지, 미정 */}
-            <SortableTH>상태</SortableTH>
+            <SortableTH>{t('table.header.status') as string}</SortableTH>
 
             {/* [구독상태] subscription.status: SubscriptionStatus */}
             {/*<SortableTH sortKey="[status]" onClick={orderBy}>*/}
@@ -26,7 +28,7 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             {/*</SortableTH>*/}
 
             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
-            <SortableTH>결제주기</SortableTH>
+            <SortableTH>{t('table.header.billingCycle') as string}</SortableTH>
 
             {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
             {/*<SortableTH sortKey="[pricingModel]" onClick={orderBy}>*/}
@@ -38,17 +40,17 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
                 sortVal="DESC"
                 className="flex items-center justify-end"
             >
-                결제금액
+                {t('table.header.paymentAmount') as string}
             </SortableTH>
 
-            <SortableTH className="text-right">갱신일</SortableTH>
-            <SortableTH>사용인원</SortableTH>
+            <SortableTH className="text-right">{t('table.header.renewalDate') as string}</SortableTH>
+            <SortableTH>{t('table.header.userCount') as string}</SortableTH>
 
             <SortableTH sortKey="[creditCard][name]" sortVal="DESC" onClick={orderBy}>
-                결제수단
+                {t('table.header.paymentMethod') as string}
             </SortableTH>
 
-            <SortableTH>비고</SortableTH>
+            <SortableTH>{t('table.header.note') as string}</SortableTH>
 
             {/*<SortableTH sortKey="[masterId]" sortVal="DESC" onClick={orderBy}>*/}
             {/*    담당자*/}

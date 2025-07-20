@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {useTranslation} from 'next-i18next';
 
 interface MonthYearSwitchProps {
     defaultValue: BillingCycleOptions;
@@ -7,11 +8,12 @@ interface MonthYearSwitchProps {
 }
 
 export const MonthYearSwitch = memo((props: MonthYearSwitchProps) => {
+    const {t} = useTranslation('subscription');
     const {defaultValue, onChange} = props;
 
     const options = [
-        {label: '월별', value: BillingCycleOptions.Monthly},
-        {label: '연도별', value: BillingCycleOptions.Yearly},
+        {label: t('billingHistory.viewMode.monthly') as string, value: BillingCycleOptions.Monthly},
+        {label: t('billingHistory.viewMode.yearly') as string, value: BillingCycleOptions.Yearly},
     ];
 
     return (

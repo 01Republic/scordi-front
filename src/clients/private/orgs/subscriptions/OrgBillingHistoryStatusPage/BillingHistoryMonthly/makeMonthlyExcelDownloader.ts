@@ -10,6 +10,7 @@ export const makeMonthlyExcelDownloader = (
     exchangeRate: number,
     displayCurrency: CurrencyCode,
     filename: string,
+    t?: (key: string) => string,
 ) => {
     const totalAmount = histories.reduce((sum, monthly) => sum + monthly.getCostSumToKRW(exchangeRate), 0);
     const toPercentage = (amt: number) => `${ratioOf(amt, totalAmount).toFixed(2)}%`;
@@ -35,12 +36,14 @@ export const makeMonthlyExcelDownloader = (
                         : history.getAverageCost(exchangeRate, displayCurrency).toLocaleString();
 
                 const row: Record<string, any> = {
-                    서비스명: subscription.product.name(),
-                    유무료: subscription.isFreeTier ? '무료' : '유료',
-                    지출비중: toPercentage(history.getCostSumToKRW(exchangeRate)),
+                    [t?.('billingHistory.table.header.serviceName') as string]: subscription.product.name(),
+                    [t?.('billingHistory.table.header.freePaid') as string]: subscription.isFreeTier ? '무료' : '유료',
+                    [t?.('billingHistory.table.header.expenseRatio') as string]: toPercentage(
+                        history.getCostSumToKRW(exchangeRate),
+                    ),
                     통화: currency,
-                    총지출액: costSum,
-                    평균지출액: averageCost,
+                    [t?.('billingHistory.table.header.totalExpense') as string]: costSum,
+                    [t?.('billingHistory.table.header.averageExpense') as string]: averageCost,
                 };
 
                 // Append month columns to row
@@ -67,8 +70,12 @@ export const makeMonthlyExcelDownloader = (
         const workbook = XLSX.utils.book_new();
         // XLSX.utils.book_append_sheet(workbook, worksheetKRW, '원화 기준');
         // XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
-        XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 결제현황 조회결과`);
+        XLSX.utils.book_append_sheet(
+            workbook,
+            worksheetOriginal,
+            `${timestamp} ${t?.('billingHistory.excel.sheetName') as string}`,
+        );
         XLSX.writeFile(workbook, `${filename}.xlsx`);
-        toast.success('월별 결제현황 엑셀을 다운로드 했어요.');
+        toast.success(t?.('billingHistory.excel.monthlyDownloadSuccess') as string);
     };
 };

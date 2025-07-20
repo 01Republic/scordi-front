@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {useTranslation} from 'next-i18next';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {
     FindAllSubscriptionsQuery,
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export function SubscriptionScopeHandler(props: Props) {
+    const {t} = useTranslation('subscription');
     const {onSearch} = props;
     const [activeStatus, setActiveUsingStatus] = useState<SubscriptionUsingStatus>();
 
@@ -23,7 +25,7 @@ export function SubscriptionScopeHandler(props: Props) {
     return (
         <div className="flex items-center gap-2">
             <ListPage.ScopeButton active={activeStatus === undefined} onClick={() => searchResource()}>
-                전체
+                {t('scope.all') as string}
             </ListPage.ScopeButton>
             {[
                 SubscriptionUsingStatus.NONE,

@@ -9,6 +9,7 @@ export const makeYearlyExcelDownloader = (
     exchangeRate: number,
     displayCurrency: CurrencyCode,
     filename: string,
+    t?: (key: string) => string,
 ) => {
     return function downloadExcel() {
         const timestamp = yyyy_mm_dd(new Date());
@@ -23,10 +24,10 @@ export const makeYearlyExcelDownloader = (
                         : history.getAverageCost(exchangeRate, displayCurrency).toLocaleString();
 
                 const row: Record<string, any> = {
-                    서비스명: subscription.product.name(),
-                    유무료: subscription.isFreeTier ? '무료' : '유료',
+                    [t?.('billingHistory.table.header.serviceName') as string]: subscription.product.name(),
+                    [t?.('billingHistory.table.header.freePaid') as string]: subscription.isFreeTier ? '무료' : '유료',
                     통화: currency,
-                    평균지출액: averageCost,
+                    [t?.('billingHistory.table.header.averageExpense') as string]: averageCost,
                 };
 
                 history.items.forEach((item) => {
@@ -58,8 +59,12 @@ export const makeYearlyExcelDownloader = (
         const workbook = XLSX.utils.book_new();
         // XLSX.utils.book_append_sheet(workbook, worksheetKRW, '원화 기준');
         // XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
-        XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 조회결과`);
+        XLSX.utils.book_append_sheet(
+            workbook,
+            worksheetOriginal,
+            `${timestamp} ${t?.('billingHistory.excel.sheetName') as string}`,
+        );
         XLSX.writeFile(workbook, `${filename}.xlsx`);
-        toast.success('연도별 결제현황 엑셀을 다운로드 했어요.');
+        toast.success(t?.('billingHistory.excel.yearlyDownloadSuccess') as string);
     };
 };

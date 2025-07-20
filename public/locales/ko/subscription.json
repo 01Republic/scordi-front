@@ -1,0 +1,76 @@
+{
+  "list": {
+    "title": "구독 리스트",
+    "breadcrumb": "구독",
+    "breadcrumbActive": "구독 리스트",
+    "addButton": "구독 추가",
+    "emptyMessage": "조회된 구독이 없어요.",
+    "unit": "개"
+  },
+  "scope": {
+    "all": "전체",
+    "none": "미정",
+    "free": "무료",
+    "paid": "유료",
+    "quit": "해지"
+  },
+  "table": {
+    "header": {
+      "serviceName": "서비스 명",
+      "status": "상태",
+      "billingCycle": "결제주기",
+      "paymentAmount": "결제금액",
+      "renewalDate": "갱신일",
+      "userCount": "사용인원",
+      "paymentMethod": "결제수단",
+      "note": "비고"
+    },
+    "actions": {
+      "delete": "삭제하기",
+      "changeStatus": "사용 상태를 변경합니다",
+      "changeBillingCycle": "결제주기를 변경합니다"
+    }
+  },
+  "excel": {
+    "downloadSuccess": "구독리스트 엑셀 다운로드가 완료되었어요.",
+    "filename": "구독리스트_다운로드"
+  },
+  "delete": {
+    "confirmTitle": "구독을 삭제할까요?",
+    "confirmMessage": "이 작업은 취소할 수 없습니다.\n워크스페이스 전체에서 삭제됩니다.\n그래도 삭제하시겠어요?",
+    "cancelText": "삭제 취소",
+    "success": "구독을 삭제했어요."
+  },
+  "update": {
+    "success": "변경사항을 저장했어요."
+  },
+      "billingHistory": {
+        "title": "결제현황",
+        "breadcrumb": "결제현황",
+        "searchPlaceholder": "서비스명 검색",
+        "viewMode": {
+            "monthly": "월별",
+            "yearly": "연도별"
+        },
+        "table": {
+            "header": {
+                "serviceName": "서비스명",
+                "status": "상태",
+                "expenseRatio": "지출 비중",
+                "totalExpense": "총 지출액",
+                "averageExpense": "평균지출액",
+                "freePaid": "유/무료"
+            },
+            "emptyMessage": "데이터가 없습니다.",
+            "yearFormat": "{{year}}년",
+            "monthFormat": "{{year}}년 {{month}}월"
+        },
+        "excel": {
+            "monthlyDownloadSuccess": "월별 결제현황 엑셀을 다운로드 했어요.",
+            "yearlyDownloadSuccess": "연도별 결제현황 엑셀을 다운로드 했어요.",
+            "monthlyFilename": "결제현황_월별_다운로드",
+            "yearlyFilename": "결제현황_연도별_다운로드",
+            "sheetName": "결제현황 조회결과"
+        }
+    }
+} 

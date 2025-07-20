@@ -6,6 +6,7 @@ import {MonthYearSwitch} from './MonthYearSwitch';
 import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from './BillingHistoryMonthly';
 import {BillingHistoryYearly} from './BillingHistoryYearly';
+import {useTranslation} from 'next-i18next';
 
 interface ViewModeRef {
     downloadExcel: () => any;
@@ -19,6 +20,7 @@ export enum WideMode {
 }
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
+    const {t} = useTranslation('subscription');
     const monthlyRef = useRef<ViewModeRef>(null);
     const yearlyRef = useRef<ViewModeRef>(null);
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
@@ -44,8 +46,11 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
         <ListPage
             containerFluid={!!wideMode}
             onReady={getMetaData}
-            breadcrumb={['구독', {text: '결제현황', active: true}]}
-            titleText="결제현황"
+            breadcrumb={[
+                t('list.breadcrumb') as string,
+                {text: t('billingHistory.breadcrumb') as string, active: true},
+            ]}
+            titleText={t('billingHistory.title') as string}
             Buttons={() => (
                 <MonthYearSwitch
                     defaultValue={viewUnit}
@@ -57,7 +62,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             )}
             searchInputPosition="right-of-scopes"
             scopeWrapperClass="!items-start"
-            searchInputPlaceholder="서비스명 검색"
+            searchInputPlaceholder={t('billingHistory.searchPlaceholder') as string}
             ScopeHandler={
                 viewUnit === BillingCycleOptions.Monthly ? (
                     <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />
