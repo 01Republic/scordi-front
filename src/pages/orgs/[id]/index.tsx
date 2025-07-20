@@ -39,13 +39,7 @@ export const getStaticPaths = async () => ({
 
 export const getStaticProps = async ({locale}: any) => ({
     props: {
-        ...(await serverSideTranslations(locale, [
-            ...v3CommonRequires,
-            'org-home',
-            'google-compliance',
-            'dashboard',
-            'navBar',
-        ])),
+        ...(await serverSideTranslations(locale, [...v3CommonRequires, 'org-home', 'google-compliance', 'dashboard'])),
         // Will be passed to the page component as props
     },
 });

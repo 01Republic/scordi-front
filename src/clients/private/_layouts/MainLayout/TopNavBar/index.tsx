@@ -25,34 +25,34 @@ interface TopNavBarProps {
 }
 
 const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}, t: (key: string) => string) => [
-    {name: t('home'), routeProps: OrgMainPageRoute},
+    {name: t('nav.home'), routeProps: OrgMainPageRoute},
     {
-        name: t('subscription'),
+        name: t('nav.subscription'),
         items: [
-            {name: t('subscriptionList'), Icon: LayoutGrid, routeProps: OrgSubscriptionListPageRoute},
-            {name: t('billingStatus'), Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
+            {name: t('nav.subscriptionList'), Icon: LayoutGrid, routeProps: OrgSubscriptionListPageRoute},
+            {name: t('nav.billingStatus'), Icon: BarChart4, routeProps: OrgBillingHistoryStatusPageRoute},
         ],
     },
     {
-        name: t('team'),
+        name: t('nav.team'),
         items: [
-            {name: t('teamList'), Icon: User, routeProps: OrgTeamListPageRoute},
-            {name: t('members'), Icon: Users, routeProps: OrgTeamMemberListPageRoute},
+            {name: t('nav.teamList'), Icon: User, routeProps: OrgTeamListPageRoute},
+            {name: t('nav.members'), Icon: Users, routeProps: OrgTeamMemberListPageRoute},
         ],
     },
     {
-        name: t('asset'),
+        name: t('nav.asset'),
         items: [
-            {name: t('creditCard'), Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
-            {name: t('invoiceMail'), Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
+            {name: t('nav.creditCard'), Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
+            {name: t('nav.invoiceMail'), Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
     {
-        name: t('work'),
-        items: [{name: t('request'), Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute}],
+        name: t('nav.work'),
+        items: [{name: t('nav.request'), Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute}],
     },
     {
-        name: t('settings'),
+        name: t('nav.settings'),
         routeProps: OrgSettingsInformationPageRoute,
         isValid() {
             const level = props.currentUserMembership?.level;
@@ -70,7 +70,7 @@ export const TopNavBar = memo((props: TopNavBarProps) => {
     const {currentOrg} = useCurrentOrg2();
     const currentUser = useRecoilValue(currentUserAtom);
     const currentUserMembership = getMembership(currentUser, currentOrg?.id);
-    const {t} = useTranslation('navBar');
+    const {t} = useTranslation('common');
     const TopNavStructure = getTopNavStructure({currentUserMembership}, t);
 
     const routeProps = <T extends (...args: any) => any>(
