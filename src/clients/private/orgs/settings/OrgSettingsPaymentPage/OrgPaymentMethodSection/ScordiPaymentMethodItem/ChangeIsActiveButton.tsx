@@ -26,7 +26,7 @@ export const ChangeIsActiveButton = memo((props: ChangeIsActiveButtonProps) => {
         const dialog = () => {
             return isActive
                 ? confirm2(
-                      t('payment.changeToMainCard'),
+                      t('payment.changeToMainCard') as string,
                       <span>
                           {t('payment.changeToMainCardDesc')}
                           <br />
@@ -37,7 +37,7 @@ export const ChangeIsActiveButton = memo((props: ChangeIsActiveButtonProps) => {
                       </span>,
                   )
                 : confirm2(
-                      t('payment.changeToSubCard'),
+                      t('payment.changeToSubCard') as string,
                       <span>
                           {t('payment.changeToSubCardDesc')}
                           <br />

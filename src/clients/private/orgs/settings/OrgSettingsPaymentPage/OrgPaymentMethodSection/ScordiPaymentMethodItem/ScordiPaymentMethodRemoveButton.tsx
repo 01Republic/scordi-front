@@ -25,7 +25,7 @@ export const ScordiPaymentMethodRemoveButton = memo((props: ScordiPaymentMethodR
     const onClick = () => {
         const removeConfirm = () => {
             return confirm2(
-                t('payment.deletePaymentCard'),
+                t('payment.deletePaymentCard') as string,
                 <span>
                     {t('payment.cannotUndo')}
                     <br />
