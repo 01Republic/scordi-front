@@ -1,12 +1,14 @@
 import {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {useTranslation} from 'next-i18next';
 
 interface TeamMemberSubscriptionTableHeaderProps extends ListTableHeaderProps {
     //
 }
 
 export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscriptionTableHeaderProps) => {
+    const {t} = useTranslation('members');
     const {orderBy} = props;
 
     return (
@@ -14,7 +16,7 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>
-                서비스명
+                {t('subscriptions.table.header.service') as string}
             </SortableTH>
 
             {/*<SortableTH sortKey="[isFreeTier]" onClick={orderBy}>*/}
@@ -22,14 +24,14 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/*</SortableTH>*/}
 
             {/* [구독상태] subscription.usingStatus: SubscriptionUsingStatus */}
-            <SortableTH>상태</SortableTH>
+            <SortableTH>{t('subscriptions.table.header.status') as string}</SortableTH>
 
             <SortableTH
                 // sortKey="[currentBillingAmount][dollarPrice]"
                 sortVal="DESC"
                 className="flex items-center justify-end"
             >
-                결제금액
+                {t('subscriptions.table.header.amount') as string}
             </SortableTH>
 
             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
@@ -42,11 +44,11 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/*    과금방식*/}
             {/*</SortableTH>*/}
 
-            <SortableTH>연결된 결제수단</SortableTH>
+            <SortableTH>{t('subscriptions.table.header.paymentMethod') as string}</SortableTH>
 
-            <SortableTH>연결된 청구서 수신 메일</SortableTH>
+            <SortableTH>{t('subscriptions.table.header.invoiceEmail') as string}</SortableTH>
 
-            <SortableTH>비고</SortableTH>
+            <SortableTH>{t('subscriptions.table.header.note') as string}</SortableTH>
 
             {/*<SortableTH sortKey="[usedMemberCount]" sortVal="DESC" onClick={orderBy}>*/}
             {/*    사용인원*/}

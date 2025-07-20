@@ -16,6 +16,7 @@ import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTab
 import {StatusButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/StatusButton';
 import {DeleteMembershipItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMembershipItem';
 import {useCurrentTeamMember} from '../atom';
+import {useTranslation} from 'next-i18next';
 
 const changeLevel = (id: number, level: MembershipLevel) => {
     return membershipApi
@@ -25,6 +26,7 @@ const changeLevel = (id: number, level: MembershipLevel) => {
 };
 
 export const PageMoreDropdownMenu = memo(() => {
+    const {t} = useTranslation('members');
     const currentUser = useRecoilValue(currentUserAtom);
     const {currentTeamMember: teamMember, reload} = useCurrentTeamMember();
     const {sendEmail} = useSendInviteEmail();
@@ -95,7 +97,7 @@ export const PageMoreDropdownMenu = memo(() => {
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <ArrowUpDown />
-                                                <p>{t_membershipLevel(MembershipLevel.MEMBER)} 역할로 변경하기</p>
+                                                <p>{t('dropdownMenu.role.changeToMember') as string}</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}
@@ -108,7 +110,7 @@ export const PageMoreDropdownMenu = memo(() => {
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <ArrowUpDown />
-                                                <p>{t_membershipLevel(MembershipLevel.OWNER)} 역할로 변경하기</p>
+                                                <p>{t('dropdownMenu.role.changeToOwner') as string}</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}

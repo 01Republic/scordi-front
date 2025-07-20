@@ -8,8 +8,10 @@ import {useRouter} from 'next/router';
 import {OrgTeamDetailPageRoute} from '^pages/orgs/[id]/teams/[teamId]';
 import {TeamDto} from '^models/Team/type';
 import {Circle, Mail, Phone} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
+    const {t} = useTranslation('members');
     const {currentTeamMember} = useCurrentTeamMember();
     const router = useRouter();
 
@@ -34,7 +36,7 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                     {/*<KeyValue label="이메일" value={currentTeamMember.email} />*/}
                     {/*<KeyValue label="휴대폰" value={currentTeamMember.phone} />*/}
                     <KeyValue
-                        label="팀(소속)"
+                        label={t('profilePanel.team') as string}
                         value={
                             <div className="flex items-center gap-1">
                                 {teams.length > 0 ? (
@@ -44,7 +46,7 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                                         </div>
                                     ))
                                 ) : (
-                                    <i className="text-gray-400">미설정</i>
+                                    <i className="text-gray-400">{t('basicInfo.form.notSet') as string}</i>
                                 )}
                             </div>
                         }
@@ -54,7 +56,7 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
 
                 <div className="flex items-center gap-2">
                     <ContactButton
-                        tooltipText={currentTeamMember.phone || '전화번호를 등록해주세요'}
+                        tooltipText={currentTeamMember.phone || (t('profilePanel.phoneNotRegistered') as string)}
                         href={`tel:${currentTeamMember.phone}`}
                         disabled={!currentTeamMember.phone}
                         className={currentTeamMember.phone ? '' : 'btn-disabled !border-opacity-70'}
@@ -63,7 +65,7 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                     </ContactButton>
 
                     <ContactButton
-                        tooltipText={currentTeamMember.email || '이메일을 등록해주세요'}
+                        tooltipText={currentTeamMember.email || (t('profilePanel.emailNotRegistered') as string)}
                         href={`mailto:${currentTeamMember.email}`}
                         disabled={!currentTeamMember.email}
                         className={currentTeamMember.email ? '' : 'btn-disabled !border-opacity-70'}

@@ -6,12 +6,14 @@ import React, {Dispatch, memo, SetStateAction} from 'react';
 import {TeamDto} from '^models/Team/type';
 import {toast} from 'react-hot-toast';
 import {confirm2, prompt2} from '^components/util/dialog';
+import {useTranslation} from 'next-i18next';
 
 interface TeamOptionProps extends SelectOptionProps<{label: string; value: TeamDto}> {
     reload?: () => any;
 }
 
 export const TeamOption = memo((props: TeamOptionProps) => {
+    const {t} = useTranslation('members');
     const orgId = useOrgIdParam();
     const {reload, data, getValue, setValue, clearValue, isFocused, isSelected} = props;
     const team: TeamDto | undefined = data?.value;
@@ -19,7 +21,7 @@ export const TeamOption = memo((props: TeamOptionProps) => {
     const updateTeam = async () => {
         if (!team || !orgId || isNaN(orgId)) return;
 
-        const result = await prompt2(`팀 이름을 수정합니다 (${team.name})`);
+        const result = await prompt2(t('team.editName') as string);
         if (result.isConfirmed && result.value) {
             const req = teamApi.update(orgId, team.id, {name: result.value});
             req.then((res) => {
@@ -30,7 +32,7 @@ export const TeamOption = memo((props: TeamOptionProps) => {
                     // @ts-ignore
                     setValue({label: updatedTeam.name, value: updatedTeam, isUpdated: true}, 'select-option');
                 }
-                toast.success('변경되었습니다');
+                toast.success(t('team.updateSuccess') as string);
             });
             req.catch((err) => toast.error(err.message));
         }
@@ -40,10 +42,10 @@ export const TeamOption = memo((props: TeamOptionProps) => {
         if (!team || !orgId || isNaN(orgId)) return;
 
         const isConfirmed = await confirm2(
-            `팀 '${team.name}'를 정말 삭제 할까요?`,
+            t('team.deleteConfirm.title', {name: team.name}) as string,
             <div>
-                <p>이 작업은 취소 할 수 없습니다.</p>
-                <p>확인 버튼을 누르면 삭제됩니다.</p>
+                <p>{t('team.deleteConfirm.desc1') as string}</p>
+                <p>{t('team.deleteConfirm.desc2') as string}</p>
             </div>,
         ).then((res) => res.isConfirmed);
 
@@ -54,7 +56,7 @@ export const TeamOption = memo((props: TeamOptionProps) => {
             reload && reload();
             const [value] = getValue().filter((option) => option.value.id !== team.id);
             value ? setValue(value, 'select-option') : clearValue();
-            toast.success('삭제되었습니다');
+            toast.success(t('team.deleteSuccess') as string);
         });
         req.catch((err) => toast.error(err.message));
     };

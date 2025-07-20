@@ -9,6 +9,7 @@ import {useCurrentTeamMember} from '^clients/private/orgs/team/team-members/OrgT
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Paginated} from '^types/utils/paginated.dto';
 import {PlusCircle} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface TeamMemberConnectModalProps {
     teamMemberId: number;
@@ -18,6 +19,7 @@ interface TeamMemberConnectModalProps {
 }
 
 export const TeamMemberConnectModal = memo((props: TeamMemberConnectModalProps) => {
+    const {t} = useTranslation('members');
     const {teamMemberId, isOpened, onClose, onCreate} = props;
     const [isAbleSubscribed, setIsAbleSubscribed] = useState<Paginated<SubscriptionDto>>({
         items: [],
@@ -58,11 +60,11 @@ export const TeamMemberConnectModal = memo((props: TeamMemberConnectModalProps) 
                 <SubscriptionSelectItem subscription={item} onClick={onClick} isSelected={isSelected} />
             )}
             onSubmit={onSubmitConnectSubscriptions}
-            titleCaption="새로운 구독 연결하기"
-            title="연결할 구독을 모두 선택해주세요."
-            ctaInactiveText="구독을 선택해주세요"
-            ctaActiveText="%n개의 선택된 구독 연결하기"
-            successMessage="선택한 구독을 연결했어요."
+            titleCaption={t('subscriptions.connectModal.title') as string}
+            title={t('subscriptions.connectModal.caption') as string}
+            ctaInactiveText={t('subscriptions.connectModal.ctaInactive') as string}
+            ctaActiveText={t('subscriptions.connectModal.ctaActive') as string}
+            successMessage={t('subscriptions.connectModal.success') as string}
         />
     );
 });

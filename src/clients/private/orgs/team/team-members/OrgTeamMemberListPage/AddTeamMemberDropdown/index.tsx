@@ -17,12 +17,14 @@ import {
     TeamMemberCreateByExcelModal,
 } from '^clients/private/_modals/team-members';
 import {Database, DatabaseBackup, FileSpreadsheet} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface AddTeamMemberDropdownProps {
     reload: () => any;
 }
 
 export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) => {
+    const {t} = useTranslation('members');
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
@@ -32,7 +34,7 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
 
     return (
         <ListPageDropdown>
-            <ListPageDropdownButton text="구성원 추가" />
+            <ListPageDropdownButton text={t('addMember.dropdown.title') as string} />
 
             <ListPageDropdownMenu>
                 <GoogleAdminOAuthButton
@@ -43,21 +45,21 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
                 >
                     <MethodOption
                         Icon={Database}
-                        title="구성원 불러오기"
-                        desc="구글워크스페이스 로그인으로 한 번에 불러와요."
+                        title={t('addMember.dropdown.loadFromGoogle.title') as string}
+                        desc={t('addMember.dropdown.loadFromGoogle.desc') as string}
                         onClick={resetGsuiteAuthCode}
                     />
                 </GoogleAdminOAuthButton>
                 <MethodOption
                     Icon={DatabaseBackup}
-                    title="직접 추가하기"
-                    desc="구성원 정보를 입력한 뒤 추가해요."
+                    title={t('addMember.dropdown.addManually.title') as string}
+                    desc={t('addMember.dropdown.addManually.desc') as string}
                     onClick={() => router.push(OrgTeamMemberNewPageRoute.path(orgId))}
                 />
                 <MethodOption
                     Icon={FileSpreadsheet}
-                    title="엑셀로 대량 등록하기"
-                    desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
+                    title={t('addMember.dropdown.addByExcel.title') as string}
+                    desc={t('addMember.dropdown.addByExcel.desc') as string}
                     onClick={() => setCreateByExcelModalOpened(true)}
                 />
             </ListPageDropdownMenu>
@@ -66,7 +68,7 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('구성원을 모두 불러왔어요.');
+                    toast.success(t('addMember.modal.success') as string);
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}

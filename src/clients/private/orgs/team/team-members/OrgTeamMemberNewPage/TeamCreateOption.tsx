@@ -7,12 +7,14 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
 import {teamApi} from '^models/Team/api';
 import {toast} from 'react-hot-toast';
+import {useTranslation} from 'next-i18next';
 
 interface TeamCreateOptionProps extends SelectOptionProps<{label: string; value: string}> {
     reload?: () => any;
 }
 
 export const TeamCreateOption = memo((props: TeamCreateOptionProps) => {
+    const {t} = useTranslation('members');
     const orgId = useOrgIdParam();
     const {reload, data, isFocused, isSelected, setValue} = props;
 
@@ -21,7 +23,7 @@ export const TeamCreateOption = memo((props: TeamCreateOptionProps) => {
             reload && reload();
             // @ts-ignore
             setValue({label: res.data.name, value: res.data}, 'select-option');
-            toast.success('새로운 팀을 추가했어요');
+            toast.success(t('team.createSuccess') as string);
         });
     };
 
@@ -35,7 +37,7 @@ export const TeamCreateOption = memo((props: TeamCreateOptionProps) => {
                     onClick={onClick}
                 >
                     <div className="flex items-center gap-2 text-14">
-                        <span>생성</span>
+                        <span>{t('team.create') as string}</span>
                         <TagUI className={getColor(0, palette.notionColors)}>{data.value}</TagUI>
                     </div>
                 </div>

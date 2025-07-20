@@ -10,8 +10,10 @@ import {InviteStatusScopeHandler} from './InviteStatusScopeHandler';
 import {TeamMemberTableHeader} from './TeamMemberTableHeader';
 import {TeamMemberTableRow} from './TeamMemberTableRow';
 import {useOrgIdParam} from '^atoms/common';
+import {useTranslation} from 'next-i18next';
 
 export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
+    const {t} = useTranslation('members');
     const orgId = useOrgIdParam();
     const {
         search,
@@ -46,8 +48,11 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
 
     return (
         <ListPage
-            breadcrumb={['팀', {text: '구성원', active: true}]}
-            titleText="구성원"
+            breadcrumb={[
+                t('list.breadcrumb.team') as string,
+                {text: t('list.breadcrumb.members') as string, active: true},
+            ]}
+            titleText={t('list.title') as string}
             Buttons={() => (
                 <>
                     <StepbyTutorialButton onClick={StepByTutorialTeamMember} />
@@ -55,19 +60,19 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
                 </>
             )}
             ScopeHandler={<InviteStatusScopeHandler search={search} />}
-            searchInputPlaceholder="이름, 팀, 연락처 검색"
+            searchInputPlaceholder={t('list.searchPlaceholder') as string}
             onSearch={onSearch}
         >
             <ListTableContainer
                 pagination={result.pagination}
                 movePage={movePage}
                 changePageSize={changePageSize}
-                unit="명"
+                unit={t('list.unit') as string}
                 isNotLoaded={!isFetched}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 구성원이 없어요."
-                emptyButtonText="구성원 등록"
+                emptyMessage={t('list.emptyMessage') as string}
+                emptyButtonText={t('list.emptyButtonText') as string}
                 EmptyButtons={() => <AddTeamMemberModal reload={refresh} />}
             >
                 <ListTable

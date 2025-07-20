@@ -9,8 +9,10 @@ import {PageMoreDropdownMenu} from './PageMoreDropdownMenu';
 import {TeamMemberProfilePanel} from './TeamMemberProfilePanel';
 import {TeamMemberBasicInfo, TeamMemberSubscription} from './tab-panes';
 import {useUnmount} from '^hooks/useUnmount';
+import {useTranslation} from 'next-i18next';
 
 export const OrgTeamMemberShowPage = memo(function OrgTeamMemberShowPage() {
+    const {t} = useTranslation('members');
     const orgId = useOrgIdParam();
     const [teamMemberId, setTeamMemberId] = useRecoilState(teamMemberIdParamState);
     const {currentTeamMember, findTeamMember, clear} = useCurrentTeamMember();
@@ -29,8 +31,15 @@ export const OrgTeamMemberShowPage = memo(function OrgTeamMemberShowPage() {
     return (
         <ShowPage
             breadcrumb={[
-                {text: '구성원', active: false, href: OrgTeamMemberListPageRoute.path(orgId)},
-                {text: `${currentTeamMember?.name || '구성원 상세'}`, active: true},
+                {
+                    text: t('show.breadcrumb.members') as string,
+                    active: false,
+                    href: OrgTeamMemberListPageRoute.path(orgId),
+                },
+                {
+                    text: `${currentTeamMember?.name || (t('show.breadcrumb.memberDetail') as string)}`,
+                    active: true,
+                },
             ]}
         >
             <header className="flex items-center justify-between pt-8 pb-4">
@@ -45,11 +54,15 @@ export const OrgTeamMemberShowPage = memo(function OrgTeamMemberShowPage() {
             <main className="pt-4">
                 <MainTabGroup
                     tabs={[
-                        '기본 정보',
-                        '이용 구독',
+                        t('show.tabs.basicInfo') as string,
+                        t('show.tabs.subscriptions') as string,
                         // '활동 내역',
                     ]}
-                    tabPanes={[TeamMemberBasicInfo, TeamMemberSubscription, () => <div>활동 내역</div>]}
+                    tabPanes={[
+                        TeamMemberBasicInfo,
+                        TeamMemberSubscription,
+                        () => <div>{t('show.tabs.activity') as string}</div>,
+                    ]}
                 />
             </main>
         </ShowPage>

@@ -7,8 +7,10 @@ import {TeamTag} from '^models/Team/components/TeamTag';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
 import {teamMemberSubjectAtom} from '../../atom';
+import {useTranslation} from 'next-i18next';
 
 export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
+    const {t} = useTranslation('members');
     const [currentTeamMember, setCurrentTeamMember] = useRecoilState(teamMemberSubjectAtom);
     const form = useForm<UpdateTeamMemberDto>();
     const [isEditMode, setIsEditMode] = useState(false);
@@ -35,7 +37,7 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
         if (!currentTeamMember) return;
 
         teamMemberApi.update(currentTeamMember.organizationId, currentTeamMember.id, dto).then((res) => {
-            toast.success('변경사항을 저장했어요.');
+            toast.success(t('basicInfo.messages.changeSaved') as string);
             setIsEditMode(false);
             setCurrentTeamMember(res.data);
         });
@@ -59,17 +61,23 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
                                 });
                             }}
                         >
-                            {isEditMode ? '취소' : '수정'}
+                            {isEditMode
+                                ? (t('basicInfo.actions.cancel') as string)
+                                : (t('basicInfo.actions.edit') as string)}
                         </a>
 
-                        {isEditMode && <button className="btn btn-sm btn-scordi">저장</button>}
+                        {isEditMode && (
+                            <button className="btn btn-sm btn-scordi">{t('basicInfo.actions.save') as string}</button>
+                        )}
                     </div>
 
                     <div className="px-8 py-8 border-b">
                         <div className="max-w-md flex flex-col gap-4">
-                            <h2 className="leading-none text-xl font-semibold pb-4">기본 정보</h2>
+                            <h2 className="leading-none text-xl font-semibold pb-4">
+                                {t('basicInfo.title') as string}
+                            </h2>
 
-                            <FormControl label="이름" required={isEditMode}>
+                            <FormControl label={t('basicInfo.form.name') as string} required={isEditMode}>
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
@@ -84,7 +92,7 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
                                 <span />
                             </FormControl>
 
-                            <FormControl label="회사메일" required={isEditMode}>
+                            <FormControl label={t('basicInfo.form.companyEmail') as string} required={isEditMode}>
                                 {isEditMode ? (
                                     <input
                                         type="email"
@@ -95,14 +103,16 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {currentTeamMember.email || (
-                                            <i className="text-12 text-gray-400">이메일을 등록해주세요</i>
+                                            <i className="text-12 text-gray-400">
+                                                {t('basicInfo.form.emailPlaceholder') as string}
+                                            </i>
                                         )}
                                     </div>
                                 )}
                                 <span />
                             </FormControl>
 
-                            <FormControl label="전화번호">
+                            <FormControl label={t('basicInfo.form.phone') as string}>
                                 {isEditMode ? (
                                     <input
                                         type="tel"
@@ -112,14 +122,16 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {currentTeamMember.phone || (
-                                            <i className="text-12 text-gray-400">전화번호를 등록해주세요</i>
+                                            <i className="text-12 text-gray-400">
+                                                {t('basicInfo.form.phonePlaceholder') as string}
+                                            </i>
                                         )}
                                     </div>
                                 )}
                                 <span />
                             </FormControl>
 
-                            <FormControl label="소속(팀)">
+                            <FormControl label={t('basicInfo.form.team') as string}>
                                 {isEditMode ? (
                                     <SelectTeam
                                         defaultTeams={teams}
@@ -133,7 +145,7 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
                                         {teams.length > 0 ? (
                                             teams.map((team, i) => <TeamTag id={team.id} name={team.name} key={i} />)
                                         ) : (
-                                            <i className="text-gray-400">미설정</i>
+                                            <i className="text-gray-400">{t('basicInfo.form.notSet') as string}</i>
                                         )}
                                     </div>
                                 )}

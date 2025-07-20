@@ -10,8 +10,10 @@ import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {TeamBeforeSaveModal} from './TeamBeforeSaveModal';
 import {TeamMemberTeamSelect} from './TeamMemberTeamSelect';
+import {useTranslation} from 'next-i18next';
 
 export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
+    const {t} = useTranslation('members');
     const orgId = useOrgIdParam();
     const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateTeamMemberDto>({} as CreateTeamMemberDto);
     const [isModalOpened, setModalOpened] = useState(false);
@@ -28,7 +30,7 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
 
     const onSubmit = (dto: CreateTeamMemberDto) => {
         teamMemberApi.isExist(orgId, {email: dto.email}).then((existTeam) => {
-            existTeam ? toast.error('이미 존재하는 멤버입니다.') : openModalWithData(dto);
+            existTeam ? toast.error(t('new.validation.memberExists') as string) : openModalWithData(dto);
         });
     };
 
@@ -37,26 +39,28 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
             <MainContainer>
                 <Breadcrumb
                     paths={[
-                        '팀',
-                        {text: '구성원', active: false, href: OrgTeamMemberListPageRoute.path(orgId)},
-                        {text: '구성원 추가', active: true},
+                        t('new.breadcrumb.team') as string,
+                        {
+                            text: t('new.breadcrumb.members') as string,
+                            active: false,
+                            href: OrgTeamMemberListPageRoute.path(orgId),
+                        },
+                        {text: t('new.breadcrumb.addMember') as string, active: true},
                     ]}
                 />
 
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-2xl mb-1">구성원 추가</h1>
-                        <p className="text-14 text-gray-500">
-                            구성원을 스코디에 추가하기 위한 필수/선택 정보를 입력해주세요.
-                        </p>
+                        <h1 className="text-2xl mb-1">{t('new.title') as string}</h1>
+                        <p className="text-14 text-gray-500">{t('new.description') as string}</p>
                     </div>
                 </div>
 
                 <FormContainer onSubmit={handleSubmitPlain(onSubmit)} isLoading={isLoading}>
                     <div className="px-4 py-8 border-b">
                         <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
-                            <h2 className="leading-none text-xl font-semibold">필수정보</h2>
-                            <FormControl label="이름" required>
+                            <h2 className="leading-none text-xl font-semibold">{t('new.requiredInfo') as string}</h2>
+                            <FormControl label={t('new.form.name') as string} required>
                                 <input
                                     className="input input-underline !bg-slate-100 w-full"
                                     name="name"
@@ -66,7 +70,7 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
                                 <span />
                             </FormControl>
 
-                            <FormControl label="회사메일" required>
+                            <FormControl label={t('new.form.companyEmail') as string} required>
                                 <input
                                     type="email"
                                     className="input input-underline !bg-slate-100 w-full"
@@ -79,8 +83,8 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
                         </div>
 
                         <div className="max-w-md mx-auto flex flex-col gap-8">
-                            <h2 className="leading-none text-xl font-semibold">선택정보</h2>
-                            <FormControl label="전화번호">
+                            <h2 className="leading-none text-xl font-semibold">{t('new.optionalInfo') as string}</h2>
+                            <FormControl label={t('new.form.phone') as string}>
                                 <input
                                     type="tel"
                                     className="input input-underline !bg-slate-100 w-full"

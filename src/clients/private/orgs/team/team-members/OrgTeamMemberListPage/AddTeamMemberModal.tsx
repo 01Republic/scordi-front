@@ -10,12 +10,14 @@ import {
 } from '^clients/private/_modals/team-members';
 import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
 import {Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface AddTeamMemberModalProps {
     reload: () => any;
 }
 
 export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
+    const {t} = useTranslation('members');
     const {reload} = props;
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
@@ -31,7 +33,7 @@ export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
                 onClick={() => setCreateMethodModalOpened(true)}
             >
                 <Plus />
-                <span className="mr-1.5">구성원 추가</span>
+                <span className="mr-1.5">{t('list.addMember') as string}</span>
             </button>
 
             <TeamMemberCreateMethodModal
@@ -56,7 +58,7 @@ export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('구성원을 모두 불러왔어요.');
+                    toast.success(t('addMember.modal.success') as string);
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}

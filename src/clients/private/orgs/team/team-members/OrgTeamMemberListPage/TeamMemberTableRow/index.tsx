@@ -10,6 +10,7 @@ import {TeamDto} from '^models/Team/type';
 import {useOrgIdParam} from '^atoms/common';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {useTranslation} from 'next-i18next';
 
 interface TeamMemberTableRowProps {
     teamMember: TeamMemberDto;
@@ -18,6 +19,7 @@ interface TeamMemberTableRowProps {
 }
 
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
+    const {t} = useTranslation('members');
     const orgId = useOrgIdParam();
     const [isLoading, setIsLoading] = useState(false);
     const {mutateAsync} = useUpdateTeamMembers2();
@@ -29,7 +31,7 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
 
     const update = async (dto: UpdateTeamMemberDto) => {
         return mutateAsync({orgId, id: teamMember.id, data: {notes: dto.notes}})
-            .then(() => toast.success('변경사항을 저장했어요.'))
+            .then(() => toast.success(t('table.row.changeSaved') as string))
             .catch(errorToast)
             .finally(() => reload && reload());
     };
@@ -58,7 +60,7 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
                 onClick={() => onClick && onClick(teamMember)}
             >
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.subscriptionCount.toLocaleString()} <small>Apps</small>
+                    {teamMember.subscriptionCount.toLocaleString()} <small>{t('table.row.apps') as string}</small>
                 </p>
             </td>
 

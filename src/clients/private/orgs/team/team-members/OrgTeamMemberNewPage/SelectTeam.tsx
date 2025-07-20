@@ -5,6 +5,7 @@ import {TeamTag} from '^models/Team/components/TeamTag';
 import {CreatableSelect} from '^clients/private/_components/inputs/select/CreatableSelect';
 import {TeamOption} from './TeamOption';
 import {TeamCreateOption} from './TeamCreateOption';
+import {useTranslation} from 'next-i18next';
 
 interface SelectTeamProps {
     defaultTeams?: TeamDto[];
@@ -12,6 +13,7 @@ interface SelectTeamProps {
 }
 
 export const SelectTeam = memo((props: SelectTeamProps) => {
+    const {t} = useTranslation('members');
     const {defaultTeams = [], onChange} = props;
     const {search, result, reload} = useTeamsForSelectOptions();
     const [selectedItems, setSelectedItems] = useState(defaultTeams);
@@ -27,7 +29,7 @@ export const SelectTeam = memo((props: SelectTeamProps) => {
 
     return (
         <CreatableSelect
-            placeholder="팀을 선택해주세요"
+            placeholder={t('selectTeam.placeholder') as string}
             defaultItems={selectedItems}
             items={result.items}
             toOption={(team: TeamDto) => ({label: team.name, value: team})}
@@ -55,6 +57,7 @@ interface SelectTeamIdProps {
 }
 
 export const SelectTeamId = memo((props: SelectTeamIdProps) => {
+    const {t} = useTranslation('members');
     const {defaultTeamIds = [], onChange} = props;
     const {search, result, reload} = useTeamsForSelectOptions();
     const [selectedIds, setSelectedIds] = useState(defaultTeamIds);
@@ -71,7 +74,7 @@ export const SelectTeamId = memo((props: SelectTeamIdProps) => {
 
     return (
         <CreatableSelect
-            placeholder="팀을 선택해주세요"
+            placeholder={t('selectTeam.placeholder') as string}
             defaultItems={selectedItems}
             items={result.items}
             toOption={(team: TeamDto) => ({label: team.name, value: team})}

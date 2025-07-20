@@ -1,0 +1,175 @@
+{
+  "list": {
+    "title": "구성원",
+    "breadcrumb": {
+      "team": "팀",
+      "members": "구성원"
+    },
+    "searchPlaceholder": "이름, 팀, 연락처 검색",
+    "unit": "명",
+    "emptyMessage": "조회된 구성원이 없어요.",
+    "emptyButtonText": "구성원 등록",
+    "addMember": "구성원 추가"
+  },
+  "table": {
+    "header": {
+      "name": "이름",
+      "subscriptionCount": "구독 수",
+      "team": "팀",
+      "email": "이메일",
+      "phone": "전화번호",
+      "note": "비고",
+      "status": "상태"
+    },
+    "row": {
+      "apps": "Apps",
+      "changeSaved": "변경사항을 저장했어요."
+    }
+  },
+  "scope": {
+    "all": "전체",
+    "beforeInvite": "초대 전",
+    "inviting": "가입 대기중",
+    "invited": "초대 완료"
+  },
+  "addMember": {
+    "dropdown": {
+      "title": "구성원 추가",
+      "loadFromGoogle": {
+        "title": "구성원 불러오기",
+        "desc": "구글워크스페이스 로그인으로 한 번에 불러와요."
+      },
+      "addManually": {
+        "title": "직접 추가하기",
+        "desc": "구성원 정보를 입력한 뒤 추가해요."
+      },
+      "addByExcel": {
+        "title": "엑셀로 대량 등록하기",
+        "desc": "템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
+      }
+    },
+    "modal": {
+      "success": "구성원을 모두 불러왔어요."
+    }
+  },
+  "new": {
+    "title": "구성원 추가",
+    "breadcrumb": {
+      "team": "팀",
+      "members": "구성원",
+      "addMember": "구성원 추가"
+    },
+    "description": "구성원을 스코디에 추가하기 위한 필수/선택 정보를 입력해주세요.",
+    "requiredInfo": "필수정보",
+    "optionalInfo": "선택정보",
+    "form": {
+      "name": "이름",
+      "companyEmail": "회사메일",
+      "phone": "전화번호",
+      "team": "소속(팀)"
+    },
+      "validation": {
+    "memberExists": "이미 존재하는 멤버입니다."
+  },
+  "beforeSaveModal": {
+    "title": "구성원을 워크스페이스에 초대할까요?",
+    "invite": {
+      "title": "초대하기",
+      "desc": "구성원 회사메일로 초대장을 전송해요.",
+      "success": "구성원을 추가한 뒤 초대 메일을 보냈어요."
+    },
+    "addWithoutInvite": {
+      "title": "초대 없이 추가하기",
+      "desc": "[설정 > 멤버관리] 에서 나중에 초대할 수 있어요.",
+      "success": "구성원을 추가했어요."
+    }
+  },
+  "selectTeam": {
+    "placeholder": "팀을 선택해주세요"
+  },
+  "profilePanel": {
+    "team": "팀(소속)",
+    "phoneNotRegistered": "전화번호를 등록해주세요",
+    "emailNotRegistered": "이메일을 등록해주세요"
+  }
+  },
+  "show": {
+    "breadcrumb": {
+      "members": "구성원",
+      "memberDetail": "구성원 상세"
+    },
+    "tabs": {
+      "basicInfo": "기본 정보",
+      "subscriptions": "이용 구독",
+      "activity": "활동 내역"
+    }
+  },
+  "basicInfo": {
+    "title": "기본 정보",
+    "actions": {
+      "edit": "수정",
+      "cancel": "취소",
+      "save": "저장"
+    },
+    "form": {
+      "name": "이름",
+      "companyEmail": "회사메일",
+      "emailPlaceholder": "이메일을 등록해주세요",
+      "phone": "전화번호",
+      "phonePlaceholder": "전화번호를 등록해주세요",
+      "team": "소속(팀)",
+      "notSet": "미설정"
+    },
+    "messages": {
+      "changeSaved": "변경사항을 저장했어요."
+    }
+  },
+  "subscriptions": {
+    "table": {
+      "header": {
+        "service": "서비스명",
+        "status": "상태",
+        "amount": "결제금액",
+        "billingCycle": "결제주기",
+        "pricingModel": "과금방식",
+        "paymentMethod": "연결된 결제수단",
+        "invoiceEmail": "연결된 청구서 수신 메일",
+        "note": "비고",
+        "usedMembers": "사용인원",
+        "nextBilling": "다음 결제일",
+        "manager": "담당자"
+      }
+    },
+    "connectModal": {
+      "title": "새로운 구독 연결하기",
+      "caption": "연결할 구독을 모두 선택해주세요.",
+      "ctaInactive": "구독을 선택해주세요",
+      "ctaActive": "%n개의 선택된 구독 연결하기",
+      "success": "선택한 구독을 연결했어요."
+    }
+  },
+  "dropdownMenu": {
+    "role": {
+      "changeToMember": "구성원 역할로 변경하기",
+      "changeToOwner": "소유자 역할로 변경하기"
+    },
+    "messages": {
+      "roleChanged": "권한을 변경했어요"
+    }
+  },
+  "team": {
+    "editName": "팀 이름을 수정합니다",
+    "create": "생성",
+    "createSuccess": "새로운 팀을 추가했어요",
+    "updateSuccess": "변경되었습니다",
+    "deleteSuccess": "삭제되었습니다",
+    "deleteConfirm": {
+      "title": "팀 '%{name}'를 정말 삭제 할까요?",
+      "desc1": "이 작업은 취소 할 수 없습니다.",
+      "desc2": "확인 버튼을 누르면 삭제됩니다."
+    }
+  },
+  "validation": {
+    "memberExists": "이미 존재하는 멤버입니다."
+  }
+} 

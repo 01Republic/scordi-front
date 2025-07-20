@@ -1,0 +1,175 @@
+{
+  "list": {
+    "title": "Members",
+    "breadcrumb": {
+      "team": "Team",
+      "members": "Members"
+    },
+    "searchPlaceholder": "Search by name, team, contact",
+    "unit": "members",
+    "emptyMessage": "No members found.",
+    "emptyButtonText": "Add Member",
+    "addMember": "Add Member"
+  },
+  "table": {
+    "header": {
+      "name": "Name",
+      "subscriptionCount": "Subscriptions",
+      "team": "Team",
+      "email": "Email",
+      "phone": "Phone",
+      "note": "Note",
+      "status": "Status"
+    },
+    "row": {
+      "apps": "Apps",
+      "changeSaved": "Changes saved successfully."
+    }
+  },
+  "scope": {
+    "all": "All",
+    "beforeInvite": "Before Invite",
+    "inviting": "Waiting to Join",
+    "invited": "Invite Complete"
+  },
+  "addMember": {
+    "dropdown": {
+      "title": "Add Member",
+      "loadFromGoogle": {
+        "title": "Load Members",
+        "desc": "Load all members at once with Google Workspace login."
+      },
+      "addManually": {
+        "title": "Add Manually",
+        "desc": "Enter member information and add."
+      },
+      "addByExcel": {
+        "title": "Bulk Register with Excel",
+        "desc": "Fill member information in template and register."
+      }
+    },
+    "modal": {
+      "success": "All members loaded successfully."
+    }
+  },
+  "new": {
+    "title": "Add Member",
+    "breadcrumb": {
+      "team": "Team",
+      "members": "Members",
+      "addMember": "Add Member"
+    },
+    "description": "Please enter required/optional information to add a member to Scordi.",
+    "requiredInfo": "Required Information",
+    "optionalInfo": "Optional Information",
+    "form": {
+      "name": "Name",
+      "companyEmail": "Company Email",
+      "phone": "Phone Number",
+      "team": "Team"
+    },
+      "validation": {
+    "memberExists": "Member already exists."
+  },
+  "beforeSaveModal": {
+    "title": "Would you like to invite the member to the workspace?",
+    "invite": {
+      "title": "Invite",
+      "desc": "Send an invitation email to the member's company email.",
+      "success": "Member has been added and invitation email sent."
+    },
+    "addWithoutInvite": {
+      "title": "Add without invitation",
+      "desc": "You can invite later from [Settings > Member Management].",
+      "success": "Member has been added."
+    }
+  },
+  "selectTeam": {
+    "placeholder": "Please select a team"
+  },
+  "profilePanel": {
+    "team": "Team",
+    "phoneNotRegistered": "Please register phone number",
+    "emailNotRegistered": "Please register email"
+  }
+  },
+  "show": {
+    "breadcrumb": {
+      "members": "Members",
+      "memberDetail": "Member Detail"
+    },
+    "tabs": {
+      "basicInfo": "Basic Info",
+      "subscriptions": "Subscriptions",
+      "activity": "Activity"
+    }
+  },
+  "basicInfo": {
+    "title": "Basic Information",
+    "actions": {
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "form": {
+      "name": "Name",
+      "companyEmail": "Company Email",
+      "emailPlaceholder": "Please register email",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Please register phone number",
+      "team": "Team",
+      "notSet": "Not Set"
+    },
+    "messages": {
+      "changeSaved": "Changes saved successfully."
+    }
+  },
+  "subscriptions": {
+    "table": {
+      "header": {
+        "service": "Service",
+        "status": "Status",
+        "amount": "Amount",
+        "billingCycle": "Billing Cycle",
+        "pricingModel": "Pricing Model",
+        "paymentMethod": "Connected Payment Method",
+        "invoiceEmail": "Connected Invoice Email",
+        "note": "Note",
+        "usedMembers": "Used Members",
+        "nextBilling": "Next Billing Date",
+        "manager": "Manager"
+      }
+    },
+    "connectModal": {
+      "title": "Connect New Subscriptions",
+      "caption": "Please select all subscriptions to connect.",
+      "ctaInactive": "Please select subscriptions",
+      "ctaActive": "Connect %n selected subscriptions",
+      "success": "Selected subscriptions connected successfully."
+    }
+  },
+  "dropdownMenu": {
+    "role": {
+      "changeToMember": "Change to Member role",
+      "changeToOwner": "Change to Owner role"
+    },
+    "messages": {
+      "roleChanged": "Role changed successfully"
+    }
+  },
+  "team": {
+    "editName": "Edit team name",
+    "create": "Create",
+    "createSuccess": "New team has been added",
+    "updateSuccess": "Updated successfully",
+    "deleteSuccess": "Deleted successfully",
+    "deleteConfirm": {
+      "title": "Are you sure you want to delete team '%{name}'?",
+      "desc1": "This action cannot be undone.",
+      "desc2": "Click confirm to delete."
+    }
+  },
+  "validation": {
+    "memberExists": "Member already exists."
+  }
+} 
