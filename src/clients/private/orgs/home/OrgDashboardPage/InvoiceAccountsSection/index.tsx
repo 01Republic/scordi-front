@@ -17,9 +17,11 @@ import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {EmptyTableLayout} from '../EmptyTableLayout';
 import {Mail} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
+    const {t} = useTranslation('dashboard');
 
     const {data, isLoading, refetch} = useDashboardInvoiceAccountsSection(orgId, {
         order: {subscriptionCount: 'DESC', invoiceAccountId: 'DESC'},
@@ -35,7 +37,7 @@ export const InvoiceAccountsSection = () => {
         return (
             <>
                 <EmptyTableLayout
-                    title="청구서 메일"
+                    title={t('sections.invoiceAccounts')}
                     Icon={() => <Mail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
@@ -65,7 +67,7 @@ export const InvoiceAccountsSection = () => {
                         setIsInvoiceCreateAutoModalOpened(false);
                     }}
                     onCreate={() => {
-                        toast.success('불러온 청구서 메일을 추가했어요.');
+                        toast.success(t('toast.invoiceAccountAdded'));
                         setIsInvoiceCreateAutoModalOpened(false);
                         refetch();
                     }}
@@ -79,7 +81,7 @@ export const InvoiceAccountsSection = () => {
 
     return (
         <DashboardSectionLayout
-            title={<span onClick={() => console.log(items)}>청구서 메일</span>}
+            title={<span onClick={() => console.log(items)}>{t('sections.invoiceAccounts')}</span>}
             isLoading={isLoading}
         >
             <div className="min-h-[250px] flex flex-col justify-between">
@@ -91,7 +93,7 @@ export const InvoiceAccountsSection = () => {
 
                 <LinkTo
                     href={OrgInvoiceAccountListPageRoute.path(orgId)}
-                    text={`${unitFormat(totalItemCount, '개')} 전체보기`}
+                    text={t('viewAll', {count: totalItemCount})}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 />
             </div>

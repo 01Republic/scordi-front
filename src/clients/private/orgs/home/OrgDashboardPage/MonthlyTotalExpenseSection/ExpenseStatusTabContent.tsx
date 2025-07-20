@@ -6,6 +6,7 @@ import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {LinkTo} from '^components/util/LinkTo';
+import {useTranslation} from 'next-i18next';
 
 interface ExpenseSubscriptionProps {
     summary?: SummaryOfBillingHistoriesDto;
@@ -14,6 +15,7 @@ interface ExpenseSubscriptionProps {
 
 export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
     const {summary, currentStatusTab = BillingHistoryStatus.PayWait} = props;
+    const {t} = useTranslation('dashboard');
     const summaryOfState = (() => {
         switch (currentStatusTab) {
             case BillingHistoryStatus.PayWait:
@@ -39,7 +41,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     'border-red-100 text-red-400': currentStatusTab === BillingHistoryStatus.PayFail,
                 })}
             >
-                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 내역이 없어요.`}</p>
+                <p>{t('expenseStatus.noHistory', {status: t_billingHistoryStatusForDashboard(currentStatusTab)})}</p>
             </div>
         );
     }

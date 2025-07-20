@@ -6,6 +6,7 @@ import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto
 import {CustomTooltip} from './CustomTooltip';
 import {roundNumber} from '^utils/number';
 import {rangeToArr} from '^utils/range';
+import {useTranslation} from 'next-i18next';
 
 interface BarGraphProps {
     result?: DashboardSummaryYearMonthlyResultDto;
@@ -14,6 +15,7 @@ interface BarGraphProps {
 
 export const BarGraph = memo((props: BarGraphProps) => {
     const {result, changeMonthlyItem} = props;
+    const {t} = useTranslation('dashboard');
     const items = result?.items || [];
 
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -21,7 +23,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
     const setSelectedMonth = useSetRecoilState(selectedMonthAtom);
 
     const formattedData = items.map((item) => {
-        const monthLabel = `${item.month}월`;
+        const monthLabel = `${item.month}${t('yearly.month')}`;
         const monthlyTotalAmount = item.amount;
         const paidAmount = item.paidData?.amount;
         const notPaidAmount = item.notPaidData?.amount;
@@ -91,7 +93,9 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         ticks={ticks}
                         axisLine={false}
                         tickCount={10}
-                        tickFormatter={(value) => `${roundNumber(value / 10000).toLocaleString()}만원`}
+                        tickFormatter={(value) =>
+                            `${roundNumber(value / 10000).toLocaleString()}${t('yearly.tenThousand')}`
+                        }
                         tickLine={false}
                         tick={{
                             fontWeight: 300,

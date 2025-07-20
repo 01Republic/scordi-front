@@ -12,10 +12,12 @@ import {EmptyTableLayout} from '../EmptyTableLayout';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {CreditCard} from 'lucide-react';
 import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
+import {useTranslation} from 'next-i18next';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useOrgIdParam();
     const router = useRouter();
+    const {t} = useTranslation('dashboard');
 
     const {
         data: dashboardCreditCardsSectionResult,
@@ -31,7 +33,7 @@ export const PaymentMethodsSection = memo(() => {
         return (
             <>
                 <EmptyTableLayout
-                    title="결제수단"
+                    title={t('sections.paymentMethods')}
                     Icon={() => <CreditCard />}
                     url={OrgAssetsCreateMethodSelectPageRoute.path(orgId)}
                     // onClick={() => setIsCardCreateMethodModalOpen(true)}
@@ -69,7 +71,7 @@ export const PaymentMethodsSection = memo(() => {
     }
 
     return (
-        <DashboardSectionLayout title="결제수단" isLoading={isLoading}>
+        <DashboardSectionLayout title={t('sections.paymentMethods')} isLoading={isLoading}>
             <div className="min-h-[250px] flex flex-col justify-between">
                 <ul>
                     {items.map((item) => (
@@ -79,7 +81,7 @@ export const PaymentMethodsSection = memo(() => {
 
                 <LinkTo
                     href={OrgCreditCardListPageRoute.path(orgId)}
-                    text={`${unitFormat(total?.totalItemCount || 0, '개')} 전체보기`}
+                    text={t('viewAll', {count: total?.totalItemCount || 0})}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 />
             </div>

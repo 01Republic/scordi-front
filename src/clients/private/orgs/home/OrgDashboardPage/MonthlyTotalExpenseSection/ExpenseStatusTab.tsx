@@ -4,6 +4,7 @@ import {currencyFormat, roundNumber, unitFormat} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfState} from '^types/dashboard.type';
 import {toast} from 'react-hot-toast';
+import {useTranslation} from 'next-i18next';
 
 interface ExpenseStatusTabProps {
     status: BillingHistoryStatus;
@@ -18,12 +19,13 @@ interface ExpenseStatusTabProps {
 
 export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
     const {status, currentStatus, onClick, summaryData} = props;
+    const {t} = useTranslation('dashboard');
     const {activeTextColorClass, activeBorderColorClass, hoverBorderColorClass, activeBgColorClass} = props;
 
     const isActive = currentStatus === status;
 
     const activeThisTab = () => {
-        summaryData ? onClick(status, summaryData) : console.log('데이터가 아직 로드 되지 않았습니다.');
+        summaryData ? onClick(status, summaryData) : console.log(t('toast.dataNotLoaded'));
     };
 
     return (
@@ -45,8 +47,10 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
                 {t_billingHistoryStatusForDashboard(status)}
             </div>
             <div>
-                합계: {currencyFormat(roundNumber(summaryData?.amount || 0))} (
-                {unitFormat(summaryData?.count || 0, '개')})
+                {t('expenseStatus.total', {
+                    amount: currencyFormat(roundNumber(summaryData?.amount || 0)),
+                    count: summaryData?.count || 0,
+                })}
             </div>
         </div>
     );

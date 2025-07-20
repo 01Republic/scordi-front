@@ -15,6 +15,7 @@ import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {EmptyTableLayout} from '../../EmptyTableLayout';
 import {PaidSubscriptionSpendItem} from './PaidSubscriptionSpendItem';
 import {LayoutGrid} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface YearMonthlySubscriptionsSectionProps {
     year: number;
@@ -26,6 +27,7 @@ interface YearMonthlySubscriptionsSectionProps {
 export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscriptionsSectionProps) => {
     const {year, result, monthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
+    const {t} = useTranslation('dashboard');
     const {data: paginatedSubscriptionSpends, isFetched} = useDashboardSubscriptionSpends(
         orgId,
         getParams(year, monthlyItem?.month),
@@ -36,7 +38,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     if (!isLoading && !pagination.totalItemCount) {
         return (
             <EmptyTableLayout
-                title="구독 리스트"
+                title={t('sections.subscriptionList')}
                 Icon={LayoutGrid}
                 url={orgId ? OrgSubscriptionConnectionPageRoute.path(orgId) : '#'}
                 className="h-full"
@@ -52,7 +54,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
 
     return (
         <DashboardSectionLayout
-            title="구독 리스트"
+            title={t('sections.subscriptionList')}
             Buttons={AllSubscriptionListShowButton}
             isLoading={isLoading}
             className="h-[826px]"

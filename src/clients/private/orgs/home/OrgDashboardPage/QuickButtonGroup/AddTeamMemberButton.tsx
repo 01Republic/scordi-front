@@ -11,10 +11,12 @@ import {
 } from '^clients/private/_modals/team-members';
 import {QuickButton} from './QuickButton';
 import {UserPlus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 export const AddTeamMemberButton = memo(function AddTeamMemberButton() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
+    const {t} = useTranslation('dashboard');
     const [isTeamMemberCreateModalOpened, setIsTeamMemberCreateModalOpened] = useState(false);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
     const [isCreateByExcelModalOpened, setCreateByExcelModalOpened] = useState(false);
@@ -22,7 +24,7 @@ export const AddTeamMemberButton = memo(function AddTeamMemberButton() {
     return (
         <>
             <QuickButton
-                text="구성원 추가"
+                text={t('quickButtons.addTeamMember')}
                 Icon={() => <UserPlus />}
                 onClick={() => setIsTeamMemberCreateModalOpened(true)}
             />
@@ -50,7 +52,7 @@ export const AddTeamMemberButton = memo(function AddTeamMemberButton() {
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('구성원을 모두 불러왔어요.');
+                    toast.success(t('toast.teamMembersLoaded'));
                     setCreateAutoModalOpened(false);
                 }}
                 onRetry={() => setCreateAutoModalOpened(true)}

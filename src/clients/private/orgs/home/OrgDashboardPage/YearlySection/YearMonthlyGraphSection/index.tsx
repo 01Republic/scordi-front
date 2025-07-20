@@ -9,6 +9,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface YearMonthlyGraphSectionProps {
     result?: DashboardSummaryYearMonthlyResultDto;
@@ -21,9 +22,10 @@ interface YearMonthlyGraphSectionProps {
 export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps) => {
     const {year, changeYear, result, isLoading = false, changeMonthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
+    const {t} = useTranslation('dashboard');
 
     const lastYear = new Date().getFullYear();
-    const yearName = year === lastYear ? '올해' : `${year}년`;
+    const yearName = year === lastYear ? t('yearly.thisYear') : t('yearly.year', {year});
 
     const AllInvoiceAccountShowButton = () => (
         <LinkTo href={OrgBillingHistoryStatusPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400">
@@ -54,7 +56,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
 
     return (
         <DashboardSectionLayout
-            title={`${yearName}의 지출 총액`}
+            title={t('yearly.totalExpense', {yearName})}
             Buttons={AllInvoiceAccountShowButton}
             isLoading={isLoading}
             className="max-h-[826px]"
@@ -65,9 +67,9 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                         <div className="flex flex-col items-start sm:items-center sm:flex-row md:items-start md:flex-col lg:items-center lg:flex-row">
                             <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 bg-blue-800 rounded-full" />
-                                <p>{year}년, 오늘&nbsp;</p>
+                                <p>{t('yearly.today', {year})}&nbsp;</p>
                             </div>
-                            <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">기준 구독 지출액</p>
+                            <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">{t('yearly.subscriptionExpense')}</p>
                         </div>
                         <p className="font-bold text-20 md:text-24 lg:text-28">
                             {currencyFormat(roundNumber(result?.didPayAmount || 0))}
@@ -77,9 +79,9 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                         <div className="flex flex-col items-start sm:items-center sm:flex-row md:items-start md:flex-col lg:items-center lg:flex-row">
                             <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 bg-pink-200 rounded-full" />
-                                <p>{year}년, 예상&nbsp;</p>
+                                <p>{t('yearly.expected', {year})}&nbsp;</p>
                             </div>
-                            <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">구독 지출액</p>
+                            <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">{t('yearly.expectedExpense')}</p>
                         </div>
                         <p className="font-bold text-20 md:text-24 lg:text-28">
                             {currencyFormat(roundNumber(result?.totalOnThisYear || 0))}

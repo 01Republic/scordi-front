@@ -7,6 +7,7 @@ import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {ProductDto} from '^models/Product/type';
+import {useTranslation} from 'next-i18next';
 
 interface InvoiceAccountItemProps {
     item: DashboardInvoiceAccountsSectionItemDto;
@@ -15,6 +16,7 @@ interface InvoiceAccountItemProps {
 
 export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const {item} = props;
+    const {t} = useTranslation('dashboard');
     const {invoiceAccountId, invoiceAccount, organizationId, product, subscriptionCount} = item;
 
     return (
@@ -35,6 +37,7 @@ InvoiceAccountItem.displayName = 'InvoiceAccountItem';
 
 const CountText = (props: {product: ProductDto | null; count: number}) => {
     const {product, count} = props;
+    const {t} = useTranslation('dashboard');
 
     if (!product) return <span>{unitFormat(0, '개')}</span>;
     if (count === 1) return <span>{product.name()}</span>;
@@ -42,7 +45,9 @@ const CountText = (props: {product: ProductDto | null; count: number}) => {
     return (
         <div className="flex flex-col items-end sm:flex-row sm:items-center md:flex-col md:items-end lg:flex-row lg:items-center">
             <span>{product.name()} </span>
-            <span>&nbsp; 외 {unitFormat(count - 1, '개')}</span>
+            <span>
+                &nbsp; {t('invoiceAccount.andOthers')} {unitFormat(count - 1, '개')}
+            </span>
         </div>
     );
 };

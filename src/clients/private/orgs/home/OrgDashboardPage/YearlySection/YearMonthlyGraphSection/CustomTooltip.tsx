@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {currencyFormat, roundNumber} from '^utils/number';
+import {useTranslation} from 'next-i18next';
 
 interface PayloadDataType {
     month: string;
@@ -30,6 +31,7 @@ interface CustomTooltipProps {
 
 export const CustomTooltip = memo((props: CustomTooltipProps) => {
     const {active, payload} = props;
+    const {t} = useTranslation('dashboard');
 
     if (active && payload && payload.length > 0) {
         const currentData = payload[0].payload;

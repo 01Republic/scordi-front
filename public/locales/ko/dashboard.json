@@ -1,0 +1,62 @@
+{
+  "title": {
+    "subscriptionCount": "총 {{count}}개의 구독서비스를 쓰고 있어요",
+    "dashboard": "{{orgName}}의 대시보드"
+  },
+  "quickButtons": {
+    "addSubscription": "구독 추가",
+    "addPaymentMethod": "결제수단 추가",
+    "addInvoiceAccount": "청구서 메일 추가",
+    "addTeamMember": "구성원 추가"
+  },
+  "sections": {
+    "monthlySubscription": "이달의 구독 현황",
+    "paymentMethods": "결제수단",
+    "invoiceAccounts": "청구서 메일",
+    "yearlySubscription": "올 해의 구독 현황",
+    "subscriptionList": "구독 리스트"
+  },
+  "emptyState": {
+    "noItems": "등록된 {{itemName}}이 없어요.",
+    "registerItem": "{{itemName}} 등록",
+    "noHistory": "{{status}}된 내역이 없어요."
+  },
+  "viewAll": "{{count}}개 전체보기",
+  "toast": {
+    "invoiceAccountAdded": "불러온 청구서 메일을 추가했어요.",
+    "teamMembersLoaded": "구성원을 모두 불러왔어요.",
+    "dataNotLoaded": "데이터가 아직 로드 되지 않았습니다."
+  },
+  "yearly": {
+    "thisYear": "올해",
+    "year": "{{year}}년",
+    "month": "월",
+    "tenThousand": "만원",
+    "totalExpense": "{{yearName}}의 지출 총액",
+    "today": "{{year}}년, 오늘",
+    "expected": "{{year}}년, 예상",
+    "subscriptionExpense": "기준 구독 지출액",
+    "expectedExpense": "구독 지출액",
+    "tooltip": {
+      "paidAmount": "지출된 구독 금액: {{amount}}",
+      "paidCount": "지출된 구독수: {{count}}건"
+    }
+  },
+  "teamScope": {
+    "all": "전체"
+  },
+  "expenseStatus": {
+    "total": "합계: {{amount}} ({{count}}개)",
+    "noHistory": "{{status}}된 내역이 없어요."
+  },
+  "teamScope": {
+    "all": "전체"
+  },
+  "invoiceAccount": {
+    "andOthers": "외"
+  },
+  "emptyTable": {
+    "noRegistered": "등록된 {{title}}이 없어요.",
+    "register": "{{title}} 등록"
+  }
+} 

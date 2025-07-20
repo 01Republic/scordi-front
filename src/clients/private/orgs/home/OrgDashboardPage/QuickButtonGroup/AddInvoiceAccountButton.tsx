@@ -12,9 +12,11 @@ import {
 import {QuickButton} from './QuickButton';
 import {useDashboardInvoiceAccountsSection} from '^models/_dashboard/hook';
 import {Mail} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
     const orgId = useRecoilValue(orgIdParamState);
+    const {t} = useTranslation('dashboard');
     const {refetch} = useDashboardInvoiceAccountsSection(orgId, {
         order: {subscriptionCount: 'DESC', invoiceAccountId: 'DESC'},
         itemsPerPage: 3,
@@ -25,7 +27,7 @@ export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
     return (
         <>
             <QuickButton
-                text="청구서 메일 추가"
+                text={t('quickButtons.addInvoiceAccount')}
                 Icon={() => <Mail />}
                 onClick={() => setIsInvoiceCreateModalOpened(true)}
             />
@@ -51,7 +53,7 @@ export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
                 isOpened={isInvoiceCreateAutoModalOpened}
                 onClose={() => setIsInvoiceCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('불러온 청구서 메일을 추가했어요.');
+                    toast.success(t('toast.invoiceAccountAdded'));
                     refetch();
                     setIsInvoiceCreateAutoModalOpened(false);
                 }}

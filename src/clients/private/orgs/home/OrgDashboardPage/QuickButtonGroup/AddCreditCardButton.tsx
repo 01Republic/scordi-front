@@ -7,10 +7,12 @@ import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new'
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {QuickButton} from './QuickButton';
+import {useTranslation} from 'next-i18next';
 
 export const AddCreditCardButton = memo(function AddCreditCardButton() {
     const orgId = useOrgIdParam();
     const router = useRouter();
+    const {t} = useTranslation('dashboard');
 
     const {refetch} = useDashboardCreditCardsSectionResultDto(orgId);
 
@@ -20,7 +22,7 @@ export const AddCreditCardButton = memo(function AddCreditCardButton() {
     return (
         <>
             <QuickButton
-                text="결제수단 추가"
+                text={t('quickButtons.addPaymentMethod')}
                 Icon={() => <CreditCard />}
                 url={OrgAssetsCreateMethodSelectPageRoute.path(orgId)}
                 // onClick={() => setIsCardCreateMethodModalOpen(true)}
