@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
-import {UpdateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/UpdateCodefCardParser.request.dto';
 
 interface SetParserNamePanelProps {
     readOnly?: boolean;
@@ -10,7 +9,7 @@ interface SetParserNamePanelProps {
 
 export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
     const {readOnly = false} = props;
-    const {register} = useFormContext<UpdateCodefCardParserRequestDto>();
+    const {register} = useFormContext<{title?: string; memo?: string}>();
 
     return (
         <ContentPanel title="[1단계] 파서의 이름을 입력합니다." stickyHeader>
