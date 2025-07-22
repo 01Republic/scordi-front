@@ -44,15 +44,15 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
         });
     });
 
-    const onSubmit = (hostSubscription: SubscriptionDto) => {
-        console.log('hostSubscription', hostSubscription);
+    const onSubmit = (guestSubscription: SubscriptionDto) => {
+        console.log('guestSubscription', guestSubscription);
         const mergeConfirm = () => {
             return confirm2(
                 '두 개의 구독을 병합할까요?',
                 <div>
                     <div>구독 ID 를 확인해주세요.</div>
-                    <div>처음 선택한 {subscription.id} 번 구독이</div>
-                    <div>방금 선택한 {hostSubscription.id} 번 구독에 흡수됩니다.</div>
+                    <div>처음 선택한 {subscription.id} 번 구독에</div>
+                    <div>방금 선택한 {guestSubscription.id} 번 구독이 흡수됩니다.</div>
                     <div>
                         통합하는 과정에서 {subscription.id} 번 구독의 정보 중 <br />
                         일부를 잃게 될 수 있으며, 그 정보는 복구할 수 없습니다.
@@ -62,7 +62,7 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
         };
 
         return confirmed(mergeConfirm())
-            .then(() => subscriptionApi.merge(subscription.id, hostSubscription.id))
+            .then(() => subscriptionApi.merge(subscription.id, {subscriptionIds: [guestSubscription.id]}))
             .then(() => toast.success('구독 합치기 성공'))
             .then(() => reload())
             .then(() => onClose())
@@ -88,7 +88,7 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
                     <p className="font-medium text-12 text-scordi mb-1">구독 합치기</p>
                     {subscriptions.length > 0 ? (
                         <h3 className="font-bold text-xl leading-tight">
-                            어느 구독에 병합할까요? <br /> 선택한 구독에 이 구독이 흡수됩니다!
+                            어느 구독을 병합할까요? <br /> 선택한 구독은 이 구독에 흡수됩니다!
                         </h3>
                     ) : (
                         <h3 className="font-bold text-xl leading-tight">

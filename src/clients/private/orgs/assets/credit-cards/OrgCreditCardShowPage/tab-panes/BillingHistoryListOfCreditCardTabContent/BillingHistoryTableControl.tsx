@@ -5,21 +5,30 @@ import excelIcon from '^images/icon/excelIcon.png';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BillingHistoryTableTitle} from './BillingHistoryTableTitle';
 import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
-import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {Paginated} from '^types/utils/paginated.dto';
+import {BillingHistoryDto, FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
 
 interface BillingHistoryTableControlProps {
     creditCard: CreditCardDto;
     excelUploadModalClose: () => void;
+    query: FindAllBillingHistoriesQueryDto;
+    search: (params: FindAllBillingHistoriesQueryDto) => any;
+    data: Paginated<BillingHistoryDto>;
+    isLoading: boolean;
+    refetch: () => any;
 }
 
 export const BillingHistoryTableControl = memo((props: BillingHistoryTableControlProps) => {
-    const {excelUploadModalClose} = props;
-    const {currentCreditCard} = useCurrentCreditCard();
+    const {creditCard, excelUploadModalClose} = props;
+    const {query, data, search, isLoading, refetch} = props;
+
     return (
         <div>
-            {currentCreditCard && <BillingHistoryTableTitle creditCard={currentCreditCard} />}
+            {creditCard && (
+                <BillingHistoryTableTitle creditCard={creditCard} data={data} isLoading={isLoading} refetch={refetch} />
+            )}
             <div className="flex items-center justify-between mb-4">
-                <BillingHistoryScopeHandler />
+                <BillingHistoryScopeHandler query={query} search={search} />
 
                 <div>
                     <div className="flex items-center gap-2">

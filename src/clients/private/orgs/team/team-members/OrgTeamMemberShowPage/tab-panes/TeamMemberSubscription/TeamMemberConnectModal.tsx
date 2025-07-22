@@ -1,14 +1,9 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useSubscriptionSelectModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/SubscriptionSelectModal';
-import {currentTeamMemberState, teamMemberApi, TeamMemberDto, useTeamMember} from '^models/TeamMember';
-import {useSubscriptionListOfCreditCard, useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
+import {teamMemberApi} from '^models/TeamMember';
 import {SubscriptionSelectItem} from '^models/Subscription/components/SubscriptionSelectItem';
 import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
-import {subscriptionApi} from '^models/Subscription/api';
-import {useCurrentTeamMember} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage/atom';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Paginated} from '^types/utils/paginated.dto';
-import {PlusCircle} from 'lucide-react';
 
 interface TeamMemberConnectModalProps {
     teamMemberId: number;

@@ -122,59 +122,51 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                                     {isNotProduction && isChangePasswordClicked && (
                                         <div className="w-full grid grid-cols-3 gap-4">
                                             <div className="col-span-2 flex flex-col gap-2">
-                                                <div className="flex items-center gap-4">
-                                                    <span className="w-32">비밀번호 확인</span>
+                                                <label className="flex items-center gap-4">
+                                                    <span className="w-32">새 비밀번호</span>
+
                                                     <div className="flex flex-col gap-2">
-                                                        {isChangePasswordClicked && (
-                                                            <label
-                                                                htmlFor="password"
-                                                                className="w-full border-b border-gray-200 flex items-center justify-between p-0.5"
-                                                            >
-                                                                <input
-                                                                    id="password"
-                                                                    type="password"
-                                                                    {...register('password', {
-                                                                        pattern: {
-                                                                            value: validPasswordRegex,
-                                                                            message:
-                                                                                '8~20자의 영문, 숫자를 사용해 주세요.',
-                                                                        },
-                                                                    })}
-                                                                />
-                                                            </label>
-                                                        )}
+                                                        <input
+                                                            type="password"
+                                                            className="w-full input input-xs border-0 px-0 rounded-none border-b border-gray-300 focus:outline-none"
+                                                            {...register('password', {
+                                                                pattern: {
+                                                                    value: validPasswordRegex,
+                                                                    message: '8~20자의 영문, 숫자를 사용해 주세요.',
+                                                                },
+                                                            })}
+                                                            placeholder="8~20자의 영문, 숫자"
+                                                        />
+
                                                         {errors.password && (
                                                             <p className="text-red-400 text-12">
                                                                 {errors.password.message}
                                                             </p>
                                                         )}
                                                     </div>
-                                                </div>
+                                                </label>
 
-                                                <div className="flex items-center gap-4">
+                                                <label className="flex items-center gap-4">
                                                     <span className="w-32">비밀번호 확인</span>
+
                                                     <div className="flex flex-col gap-2">
-                                                        <label
-                                                            htmlFor="passwordConfirmation"
-                                                            className="w-full border-b border-gray-200 flex items-center justify-between p-0.5"
-                                                        >
-                                                            <input
-                                                                id="passwordConfirmation"
-                                                                type="password"
-                                                                {...register('passwordConfirmation', {
-                                                                    validate: (value) =>
-                                                                        value === password ||
-                                                                        '비밀번호가 일치하지 않습니다.',
-                                                                })}
-                                                            />
-                                                        </label>
+                                                        <input
+                                                            type="password"
+                                                            className="w-full input input-xs border-0 px-0 rounded-none border-b border-gray-300 focus:outline-none"
+                                                            {...register('passwordConfirmation', {
+                                                                validate: (value) =>
+                                                                    value === password ||
+                                                                    '비밀번호가 일치하지 않습니다.',
+                                                            })}
+                                                        />
+
                                                         {errors.passwordConfirmation && (
                                                             <p className="text-red-400 text-12">
                                                                 {errors.passwordConfirmation.message}
                                                             </p>
                                                         )}
                                                     </div>
-                                                </div>
+                                                </label>
                                             </div>
                                             <div className="col-span-1 flex gap-2 h-full items-end justify-end">
                                                 <button
