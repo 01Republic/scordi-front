@@ -48,6 +48,8 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
                 }),
             )
             .then(() => toast.success('구독을 병합했어요.'))
+            .then(() => items.checkAll(false))
+            .then(() => onClose())
             .catch(errorToast)
             .finally(() => {
                 items.checkAll(false);
