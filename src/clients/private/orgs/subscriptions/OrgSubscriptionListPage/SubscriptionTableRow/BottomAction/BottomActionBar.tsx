@@ -1,9 +1,9 @@
+import {useState} from 'react';
+import {RotateCcw, Combine} from 'lucide-react';
 import Tippy from '@tippyjs/react';
-import {MergeSubscriptionModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/SubscriptionTableRow/BottomAction/MergeSubscriptionModal';
 import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 import {SubscriptionDto} from '^models/Subscription/types/Subscription.dto';
-import {Merge, RotateCcw} from 'lucide-react';
-import {useState} from 'react';
+import {MergeSubscriptionModal} from './MergeSubscriptionModal';
 
 interface BottomActionBarProps {
     items: CheckboxHandler<SubscriptionDto>;
@@ -36,13 +36,13 @@ export const BottomActionBar = (props: BottomActionBarProps) => {
                         className="flex gap-1 btn btn-sm no-animation btn-animation btn-white"
                         onClick={() => setIsMergeSubscriptionModal(true)}
                     >
-                        <Merge />
+                        <Combine />
                         구독 병합
                     </button>
                 ) : (
                     <Tippy content={tippyMessage}>
                         <div className="flex gap-1 text-gray-400 bg-gray-200 btn btn-sm no-animation btn-animation hover:!bg-gray-150">
-                            <Merge />
+                            <Combine />
                             구독 병합
                         </div>
                     </Tippy>
