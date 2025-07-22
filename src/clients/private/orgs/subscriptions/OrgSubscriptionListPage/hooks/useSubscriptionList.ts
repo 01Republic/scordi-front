@@ -5,6 +5,7 @@ import {useQuery} from '@tanstack/react-query';
 import {subscriptionApi} from '^models/Subscription/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {usePaginateUtils} from '^hooks/usePagedResource';
+import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
 
 /** 구독목록 페이지 전용 훅 / 구독 목록 조회 */
 export const useSubscriptionList = (params: FindAllSubscriptionsQuery) => {
@@ -12,7 +13,7 @@ export const useSubscriptionList = (params: FindAllSubscriptionsQuery) => {
     const [query, setQuery] = useState(params);
 
     const queryResult = useQuery({
-        queryKey: ['subscriptionList', orgId, query],
+        queryKey: [SUBSCRIPTION_HOOK_KEY.list, orgId, query],
         queryFn: async () => {
             query.where = {organizationId: orgId, ...query.where};
             return subscriptionApi.index(query).then((res) => res.data);

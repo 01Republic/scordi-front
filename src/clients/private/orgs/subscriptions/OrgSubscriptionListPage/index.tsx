@@ -16,6 +16,8 @@ import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
+import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
+import {BottomActionBar} from './SubscriptionTableRow/BottomAction/BottomActionBar';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
@@ -26,6 +28,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
         });
     const {mutate: deleteSubscription} = useRemoveSubscription();
+    const ch = useCheckboxHandler<SubscriptionDto>([], (item) => item.id);
 
     const onSearch = (keyword?: string) => {
         return search({
@@ -40,7 +43,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         <div>
             <LinkTo
                 href={OrgSubscriptionConnectionPageRoute.path(orgId)}
-                className="btn btn-scordi gap-2 no-animation btn-animation"
+                className="gap-2 btn btn-scordi no-animation btn-animation"
                 loadingOnBtn
             >
                 <Plus />
@@ -96,7 +99,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 EmptyButtons={AddSubscriptionButton}
                 hideTopPaginator
             >
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex justify-between items-center mb-4">
                     <div>
                         {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
                     </div>
@@ -112,8 +115,24 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} onDelete={onDelete} />}
+                    Row={({item}) => (
+                        <SubscriptionTableRow
+                            subscription={item}
+                            reload={reload}
+                            onDelete={onDelete}
+                            isChecked={ch.isChecked(item)}
+                            onCheck={(checked) => ch.checkOne(item, checked)}
+                        />
+                    )}
                 />
+
+                {ch.checkedItems.length > 0 && (
+                    <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">
+                        <div className="container px-4 pointer-events-auto">
+                            <BottomActionBar items={ch} onClear={() => ch.checkAll(false)} />
+                        </div>
+                    </div>
+                )}
             </ListTableContainer>
         </ListPage>
     );
