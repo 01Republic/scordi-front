@@ -54,6 +54,7 @@ export const BottomActionBar = (props: BottomActionBarProps) => {
                 isOpened={isMergeSubscriptionModal}
                 onClose={() => setIsMergeSubscriptionModal(false)}
                 subscriptions={items.checkedItems}
+                onClear={onClear}
             />
         </div>
     );

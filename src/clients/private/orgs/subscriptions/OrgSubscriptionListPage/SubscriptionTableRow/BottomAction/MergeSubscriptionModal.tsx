@@ -13,10 +13,11 @@ interface MergeSubscriptionModalProps {
     isOpened: boolean;
     onClose: () => void;
     subscriptions: SubscriptionDto[];
+    onClear: () => void;
 }
 
 export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) => {
-    const {isOpened, onClose, subscriptions} = props;
+    const {isOpened, onClose, subscriptions, onClear} = props;
     const items = useCheckboxHandler<SubscriptionDto>([], (sub) => sub.id);
     const {mutateAsync: mergeSubscriptions} = useMergeSubscriptions();
 
@@ -48,11 +49,11 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
                 }),
             )
             .then(() => toast.success('구독을 병합했어요.'))
-            .then(() => items.checkAll(false))
+            .then(() => onClear())
             .then(() => onClose())
             .catch(errorToast)
             .finally(() => {
-                items.checkAll(false);
+                onClear();
                 onClose();
             });
     };
