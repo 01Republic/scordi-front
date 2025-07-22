@@ -89,7 +89,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
                     type="submit"
                     disabled={!(form.watch('id') && form.watch('password'))}
                     className={`btn btn-block btn-scordi ${
-                        isLoading ? 'opacity-30 pointer-events-none' : ''
+                        isLoading ? 'opacity-30 pointer-events-none loading' : ''
                     } disabled:btn-disabled2 no-animation btn-animation`}
                 >
                     {ctaText || '불러오기'}

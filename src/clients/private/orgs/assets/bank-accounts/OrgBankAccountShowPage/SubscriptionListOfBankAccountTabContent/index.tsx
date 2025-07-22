@@ -4,20 +4,19 @@ import Tippy from '@tippyjs/react';
 import {useSubscriptionListOfBankAccount} from '^models/Subscription/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useCurrentCodefCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
-import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/atom';
+import {useCurrentBankAccount, useCurrentCodefBankAccount} from '../atom';
 import {BankAccountAddSubscriptionModal} from './BankAccountAddSubscriptionModal';
 import {SubscriptionTableRowOfBankAccount} from './SubscriptionTableRowOfBankAccount';
 import {SubscriptionTableHeaderOfBankAccount} from './SubscriptionTableHeaderOfBankAccount';
 import {HelpCircle, Plus, RotateCw} from 'lucide-react';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {BankDataFetchingIssueModal} from '^clients/private/_modals/BankDataFetchingIssueModal';
-import {useCodefBankAccount, useCodefBankAccountsInConnector} from '^models/CodefBankAccount/hook';
+import {useCodefBankAccountsInConnector} from '^models/CodefBankAccount/hook';
 import {pick} from '^types/utils/one-of-list.type';
 
 export const SubscriptionListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
-    const {isManuallyCreated} = useCurrentCodefCard();
+    const {isManuallyCreated} = useCurrentCodefBankAccount();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
     const [isBankDataFetchingIssueModalOpen, setBankDataFetchingIssueModalOpen] = useState(false);
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =

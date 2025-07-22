@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import dayjs from 'dayjs';
-import {useOrgIdParam} from '^atoms/common';
-import {pick} from '^types/utils/one-of-list.type';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useCodefCardsOfCreditCardShow2} from '^models/CodefCard/hook';
 import {getCreditCardPolicyDuration} from '^models/TopLineBanner/type';
 import {useOldestCodefBillingHistory} from '^models/CodefBillingHistory/hook';
 import {PageFlash} from '^clients/private/_layouts/_shared/PageFlash';
@@ -18,11 +17,10 @@ interface CreditCardPageFlashHandlerProps {
 export const CreditCardPageFlashHandler = (props: CreditCardPageFlashHandlerProps) => {
     const {uploadExcelModalConfirmOpen} = props;
     const orgId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
     const {isShowPageFlash, setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
-    const {result} = useCodefCardsOfCreditCardShow();
-    const currentCodefCard = pick(result.items[0]);
-    const codefId = currentCodefCard?.id;
-    const {data: oldestCodefBillingHistory} = useOldestCodefBillingHistory(orgId, codefId);
+    const {currentCodefCard} = useCodefCardsOfCreditCardShow2(creditCardId);
+    const {data: oldestCodefBillingHistory} = useOldestCodefBillingHistory(orgId, currentCodefCard?.id);
 
     useEffect(() => {
         const inSituation = checkCardPolicyLimitedSituation(currentCodefCard, oldestCodefBillingHistory);

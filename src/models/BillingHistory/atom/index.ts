@@ -19,11 +19,6 @@ export const billingHistoryListInSiblingsAtom = pagedResourceAtom<BillingHistory
     key: 'billingHistoryListInSiblingsAtom',
 });
 
-// 결제수단 상세페이지 / 결제내역
-export const billingHistoryListOfCreditCardAtom = pagedResourceAtom<BillingHistoryDto, FindAllBillingHistoriesQueryDto>(
-    {key: 'billingHistoryListOfCreditCardAtom'},
-);
-
 // 계좌 상세페이지 / 결제내역
 export const billingHistoryListOfBankAccountAtom = pagedResourceAtom<
     BillingHistoryDto,

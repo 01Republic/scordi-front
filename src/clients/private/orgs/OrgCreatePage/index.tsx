@@ -41,14 +41,13 @@ export const OrgCreatePage = memo(() => {
             mutate(data, {
                 onSuccess: ({id: orgId}) => {
                     setNewOrgId(orgId);
-                    if (isSuccess && items.length < 1)
-                        return router.push(SignUserDetailRoute.path() + `?orgId=${orgId}`);
+                    if (items.length < 1) return router.push(SignUserDetailRoute.path() + `?orgId=${orgId}`);
                 },
             });
         })();
     };
     //
-    if (isSuccess && items.length > 1)
+    if (newOrgId && items.length > 1)
         return <SuccessSign isWorkSpace={!!isSuccess && items.length > 1} newOrgId={newOrgId} />;
 
     return (
