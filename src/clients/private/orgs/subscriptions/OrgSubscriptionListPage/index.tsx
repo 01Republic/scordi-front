@@ -127,8 +127,10 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 />
 
                 {ch.checkedItems.length > 0 && (
-                    <div className="flex sticky right-0 left-0 bottom-5 z-40 justify-center">
-                        <BottomActionBar items={ch} onClear={() => ch.checkAll(false)} />
+                    <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">
+                        <div className="container px-4 pointer-events-auto">
+                            <BottomActionBar items={ch} onClear={() => ch.checkAll(false)} />
+                        </div>
                     </div>
                 )}
             </ListTableContainer>
