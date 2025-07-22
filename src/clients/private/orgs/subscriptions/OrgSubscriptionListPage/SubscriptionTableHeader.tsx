@@ -11,6 +11,7 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
 
     return (
         <tr className="bg-slate-100">
+            <th></th>
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>
