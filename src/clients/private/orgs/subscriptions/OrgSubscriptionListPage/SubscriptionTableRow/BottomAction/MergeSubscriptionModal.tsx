@@ -19,7 +19,7 @@ interface MergeSubscriptionModalProps {
 export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) => {
     const {isOpened, onClose, subscriptions, onClear} = props;
     const items = useCheckboxHandler<SubscriptionDto>([], (sub) => sub.id);
-    const {mutateAsync: mergeSubscriptions} = useMergeSubscriptions();
+    const {mutateAsync: mergeSubscriptions, isPending} = useMergeSubscriptions();
 
     const selectedId = items.checkedItems[0]?.id;
     const unselectedIds = subscriptions.filter((sub) => sub.id !== selectedId).map((sub) => sub.id);
@@ -87,7 +87,9 @@ export const MergeSubscriptionModal = memo((props: MergeSubscriptionModalProps) 
                 </ul>
                 <button
                     onClick={onMerge}
-                    className={`btn btn-md text-16 ${items.checkedItems.length === 0 ? 'btn-disabled2' : 'btn-scordi'}`}
+                    className={`btn btn-md text-16 ${
+                        items.checkedItems.length === 0 ? 'btn-disabled2' : 'btn-scordi'
+                    } ${isPending ? 'link_to-loading' : ''}`}
                 >
                     선택 완료
                 </button>
