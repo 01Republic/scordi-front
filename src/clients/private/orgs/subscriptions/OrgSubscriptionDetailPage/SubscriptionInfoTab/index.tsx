@@ -17,7 +17,7 @@ import {LoadableBox} from '^components/util/loading';
 import {Avatar} from '^components/Avatar';
 import {NextImage} from '^components/NextImage';
 import {ConnectedAssetCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/ConnectedAssetCard';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {lpp, yyyy_mm_dd} from '^utils/dateTime';
 
 /**
  * 구독 상세p > 정보탭
@@ -46,7 +46,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 />
                 <StatusCard
                     label={'다음 결제 예정일'}
-                    value={subscription?.nextBillingDate ? yyyy_mm_dd(subscription.nextBillingDate) : '-'}
+                    value={subscription?.nextBillingDate ? lpp(subscription.nextBillingDate, 'P') : '-'}
                     icon={<Calendar className="size-5 text-white" />}
                     iconColor={'bg-pink-400'}
                 />
