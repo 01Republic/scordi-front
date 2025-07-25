@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {lpp, yyyy_mm_dd} from '^utils/dateTime';
 
 interface NextComputedBillingDateTextProps {
     subscription: SubscriptionDto;
@@ -12,6 +12,6 @@ export const NextComputedBillingDateText = memo((props: NextComputedBillingDateT
     if (!subscription.nextComputedBillingDate) {
         return <p className="text-sm text-gray-400">-</p>;
     }
-    return <p className="text-sm">{yyyy_mm_dd(subscription.nextComputedBillingDate)}</p>;
+    return <p className="text-sm">{lpp(subscription.nextComputedBillingDate, 'P')}</p>;
 });
 NextComputedBillingDateText.displayName = 'NextComputedBillingDateText';
