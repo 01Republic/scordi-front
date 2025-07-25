@@ -13,5 +13,5 @@ export class CreateBankAccountRequestDto {
     usingStatus?: BankAccountUsingStatus; // 사용상태
     isOverDraft?: boolean; // 마이너스 통장 여부
     memo?: string; // 메모
-    holdingMemberId?: number; // 담당자 ID
+    holdingMemberId?: number | null; // 담당자 ID
 }

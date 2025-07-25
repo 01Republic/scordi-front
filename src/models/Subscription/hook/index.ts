@@ -30,6 +30,7 @@ import {
 } from '^models/Subscription/atom';
 import {ErrorResponse} from '^models/User/types';
 import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
+import {MergeSubscriptionRequestDto} from '^models/Subscription/types/MergeSubscription.request.dto';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -278,6 +279,19 @@ export const useRemoveSubscription = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (subscriptionId: number) => subscriptionApi.destroy(subscriptionId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
+        },
+    });
+};
+
+//구독 병합하기
+export const useMergeSubscriptions = () => {
+    const queryClient = useQueryClient();
+    return useMutation<SubscriptionDto[], ErrorResponse, {id: number; data: MergeSubscriptionRequestDto}>({
+        mutationFn: ({id, data}) => subscriptionApi.merge(id, data).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
