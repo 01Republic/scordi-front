@@ -1,23 +1,14 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {roundNumber} from '^utils/number';
-import {Banknote, Calendar, CreditCard, Folder} from 'lucide-react';
+import {Banknote, Calendar, Folder} from 'lucide-react';
 import {subscriptionSubjectAtom} from '../atom';
 import {StatusCard} from './StatusCard';
 import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
 import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';
 import {SubscriptionBusinessInfoSection} from './SubscriptionBusinessInfoSection';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {BankAccountDto} from '^models/BankAccount/type';
-import {useQuery} from '@tanstack/react-query';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {creditCardApi} from '^models/CreditCard/api';
-import {bankAccountApi} from '^models/BankAccount/api';
-import {LoadableBox} from '^components/util/loading';
-import {Avatar} from '^components/Avatar';
-import {NextImage} from '^components/NextImage';
-import {ConnectedAssetCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/ConnectedAssetCard';
-import {lpp, yyyy_mm_dd} from '^utils/dateTime';
+import {ConnectedAssetCard} from './ConnectedAssetCard';
+import {lpp} from '^utils/dateTime';
 
 /**
  * 구독 상세p > 정보탭

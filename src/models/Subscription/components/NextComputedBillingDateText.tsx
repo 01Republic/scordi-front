@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {lpp, yyyy_mm_dd} from '^utils/dateTime';
+import {lpp} from '^utils/dateTime';
 
 interface NextComputedBillingDateTextProps {
     subscription: SubscriptionDto;
