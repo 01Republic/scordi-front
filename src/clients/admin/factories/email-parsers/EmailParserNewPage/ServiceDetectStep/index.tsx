@@ -15,6 +15,7 @@ interface ServiceDetectStepProps {
 export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
     const {} = props;
 
+    const [qId, setQId] = useState(0);
     const [params, setParams] = useState<FindAllGmailItemQueryDto>({
         relations: ['organization', 'invoiceAccount', 'invoiceAccount.googleTokenData'],
         page: 1,
@@ -23,7 +24,7 @@ export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
     });
 
     const {data, refetch, isFetching} = useQuery({
-        queryKey: ['ServiceDetectStep', 'emailItems', params],
+        queryKey: ['ServiceDetectStep', 'emailItems', params, qId],
         queryFn: async () => invoiceAccountEmailItemsForAdminApi.index(params).then((res) => res.data),
         initialData: Paginated.init(),
         // refetchOnMount: false,
@@ -53,6 +54,7 @@ export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
                             const v = JSON.stringify(json);
                             console.log(v);
                             setParams((p) => ({...p, filterQuery: encodeURIComponent(v)}));
+                            setQId((v) => v + 1);
                         }}
                     >
                         <div className="ml-auto flex items-center gap-4">
