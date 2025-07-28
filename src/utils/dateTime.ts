@@ -295,6 +295,14 @@ export function formatDate(date: Date) {
     return format(d, 'P p', {locale: ko}); // 날짜 포맷
 }
 
+export function l(date: Date, formatStr: string = 'yyyy-MM-dd HH:mm:ss') {
+    return format(date, formatStr || 'yyyy-MM-dd HH:mm:ss', {locale: ko});
+}
+
+export function lpp(date: Date, formatStr: string = 'Pp') {
+    return format(date, formatStr || 'Pp', {locale: ko});
+}
+
 /**
  * Group By
  */

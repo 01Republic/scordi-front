@@ -1,18 +1,19 @@
 import React, {memo} from 'react';
 import {X} from 'lucide-react';
+import {Paginated} from '^types/utils/paginated.dto';
 import {LoadableBox} from '^components/util/loading';
-import {SearchedProductItem} from '^admin/factories/codef-card-parsers/form/SearchProductPanel/SearchedProductItem';
-import {useSearchProductInCodefCardParser} from '^admin/factories/codef-card-parsers/hooks';
 import {ProductDto} from '^models/Product/type';
+import {SearchedProductItem} from './SearchedProductItem';
 
 interface ProductSelectProps {
+    result: Paginated<ProductDto>;
+    isLoading: boolean;
     defaultValue?: ProductDto;
     onChange?: (product?: ProductDto) => any;
 }
 
 export const ProductSelect = memo((props: ProductSelectProps) => {
-    const {defaultValue: selectedProduct, onChange} = props;
-    const {result, isLoading} = useSearchProductInCodefCardParser();
+    const {result, isLoading, defaultValue: selectedProduct, onChange} = props;
 
     const selectProduct = (product?: ProductDto) => {
         onChange && onChange(product);

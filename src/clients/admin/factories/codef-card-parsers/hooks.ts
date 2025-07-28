@@ -5,8 +5,6 @@ import {FindAllProductQuery} from '^models/Product/type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {useRecoilState} from 'recoil';
 import {codefCardParserAtom} from '^admin/factories/codef-card-parsers/atoms';
-import {usePagedResource} from '^hooks/usePagedResource';
-import {searchProductResultsAtom} from '^admin/factories/codef-card-parsers/form/SearchProductPanel/atom';
 
 export const useCodefCardParser = (id: number) => {
     return useQuery({
@@ -37,11 +35,3 @@ export const useProductSearch = (keyword = '', id?: number) => {
         enabled: !!keyword,
     });
 };
-
-export const useSearchProductInCodefCardParser = () =>
-    usePagedResource(searchProductResultsAtom, {
-        getId: 'id',
-        useOrgId: false,
-        endpoint: (params) => productApi.index(params),
-        buildQuery: (params) => params,
-    });

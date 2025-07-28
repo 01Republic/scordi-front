@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {TextInput} from '^components/TextInput';
-import {CheckBoxInput} from '../SearchProductPanel/CheckBoxInput';
 import {plainToast as toast} from '^hooks/useToast';
+import {CheckBoxInput} from '../../../_common/form/CheckBoxInput';
 
 interface InputProps<T> {
     value: T;

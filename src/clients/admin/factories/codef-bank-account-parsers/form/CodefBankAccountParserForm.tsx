@@ -6,8 +6,8 @@ import {
 } from '^models/_codef/CodefBankAccountParser/type';
 import {ProductDto} from '^models/Product/type';
 import {ContentForm} from '^layouts/ContentLayout';
-import {SearchProductPanel} from './SearchProductPanel';
-import {SetParserNamePanel} from './SetParserNamePanel';
+import {SetParserNamePanel} from '../../_common/form/SetParserNamePanel';
+import {SearchProductPanel} from '../../_common/form/SearchProductPanel';
 import {SearchCodefBillingHistoriesPanel} from './SearchCodefBillingHistoriesPanel';
 
 interface FormProps {

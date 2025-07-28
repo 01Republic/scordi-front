@@ -1,12 +1,12 @@
 import React, {memo, useState} from 'react';
 import {FormProvider, UseFormReturn} from 'react-hook-form';
-import {ContentForm} from '^layouts/ContentLayout';
-import {SearchProductPanel} from './SearchProductPanel';
-import {SetParserNamePanel} from './SetParserNamePanel';
-import {SearchCodefBillingHistoriesPanel} from './SearchCodefBillingHistoriesPanel';
-import {UpdateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/UpdateCodefCardParser.request.dto';
-import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {ProductDto} from '^models/Product/type';
+import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
+import {UpdateCodefCardParserRequestDto} from '^models/_codef/CodefCardParser/type/UpdateCodefCardParser.request.dto';
+import {ContentForm} from '^layouts/ContentLayout';
+import {SetParserNamePanel} from '../../_common/form/SetParserNamePanel';
+import {SearchProductPanel} from '../../_common/form/SearchProductPanel';
+import {SearchCodefBillingHistoriesPanel} from './SearchCodefBillingHistoriesPanel';
 
 interface FormProps {
     parser?: CodefCardParserDto;
