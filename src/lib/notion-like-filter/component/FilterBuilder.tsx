@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Plus} from 'lucide-react';
 import {WithChildren} from '^types/global.type';
 import {
@@ -29,6 +29,7 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = ({
     children,
 }) => {
     const [showDebugPanel, setShowDebugPanel] = useState(false);
+    const applyButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleAddCondition = () => {
         const firstProp = availableProperties[0];
@@ -59,7 +60,17 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = ({
     };
 
     return (
-        <div className="flex items-start gap-4">
+        <div
+            className="flex items-start gap-4"
+            onKeyDown={(e) => {
+                const button = applyButtonRef.current;
+                if (e.key === 'Enter' && button) {
+                    button.click();
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            }}
+        >
             <div className="flex-auto">
                 <div className="p-2 bg-gray-100 rounded space-y-4">
                     {filterQuery.rootGroup.conditions.length > 0 && (
@@ -137,6 +148,7 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = ({
 
                         {onSubmit && (
                             <button
+                                ref={applyButtonRef}
                                 type="button"
                                 onClick={() => {
                                     if (!filterQuery.isEmpty() && filterQuery.isValid()) onSubmit(filterQuery);

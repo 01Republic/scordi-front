@@ -50,10 +50,8 @@ export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
                             // new PropertyDefinition('isCompleted', '완료여부', FilterType.BOOLEAN),
                         ]}
                         onSubmit={(query) => {
-                            const json = query.toJSON();
-                            const v = JSON.stringify(json);
-                            console.log(v);
-                            setParams((p) => ({...p, filterQuery: encodeURIComponent(v)}));
+                            const filterQuery = query.toUrlParams();
+                            setParams((p) => ({...p, filterQuery}));
                             setQId((v) => v + 1);
                         }}
                     >
