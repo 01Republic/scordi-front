@@ -5,6 +5,7 @@ import {
     FilterCondition,
     FilterOperator,
     FilterQuery,
+    getDefaultOperatorForType,
     LogicalOperator,
     PropertyDefinition,
     t_logicalOperator,
@@ -30,7 +31,14 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = ({
     const [showDebugPanel, setShowDebugPanel] = useState(false);
 
     const handleAddCondition = () => {
-        const newCondition = new FilterCondition('', FilterOperator.EQUALS);
+        const firstProp = availableProperties[0];
+        if (!firstProp) return;
+        const newCondition = new FilterCondition(
+            firstProp.name,
+            getDefaultOperatorForType(firstProp.type),
+            null,
+            firstProp.type,
+        );
         filterQuery.addCondition(newCondition);
         onFilterChange(new FilterQuery(filterQuery.rootGroup));
     };

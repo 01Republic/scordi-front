@@ -103,3 +103,8 @@ export const getOperatorsForType = (type: FilterType): FilterOperator[] => {
             return [FilterOperator.EQUALS];
     }
 };
+
+export const getDefaultOperatorForType = (type: FilterType): FilterOperator => {
+    const operators = getOperatorsForType(type);
+    return operators[0];
+};

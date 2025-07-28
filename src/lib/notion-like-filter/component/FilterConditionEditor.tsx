@@ -1,9 +1,10 @@
-import React, {useRef, useState} from 'react';
+import React, {RefObject, useRef} from 'react';
 import {
     FilterCondition,
     FilterOperator,
     FilterType,
     FilterValue,
+    getDefaultOperatorForType,
     getOperatorsForType,
     icon_filterType,
     PropertyDefinition,
@@ -23,58 +24,49 @@ export const FilterConditionEditor: React.FC<{
     onUpdate: (condition: FilterCondition) => void;
     onDelete: () => void;
 }> = ({condition, properties, onUpdate, onDelete}) => {
-    const [localCondition, setLocalCondition] = useState(condition);
-    const inputRef = useRef(null);
+    const propertyRef = useRef<HTMLSelectElement | null>(null);
+    const operatorRef = useRef<HTMLSelectElement | null>(null);
+    const valueRef = useRef<HTMLInputElement | HTMLSelectElement | null>(null);
+    const cond = condition;
+
+    const getProperty = () => propertyRef.current?.value || properties[0]?.name || '';
+    const getOperator = () => (operatorRef.current?.value as FilterOperator) || getDefaultOperatorForType(cond.type);
+    const getValue = () => valueRef.current?.value || '';
 
     const handlePropertyChange = (property: string) => {
         const propDef = properties.find((p) => p.name === property);
-        if (propDef) {
-            const newCondition = new FilterCondition(
-                property,
-                getDefaultOperatorForType(propDef.type),
-                null,
-                propDef.type,
-            );
-            setLocalCondition(newCondition);
-            onUpdate(newCondition);
-        }
+        if (!propDef) return;
+
+        const operator = getDefaultOperatorForType(propDef.type);
+        const value = null;
+        const newCondition = new FilterCondition(property, operator, value, propDef.type);
+        onUpdate(newCondition);
     };
 
     const handleOperatorChange = (operator: FilterOperator) => {
-        const newCondition = new FilterCondition(
-            localCondition.property,
-            operator,
-            localCondition.value,
-            localCondition.type,
-        );
-        setLocalCondition(newCondition);
+        const property = getProperty();
+        const value = FilterValue.parse(getValue(), cond.type);
+        const newCondition = new FilterCondition(property, operator, value, cond.type);
         onUpdate(newCondition);
     };
 
-    const handleValueChange = (value: string) => {
-        const filterValue = FilterValue.parse(value, localCondition.type);
-        const newCondition = new FilterCondition(
-            localCondition.property,
-            localCondition.operator,
-            filterValue,
-            localCondition.type,
-        );
-        setLocalCondition(newCondition);
+    const handleValueChange = (val: string) => {
+        const property = getProperty();
+        const operator = getOperator();
+        const value = FilterValue.parse(val, cond.type);
+
+        const newCondition = new FilterCondition(property, operator, value, cond.type);
         onUpdate(newCondition);
     };
 
-    const getDefaultOperatorForType = (type: FilterType): FilterOperator => {
-        const operators = getOperatorsForType(type);
-        return operators[0];
-    };
-
-    const needsValue = ![FilterOperator.IS_EMPTY, FilterOperator.IS_NOT_EMPTY].includes(localCondition.operator);
+    const needsValue = ![FilterOperator.IS_EMPTY, FilterOperator.IS_NOT_EMPTY].includes(cond.operator);
 
     return (
         <div className="flex items-center gap-2 w-full">
             {/* 속성 선택 */}
             <select
-                value={localCondition.property}
+                ref={propertyRef}
+                value={cond.property}
                 onChange={(e) => handlePropertyChange(e.target.value)}
                 className="border rounded text-14 py-1 px-2 min-w-[125px]"
             >
@@ -87,13 +79,14 @@ export const FilterConditionEditor: React.FC<{
             </select>
 
             {/* 연산자 선택 */}
-            {localCondition.property && (
+            {cond.property && (
                 <select
-                    value={localCondition.operator}
+                    ref={operatorRef}
+                    value={cond.operator}
                     onChange={(e) => handleOperatorChange(e.target.value as FilterOperator)}
                     className="border rounded text-14 py-1 px-2 min-w-[125px]"
                 >
-                    {getOperatorsForType(localCondition.type).map((op) => (
+                    {getOperatorsForType(cond.type).map((op) => (
                         <option key={op} value={op}>
                             {t_filterOperator(op)}
                         </option>
@@ -102,22 +95,43 @@ export const FilterConditionEditor: React.FC<{
             )}
 
             {/* 값 입력 */}
-            {needsValue && localCondition.property && localCondition.type === FilterType.TEXT ? (
-                <FilterTextInput defaultValue={localCondition.value?.toString()} onChange={handleValueChange} />
-            ) : localCondition.type === FilterType.NUMBER ? (
-                <FilterNumberInput defaultValue={localCondition.value?.toString()} onChange={handleValueChange} />
-            ) : localCondition.type === FilterType.DATE ? (
-                <FilterDateInput defaultValue={localCondition.value?.toString()} onChange={handleValueChange} />
-            ) : localCondition.type === FilterType.BOOLEAN ? (
-                <FilterBooleanInput defaultValue={localCondition.value?.toString()} onChange={handleValueChange} />
-            ) : localCondition.type === FilterType.SELECT ? (
+            {needsValue && cond.property && cond.type === FilterType.TEXT ? (
+                <FilterTextInput
+                    ref={valueRef as RefObject<HTMLInputElement>}
+                    defaultValue={cond.value?.toString()}
+                    onChange={handleValueChange}
+                />
+            ) : cond.type === FilterType.NUMBER ? (
+                <FilterNumberInput
+                    ref={valueRef as RefObject<HTMLInputElement>}
+                    defaultValue={cond.value?.toString()}
+                    onChange={handleValueChange}
+                />
+            ) : cond.type === FilterType.DATE ? (
+                <FilterDateInput
+                    ref={valueRef as RefObject<HTMLInputElement>}
+                    defaultValue={cond.value?.toString()}
+                    onChange={handleValueChange}
+                />
+            ) : cond.type === FilterType.BOOLEAN ? (
+                <FilterBooleanInput
+                    ref={valueRef as RefObject<HTMLSelectElement>}
+                    defaultValue={cond.value?.toString()}
+                    onChange={handleValueChange}
+                />
+            ) : cond.type === FilterType.SELECT ? (
                 <FilterSelectInput
-                    defaultValue={localCondition.value?.toString()}
+                    ref={valueRef as RefObject<HTMLSelectElement>}
+                    defaultValue={cond.value?.toString()}
                     onChange={handleValueChange}
                     options={[]}
                 />
-            ) : localCondition.type === FilterType.MULTI_SELECT ? (
-                <FilterMultiSelectInput defaultValue={localCondition.value?.toString()} onChange={handleValueChange} />
+            ) : cond.type === FilterType.MULTI_SELECT ? (
+                <FilterMultiSelectInput
+                    ref={valueRef as RefObject<HTMLInputElement>}
+                    defaultValue={cond.value?.toString()}
+                    onChange={handleValueChange}
+                />
             ) : (
                 <></>
             )}

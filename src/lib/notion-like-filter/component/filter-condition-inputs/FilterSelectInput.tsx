@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 
-export const FilterSelectInput: React.FC<{
+interface Props {
     defaultValue?: string;
     onChange?: (value: string) => any;
     options?: string[];
-}> = ({defaultValue, onChange, options = []}) => {
+}
+export const FilterSelectInput = forwardRef<HTMLSelectElement, Props>((props, ref) => {
+    const {defaultValue, onChange, options = []} = props;
     return (
         <select
+            ref={ref}
             defaultValue={defaultValue || ''}
             onChange={(e) => onChange && onChange(e.target.value)}
             placeholder="값 입력"
@@ -22,4 +25,4 @@ export const FilterSelectInput: React.FC<{
             ))}
         </select>
     );
-};
+});

@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 
-export const FilterDateInput: React.FC<{
+interface Props {
     defaultValue?: string;
     onChange?: (value: string) => any;
-}> = ({defaultValue, onChange}) => {
+}
+
+export const FilterDateInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
+    const {defaultValue, onChange} = props;
     return (
         <input
+            ref={ref}
             type="date"
             value={defaultValue || ''}
             onChange={(e) => onChange && onChange(e.target.value)}
@@ -13,4 +17,4 @@ export const FilterDateInput: React.FC<{
             className="border rounded text-14 py-1 px-2 min-w-[150px]"
         />
     );
-};
+});

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 
-export const FilterBooleanInput: React.FC<{
+interface Props {
     defaultValue?: string;
     onChange?: (value: string) => any;
-}> = ({defaultValue, onChange}) => {
+}
+export const FilterBooleanInput = forwardRef<HTMLSelectElement, Props>((props, ref) => {
+    const {defaultValue, onChange} = props;
     return (
         <select
+            ref={ref}
             defaultValue={defaultValue || ''}
             onChange={(e) => onChange && onChange(e.target.value)}
             placeholder="값 입력"
@@ -18,4 +21,4 @@ export const FilterBooleanInput: React.FC<{
             <option value="false">거짓</option>
         </select>
     );
-};
+});
