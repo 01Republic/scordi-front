@@ -24,6 +24,9 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
         console.log('data', data);
     };
 
+    form.register('filterQuery');
+    const filterQuery = form.watch('filterQuery');
+
     return (
         <AdminDetailPageLayout
             title="[Gmail] 새 이메일 파서 추가"
@@ -48,7 +51,10 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
                                 }}
                             />
 
-                            <ServiceDetectStep />
+                            <ServiceDetectStep
+                                defaultValue={filterQuery}
+                                onChange={(filterQuery) => form.setValue('filterQuery', filterQuery)}
+                            />
                         </ContentForm>
                     </FormProvider>
                 </LoadableBox>

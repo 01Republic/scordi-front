@@ -9,11 +9,14 @@ import {ContentPanel, ContentPanelList} from '^layouts/ContentLayout';
 import {GmailItemResultTable} from './GmailItemResultTable';
 
 interface ServiceDetectStepProps {
-    //
+    defaultValue?: string;
+    onChange: (filterQuery: string) => any;
 }
 
 export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
-    const {} = props;
+    const {defaultValue, onChange} = props;
+
+    const [filterQuery, setFilterQuery] = useState(FilterQuery.fromUrlParams(defaultValue || ''));
 
     const [qId, setQId] = useState(0);
     const [params, setParams] = useState<FindAllGmailItemQueryDto>({
@@ -21,6 +24,7 @@ export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
         page: 1,
         itemsPerPage: 200,
         order: {internalDate: 'DESC'},
+        filterQuery: filterQuery.toUrlParams(),
     });
 
     const {data, refetch, isFetching} = useQuery({
@@ -32,8 +36,6 @@ export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
     });
-
-    const [filterQuery, setFilterQuery] = useState(new FilterQuery());
 
     return (
         <ContentPanel title="[3단계] 이메일 내역에서 위 서비스의 메일만 추출하는 조건을 설정합니다." stickyHeader>
@@ -49,11 +51,13 @@ export const ServiceDetectStep = memo((props: ServiceDetectStepProps) => {
                             new PropertyDefinition('isAttached', '첨부파일유무', FilterType.BOOLEAN, ['있음', '없음']),
                             // new PropertyDefinition('isCompleted', '완료여부', FilterType.BOOLEAN),
                         ]}
-                        onSubmit={(query) => {
+                        onChange={(query) => {
                             const filterQuery = query.toUrlParams();
                             setParams((p) => ({...p, filterQuery}));
                             setQId((v) => v + 1);
                         }}
+                        isDirty={defaultValue !== params.filterQuery}
+                        onSubmit={(query) => onChange(query.toUrlParams())}
                     >
                         <div className="ml-auto flex items-center gap-4">
                             <button type="button" className="btn btn-sm btn-circle btn-ghost" onClick={() => refetch()}>

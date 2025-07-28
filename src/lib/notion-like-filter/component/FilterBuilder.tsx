@@ -11,61 +11,65 @@ import {
     t_logicalOperator,
 } from '../core';
 import {FilterConditionEditor} from './FilterConditionEditor';
+import {debounce} from 'lodash';
 
 // 필터 빌더 Props
 interface FilterBuilderProps extends WithChildren {
     filterQuery: FilterQuery;
     onFilterChange: (query: FilterQuery) => void;
     availableProperties?: PropertyDefinition[];
+    onChange?: (query: FilterQuery) => any;
     onSubmit?: (query: FilterQuery) => any;
+    isDirty?: boolean;
 }
 
 // 필터 빌더 메인 컴포넌트
-export const FilterBuilder: React.FC<FilterBuilderProps> = ({
-    filterQuery,
-    onFilterChange,
-    availableProperties = [],
-    onSubmit,
-    children,
-}) => {
+export const FilterBuilder: React.FC<FilterBuilderProps> = (props) => {
+    const {filterQuery, onFilterChange, availableProperties = [], onChange, onSubmit, isDirty = true, children} = props;
     const [showDebugPanel, setShowDebugPanel] = useState(false);
-    const applyButtonRef = useRef<HTMLButtonElement>(null);
+
+    const changeFilter = (query: FilterQuery) => {
+        const newFilterQuery = new FilterQuery(query.rootGroup);
+        onFilterChange(newFilterQuery);
+        return newFilterQuery;
+    };
+
+    const isValid = !filterQuery.isEmpty() && filterQuery.isValid();
+    const checkIsValid = (query: FilterQuery) => !query.isEmpty() && query.isValid();
+    const change = debounce((query: FilterQuery) => checkIsValid(query) && onChange && onChange(query), 500);
+    const submit = (query: FilterQuery) => checkIsValid(query) && onSubmit && onSubmit(query);
 
     const handleAddCondition = () => {
         const firstProp = availableProperties[0];
         if (!firstProp) return;
-        const newCondition = new FilterCondition(
-            firstProp.name,
-            getDefaultOperatorForType(firstProp.type),
-            null,
-            firstProp.type,
-        );
+        const property = firstProp.name;
+        const operator = getDefaultOperatorForType(firstProp.type);
+        const newCondition = new FilterCondition(property, operator, null, firstProp.type);
         filterQuery.addCondition(newCondition);
-        onFilterChange(new FilterQuery(filterQuery.rootGroup));
+        changeFilter(filterQuery);
     };
 
     const handleConditionUpdate = (index: number, condition: FilterCondition) => {
         filterQuery.rootGroup.conditions[index] = condition;
-        onFilterChange(new FilterQuery(filterQuery.rootGroup));
+        change(changeFilter(filterQuery));
     };
 
     const handleConditionDelete = (index: number) => {
         filterQuery.rootGroup.removeCondition(index);
-        onFilterChange(new FilterQuery(filterQuery.rootGroup));
+        change(changeFilter(filterQuery));
     };
 
     const handleOperatorChange = (operator: LogicalOperator) => {
         filterQuery.rootGroup.operator = operator;
-        onFilterChange(new FilterQuery(filterQuery.rootGroup));
+        change(changeFilter(filterQuery));
     };
 
     return (
         <div
             className="flex items-start gap-4"
             onKeyDown={(e) => {
-                const button = applyButtonRef.current;
-                if (e.key === 'Enter' && button) {
-                    button.click();
+                if (e.key === 'Enter') {
+                    change(filterQuery);
                     e.stopPropagation();
                     e.preventDefault();
                 }
@@ -148,18 +152,13 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = ({
 
                         {onSubmit && (
                             <button
-                                ref={applyButtonRef}
                                 type="button"
-                                onClick={() => {
-                                    if (!filterQuery.isEmpty() && filterQuery.isValid()) onSubmit(filterQuery);
-                                }}
+                                onClick={() => submit(filterQuery)}
                                 className={`btn btn-sm btn-scordi no-animation btn-animation ${
-                                    !filterQuery.isEmpty() && filterQuery.isValid()
-                                        ? ''
-                                        : 'opacity-50 pointer-events-none'
+                                    isValid && isDirty ? '' : 'opacity-50 pointer-events-none'
                                 }`}
                             >
-                                적용
+                                {isDirty ? `적용하기` : '적용했어요'}
                             </button>
                         )}
 
@@ -175,7 +174,7 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = ({
                         <div>
                             <p>
                                 조건 상태:{' '}
-                                {!filterQuery.isEmpty() && filterQuery.isValid() ? (
+                                {isValid ? (
                                     <b className="text-green-500">유효</b>
                                 ) : (
                                     <b className="text-red-500">미완성</b>

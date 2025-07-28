@@ -25,11 +25,16 @@ export class FilterCondition {
     static fromJSON(json: Record<string, any>): FilterCondition {
         let value: FilterValue | FilterValue[] | null = null;
 
-        if (json.value) {
-            if (Array.isArray(json.value)) {
-                value = json.value.map((v: any) => new FilterValue(v.value, v.type));
+        const jsonVal = json.value as
+            | (string | number | boolean | Date | null)
+            | (string | number | boolean | Date | null)[]
+            | null;
+
+        if (jsonVal) {
+            if (Array.isArray(jsonVal)) {
+                value = jsonVal.map((v) => new FilterValue(v, json.type));
             } else {
-                value = new FilterValue(json.value.value, json.value.type);
+                value = new FilterValue(jsonVal, json.type);
             }
         }
 
