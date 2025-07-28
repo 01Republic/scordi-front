@@ -8,6 +8,7 @@ import {ContentForm} from '^layouts/ContentLayout';
 import {ProductDto} from '^models/Product/type';
 import {SetParserNamePanel} from '../../_common/form/SetParserNamePanel';
 import {SearchProductPanel} from '../../_common/form/SearchProductPanel';
+import {ServiceDetectStep} from './ServiceDetectStep';
 
 export const EmailParserNewPage = memo(function EmailParserNewPage() {
     const router = useRouter();
@@ -46,6 +47,8 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
                                     form.setValue('productId', product?.id);
                                 }}
                             />
+
+                            <ServiceDetectStep />
                         </ContentForm>
                     </FormProvider>
                 </LoadableBox>
