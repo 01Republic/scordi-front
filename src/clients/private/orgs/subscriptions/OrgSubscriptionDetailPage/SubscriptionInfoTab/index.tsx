@@ -1,6 +1,8 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
+import {subHours} from 'date-fns';
 import {roundNumber} from '^utils/number';
+import {lpp} from '^utils/dateTime';
 import {Banknote, Calendar, Folder} from 'lucide-react';
 import {subscriptionSubjectAtom} from '../atom';
 import {StatusCard} from './StatusCard';
@@ -8,7 +10,6 @@ import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
 import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';
 import {SubscriptionBusinessInfoSection} from './SubscriptionBusinessInfoSection';
 import {ConnectedAssetCard} from './ConnectedAssetCard';
-import {lpp} from '^utils/dateTime';
 
 /**
  * 구독 상세p > 정보탭
@@ -37,7 +38,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 />
                 <StatusCard
                     label={'다음 결제 예정일'}
-                    value={subscription?.nextBillingDate ? lpp(subscription.nextBillingDate, 'P') : '-'}
+                    value={subscription?.nextBillingDate ? lpp(subHours(subscription.nextBillingDate, 9), 'P') : '-'}
                     icon={<Calendar className="size-5 text-white" />}
                     iconColor={'bg-pink-400'}
                 />
