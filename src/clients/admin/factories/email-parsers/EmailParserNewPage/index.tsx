@@ -37,8 +37,6 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
             ]}
         >
             <AdminPageContainer fluid>
-                <div></div>
-
                 <LoadableBox isLoading={isLoading} loadingType={2}>
                     <FormProvider {...form}>
                         <ContentForm onSubmit={form.handleSubmit(onSubmit)}>
