@@ -1,5 +1,7 @@
 export class DPayPlanData {
     // => to-be: DPayProject
+    title?: string;
+    subtitle?: string;
     hasCoverPage?: boolean;
     coverImgUrl?: string;
     hasMoveButton?: boolean; // 최종 CTA 버튼 사용여부
