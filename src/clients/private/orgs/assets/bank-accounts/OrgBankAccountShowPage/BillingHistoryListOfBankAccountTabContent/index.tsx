@@ -68,7 +68,7 @@ export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHi
                 hideTopPaginator
                 hideBottomPaginator={totalItemCount === 0}
             >
-                <BillingHistoryTableControl />
+                <BillingHistoryTableControl bankAccount={currentBankAccount} />
                 {isEmptyResult ? (
                     <EmptyTable message="결제된 내역이 없어요." />
                 ) : (
