@@ -1,15 +1,16 @@
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {ChevronLeft} from 'lucide-react';
-import cn from 'classnames';
-import {ExcelUploader} from '^clients/private/_modals/team-members/TeamMemberCreateByExcelModal/ExcelUploader';
 import React, {useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {useBillingHistoryListOfCreditCard, useCreateCreditCardBillingHistoryByExcel} from '^models/BillingHistory/hook';
+import {ChevronLeft} from 'lucide-react';
+import {toast} from 'react-hot-toast';
+import {useQueryClient} from '@tanstack/react-query';
+import cn from 'classnames';
+import {useOrgIdParam} from '^atoms/common';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {ExcelUploader} from '^clients/private/_modals/team-members/TeamMemberCreateByExcelModal/ExcelUploader';
+import {useCreateCreditCardBillingHistoryByExcel} from '^models/BillingHistory/hook';
 import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {errorToast} from '^api/api';
-import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
-import {toast} from 'react-hot-toast';
+import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
+import {BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
 
 interface BillingHistoryExcelUploadModalProps {
     isOpened: boolean;
@@ -19,12 +20,11 @@ interface BillingHistoryExcelUploadModalProps {
 
 export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadModalProps) => {
     const {isOpened, onClose, onCreate} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const queryClient = useQueryClient();
+    const orgId = useOrgIdParam();
     const {currentCreditCard} = useCurrentCreditCard();
     const [file, setFile] = useState<File>();
     const [errorMsg, setErrorMsg] = useState('');
-    const {reload: reloadBillingHistoryListOfCreditCard} = useBillingHistoryListOfCreditCard();
-    const {reload: reloadSubscriptionListOfCreditCard} = useSubscriptionListOfCreditCard();
 
     const {mutate, isPending} = useCreateCreditCardBillingHistoryByExcel();
 
@@ -41,8 +41,10 @@ export const BillingHistoryExcelUploadModal = (props: BillingHistoryExcelUploadM
             {orgId, creditCardId: currentCreditCard.id, file: formData},
             {
                 onSuccess: async () => {
-                    await reloadBillingHistoryListOfCreditCard();
-                    await reloadSubscriptionListOfCreditCard();
+                    await queryClient.invalidateQueries({
+                        queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                    });
+                    await queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.listOfCreditCard]});
                     toast.success(`${endNumber} 카드에 결제내역을 엑셀로 등록했어요.`);
                     onCreate && onCreate();
                 },

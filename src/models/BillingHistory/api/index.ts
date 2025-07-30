@@ -15,6 +15,7 @@ import {
 import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 import {UploadFileDto} from '^api/file.api';
 import {AxiosProgressEvent} from 'axios';
+import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
 
 const NAMESPACE = 'billing_histories';
 
@@ -39,10 +40,22 @@ export const billingHistoryApi = {
         return api.post<BillingHistoryDto>(`/${NAMESPACE}`, dto).then(oneDtoOf(BillingHistoryDto));
     },
 
+    createByManual: (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+        return api
+            .post<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories`, dto)
+            .then(oneDtoOf(BillingHistoryDto));
+    },
+
     // DEPRECATED => updateV2
     update: (id: number, dto: UpdateBillingHistoryRequestDto) => {
         const url = `/${NAMESPACE}/${id}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
+    },
+
+    updateByManual: (subscriptionId: number, id: number, dto: CreateBillingHistoryByManualRequestDto) => {
+        return api
+            .post<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories/${id}/by-manual`, dto)
+            .then(oneDtoOf(BillingHistoryDto));
     },
 
     updateV2: (id: number, dto: UpdateBillingHistoryRequestDtoV2) => {

@@ -1,14 +1,14 @@
-import {memo, useState} from 'react';
-import {useTranslation} from 'next-i18next';
-import {useCurrentUser} from '^models/User/hook';
-import {AdminUsersPageRoute} from '^pages/admin/users';
-import {UserAvatar} from '^models/User/components/UserAvatar';
-import {LinkTo} from '^components/util/LinkTo';
-import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
+import {LinkTo} from '^components/util/LinkTo';
 import {ChannelTalk_Url} from '^config/constants';
 import {serviceHost} from '^config/environments';
+import {UserAvatar} from '^models/User/components/UserAvatar';
+import {useCurrentUser} from '^models/User/hook';
+import {AdminUsersPageRoute} from '^pages/admin/users';
+import {Dropdown} from '^v3/share/Dropdown';
 import {ArrowRight, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const {t: tProfile} = useTranslation('profile');
@@ -45,12 +45,14 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                         alt={currentUser.name}
                                         className="w-8 h-8"
                                     />
-                                    <div>
-                                        <p className="text-sm font-semibold text-gray-900">
+                                    <div className="overflow-hidden">
+                                        <p className="w-full overflow-hidden overflow-ellipsis text-sm font-semibold text-gray-900">
                                             {currentUser.name}
                                             {t('orgTopBar.profileDropdown.nameSuffix')}
                                         </p>
-                                        <p className="text-12 text-gray-400">{currentUser.email}</p>
+                                        <p className="w-full overflow-hidden overflow-ellipsis text-12 text-gray-400">
+                                            {currentUser.email}
+                                        </p>
                                     </div>
                                 </div>
                             </li>

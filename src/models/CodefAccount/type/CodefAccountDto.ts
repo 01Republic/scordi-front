@@ -53,6 +53,12 @@ export class CodefAccountDto {
     // 의뢰인구분(회원구분) - [회원구분(신한카드만 사용)] “0”:신용카드회원, “1”:체크카드회원, “2”:연구비신용카드회원, “3”:프리플러스회원
     clientTypeLevel?: CodefClientTypeLevel;
 
+    errorData?: {
+        code: string;
+        message: string;
+        transactionId?: string;
+    };
+
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 

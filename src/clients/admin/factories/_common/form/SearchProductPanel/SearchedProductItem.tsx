@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
+import {Edit} from 'lucide-react';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {ProductDto} from '^models/Product/type';
 import {LinkTo} from '^components/util/LinkTo';
 import {AdminProductPageRoute} from '^pages/admin/products/[id]';
-import {Edit} from 'lucide-react';
 
 interface SearchedProductItemProps {
     product: ProductDto;

@@ -31,4 +31,3 @@ export const CheckBoxInput = memo((props: CheckBoxInputProps) => {
         </div>
     );
 });
-CheckBoxInput.displayName = 'CheckBoxInput';

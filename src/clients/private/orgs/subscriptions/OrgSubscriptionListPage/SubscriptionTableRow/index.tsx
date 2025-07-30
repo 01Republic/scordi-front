@@ -1,18 +1,9 @@
-import React, {memo} from 'react';
-import {toast} from 'react-hot-toast';
-import {useTranslation} from 'next-i18next';
-import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
-import {eventCut} from '^utils/event';
-import {Dropdown} from '^v3/share/Dropdown';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {
-    SubscriptionDto,
-    SubscriptionUsingStatus,
-    SubscriptionUsingStatusValues,
-    UpdateSubscriptionRequestDto,
-} from '^models/Subscription/types';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {subscriptionApi} from '^models/Subscription/api';
 import {
     LatestPayAmount,
     MemberCount,
@@ -22,27 +13,38 @@ import {
     SubscriptionProfile,
     SubscriptionUsingStatusTag,
 } from '^models/Subscription/components';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {subscriptionApi} from '^models/Subscription/api';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
-import {currentUserAtom} from '^models/User/atom';
-import {useRecoilValue} from 'recoil';
+import {
+    SubscriptionDto,
+    SubscriptionUsingStatus,
+    SubscriptionUsingStatusValues,
+    UpdateSubscriptionRequestDto,
+} from '^models/Subscription/types';
 import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {currentUserAtom} from '^models/User/atom';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {eventCut} from '^utils/event';
+import {Dropdown} from '^v3/share/Dropdown';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {debounce} from 'lodash';
 import {MoreHorizontal} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
     onDelete: (subscription: SubscriptionDto) => any;
     reload: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {t} = useTranslation('subscription');
-    const {subscription, onDelete, reload} = props;
+    const {subscription, onDelete, reload, isChecked, onCheck} = props;
     const currentUser = useRecoilValue(currentUserAtom);
 
     const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
@@ -53,12 +55,23 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             .finally(() => reload());
     }, 250);
 
-    const update = debounce(_update, 250);
-
     const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
+
+    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     return (
         <tr onClick={() => console.log(subscription)}>
+            <td className={`pr-1 pl-3 ${hoverBgColor}`}>
+                <label className={`flex justify-center items-center`}>
+                    <input
+                        type="checkbox"
+                        className="bg-white rounded checkbox checkbox-primary checkbox-xs"
+                        checked={isChecked}
+                        onChange={(e) => onCheck && onCheck(e.target.checked)}
+                    />
+                </label>
+            </td>
+
             {/* 서비스 명 */}
             <td>
                 <OpenButtonColumn href={showPagePath}>
@@ -143,7 +156,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             </td>
 
             {/* 결제수단 */}
-            <td className="pl-3 py-0">
+            <td className="py-0 pl-3">
                 <PayMethodSelect
                     payMethodSelectType={PayMethodSelectType.BOTH}
                     subscription={subscription}
