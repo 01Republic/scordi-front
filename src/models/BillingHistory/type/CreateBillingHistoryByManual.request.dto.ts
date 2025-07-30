@@ -14,7 +14,7 @@ export class CreateBillingHistoryByManualRequestDto {
     lastRequestedAt?: Date | null;
 
     // 결제금액
-    payAmount: number;
+    payAmount: string;
 
     // 결제화폐
     payCurrency: CurrencyCode;
