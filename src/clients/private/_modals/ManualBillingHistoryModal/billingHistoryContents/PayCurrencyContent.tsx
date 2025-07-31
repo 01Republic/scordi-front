@@ -15,12 +15,12 @@ export const PayCurrencyContent = memo((props: PayCurrencyContentProps) => {
     const {register, setValue} = useFormContext<ManualPaymentHistoryRegisterForm>();
 
     const handleDateChange = (code: CurrencyCode) => {
-        setValue('payCurrency', code, {shouldValidate: true});
+        setValue('payCurrency', code, {shouldValidate: true, shouldDirty: true});
     };
     return (
         <ContentBox label="결제 통화">
             <input type="hidden" {...register('payCurrency')} />
-            <PayCurrencySelect defaultValue={defaultValue?.payAmount?.code} onSelect={handleDateChange} />
+            <PayCurrencySelect defaultValue={defaultValue?.payAmount?.exchangedCurrency} onSelect={handleDateChange} />
         </ContentBox>
     );
 });

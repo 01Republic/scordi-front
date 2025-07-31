@@ -13,10 +13,14 @@ import {PaidAtContent} from '^clients/private/_modals/ManualBillingHistoryModal/
 import {BillingHistoryStatusContent} from '^clients/private/_modals/ManualBillingHistoryModal/billingHistoryContents/BillingHistoryStatusContent';
 import {PayCurrencyContent} from '^clients/private/_modals/ManualBillingHistoryModal/billingHistoryContents/PayCurrencyContent';
 import {PayAmountContent} from '^clients/private/_modals/ManualBillingHistoryModal/billingHistoryContents/PayAmountContent';
+import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
 
 interface ManualBillingHistoryModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onHandleSubmit: (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => Promise<void>;
+    isLoading: boolean;
+    readonly?: '결제수단' | '구독';
     subscription?: SubscriptionDto;
     creditCard?: CreditCardDto;
     bankAccount?: BankAccountDto;
@@ -24,14 +28,12 @@ interface ManualBillingHistoryModalProps {
 }
 
 export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalProps) => {
-    const {isOpen, onClose} = props;
+    const {isOpen, onClose, onHandleSubmit, isLoading, readonly} = props;
     const {subscription, creditCard, bankAccount, billingHistory} = props;
 
     const subscriptionName = subscription?.product?.name();
     const creditCardName = creditCard?.name;
     const bankAccountName = bankAccount?.name;
-
-    const subTitle = subscriptionName || creditCardName || bankAccountName;
 
     const methods = useForm<ManualPaymentHistoryRegisterForm>({
         mode: 'all',
@@ -39,35 +41,46 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
             subscriptionId: subscription?.id,
             creditCardId: creditCard?.id,
             bankAccountId: bankAccount?.id,
+            paidAt: billingHistory?.paidAt,
+            lastRequestedAt: billingHistory?.lastRequestedAt,
+            payCurrency: billingHistory?.payAmount?.exchangedCurrency,
+            payDate: billingHistory?.paidAt || billingHistory?.lastRequestedAt || undefined,
+            billingHistoryStatus: billingHistory?.about,
         },
     });
     const {
         handleSubmit,
         reset,
-        formState: {isValid},
+        formState: {isValid, isDirty},
     } = methods;
-
-    const isLoading = false;
 
     const onSubmit = (data: ManualPaymentHistoryRegisterForm) => {
         const {creditCardId, bankAccountId, payAmount, payCurrency} = data;
         const {subscriptionId, payDate, billingHistoryStatus} = data;
 
-        const dateKey = billingHistoryStatus === 'PaySuccess' ? 'paidAt' : 'lastRequestedAt';
-        const params = {
+        const formatPayAmount = payAmount?.toString().replace(/,/g, '');
+        const dto = {
             creditCardId: creditCardId ? creditCardId : null,
             bankAccountId: bankAccountId ? bankAccountId : null,
-            payAmount,
+            payAmount: formatPayAmount,
             payCurrency,
-            [dateKey]: payDate,
-        };
+            paidAt: billingHistoryStatus === 'PaySuccess' ? payDate : null,
+            lastRequestedAt: billingHistoryStatus === 'PayFail' ? payDate : null,
+        } as CreateBillingHistoryByManualRequestDto;
+
+        onHandleSubmit(subscriptionId, dto).then(() => {
+            onClose();
+        });
     };
+
+    const isSubmitDisabled = !isValid || (!!billingHistory && !isDirty);
 
     const onCloseModal = () => {
         reset({
+            subscriptionId: undefined,
             creditCardId: undefined,
             bankAccountId: undefined,
-            payAmount: '',
+            payAmount: undefined,
             payCurrency: undefined,
             payDate: undefined,
             billingHistoryStatus: undefined,
@@ -81,7 +94,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
                 <section className="flex flex-col gap-1 w-full">
                     <div className="flex justify-between items-start w-full">
                         <header className="font-semibold text-20">결제내역 직접 추가</header>
-                        <X className="cursor-pointer size-6" onClick={onClose} />
+                        <X className="cursor-pointer size-6" onClick={onCloseModal} />
                     </div>
                     <span className="text-gray-700 text-14">
                         "{subscriptionName || creditCardName || bankAccountName}" 결제 내역을 직접 추가할 수 있어요.
@@ -91,10 +104,10 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
                     <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-10">
                         <div className="grid grid-cols-2 gap-6 gap-x-4 md:gap-x-8">
                             {/* 구독 */}
-                            <SubscriptionContent defaultValue={subscription} />
+                            <SubscriptionContent defaultValue={subscription} readonly={readonly} />
 
                             {/* 결제수단 */}
-                            <PaymentContent defaultValue={creditCard || bankAccount} />
+                            <PaymentContent defaultValue={creditCard || bankAccount} readonly={readonly} />
 
                             {/* 결제 일 */}
                             <PaidAtContent defaultValue={billingHistory} />
@@ -112,10 +125,10 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
                         <button
                             type="submit"
                             className={`btn btn-md text-16 btn-scordi btn-block ${
-                                !isValid ? 'btn-disabled2' : 'btn-scordi'
+                                isSubmitDisabled ? 'btn-disabled2' : 'btn-scordi'
                             } ${isLoading ? 'link_to-loading' : ''}`}
                         >
-                            결제내역 추가하기
+                            {billingHistory ? '결제내역 수정하기' : '결제내역 추가하기'}
                         </button>
                     </form>
                 </FormProvider>

@@ -19,7 +19,7 @@ export const BillingHistoryStatusContent = memo((props: BillingHistoryStatusCont
             <input type="hidden" {...register('billingHistoryStatus', {required: true})} />
             <BillingHistoryStatusSelect
                 defaultValue={defaultValue?.about}
-                onSelect={(item) => setValue('billingHistoryStatus', item, {shouldValidate: true})}
+                onSelect={(item) => setValue('billingHistoryStatus', item, {shouldValidate: true, shouldDirty: true})}
             />
         </ContentBox>
     );

@@ -34,7 +34,7 @@ export const BillingHistoryStatusSelect = memo((props: BillingHistoryStatusSelec
                 }}
             >
                 {billingHistoryStatusToShow ? (
-                    selected === BillingHistoryStatus.PaySuccess ? (
+                    billingHistoryStatusToShow === BillingHistoryStatus.PaySuccess ? (
                         <TagUI className="bg-green-200 text-14">결제됨</TagUI>
                     ) : (
                         <TagUI className="bg-red-400 text-white text-14">실패</TagUI>

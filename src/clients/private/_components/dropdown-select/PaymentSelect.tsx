@@ -1,24 +1,25 @@
 import React, {memo, useRef, useState} from 'react';
+import {ChevronDown} from 'lucide-react';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
+import {Loading} from '^v3/share/Loading';
+import {DropdownContent} from '^v3/share/Dropdown';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
-import {ChevronDown} from 'lucide-react';
-import {DropdownContent} from '^v3/share/Dropdown';
-import {Loading} from '^v3/share/Loading';
 
 export interface PaymentSelectProps {
     defaultValue?: CreditCardDto | BankAccountDto;
-    readonly?: boolean;
-    isLoading?: boolean;
     creditCards?: CreditCardDto[];
     bankAccounts?: BankAccountDto[];
+    readonly?: boolean;
+    isLoading?: boolean;
     onSelect: (item: CreditCardDto | BankAccountDto) => void;
     onOpen?: () => void;
 }
 
 export const PaymentSelect = memo((props: PaymentSelectProps) => {
-    const {defaultValue, readonly, isLoading, creditCards = [], bankAccounts = [], onSelect, onOpen} = props;
+    const {defaultValue, creditCards = [], bankAccounts = []} = props;
+    const {readonly, isLoading, onSelect, onOpen} = props;
 
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<CreditCardDto | BankAccountDto | null>(defaultValue || null);

@@ -9,19 +9,24 @@ import {ManualPaymentHistoryRegisterForm} from '^clients/private/_modals/ManualB
 
 interface SubscriptionContentProps {
     defaultValue?: SubscriptionDto;
+    isAllUpdate?: boolean;
+    readonly?: '결제수단' | '구독';
 }
 
 export const SubscriptionContent = memo((props: SubscriptionContentProps) => {
-    const {defaultValue} = props;
+    const {defaultValue, readonly} = props;
     const orgId = useOrgIdParam();
     const {setValue, register} = useFormContext<ManualPaymentHistoryRegisterForm>();
     const {reload, result, isLoading} = useSubscription3(
         orgId,
         {
-            where: {organizationId: defaultValue?.organizationId},
+            where: {organizationId: orgId},
+            itemsPerPage: 0,
         },
         true,
     );
+
+    const notChange = readonly === '구독';
 
     return (
         <ContentBox label="구독">
@@ -30,11 +35,11 @@ export const SubscriptionContent = memo((props: SubscriptionContentProps) => {
                 defaultValue={defaultValue || undefined}
                 isLoading={isLoading}
                 subscription={result.items}
-                onSelect={(item) => setValue('subscriptionId', item.id, {shouldValidate: true})}
+                onSelect={(item) => setValue('subscriptionId', item.id, {shouldValidate: true, shouldDirty: true})}
                 onOpen={() => {
                     reload();
                 }}
-                readonly={!!defaultValue}
+                readonly={notChange}
             />
         </ContentBox>
     );

@@ -11,22 +11,19 @@ interface PaidAtContentProps {
 
 export const PaidAtContent = memo((props: PaidAtContentProps) => {
     const {defaultValue} = props;
-    const [selectDate, setSelectDate] = useState<Date | null>(null);
+    const initialDate = defaultValue?.paidAt || defaultValue?.lastRequestedAt || null;
+    const [selectDate, setSelectDate] = useState<Date | null>(initialDate);
     const {register, setValue} = useFormContext<ManualPaymentHistoryRegisterForm>();
 
     const handleDateChange = (date: Date) => {
         setSelectDate(date);
-        setValue('payDate', date, {shouldValidate: true});
+        setValue('payDate', date, {shouldValidate: true, shouldDirty: true});
     };
-
-    const paidAt = defaultValue?.paidAt || undefined;
-    const lastRequestedAt = defaultValue?.lastRequestedAt || undefined;
 
     return (
         <ContentBox label="결제일">
             <input type="hidden" {...register('payDate')} />
             <SingleCalendar
-                defaultValue={paidAt || lastRequestedAt}
                 date={selectDate}
                 onChange={handleDateChange}
                 textColor="text-gray-900"

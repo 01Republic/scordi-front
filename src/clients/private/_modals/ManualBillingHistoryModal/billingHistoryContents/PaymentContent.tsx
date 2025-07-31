@@ -12,11 +12,11 @@ import {PaymentSelect} from '^_components/dropdown-select/PaymentSelect';
 interface PaymentContentProps {
     defaultValue?: CreditCardDto | BankAccountDto | null;
     onClick?: (value: CreditCardDto | BankAccountDto) => void;
-    readonly?: boolean;
+    readonly?: '결제수단' | '구독';
 }
 
 export const PaymentContent = memo((props: PaymentContentProps) => {
-    const {defaultValue} = props;
+    const {defaultValue, readonly} = props;
     const orgId = useOrgIdParam();
     const {setValue, register} = useFormContext<ManualPaymentHistoryRegisterForm>();
     const {
@@ -44,13 +44,15 @@ export const PaymentContent = memo((props: PaymentContentProps) => {
         true,
     );
 
+    const noChange = readonly === '결제수단';
+
     const handleSelect = (item: CreditCardDto | BankAccountDto) => {
         if (item instanceof CreditCardDto) {
-            setValue('creditCardId', item.id, {shouldValidate: true});
-            setValue('bankAccountId', undefined, {shouldValidate: true});
+            setValue('creditCardId', item.id, {shouldValidate: true, shouldDirty: true});
+            setValue('bankAccountId', undefined, {shouldValidate: true, shouldDirty: true});
         } else {
-            setValue('bankAccountId', item.id, {shouldValidate: true});
-            setValue('creditCardId', undefined, {shouldValidate: true});
+            setValue('bankAccountId', item.id, {shouldValidate: true, shouldDirty: true});
+            setValue('creditCardId', undefined, {shouldValidate: true, shouldDirty: true});
         }
     };
 
@@ -68,7 +70,7 @@ export const PaymentContent = memo((props: PaymentContentProps) => {
                     bankAccountReload();
                     creditCardReload();
                 }}
-                readonly={!!defaultValue}
+                readonly={noChange}
             />
         </ContentBox>
     );

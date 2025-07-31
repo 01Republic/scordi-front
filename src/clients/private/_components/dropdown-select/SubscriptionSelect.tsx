@@ -20,8 +20,8 @@ export const SubscriptionSelect = memo((props: SubscriptionSelectProps) => {
 
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<SubscriptionDto | null>(defaultValue || null);
+    const subscriptionToShow = selected ? selected : defaultValue ? defaultValue : null;
     const [triggerRef, dropdownWidth] = useElementWidth<HTMLDivElement>();
-    const subscriptionToShow = defaultValue || selected;
 
     const handleSelect = (item: SubscriptionDto) => {
         setSelected(item);
