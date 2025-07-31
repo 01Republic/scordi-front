@@ -42,7 +42,7 @@ export const billingHistoryApi = {
 
     createByManual: (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => {
         return api
-            .post<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories`, dto)
+            .post<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories/by-manual`, dto)
             .then(oneDtoOf(BillingHistoryDto));
     },
 

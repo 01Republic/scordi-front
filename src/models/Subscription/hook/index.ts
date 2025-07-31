@@ -235,14 +235,13 @@ export const useWorkspaceSubscriptionCount = (orgId: number) => {
 /* tanstack Query   */
 
 //구독 조회
-export const useSubscription3 = (params: FindAllSubscriptionsQuery) => {
-    const orgId = useOrgIdParam();
+export const useSubscription3 = (orgId: number, params: FindAllSubscriptionsQuery, manual?: boolean) => {
     const [query, setQuery] = useState(params);
     const queryResult = useQuery({
         queryKey: [SUBSCRIPTION_HOOK_KEY.base, orgId, query],
         queryFn: () => subscriptionApi.index(query).then((res) => res.data),
         initialData: Paginated.init(),
-        enabled: !!orgId,
+        enabled: manual ? false : !!orgId,
     });
 
     return usePaginateUtils({
