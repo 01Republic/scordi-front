@@ -54,7 +54,7 @@ export const billingHistoryApi = {
 
     updateByManual: (subscriptionId: number, id: number, dto: CreateBillingHistoryByManualRequestDto) => {
         return api
-            .post<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories/${id}/by-manual`, dto)
+            .patch<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories/${id}/by-manual`, dto)
             .then(oneDtoOf(BillingHistoryDto));
     },
 
