@@ -93,7 +93,9 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
             <div className="flex flex-col gap-5 justify-between p-8 max-w-2xl modal-box keep-all ">
                 <section className="flex flex-col gap-1 w-full">
                     <div className="flex justify-between items-start w-full">
-                        <header className="font-semibold text-20">결제내역 직접 추가</header>
+                        <header className="font-semibold text-20">
+                            {billingHistory ? '직접 결제내역 수정' : '결제내역 직접 추가'}
+                        </header>
                         <X className="cursor-pointer size-6" onClick={onCloseModal} />
                     </div>
                     <span className="text-gray-700 text-14">
