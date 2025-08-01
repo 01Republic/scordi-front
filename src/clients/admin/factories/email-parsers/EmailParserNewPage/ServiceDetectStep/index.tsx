@@ -36,7 +36,7 @@ export const ServiceDetectStep = memo((props: Props) => {
         queryKey: ['ServiceDetectStep', 'emailItems', params, qId],
         queryFn: async () => invoiceAccountEmailItemsForAdminApi.index(params).then((res) => res.data),
         initialData: Paginated.init(),
-        // refetchOnMount: false,
+        refetchOnMount: false,
         retryOnMount: false,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,

@@ -7,7 +7,7 @@ import {useQuery} from '@tanstack/react-query';
 import {invoiceAccountEmailItemsForAdminApi} from '^models/InvoiceAccount/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {EmailViewer} from './EmailViewer';
-import {TargetPropertyTextItem, TargetPropertyMoneyItem} from './TargetPropertyItem';
+import {TargetPropertyTextItem, TargetPropertyMoneyItem, TargetPropertyDateItem} from './TargetPropertyItem';
 
 interface ParsingOCRSettingStepProps {}
 
@@ -105,9 +105,9 @@ export const ParsingOCRSettingStep = memo((props: ParsingOCRSettingStepProps) =>
                                 <TargetPropertyMoneyItem title="부가세" emailItem={email} content={html} />
                                 <TargetPropertyTextItem title="결제수단(카드번호)" emailItem={email} content={html} />
                                 <TargetPropertyTextItem title="청구서 파일 주소" emailItem={email} content={html} />
-                                <TargetPropertyTextItem title="청구일시" emailItem={email} content={html} />
+                                <TargetPropertyDateItem title="청구일시" emailItem={email} content={html} />
                                 <TargetPropertyTextItem title="결제완료여부" emailItem={email} content={html} />
-                                <TargetPropertyTextItem title="결제완료일시" emailItem={email} content={html} />
+                                <TargetPropertyDateItem title="결제완료일시" emailItem={email} content={html} />
                                 <TargetPropertyTextItem
                                     title="워크스페이스명"
                                     emailItem={email}
@@ -115,7 +115,7 @@ export const ParsingOCRSettingStep = memo((props: ParsingOCRSettingStepProps) =>
                                     optional
                                 />
                                 <TargetPropertyTextItem title="플랜명" emailItem={email} content={html} optional />
-                                <TargetPropertyTextItem title="다음결제예정일" emailItem={email} content={html} />
+                                <TargetPropertyDateItem title="다음결제예정일" emailItem={email} content={html} />
                                 <TargetPropertyTextItem
                                     title="결제 계정수(시트수)"
                                     emailItem={email}
