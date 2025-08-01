@@ -16,7 +16,7 @@ export const PayAmountContent = memo((props: PayCurrencyContentProps) => {
     return (
         <ContentBox label="결제금액">
             <input
-                defaultValue={defaultValue?.payAmount?.amount}
+                defaultValue={defaultValue?.abroadPayAmount?.amount}
                 placeholder="결제금액 입력"
                 {...register('payAmount', {required: true, onChange: inputTextToCurrencyFormat})}
                 className="flex items-center justify-between cursor-pointer rounded-lg px-3 py-4 text-14 whitespace-nowrap ring-1 ring-inset ring-gray-300 placeholder:text-gray-500"

@@ -14,11 +14,14 @@ import {BillingHistoryStatusContent} from '^clients/private/_modals/ManualBillin
 import {PayCurrencyContent} from '^clients/private/_modals/ManualBillingHistoryModal/billingHistoryContents/PayCurrencyContent';
 import {PayAmountContent} from '^clients/private/_modals/ManualBillingHistoryModal/billingHistoryContents/PayAmountContent';
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
+import {errorToast} from '^api/api';
 
 interface ManualBillingHistoryModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onHandleSubmit: (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => Promise<void>;
+    onUpdate?: (dto: UpdateBillingHistoryByManualRequestDto) => Promise<void>;
+    onCreate?: (dto: CreateBillingHistoryByManualRequestDto) => Promise<void>;
     isLoading: boolean;
     readonly?: '결제수단' | '구독';
     subscription?: SubscriptionDto;
@@ -28,7 +31,8 @@ interface ManualBillingHistoryModalProps {
 }
 
 export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalProps) => {
-    const {isOpen, onClose, onHandleSubmit, isLoading, readonly} = props;
+    const {onUpdate, onCreate, onClose} = props;
+    const {isOpen, isLoading, readonly} = props;
     const {subscription, creditCard, bankAccount, billingHistory} = props;
 
     const subscriptionName = subscription?.product?.name();
@@ -43,7 +47,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
             bankAccountId: bankAccount?.id,
             paidAt: billingHistory?.paidAt,
             lastRequestedAt: billingHistory?.lastRequestedAt,
-            payCurrency: billingHistory?.payAmount?.exchangedCurrency,
+            payCurrency: billingHistory?.abroadPayAmount?.code,
             payDate: billingHistory?.paidAt || billingHistory?.lastRequestedAt || undefined,
             billingHistoryStatus: billingHistory?.about,
         },
@@ -58,19 +62,26 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
         const {creditCardId, bankAccountId, payAmount, payCurrency} = data;
         const {subscriptionId, payDate, billingHistoryStatus} = data;
 
-        const formatPayAmount = payAmount?.toString().replace(/,/g, '');
-        const dto = {
-            creditCardId: creditCardId ? creditCardId : null,
-            bankAccountId: bankAccountId ? bankAccountId : null,
+        if (!payAmount || !payCurrency) return;
+
+        const formatPayAmount = payAmount.toString().replace(/,/g, '');
+
+        const dto: CreateBillingHistoryByManualRequestDto = {
+            subscriptionId: subscriptionId ? subscriptionId : undefined,
+            creditCardId: creditCardId ? creditCardId : undefined,
+            bankAccountId: bankAccountId ? bankAccountId : undefined,
             payAmount: formatPayAmount,
             payCurrency,
             paidAt: billingHistoryStatus === 'PaySuccess' ? payDate : null,
             lastRequestedAt: billingHistoryStatus === 'PayFail' ? payDate : null,
-        } as CreateBillingHistoryByManualRequestDto;
+        };
 
-        onHandleSubmit(subscriptionId, dto).then(() => {
-            onClose();
-        });
+        onCreate?.(dto)
+            .then(() => onClose())
+            .catch((e) => errorToast(e.response.data.message));
+        onUpdate?.(dto)
+            .then(() => onClose())
+            .catch((e) => errorToast(e.response.data.message));
     };
 
     const isSubmitDisabled = !isValid || (!!billingHistory && !isDirty);

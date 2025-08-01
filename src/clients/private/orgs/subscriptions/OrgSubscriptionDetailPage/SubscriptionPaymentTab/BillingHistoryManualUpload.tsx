@@ -3,8 +3,8 @@ import {PencilLine} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
-import {useCreateByManualBillingHistory} from '^models/BillingHistory/hook';
 import {ManualBillingHistoryModal} from 'src/clients/private/_modals/ManualBillingHistoryModal';
+import {useCreateSubscriptionBillingHistory} from '^models/BillingHistory/hook';
 
 interface BillingHistoryManualUploadProps {
     subscription: SubscriptionDto;
@@ -14,11 +14,12 @@ export const BillingHistoryManualUpload = memo((props: BillingHistoryManualUploa
     const {subscription} = props;
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useCreateByManualBillingHistory();
+    const {mutateAsync, isPending} = useCreateSubscriptionBillingHistory();
 
-    const onCreate = async (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+    const onCreate = async (dto: CreateBillingHistoryByManualRequestDto) => {
+        if (!dto.subscriptionId) return;
         await mutateAsync({
-            subscriptionId,
+            subscriptionId: dto.subscriptionId,
             dto: {
                 ...dto,
             },
@@ -35,7 +36,7 @@ export const BillingHistoryManualUpload = memo((props: BillingHistoryManualUploa
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 isLoading={isPending}
-                onHandleSubmit={onCreate}
+                onCreate={onCreate}
                 subscription={subscription}
                 readonly="구독"
             />

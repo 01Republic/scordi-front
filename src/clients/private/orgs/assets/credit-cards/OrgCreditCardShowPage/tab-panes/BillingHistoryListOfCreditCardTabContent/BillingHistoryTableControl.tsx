@@ -10,8 +10,9 @@ import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
 import {BillingHistoryTableTitle} from './BillingHistoryTableTitle';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
 import {toast} from 'react-hot-toast';
-import {useCreateByManualBillingHistory} from '^models/BillingHistory/hook';
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {useCreateCreditCardBillingHistory} from '^models/BillingHistory/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 
 interface BillingHistoryTableControlProps {
     creditCard: CreditCardDto;
@@ -74,13 +75,17 @@ interface BillingHistoryManualUploadModalProps {
 
 export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManualUploadModalProps) => {
     const {creditCard} = props;
+    const orgId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useCreateByManualBillingHistory();
+    const {mutateAsync, isPending} = useCreateCreditCardBillingHistory();
 
-    const onCreate = async (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+    const onCreate = async (dto: CreateBillingHistoryByManualRequestDto) => {
+        if (!dto.subscriptionId) return;
         await mutateAsync({
-            subscriptionId,
+            orgId,
+            id: creditCardId,
             dto: {
                 ...dto,
             },
@@ -97,7 +102,7 @@ export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManua
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 isLoading={isPending}
-                onHandleSubmit={onCreate}
+                onCreate={(dto) => onCreate(dto)}
                 creditCard={creditCard}
                 readonly="결제수단"
             />

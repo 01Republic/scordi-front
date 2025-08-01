@@ -8,11 +8,10 @@ import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/Billi
 import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 import {Dropdown} from '^v3/share/Dropdown';
 import {eventCut} from '^utils/event';
-import {MoreHorizontal, PencilLine} from 'lucide-react';
-import {useCreateByManualBillingHistory, useUpdateByManualBillingHistory} from '^models/BillingHistory/hook';
-import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {MoreHorizontal} from 'lucide-react';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
-import {BankAccountDto} from '^models/BankAccount/type';
+import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
+import {useUpdateCreditCardBillingHistory} from '^models/BillingHistory/hook';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
@@ -24,7 +23,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
     const {item: billingHistory, onSaved, onDelete} = props;
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useUpdateByManualBillingHistory();
+    const {mutateAsync, isPending} = useUpdateCreditCardBillingHistory();
 
     const update = debounce((dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
@@ -34,9 +33,12 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
             .finally(() => onSaved && onSaved());
     }, 250);
 
-    const onUpdateBillingManual = async (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+    const onUpdateBillingManual = async (dto: UpdateBillingHistoryByManualRequestDto) => {
+        if (!billingHistory.creditCardId) return;
+
         await mutateAsync({
-            subscriptionId,
+            orgId: billingHistory.organizationId,
+            cardId: billingHistory.creditCardId,
             id: billingHistory.id,
             dto: {
                 ...dto,
@@ -121,18 +123,18 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                         )}
                     </Dropdown>
                 </td>
+                <ManualBillingHistoryModal
+                    isOpen={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    isLoading={isPending}
+                    onUpdate={onUpdateBillingManual}
+                    billingHistory={billingHistory}
+                    creditCard={billingHistory?.creditCard || undefined}
+                    bankAccount={billingHistory?.bankAccount || undefined}
+                    subscription={billingHistory?.subscription}
+                    readonly="결제수단"
+                />
             </tr>
-            <ManualBillingHistoryModal
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                isLoading={isPending}
-                onHandleSubmit={onUpdateBillingManual}
-                billingHistory={billingHistory}
-                creditCard={billingHistory?.creditCard || undefined}
-                bankAccount={billingHistory?.bankAccount || undefined}
-                subscription={billingHistory?.subscription}
-                readonly="결제수단"
-            />
         </>
     );
 });

@@ -1,14 +1,15 @@
 import React, {memo, useState} from 'react';
-import {PencilLine} from 'lucide-react';
 import Image from 'next/image';
-import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
-import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
-import excelIcon from '^images/icon/excelIcon.png';
-import {BankAccountDto} from '^models/BankAccount/type';
-import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
-import {useCreateByManualBillingHistory} from '^models/BillingHistory/hook';
-import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {PencilLine} from 'lucide-react';
 import {toast} from 'react-hot-toast';
+import excelIcon from '^images/icon/excelIcon.png';
+import {useOrgIdParam} from '^atoms/common';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {useCreateBankAccountBillingHistory} from '^models/BillingHistory/hook';
+import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHandlerOfBankAccount';
+import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
+import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
 
 interface BillingHistoryTableControlProps {
     bankAccount: BankAccountDto;
@@ -58,13 +59,15 @@ interface BillingHistoryManualUploadModalProps {
 
 export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManualUploadModalProps) => {
     const {bankAccount} = props;
+    const orgId = useOrgIdParam();
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useCreateByManualBillingHistory();
+    const {mutateAsync, isPending} = useCreateBankAccountBillingHistory();
 
-    const onCreate = async (subscriptionId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+    const onCreate = async (dto: CreateBillingHistoryByManualRequestDto) => {
         await mutateAsync({
-            subscriptionId,
+            orgId,
+            id: bankAccount.id,
             dto: {
                 ...dto,
             },
@@ -81,7 +84,7 @@ export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManua
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 isLoading={isPending}
-                onHandleSubmit={onCreate}
+                onCreate={onCreate}
                 bankAccount={bankAccount}
                 readonly="결제수단"
             />
