@@ -9,7 +9,8 @@ import {unitFormat} from '^utils/number';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
-import {MoreHorizontal} from 'lucide-react';
+import {Check, MoreHorizontal, X} from 'lucide-react';
+import Tippy from '@tippyjs/react';
 
 interface Options {
     reload: () => Promise<any>;
@@ -102,6 +103,25 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
             th: '등록된 카드수',
             className: 'text-12',
             render: (account: CodefAccountDto) => <div>{unitFormat((account.creditCards || []).length)}</div>,
+        },
+        {
+            th: '에러 여부',
+            className: 'text-12',
+            render: (account: CodefAccountDto) => (
+                <div>
+                    {account.errorData && (
+                        <Tippy
+                            content={
+                                !account.errorData.extraMessage
+                                    ? account.errorData.message
+                                    : JSON.stringify(account.errorData.extraMessage)
+                            }
+                        >
+                            <Check className="text-red-500" />
+                        </Tippy>
+                    )}
+                </div>
+            ),
         },
         {
             th: '',

@@ -56,6 +56,7 @@ export class CodefAccountDto {
     errorData?: {
         code: string;
         message: string;
+        extraMessage: string;
         transactionId?: string;
     };
 

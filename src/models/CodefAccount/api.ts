@@ -118,4 +118,11 @@ export const codefAccountAdminApi = {
         const params = {organizationId};
         return api.delete(url, {params});
     },
+
+    // 계정 에러 초기화
+    resetError(organizationId: number, id: number) {
+        const url = `/admin/codef-accounts/${id}/reset-error`;
+        const body = {organizationId};
+        return api.patch(url, body);
+    },
 };
