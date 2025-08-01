@@ -14,7 +14,12 @@ import {
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
 } from '../type';
-import {billingHistoryApi} from '../api';
+import {
+    bankAccountBillingHistoryApi,
+    billingHistoryApi,
+    creditCardBillingHistoryApi,
+    subscriptionBillingHistoryApi,
+} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
@@ -26,11 +31,11 @@ import {
 } from '../atom';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {ErrorResponse} from '^models/User/types';
-import {UploadFileDto} from '^api/file.api';
 import {useState} from 'react';
 import {Paginated} from '^types/utils/paginated.dto';
 import {APP_BILLING_HISTORY_HOOK_KEY, BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
 
 export const useBillingHistoriesV3 = () => useBillingHistories(billingHistoriesAtom);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -297,8 +302,8 @@ export const useCreateCreditCardBillingHistoryByExcel = () => {
     });
 };
 
-//결제내역 수동등록
-export const useCreateByManualBillingHistory = () => {
+//구독 상세p/결제내역 수동등록
+export const useCreateSubscriptionBillingHistory = () => {
     const queryClient = useQueryClient();
     return useMutation<
         BillingHistoryDto,
@@ -306,7 +311,7 @@ export const useCreateByManualBillingHistory = () => {
         {subscriptionId: number; dto: CreateBillingHistoryByManualRequestDto}
     >({
         mutationFn: ({subscriptionId, dto}) =>
-            billingHistoryApi.createByManual(subscriptionId, dto).then((res) => res.data),
+            subscriptionBillingHistoryApi.createByManual(subscriptionId, dto).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
             queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
@@ -315,16 +320,88 @@ export const useCreateByManualBillingHistory = () => {
     });
 };
 
-//수동 결제내역 수정
-export const useUpdateByManualBillingHistory = () => {
+//구독 상세p/ 수동 결제내역 수정
+export const useUpdateSubscriptionBillingHistory = () => {
     const queryClient = useQueryClient();
     return useMutation<
         BillingHistoryDto,
         ErrorResponse,
-        {subscriptionId: number; id: number; dto: CreateBillingHistoryByManualRequestDto}
+        {subscriptionId: number; id: number; dto: UpdateBillingHistoryByManualRequestDto}
     >({
         mutationFn: ({subscriptionId, id, dto}) =>
-            billingHistoryApi.updateByManual(subscriptionId, id, dto).then((res) => res.data),
+            subscriptionBillingHistoryApi.updateByManual(subscriptionId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//카드 상세p/결제내역 수동등록
+export const useCreateCreditCardBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; id: number; dto: CreateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, id, dto}) =>
+            creditCardBillingHistoryApi.createByManual(orgId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//카드 상세p/수동 결제내역 수정
+export const useUpdateCreditCardBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; cardId: number; id: number; dto: UpdateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, cardId, id, dto}) =>
+            creditCardBillingHistoryApi.updateByManual(orgId, cardId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//계좌 상세p/결제내역 수동등록
+export const useCreateBankAccountBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; id: number; dto: CreateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, id, dto}) =>
+            bankAccountBillingHistoryApi.createByManual(orgId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//계좌 상세p/결제내역 수동등록
+export const useUpdateBankAccountBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; bankAccountId: number; id: number; dto: UpdateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, bankAccountId, id, dto}) =>
+            bankAccountBillingHistoryApi.updateByManual(orgId, bankAccountId, id, dto).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
             queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
