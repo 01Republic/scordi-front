@@ -6,6 +6,7 @@ import {GmailContentPayloadHeader, GmailPermittedMetadata} from './gmail.type';
 import {GmailItemBillingInfoDto} from './GmailItemBillingInfo.dto';
 import {InvoiceAccountDto} from './index';
 import {captures} from '^utils/array';
+import {api, errorToast} from '^api/api';
 
 export class GmailItemDto {
     id: number; // ID
@@ -50,5 +51,15 @@ export class GmailItemDto {
 
     get fromEmail() {
         return captures(this.from, /\<(.+)\>/)[0];
+    }
+
+    content?: string;
+
+    async loadContent() {
+        const url = encodeURIComponent(this.contentUrl);
+        return (this.content ||= await api
+            .get('/proxy', {params: {url}})
+            .then((res) => res.data)
+            .catch(errorToast));
     }
 }

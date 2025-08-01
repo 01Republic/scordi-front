@@ -9,23 +9,23 @@ import {ProductDto} from '^models/Product/type';
 import {SetParserNamePanel} from '../../_common/form/SetParserNamePanel';
 import {SearchProductPanel} from '../../_common/form/SearchProductPanel';
 import {ServiceDetectStep} from './ServiceDetectStep';
+import {CreateEmailParserRequestDto} from '^models/EmailParser/types';
+import {ParsingOCRSettingStep} from '^admin/factories/email-parsers/EmailParserNewPage/ParsingOCRSettingStep';
 
 export const EmailParserNewPage = memo(function EmailParserNewPage() {
     const router = useRouter();
-    const form = useForm<any>();
+    const form = useForm<CreateEmailParserRequestDto>();
     const [isLoading, setIsLoading] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<ProductDto>();
+    const [isOCRStepOpened, setIsOCRStepOpened] = useState(false);
 
     useEffect(() => {
         form.reset({});
     }, []);
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: CreateEmailParserRequestDto) => {
         console.log('data', data);
     };
-
-    form.register('filterQuery');
-    const filterQuery = form.watch('filterQuery');
 
     return (
         <AdminDetailPageLayout
@@ -45,14 +45,14 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
                                 defaultValue={selectedProduct}
                                 onChange={(product) => {
                                     setSelectedProduct(product);
-                                    form.setValue('productId', product?.id);
+                                    product ? form.setValue('productId', product.id) : form.resetField('productId');
                                 }}
                             />
 
-                            <ServiceDetectStep
-                                defaultValue={filterQuery}
-                                onChange={(filterQuery) => form.setValue('filterQuery', filterQuery)}
-                            />
+                            <ParsingOCRSettingStep />
+                            <ServiceDetectStep onNext={() => setIsOCRStepOpened(true)} />
+
+                            {/*{isOCRStepOpened && <ParsingOCRSettingStep />}*/}
                         </ContentForm>
                     </FormProvider>
                 </LoadableBox>
