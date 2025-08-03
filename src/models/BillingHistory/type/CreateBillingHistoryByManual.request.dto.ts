@@ -1,6 +1,9 @@
 import {CurrencyCode} from '^models/Money';
 
 export class CreateBillingHistoryByManualRequestDto {
+    // 변경할 구독 ID
+    subscriptionId?: number;
+
     // 카드 ID
     creditCardId?: number;
 

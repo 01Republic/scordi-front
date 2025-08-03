@@ -4,7 +4,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
 import {CurrencyCode} from '^models/Money';
 import {changePriceCurrencyV2} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
 import {
@@ -14,7 +14,12 @@ import {
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
 } from '../type';
-import {billingHistoryApi} from '../api';
+import {
+    bankAccountBillingHistoryApi,
+    billingHistoryApi,
+    creditCardBillingHistoryApi,
+    subscriptionBillingHistoryApi,
+} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
@@ -26,10 +31,11 @@ import {
 } from '../atom';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {ErrorResponse} from '^models/User/types';
-import {UploadFileDto} from '^api/file.api';
 import {useState} from 'react';
 import {Paginated} from '^types/utils/paginated.dto';
-import {BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
+import {APP_BILLING_HISTORY_HOOK_KEY, BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
+import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
+import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
 
 export const useBillingHistoriesV3 = () => useBillingHistories(billingHistoriesAtom);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -254,6 +260,34 @@ export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>)
     return {billingHistory, loadBillingHistory, updateBillingHistory, deleteBillingHistory, isLoading};
 }
 
+// 계좌 상세p/결제탭/결제 내역 조회
+export const useBillingHistoryListOfBankAccount2 = (
+    organizationId: number,
+    params: FindAllBillingHistoriesQueryDto,
+    bankAccountId?: number,
+) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2, organizationId, bankAccountId, query],
+        queryFn: () =>
+            billingHistoryApi
+                .index({
+                    ...query,
+                    where: {organizationId, bankAccountId, ...query.where},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!organizationId && !!bankAccountId,
+    });
+
+    return usePaginateUtils({
+        query,
+        setQuery,
+        queryResult,
+    });
+};
+
+// 엑셀 대량 수동등록
 export const useCreateCreditCardBillingHistoryByExcel = () => {
     const queryClient = useQueryClient();
 
@@ -264,6 +298,114 @@ export const useCreateCreditCardBillingHistoryByExcel = () => {
                 .then((response) => response.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['creditCardBillingHistory']});
+        },
+    });
+};
+
+//구독 상세p/결제내역 수동등록
+export const useCreateSubscriptionBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {subscriptionId: number; dto: CreateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({subscriptionId, dto}) =>
+            subscriptionBillingHistoryApi.createByManual(subscriptionId, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//구독 상세p/ 수동 결제내역 수정
+export const useUpdateSubscriptionBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {subscriptionId: number; id: number; dto: UpdateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({subscriptionId, id, dto}) =>
+            subscriptionBillingHistoryApi.updateByManual(subscriptionId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//카드 상세p/결제내역 수동등록
+export const useCreateCreditCardBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; id: number; dto: CreateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, id, dto}) =>
+            creditCardBillingHistoryApi.createByManual(orgId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//카드 상세p/수동 결제내역 수정
+export const useUpdateCreditCardBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; cardId: number; id: number; dto: UpdateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, cardId, id, dto}) =>
+            creditCardBillingHistoryApi.updateByManual(orgId, cardId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//계좌 상세p/결제내역 수동등록
+export const useCreateBankAccountBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; id: number; dto: CreateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, id, dto}) =>
+            bankAccountBillingHistoryApi.createByManual(orgId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+        },
+    });
+};
+
+//계좌 상세p/결제내역 수동등록
+export const useUpdateBankAccountBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation<
+        BillingHistoryDto,
+        ErrorResponse,
+        {orgId: number; bankAccountId: number; id: number; dto: UpdateBillingHistoryByManualRequestDto}
+    >({
+        mutationFn: ({orgId, bankAccountId, id, dto}) =>
+            bankAccountBillingHistoryApi.updateByManual(orgId, bankAccountId, id, dto).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
         },
     });
 };

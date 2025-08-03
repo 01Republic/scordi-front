@@ -11,10 +11,12 @@ import {TeamMemberConnectModal} from '^clients/private/orgs/team/team-members/Or
 import Tippy from '@tippyjs/react';
 import {useUnmount} from '^hooks/useUnmount';
 import {Plus, RotateCw} from 'lucide-react';
+import {useOrgIdParam} from '^atoms/common';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();
-    const {result, isLoading, movePage, changePageSize, reload, orderBy, isEmptyResult} = useSubscription3({
+    const orgId = useOrgIdParam();
+    const {result, isLoading, movePage, changePageSize, reload, orderBy, isEmptyResult} = useSubscription3(orgId, {
         relations: ['creditCard', 'invoiceAccounts'],
         where: {
             organizationId: teamMember?.organizationId,
