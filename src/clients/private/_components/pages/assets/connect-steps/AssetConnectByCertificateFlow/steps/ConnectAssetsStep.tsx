@@ -46,27 +46,39 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
                     steps={[
                         (props) => (
                             <SequenceStep delay={5000} {...props}>
-                                <WithLoopText text={t('connectSteps.connectAssets.checkingAssets')} absolute />
+                                <WithLoopText
+                                    text={t('connectSteps.connectAssets.checkingAssets') as string}
+                                    absolute
+                                />
                             </SequenceStep>
                         ), // 5s
                         (props) => (
                             <SequenceStep delay={15000} {...props}>
-                                <WithLoopText text={t('connectSteps.connectAssets.filteringTransactions')} absolute />
+                                <WithLoopText
+                                    text={t('connectSteps.connectAssets.filteringTransactions') as string}
+                                    absolute
+                                />
                             </SequenceStep>
                         ), // 20s
                         (props) => (
                             <SequenceStep delay={15000} {...props}>
-                                <WithLoopText text={t('connectSteps.connectAssets.checkingServices')} absolute />
+                                <WithLoopText
+                                    text={t('connectSteps.connectAssets.checkingServices') as string}
+                                    absolute
+                                />
                             </SequenceStep>
                         ), // 35s
                         (props) => (
                             <SequenceStep delay={25000} {...props}>
-                                <WithLoopText text={t('connectSteps.connectAssets.checkingCarefully')} absolute />
+                                <WithLoopText
+                                    text={t('connectSteps.connectAssets.checkingCarefully') as string}
+                                    absolute
+                                />
                             </SequenceStep>
                         ), // 50s
                         (props) => (
                             <SequenceStep delay={10000} {...props}>
-                                <WithLoopText text={t('connectSteps.connectAssets.finalCheck')} absolute />
+                                <WithLoopText text={t('connectSteps.connectAssets.finalCheck') as string} absolute />
                             </SequenceStep>
                         ), // 60s
                     ]}

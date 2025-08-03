@@ -70,22 +70,23 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
             <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
                     title={(() => {
-                        if (isLoading) return <WithLoopText text={t('connectSteps.successPage.loading')} />;
+                        if (isLoading) return <WithLoopText text={t('connectSteps.successPage.loading') as string} />;
 
-                        return (
-                            <span onClick={() => refetch()}>
-                                {subscriptions.length > 0
-                                    ? t('connectSteps.successPage.subscriptionsFound', {
-                                          count: unitFormat(subscriptions.length),
-                                      })
-                                    : t('connectSteps.successPage.noSubscriptions')}
-                            </span>
-                        );
+                        const titleText =
+                            subscriptions.length > 0
+                                ? t('connectSteps.successPage.subscriptionsFound', {
+                                      count: subscriptions.length,
+                                  })
+                                : t('connectSteps.successPage.noSubscriptions');
+
+                        return <span onClick={() => refetch()}>{titleText}</span>;
                     })()}
                     subTitle={(() => {
                         if (isLoading) return '';
 
-                        return subscriptions.length > 0 ? undefined : t('connectSteps.successPage.noSubscriptionsDesc');
+                        return subscriptions.length > 0
+                            ? undefined
+                            : (t('connectSteps.successPage.noSubscriptionsDesc') as string);
                     })()}
                     icon={(() => {
                         if (isLoading) return undefined;

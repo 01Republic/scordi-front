@@ -23,7 +23,7 @@ export const AssetAgreeTermSection = memo(() => {
 
     return (
         <section className="flex flex-col gap-4 text-16 text-neutral-900 font-normal">
-            <AgreeItem label={t('connectSteps.agreeTerms.allAgree')}>
+            <AgreeItem label={t('connectSteps.agreeTerms.allAgree') as string}>
                 <input
                     ref={allCheckRef}
                     type="checkbox"
@@ -40,13 +40,13 @@ export const AssetAgreeTermSection = memo(() => {
             <div className="flex flex-col gap-4 pl-5">
                 <AgreeItem
                     name="isAgreeForPrivacyPolicyTerm"
-                    label={t('connectSteps.agreeTerms.privacyPolicy')}
+                    label={t('connectSteps.agreeTerms.privacyPolicy') as string}
                     required
                     href={termsUrl.privacy}
                 />
                 <AgreeItem
                     name="isAgreeForServiceUsageTerm"
-                    label={t('connectSteps.agreeTerms.serviceTerms')}
+                    label={t('connectSteps.agreeTerms.serviceTerms') as string}
                     required
                     href={termsUrl.serviceUsage}
                 />
