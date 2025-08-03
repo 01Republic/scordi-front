@@ -1,14 +1,15 @@
-import React, {memo} from 'react';
-import {useRouter} from 'next/router';
-import {debounce} from 'lodash';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {LinkTo} from '^components/util/LinkTo';
-import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
-import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
+import {LinkTo} from '^components/util/LinkTo';
+import {useNewCodefCards} from '^models/CodefCard/hook';
+import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
 import {reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
-import {newCodefCardConnected} from './atom';
+import {debounce} from 'lodash';
 import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {newCodefCardConnected} from './atom';
 
 export const NewCodefCardListPageHeader = memo(() => {
     const router = useRouter();
@@ -18,6 +19,7 @@ export const NewCodefCardListPageHeader = memo(() => {
     const {result} = useNewCodefCards(codefAccountIdParamState);
     const [connectedContainer, setNewCardConnected] = useRecoilState(newCodefCardConnected);
     const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
+    const {t} = useTranslation('common');
 
     const someCardConnected = Object.values(connectedContainer).some((v) => v === true);
 
@@ -38,7 +40,7 @@ export const NewCodefCardListPageHeader = memo(() => {
                         !reloading ? 'cursor-pointer' : 'cursor-wait opacity-30'
                     }`}
                 >
-                    <ArrowLeft /> 뒤로가기
+                    <ArrowLeft /> {t('button.back')}
                 </LinkTo>
             </div>
 

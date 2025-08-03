@@ -1,0 +1,492 @@
+{
+    "creditCard": {
+        "title": "Credit Card",
+        "list": {
+            "title": "Credit Card List",
+            "searchPlaceholder": "Enter search term",
+            "emptyMessage": "No payment methods found.",
+            "addButton": "Add Card",
+            "table": {
+                "header": {
+                    "profile": "Card Profile",
+                    "status": "Status",
+                    "company": "Card Company",
+                    "type": "Type",
+                    "category": "Category",
+                    "expiry": "Expiry",
+                    "member": "Owner",
+                    "memo": "Memo",
+                    "actions": "Actions"
+                },
+                "status": {
+                    "undefined": "Undefined",
+                    "noUse": "Not Used",
+                    "inUse": "In Use",
+                    "expired": "Expired"
+                },
+                "type": {
+                    "personal": "Personal",
+                    "corporate": "Corporate"
+                },
+                "category": {
+                    "credit": "Credit",
+                    "check": "Check"
+                }
+            }
+        },
+        "new": {
+            "title": "Register New Card",
+            "step1": {
+                "title": "Step1. What type of business are you?",
+                "description": "For individual businesses, the definition varies by financial institution. Try both options.",
+                "corporate": "Corporate Customer (Corporate)",
+                "personal": "Individual Customer (Personal)"
+            },
+            "step2": {
+                "title": "Step2. Please select a card company."
+            },
+            "step3": {
+                "title": "Step3. Please enter detailed information.",
+                "selectedCompany": "Selected Card Company",
+                "change": "Change"
+            },
+            "form": {
+                "requiredInfo": "Required Information",
+                "optionalInfo": "Optional Information",
+                "name": "Card Name",
+                "namePlaceholder": "Enter card name",
+                "number": "Card Number",
+                "numberPlaceholder": "Enter card number",
+                "expiry": "Expiry Date",
+                "expiryPlaceholder": "MM/YY",
+                "member": "Owner",
+                "memberPlaceholder": "Select owner",
+                "type": "Type",
+                "category": "Category",
+                "status": "Usage Status",
+                "memo": "Memo",
+                "memoPlaceholder": "Enter memo",
+                "submit": "Register",
+                "cancel": "Cancel"
+            },
+            "validation": {
+                "nameRequired": "Please enter card name",
+                "numberRequired": "Please enter card number",
+                "expiryRequired": "Please enter expiry date",
+                "memberRequired": "Please select owner"
+            }
+        },
+        "show": {
+            "title": "Card Details",
+            "breadcrumb": ["Assets", "Payment Methods", "Credit Card"],
+            "information": {
+                "title": "Card Information",
+                "name": "Card Name",
+                "number": "Card Number",
+                "expiry": "Expiry Date",
+                "company": "Card Company",
+                "member": "Owner",
+                "type": "Type",
+                "category": "Category",
+                "status": "Usage Status",
+                "memo": "Memo",
+                "team": "Team"
+            },
+            "profile": {
+                "title": "Card Profile"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "connect": "Connect",
+                "sync": "Sync"
+            },
+            "tabs": {
+                "subscriptions": "Subscriptions",
+                "billingHistory": "Billing History"
+            }
+        },
+        "modals": {
+            "add": {
+                "title": "Add Card",
+                "description": "Add a new credit card"
+            },
+            "delete": {
+                "title": "Delete Card",
+                "description": "Are you sure you want to delete this card?",
+                "confirm": "Delete",
+                "cancel": "Cancel"
+            },
+            "changeStatus": {
+                "title": "Change Usage Status",
+                "description": "Change the usage status of the card"
+            },
+            "connectCodef": {
+                "title": "Connect CODEF",
+                "description": "Connect with CODEF API to sync card information",
+                "connect": "Connect",
+                "reconnect": "Reconnect"
+            }
+        },
+        "alerts": {
+            "companyNotSet": "Card company is not set. Please set the card company."
+        },
+        "messages": {
+            "saveSuccess": "Changes saved successfully.",
+            "saveError": "An error occurred.",
+            "deleteSuccess": "Card deleted successfully.",
+            "deleteError": "Error occurred while deleting card.",
+            "connectSuccess": "CODEF connection completed.",
+            "connectError": "Error occurred while connecting to CODEF."
+        }
+    },
+    "bankAccount": {
+        "title": "Bank Account",
+        "list": {
+            "title": "Bank Account List",
+            "searchPlaceholder": "Enter search term",
+            "emptyMessage": "No payment methods found.",
+            "addButton": "Add Account",
+            "table": {
+                "header": {
+                    "profile": "Account Profile",
+                    "status": "Status",
+                    "bank": "Bank",
+                    "type": "Type",
+                    "connectedCards": "Connected Cards",
+                    "member": "Owner",
+                    "memo": "Memo",
+                    "actions": "Actions"
+                },
+                "status": {
+                    "undefined": "Undefined",
+                    "noUse": "Not Used",
+                    "inUse": "In Use",
+                    "expired": "Expired"
+                },
+                "type": {
+                    "personal": "Personal",
+                    "corporate": "Corporate"
+                }
+            }
+        },
+        "new": {
+            "title": "Register New Account",
+            "step1": {
+                "title": "Step1. What type of business are you?",
+                "description": "For individual businesses, the definition varies by financial institution. Try both options.",
+                "corporate": "Corporate Customer (Corporate)",
+                "personal": "Individual Customer (Personal)"
+            },
+            "step2": {
+                "title": "Step2. Please select a bank."
+            },
+            "step3": {
+                "title": "Step3. Please enter detailed information.",
+                "selectedBank": "Selected Bank",
+                "change": "Change"
+            },
+            "form": {
+                "requiredInfo": "Required Information",
+                "optionalInfo": "Optional Information",
+                "name": "Account Name",
+                "namePlaceholder": "Enter account name",
+                "number": "Account Number",
+                "numberPlaceholder": "Enter account number",
+                "bank": "Bank",
+                "bankPlaceholder": "Select bank",
+                "member": "Owner",
+                "memberPlaceholder": "Select owner",
+                "type": "Type",
+                "status": "Usage Status",
+                "memo": "Memo",
+                "memoPlaceholder": "Enter memo",
+                "submit": "Register",
+                "cancel": "Cancel"
+            },
+            "validation": {
+                "nameRequired": "Please enter account name",
+                "numberRequired": "Please enter account number",
+                "bankRequired": "Please select bank",
+                "memberRequired": "Please select owner"
+            }
+        },
+        "show": {
+            "title": "Account Details",
+            "breadcrumb": ["Assets", "Payment Methods", "Bank Account"],
+            "information": {
+                "title": "Account Information",
+                "name": "Account Name",
+                "number": "Account Number",
+                "bank": "Bank",
+                "member": "Owner",
+                "type": "Type",
+                "status": "Usage Status",
+                "memo": "Memo"
+            },
+            "profile": {
+                "title": "Account Profile"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "connect": "Connect",
+                "sync": "Sync"
+            },
+            "tabs": {
+                "subscriptions": "Subscriptions",
+                "billingHistory": "Billing History",
+                "creditCards": "Credit Cards"
+            }
+        },
+        "modals": {
+            "add": {
+                "title": "Add Account",
+                "description": "Add a new bank account"
+            },
+            "delete": {
+                "title": "Delete Account",
+                "description": "Are you sure you want to delete this account?",
+                "confirm": "Delete",
+                "cancel": "Cancel"
+            },
+            "changeStatus": {
+                "title": "Change Usage Status",
+                "description": "Change the usage status of the account"
+            },
+            "createMethod": {
+                "title": "Account Creation Method",
+                "description": "Select how to create the account",
+                "manual": "Manual Input",
+                "codef": "CODEF Integration"
+            }
+        },
+        "messages": {
+            "saveSuccess": "Changes saved successfully.",
+            "saveError": "An error occurred.",
+            "deleteSuccess": "Account deleted successfully.",
+            "deleteError": "Error occurred while deleting account."
+        }
+    },
+    "invoiceAccount": {
+        "title": "Invoice Account",
+        "list": {
+            "title": "Invoice Account List",
+            "searchPlaceholder": "Enter search term",
+            "emptyMessage": "No invoice accounts found.",
+            "addButton": "Add Invoice Account",
+            "table": {
+                "header": {
+                    "profile": "Account Profile",
+                    "status": "Status",
+                    "app": "App",
+                    "type": "Type",
+                    "member": "Owner",
+                    "memo": "Memo",
+                    "actions": "Actions",
+                    "subscriptions": "Subscriptions",
+                    "registrationMethod": "Registration Method",
+                    "registrationMethodTooltip": "Connected emails show Google logo",
+                    "team": "Team"
+                },
+                "status": {
+                    "undefined": "Undefined",
+                    "noUse": "Not Used",
+                    "inUse": "In Use",
+                    "expired": "Expired"
+                },
+                "type": {
+                    "personal": "Personal",
+                    "corporate": "Corporate"
+                }
+            }
+        },
+        "show": {
+            "title": "Invoice Account Details",
+            "breadcrumb": ["Assets", "Payment Methods", "Invoice Account"],
+            "information": {
+                "title": "Account Information",
+                "name": "Account Name",
+                "app": "App",
+                "member": "Owner",
+                "type": "Type",
+                "status": "Usage Status",
+                "memo": "Memo"
+            },
+            "profile": {
+                "title": "Account Profile"
+            },
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "connect": "Connect",
+                "sync": "Sync"
+            },
+            "tabs": {
+                "subscriptions": "Subscriptions",
+                "billingHistory": "Billing History"
+            }
+        },
+        "modals": {
+            "add": {
+                "title": "Add Invoice Account",
+                "description": "Add a new invoice account",
+                "autoImport": "Import Invoice Mail",
+                "autoImportDesc": "Import at once with Google login",
+                "manualAdd": "Add Manually",
+                "manualAddDesc": "Enter email address and add"
+            },
+            "delete": {
+                "title": "Delete Invoice Account",
+                "description": "Are you sure you want to delete this invoice account?",
+                "confirm": "Delete",
+                "cancel": "Cancel"
+            },
+            "changeStatus": {
+                "title": "Change Usage Status",
+                "description": "Change the usage status of the invoice account"
+            }
+        },
+        "messages": {
+            "saveSuccess": "Changes saved successfully.",
+            "saveError": "An error occurred.",
+            "deleteSuccess": "Invoice account deleted successfully.",
+            "deleteError": "Error occurred while deleting invoice account.",
+            "importSuccess": "{{email}} \nInvoice imported from mail."
+        }
+    },
+    "createSteps": {
+        "connectMethod": {
+            "title": "Shall we connect assets?"
+        },
+        "selectAssets": {
+            "title": "These are assets imported from financial institutions.",
+            "subTitle": "Which assets would you like to connect?",
+            "nextButtonText": "Connect and Finish"
+        },
+        "manual": {
+            "title": "Which assets would you like to connect?",
+            "subTitle": "For individual businesses, the definition varies by financial institution. Try both options."
+        },
+        "businessType": {
+            "corporate": "Corporate Customer (Corporate)",
+            "personal": "Individual Customer (Personal)"
+        },
+        "bankSelection": {
+            "title": "Bank",
+            "registerTitle": "Please register your account.",
+            "companyType": "Bank"
+        },
+        "cardSelection": {
+            "title": "Card",
+            "registerTitle": "Please register your card.",
+            "companyType": "Card Company"
+        },
+        "manualRegister": "Register Manually",
+        "selectedCompany": {
+            "selected": "Selected",
+            "change": "Change"
+        },
+        "messages": {
+            "success": "Assets have been added."
+        },
+        "complete": {
+            "title": "Asset connection completed",
+            "noAssets": "No connected assets",
+            "creditCards": {
+                "title": "Cards",
+                "lastDigits": "Last digits",
+                "unknown": "Unknown"
+            },
+            "bankAccounts": {
+                "title": "Accounts",
+                "lastDigits": "Last digits",
+                "unknown": "Unknown"
+            }
+        }
+    },
+    "common": {
+        "asset": "Assets",
+        "paymentMethod": "Payment Methods",
+        "addAsset": "Add Asset",
+        "search": "Search",
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "close": "Close",
+        "loading": "Loading...",
+        "noData": "No data available",
+        "error": "An error occurred",
+        "success": "Success",
+        "required": "Required field",
+        "optional": "Optional field"
+    },
+    "connectSteps": {
+        "methodSelect": {
+            "title": "Shall we connect assets?",
+            "subTitle": "Connect with a certificate to automatically retrieve transaction history of cards used for business purposes.",
+            "securityInfo": "Data encryption communication",
+            "kisaCheck": "KISA security check",
+            "certificateButton": "Connect with certificate at once",
+            "accountButton": "Connect individually with homepage login",
+            "backButton": "Go back"
+        },
+        "agreeTerms": {
+            "allAgree": "Agree to all",
+            "privacyPolicy": "Privacy policy collection and use agreement",
+            "serviceTerms": "Terms of service agreement",
+            "required": "(Required)"
+        },
+        "byAccountFlow": {
+            "description": "Asset import flow with homepage account",
+            "selectCompany": "Select institution to connect",
+            "registerAccount": "Homepage account registration flow (account registration)"
+        },
+        "byCertificateFlow": {
+            "description": "Asset import flow with certificate",
+            "registerCertificate": "Certificate registration flow (account registration)"
+        },
+        "selectCompany": {
+            "backButton": "Go back",
+            "appendableTitle": "Shall we register additional assets?",
+            "appendableSubTitle": "Even if there are already connected accounts, you can connect additional accounts.",
+            "title": "Which assets would you like to connect?",
+            "subTitle": "For individual businesses, the definition varies by financial institution. Try both options."
+        },
+        "connectAssets": {
+            "checkingAssets": "Checking connected assets",
+            "filteringTransactions": "Filtering transaction history",
+            "checkingServices": "Checking matching services",
+            "checkingCarefully": "Checking carefully. Please wait a moment",
+            "finalCheck": "Final data verification",
+            "syncing": "Syncing",
+            "maxOneMinute": "May take up to 1 minute",
+            "searchingHard": "Searching hard"
+        },
+        "common": {
+            "backButton": "Go back",
+            "addAsset": "Add Asset",
+            "businessType": {
+                "corporate": "Corporate Customer (Corporate)",
+                "personal": "Individual Customer (Personal)"
+            }
+        },
+        "successPage": {
+            "loading": "Loading",
+            "subscriptionsFound": "Found {{count}} subscriptions",
+            "noSubscriptions": "No subscriptions found",
+            "noSubscriptionsDesc": "There may be no subscription service spending history in the payment method, or it may be a service that Scordi sees for the first time.",
+            "noSubscriptionsMessage": "No subscriptions loaded",
+            "completeButton": "Complete and finish",
+            "loadOtherAssetsButton": "Load with other assets"
+        },
+        "selectAssets": {
+            "cardLoading": "Loading card information",
+            "bankLoading": "Loading account information",
+            "noConnectedAssets": "No connected assets"
+        }
+    }
+}

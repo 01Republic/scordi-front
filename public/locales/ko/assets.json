@@ -1,0 +1,492 @@
+{
+    "creditCard": {
+        "title": "카드",
+        "list": {
+            "title": "카드 목록",
+            "searchPlaceholder": "검색어를 입력해주세요",
+            "emptyMessage": "조회된 결제수단이 없어요.",
+            "addButton": "카드 추가",
+            "table": {
+                "header": {
+                    "profile": "카드 프로필",
+                    "status": "상태",
+                    "company": "카드사",
+                    "type": "구분",
+                    "category": "종류",
+                    "expiry": "유효기간",
+                    "member": "소유자",
+                    "memo": "메모",
+                    "actions": "작업"
+                },
+                "status": {
+                    "undefined": "미정",
+                    "noUse": "미사용",
+                    "inUse": "사용중",
+                    "expired": "만료"
+                },
+                "type": {
+                    "personal": "개인",
+                    "corporate": "법인"
+                },
+                "category": {
+                    "credit": "신용",
+                    "check": "체크"
+                }
+            }
+        },
+        "new": {
+            "title": "새 카드 등록",
+            "step1": {
+                "title": "Step1. 어떤 사업자 형태이신가요?",
+                "description": "개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.",
+                "corporate": "기업고객 (법인)",
+                "personal": "개인고객 (개인)"
+            },
+            "step2": {
+                "title": "Step2. 카드사를 선택해주세요."
+            },
+            "step3": {
+                "title": "Step3. 세부 정보를 입력해주세요.",
+                "selectedCompany": "선택된 카드사",
+                "change": "변경하기"
+            },
+            "form": {
+                "requiredInfo": "필수정보",
+                "optionalInfo": "선택정보",
+                "name": "카드명",
+                "namePlaceholder": "카드명을 입력해주세요",
+                "number": "카드번호",
+                "numberPlaceholder": "카드번호를 입력해주세요",
+                "expiry": "만료일",
+                "expiryPlaceholder": "MM/YY",
+                "member": "소유자",
+                "memberPlaceholder": "소유자를 선택해주세요",
+                "type": "구분",
+                "category": "종류",
+                "status": "사용 상태",
+                "memo": "메모",
+                "memoPlaceholder": "메모를 입력해주세요",
+                "submit": "등록",
+                "cancel": "취소"
+            },
+            "validation": {
+                "nameRequired": "카드명을 입력해주세요",
+                "numberRequired": "카드번호를 입력해주세요",
+                "expiryRequired": "만료일을 입력해주세요",
+                "memberRequired": "소유자를 선택해주세요"
+            }
+        },
+        "show": {
+            "title": "카드 상세",
+            "breadcrumb": ["자산", "결제수단", "카드"],
+            "information": {
+                "title": "카드 정보",
+                "name": "카드명",
+                "number": "카드번호",
+                "expiry": "만료일",
+                "company": "카드사",
+                "member": "소유자",
+                "type": "구분",
+                "category": "종류",
+                "status": "사용 상태",
+                "memo": "메모",
+                "team": "팀"
+            },
+            "profile": {
+                "title": "카드 프로필"
+            },
+            "actions": {
+                "edit": "수정",
+                "delete": "삭제",
+                "connect": "연결",
+                "sync": "동기화"
+            },
+            "tabs": {
+                "subscriptions": "구독",
+                "billingHistory": "결제 내역"
+            }
+        },
+        "modals": {
+            "add": {
+                "title": "카드 추가",
+                "description": "새로운 카드를 추가합니다"
+            },
+            "delete": {
+                "title": "카드 삭제",
+                "description": "정말로 이 카드를 삭제하시겠습니까?",
+                "confirm": "삭제",
+                "cancel": "취소"
+            },
+            "changeStatus": {
+                "title": "사용 상태 변경",
+                "description": "카드의 사용 상태를 변경합니다"
+            },
+            "connectCodef": {
+                "title": "CODEF 연결",
+                "description": "CODEF API와 연결하여 카드 정보를 동기화합니다",
+                "connect": "연결",
+                "reconnect": "재연결"
+            }
+        },
+        "alerts": {
+            "companyNotSet": "카드사가 설정되지 않았습니다. 카드사를 설정해주세요."
+        },
+        "messages": {
+            "saveSuccess": "변경사항을 저장했어요.",
+            "saveError": "문제가 발생했어요.",
+            "deleteSuccess": "카드를 삭제했습니다.",
+            "deleteError": "카드 삭제 중 오류가 발생했습니다.",
+            "connectSuccess": "CODEF 연결이 완료되었습니다.",
+            "connectError": "CODEF 연결 중 오류가 발생했습니다."
+        }
+    },
+    "bankAccount": {
+        "title": "계좌",
+        "list": {
+            "title": "계좌 목록",
+            "searchPlaceholder": "검색어를 입력해주세요",
+            "emptyMessage": "조회된 결제수단이 없어요.",
+            "addButton": "계좌 추가",
+            "table": {
+                "header": {
+                    "profile": "계좌 프로필",
+                    "status": "상태",
+                    "bank": "은행",
+                    "type": "구분",
+                    "connectedCards": "연결된 카드",
+                    "member": "소유자",
+                    "memo": "메모",
+                    "actions": "작업"
+                },
+                "status": {
+                    "undefined": "미정",
+                    "noUse": "미사용",
+                    "inUse": "사용중",
+                    "expired": "만료"
+                },
+                "type": {
+                    "personal": "개인",
+                    "corporate": "법인"
+                }
+            }
+        },
+        "new": {
+            "title": "새 계좌 등록",
+            "step1": {
+                "title": "Step1. 어떤 사업자 형태이신가요?",
+                "description": "개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.",
+                "corporate": "기업고객 (법인)",
+                "personal": "개인고객 (개인)"
+            },
+            "step2": {
+                "title": "Step2. 은행을 선택해주세요."
+            },
+            "step3": {
+                "title": "Step3. 세부 정보를 입력해주세요.",
+                "selectedBank": "선택된 은행",
+                "change": "변경하기"
+            },
+            "form": {
+                "requiredInfo": "필수정보",
+                "optionalInfo": "선택정보",
+                "name": "계좌명",
+                "namePlaceholder": "계좌명을 입력해주세요",
+                "number": "계좌번호",
+                "numberPlaceholder": "계좌번호를 입력해주세요",
+                "bank": "은행",
+                "bankPlaceholder": "은행을 선택해주세요",
+                "member": "소유자",
+                "memberPlaceholder": "소유자를 선택해주세요",
+                "type": "구분",
+                "status": "사용 상태",
+                "memo": "메모",
+                "memoPlaceholder": "메모를 입력해주세요",
+                "submit": "등록",
+                "cancel": "취소"
+            },
+            "validation": {
+                "nameRequired": "계좌명을 입력해주세요",
+                "numberRequired": "계좌번호를 입력해주세요",
+                "bankRequired": "은행을 선택해주세요",
+                "memberRequired": "소유자를 선택해주세요"
+            }
+        },
+        "show": {
+            "title": "계좌 상세",
+            "breadcrumb": ["자산", "결제수단", "계좌"],
+            "information": {
+                "title": "계좌 정보",
+                "name": "계좌명",
+                "number": "계좌번호",
+                "bank": "은행",
+                "member": "소유자",
+                "type": "구분",
+                "status": "사용 상태",
+                "memo": "메모"
+            },
+            "profile": {
+                "title": "계좌 프로필"
+            },
+            "actions": {
+                "edit": "수정",
+                "delete": "삭제",
+                "connect": "연결",
+                "sync": "동기화"
+            },
+            "tabs": {
+                "subscriptions": "구독",
+                "billingHistory": "결제 내역",
+                "creditCards": "카드"
+            }
+        },
+        "modals": {
+            "add": {
+                "title": "계좌 추가",
+                "description": "새로운 계좌를 추가합니다"
+            },
+            "delete": {
+                "title": "계좌 삭제",
+                "description": "정말로 이 계좌를 삭제하시겠습니까?",
+                "confirm": "삭제",
+                "cancel": "취소"
+            },
+            "changeStatus": {
+                "title": "사용 상태 변경",
+                "description": "계좌의 사용 상태를 변경합니다"
+            },
+            "createMethod": {
+                "title": "계좌 생성 방법",
+                "description": "계좌를 생성하는 방법을 선택해주세요",
+                "manual": "수동 입력",
+                "codef": "CODEF 연동"
+            }
+        },
+        "messages": {
+            "saveSuccess": "변경사항을 저장했어요.",
+            "saveError": "문제가 발생했어요.",
+            "deleteSuccess": "계좌를 삭제했습니다.",
+            "deleteError": "계좌 삭제 중 오류가 발생했습니다."
+        }
+    },
+    "invoiceAccount": {
+        "title": "청구서 계정",
+        "list": {
+            "title": "청구서 계정 목록",
+            "searchPlaceholder": "검색어를 입력해주세요",
+            "emptyMessage": "조회된 청구서 계정이 없어요.",
+            "addButton": "청구서 계정 추가",
+            "table": {
+                "header": {
+                    "profile": "계정 프로필",
+                    "status": "상태",
+                    "app": "앱",
+                    "type": "구분",
+                    "member": "소유자",
+                    "memo": "메모",
+                    "actions": "작업",
+                    "subscriptions": "구독 수",
+                    "registrationMethod": "등록방식",
+                    "registrationMethodTooltip": "연동된 메일은 구글 로고가 표시됩니다",
+                    "team": "팀"
+                },
+                "status": {
+                    "undefined": "미정",
+                    "noUse": "미사용",
+                    "inUse": "사용중",
+                    "expired": "만료"
+                },
+                "type": {
+                    "personal": "개인",
+                    "corporate": "법인"
+                }
+            }
+        },
+        "show": {
+            "title": "청구서 계정 상세",
+            "breadcrumb": ["자산", "결제수단", "청구서 계정"],
+            "information": {
+                "title": "계정 정보",
+                "name": "계정명",
+                "app": "앱",
+                "member": "소유자",
+                "type": "구분",
+                "status": "사용 상태",
+                "memo": "메모"
+            },
+            "profile": {
+                "title": "계정 프로필"
+            },
+            "actions": {
+                "edit": "수정",
+                "delete": "삭제",
+                "connect": "연결",
+                "sync": "동기화"
+            },
+            "tabs": {
+                "subscriptions": "구독",
+                "billingHistory": "결제 내역"
+            }
+        },
+        "modals": {
+            "add": {
+                "title": "청구서 계정 추가",
+                "description": "새로운 청구서 계정을 추가합니다",
+                "autoImport": "청구서 메일 불러오기",
+                "autoImportDesc": "구글 로그인으로 한 번에 불러와요",
+                "manualAdd": "직접 추가하기",
+                "manualAddDesc": "이메일 주소를 입력한 뒤 추가해요"
+            },
+            "delete": {
+                "title": "청구서 계정 삭제",
+                "description": "정말로 이 청구서 계정을 삭제하시겠습니까?",
+                "confirm": "삭제",
+                "cancel": "취소"
+            },
+            "changeStatus": {
+                "title": "사용 상태 변경",
+                "description": "청구서 계정의 사용 상태를 변경합니다"
+            }
+        },
+        "messages": {
+            "saveSuccess": "변경사항을 저장했어요.",
+            "saveError": "문제가 발생했어요.",
+            "deleteSuccess": "청구서 계정을 삭제했습니다.",
+            "deleteError": "청구서 계정 삭제 중 오류가 발생했습니다.",
+            "importSuccess": "{{email}} \n메일로 청구서를 불러왔어요."
+        }
+    },
+    "createSteps": {
+        "connectMethod": {
+            "title": "자산을 연동해 볼까요?"
+        },
+        "selectAssets": {
+            "title": "금융기관으로부터 불러온 자산이에요.",
+            "subTitle": "어떤 자산을 연결할까요?",
+            "nextButtonText": "연결하고 마치기"
+        },
+        "manual": {
+            "title": "어떤 자산을 연결할까요?",
+            "subTitle": "개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
+        },
+        "businessType": {
+            "corporate": "기업고객 (법인)",
+            "personal": "개인고객 (개인)"
+        },
+        "bankSelection": {
+            "title": "은행",
+            "registerTitle": "계좌를 등록해주세요.",
+            "companyType": "은행"
+        },
+        "cardSelection": {
+            "title": "카드",
+            "registerTitle": "카드를 등록해주세요.",
+            "companyType": "카드사"
+        },
+        "manualRegister": "수동으로 등록하기",
+        "selectedCompany": {
+            "selected": "선택된",
+            "change": "변경하기"
+        },
+        "messages": {
+            "success": "자산이 추가되었어요."
+        },
+        "complete": {
+            "title": "자산 연동이 완료되었어요",
+            "noAssets": "연동된 자산이 없어요",
+            "creditCards": {
+                "title": "카드",
+                "lastDigits": "끝자리",
+                "unknown": "알수없음"
+            },
+            "bankAccounts": {
+                "title": "계좌",
+                "lastDigits": "끝자리",
+                "unknown": "알수없음"
+            }
+        }
+    },
+    "common": {
+        "asset": "자산",
+        "paymentMethod": "결제수단",
+        "addAsset": "자산 추가",
+        "search": "검색",
+        "add": "추가",
+        "edit": "수정",
+        "delete": "삭제",
+        "save": "저장",
+        "cancel": "취소",
+        "confirm": "확인",
+        "close": "닫기",
+        "loading": "로딩 중...",
+        "noData": "데이터가 없습니다",
+        "error": "오류가 발생했습니다",
+        "success": "성공했습니다",
+        "required": "필수 입력 항목입니다",
+        "optional": "선택 입력 항목입니다"
+    },
+    "connectSteps": {
+        "methodSelect": {
+            "title": "자산을 연동해 볼까요?",
+            "subTitle": "공동인증서를 연동해 사업용으로 쓰고있는 카드의 입출금 내역을 자동으로 조회할 수 있어요.",
+            "securityInfo": "데이터 암호화 통신",
+            "kisaCheck": "KISA 보안점검",
+            "certificateButton": "공동인증서로 한번에 연동",
+            "accountButton": "홈페이지 로그인으로 개별 연동",
+            "backButton": "뒤로가기"
+        },
+        "agreeTerms": {
+            "allAgree": "전체 동의",
+            "privacyPolicy": "개인정보 수집 및 이용 동의",
+            "serviceTerms": "이용약관동의",
+            "required": "(필수)"
+        },
+        "byAccountFlow": {
+            "description": "홈페이지계정으로 자산 불러오기 Flow",
+            "selectCompany": "연동할 기관 선택",
+            "registerAccount": "홈페이지계정 등록 플로우 (계정등록)"
+        },
+        "byCertificateFlow": {
+            "description": "공동인증서로 자산 불러오기 Flow",
+            "registerCertificate": "공동인증서 등록 플로우 (계정등록)"
+        },
+        "selectCompany": {
+            "backButton": "뒤로가기",
+            "appendableTitle": "새로운 자산을 추가로 등록할까요?",
+            "appendableSubTitle": "이미 연결된 계정이 있는 곳이라도, 추가로 계정을 연결 할 수 있어요.",
+            "title": "어떤 자산을 연결할까요?",
+            "subTitle": "개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
+        },
+        "connectAssets": {
+            "checkingAssets": "연동한 자산을 확인하고 있어요",
+            "filteringTransactions": "결제내역을 추리고 있어요",
+            "checkingServices": "매칭되는 서비스를 확인하고 있어요",
+            "checkingCarefully": "꼼꼼히 확인하는 중이에요. 잠시만 기다려주세요",
+            "finalCheck": "마지막으로 데이터를 확인하고 있어요",
+            "syncing": "동기화 하는 중",
+            "maxOneMinute": "최대 1분 정도 소요될 수 있어요",
+            "searchingHard": "열심히 찾는 중이에요"
+        },
+        "common": {
+            "backButton": "뒤로가기",
+            "addAsset": "자산 추가",
+            "businessType": {
+                "corporate": "기업고객 (법인)",
+                "personal": "개인고객 (개인)"
+            }
+        },
+        "successPage": {
+            "loading": "로딩중",
+            "subscriptionsFound": "총 {{count}}의 구독을 불러왔어요",
+            "noSubscriptions": "구독을 찾지 못했어요",
+            "noSubscriptionsDesc": "결제수단에서 구독서비스 지출 이력이 없거나, 스코디가 처음보는 서비스일 수도 있어요.",
+            "noSubscriptionsMessage": "불러온 구독이 없어요",
+            "completeButton": "완료하고 마치기",
+            "loadOtherAssetsButton": "다른 자산으로 불러오기"
+        },
+        "selectAssets": {
+            "cardLoading": "카드 정보 조회중",
+            "bankLoading": "계좌 정보 조회중",
+            "noConnectedAssets": "연동된 자산이 없어요"
+        }
+    }
+}

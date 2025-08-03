@@ -1,22 +1,24 @@
-import {memo} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {useOrgIdParam} from '^atoms/common';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {NextStepButton} from '^_components/pages/assets/connect-steps/common/NextStepButton';
-import {connectedAssetsAtom} from '../atom';
+import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {EmptyTable} from '^_components/table/EmptyTable';
-import {SuccessCreditCardsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessCreditCardsSection';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {BankAccountDto} from '^models/BankAccount/type';
-import {SuccessBankAccountsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessBankAccountsSection';
+import {useOrgIdParam} from '^atoms/common';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
+import {SuccessBankAccountsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessBankAccountsSection';
+import {SuccessCreditCardsSection} from '^clients/private/orgs/assets/create-steps/OrgAssetCreateCompletePage/SuccessCreditCardsSection';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {connectedAssetsAtom} from '../atom';
 
 /** DEPRECATED PAGE */
 export const OrgAssetCreateCompletePage = memo(() => {
+    const {t} = useTranslation('assets');
     const router = useRouter();
     const orgId = useOrgIdParam();
 
@@ -28,7 +30,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
         <PureLayout>
             <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
-                    title="자산 연동이 완료되었어요"
+                    title={t('createSteps.complete.title') as string}
                     icon={
                         <Lottie src={LOTTIE_SRC.CLAP} loop autoplay className="w-[82px] h-24" layout={{fit: 'fill'}} />
                     }
@@ -36,7 +38,7 @@ export const OrgAssetCreateCompletePage = memo(() => {
                 />
 
                 {connectedAssets.length === 0 ? (
-                    <EmptyTable message="연동된 자산이 없어요" />
+                    <EmptyTable message={t('createSteps.complete.noAssets') as string} />
                 ) : (
                     <div className="flex flex-col gap-10">
                         <SuccessCreditCardsSection creditCards={creditCards} />

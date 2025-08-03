@@ -1,15 +1,17 @@
-import React, {memo} from 'react';
-import {LinkTo} from '^components/util/LinkTo';
-import {SafeBadge} from '^v3/V3OrgConnectorPages/GoogleWorkspaceConnectorPage/GoogleWorkspaceBeforeConnectPage';
-import {useRouter} from 'next/router';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useSetRecoilState} from 'recoil';
+import {LinkTo} from '^components/util/LinkTo';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {SafeBadge} from '^v3/V3OrgConnectorPages/GoogleWorkspaceConnectorPage/GoogleWorkspaceBeforeConnectPage';
 import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
+import {useSetRecoilState} from 'recoil';
 
 export const GmailInvoiceBeforeConnectPage = memo(function GmailInvoiceBeforeConnectPage() {
     const router = useRouter();
     const setCode = useSetRecoilState(connectInvoiceAccountCodeAtom);
+    const {t} = useTranslation('common');
 
     return (
         <div className="py-10 px-12">
@@ -19,7 +21,7 @@ export const GmailInvoiceBeforeConnectPage = memo(function GmailInvoiceBeforeCon
                         onClick={() => router.back()}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <ArrowLeft /> 뒤로가기
+                        <ArrowLeft /> {t('button.back')}
                     </LinkTo>
                 </div>
 

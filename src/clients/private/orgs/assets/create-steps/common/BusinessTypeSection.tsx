@@ -1,3 +1,4 @@
+import {useTranslation} from 'next-i18next';
 import {memo} from 'react';
 
 interface BusinessTypeSectionProps {
@@ -6,13 +7,14 @@ interface BusinessTypeSectionProps {
 }
 
 export const BusinessTypeSection = memo((props: BusinessTypeSectionProps) => {
+    const {t} = useTranslation('assets');
     const {isPersonal, setIsPersonal} = props;
 
     return (
         <div className="grid grid-cols-4 gap-2">
             {[
-                {label: '기업고객 (법인)', value: false},
-                {label: '개인고객 (개인)', value: true},
+                {label: t('createSteps.businessType.corporate') as string, value: false},
+                {label: t('createSteps.businessType.personal') as string, value: true},
             ].map((option, i) => {
                 const active = isPersonal === option.value;
                 return (

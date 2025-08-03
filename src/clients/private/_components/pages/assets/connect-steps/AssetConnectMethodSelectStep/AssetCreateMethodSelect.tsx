@@ -1,12 +1,14 @@
-import React, {memo, useContext} from 'react';
-import {useFormContext} from 'react-hook-form';
-import {CodefLoginType} from '^models/CodefAccount/type/enums';
-import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
-import {AssetAgreeTermSection} from './AssetAgreeTermSection';
 import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
+import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
+import {CodefLoginType} from '^models/CodefAccount/type/enums';
+import {useTranslation} from 'next-i18next';
+import {memo, useContext} from 'react';
+import {useFormContext} from 'react-hook-form';
+import {AssetAgreeTermSection} from './AssetAgreeTermSection';
 
 export const AssetCreateMethodSelect = memo(() => {
+    const {t} = useTranslation('assets');
     const {assetConnectMethodSelectStep} = useContext(AssetConnectOptionContext);
     const {setValue, watch} = useFormContext<CreateAccountRequestDto>();
     const isEnabled = watch('isAgreeForPrivacyPolicyTerm') && watch('isAgreeForServiceUsageTerm');
@@ -27,16 +29,17 @@ export const AssetCreateMethodSelect = memo(() => {
                         />
 
                         <div className="text-14 font-normal text-gray-500">
-                            데이터 암호화 통신 <br />
-                            KISA 보안점검
+                            {t('connectSteps.methodSelect.securityInfo')} <br />
+                            {t('connectSteps.methodSelect.kisaCheck')}
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-5">
-                        <span className="text-28 text-gray-900 font-semibold">{title || '자산을 연동해 볼까요?'}</span>
+                        <span className="text-28 text-gray-900 font-semibold">
+                            {title || t('connectSteps.methodSelect.title')}
+                        </span>
                         <span className="text-15 text-gray-600 font-normal whitespace-pre-line">
-                            {subTitle ||
-                                '공동인증서를 연동해 사업용으로 쓰고있는 카드의 입출금 내역을 자동으로 조회할 수 있어요.'}
+                            {subTitle || t('connectSteps.methodSelect.subTitle')}
                         </span>
                     </div>
 
@@ -52,7 +55,7 @@ export const AssetCreateMethodSelect = memo(() => {
                         }`}
                         onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.Certificate) : '')}
                     >
-                        공동인증서로 한번에 연동
+                        {t('connectSteps.methodSelect.certificateButton')}
                     </button>
 
                     <button
@@ -62,7 +65,7 @@ export const AssetCreateMethodSelect = memo(() => {
                         }`}
                         onClick={() => (isEnabled ? setValue('loginType', CodefLoginType.IdAccount) : '')}
                     >
-                        홈페이지 로그인으로 개별 연동
+                        {t('connectSteps.methodSelect.accountButton')}
                     </button>
                 </section>
             </div>

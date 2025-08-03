@@ -1,17 +1,19 @@
-import React, {memo} from 'react';
-import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
-import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialPaymentMethodAccount} from '^components/ExternalCDNScripts/step-by';
+import {useBankAccountListForListPage} from '^models/BankAccount/hook';
+import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {AddAssetButton} from '../../AddAssetButton';
-import TitleScopeHandler from './TitleScopeHandler';
-import {BankAccountTableRow} from './BankAccountTableRow';
-import {BankAccountTableHeader} from './BankAccountTableHeader';
 import {BankAccountScopeHandler} from './BankAccountScopeHandler';
+import {BankAccountTableHeader} from './BankAccountTableHeader';
+import {BankAccountTableRow} from './BankAccountTableRow';
+import TitleScopeHandler from './TitleScopeHandler';
 
 export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
+    const {t} = useTranslation('assets');
     const organizationId = useOrgIdParam();
     const {
         search,
@@ -48,7 +50,11 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
         <ListPage
             onReady={onReady}
             onUnmount={() => reset()}
-            breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
+            breadcrumb={[
+                t('common.asset') as string,
+                t('common.paymentMethod') as string,
+                {text: t('bankAccount.title') as string, active: true},
+            ]}
             Title={() => <TitleScopeHandler />}
             Buttons={() => (
                 <>
@@ -57,7 +63,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 </>
             )}
             ScopeHandler={<BankAccountScopeHandler />}
-            searchInputPlaceholder="검색어를 입력해주세요"
+            searchInputPlaceholder={t('bankAccount.list.searchPlaceholder') as string}
             onSearch={onSearch}
         >
             <ListTableContainer
@@ -68,7 +74,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 결제수단이 없어요."
+                emptyMessage={t('bankAccount.list.emptyMessage') as string}
                 EmptyButtons={() => <AddAssetButton />}
             >
                 <ListTable

@@ -1,12 +1,11 @@
-import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {googleOAuth} from '^config/environments';
-import {StepContentProps} from '^components/util/funnel';
-import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
-import {userSocialGoogleApi} from '^api/social-google.api';
-import {ArrowLeft, ArrowRight} from 'lucide-react';
+import {StepContentProps} from '^components/util/funnel';
+import {googleOAuth} from '^config/environments';
+import {Container} from '^v3/share/OnboardingFlow/Container';
+import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -14,6 +13,7 @@ interface Props extends StepContentProps {
 
 export const ConnectInvoiceAccountAfterLoad = memo(function ConnectInvoiceAccountAfterLoad(props: Props) {
     const {onPrev, onNext} = props;
+    const {t} = useTranslation('common');
 
     return (
         <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
@@ -40,7 +40,7 @@ export const ConnectInvoiceAccountAfterLoad = memo(function ConnectInvoiceAccoun
                         onClick={() => onPrev && onPrev()}
                     >
                         <ArrowLeft />
-                        <span>뒤로가기</span>
+                        <span>{t('button.back')}</span>
                     </button>
                 </Container>
 

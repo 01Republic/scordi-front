@@ -1,24 +1,25 @@
-import React, {memo, ReactNode, useMemo, useState} from 'react';
+import {EmptyTable} from '^_components/table/EmptyTable';
 import {useOrgIdParam} from '^atoms/common';
-import {isDefinedValue} from '^utils/array';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {useCodefCardsByCompanies} from '^models/CodefCard/hook';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {useCodefBankAccountsByCompanies} from '^models/CodefBankAccount/hook';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
-import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
 import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
-import {EmptyTable} from '^_components/table/EmptyTable';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {CodefApiAccountItemDto} from '^models/CodefAccount/type/CodefApiAccountItemDto';
+import {useCodefBankAccountsByCompanies} from '^models/CodefBankAccount/hook';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {useCodefCardsByCompanies} from '^models/CodefCard/hook';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {isDefinedValue} from '^utils/array';
+import {useTranslation} from 'next-i18next';
+import {memo, ReactNode, useMemo, useState} from 'react';
 import {AssetsConnectStepFlashHandler} from '../../../common/AssetsConnectStepFlashHandler';
-import {SuccessConnectCardSelector} from '../_component/SuccessConnectCardSelector';
 import {SuccessConnectBankSelector} from '../_component/SuccessConnectBankSelector';
-import {StepHeaderSection} from './StepHeaderSection';
+import {SuccessConnectCardSelector} from '../_component/SuccessConnectCardSelector';
+import {Searching} from './Searching';
 import {StepBackSection} from './StepBackSection';
 import {StepCTASection} from './StepCTASection';
-import {Searching} from './Searching';
+import {StepHeaderSection} from './StepHeaderSection';
 
 interface SelectAssetsStepProps {
     isAfterAccountCreated: boolean;
@@ -45,6 +46,7 @@ interface SelectAssetsStepProps {
  * 자산 선택p
  */
 export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
+    const {t} = useTranslation('assets');
     const orgId = useOrgIdParam();
     const {
         isAfterAccountCreated,
@@ -83,8 +85,8 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
     const disabled = codefBankAccountsQuery.data.length === 0 && codefCardsQuery.data.length === 0;
     const allConnected = codefBankAccountsQuery.allConnected && codefCardsQuery.allConnected;
     const isLoadingMsg = ((): string => {
-        if (codefCardsQuery.isLoading) return '카드 정보 조회중';
-        if (codefBankAccountsQuery.isLoading) return '계좌 정보 조회중';
+        if (codefCardsQuery.isLoading) return t('connectSteps.selectAssets.cardLoading');
+        if (codefBankAccountsQuery.isLoading) return t('connectSteps.selectAssets.bankLoading');
         return '';
     })();
 
@@ -109,7 +111,7 @@ export const SelectAssetsStep = memo((props: SelectAssetsStepProps) => {
                     isLoadingMsg ? (
                         <Searching isLoadingMsg={isLoadingMsg} />
                     ) : (
-                        <EmptyTable message="연동된 자산이 없어요" />
+                        <EmptyTable message={t('connectSteps.selectAssets.noConnectedAssets')} />
                     )
                 ) : (
                     <>

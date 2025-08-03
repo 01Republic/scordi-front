@@ -1,13 +1,14 @@
-import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {googleOAuth} from '^config/environments';
-import {StepContentProps} from '^components/util/funnel';
-import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {StepContentProps} from '^components/util/funnel';
+import {googleOAuth} from '^config/environments';
 import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
-import {ArrowLeft, ArrowRight} from 'lucide-react';
+import {Container} from '^v3/share/OnboardingFlow/Container';
+import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect} from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -17,6 +18,7 @@ export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccou
     const {onPrev, onNext} = props;
     const setCode = useSetRecoilState(connectInvoiceAccountCodeAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
+    const {t} = useTranslation('common');
 
     const onCode = (code: string) => {
         setCode(code);
@@ -50,7 +52,7 @@ export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccou
                         onClick={() => onPrev && onPrev()}
                     >
                         <ArrowLeft />
-                        <span>뒤로가기</span>
+                        <span>{t('button.back')}</span>
                     </button>
                 </Container>
             </div>

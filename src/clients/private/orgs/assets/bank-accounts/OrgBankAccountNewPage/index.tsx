@@ -1,25 +1,27 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {toast} from 'react-hot-toast';
-import {useForm} from 'react-hook-form';
-import {FadeUp} from '^components/FadeUp';
 import {orgIdParamState} from '^atoms/common';
-import {errorNotify} from '^utils/toast-notify';
-import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
-import {bankAccountApi} from '^models/BankAccount/api';
-import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {BankAccountKind, BankAccountUsingStatus, CreateBankAccountRequestDto} from '^models/BankAccount/type';
-import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {BankAccountIsPersonalSelect} from './BankAccountIsPersonalSelect';
+import {FadeUp} from '^components/FadeUp';
+import {bankAccountApi} from '^models/BankAccount/api';
+import {BankAccountKind, BankAccountUsingStatus, CreateBankAccountRequestDto} from '^models/BankAccount/type';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
+import {errorNotify} from '^utils/toast-notify';
+import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
 import {BankAccountHoldingMemberIdSelect} from './BankAccountHoldingMemberIdSelect';
+import {BankAccountIsPersonalSelect} from './BankAccountIsPersonalSelect';
 import {BankUsingStatusSelect} from './BankUsingStatusSelect';
 
 export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
+    const {t} = useTranslation('assets');
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const form = useForm<CreateBankAccountRequestDto>();
@@ -35,14 +37,14 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
     const onSubmit = async (data: CreateBankAccountRequestDto) => {
         if (!data.name) {
-            toast.error('계좌 별칭을 입력해주세요');
+            toast.error(t('bankAccount.new.validation.nameRequired') as string);
             return;
         }
 
         setLoading(true);
         bankAccountApi
             .create(orgId, data)
-            .then(() => toast.success('계좌를 추가했어요.'))
+            .then(() => toast.success(t('bankAccount.messages.saveSuccess') as string))
             .then(() => router.push(OrgBankAccountListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
@@ -60,9 +62,13 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
             <MainContainer>
                 <Breadcrumb
                     paths={[
-                        '자산',
-                        {text: '결제수단 (계좌)', active: false, href: OrgBankAccountListPageRoute.path(orgId)},
-                        {text: '결제수단 추가', active: true},
+                        t('common.asset') as string,
+                        {
+                            text: t('bankAccount.title') as string,
+                            active: false,
+                            href: OrgBankAccountListPageRoute.path(orgId),
+                        },
+                        {text: t('common.addAsset') as string, active: true},
                     ]}
                 />
 
@@ -70,7 +76,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                 <div className="flex items-center justify-between mb-12">
                     <div>
-                        <h1 className="text-2xl mb-1">결제수단 추가</h1>
+                        <h1 className="text-2xl mb-1">{t('common.addAsset') as string}</h1>
                     </div>
                 </div>
 
@@ -80,17 +86,17 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                         <section className="relative mb-12">
                             <div className="mb-4">
                                 <h2 className="leading-none text-xl font-semibold mb-2">
-                                    Step1. 어떤 사업자 형태이신가요?
+                                    {t('bankAccount.new.step1.title') as string}
                                 </h2>
                                 <p className="text-16 text-gray-500">
-                                    개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.
+                                    {t('bankAccount.new.step1.description') as string}
                                 </p>
                             </div>
 
                             <div className="grid grid-cols-4 gap-2">
                                 {[
-                                    {label: '기업고객 (법인)', value: false},
-                                    {label: '개인고객 (개인)', value: true},
+                                    {label: t('bankAccount.new.step1.corporate') as string, value: false},
+                                    {label: t('bankAccount.new.step1.personal') as string, value: true},
                                 ].map((option, i) => {
                                     const active = form.watch('isPersonal') === option.value;
                                     return (
@@ -120,7 +126,9 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                         <section className="relative mb-20">
                             <div className="mb-10">
-                                <h2 className="leading-none text-xl font-semibold mb-4">Step2. 은행을 선택해주세요.</h2>
+                                <h2 className="leading-none text-xl font-semibold mb-4">
+                                    {t('bankAccount.new.step2.title') as string}
+                                </h2>
                                 <p className="text-16 text-gray-500"></p>
                             </div>
 
@@ -144,14 +152,16 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 {/* 정보입력 단계 */}
                 <FadeUp show={!!selectedBank} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
                     <div className="mb-10 flex items-center justify-between">
-                        <h2 className="leading-none text-xl font-semibold">Step3. 세부 정보를 입력해주세요.</h2>
+                        <h2 className="leading-none text-xl font-semibold">
+                            {t('bankAccount.new.step3.title') as string}
+                        </h2>
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">
-                                선택된 은행: <b>{selectedBank?.displayName}</b>
+                                {t('bankAccount.new.step3.selectedBank') as string}: <b>{selectedBank?.displayName}</b>
                             </p>
                             <button className="btn btn-xs btn-scordi gap-2" onClick={() => setCompany(undefined)}>
-                                변경하기
+                                {t('bankAccount.new.step3.change') as string}
                             </button>
                         </div>
                     </div>
@@ -160,8 +170,10 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                         <input type="hidden" name="issuerCompany" value={selectedBank?.displayName} />
                         <div className="px-4 py-8 border-b">
                             <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
-                                <h2 className="leading-none text-xl font-semibold">필수정보</h2>
-                                <FormControl label="계좌 이름" required>
+                                <h2 className="leading-none text-xl font-semibold">
+                                    {t('bankAccount.new.form.requiredInfo') as string}
+                                </h2>
+                                <FormControl label={t('bankAccount.new.form.name') as string} required>
                                     <input
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
@@ -175,8 +187,10 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                             </div>
 
                             <div className="max-w-md mx-auto flex flex-col gap-8">
-                                <h2 className="leading-none text-xl font-semibold">선택정보</h2>
-                                <FormControl label="계좌 번호">
+                                <h2 className="leading-none text-xl font-semibold">
+                                    {t('bankAccount.new.form.optionalInfo') as string}
+                                </h2>
+                                <FormControl label={t('bankAccount.new.form.number') as string}>
                                     <input
                                         type={'number'}
                                         className={`input input-underline !bg-slate-100 w-full ${

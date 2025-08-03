@@ -1,19 +1,21 @@
-import React, {memo, useEffect, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {UploadBillingHistoryExcelModalConfirm} from '^clients/private/_modals/UploadBillingHistoryExcelModalConfirm';
-import {BillingHistoryExcelUploadModal} from './CreditCardModals/BillingHistoryExcelUploadModal';
-import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTabContent} from './tab-panes';
-import {CreditCardProfilePanel} from './CreditCardProfilePanel';
-import {CreditCardActionPanel} from './CreditCardActionPanel';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 import {CardInformationPanel} from './CardInformationPanel';
+import {CreditCardActionPanel} from './CreditCardActionPanel';
+import {BillingHistoryExcelUploadModal} from './CreditCardModals/BillingHistoryExcelUploadModal';
 import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 import {useCreditCardPageFlashForExcelUpload} from './CreditCardPageFlashHandler/atom';
+import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {useCurrentCreditCard} from './atom';
+import {BillingHistoryListOfCreditCardTabContent, SubscriptionListOfCreditCardTabContent} from './tab-panes';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
+    const {t} = useTranslation('assets');
     const orgId = useOrgIdParam();
     const {currentCreditCard} = useCurrentCreditCard();
     const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
@@ -24,9 +26,13 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     return (
         <ShowPage
             breadcrumb={[
-                '자산',
-                {text: '결제수단 (카드)', active: false, href: OrgCreditCardListPageRoute.path(orgId)},
-                {text: '카드 상세', active: true},
+                t('common.asset') as string,
+                {
+                    text: t('creditCard.title') as string,
+                    active: false,
+                    href: OrgCreditCardListPageRoute.path(orgId),
+                },
+                {text: t('creditCard.show.title') as string, active: true},
             ]}
         >
             {/* 페이지플래시 핸들러 */}
@@ -46,7 +52,10 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제']}
+                        tabs={[
+                            t('creditCard.show.tabs.subscriptions') as string,
+                            t('creditCard.show.tabs.billingHistory') as string,
+                        ]}
                     />
 
                     {/* right side */}

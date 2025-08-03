@@ -1,7 +1,7 @@
-import React, {memo} from 'react';
-import {LucideIcon} from 'lucide-react';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {ChevronRight, Database, DatabaseBackup} from 'lucide-react';
+import {ChevronRight, DatabaseBackup, LucideIcon} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 export enum BankCreateMethod {
     // (자동) 은행 계정 연동
@@ -17,11 +17,12 @@ interface BankCreateMethodModalProps {
 }
 
 export const BankCreateMethodModal = memo((props: BankCreateMethodModalProps) => {
+    const {t} = useTranslation('assets');
     const {isOpened, onClose, onSelect} = props;
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md">
-            <h3 className="font-bold text-xl">어떤 방식으로 계좌를 추가할까요?</h3>
+            <h3 className="font-bold text-xl">{t('bankAccount.modals.createMethod.title') as string}</h3>
 
             <div className="py-4 flex flex-col gap-3">
                 {/* TODO: 공동인증서로 불러오기 기능 완료시 복구 */}
@@ -36,8 +37,8 @@ export const BankCreateMethodModal = memo((props: BankCreateMethodModalProps) =>
                 {/*/>*/}
                 <BankCreateMethodOption
                     Icon={DatabaseBackup}
-                    title="직접 추가하기"
-                    desc="계좌 정보를 입력한 뒤 추가해요."
+                    title={t('bankAccount.modals.createMethod.manual') as string}
+                    desc={t('bankAccount.modals.createMethod.description') as string}
                     onClick={() => {
                         onClose();
                         onSelect(BankCreateMethod.Manual);

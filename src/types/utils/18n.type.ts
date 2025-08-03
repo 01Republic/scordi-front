@@ -1,5 +1,5 @@
-import {useTranslation} from 'next-i18next';
 import {TFunction} from 'i18next';
+import {useTranslation} from 'next-i18next';
 
 export enum LocalList {
     KO = 'ko',

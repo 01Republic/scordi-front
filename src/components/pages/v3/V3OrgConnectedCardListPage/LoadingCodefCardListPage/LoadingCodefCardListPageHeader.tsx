@@ -1,13 +1,15 @@
-import React, {memo, useEffect, useState} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {useRouter} from 'next/router';
 import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect, useState} from 'react';
 
 export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardListPageHeader() {
     const {connectMethod} = useCodefAccountPageSubject();
     const router = useRouter();
     const [loadingCount, setLoadingCount] = useState(0);
+    const {t} = useTranslation('common');
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -30,7 +32,7 @@ export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardList
                     onClick={() => router.back()}
                     className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                 >
-                    <ArrowLeft /> 뒤로가기
+                    <ArrowLeft /> {t('button.back')}
                 </LinkTo>
             </div>
 

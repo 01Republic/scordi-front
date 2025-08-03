@@ -1,6 +1,3 @@
-import React, {memo, useState} from 'react';
-import {LucideIcon} from 'lucide-react';
-import {toast} from 'react-hot-toast';
 import {useOrgIdParam} from '^atoms/common';
 import {
     ListPageDropdown,
@@ -8,19 +5,23 @@ import {
     ListPageDropdownMenu,
     ListPageDropdownMenuItem,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
-import {swalHTML} from '^components/util/dialog';
-import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
-import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {InvoiceAccountAutoCreateModal} from '^clients/private/_modals/invoice-accounts';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {swalHTML} from '^components/util/dialog';
+import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {Database, DatabaseBackup} from 'lucide-react';
+import {Database, DatabaseBackup, LucideIcon} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface AddInvoiceAccountDropdownProps {
     reload: () => any;
 }
 
 export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownProps) => {
+    const {t} = useTranslation('assets');
     const orgId = useOrgIdParam();
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
 
@@ -29,7 +30,7 @@ export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownP
 
     return (
         <ListPageDropdown>
-            <ListPageDropdownButton text="청구서 메일 추가" />
+            <ListPageDropdownButton text={t('invoiceAccount.list.addButton') as string} />
 
             <ListPageDropdownMenu>
                 <GoogleGmailOAuthButton
@@ -40,15 +41,15 @@ export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownP
                 >
                     <CreateMethodOption
                         Icon={Database}
-                        title="청구서 메일 불러오기"
-                        desc="구글 로그인으로 한 번에 불러와요"
+                        title={t('invoiceAccount.modals.add.autoImport') as string}
+                        desc={t('invoiceAccount.modals.add.autoImportDesc') as string}
                     />
                 </GoogleGmailOAuthButton>
 
                 <CreateMethodOption
                     Icon={DatabaseBackup}
-                    title="직접 추가하기"
-                    desc="이메일 주소를 입력한 뒤 추가해요"
+                    title={t('invoiceAccount.modals.add.manualAdd') as string}
+                    desc={t('invoiceAccount.modals.add.manualAddDesc') as string}
                     onClick={() => {
                         swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => reload()} />);
                     }}
@@ -59,7 +60,7 @@ export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownP
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={(data: InvoiceAccountDto) => {
-                    toast.success(`${data.email} \n메일로 청구서를 불러왔어요.`);
+                    toast.success(t('invoiceAccount.messages.importSuccess', {email: data.email}) as string);
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}

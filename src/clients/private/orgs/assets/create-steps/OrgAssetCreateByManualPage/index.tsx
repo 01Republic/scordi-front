@@ -1,15 +1,17 @@
-import {memo, useState} from 'react';
-import {useRouter} from 'next/router';
+import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useState} from 'react';
 import {BusinessTypeSection} from '../common/BusinessTypeSection';
 import {BankSelectionSection} from './BankSelectionSection';
 import {CardSelectionSection} from './CardSelectionSection';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
-import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
 
 export const OrgAssetCreateByManualPage = memo(() => {
+    const {t} = useTranslation('assets');
     const router = useRouter();
     const [isPersonal, setIsPersonal] = useState(false);
     const [selectedBank, setSelectedBank] = useState<BankAccountsStaticData | null>(null);
@@ -21,8 +23,8 @@ export const OrgAssetCreateByManualPage = memo(() => {
                 {!selectedCard && !selectedBank && (
                     <div className="flex flex-col gap-10">
                         <StatusHeader
-                            title="어떤 자산을 연결할까요?"
-                            subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
+                            title={t('createSteps.manual.title') as string}
+                            subTitle={t('createSteps.manual.subTitle') as string}
                             onBack={() => router.back()}
                         />
                         <BusinessTypeSection isPersonal={isPersonal} setIsPersonal={setIsPersonal} />

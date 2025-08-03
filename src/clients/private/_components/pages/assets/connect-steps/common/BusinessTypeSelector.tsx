@@ -1,12 +1,13 @@
-import React, {memo} from 'react';
-import {useFormContext} from 'react-hook-form';
-import cn from 'classnames';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
 import {CodefCustomerType} from '^models/CodefAccount/type/enums';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useFormContext} from 'react-hook-form';
 
 interface AssetEntitySelectorProps {}
 
 export const BusinessTypeSelector = memo((props: AssetEntitySelectorProps) => {
+    const {t} = useTranslation('assets');
     const {} = props;
     const {setValue, watch} = useFormContext<CreateAccountRequestDto>();
 
@@ -15,8 +16,8 @@ export const BusinessTypeSelector = memo((props: AssetEntitySelectorProps) => {
     return (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {[
-                {label: '기업고객 (법인)', value: CodefCustomerType.Business},
-                {label: '개인고객 (개인)', value: CodefCustomerType.Personal},
+                {label: t('connectSteps.common.businessType.corporate'), value: CodefCustomerType.Business},
+                {label: t('connectSteps.common.businessType.personal'), value: CodefCustomerType.Personal},
             ].map((option, i) => {
                 const active = selectValue === option.value;
                 return (

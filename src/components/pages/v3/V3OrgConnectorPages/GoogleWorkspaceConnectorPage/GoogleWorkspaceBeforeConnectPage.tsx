@@ -1,19 +1,21 @@
-import React, {ImgHTMLAttributes, memo} from 'react';
-import {useSetRecoilState} from 'recoil';
-import {useRouter} from 'next/router';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {googleOAuth} from '^config/environments';
-import {WithChildren} from '^types/global.type';
 import {OutLink} from '^components/OutLink';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {LinkTo} from '^components/util/LinkTo';
 import {BottomUpModalSwal} from '^components/util/modals/share';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {googleWorkspaceAccessTokenAtom} from './atom';
+import {googleOAuth} from '^config/environments';
+import {WithChildren} from '^types/global.type';
 import {ArrowLeft, Shield} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {ImgHTMLAttributes, memo} from 'react';
+import {useSetRecoilState} from 'recoil';
+import {googleWorkspaceAccessTokenAtom} from './atom';
 
 export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBeforeConnectPage() {
     const router = useRouter();
     const setAccessToken = useSetRecoilState(googleWorkspaceAccessTokenAtom);
+    const {t} = useTranslation('common');
 
     return (
         <div className="py-10 px-12">
@@ -23,7 +25,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                         onClick={() => router.back()}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <ArrowLeft /> 뒤로가기
+                        <ArrowLeft /> {t('button.back')}
                     </LinkTo>
                 </div>
 

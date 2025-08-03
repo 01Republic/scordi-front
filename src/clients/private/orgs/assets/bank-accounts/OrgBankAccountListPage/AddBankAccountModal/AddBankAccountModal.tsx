@@ -1,17 +1,19 @@
-import React, {memo, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
-import {BankCreateMethod, BankCreateMethodModal} from './BankCreateMethodModal';
+import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
 import {Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {BankCreateMethod, BankCreateMethodModal} from './BankCreateMethodModal';
 
 interface AddBankAccountModalProps {
     reload: () => any;
 }
 
 export const AddBankAccountModal = memo((props: AddBankAccountModalProps) => {
+    const {t} = useTranslation('assets');
     const {reload} = props;
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
@@ -26,7 +28,7 @@ export const AddBankAccountModal = memo((props: AddBankAccountModalProps) => {
                 onClick={() => setIsBankCreateMethodModalOpen(true)}
             >
                 <Plus />
-                <span className="mr-1.5">계좌 추가</span>
+                <span className="mr-1.5">{t('bankAccount.list.addButton') as string}</span>
             </button>
 
             {/* 결제수단 등록 > 등록 방법 선택 */}

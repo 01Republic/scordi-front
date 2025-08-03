@@ -1,15 +1,17 @@
-import React, {memo} from 'react';
+import Tippy from '@tippyjs/react';
+import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
+import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {unitFormat} from '^utils/number';
-import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
-import Tippy from '@tippyjs/react';
-import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface SuccessBankAccountsSectionProps {
     bankAccounts: BankAccountDto[];
 }
 
 export const SuccessBankAccountsSection = memo((props: SuccessBankAccountsSectionProps) => {
+    const {t} = useTranslation('assets');
     const {bankAccounts} = props;
 
     if (bankAccounts.length === 0) return <></>;
@@ -18,7 +20,8 @@ export const SuccessBankAccountsSection = memo((props: SuccessBankAccountsSectio
         <ContentSection
             text={
                 <span className="flex items-center gap-1">
-                    계좌 <small className="text-scordi font-bold">({unitFormat(bankAccounts.length, '')})</small>
+                    {t('createSteps.complete.bankAccounts.title') as string}{' '}
+                    <small className="text-scordi font-bold">({unitFormat(bankAccounts.length, '')})</small>
                 </span>
             }
         >
@@ -30,7 +33,11 @@ export const SuccessBankAccountsSection = memo((props: SuccessBankAccountsSectio
                         subText={
                             <Tippy content={bankAccount.displayNumber} className="!text-12">
                                 <div>
-                                    <span>끝자리: {bankAccount.endNumber(3) || '알수없음'}</span>
+                                    <span>
+                                        {t('createSteps.complete.bankAccounts.lastDigits') as string}:{' '}
+                                        {bankAccount.endNumber(3) ||
+                                            (t('createSteps.complete.bankAccounts.unknown') as string)}
+                                    </span>
                                 </div>
                             </Tippy>
                         }

@@ -1,8 +1,9 @@
-import React, {memo} from 'react';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgAssetsCreateMethodSelectPageRoute} from '^pages/orgs/[id]/assets/new';
 import {Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 import {useRouter} from 'next/router';
-import {useOrgIdParam} from '^atoms/common';
+import {memo} from 'react';
 
 interface AddAssetButtonProps {
     //
@@ -12,6 +13,7 @@ export const AddAssetButton = memo((props: AddAssetButtonProps) => {
     const {} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
+    const {t} = useTranslation('assets');
 
     return (
         <button
@@ -20,7 +22,7 @@ export const AddAssetButton = memo((props: AddAssetButtonProps) => {
             onClick={() => router.push(OrgAssetsCreateMethodSelectPageRoute.path(orgId))}
         >
             <Plus />
-            <span className="mr-1.5">자산 추가</span>
+            <span className="mr-1.5">{t('common.addAsset') as string}</span>
         </button>
     );
 });

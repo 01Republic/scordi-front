@@ -1,27 +1,28 @@
-import React, {memo, useEffect, useState} from 'react';
+import {orgIdParamState} from '^atoms/common';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {LinkTo} from '^components/util/LinkTo';
-import {useRouter} from 'next/router';
+import {useAlert} from '^hooks/useAlert';
+import {plainToast as toast} from '^hooks/useToast';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {MoneyDto} from '^models/Money';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {useAppShowModal} from '^v3/share/modals/AppShowPageModal';
+import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {
     BillingCycleTypeColumn,
     ProductProfile,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
-import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {MoneyDto} from '^models/Money';
-import {useAppShowModal} from '^v3/share/modals/AppShowPageModal';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {plainToast as toast} from '^hooks/useToast';
-import {orgIdParamState} from '^atoms/common';
-import {useAlert} from '^hooks/useAlert';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {ArrowLeft, Book, FileText, Plus, RotateCw} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect, useState} from 'react';
+import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 
 const selectedInvoiceAccountAtom = atom<InvoiceAccountDto | null>({
     key: 'selectedInvoiceAccountAtom',
@@ -32,6 +33,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
     const router = useRouter();
     const {result} = useInvoiceAccountListInConnector();
     const setCode = useSetRecoilState(connectInvoiceAccountCodeAtom);
+    const {t} = useTranslation('common');
 
     const {items, pagination} = result;
     console.log('items', items);
@@ -45,7 +47,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
                         onClick={() => router.back()}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <ArrowLeft /> 뒤로가기
+                        <ArrowLeft /> {t('button.back')}
                     </LinkTo>
                 </div>
 

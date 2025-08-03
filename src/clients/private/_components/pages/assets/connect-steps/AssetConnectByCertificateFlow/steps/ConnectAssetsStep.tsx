@@ -1,14 +1,15 @@
-import React, {memo} from 'react';
-import {isDefinedValue} from '^utils/array';
-import {useOrgIdParam} from '^atoms/common';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {BankAccountDto} from '^models/BankAccount/type';
-import {useCreateAssets, useSyncCodefAssets} from '^models/_codef/hooks';
 import {LoadingScreen2} from '^_components/pages/assets/connect-steps/common/LoadingScreen';
-import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
+import {useOrgIdParam} from '^atoms/common';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {useCreateAssets, useSyncCodefAssets} from '^models/_codef/hooks';
 import {WithLoopText} from '^utils/TypeWritter';
+import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
+import {isDefinedValue} from '^utils/array';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {Typewriter} from 'react-simple-typewriter';
 import {ConnectAssetsStepStrategy} from '../../AssetConnectPageTemplate';
 
@@ -23,6 +24,7 @@ interface ConnectAssetsStepProps {
  * 자산 연동중p : 스코디 자산으로 선택한 목록들을 연동 및 sync 요청 후 성공 시 성공페이지로 넘김
  */
 export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
+    const {t} = useTranslation('assets');
     const {strategy, codefAssets, onNext, title = ''} = props;
     const orgId = useOrgIdParam();
 
@@ -44,27 +46,27 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
                     steps={[
                         (props) => (
                             <SequenceStep delay={5000} {...props}>
-                                <WithLoopText text="연동한 자산을 확인하고 있어요" absolute />
+                                <WithLoopText text={t('connectSteps.connectAssets.checkingAssets')} absolute />
                             </SequenceStep>
                         ), // 5s
                         (props) => (
                             <SequenceStep delay={15000} {...props}>
-                                <WithLoopText text="결제내역을 추리고 있어요" absolute />
+                                <WithLoopText text={t('connectSteps.connectAssets.filteringTransactions')} absolute />
                             </SequenceStep>
                         ), // 20s
                         (props) => (
                             <SequenceStep delay={15000} {...props}>
-                                <WithLoopText text="매칭되는 서비스를 확인하고 있어요" absolute />
+                                <WithLoopText text={t('connectSteps.connectAssets.checkingServices')} absolute />
                             </SequenceStep>
                         ), // 35s
                         (props) => (
                             <SequenceStep delay={25000} {...props}>
-                                <WithLoopText text="꼼꼼히 확인하는 중이에요. 잠시만 기다려주세요" absolute />
+                                <WithLoopText text={t('connectSteps.connectAssets.checkingCarefully')} absolute />
                             </SequenceStep>
                         ), // 50s
                         (props) => (
                             <SequenceStep delay={10000} {...props}>
-                                <WithLoopText text="마지막으로 데이터를 확인하고 있어요" absolute />
+                                <WithLoopText text={t('connectSteps.connectAssets.finalCheck')} absolute />
                             </SequenceStep>
                         ), // 60s
                     ]}
@@ -80,17 +82,17 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
                             steps={[
                                 (props) => (
                                     <SequenceStep delay={10000} {...props}>
-                                        <Typewriter words={['동기화 하는 중']} />
+                                        <Typewriter words={[t('connectSteps.connectAssets.syncing')]} />
                                     </SequenceStep>
                                 ), // 10s
                                 (props) => (
                                     <SequenceStep delay={20000} {...props}>
-                                        <Typewriter words={['최대 1분 정도 소요될 수 있어요']} />
+                                        <Typewriter words={[t('connectSteps.connectAssets.maxOneMinute')]} />
                                     </SequenceStep>
                                 ), // 30s
                                 (props) => (
                                     <SequenceStep delay={70000} {...props}>
-                                        <Typewriter words={['열심히 찾는 중이에요']} />
+                                        <Typewriter words={[t('connectSteps.connectAssets.searchingHard')]} />
                                     </SequenceStep>
                                 ), // 100s -> loop
                             ]}

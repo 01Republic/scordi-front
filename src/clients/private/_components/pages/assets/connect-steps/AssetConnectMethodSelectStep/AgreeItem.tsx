@@ -1,11 +1,11 @@
-import React, {memo} from 'react';
-import {ChevronRight} from 'lucide-react';
-import {useFormContext} from 'react-hook-form';
 import {LinkTo} from '^components/util/LinkTo';
-import {termsUrl} from '^config/environments';
 import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.request.dto';
-import {FieldPath} from 'react-hook-form/dist/types/path';
 import {WithChildren} from '^types/global.type';
+import {ChevronRight} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useFormContext} from 'react-hook-form';
+import {FieldPath} from 'react-hook-form/dist/types/path';
 
 interface AgreeItemProps extends WithChildren {
     name?: FieldPath<CreateAccountRequestDto>;
@@ -15,6 +15,7 @@ interface AgreeItemProps extends WithChildren {
 }
 
 export const AgreeItem = memo((props: AgreeItemProps) => {
+    const {t} = useTranslation('assets');
     const {register} = useFormContext<CreateAccountRequestDto>();
     const {name, label = '', required = false, href, children} = props;
 
@@ -31,7 +32,7 @@ export const AgreeItem = memo((props: AgreeItemProps) => {
 
             {label && (
                 <span>
-                    {label} {required ? '(필수)' : ''}
+                    {label} {required ? t('connectSteps.agreeTerms.required') : ''}
                 </span>
             )}
 

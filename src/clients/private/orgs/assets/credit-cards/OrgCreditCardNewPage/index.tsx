@@ -1,28 +1,30 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {plainToInstance} from 'class-transformer';
-import {toast} from 'react-hot-toast';
-import {errorNotify} from '^utils/toast-notify';
 import {useOrgIdParam} from '^atoms/common';
-import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
-import {creditCardApi} from '^models/CreditCard/api';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {useAltForm} from '^hooks/useAltForm';
+import {FormContainer} from '^clients/private/_components/containers';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {FadeUp} from '^components/FadeUp';
-import {FormContainer} from '^clients/private/_components/containers';
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {useAltForm} from '^hooks/useAltForm';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {creditCardApi} from '^models/CreditCard/api';
+import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {errorNotify} from '^utils/toast-notify';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
-import {CardNumberInput} from './CardNumberInput';
-import {CardUsingStatusSelect} from './CardUsingStatusSelect';
-import {CardIsPersonalSelect} from './CardIsPersonalSelect';
-import {CardIsCreditCardSelect} from './CardIsCreditCardSelect';
+import {plainToInstance} from 'class-transformer';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect, useState} from 'react';
+import {toast} from 'react-hot-toast';
 import {CardExpirySelects} from './CardExpirySelects';
 import {CardHoldingMemberIdSelect} from './CardHoldingMemberIdSelect';
+import {CardIsCreditCardSelect} from './CardIsCreditCardSelect';
+import {CardIsPersonalSelect} from './CardIsPersonalSelect';
+import {CardNumberInput} from './CardNumberInput';
+import {CardUsingStatusSelect} from './CardUsingStatusSelect';
 
 export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
+    const {t} = useTranslation('assets');
     const router = useRouter();
     const orgId = useOrgIdParam();
     const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto, {
@@ -53,12 +55,12 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
         const data = plainToInstance(UnSignedCreditCardFormData, permittedValues);
 
         if (!data.name) {
-            toast.error('카드 별칭을 입력해주세요');
+            toast.error(t('creditCard.new.validation.nameRequired') || '카드 별칭을 입력해주세요');
             return;
         }
 
         if (!data.number1 || !data.number2 || !data.number3 || !data.number4) {
-            toast.error('카드 번호를 입력해주세요');
+            toast.error(t('creditCard.new.validation.numberRequired') || '카드 번호를 입력해주세요');
             return;
         }
 
@@ -79,7 +81,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
         setLoading(true);
         creditCardApi
             .create(orgId, data.toCreateDto())
-            .then(() => toast.success('카드를 추가했어요.'))
+            .then(() => toast.success(t('creditCard.messages.saveSuccess') || '카드를 추가했어요.'))
             .then(() => router.push(OrgCreditCardListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
@@ -95,9 +97,13 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
             <MainContainer>
                 <Breadcrumb
                     paths={[
-                        '자산',
-                        {text: '결제수단 (카드)', active: false, href: OrgCreditCardListPageRoute.path(orgId)},
-                        {text: '결제수단 추가', active: true},
+                        t('common.asset') || '자산',
+                        {
+                            text: t('creditCard.title') || '결제수단 (카드)',
+                            active: false,
+                            href: OrgCreditCardListPageRoute.path(orgId),
+                        },
+                        {text: t('creditCard.new.title') || '결제수단 추가', active: true},
                     ]}
                 />
 
@@ -105,7 +111,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
 
                 <div className="flex items-center justify-between mb-12">
                     <div>
-                        <h1 className="text-2xl mb-1">결제수단 추가</h1>
+                        <h1 className="text-2xl mb-1">{t('creditCard.new.title') || '결제수단 추가'}</h1>
                         {/*<p className="text-14 text-gray-500">*/}
                         {/*    결제수단을 스코디에 추가하기 위한 필수/선택 정보를 입력해주세요.*/}
                         {/*</p>*/}
@@ -118,17 +124,17 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                         <section className="relative mb-12">
                             <div className="mb-4">
                                 <h2 className="leading-none text-xl font-semibold mb-2">
-                                    Step1. 어떤 사업자 형태이신가요?
+                                    {t('creditCard.new.step1.title') as string}
                                 </h2>
                                 <p className="text-16 text-gray-500">
-                                    개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.
+                                    {t('creditCard.new.step1.description') as string}
                                 </p>
                             </div>
 
                             <div className="grid grid-cols-4 gap-2">
                                 {[
-                                    {label: '기업고객 (법인)', value: false},
-                                    {label: '개인고객 (개인)', value: true},
+                                    {label: t('creditCard.new.step1.corporate') as string, value: false},
+                                    {label: t('creditCard.new.step1.personal') as string, value: true},
                                 ].map((option, i) => {
                                     const active = formData.isPersonal === option.value;
                                     return (
@@ -159,7 +165,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                         <section className="relative mb-20">
                             <div className="mb-10">
                                 <h2 className="leading-none text-xl font-semibold mb-4">
-                                    Step2. 카드사를 선택해주세요.
+                                    {t('creditCard.new.step2.title') as string}
                                 </h2>
                                 <p className="text-16 text-gray-500"></p>
                             </div>
@@ -184,14 +190,16 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                 {/* 정보입력 단계 */}
                 <FadeUp show={!!cardCompany} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
                     <div className="mb-10 flex items-center justify-between">
-                        <h2 className="leading-none text-xl font-semibold">Step3. 세부 정보를 입력해주세요.</h2>
+                        <h2 className="leading-none text-xl font-semibold">
+                            {t('creditCard.new.step3.title') as string}
+                        </h2>
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">
-                                선택된 카드사: <b>{cardCompany}</b>
+                                {t('creditCard.new.step3.selectedCompany') as string}: <b>{cardCompany}</b>
                             </p>
                             <button className="btn btn-xs btn-scordi gap-2" onClick={() => setCompany(undefined)}>
-                                변경하기
+                                {t('creditCard.new.step3.change') as string}
                             </button>
                         </div>
                     </div>

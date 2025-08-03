@@ -1,9 +1,11 @@
-import {ArrowLeft} from 'lucide-react';
-import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
+import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
 
 export const BackButton = () => {
     const router = useRouter();
+    const {t} = useTranslation('common');
 
     return (
         <div
@@ -11,13 +13,14 @@ export const BackButton = () => {
             onClick={() => router.back()}
         >
             <ArrowLeft className="w-6 h-6" />
-            뒤로가기
+            {t('button.back')}
         </div>
     );
 };
 
 export const BackButton2 = () => {
     const router = useRouter();
+    const {t} = useTranslation('common');
 
     return (
         <LinkTo
@@ -26,7 +29,7 @@ export const BackButton2 = () => {
             displayLoading={false}
         >
             <ArrowLeft />
-            뒤로가기
+            {t('button.back')}
         </LinkTo>
     );
 };

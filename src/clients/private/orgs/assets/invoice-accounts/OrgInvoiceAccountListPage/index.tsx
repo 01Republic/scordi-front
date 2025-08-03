@@ -1,17 +1,19 @@
-import React, {memo} from 'react';
-import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialInvoiceMail} from '^components/ExternalCDNScripts/step-by';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
+import {AddInvoiceAccountModal} from './AddInvoiceAccountModal';
 import {InvoiceAccountScopeHandler} from './InvoiceAccountScopeHandler';
 import {InvoiceAccountTableHeader} from './InvoiceAccountTableHeader';
 import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
-import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
-import {AddInvoiceAccountModal} from './AddInvoiceAccountModal';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
+    const {t} = useTranslation('assets');
     const organizationId = useOrgIdParam();
     const {
         search,
@@ -53,8 +55,8 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
         <ListPage
             onReady={onReady}
             onUnmount={() => reset()}
-            breadcrumb={['자산', {text: '청구서 메일', active: true}]}
-            titleText="청구서 메일"
+            breadcrumb={[t('common.asset') as string, {text: t('invoiceAccount.title') as string, active: true}]}
+            titleText={t('invoiceAccount.title') as string}
             Buttons={() => (
                 <>
                     <StepbyTutorialButton onClick={StepByTutorialInvoiceMail} />
@@ -62,7 +64,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                 </>
             )}
             ScopeHandler={<InvoiceAccountScopeHandler />}
-            searchInputPlaceholder="검색어를 입력해주세요"
+            searchInputPlaceholder={t('invoiceAccount.list.searchPlaceholder') as string}
             onSearch={onSearch}
         >
             <ListTableContainer
@@ -74,7 +76,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 청구서 메일이 없어요."
+                emptyMessage={t('invoiceAccount.list.emptyMessage') as string}
                 EmptyButtons={() => <AddInvoiceAccountModal reload={refresh} />}
             >
                 <ListTable

@@ -1,7 +1,8 @@
-import React, {memo, ReactNode} from 'react';
-import {ArrowLeft, Plus} from 'lucide-react';
 import {LinkTo} from '^components/util/LinkTo';
 import {cn} from '^public/lib/utils';
+import {ArrowLeft, Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, ReactNode} from 'react';
 
 interface StatusHeaderProps {
     title: ReactNode;
@@ -13,6 +14,7 @@ interface StatusHeaderProps {
 }
 
 export const StatusHeader = memo((props: StatusHeaderProps) => {
+    const {t} = useTranslation('assets');
     const {title, subTitle, icon, onBack, onMove, className = ''} = props;
     return (
         <article className={cn('flex flex-col justify-start gap-20', className)}>
@@ -23,7 +25,7 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                     displayLoading={false}
                 >
                     <ArrowLeft />
-                    뒤로가기
+                    {t('connectSteps.common.backButton')}
                 </LinkTo>
             )}
 
@@ -62,7 +64,7 @@ export const StatusHeader = memo((props: StatusHeaderProps) => {
                                                         data-aos-offset="0"
                                                     >
                                                         <Plus />
-                                                        <span>자산 추가</span>
+                                                        <span>{t('connectSteps.common.addAsset')}</span>
                                                     </LinkTo>
                                                 )}
                                             </div>

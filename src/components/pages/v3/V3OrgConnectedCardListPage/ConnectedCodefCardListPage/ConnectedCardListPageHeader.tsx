@@ -1,19 +1,18 @@
-import React, {memo, useState} from 'react';
-import {LinkTo} from '^components/util/LinkTo';
-import {useRouter} from 'next/router';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {codefAccountAtom} from '^models/CodefAccount/atom';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
-import {CardListPageMode, reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 import {codefAccountIdParamState} from '^atoms/common';
-import {ArrowLeft, RotateCw} from 'lucide-react';
+import {LinkTo} from '^components/util/LinkTo';
+import {useConnectedCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
+import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
+import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
 
 export const ConnectedCardListPageHeader = memo(() => {
     const {connectMethod} = useCodefAccountPageSubject();
     const router = useRouter();
     const {result} = useConnectedCodefCards(codefAccountIdParamState);
     const {result: pagedSubs} = useSubscriptionsForCodefAccount(codefAccountIdParamState);
+    const {t} = useTranslation('common');
 
     if (!connectMethod) return <></>;
 
@@ -26,7 +25,7 @@ export const ConnectedCardListPageHeader = memo(() => {
                     onClick={() => router.back()}
                     className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                 >
-                    <ArrowLeft /> 뒤로가기
+                    <ArrowLeft /> {t('button.back')}
                 </LinkTo>
             </div>
 

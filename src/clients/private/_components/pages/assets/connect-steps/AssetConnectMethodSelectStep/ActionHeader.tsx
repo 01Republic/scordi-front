@@ -1,13 +1,12 @@
-import {memo, useContext} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
-import {ArrowLeft} from 'lucide-react';
-import {orgIdParamState, useOrgIdParam} from '^atoms/common';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
-import {LinkTo} from '^components/util/LinkTo';
 import {AssetConnectOptionContext} from '^_components/pages/assets/connect-steps';
+import {LinkTo} from '^components/util/LinkTo';
+import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useContext} from 'react';
 
 export const ActionHeader = memo(() => {
+    const {t} = useTranslation('assets');
     const router = useRouter();
     const {ConnectMethodAltActionButton} = useContext(AssetConnectOptionContext);
 
@@ -19,7 +18,7 @@ export const ActionHeader = memo(() => {
                 displayLoading={false}
             >
                 <ArrowLeft />
-                뒤로가기
+                {t('connectSteps.methodSelect.backButton')}
             </LinkTo>
 
             {ConnectMethodAltActionButton && <ConnectMethodAltActionButton />}

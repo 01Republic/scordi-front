@@ -1,13 +1,14 @@
-import React, {memo} from 'react';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {PureLayout} from '^clients/private/_layouts/PureLayout';
-import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
-import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
 import {BusinessTypeSelector} from '^_components/pages/assets/connect-steps/common/BusinessTypeSelector';
 import {CardCompanySelector} from '^_components/pages/assets/connect-steps/common/CardCompanySelector';
+import {StatusHeader} from '^_components/pages/assets/connect-steps/common/StatusHeader';
+import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {PureLayoutContainerSection} from '^clients/private/_layouts/PureLayout/PureLayoutContainerSection';
 import {LinkTo} from '^components/util/LinkTo';
-import {ArrowLeft} from 'lucide-react';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {ArrowLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface AccountConnectStepProps {
     isAppendable?: boolean;
@@ -18,6 +19,7 @@ interface AccountConnectStepProps {
 }
 
 export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
+    const {t} = useTranslation('assets');
     const {isAppendable = false, codefAccounts, onBack, onNext, reload} = props;
 
     return (
@@ -30,7 +32,7 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
                         displayLoading={false}
                     >
                         <ArrowLeft />
-                        뒤로가기
+                        {t('connectSteps.selectCompany.backButton')}
                     </LinkTo>
                 </div>
             </PureLayoutContainerSection>
@@ -39,13 +41,19 @@ export const SelectCompanyStep = memo((props: AccountConnectStepProps) => {
                 <div className="mx-auto max-w-6xl flex flex-col gap-10 px-4">
                     {isAppendable ? (
                         <StatusHeader
-                            title={<span onClick={() => reload && reload()}>새로운 자산을 추가로 등록할까요?</span>}
-                            subTitle="이미 연결된 계정이 있는 곳이라도, 추가로 계정을 연결 할 수 있어요."
+                            title={
+                                <span onClick={() => reload && reload()}>
+                                    {t('connectSteps.selectCompany.appendableTitle')}
+                                </span>
+                            }
+                            subTitle={t('connectSteps.selectCompany.appendableSubTitle')}
                         />
                     ) : (
                         <StatusHeader
-                            title={<span onClick={() => reload && reload()}>어떤 자산을 연결할까요?</span>}
-                            subTitle="개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요."
+                            title={
+                                <span onClick={() => reload && reload()}>{t('connectSteps.selectCompany.title')}</span>
+                            }
+                            subTitle={t('connectSteps.selectCompany.subTitle')}
                         />
                     )}
 

@@ -1,17 +1,19 @@
-import React, {memo, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
-import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
-import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {InvoiceAccountProfilePanel} from './InvoiceAccountProfilePanel';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
+import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {useCurrentInvoiceAccount} from './atom';
 import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
+import {InvoiceAccountProfilePanel} from './InvoiceAccountProfilePanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
-import {useCurrentInvoiceAccount} from './atom';
 
 export const OrgInvoiceAccountShowPage = memo(() => {
+    const {t} = useTranslation('assets');
     const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
@@ -20,8 +22,8 @@ export const OrgInvoiceAccountShowPage = memo(() => {
     return (
         <ShowPage
             breadcrumb={[
-                '자산',
-                {text: '청구서 메일', href: OrgInvoiceAccountListPageRoute.path(orgId)},
+                t('common.asset') as string,
+                {text: t('invoiceAccount.title') as string, href: OrgInvoiceAccountListPageRoute.path(orgId)},
                 {text: `${currentInvoiceAccount?.email}`, active: true},
             ]}
         >
@@ -39,7 +41,10 @@ export const OrgInvoiceAccountShowPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '청구서']}
+                        tabs={[
+                            t('invoiceAccount.show.tabs.subscriptions') as string,
+                            t('invoiceAccount.show.tabs.billingHistory') as string,
+                        ]}
                     />
 
                     {/* right side */}
@@ -69,7 +74,9 @@ export const OrgInvoiceAccountShowPage = memo(() => {
                         renewAccountWithConfirm(orgId, currentInvoiceAccount, {code});
                     }}
                 >
-                    <button id="invoice-email-token-refresh-button">지메일 계정 연동 로그인 트리거</button>
+                    <button id="invoice-email-token-refresh-button">
+                        {t('invoiceAccount.show.actions.sync') as string}
+                    </button>
                 </GoogleGmailOAuthButton>
             </div>
         </ShowPage>

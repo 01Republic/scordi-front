@@ -1,14 +1,15 @@
-import React, {memo} from 'react';
-import {toast} from 'react-hot-toast';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {bankAccountApi} from '^models/BankAccount/api';
-import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {BankAccountProfileOption2} from '^models/BankAccount/components/BankAccountProfile';
-import {CreditCardProfileCompact, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
 import {BankAccountDto, BankAccountUsingStatus, UpdateBankAccountRequestDto} from '^models/BankAccount/type';
+import {CreditCardProfileCompact, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
+import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAccountId]';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface BankAccountTableRowProps {
     bankAccount: BankAccountDto;
@@ -16,14 +17,15 @@ interface BankAccountTableRowProps {
 }
 
 export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
+    const {t} = useTranslation('assets');
     const {bankAccount, reload} = props;
 
     const update = async (dto: UpdateBankAccountRequestDto) => {
         const {id, organizationId: orgId} = bankAccount;
         return bankAccountApi
             .update(orgId, id, dto)
-            .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
+            .then(() => toast.success(t('bankAccount.messages.saveSuccess') as string))
+            .catch(() => toast.error(t('bankAccount.messages.saveError') as string))
             .finally(() => reload && reload());
     };
 
@@ -57,7 +59,7 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
                     }}
                     ValueComponent={UsingStatusTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="사용 상태를 변경합니다"
+                    optionListBoxTitle={t('bankAccount.modals.changeStatus.title') as string}
                     inputDisplay={false}
                 />
             </td>
@@ -84,7 +86,7 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
                     }}
                     ValueComponent={IsPersonalTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="카드 구분"
+                    optionListBoxTitle={t('bankAccount.list.table.header.type') as string}
                     inputDisplay={false}
                 />
             </td>
@@ -110,8 +112,8 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
                         if (bankAccount.holdingMemberId === holdingMember?.id) return;
                         return update({holdingMemberId: holdingMember?.id || null});
                     }}
-                    optionListBoxTitle="관리자를 변경할까요?"
-                    detachableOptionBoxTitle="현재 관리자"
+                    optionListBoxTitle={t('bankAccount.list.table.header.member') as string}
+                    detachableOptionBoxTitle={t('bankAccount.list.table.header.member') as string}
                 />
             </td>
 

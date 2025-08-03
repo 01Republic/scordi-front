@@ -1,28 +1,30 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {toast} from 'react-toastify';
-import {useOrgIdParam} from '^atoms/common';
-import {useAltForm} from '^hooks/useAltForm';
-import {errorNotify} from '^utils/toast-notify';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {plainToInstance} from '^types/utils/class-transformer';
-import {creditCardApi} from '^models/CreditCard/api';
-import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
-import {FadeUp} from '^components/FadeUp';
 import {FormContainer} from '^_components/containers';
 import {FormControl} from '^_components/inputs/FormControl';
-import {CardNumberInput} from '../../credit-cards/OrgCreditCardNewPage/CardNumberInput';
-import {CardUsingStatusSelect} from '../../credit-cards/OrgCreditCardNewPage/CardUsingStatusSelect';
-import {CardIsPersonalSelect} from '../../credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
-import {CardIsCreditCardSelect} from '../../credit-cards/OrgCreditCardNewPage/CardIsCreditCardSelect';
+import {useOrgIdParam} from '^atoms/common';
+import {FadeUp} from '^components/FadeUp';
+import {useAltForm} from '^hooks/useAltForm';
+import {creditCardApi} from '^models/CreditCard/api';
+import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {plainToInstance} from '^types/utils/class-transformer';
+import {errorNotify} from '^utils/toast-notify';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
 import {CardExpirySelects} from '../../credit-cards/OrgCreditCardNewPage/CardExpirySelects';
 import {CardHoldingMemberIdSelect} from '../../credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
+import {CardIsCreditCardSelect} from '../../credit-cards/OrgCreditCardNewPage/CardIsCreditCardSelect';
+import {CardIsPersonalSelect} from '../../credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
+import {CardNumberInput} from '../../credit-cards/OrgCreditCardNewPage/CardNumberInput';
+import {CardUsingStatusSelect} from '../../credit-cards/OrgCreditCardNewPage/CardUsingStatusSelect';
 
 interface CardManualFormProps {
     isPersonal: boolean;
 }
 
 export const CardManualForm = memo((props: CardManualFormProps) => {
+    const {t} = useTranslation('assets');
     const {isPersonal} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
@@ -57,12 +59,12 @@ export const CardManualForm = memo((props: CardManualFormProps) => {
         const data = plainToInstance(UnSignedCreditCardFormData, permittedValues);
 
         if (!data.name) {
-            toast.error('카드 별칭을 입력해주세요');
+            toast.error(t('creditCard.new.validation.nameRequired') as string);
             return;
         }
 
         if (!data.number1 || !data.number2 || !data.number3 || !data.number4) {
-            toast.error('카드 번호를 입력해주세요');
+            toast.error(t('creditCard.new.validation.numberRequired') as string);
             return;
         }
 
@@ -74,7 +76,7 @@ export const CardManualForm = memo((props: CardManualFormProps) => {
         setLoading(true);
         creditCardApi
             .create(orgId, data.toCreateDto())
-            .then(() => toast.success('카드를 추가했어요.'))
+            .then(() => toast.success(t('creditCard.messages.saveSuccess') as string))
             .then(() => router.push(OrgCreditCardListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
@@ -86,8 +88,10 @@ export const CardManualForm = memo((props: CardManualFormProps) => {
                 <input type="hidden" name="issuerCompany" value={cardCompany} />
                 <div className="px-4 py-8 border-b">
                     <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
-                        <h2 className="leading-none text-xl font-semibold">필수정보</h2>
-                        <FormControl label="카드 이름" required>
+                        <h2 className="leading-none text-xl font-semibold">
+                            {t('creditCard.new.form.requiredInfo') as string}
+                        </h2>
+                        <FormControl label={t('creditCard.new.form.name') as string} required>
                             <input
                                 name="name"
                                 className={`input input-underline !bg-slate-100 w-full ${

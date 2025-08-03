@@ -1,20 +1,15 @@
-import React, {memo} from 'react';
-import {toast} from 'react-hot-toast';
-import {
-    CreditCardDto,
-    CreditCardUsingStatus,
-    t_creditCardUsingStatus,
-    UpdateCreditCardDto,
-} from '^models/CreditCard/type';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/components';
-import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
+import {CreditCardProfileOption2, IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
+import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface CreditCardTableRowProps {
     creditCard: CreditCardDto;
@@ -22,14 +17,15 @@ interface CreditCardTableRowProps {
 }
 
 export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
+    const {t} = useTranslation('assets');
     const {creditCard, reload} = props;
 
     const update = debounce(async (dto: UpdateCreditCardDto) => {
         const {id, organizationId: orgId} = creditCard;
         return creditCardApi
             .update(orgId, id, dto)
-            .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
+            .then(() => toast.success(t('creditCard.messages.saveSuccess') as string))
+            .catch(() => toast.error(t('creditCard.messages.saveError') as string))
             .finally(() => reload && reload());
     }, 250);
 
@@ -63,7 +59,7 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
                     }}
                     ValueComponent={UsingStatusTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="사용 상태를 변경합니다"
+                    optionListBoxTitle={t('creditCard.modals.changeStatus.title') as string}
                     inputDisplay={false}
                 />
             </td>
@@ -90,7 +86,7 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
                     }}
                     ValueComponent={IsPersonalTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="카드 구분"
+                    optionListBoxTitle={t('creditCard.list.table.header.type') as string}
                     inputDisplay={false}
                 />
             </td>
@@ -106,7 +102,7 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
                     }}
                     ValueComponent={IsCreditCardTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="카드 종류"
+                    optionListBoxTitle={t('creditCard.list.table.header.category') as string}
                     inputDisplay={false}
                 />
             </td>
@@ -140,8 +136,8 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
                         if (creditCard.holdingMemberId === holdingMember?.id) return;
                         return update({holdingMemberId: holdingMember?.id || null});
                     }}
-                    optionListBoxTitle="소지자를 변경할까요?"
-                    detachableOptionBoxTitle="현재 소지자"
+                    optionListBoxTitle={t('creditCard.list.table.header.member') as string}
+                    detachableOptionBoxTitle={t('creditCard.list.table.header.member') as string}
                 />
             </td>
 

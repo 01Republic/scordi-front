@@ -1,16 +1,17 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {LinkTo} from '^components/util/LinkTo';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
+import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
-import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {LinkTo} from '^components/util/LinkTo';
 import {useRouter} from 'next/router';
-import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
+import {memo, useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
+import {useRecoilValue, useResetRecoilState} from 'recoil';
 // import {toaster as toast} from '^hooks/useToast';
 import {ArrowLeft, Loader} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 export const GmailInvoiceConnectingPage = memo(function GmailInvoiceConnectingPage() {
     const router = useRouter();
@@ -20,6 +21,7 @@ export const GmailInvoiceConnectingPage = memo(function GmailInvoiceConnectingPa
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
     const {reload} = useInvoiceAccountListInConnector();
+    const {t} = useTranslation('common');
 
     const routerBack = () => {
         // setIsLoading(false);
@@ -58,7 +60,7 @@ export const GmailInvoiceConnectingPage = memo(function GmailInvoiceConnectingPa
                         onClick={routerBack}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <ArrowLeft /> 뒤로가기
+                        <ArrowLeft /> {t('button.back')}
                     </LinkTo>
                 </div>
 

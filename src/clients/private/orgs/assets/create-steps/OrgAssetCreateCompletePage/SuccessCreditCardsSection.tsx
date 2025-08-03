@@ -1,15 +1,17 @@
-import React, {memo} from 'react';
+import Tippy from '@tippyjs/react';
+import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
+import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {unitFormat} from '^utils/number';
-import {ConnectedItem} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate/ConnectedItem';
-import Tippy from '@tippyjs/react';
-import {ContentSection} from '^_components/pages/assets/connect-steps/common/ContentSection';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface SuccessCreditCardsSectionProps {
     creditCards: CreditCardDto[];
 }
 
 export const SuccessCreditCardsSection = memo((props: SuccessCreditCardsSectionProps) => {
+    const {t} = useTranslation('assets');
     const {creditCards} = props;
 
     if (creditCards.length === 0) return <></>;
@@ -18,7 +20,8 @@ export const SuccessCreditCardsSection = memo((props: SuccessCreditCardsSectionP
         <ContentSection
             text={
                 <span className="flex items-center gap-1">
-                    카드 <small className="text-scordi font-bold">({unitFormat(creditCards.length, '')})</small>
+                    {t('createSteps.complete.creditCards.title') as string}{' '}
+                    <small className="text-scordi font-bold">({unitFormat(creditCards.length, '')})</small>
                 </span>
             }
         >
@@ -30,7 +33,11 @@ export const SuccessCreditCardsSection = memo((props: SuccessCreditCardsSectionP
                         subText={
                             <Tippy content={creditCard.fullNumber} className="!text-12">
                                 <div>
-                                    <span>끝자리: {creditCard.numbers.number4 || '알수없음'}</span>
+                                    <span>
+                                        {t('createSteps.complete.creditCards.lastDigits') as string}:{' '}
+                                        {creditCard.numbers.number4 ||
+                                            (t('createSteps.complete.creditCards.unknown') as string)}
+                                    </span>
                                 </div>
                             </Tippy>
                         }

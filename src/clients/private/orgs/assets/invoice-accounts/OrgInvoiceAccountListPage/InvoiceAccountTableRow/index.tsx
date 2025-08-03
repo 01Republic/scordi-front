@@ -1,17 +1,18 @@
-import React, {memo} from 'react';
-import {AxiosResponse} from 'axios';
-import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {TeamDto} from '^models/Team/type';
-import {TeamSelect} from '^models/Team/components/TeamSelect';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {InvoiceAccountDto, InvoiceAccountUsingStatus, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile, InvoiceAccountProviderAvatar, UsingStatusTag} from '^models/InvoiceAccount/components';
+import {InvoiceAccountDto, InvoiceAccountUsingStatus, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {TeamSelect} from '^models/Team/components/TeamSelect';
+import {TeamDto} from '^models/Team/type';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {AxiosResponse} from 'axios';
 import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -19,20 +20,23 @@ interface InvoiceAccountTableRowProps {
 }
 
 export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) => {
+    const {t} = useTranslation('assets');
     const {invoiceAccount, reload} = props;
     const {id, organizationId: orgId, subscriptions = []} = invoiceAccount;
 
     const update = debounce((dto: UpdateInvoiceAccountDto) => {
         return invoiceAccountApi
             .updateV3(orgId, id, dto)
-            .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
+            .then(() => toast.success(t('invoiceAccount.messages.saveSuccess') as string))
+            .catch(() => toast.error(t('invoiceAccount.messages.saveError') as string))
             .finally(() => reload && reload());
     }, 250);
 
     const setTeam = async (team?: TeamDto) => {
         const handler = (req: Promise<AxiosResponse<any>>) => {
-            req.then(() => toast.success('변경사항을 저장했어요.')).catch(errorToast);
+            req.then(() => toast.success(t('invoiceAccount.messages.saveSuccess') || '변경사항을 저장했어요.')).catch(
+                errorToast,
+            );
             // .finally(() => reload && reload());
         };
 
@@ -96,7 +100,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                     }}
                     ValueComponent={UsingStatusTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="사용 상태를 변경합니다"
+                    optionListBoxTitle={t('invoiceAccount.modals.changeStatus.title') as string}
                     inputDisplay={false}
                 />
             </td>

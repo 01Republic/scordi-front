@@ -1,20 +1,22 @@
-import React, {memo} from 'react';
-import {useRouter} from 'next/router';
-import {useSetRecoilState} from 'recoil';
-import {useOrgIdParam} from '^atoms/common';
-import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
-import {LinkTo} from '^components/util/LinkTo';
 import {AssetConnectPageTemplate, ConnectAssetsStepStrategy} from '^_components/pages/assets/connect-steps';
-import {connectedAssetsAtom} from '../atom';
+import {useOrgIdParam} from '^atoms/common';
+import {LinkTo} from '^components/util/LinkTo';
 import {BankAccountDto} from '^models/BankAccount/type';
+import {OrgAssetsCreateByManualPageRoute} from '^pages/orgs/[id]/assets/new/by-manual';
+import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
 import {toast} from 'react-hot-toast';
+import {useSetRecoilState} from 'recoil';
+import {connectedAssetsAtom} from '../atom';
 
 /**
  * 자산 등록
  */
 export const OrgAssetCreateMethodSelectPage = memo(() => {
+    const {t} = useTranslation('assets');
     const router = useRouter();
     const orgId = useOrgIdParam();
     const setConnectedAssets = useSetRecoilState(connectedAssetsAtom);
@@ -27,23 +29,23 @@ export const OrgAssetCreateMethodSelectPage = memo(() => {
                     className="text-14 transition-all hover:font-semibold"
                     displayLoading={false}
                 >
-                    수동으로 등록하기
+                    {t('createSteps.manualRegister') as string}
                 </LinkTo>
             )}
             assetConnectMethodSelectStep={{
-                title: '자산을 연동해 볼까요?',
+                title: t('createSteps.connectMethod.title') as string,
             }}
             selectAssetsStep={{
-                title: '금융기관으로부터 불러온 자산이에요.',
-                subTitle: '어떤 자산을 연결할까요?',
+                title: t('createSteps.selectAssets.title') as string,
+                subTitle: t('createSteps.selectAssets.subTitle') as string,
                 // nextButtonText: '완료',
-                nextButtonText: '연결하고 마치기',
+                nextButtonText: t('createSteps.selectAssets.nextButtonText') as string,
             }}
             connectAssetsStep={{
                 strategy: ConnectAssetsStepStrategy.CreateScordiAssets,
             }}
             onSuccess={(connectedAssets) => {
-                if (connectedAssets.length > 0) toast.success('자산이 추가되었어요.');
+                if (connectedAssets.length > 0) toast.success(t('createSteps.messages.success') as string);
 
                 const bankAccountExist = connectedAssets.some((asset) => asset instanceof BankAccountDto);
                 // 연동 결과에 카드가 없이 계좌만 있다면,

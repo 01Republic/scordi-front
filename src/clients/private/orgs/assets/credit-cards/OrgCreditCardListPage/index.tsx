@@ -1,18 +1,19 @@
-import React, {memo} from 'react';
-import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {StepbyTutorialButton, StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
-import {StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
-import {StepbyTutorialButton} from '^components/ExternalCDNScripts/step-by';
-import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
+import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {AddAssetButton} from '../../AddAssetButton';
+import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
+    const {t} = useTranslation('assets');
     const organizationId = useOrgIdParam();
     const {
         search,
@@ -49,7 +50,11 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
         <ListPage
             onReady={onReady}
             onUnmount={() => reset()}
-            breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
+            breadcrumb={[
+                t('common.asset') as string,
+                t('common.paymentMethod') as string,
+                {text: t('creditCard.title') as string, active: true},
+            ]}
             Title={() => <TitleScopeHandler />}
             Buttons={() => (
                 <>
@@ -58,7 +63,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 </>
             )}
             ScopeHandler={<CreditCardScopeHandler />}
-            searchInputPlaceholder="검색어를 입력해주세요"
+            searchInputPlaceholder={t('creditCard.list.searchPlaceholder') as string}
             onSearch={onSearch}
         >
             <ListTableContainer
@@ -69,7 +74,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 결제수단이 없어요."
+                emptyMessage={t('creditCard.list.emptyMessage') as string}
                 EmptyButtons={() => <AddAssetButton />}
             >
                 <ListTable

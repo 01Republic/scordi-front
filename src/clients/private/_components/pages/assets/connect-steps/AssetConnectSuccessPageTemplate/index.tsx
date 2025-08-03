@@ -1,24 +1,24 @@
-import React, {memo, ReactNode} from 'react';
-import {useRouter} from 'next/router';
+import {useQueries} from '@tanstack/react-query';
+import {EmptyTable} from '^_components/table/EmptyTable';
 import {useOrgIdParam} from '^atoms/common';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
 import {PureLayout} from '^clients/private/_layouts/PureLayout';
+import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
+import {Lottie, LOTTIE_SRC} from '^components/LottieNoSSR';
+import {LoadableBox} from '^components/util/loading';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {subscriptionApi} from '^models/Subscription/api';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {FindOptionsWhere} from '^types/utils/find-options';
+import {unitFormat} from '^utils/number';
+import {WithLoopText} from '^utils/TypeWritter';
+import {queriesCombine} from '^utils/useQueries';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, ReactNode} from 'react';
 import {NextStepButton} from '../common/NextStepButton';
 import {StatusHeader} from '../common/StatusHeader';
 import {SubscriptionItem} from './SubscriptionItem';
-import {EmptyTable} from '^_components/table/EmptyTable';
-import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {BankAccountDto} from '^models/BankAccount/type';
-import {useQueries} from '@tanstack/react-query';
-import {subscriptionApi} from '^models/Subscription/api';
-import {FindOptionsWhere} from '^types/utils/find-options';
-import {queriesCombine} from '^utils/useQueries';
-import {LoadableBox} from '^components/util/loading';
-import {PureLayoutContainer} from '^clients/private/_layouts/PureLayout/PureLayoutContainer';
-import {unitFormat} from '^utils/number';
-import {WithLoopText} from '^utils/TypeWritter';
 
 interface AssetConnectSuccessPageTemplateProps {
     assets: (CreditCardDto | BankAccountDto)[];
@@ -29,6 +29,7 @@ interface AssetConnectSuccessPageTemplateProps {
 }
 
 export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessPageTemplateProps) => {
+    const {t} = useTranslation('assets');
     const {assets, onNext, moveFirst, nextBtnText, moveFirstBtnText} = props;
 
     const router = useRouter();
@@ -69,22 +70,22 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
             <PureLayoutContainer className="flex flex-col gap-20">
                 <StatusHeader
                     title={(() => {
-                        if (isLoading) return <WithLoopText text="로딩중" />;
+                        if (isLoading) return <WithLoopText text={t('connectSteps.successPage.loading')} />;
 
                         return (
                             <span onClick={() => refetch()}>
                                 {subscriptions.length > 0
-                                    ? `총 ${unitFormat(subscriptions.length)}의 구독을 불러왔어요`
-                                    : `구독을 찾지 못했어요`}
+                                    ? t('connectSteps.successPage.subscriptionsFound', {
+                                          count: unitFormat(subscriptions.length),
+                                      })
+                                    : t('connectSteps.successPage.noSubscriptions')}
                             </span>
                         );
                     })()}
                     subTitle={(() => {
                         if (isLoading) return '';
 
-                        return subscriptions.length > 0
-                            ? undefined
-                            : '결제수단에서 구독서비스 지출 이력이 없거나, 스코디가 처음보는 서비스일 수도 있어요.';
+                        return subscriptions.length > 0 ? undefined : t('connectSteps.successPage.noSubscriptionsDesc');
                     })()}
                     icon={(() => {
                         if (isLoading) return undefined;
@@ -105,9 +106,12 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                     {subscriptions.length === 0 ? (
                         isLoading ? (
-                            <EmptyTable message="불러온 구독이 없어요" className="invisible" />
+                            <EmptyTable
+                                message={t('connectSteps.successPage.noSubscriptionsMessage')}
+                                className="invisible"
+                            />
                         ) : (
-                            <EmptyTable message="불러온 구독이 없어요" />
+                            <EmptyTable message={t('connectSteps.successPage.noSubscriptionsMessage')} />
                         )
                     ) : (
                         <ul className="grid grid-cols-4 gap-8 w-full">
@@ -129,14 +133,14 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                 >
                     <div className="flex items-center gap-2">
                         <NextStepButton
-                            text={nextBtnText || `완료하고 마치기`}
+                            text={nextBtnText || t('connectSteps.successPage.completeButton')}
                             onClick={onNext}
                             className="btn-secondary"
                             localLoading
                         />
                         {moveFirst && (
                             <NextStepButton
-                                text={moveFirstBtnText || '다른 자산으로 불러오기'}
+                                text={moveFirstBtnText || t('connectSteps.successPage.loadOtherAssetsButton')}
                                 onClick={moveFirst}
                                 className="btn-scordi"
                                 localLoading

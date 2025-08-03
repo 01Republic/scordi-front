@@ -1,16 +1,18 @@
-import React, {memo, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {CardCreateMethod, CardCreateMethodModal, CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
+import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
 import {Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
 
 interface AddCreditCardModalProps {
     reload: () => any;
 }
 
 export const AddCreditCardModal = memo((props: AddCreditCardModalProps) => {
+    const {t} = useTranslation('assets');
     const {reload} = props;
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
@@ -25,7 +27,7 @@ export const AddCreditCardModal = memo((props: AddCreditCardModalProps) => {
                 onClick={() => setIsCardCreateMethodModalOpen(true)}
             >
                 <Plus />
-                <span className="mr-1.5">카드 추가</span>
+                <span className="mr-1.5">{t('creditCard.list.addButton') as string}</span>
             </button>
 
             {/* 결제수단 등록 > 등록 방법 선택 */}

@@ -1,83 +1,86 @@
 {
-  "hi": "안녕",
-  "date": {
-    "year": "년",
-    "years": "년",
-    "month": "월",
-    "months": "월",
-    "month2": "달",
-    "month3": "개월",
-    "week": "주",
-    "weeks": "주",
-    "day": "일",
-    "days": "일",
-    "hour": "사",
-    "hours": "사",
-    "minute": "분",
-    "minutes": "분",
-    "second": "초",
-    "seconds": "초",
-    "range": {
-      "all": "전체",
-      "recent": "최근 {{value}}",
-      "this": "이번 {{value}}",
-      "last": "지난 {{value}}"
-    }
-  },
-  "items": "개",
-  "count_of_name": "{{count}}개의 {{name}}",
-  "subscribing_service": "구독중인 서비스",
-  "nav": {
-    "home": "홈",
-    "subscription": "구독",
-    "subscriptionList": "구독리스트",
-    "billingStatus": "결제현황",
-    "team": "팀",
-    "teamList": "팀 목록",
-    "members": "구성원",
-    "asset": "자산",
-    "creditCard": "결제수단",
-    "invoiceMail": "청구서 메일",
-    "work": "업무",
-    "request": "요청",
-    "settings": "설정"
-  },
-  "orgTopBar": {
-    "membershipLevelSuffix": "님은 ",
-    "membershipLevelPostfix": "입니다",
-    "dot": ".",
-    "subscriptionRegisterButton": "구독 등록하기",
-    "profileDropdown": {
-      "nameSuffix": "님",
-      "adminLink": "스코디 어드민"
+    "hi": "안녕",
+    "date": {
+        "year": "년",
+        "years": "년",
+        "month": "월",
+        "months": "월",
+        "month2": "달",
+        "month3": "개월",
+        "week": "주",
+        "weeks": "주",
+        "day": "일",
+        "days": "일",
+        "hour": "사",
+        "hours": "사",
+        "minute": "분",
+        "minutes": "분",
+        "second": "초",
+        "seconds": "초",
+        "range": {
+            "all": "전체",
+            "recent": "최근 {{value}}",
+            "this": "이번 {{value}}",
+            "last": "지난 {{value}}"
+        }
     },
-    "workspaceDropdown": {
-      "createWorkspace": "새 워크스페이스 만들기"
+    "items": "개",
+    "count_of_name": "{{count}}개의 {{name}}",
+    "subscribing_service": "구독중인 서비스",
+    "nav": {
+        "home": "홈",
+        "subscription": "구독",
+        "subscriptionList": "구독리스트",
+        "billingStatus": "결제현황",
+        "team": "팀",
+        "teamList": "팀 목록",
+        "members": "구성원",
+        "asset": "자산",
+        "creditCard": "결제수단",
+        "invoiceMail": "청구서 메일",
+        "work": "업무",
+        "request": "요청",
+        "settings": "설정"
+    },
+    "orgTopBar": {
+        "membershipLevelSuffix": "님은 ",
+        "membershipLevelPostfix": "입니다",
+        "dot": ".",
+        "subscriptionRegisterButton": "구독 등록하기",
+        "profileDropdown": {
+            "nameSuffix": "님",
+            "adminLink": "스코디 어드민"
+        },
+        "workspaceDropdown": {
+            "createWorkspace": "새 워크스페이스 만들기"
+        }
+    },
+    "footer": {
+        "companyName": "(주) 제로원리퍼블릭 (01Republic, Inc.)",
+        "ceo": "대표: 김용현, 김규리",
+        "regNo": "사업자등록번호: 227-86-02683",
+        "salesNo": "통신판매업번호: 2023-서울서초-3752",
+        "address": "주소: 서울시 종로구 종로 6, 5층",
+        "customerService": "고객센터 유선전화: 02-2088-6337",
+        "copyright": "Copyright 2024 © 01Republic. All Rights Reserved",
+        "privacy": "개인정보처리방침",
+        "terms": "이용약관"
+    },
+    "pagination": {
+        "total": "전체",
+        "of": "중",
+        "maxDisplay": "최대 표시",
+        "all": "전체",
+        "previous": "이전",
+        "next": "다음"
+    },
+    "table": {
+        "emptyMessage": "조회된 결과가 없어요.",
+        "underConstruction": "공사중이에요",
+        "open": "열기",
+        "total": "전체"
+    },
+    "button": {
+        "back": "뒤로가기"
     }
-  },
-  "footer": {
-    "companyName": "(주) 제로원리퍼블릭 (01Republic, Inc.)",
-    "ceo": "대표: 김용현, 김규리",
-    "regNo": "사업자등록번호: 227-86-02683",
-    "salesNo": "통신판매업번호: 2023-서울서초-3752",
-    "address": "주소: 서울시 종로구 종로 6, 5층",
-    "customerService": "고객센터 유선전화: 02-2088-6337",
-    "copyright": "Copyright 2024 © 01Republic. All Rights Reserved",
-    "privacy": "개인정보처리방침",
-    "terms": "이용약관"
-  },
-  "pagination": {
-    "total": "전체",
-    "of": "중",
-    "maxDisplay": "최대 표시",
-    "all": "전체",
-    "previous": "이전",
-    "next": "다음"
-  },
-  "table": {
-    "emptyMessage": "조회된 결과가 없어요.",
-    "underConstruction": "공사중이에요",
-    "open": "열기",
-    "total": "전체"
-  }
 }

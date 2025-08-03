@@ -1,25 +1,31 @@
-import React, {memo, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
-import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {BankAccountProfilePanel} from './BankAccountProfilePanel';
+import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 import {BankAccountActionPanel} from './BankAccountActionPanel';
 import {BankAccountInformationPanel} from './BankAccountInformationPanel';
+import {BankAccountProfilePanel} from './BankAccountProfilePanel';
+import {BillingHistoryListOfBankAccountTabContent} from './BillingHistoryListOfBankAccountTabContent';
 import {CreditCardListOfBankAccountTabContent} from './CreditCardListOfBankAccountTabContent';
 import {SubscriptionListOfBankAccountTabContent} from './SubscriptionListOfBankAccountTabContent';
-import {BillingHistoryListOfBankAccountTabContent} from './BillingHistoryListOfBankAccountTabContent';
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
+    const {t} = useTranslation('assets');
     const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
         <ShowPage
             breadcrumb={[
-                '자산',
-                {text: '결제수단 (계좌)', active: false, href: OrgBankAccountListPageRoute.path(orgId)},
-                {text: '계좌 상세', active: true},
+                t('common.asset') as string,
+                {
+                    text: t('bankAccount.title') as string,
+                    active: false,
+                    href: OrgBankAccountListPageRoute.path(orgId),
+                },
+                {text: t('bankAccount.show.title') as string, active: true},
             ]}
         >
             <header className="flex items-center justify-between pt-8 pb-4">
@@ -36,7 +42,11 @@ export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제', '카드']}
+                        tabs={[
+                            t('bankAccount.show.tabs.subscriptions') as string,
+                            t('bankAccount.show.tabs.billingHistory') as string,
+                            t('bankAccount.show.tabs.creditCards') as string,
+                        ]}
                     />
                 </div>
 

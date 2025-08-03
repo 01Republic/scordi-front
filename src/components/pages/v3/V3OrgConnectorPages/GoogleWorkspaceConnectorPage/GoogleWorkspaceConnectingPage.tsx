@@ -1,14 +1,14 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {LinkTo} from '^components/util/LinkTo';
-import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
-import {userSocialGoogleApi} from '^api/social-google.api';
-import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
-import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
-import {AxiosError} from 'axios';
 import {ApiError} from '^api/api';
+import {userSocialGoogleApi} from '^api/social-google.api';
+import {LinkTo} from '^components/util/LinkTo';
 import {useAlert} from '^hooks/useAlert';
+import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
+import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
 import {ArrowLeft, Loader} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect, useState} from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
@@ -18,6 +18,7 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
     const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const {alert} = useAlert();
+    const {t} = useTranslation('common');
 
     const routerBack = () => {
         setIsLoading(false);
@@ -91,7 +92,7 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
                         onClick={routerBack}
                         className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
                     >
-                        <ArrowLeft /> 뒤로가기
+                        <ArrowLeft /> {t('button.back')}
                     </LinkTo>
                 </div>
 
