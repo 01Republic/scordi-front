@@ -19,6 +19,9 @@ export const CreditCardTableHeader = memo((props: CreditCardTableHeaderProps) =>
                 상태
             </SortableTH>
 
+            {/* 구독 수 */}
+            <th>구독 수</th>
+
             {/* 카드사 */}
             <th>카드사</th>
 
@@ -54,9 +57,6 @@ export const CreditCardTableHeader = memo((props: CreditCardTableHeaderProps) =>
 
             {/* 소지자 */}
             <th>소지자</th>
-
-            {/* 구독 수 */}
-            <th>구독 수</th>
 
             {/* 비고 */}
             <th>비고</th>

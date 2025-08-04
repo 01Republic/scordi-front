@@ -19,6 +19,9 @@ export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) 
                 상태
             </SortableTH>
 
+            {/* 구독 수 */}
+            <th>구독 수</th>
+
             {/* 은행명 */}
             <th>은행명</th>
 
@@ -30,9 +33,6 @@ export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) 
 
             {/* 관리자 */}
             <th>관리자</th>
-
-            {/* 구독 수 */}
-            <th>구독 수</th>
 
             {/* 비고 */}
             <th>비고</th>
