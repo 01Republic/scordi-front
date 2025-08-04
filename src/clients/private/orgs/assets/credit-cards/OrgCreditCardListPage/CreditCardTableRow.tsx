@@ -34,6 +34,7 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
     }, 250);
 
     const company = creditCard.company;
+    const subscriptions = creditCard.subscriptions;
     const expiry = creditCard.decryptSign().expiry;
 
     const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
@@ -143,6 +144,13 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
                     optionListBoxTitle="소지자를 변경할까요?"
                     detachableOptionBoxTitle="현재 소지자"
                 />
+            </td>
+
+            {/* 구독 수 */}
+            <td>
+                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
+                    <small>{subscriptions ? subscriptions.length : 0} Apps</small>
+                </p>
             </td>
 
             {/* 비고 */}
