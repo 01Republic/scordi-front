@@ -31,6 +31,9 @@ export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) 
             {/* 관리자 */}
             <th>관리자</th>
 
+            {/* 구독 수 */}
+            <th>구독 수</th>
+
             {/* 비고 */}
             <th>비고</th>
         </tr>
