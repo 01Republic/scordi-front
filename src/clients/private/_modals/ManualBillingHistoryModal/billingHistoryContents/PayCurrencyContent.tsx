@@ -17,10 +17,19 @@ export const PayCurrencyContent = memo((props: PayCurrencyContentProps) => {
     const handleDateChange = (code: CurrencyCode) => {
         setValue('payCurrency', code, {shouldValidate: true, shouldDirty: true});
     };
+
+    // abroadPayAmount는 외화 금액인 경우만 들어가는 값으로
+    // abroadPayAmount가 없다면 원화인 경우 이기 때문에 아래와 같이 처리함.
+    const payAmountCode = defaultValue?.payAmount?.code;
+    const abroadPayAmountCode = defaultValue?.abroadPayAmount?.code;
+
     return (
         <ContentBox label="결제 통화">
             <input type="hidden" {...register('payCurrency')} />
-            <PayCurrencySelect defaultValue={defaultValue?.abroadPayAmount?.code} onSelect={handleDateChange} />
+            <PayCurrencySelect
+                defaultValue={abroadPayAmountCode ? abroadPayAmountCode : payAmountCode}
+                onSelect={handleDateChange}
+            />
         </ContentBox>
     );
 });
