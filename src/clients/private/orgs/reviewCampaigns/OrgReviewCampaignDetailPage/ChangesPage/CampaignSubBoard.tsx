@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {ChevronDown, HelpCircle} from 'lucide-react';
-import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
-import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
-import {CheckBoxButton} from './CheckBoxButton';
-import {UsingStatusColumn} from './UsingStatusColumn';
-import {reviewCampaignApi} from '^models/ReviewCampaign/api';
-import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useIdParam} from '^atoms/common';
 import {Avatar} from '^components/Avatar';
-import Tippy from '@tippyjs/react';
+import {reviewCampaignApi} from '^models/ReviewCampaign/api';
+import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
+import {ChevronDown, HelpCircle} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useEffect, useState} from 'react';
+import {toast} from 'react-hot-toast';
+import {CheckBoxButton} from './CheckBoxButton';
+import {UsingStatusColumn} from './UsingStatusColumn';
 
 interface CampaignSubscriptionBoardProps {
     campaign?: ReviewCampaignDto;
@@ -26,6 +26,7 @@ interface CampaignSubscriptionBoardProps {
  */
 export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
     const orgId = useIdParam('id');
+    const {t} = useTranslation('reviewCampaigns');
     const {campaign, campaignSubscription, responseSubscriptions, isFocused, isConfirmed, toggleConfirm, reload} =
         props;
     const [isExpanded, setIsExpanded] = useState(!isConfirmed);
@@ -67,16 +68,16 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                     <div className="flex items-center gap-4">
                         {campaignSubscription.hasNotSubmitted() ? (
                             <div>
-                                <p className="text-12 text-gray-400">미제출 응답이 포함되어 있어요</p>
+                                <p className="text-12 text-gray-400">{t('changes.hasNotSubmitted')}</p>
                             </div>
                         ) : (
                             !campaignSubscription.hasChanged() && (
-                                <p className="text-12 text-gray-400">기존 이용 상태에서 변경된 응답이 없어요</p>
+                                <p className="text-12 text-gray-400">{t('changes.noChanges')}</p>
                             )
                         )}
 
                         <CheckBoxButton checked={isConfirmed} onChange={toggleConfirm}>
-                            <span className="font-medium">확인 완료</span>
+                            <span className="font-medium">{t('changes.confirmComplete')}</span>
                         </CheckBoxButton>
                     </div>
                 )}
@@ -107,7 +108,7 @@ export function CampaignSubBoard(props: CampaignSubscriptionBoardProps) {
                                         subscriptionId: dragItem.subscriptionId,
                                         usingStatus,
                                     })
-                                    .then(() => toast.success('변경했어요.'))
+                                    .then(() => toast.success(t('changes.changeSuccess')))
                                     .then(() => reload())
                                     .catch(errorToast);
                             }}

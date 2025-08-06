@@ -1,13 +1,14 @@
-import {UseFormReturn} from 'react-hook-form';
-import {Input} from '^public/components/ui/input';
-import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
-import {CardSection} from './CardSection';
-import {TeamTag} from '^models/Team/components/TeamTag';
 import {useQuery} from '@tanstack/react-query';
 import {useIdParam} from '^atoms/common';
-import {teamApi} from '^models/Team/api';
-import {Paginated} from '^types/utils/paginated.dto';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
+import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {teamApi} from '^models/Team/api';
+import {TeamTag} from '^models/Team/components/TeamTag';
+import {Input} from '^public/components/ui/input';
+import {Paginated} from '^types/utils/paginated.dto';
+import {useTranslation} from 'next-i18next';
+import {UseFormReturn} from 'react-hook-form';
+import {CardSection} from './CardSection';
 
 interface ReviewRespondentFormProps {
     form: UseFormReturn<UpdateReviewResponseRequestDto, any>;
@@ -16,6 +17,7 @@ interface ReviewRespondentFormProps {
 
 export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentFormProps) => {
     const orgId = useIdParam('id');
+    const {t} = useTranslation('reviewCampaigns');
     const reviewResponseId = useIdParam('reviewResponseId');
     const {
         data: {items},
@@ -40,12 +42,12 @@ export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentF
             <div className="grid grid-cols-2 gap-5">
                 <div className="flex flex-col space-y-2">
                     <div className="text-16 font-medium">
-                        응답자 이름 <span className="text-red-400">*</span>
+                        {t('respondent.name')} <span className="text-red-400">*</span>
                     </div>
                     <Input
                         type="text"
                         id="name"
-                        placeholder="응답자 이름"
+                        placeholder={t('respondent.namePlaceholder') as string}
                         className={readonly ? 'bg-gray-100' : `bg-white`}
                         {...form.register('respondentName')}
                         readOnly={readonly}
@@ -53,7 +55,7 @@ export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentF
                 </div>
                 <div className="flex flex-col space-y-2">
                     <div className="text-16 font-medium">
-                        팀 <span className="text-red-400">*</span>
+                        {t('respondent.team')} <span className="text-red-400">*</span>
                     </div>
 
                     {readonly ? (
@@ -61,7 +63,7 @@ export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentF
                             {selectedTeam ? (
                                 <TeamTag id={selectedTeam.id} name={selectedTeam.name} />
                             ) : (
-                                <div className="text-muted-foreground">팀</div>
+                                <div className="text-muted-foreground">{t('respondent.team')}</div>
                             )}
                         </div>
                     ) : (
@@ -71,7 +73,7 @@ export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentF
                                     {selectedTeam ? (
                                         <TeamTag id={selectedTeam.id} name={selectedTeam.name} />
                                     ) : (
-                                        <div className="text-muted-foreground">팀</div>
+                                        <div className="text-muted-foreground">{t('respondent.team')}</div>
                                     )}
                                 </div>
                             )}
@@ -85,7 +87,7 @@ export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentF
                                             className="flex items-center italic text-muted-foreground"
                                             onClick={() => hide()}
                                         >
-                                            선택 할 수 있는 팀이 없습니다.
+                                            {t('respondent.noTeamsAvailable')}
                                         </MoreDropdown.MenuItem>
                                     )}
                                     {items.map((team, i) => {
@@ -110,12 +112,12 @@ export const ReviewRespondentForm = ({form, readonly = false}: ReviewRespondentF
             </div>
             <div className="flex flex-col space-y-2">
                 <div className="text-16 font-medium">
-                    이메일 계정 <span className="text-red-400">*</span>
+                    {t('respondent.email')} <span className="text-red-400">*</span>
                 </div>
                 <Input
                     type="email"
                     id="email"
-                    placeholder="이메일 계정"
+                    placeholder={t('respondent.emailPlaceholder') as string}
                     className={readonly ? 'bg-gray-100' : `bg-white`}
                     {...form.register('respondentEmail')}
                     readOnly={readonly}

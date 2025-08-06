@@ -1,10 +1,10 @@
-import React from 'react';
-import {Card} from '^public/components/ui/card';
-import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar';
+import {getColor} from '^components/util/palette';
 import {ReviewResponseSubscriptionDto, ReviewResponseSubscriptionUsingStatus} from '^models/ReviewResponse/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {getColor} from '^components/util/palette';
+import {Avatar, AvatarFallback, AvatarImage} from '^public/components/ui/avatar';
+import {Card} from '^public/components/ui/card';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {useTranslation} from 'next-i18next';
 
 interface ResponseSubCardProps {
     responseSub: ReviewResponseSubscriptionDto;
@@ -16,6 +16,7 @@ interface ResponseSubCardProps {
 
 export const ResponseSubCard = (props: ResponseSubCardProps) => {
     const {responseSub, usingStatus, draggable, onDragStart, onDragEnd} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     const response = responseSub.response;
 
@@ -45,31 +46,31 @@ export const ResponseSubCard = (props: ResponseSubCardProps) => {
                             </span>
                         </AvatarFallback>
                     </Avatar>
-                    <div className="font-medium">{name || '알 수 없음'}</div>
+                    <div className="font-medium">{name || t('changes.unknown')}</div>
                 </div>
 
                 {responseSub.usingStatus === null ? (
                     <div className="flex items-center gap-1">
                         <TagUI className="bg-red-50 text-red-500" noMargin>
-                            미제출
+                            {t('changes.notSubmitted')}
                         </TagUI>
                         {responseSub.usingStatusBefore !== usingStatus ? (
                             <TagUI className="bg-scordi-100 text-scordi" noMargin>
-                                변경됨
+                                {t('changes.changed')}
                             </TagUI>
                         ) : (
                             <TagUI className="bg-gray-100 text-gray-400" noMargin>
-                                유지
+                                {t('changes.maintained')}
                             </TagUI>
                         )}
                     </div>
                 ) : responseSub.isUsingStatusChanged ? (
                     <TagUI className="bg-scordi-100 text-scordi" noMargin>
-                        변경됨
+                        {t('changes.changed')}
                     </TagUI>
                 ) : (
                     <TagUI className="text-gray-400" noMargin>
-                        유지
+                        {t('changes.maintained')}
                     </TagUI>
                 )}
             </div>

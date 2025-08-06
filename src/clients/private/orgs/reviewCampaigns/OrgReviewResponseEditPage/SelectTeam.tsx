@@ -1,10 +1,11 @@
-import React, {memo, useState} from 'react';
 import {CreatableSelect} from '^clients/private/_components/inputs/select/CreatableSelect';
-import {TeamOption} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/TeamOption';
 import {TeamCreateOption} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/TeamCreateOption';
-import {TeamDto} from '^models/Team/type';
-import {useTeamsForSelectOptions} from '^models/Team/hook';
+import {TeamOption} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/TeamOption';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {useTeamsForSelectOptions} from '^models/Team/hook';
+import {TeamDto} from '^models/Team/type';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 
 interface SelectTeamProps {
     defaultTeams?: TeamDto[];
@@ -13,6 +14,7 @@ interface SelectTeamProps {
 
 export const SelectTeam = memo((props: SelectTeamProps) => {
     const {defaultTeams = [], onChange} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const {search, result, reload} = useTeamsForSelectOptions();
     const [selectedItems, setSelectedItems] = useState(defaultTeams);
 
@@ -27,7 +29,7 @@ export const SelectTeam = memo((props: SelectTeamProps) => {
 
     return (
         <CreatableSelect
-            placeholder="팀을 선택해주세요"
+            placeholder={t('response.team.placeholder')}
             className={
                 'flex h-12 w-full !rounded-md !border border-input !bg-white px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'
             }

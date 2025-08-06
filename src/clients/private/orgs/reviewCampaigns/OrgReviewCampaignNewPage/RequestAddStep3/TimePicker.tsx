@@ -1,7 +1,7 @@
-import React from 'react';
-import {ChevronDown} from 'lucide-react';
-import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/popover';
 import {Button} from '^public/components/ui/button';
+import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/popover';
+import {ChevronDown} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface TimePickerProps {
     onSelect: (time: string) => void;
@@ -10,6 +10,7 @@ interface TimePickerProps {
 
 export const TimePicker = (props: TimePickerProps) => {
     const {time, onSelect} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     const times = Array.from({length: 24}, (_, h) =>
         ['00', '30'].map((m) => `${String(h).padStart(2, '0')}:${m}`),
@@ -24,7 +25,7 @@ export const TimePicker = (props: TimePickerProps) => {
                         'w-24 h-12 bg-gray-50 flex justify-between text-left font-normal items-center text-gray-500'
                     }
                 >
-                    {time ? time : '시간'}
+                    {time ? time : t('timePicker.placeholder')}
                     <ChevronDown size={14} className="text-gray-400" />
                 </Button>
             </PopoverTrigger>

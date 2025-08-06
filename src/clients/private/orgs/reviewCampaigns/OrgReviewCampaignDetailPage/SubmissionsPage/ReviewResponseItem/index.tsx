@@ -1,14 +1,15 @@
-import {memo} from 'react';
-import {ReviewResponseDto} from '^models/ReviewResponse/type';
-import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
-import {ResendButton} from './ResendButton';
-import {SubmitStatusHandler} from './SubmitStatusHandler';
-import {MoreDropdownForResponseItem} from './MoreDropdownForResponseItem';
-import Image from 'next/image';
-import SlackIcon from '^public/logo/icons/ic_slack.png';
-import GmailIcon from '^public/logo/icons/ic_gmail.png';
 import {ShowResponseButton} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/SubmissionsPage/ReviewResponseItem/ShowResponseButton';
 import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
+import {ReviewResponseDto} from '^models/ReviewResponse/type';
+import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
+import GmailIcon from '^public/logo/icons/ic_gmail.png';
+import SlackIcon from '^public/logo/icons/ic_slack.png';
+import {useTranslation} from 'next-i18next';
+import Image from 'next/image';
+import {memo} from 'react';
+import {MoreDropdownForResponseItem} from './MoreDropdownForResponseItem';
+import {ResendButton} from './ResendButton';
+import {SubmitStatusHandler} from './SubmitStatusHandler';
 
 interface ReviewResponseItemProps {
     response: ReviewResponseDto;
@@ -18,6 +19,7 @@ interface ReviewResponseItemProps {
 
 export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
     const {response, campaign, reload} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     return (
         <div className="flex items-center p-4 text-sm gap-x-6 md:gap-x-12">
@@ -47,9 +49,9 @@ export const ReviewResponseItem = memo((props: ReviewResponseItemProps) => {
                 <SubmitStatusHandler response={response} campaign={campaign} reload={reload} />
 
                 {campaign?.isOverdue() ? (
-                    <ShowResponseButton response={response} text="내용 확인" />
+                    <ShowResponseButton response={response} text={t('submissions.viewContent') as string} />
                 ) : response.submittedAt ? (
-                    <ShowResponseButton response={response} text="응답 확인" />
+                    <ShowResponseButton response={response} text={t('submissions.viewResponse') as string} />
                 ) : (
                     <ResendButton response={response} reload={reload} />
                 )}

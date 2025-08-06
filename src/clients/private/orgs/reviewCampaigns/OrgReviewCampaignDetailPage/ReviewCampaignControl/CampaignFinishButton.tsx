@@ -1,14 +1,15 @@
-import {memo} from 'react';
-import {useRouter} from 'next/router';
+import {errorToast} from '^api/api';
 import {useIdParam} from '^atoms/common';
-import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
-import {Button} from '^public/components/ui/button';
-import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
-import {toast} from 'react-hot-toast';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
 import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
-import {errorToast} from '^api/api';
+import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
+import {Button} from '^public/components/ui/button';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface CampaignFinishButtonProps {
     reviewCampaign: ReviewCampaignDto;
@@ -16,6 +17,7 @@ interface CampaignFinishButtonProps {
 
 export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
     const {reviewCampaign} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const router = useRouter();
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
@@ -29,26 +31,20 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
 
         const dialog = () =>
             confirm2(
-                <span className="text-xl">제출을 마감할까요?</span>,
+                <span className="text-xl">{t('finish.title')}</span>,
                 !remainCount ? (
                     <div className="text-16">
-                        <div>모든 구성원이 응답을 해주셨어요. 🎉</div>
+                        <div>{t('finish.allCompleted')}</div>
                         <br />
-                        <div>제출을 마감하고 다음으로 진행할까요?</div>
+                        <div>{t('finish.proceedMessage')}</div>
                     </div>
                 ) : (
                     <div className="text-16">
-                        <div>{remainCount.toLocaleString()}명이 아직 응답하지 않았어요. 💦</div>
+                        <div>{t('common.notResponded', {remainCount: remainCount.toLocaleString()})}</div>
                         <br />
-                        <div>
-                            이대로 마감하면 미제출 인원은 <br />
-                            <span className="text-scordi font-semibold">
-                                기존 시트 상태에서 변동이 없는 것으로 간주
-                            </span>
-                            됩니다.
-                        </div>
+                        <div>{t('finish.notRespondedMessage')}</div>
                         <br />
-                        <div>제출을 마감하고 다음으로 진행할까요?</div>
+                        <div>{t('finish.proceedMessage')}</div>
                     </div>
                 ),
             );
@@ -56,14 +52,14 @@ export const CampaignFinishButton = memo((props: CampaignFinishButtonProps) => {
         const finishAt = new Date();
         confirmed(dialog())
             .then(() => reviewCampaignApi.update(orgId, id, {finishAt}))
-            .then(() => toast.success('제출을 마감했어요.'))
+            .then(() => toast.success(t('finish.successMessage')))
             .then(() => router.push(OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)))
             .catch(errorToast);
     };
 
     return (
         <Button id="review-campaign-finish-btn" className="bg-scordi text-white" onClick={onClick}>
-            제출 마감하기
+            {t('finish.buttonText')}
         </Button>
     );
 });

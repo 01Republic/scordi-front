@@ -1,16 +1,16 @@
-import {memo, useState} from 'react';
-import {cn} from '^public/lib/utils';
-import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
-import {ReviewResponseDto, UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
-import {reviewResponseApi} from '^models/ReviewResponse/api';
-import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
-import {Spinner} from '^components/util/loading';
-import {ArrowRightLeft} from 'lucide-react';
-import {Button, ButtonProps} from '^public/components/ui/button';
-import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
 import Tippy from '@tippyjs/react';
+import {errorToast} from '^api/api';
+import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
+import {Spinner} from '^components/util/loading';
+import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
+import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {ReviewResponseDto, UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {Button, ButtonProps} from '^public/components/ui/button';
 import {WithChildren} from '^types/global.type';
+import {ArrowRightLeft} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface SubmitStatusHandlerProps {
     response: ReviewResponseDto;
@@ -20,6 +20,7 @@ interface SubmitStatusHandlerProps {
 
 export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
     const {response, campaign, reload} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const {organizationId: orgId, campaignId, id} = response;
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +30,7 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
         return reviewResponseApi
             .update(orgId, campaignId, id, dto)
             .then(() => reload())
-            .then(() => toast.success('변경했어요'))
+            .then(() => toast.success(t('submissions.changeSuccess')))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     };
@@ -38,13 +39,16 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
 
     if (campaign.isClosed() || campaign.isOverdue()) {
         return (
-            <Tippy content="요청이 마감되었어요.">
+            <Tippy content={t('submissions.requestClosed')}>
                 <div>
                     <SubmitStatusHandlerButton disabled>
                         {response.submittedAt ? (
-                            '제출 완료'
+                            t('submissions.submitted')
                         ) : (
-                            <span>미제출{<span className="text-red-500 text-12">(마감)</span>}</span>
+                            <span>
+                                {t('submissions.notSubmitted')}
+                                {<span className="text-red-500 text-12">({t('submissions.notSubmittedClosed')})</span>}
+                            </span>
                         )}
                     </SubmitStatusHandlerButton>
                 </div>
@@ -56,7 +60,7 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
         <MoreDropdown
             Trigger={() => (
                 <SubmitStatusHandlerButton variant={response.submittedAt ? 'outline' : 'scordi'} isLoading={isLoading}>
-                    {response.submittedAt ? '제출 완료' : '미제출'}
+                    {response.submittedAt ? t('submissions.submitted') : t('submissions.notSubmitted')}
                 </SubmitStatusHandlerButton>
             )}
             offset={[0, 5]}
@@ -70,7 +74,7 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
                             onClick={() => update({submittedAt: null}, hide)}
                         >
                             <ArrowRightLeft />
-                            <span>미제출</span>
+                            <span>{t('submissions.notSubmitted')}</span>
                         </MoreDropdown.MenuItem>
                     ) : (
                         <MoreDropdown.MenuItem
@@ -78,7 +82,7 @@ export const SubmitStatusHandler = memo((props: SubmitStatusHandlerProps) => {
                             onClick={() => update({submittedAt: new Date()}, hide)}
                         >
                             <ArrowRightLeft />
-                            <span>제출완료</span>
+                            <span>{t('submissions.submitComplete')}</span>
                         </MoreDropdown.MenuItem>
                     )}
                 </MoreDropdown.Content>

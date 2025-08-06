@@ -1,6 +1,7 @@
-import {UseFormReturn} from 'react-hook-form';
-import {ReviewResponseSubscriptionDto, UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
 import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {useTranslation} from 'next-i18next';
+import {UseFormReturn} from 'react-hook-form';
 import {CardSection} from './CardSection';
 import {SubscriptionItemOfResponse} from './SubscriptionItemOfResponse';
 
@@ -12,11 +13,12 @@ interface ReviewSubscriptionListProps {
 
 export const ReviewSubscriptionList = (props: ReviewSubscriptionListProps) => {
     const {form, campaignSubscriptions, readonly = false} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     const responseSubscriptionForms = form.watch('subscriptions') || [];
 
     return (
-        <CardSection title="구독중인 서비스" required>
+        <CardSection title={t('subscription.title')} required>
             <div>
                 {responseSubscriptionForms.map((responseSubscriptionForm, i) => {
                     const {subscriptionId} = responseSubscriptionForm;

@@ -1,0 +1,264 @@
+{
+    "list": {
+        "title": "요청 리스트",
+        "breadcrumb": {
+            "work": "업무",
+            "request": "요청"
+        },
+        "createButton": "새 요청 만들기",
+        "emptyMessage": "현재 추가된 요청이 없네요\n새 요청을 추가하시겠어요?",
+        "scope": {
+            "all": "전체",
+            "inProgress": "진행중",
+            "overdue": "마감",
+            "closed": "완료"
+        },
+        "card": {
+            "completionDate": "완료일: {{date}}",
+            "deadline": "마감일: {{date}}",
+            "startDate": "시작일: {{date}}",
+            "submissionStatus": "제출 현황 ({{submitted}}명 / {{total}}명)"
+        }
+    },
+    "create": {
+        "title": "새 요청 만들기",
+        "confirmTitle": "요청을 만들고 알림을 보낼까요?",
+        "confirmMessage": "요청을 만들면 즉시 대상자에게 알림이 가요.\n요청 대상자로 선택된 구성원에게 요청 알림을 보낼까요?",
+        "confirmButtons": {
+            "cancel": "취소",
+            "confirm": "확인"
+        },
+        "successMessage": "요청이 전송되었습니다.",
+        "validation": {
+            "titleRequired": "제목을 입력해주세요.",
+            "descriptionRequired": "설명을 입력해주세요.",
+            "deadlineRequired": "마감일 및 시간을 입력해주세요."
+        },
+        "noSubscriptionAlert": {
+            "title": "구성원에게 구독 사용여부 응답을 요청할 수 없어요.",
+            "message": "요청을 시작하기 전, 구독을 먼저 불러와야 해요.\n불러온 구독을 기준으로 구성원에게 실사용여부를 파악할 수 있어요.\n\n구독을 먼저 불러올까요?"
+        }
+    },
+    "detail": {
+        "requester": "요청자",
+        "status": "상태",
+        "startDate": "시작일",
+        "endDate": "종료일",
+        "submissionStatus": "제출 현황",
+        "none": "없음",
+        "undetermined": "미정"
+    },
+    "response": {
+        "submitError": "응답 제출 중 오류가 발생했습니다.",
+        "completeButton": "작성 완료",
+        "poweredBy": "powered by scordi",
+        "closeButton": "닫기",
+        "completeMessage": "응답이 정상적으로 제출되었어요!",
+        "requiredQuestionNote": "* 표시는 필수 질문입니다."
+    },
+    "changes": {
+        "finishRequired": "먼저 마감처리가 필요합니다.",
+        "finishButton": "마감처리",
+        "notSubmittedCount": "아직 {{notSubmittedResponseCount}}명이 제출하지 않았어요",
+        "approvalWaiting": "승인 대기중 ({{notSubmittedResponseCount}}개 남았어요)",
+        "almostDone": "거의 다 끝났어요!",
+        "approveButton": "승인하기",
+        "approveMessage": "버튼을 눌러 저장해주세요 💁‍♀️"
+    },
+    "pagination": {
+        "unit": "개"
+    },
+    "common": {
+        "person": "명",
+        "selected": "명 선택됨",
+        "total": "총 {{count}}명",
+        "notResponded": "{{remainCount}}명이 아직 응답하지 않았어요. 💦"
+    },
+    "form": {
+        "description": "설명",
+        "descriptionPlaceholder": "요청 설명"
+    },
+    "finish": {
+        "title": "제출을 마감할까요?",
+        "allCompleted": "모든 구성원이 응답을 해주셨어요. 🎉",
+        "proceedMessage": "제출을 마감하고 다음으로 진행할까요?",
+        "notRespondedMessage": "이대로 마감하면 미제출 인원은 기존 시트 상태에서 변동이 없는 것으로 간주됩니다.",
+        "successMessage": "제출을 마감했어요.",
+        "buttonText": "제출 마감하기"
+    },
+    "teamMember": {
+        "searchPlaceholder": "구성원 검색",
+        "noAvailableMembers": "선택 가능한 구성원이 없습니다.",
+        "deselectAll": "선택 해제",
+        "selectAll": "전체선택"
+    },
+    "step": {
+        "titleAndContent": "제목 및 내용 작성",
+        "selectTarget": "요청할 대상 선택",
+        "setDeadline": "제출 마감일 설정"
+    },
+    "timePicker": {
+        "placeholder": "시간"
+    },
+    "submissions": {
+        "searchPlaceholder": "이름 또는 이메일로 검색",
+        "noResponses": "제출 응답이 없습니다.",
+        "loadMore": "더 보기"
+    },
+    "status": {
+        "beforeStart": {
+            "text": "대기",
+            "longText": "시작 전"
+        },
+        "inProgress": {
+            "text": "진행중",
+            "longText": "진행하고 있어요"
+        },
+        "overdue": {
+            "text": "마감",
+            "longText": "마감 했어요"
+        },
+        "closed": {
+            "text": "완료",
+            "longText": "종료됨"
+        }
+    },
+    "usingStatus": {
+        "inUse": "써요",
+        "noUse": "안써요",
+        "dontKnow": "몰라요"
+    },
+    "step1": {
+        "title": "1. 제목과 내용 작성",
+        "requestTitle": "요청 제목",
+        "requestContent": "요청 내용",
+        "titlePlaceholder": "제목을 입력해주세요.",
+        "contentPlaceholder": "내용을 입력해주세요.",
+        "requiredMessage": "필수 입력 사항입니다.",
+        "maxLengthMessage": "{{length}}자 이내로 입력해주세요."
+    },
+    "complete": {
+        "title": "구성원에게 요청을 보냈어요",
+        "confirmButton": "확인"
+    },
+    "step4": {
+        "title": "요청 추가를 완료하고 구성원들에게 요청을 전송할까요?",
+        "titleLabel": "제목",
+        "descriptionLabel": "설명",
+        "targetLabel": "응답 대상자",
+        "titlePlaceholder": "요청 제목",
+        "descriptionPlaceholder": "요청 설명",
+        "totalMembers": "총 {{count}}명",
+        "backButton": "뒤로",
+        "completeButton": "완료"
+    },
+    "response": {
+        "expired": {
+            "title": "응답 기간이 종료되었어요.",
+            "message": "추가 문의 사항이 있으시면, 관리자에게 문의해 주세요."
+        },
+        "submitted": {
+            "title": "이미 요청 응답을 제출하셨어요.",
+            "message": "참여해 주셔서 감사합니다!",
+            "homeButton": "홈으로 돌아가기"
+        },
+        "inquiry": {
+            "title": "추가적으로 문의사항이 있다면 남겨주세요.",
+            "placeholder": "주관식 답변",
+            "noContent": "입력한 내용 없음"
+        },
+        "team": {
+            "placeholder": "팀을 선택해주세요"
+        }
+    },
+    "step2": {
+        "title": "2. 요청할 대상 선택",
+        "description": "요청을 전송할 대상을 모두 선택해주세요.",
+        "loadLabel": "불러오기:",
+        "slack": "Slack",
+        "googleWorkspace": "Google Workspace",
+        "alreadyConnected": "이미 연결 되어 있어요",
+        "googleNotConnected": "구글 워크스페이스가 연결되어 있지 않습니다. 먼저 구글 워크스페이스를 연결해주세요.",
+        "googleLoadSuccess": "구글 워크스페이스에서 팀 멤버들을 불러왔어요.",
+        "googleSyncError": "구글 워크스페이스 연동에 문제가 있습니다. 설정에서 연동 상태를 확인해주세요.",
+        "loadError": "팀 멤버를 불러오는 중 오류가 발생했습니다."
+    },
+    "components": {
+        "nextButton": "다음"
+    },
+    "respondent": {
+        "name": "응답자 이름",
+        "team": "팀",
+        "email": "이메일 계정",
+        "namePlaceholder": "응답자 이름",
+        "emailPlaceholder": "이메일 계정",
+        "noTeamsAvailable": "선택 할 수 있는 팀이 없습니다."
+    },
+    "layout": {
+        "work": "업무",
+        "requestDetail": "요청 상세",
+        "overview": "개요",
+        "submissions": "제출현황",
+        "results": "응답결과"
+    },
+    "submissions": {
+        "viewResponse": "응답 확인",
+        "viewContent": "내용 확인",
+        "deleteConfirm": "응답을 삭제하시겠습니까?",
+        "deleteSuccess": "응답이 삭제되었습니다.",
+        "delete": "삭제",
+        "changeSuccess": "변경했어요",
+        "requestClosed": "요청이 마감되었어요.",
+        "submitted": "제출 완료",
+        "notSubmitted": "미제출",
+        "notSubmittedClosed": "미제출(마감)",
+        "submitComplete": "제출완료"
+    },
+    "step3": {
+        "title": "3. 제출 마감일 설정",
+        "description": "마감일은 추후 변경 가능합니다.",
+        "datePlaceholder": "날짜 선택",
+        "pastDateError": "과거 시점은 선택할 수 없어요.",
+        "completeButton": "완료"
+    },
+    "subscription": {
+        "title": "구독중인 서비스"
+    },
+    "resend": {
+        "success": "알림이 재전송되었습니다.",
+        "button": "재전송"
+    },
+    "changes": {
+        "unknown": "알 수 없음",
+        "notSubmitted": "미제출",
+        "changed": "변경됨",
+        "maintained": "유지",
+        "hasNotSubmitted": "미제출 응답이 포함되어 있어요",
+        "noChanges": "기존 이용 상태에서 변경된 응답이 없어요",
+        "confirmComplete": "확인 완료",
+        "changeSuccess": "변경했어요."
+    },
+    "delete": {
+        "success": "요청을 삭제했어요.",
+        "button": "삭제하기",
+        "confirmTitle": "요청을 삭제할까요?",
+        "confirmMessage": "이 작업은 취소 할 수 없습니다.",
+        "confirmWorkspace": "워크스페이스 전체에서 삭제됩니다.",
+        "confirmFinal": "그래도 삭제할까요?"
+    },
+    "approve": {
+        "needFullCheck": "전체 확인이 필요해요",
+        "confirmTitle": "응답을 기반으로 구독현황을 업데이트 할까요?",
+        "confirmMessage": "구성원의 구독 사용 변경사항을 모두 확인해주세요.",
+        "confirmComplete": "전체 확인 완료 되었다면 승인할 수 있어요.",
+        "confirmUpdate": "승인 이후에는 구독리스트 현황을 업데이트 해요.",
+        "confirmFinal": "그럼 변경사항을 모두 승인할까요?",
+        "success": "변경사항이 모두 승인되었습니다.",
+        "button": "승인하기"
+    },
+    "changesPage": {
+        "noSubscriptions": "요청에 조사할 구독이 없어요.",
+        "confirmComplete": "{{confirmed}} / {{total}} 확인 완료",
+        "allConfirmComplete": "전체 확인 완료"
+    }
+}

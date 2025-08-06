@@ -1,16 +1,17 @@
-import {useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {useForm} from 'react-hook-form';
-import {LoaderCircle} from 'lucide-react';
-import {toast} from 'react-hot-toast';
 import {getToken} from '^api/api';
 import {useIdParam} from '^atoms/common';
-import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
-import {Button} from '^public/components/ui/button';
 import {reviewResponseApi} from '^models/ReviewResponse/api';
 import {useReviewRequest} from '^models/ReviewResponse/hook';
-import {ReviewResponseSubscriptionUsingStatus, UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
+import {UpdateReviewResponseRequestDto} from '^models/ReviewResponse/type';
 import {useCurrentUser} from '^models/User/hook';
+import {OrgReviewResponseCompletePageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]/edit/complete';
+import {Button} from '^public/components/ui/button';
+import {LoaderCircle} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import {ExpiredResponseView} from './ExpiredResponseView';
 import {ReviewCampaignHeader} from './ReviewCampaignHeader';
 import {ReviewInquiryForm} from './ReviewInquiryForm';
@@ -22,6 +23,7 @@ export const OrgReviewResponseEditPage = () => {
     const orgId = useIdParam('id');
     const campaignId = useIdParam('reviewCampaignId');
     const id = useIdParam('reviewResponseId');
+    const {t} = useTranslation('reviewCampaigns');
     const {currentUser} = useCurrentUser(null);
     const token = getToken();
     const {data: response, isError} = useReviewRequest(orgId, campaignId, id, token || '');
@@ -56,7 +58,7 @@ export const OrgReviewResponseEditPage = () => {
                 return router.push(OrgReviewResponseCompletePageRoute.path(orgId, campaignId, id));
             })
             .catch((error) => {
-                toast.error('응답 제출 중 오류가 발생했습니다.');
+                toast.error(t('response.submitError'));
                 console.error(error);
             })
             .finally(() => {
@@ -92,12 +94,13 @@ export const OrgReviewResponseEditPage = () => {
 
                     <div className="grid w-full items-center">
                         <Button size="xl" variant="scordi" type="submit" disabled={isLoading}>
-                            {isLoading ? <LoaderCircle className="animate-spin" strokeWidth="4px" /> : '작성 완료'}
+                            {isLoading ? (
+                                <LoaderCircle className="animate-spin" strokeWidth="4px" />
+                            ) : (
+                                t('response.completeButton')
+                            )}
                         </Button>
-                        <div className="text-gray-400 text-center py-3 text-12">
-                            <span onClick={() => console.log(form.getValues())}>p</span>owered by scord
-                            <span onClick={() => console.log(response)}>i</span>
-                        </div>
+                        <div className="text-gray-400 text-center py-3 text-12">{t('response.poweredBy')}</div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
-import {TypeCast} from '^types/utils/class-transformer';
-import {OrganizationDto} from '^models/Organization/type';
 import {MembershipDto} from '^models/Membership/types';
+import {OrganizationDto} from '^models/Organization/type';
+import {TypeCast} from '^types/utils/class-transformer';
 import {ReviewCampaignSubscriptionDto} from './ReviewCampaignSubscription.dto';
 
 /**
@@ -28,9 +28,9 @@ export class ReviewCampaignDto {
 
     get currentStatusText() {
         const now = new Date();
-        if (this.finishAt && this.finishAt < now) return '마감';
-        if (this.closedAt && now >= this.closedAt) return '완료';
-        return '진행 중';
+        if (this.finishAt && this.finishAt < now) return 'status.overdue.text';
+        if (this.closedAt && now >= this.closedAt) return 'status.closed.text';
+        return 'status.inProgress.text';
     }
 
     get currentStatus() {
@@ -66,26 +66,26 @@ export class ReviewCampaignDto {
 
 const statusList = {
     beforeStart: {
-        text: '대기',
-        longText: '시작 전',
+        text: 'status.beforeStart.text',
+        longText: 'status.beforeStart.longText',
         bgColor: 'bg-gray-200',
         textColor: '',
     },
     inProgress: {
-        text: '진행중',
-        longText: '진행하고 있어요',
+        text: 'status.inProgress.text',
+        longText: 'status.inProgress.longText',
         bgColor: 'bg-orange-200',
         textColor: '',
     },
     overdue: {
-        text: '마감',
-        longText: '마감 했어요',
+        text: 'status.overdue.text',
+        longText: 'status.overdue.longText',
         bgColor: 'bg-red-200',
         textColor: '',
     },
     closed: {
-        text: '완료',
-        longText: '종료됨',
+        text: 'status.closed.text',
+        longText: 'status.closed.longText',
         bgColor: 'bg-green-200',
         textColor: '',
     },

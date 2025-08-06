@@ -1,10 +1,10 @@
-import React from 'react';
-import cn from 'classnames';
-import {format} from 'date-fns';
-import {ChevronDown} from 'lucide-react';
 import {Button} from '^public/components/ui/button';
 import {Calendar} from '^public/components/ui/calendar';
 import {Popover, PopoverContent, PopoverTrigger} from '^public/components/ui/popover';
+import cn from 'classnames';
+import {format} from 'date-fns';
+import {ChevronDown} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 import {DayPickerSingleProps} from 'react-day-picker';
 
 interface DatePickerProps {
@@ -15,6 +15,7 @@ interface DatePickerProps {
 
 export const DatePicker = (props: DatePickerProps) => {
     const {date, onSelect, disabled} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     return (
         <Popover>
@@ -26,7 +27,7 @@ export const DatePicker = (props: DatePickerProps) => {
                         !date && 'text-muted-foreground',
                     )}
                 >
-                    {date ? format(date, 'yyyy년 MM월 dd일') : <span>날짜 선택</span>}
+                    {date ? format(date, 'yyyy년 MM월 dd일') : <span>{t('step3.datePlaceholder')}</span>}
                     <ChevronDown size={14} className="text-gray-400" />
                 </Button>
             </PopoverTrigger>

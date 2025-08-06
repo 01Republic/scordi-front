@@ -1,7 +1,10 @@
-import {memo} from 'react';
-import {useRouter} from 'next/router';
-import Link from 'next/link';
-import {WithChildren} from '^types/global.type';
+import {useIdParam} from '^atoms/common';
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {useReviewCampaign} from '^models/ReviewCampaign/hook';
+import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
+import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
+import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
+import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -10,13 +13,11 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from '^public/components/ui/breadcrumb';
-import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {useIdParam} from '^atoms/common';
-import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
-import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
-import {OrgReviewCampaignDetailSubmissionsPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/submissions';
-import {OrgReviewCampaignDetailChangesPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/changes';
-import {useReviewCampaign} from '^models/ReviewCampaign/hook';
+import {WithChildren} from '^types/global.type';
+import {useTranslation} from 'next-i18next';
+import Link from 'next/link';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
 import {ReviewCampaignControl} from './ReviewCampaignControl';
 
 interface OrgReviewCampaignDetailLayoutProps extends WithChildren {
@@ -28,6 +29,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
     const {className = '', containerFluid = false, children} = props;
 
     const router = useRouter();
+    const {t} = useTranslation('reviewCampaigns');
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
     const {data: reviewCampaign} = useReviewCampaign(orgId, id);
@@ -40,11 +42,15 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                 <Breadcrumb className="mb-4">
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href={OrgReviewCampaignListPageRoute.path(orgId)}>업무</BreadcrumbLink>
+                            <BreadcrumbLink href={OrgReviewCampaignListPageRoute.path(orgId)}>
+                                {t('layout.work')}
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage className="text-primaryColor-900 font-medium">요청 상세</BreadcrumbPage>
+                            <BreadcrumbPage className="text-primaryColor-900 font-medium">
+                                {t('layout.requestDetail')}
+                            </BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -65,7 +71,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                                 isActive('') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
                             }`}
                         >
-                            개요
+                            {t('layout.overview')}
                         </Link>
                         <Link
                             href={OrgReviewCampaignDetailSubmissionsPageRoute.path(orgId, id)}
@@ -75,7 +81,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                                     : 'text-gray-500 hover:text-scordi'
                             }`}
                         >
-                            제출현황
+                            {t('layout.submissions')}
                         </Link>
                         <Link
                             href={OrgReviewCampaignDetailChangesPageRoute.path(orgId, id)}
@@ -83,7 +89,7 @@ export const OrgReviewCampaignDetailLayout = memo((props: OrgReviewCampaignDetai
                                 isActive('changes') ? 'border-scordi text-scordi' : 'text-gray-500 hover:text-scordi'
                             }`}
                         >
-                            응답결과
+                            {t('layout.results')}
                         </Link>
                     </nav>
 

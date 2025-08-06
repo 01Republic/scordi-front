@@ -1,6 +1,7 @@
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {Dispatch, SetStateAction, useState} from 'react';
 import {FindAllReviewCampaignsQueryDto} from '^models/ReviewCampaign/type/FindAllReviewCampaignsQuery.dto';
+import {useTranslation} from 'next-i18next';
+import {Dispatch, SetStateAction, useState} from 'react';
 
 enum Scope {
     ALL,
@@ -10,6 +11,7 @@ enum Scope {
 }
 
 export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<FindAllReviewCampaignsQueryDto>>}) {
+    const {t} = useTranslation('reviewCampaigns');
     const [active, setActive] = useState(Scope.ALL);
 
     const searchResource = (type: Scope) => {
@@ -54,19 +56,19 @@ export function RequestScopeHandler({search}: {search: Dispatch<SetStateAction<F
     return (
         <div className="flex items-center gap-2">
             <ListPage.ScopeButton active={active === Scope.ALL} onClick={() => searchResource(Scope.ALL)}>
-                전체
+                {t('list.scope.all')}
             </ListPage.ScopeButton>
             <ListPage.ScopeButton
                 active={active === Scope.IN_PROGRESS}
                 onClick={() => searchResource(Scope.IN_PROGRESS)}
             >
-                진행중
+                {t('list.scope.inProgress')}
             </ListPage.ScopeButton>
             <ListPage.ScopeButton active={active === Scope.OVERDUE} onClick={() => searchResource(Scope.OVERDUE)}>
-                마감
+                {t('list.scope.overdue')}
             </ListPage.ScopeButton>
             <ListPage.ScopeButton active={active === Scope.CLOSED} onClick={() => searchResource(Scope.CLOSED)}>
-                완료
+                {t('list.scope.closed')}
             </ListPage.ScopeButton>
         </div>
     );

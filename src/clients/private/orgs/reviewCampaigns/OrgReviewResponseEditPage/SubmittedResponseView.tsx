@@ -1,11 +1,13 @@
-import {useRouter} from 'next/router';
-import {Check} from 'lucide-react';
 import {useIdParam} from '^atoms/common';
 import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
 import {Button} from '^public/components/ui/button';
+import {Check} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
 
 export const SubmittedResponseView = () => {
     const router = useRouter();
+    const {t} = useTranslation('reviewCampaigns');
     const orgId = useIdParam('id');
 
     return (
@@ -21,14 +23,14 @@ export const SubmittedResponseView = () => {
             >
                 <Check />
             </div>
-            <div className={'text-24 font-medium text-gray-800'}>이미 요청 응답을 제출하셨어요.</div>
-            <div className={'text-18 text-gray-800'}>참여해 주셔서 감사합니다!</div>
+            <div className={'text-24 font-medium text-gray-800'}>{t('response.submitted.title')}</div>
+            <div className={'text-18 text-gray-800'}>{t('response.submitted.message')}</div>
             <Button
                 size={'xl'}
                 variant={'scordi'}
                 onClick={() => router.push(OrgReviewCampaignListPageRoute.path(Number(orgId)))}
             >
-                홈으로 돌아가기
+                {t('response.submitted.homeButton')}
             </Button>
         </div>
     );

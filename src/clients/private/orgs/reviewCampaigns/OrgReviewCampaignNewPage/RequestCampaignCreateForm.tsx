@@ -4,6 +4,7 @@ import {confirm2, confirmed} from '^components/util/dialog';
 import {reviewCampaignApi} from '^models/ReviewCampaign/api';
 import {CreateReviewCampaignRequestDto, ReviewCampaignDto} from '^models/ReviewCampaign/type';
 import {dayAfter} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
@@ -22,6 +23,7 @@ interface RequestCampaignCreateFormProps {
 
 export const RequestCampaignCreateForm = (props: RequestCampaignCreateFormProps) => {
     const {redirectTo} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const orgId = useIdParam('id');
     const [isLoading, setIsLoading] = useState(false);
     const resetSteps = useResetRecoilState(reviewCampaignCreateStepAtom);
@@ -44,26 +46,21 @@ export const RequestCampaignCreateForm = (props: RequestCampaignCreateFormProps)
     }, []);
 
     const onSubmit = async (data: CreateReviewCampaignRequestDto) => {
-        if (!data.title) return toast.error('제목을 입력해주세요.');
-        if (!data.description) return toast.error('설명을 입력해주세요.');
-        if (!data.finishAt) return toast.error('마감일 및 시간을 입력해주세요.');
+        if (!data.title) return toast.error(t('create.validation.titleRequired'));
+        if (!data.description) return toast.error(t('create.validation.descriptionRequired'));
+        if (!data.finishAt) return toast.error(t('create.validation.deadlineRequired'));
 
         const syncConfirm = () =>
-            confirm2(
-                '요청을 만들고 알림을 보낼까요?',
-                '요청을 만들면 즉시 대상자에게 알림이 가요.\n요청 대상자로 선택된 구성원에게 요청 알림을 보낼까요?',
-                undefined,
-                {
-                    cancelButtonText: '취소',
-                    confirmButtonText: '확인',
-                },
-            );
+            confirm2(t('create.confirmTitle') as string, t('create.confirmMessage') as string, undefined, {
+                cancelButtonText: t('create.confirmButtons.cancel') as string,
+                confirmButtonText: t('create.confirmButtons.confirm') as string,
+            });
 
         return confirmed(syncConfirm())
             .then(() => setIsLoading(true))
             .then(() => reviewCampaignApi.create(orgId, data).then((res) => res.data))
             .then((campaign) => {
-                toast.success('요청이 전송되었습니다.');
+                toast.success(t('create.successMessage'));
                 form.reset();
                 resetSteps();
                 setCreatedCampaign(campaign);
@@ -76,7 +73,7 @@ export const RequestCampaignCreateForm = (props: RequestCampaignCreateFormProps)
 
     return (
         <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-12">새 요청 만들기</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-12">{t('create.title')}</h2>
 
             <div className="grid grid-cols-9 gap-6">
                 <div className="col-span-2">

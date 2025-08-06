@@ -1,6 +1,7 @@
 import {Button} from '^public/components/ui/button';
 import {ReactNodeElement} from '^types/global.type';
 import {LoaderCircle} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 import {ButtonHTMLAttributes, memo} from 'react';
 
 interface StepSubmitButtonProps {
@@ -13,6 +14,7 @@ interface StepSubmitButtonProps {
 
 export const StepSubmitButton = memo((props: StepSubmitButtonProps) => {
     const {type = 'button', text, onClick, disabled = false, isLoading = false} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     return (
         <Button
@@ -23,7 +25,11 @@ export const StepSubmitButton = memo((props: StepSubmitButtonProps) => {
             onClick={onClick}
             disabled={disabled}
         >
-            {isLoading ? <LoaderCircle className="animate-spin" strokeWidth="4px" /> : text || '다음'}
+            {isLoading ? (
+                <LoaderCircle className="animate-spin" strokeWidth="4px" />
+            ) : (
+                text || t('components.nextButton')
+            )}
         </Button>
     );
 });

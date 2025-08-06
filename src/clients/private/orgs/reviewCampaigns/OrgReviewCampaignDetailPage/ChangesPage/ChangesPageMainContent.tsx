@@ -1,10 +1,11 @@
-import React, {memo, useState} from 'react';
 import {useListControl} from '^hooks/useResource';
-import {Progress} from '^public/components/ui/progress';
 import {ReviewCampaignDto, ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {Progress} from '^public/components/ui/progress';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 import {CampaignSubBoard} from './CampaignSubBoard';
-import {CheckBoxButton} from './CheckBoxButton';
 import {ChangesPageContentTitle} from './ChangesPageContentTitle';
+import {CheckBoxButton} from './CheckBoxButton';
 
 interface ChangesPageMainContentProps {
     campaign: ReviewCampaignDto;
@@ -15,6 +16,7 @@ interface ChangesPageMainContentProps {
 
 export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) => {
     const {campaign, campaignSubs, reload, selectedCampaignSub} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const [confirmedSubs, setConfirmedSubs] = useState<ReviewCampaignSubscriptionDto[]>(() => {
         // 아직 마감되지 않은 요청의 응답결과는 모두 확인되지 않은 상태로 초기화 합니다.
         if (!campaign.isOverdue()) return [];
@@ -40,7 +42,7 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
                     <div className="flex items-center space-x-4">
                         <div className="flex flex-col items-center">
                             <span className="text-xs text-gray-700">
-                                {confirmedCount} / {totalCount} 확인 완료
+                                {t('changesPage.confirmComplete', {confirmed: confirmedCount, total: totalCount})}
                             </span>
                             <Progress
                                 value={progress}
@@ -52,7 +54,7 @@ export const ChangesPageMainContent = memo((props: ChangesPageMainContentProps) 
                             checked={totalCount > 0 && confirmedCount === totalCount}
                             onChange={(checked) => setConfirmedSubs(checked ? campaignSubs : [])}
                         >
-                            <span className="font-medium">전체 확인 완료</span>
+                            <span className="font-medium">{t('changesPage.allConfirmComplete')}</span>
                         </CheckBoxButton>
                     </div>
                 </div>

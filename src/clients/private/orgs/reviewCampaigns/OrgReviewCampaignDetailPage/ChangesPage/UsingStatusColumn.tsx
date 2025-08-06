@@ -1,4 +1,3 @@
-import {memo} from 'react';
 import {
     c_reviewResponseSubscriptionUsingStatus,
     ReviewResponseSubscriptionDto,
@@ -6,6 +5,8 @@ import {
     t_reviewResponseSubscriptionUsingStatus,
 } from '^models/ReviewResponse/type';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {ResponseSubCard} from './ResponseSubCard';
 
 interface UsingStatusColumnProps {
@@ -21,8 +22,9 @@ interface UsingStatusColumnProps {
 export const UsingStatusColumn = memo((props: UsingStatusColumnProps) => {
     const {usingStatus, responseSubs} = props;
     const {draggable, dragItem, onDragStart, onDragEnd, onDrop} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
-    const title = t_reviewResponseSubscriptionUsingStatus(usingStatus);
+    const title = t(t_reviewResponseSubscriptionUsingStatus(usingStatus));
     const [bgColor, textColor] = c_reviewResponseSubscriptionUsingStatus(usingStatus);
 
     // 칸반의 한 열

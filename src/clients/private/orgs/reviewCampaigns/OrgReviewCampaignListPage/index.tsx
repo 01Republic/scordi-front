@@ -1,4 +1,3 @@
-import {debounce} from 'lodash';
 import {useIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
@@ -6,12 +5,15 @@ import {ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialReviewCampaign} from '^components/ExternalCDNScripts/step-by';
 import {Spinner} from '^components/util/loading';
 import {useReviewCampaigns} from '^models/ReviewCampaign/hook';
-import {ReviewCampaignCreateButton} from './ReviewCampaignCreateButton';
-import {RequestScopeHandler} from './RequestScopeHandler';
+import {debounce} from 'lodash';
+import {useTranslation} from 'next-i18next';
 import {RequestItemCard} from './RequestItemCard';
+import {RequestScopeHandler} from './RequestScopeHandler';
+import {ReviewCampaignCreateButton} from './ReviewCampaignCreateButton';
 
 export const OrgReviewCampaignListPage = () => {
     const orgId = useIdParam('id');
+    const {t} = useTranslation('reviewCampaigns');
     const {search, result, movePage, isFetching} = useReviewCampaigns(orgId, {
         where: {organizationId: orgId},
         relations: ['organization', 'author'],
@@ -30,8 +32,11 @@ export const OrgReviewCampaignListPage = () => {
 
     return (
         <ListPage
-            breadcrumb={['업무', {text: '요청', active: true}]}
-            titleText="요청 리스트"
+            breadcrumb={[
+                t('list.breadcrumb.work') as string,
+                {text: t('list.breadcrumb.request') as string, active: true},
+            ]}
+            titleText={t('list.title') as string}
             Buttons={() => (
                 <>
                     <StepbyTutorialButton onClick={StepByTutorialReviewCampaign} />
@@ -52,13 +57,17 @@ export const OrgReviewCampaignListPage = () => {
                     </div>
                     {/* 하단 페이지네이션 */}
                     <div className="flex justify-end my-10">
-                        <ListTablePaginator pagination={result.pagination} movePage={movePage} unit="개" />
+                        <ListTablePaginator
+                            pagination={result.pagination}
+                            movePage={movePage}
+                            unit={t('pagination.unit') as string}
+                        />
                     </div>
                 </>
             ) : (
                 <div className="flex flex-col justify-center items-center h-80 text-gray-400 bg-white border rounded-lg space-y-4 text-12">
                     <EmptyTable
-                        message={`현재 추가된 요청이 없네요\n새 요청을 추가하시겠어요?`}
+                        message={t('list.emptyMessage')}
                         Buttons={() => <ReviewCampaignCreateButton orgId={orgId} />}
                     />
                 </div>

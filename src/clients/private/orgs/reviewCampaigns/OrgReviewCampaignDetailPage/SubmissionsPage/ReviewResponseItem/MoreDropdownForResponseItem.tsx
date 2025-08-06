@@ -1,17 +1,18 @@
-import {memo} from 'react';
+import {errorToast} from '^api/api';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {ReviewResponseDto} from '^models/ReviewResponse/type';
+import {Button} from '^public/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '^public/components/ui/dropdown-menu';
-import {Button} from '^public/components/ui/button';
 import {MoreVertical} from 'lucide-react';
-import {ReviewResponseDto} from '^models/ReviewResponse/type';
-import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import toast from 'react-hot-toast';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {errorToast} from '^api/api';
 
 interface MoreDropdownForResponseItemProps {
     response: ReviewResponseDto;
@@ -20,13 +21,14 @@ interface MoreDropdownForResponseItemProps {
 
 export const MoreDropdownForResponseItem = memo((props: MoreDropdownForResponseItemProps) => {
     const {response, reload} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const {organizationId: orgId, campaignId: id, id: responseId} = response;
 
     const onRemoveClick = async () => {
-        const sync = () => confirm2('응답을 삭제하시겠습니까?');
+        const sync = () => confirm2(t('submissions.deleteConfirm') as string);
         confirmed(sync())
             .then(() => reviewResponseApi.destroy(orgId, id, responseId))
-            .then(() => toast.success('응답이 삭제되었습니다.'))
+            .then(() => toast.success(t('submissions.deleteSuccess')))
             .catch(errorToast)
             .finally(() => reload());
     };
@@ -41,7 +43,7 @@ export const MoreDropdownForResponseItem = memo((props: MoreDropdownForResponseI
 
             <DropdownMenuContent align="start" className="bg-white" onCloseAutoFocus={(e) => e.preventDefault()}>
                 <DropdownMenuItem className="cursor-pointer hover:bg-gray-100" onClick={onRemoveClick}>
-                    삭제
+                    {t('submissions.delete')}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

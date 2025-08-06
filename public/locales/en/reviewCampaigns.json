@@ -1,0 +1,264 @@
+{
+    "list": {
+        "title": "Request List",
+        "breadcrumb": {
+            "work": "Work",
+            "request": "Request"
+        },
+        "createButton": "Create New Request",
+        "emptyMessage": "No requests have been added yet.\nWould you like to add a new request?",
+        "scope": {
+            "all": "All",
+            "inProgress": "In Progress",
+            "overdue": "Overdue",
+            "closed": "Completed"
+        },
+        "card": {
+            "completionDate": "Completion Date: {{date}}",
+            "deadline": "Deadline: {{date}}",
+            "startDate": "Start Date: {{date}}",
+            "submissionStatus": "Submission Status ({{submitted}} / {{total}})"
+        }
+    },
+    "create": {
+        "title": "Create New Request",
+        "confirmTitle": "Create request and send notification?",
+        "confirmMessage": "When you create a request, notifications will be sent immediately to the target audience.\nShould we send request notifications to the selected team members?",
+        "confirmButtons": {
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+        },
+        "successMessage": "Request has been sent successfully.",
+        "validation": {
+            "titleRequired": "Please enter a title.",
+            "descriptionRequired": "Please enter a description.",
+            "deadlineRequired": "Please enter deadline date and time."
+        },
+        "noSubscriptionAlert": {
+            "title": "Cannot request subscription usage responses from team members.",
+            "message": "Before starting a request, you need to load subscriptions first.\nBased on the loaded subscriptions, you can determine actual usage from team members.\n\nWould you like to load subscriptions first?"
+        }
+    },
+    "detail": {
+        "requester": "Requester",
+        "status": "Status",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "submissionStatus": "Submission Status",
+        "none": "None",
+        "undetermined": "Undetermined"
+    },
+    "response": {
+        "submitError": "An error occurred while submitting the response.",
+        "completeButton": "Complete",
+        "poweredBy": "powered by scordi",
+        "closeButton": "Close",
+        "completeMessage": "Response has been submitted successfully!",
+        "requiredQuestionNote": "* Marked fields are required questions."
+    },
+    "changes": {
+        "finishRequired": "Finish processing is required first.",
+        "finishButton": "Finish",
+        "notSubmittedCount": "{{notSubmittedResponseCount}} people have not submitted yet",
+        "approvalWaiting": "Waiting for approval ({{notSubmittedResponseCount}} remaining)",
+        "almostDone": "Almost done!",
+        "approveButton": "Approve",
+        "approveMessage": "Click the button to save 💁‍♀️"
+    },
+    "pagination": {
+        "unit": "items"
+    },
+    "common": {
+        "person": "people",
+        "selected": "people selected",
+        "total": "Total {{count}} people",
+        "notResponded": "{{remainCount}} people have not responded yet. 💦"
+    },
+    "form": {
+        "description": "Description",
+        "descriptionPlaceholder": "Request description"
+    },
+    "finish": {
+        "title": "Finish submission?",
+        "allCompleted": "All team members have responded. 🎉",
+        "proceedMessage": "Finish submission and proceed to next step?",
+        "notRespondedMessage": "If you finish now, unsubmitted members will be considered as having no changes from the existing sheet status.",
+        "successMessage": "Submission has been finished.",
+        "buttonText": "Finish Submission"
+    },
+    "teamMember": {
+        "searchPlaceholder": "Search members",
+        "noAvailableMembers": "No available members to select.",
+        "deselectAll": "Deselect All",
+        "selectAll": "Select All"
+    },
+    "step": {
+        "titleAndContent": "Write title and content",
+        "selectTarget": "Select request target",
+        "setDeadline": "Set submission deadline"
+    },
+    "timePicker": {
+        "placeholder": "Time"
+    },
+    "submissions": {
+        "searchPlaceholder": "Search by name or email",
+        "noResponses": "No submitted responses.",
+        "loadMore": "Load more"
+    },
+    "status": {
+        "beforeStart": {
+            "text": "Waiting",
+            "longText": "Before start"
+        },
+        "inProgress": {
+            "text": "In Progress",
+            "longText": "In progress"
+        },
+        "overdue": {
+            "text": "Overdue",
+            "longText": "Finished"
+        },
+        "closed": {
+            "text": "Completed",
+            "longText": "Closed"
+        }
+    },
+    "usingStatus": {
+        "inUse": "Using",
+        "noUse": "Not using",
+        "dontKnow": "Don't know"
+    },
+    "step1": {
+        "title": "1. Write title and content",
+        "requestTitle": "Request title",
+        "requestContent": "Request content",
+        "titlePlaceholder": "Please enter a title.",
+        "contentPlaceholder": "Please enter content.",
+        "requiredMessage": "This is a required field.",
+        "maxLengthMessage": "Please enter within {{length}} characters."
+    },
+    "complete": {
+        "title": "Request sent to team members",
+        "confirmButton": "Confirm"
+    },
+    "step4": {
+        "title": "Complete request addition and send request to team members?",
+        "titleLabel": "Title",
+        "descriptionLabel": "Description",
+        "targetLabel": "Response targets",
+        "titlePlaceholder": "Request title",
+        "descriptionPlaceholder": "Request description",
+        "totalMembers": "Total {{count}} people",
+        "backButton": "Back",
+        "completeButton": "Complete"
+    },
+    "response": {
+        "expired": {
+            "title": "Response period has ended.",
+            "message": "If you have additional questions, please contact the administrator."
+        },
+        "submitted": {
+            "title": "You have already submitted your request response.",
+            "message": "Thank you for your participation!",
+            "homeButton": "Go back to home"
+        },
+        "inquiry": {
+            "title": "If you have additional inquiries, please leave them here.",
+            "placeholder": "Subjective answer",
+            "noContent": "No content entered"
+        },
+        "team": {
+            "placeholder": "Please select a team"
+        }
+    },
+    "step2": {
+        "title": "2. Select request targets",
+        "description": "Please select all targets to send the request to.",
+        "loadLabel": "Load:",
+        "slack": "Slack",
+        "googleWorkspace": "Google Workspace",
+        "alreadyConnected": "Already connected",
+        "googleNotConnected": "Google Workspace is not connected. Please connect Google Workspace first.",
+        "googleLoadSuccess": "Loaded team members from Google Workspace.",
+        "googleSyncError": "There is a problem with Google Workspace integration. Please check the integration status in settings.",
+        "loadError": "An error occurred while loading team members."
+    },
+    "components": {
+        "nextButton": "Next"
+    },
+    "respondent": {
+        "name": "Respondent name",
+        "team": "Team",
+        "email": "Email account",
+        "namePlaceholder": "Respondent name",
+        "emailPlaceholder": "Email account",
+        "noTeamsAvailable": "No teams available to select."
+    },
+    "layout": {
+        "work": "Work",
+        "requestDetail": "Request detail",
+        "overview": "Overview",
+        "submissions": "Submissions",
+        "results": "Results"
+    },
+    "submissions": {
+        "viewResponse": "View response",
+        "viewContent": "View content",
+        "deleteConfirm": "Are you sure you want to delete this response?",
+        "deleteSuccess": "Response has been deleted.",
+        "delete": "Delete",
+        "changeSuccess": "Changed successfully",
+        "requestClosed": "Request has been closed.",
+        "submitted": "Submitted",
+        "notSubmitted": "Not submitted",
+        "notSubmittedClosed": "Not submitted (closed)",
+        "submitComplete": "Submit complete"
+    },
+    "step3": {
+        "title": "3. Set submission deadline",
+        "description": "Deadline can be changed later.",
+        "datePlaceholder": "Select date",
+        "pastDateError": "Past dates cannot be selected.",
+        "completeButton": "Complete"
+    },
+    "subscription": {
+        "title": "Subscribed services"
+    },
+    "resend": {
+        "success": "Notification has been resent.",
+        "button": "Resend"
+    },
+    "changes": {
+        "unknown": "Unknown",
+        "notSubmitted": "Not submitted",
+        "changed": "Changed",
+        "maintained": "Maintained",
+        "hasNotSubmitted": "Contains unsubmitted responses",
+        "noChanges": "No changes from existing usage status",
+        "confirmComplete": "Confirm complete",
+        "changeSuccess": "Changed successfully."
+    },
+    "delete": {
+        "success": "Request has been deleted.",
+        "button": "Delete",
+        "confirmTitle": "Delete the request?",
+        "confirmMessage": "This action cannot be undone.",
+        "confirmWorkspace": "It will be deleted from the entire workspace.",
+        "confirmFinal": "Still want to delete?"
+    },
+    "approve": {
+        "needFullCheck": "Full confirmation required",
+        "confirmTitle": "Update subscription status based on responses?",
+        "confirmMessage": "Please confirm all subscription usage changes by team members.",
+        "confirmComplete": "You can approve once full confirmation is complete.",
+        "confirmUpdate": "Subscription list status will be updated after approval.",
+        "confirmFinal": "Then approve all changes?",
+        "success": "All changes have been approved.",
+        "button": "Approve"
+    },
+    "changesPage": {
+        "noSubscriptions": "No subscriptions to investigate in this request.",
+        "confirmComplete": "{{confirmed}} / {{total}} confirmed",
+        "allConfirmComplete": "All confirmed"
+    }
+}

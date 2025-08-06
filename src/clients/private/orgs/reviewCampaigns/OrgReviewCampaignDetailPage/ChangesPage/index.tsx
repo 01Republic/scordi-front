@@ -1,13 +1,15 @@
-import {memo, useCallback, useState} from 'react';
 import {useIdParam} from '^atoms/common';
-import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
 import {useReviewCampaign, useReviewCampaignSubscriptions} from '^models/ReviewCampaign/hook';
+import {ReviewCampaignSubscriptionDto} from '^models/ReviewCampaign/type';
+import {useTranslation} from 'next-i18next';
+import {memo, useCallback, useState} from 'react';
 import {OrgReviewCampaignDetailLayout} from '../layout';
-import {ChangesPageSidebar} from './ChangesPageSidebar';
 import {ChangesPageMainContent} from './ChangesPageMainContent';
+import {ChangesPageSidebar} from './ChangesPageSidebar';
 
 export const OrgReviewCampaignDetailChangesPage = memo(() => {
     const orgId = useIdParam('id');
+    const {t} = useTranslation('reviewCampaigns');
     const id = useIdParam('reviewCampaignId');
     const {data: campaign} = useReviewCampaign(orgId, id);
     const {data, refetch, isFetching} = useReviewCampaignSubscriptions(orgId, id, {
@@ -45,7 +47,7 @@ export const OrgReviewCampaignDetailChangesPage = memo(() => {
                 <div className="flex items-center justify-center min-h-52">
                     <div className="flex flex-col items-center gap-4">
                         {!isFetching && (
-                            <p className="text-xl text-gray-400 font-semibold">요청에 조사할 구독이 없어요.</p>
+                            <p className="text-xl text-gray-400 font-semibold">{t('changesPage.noSubscriptions')}</p>
                         )}
                     </div>
                 </div>

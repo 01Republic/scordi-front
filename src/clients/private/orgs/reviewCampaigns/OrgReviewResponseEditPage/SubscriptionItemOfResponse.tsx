@@ -6,6 +6,7 @@ import {
 import {UpdateReviewResponseSubscriptionRequestDto} from '^models/ReviewResponse/type/UpdateReviewResponseSubscriptionRequest.dto';
 import {Tabs, TabsList, TabsTrigger} from '^public/components/ui/tabs';
 import {HelpCircle} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 import Image from 'next/image';
 import {memo} from 'react';
 
@@ -18,6 +19,7 @@ interface SubscriptionItemOfResponseProps {
 
 export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfResponseProps) => {
     const {responseSubscription, campaignSubscription, onChange, readonly = false} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const {productName, productImage} = campaignSubscription;
 
     const handleTabChange = (value: ReviewResponseSubscriptionUsingStatus) => {
@@ -70,7 +72,7 @@ export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfRespons
                                     handleTabChange(value);
                                 }}
                             >
-                                {t_reviewResponseSubscriptionUsingStatus(value)}
+                                {t(t_reviewResponseSubscriptionUsingStatus(value))}
                             </TabsTrigger>
                         ))}
                     </TabsList>

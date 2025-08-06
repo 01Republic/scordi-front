@@ -1,10 +1,11 @@
-import {memo, useState} from 'react';
-import {Button} from '^public/components/ui/button';
-import {ReviewResponseDto} from '^models/ReviewResponse/type';
-import {reviewResponseApi} from '^models/ReviewResponse/api';
-import toast from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {Spinner} from '^components/util/loading';
+import {reviewResponseApi} from '^models/ReviewResponse/api';
+import {ReviewResponseDto} from '^models/ReviewResponse/type';
+import {Button} from '^public/components/ui/button';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import toast from 'react-hot-toast';
 
 interface ResendButtonProps {
     response: ReviewResponseDto;
@@ -13,6 +14,7 @@ interface ResendButtonProps {
 
 export const ResendButton = memo((props: ResendButtonProps) => {
     const {response, reload} = props;
+    const {t} = useTranslation('reviewCampaigns');
     const {organizationId: orgId, campaignId: id, id: responseId} = response;
     const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export const ResendButton = memo((props: ResendButtonProps) => {
         reviewResponseApi
             .resend(orgId, id, responseId)
             .then(() => reload())
-            .then(() => toast.success('알림이 재전송되었습니다.'))
+            .then(() => toast.success(t('resend.success')))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     };
@@ -34,7 +36,7 @@ export const ResendButton = memo((props: ResendButtonProps) => {
             }`}
             onClick={() => handleResend(response.id)}
         >
-            {isLoading ? <Spinner /> : '재전송'}
+            {isLoading ? <Spinner /> : t('resend.button')}
         </Button>
     );
 });

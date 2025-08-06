@@ -1,13 +1,12 @@
-import {createReviewCampaignRequestAtom} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/atom';
+import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
 import {TeamMemberDto} from '^models/TeamMember';
 import {Button} from '^public/components/ui/button';
 import {Input} from '^public/components/ui/input';
 import {cn} from '^public/lib/utils';
+import {useTranslation} from 'next-i18next';
 import React, {useEffect, useRef} from 'react';
-import {useRecoilState} from 'recoil';
-import {TeamMemberSelectItem} from './TeamMemberSelectItem';
 import {UseFormReturn} from 'react-hook-form';
-import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
+import {TeamMemberSelectItem} from './TeamMemberSelectItem';
 
 interface TeamMemberSearchProps {
     form: UseFormReturn<CreateReviewCampaignRequestDto, any>;
@@ -17,6 +16,7 @@ interface TeamMemberSearchProps {
 
 export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMembers, onSelectMember}) => {
     // const [selectedIds] = useRecoilState(createReviewCampaignRequestAtom);
+    const {t} = useTranslation('reviewCampaigns');
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [keyword, setKeyword] = React.useState<string>('');
     const [isShow, setIsShow] = React.useState<boolean>(false);
@@ -51,7 +51,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
                 <Input
                     type={'text'}
                     id={'search'}
-                    placeholder={'구성원 검색'}
+                    placeholder={t('teamMember.searchPlaceholder') as string}
                     className={'bg-white'}
                     onChange={(e) => setKeyword(e.target.value)}
                     onFocus={() => setIsShow(true)}
@@ -63,7 +63,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
                     )}
                 >
                     {teamMembers.length === selectedIds.length && (
-                        <div className={'py-32 text-center text-gray-500'}>선택 가능한 구성원이 없습니다.</div>
+                        <div className={'py-32 text-center text-gray-500'}>{t('teamMember.noAvailableMembers')}</div>
                     )}
                     {filteredTeamMembers.map(
                         (teamMember) =>
@@ -78,9 +78,14 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
                 </div>
             </div>
             <div className={'flex justify-between items-center text-sm'}>
-                <div className={'ml-1'}>{selectedIds.length}명 선택됨</div>
+                <div className={'ml-1'}>
+                    {selectedIds.length}
+                    {t('common.selected')}
+                </div>
                 <Button type="button" size={'sm'} variant={'scordiGhost'} onClick={selectAllMembers}>
-                    {selectedIds.length === teamMembers.length ? '선택 해제' : '전체선택'}
+                    {selectedIds.length === teamMembers.length
+                        ? t('teamMember.deselectAll')
+                        : t('teamMember.selectAll')}
                 </Button>
             </div>
         </>

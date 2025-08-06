@@ -1,7 +1,8 @@
-import {memo} from 'react';
 import {ReviewResponseDto} from '^models/ReviewResponse/type';
 import {OrgReviewResponseShowPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]/reviewResponses/[reviewResponseId]';
 import {ButtonLink} from '^public/components/ui/button';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface ShowResponseButtonProps {
     response: ReviewResponseDto;
@@ -10,6 +11,7 @@ interface ShowResponseButtonProps {
 
 export const ShowResponseButton = memo((props: ShowResponseButtonProps) => {
     const {response, text} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     return (
         <ButtonLink
@@ -18,7 +20,7 @@ export const ShowResponseButton = memo((props: ShowResponseButtonProps) => {
             href={OrgReviewResponseShowPageRoute.resourcePath(response)}
             displayLoading={false}
         >
-            {text || '응답 확인'}
+            {text || t('submissions.viewResponse')}
         </ButtonLink>
     );
 });

@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {UseFormReturn} from 'react-hook-form';
 import {CreateReviewCampaignRequestDto} from '^models/ReviewCampaign/type';
+import {dayAfter} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
+import {useEffect, useState} from 'react';
+import {UseFormReturn} from 'react-hook-form';
 import {useReviewCampaignCreateStep} from '../atom';
 import {StepCard, StepCardBody, StepSubmitButton} from '../components';
 import {DatePicker} from './DatePicker';
 import {TimePicker} from './TimePicker';
-import {dayAfter} from '^utils/dateTime';
 
 interface Props {
     form: UseFormReturn<CreateReviewCampaignRequestDto, any>;
@@ -14,6 +15,7 @@ interface Props {
 
 export const RequestAddStep3 = ({form, isLoading}: Props) => {
     const {getStep, setFoldStep} = useReviewCampaignCreateStep();
+    const {t} = useTranslation('reviewCampaigns');
     const [date, setDate] = useState<Date | undefined>(dayAfter(7));
     const [time, setTime] = useState<string>('10:00');
     const step = getStep(3);
@@ -30,7 +32,7 @@ export const RequestAddStep3 = ({form, isLoading}: Props) => {
         const [hours, minutes] = time.split(':').map(Number);
         finishAt.setHours(hours, minutes);
         if (finishAt.getTime() <= new Date().getTime()) {
-            form.setError('finishAt', {type: 'range', message: '과거 시점은 선택할 수 없어요.'});
+            form.setError('finishAt', {type: 'range', message: t('step3.pastDateError') as string});
         } else {
             form.clearErrors('finishAt');
         }
@@ -40,7 +42,7 @@ export const RequestAddStep3 = ({form, isLoading}: Props) => {
 
     return (
         <StepCard
-            title="3. 제출 마감일 설정"
+            title={t('step3.title')}
             isHidden={!!step?.hidden}
             isCurrent={!!step?.isFocused}
             isFolded={!!step?.folded}
@@ -49,7 +51,7 @@ export const RequestAddStep3 = ({form, isLoading}: Props) => {
             <StepCardBody>
                 <div className={'flex flex-col gap-2'}>
                     <div className={'text-gray-500 text-14'} onClick={() => console.log(form.getValues())}>
-                        마감일은 추후 변경 가능합니다.
+                        {t('step3.description')}
                     </div>
                     <div className={'flex space-x-4 items-center'}>
                         <DatePicker date={finishAt} onSelect={setDate} disabled={{before: new Date()}} />
@@ -61,7 +63,7 @@ export const RequestAddStep3 = ({form, isLoading}: Props) => {
                 <div className={'flex justify-center space-x-4'}>
                     <StepSubmitButton
                         type="submit"
-                        text="완료"
+                        text={t('step3.completeButton')}
                         disabled={!!errors.finishAt?.message}
                         isLoading={isLoading}
                     />

@@ -1,19 +1,21 @@
 import {useIdParam} from '^atoms/common';
+import {LoadableBox2} from '^components/util/loading';
 import {useReviewCampaign} from '^models/ReviewCampaign/hook';
 import {useReviewResponses} from '^models/ReviewResponse/hook';
-import {memo, useState} from 'react';
-import {Search} from 'lucide-react';
-import {LoadableBox2, Spinner} from '^components/util/loading';
+import {FindAllReviewResponsesQueryDto} from '^models/ReviewResponse/type';
 import {Button} from '^public/components/ui/button';
+import {Search} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 import {OrgReviewCampaignDetailLayout} from '../layout';
-import {SubmissionsPageSideBar} from './SubmissionsPageSideBar';
 import {ReviewResponseItem} from './ReviewResponseItem';
 import {SubmissionSidebarTab, t_SubmissionsSidebarTab} from './SubmissionSidebarTab.enum';
-import {FindAllReviewResponsesQueryDto} from '^models/ReviewResponse/type';
+import {SubmissionsPageSideBar} from './SubmissionsPageSideBar';
 
 export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
     const orgId = useIdParam('id');
     const id = useIdParam('reviewCampaignId');
+    const {t} = useTranslation('reviewCampaigns');
     const {data: reviewCampaign} = useReviewCampaign(orgId, id);
     const {
         data: {items: reviewResponses, pagination},
@@ -64,7 +66,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                         <div className="relative">
                             <Search className="absolute left-2.5 top-0 bottom-0 my-auto h-4 w-4 text-gray-500" />
                             <input
-                                placeholder="이름 또는 이메일로 검색"
+                                placeholder={t('submissions.searchPlaceholder') as string}
                                 className="input input-bordered input-sm pl-8"
                                 value={params.keyword}
                                 onChange={(e) => {
@@ -77,7 +79,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
 
                     <LoadableBox2 isLoading={isFetching}>
                         {reviewResponses.length === 0 ? (
-                            <div className="text-center p-8 text-gray-500">제출 응답이 없습니다.</div>
+                            <div className="text-center p-8 text-gray-500">{t('submissions.noResponses')}</div>
                         ) : (
                             <div className="border rounded-lg overflow-hidden mt-4 bg-white">
                                 <div className="divide-y">
@@ -97,7 +99,7 @@ export const OrgReviewCampaignDetailSubmissionsPage = memo(() => {
                     {pagination.currentPage < pagination.totalPage && (
                         <div className="flex items-center justify-center mt-4">
                             <Button variant="outline" onClick={() => nextPage()}>
-                                더 보기
+                                {t('submissions.loadMore')}
                             </Button>
                         </div>
                     )}

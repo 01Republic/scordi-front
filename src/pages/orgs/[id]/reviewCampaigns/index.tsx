@@ -1,10 +1,9 @@
-import React from 'react';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {OrgReviewCampaignListPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignListPage';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgReviewCampaignListPage} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignListPage';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
 export const OrgReviewCampaignListPageRoute = pathRoute({
     pathname: '/orgs/[id]/reviewCampaigns',
@@ -21,6 +20,7 @@ export const getStaticProps = async ({locale}: any) => ({
         // Will be passed to the page component as props
         ...(await serverSideTranslations(locale, [
             ...v3CommonRequires, // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.
+            'reviewCampaigns',
         ])),
     },
 });

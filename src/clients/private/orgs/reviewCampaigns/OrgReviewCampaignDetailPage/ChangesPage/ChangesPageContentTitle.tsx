@@ -1,5 +1,6 @@
-import {memo} from 'react';
 import {ReviewCampaignDto} from '^models/ReviewCampaign/type';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface ChangesPageContentTitleProps {
     campaign: ReviewCampaignDto;
@@ -9,6 +10,7 @@ interface ChangesPageContentTitleProps {
 
 export const ChangesPageContentTitle = memo((props: ChangesPageContentTitleProps) => {
     const {campaign, totalCount, leftCount} = props;
+    const {t} = useTranslation('reviewCampaigns');
 
     if (campaign.approvedAt || campaign.isClosed()) return <></>;
 
@@ -16,18 +18,20 @@ export const ChangesPageContentTitle = memo((props: ChangesPageContentTitleProps
     if (!campaign.isOverdue()) {
         return (
             <span>
-                먼저{' '}
+                {t('changes.finishRequired')}{' '}
                 <b
                     className="text-scordi animate-pulse hover:animate-none cursor-pointer btn-animation"
                     onClick={() => document.getElementById('review-campaign-finish-btn')?.click()}
                 >
-                    마감처리
-                </b>
-                가 필요합니다.{' '}
+                    {t('changes.finishButton')}
+                </b>{' '}
                 {campaign.notSubmittedResponseCount > 0 && (
                     <span className="text-12 font-medium">
-                        (아직 <b className="text-scordi">{campaign.notSubmittedResponseCount.toLocaleString()}명</b>이
-                        제출하지 않았어요)
+                        (
+                        {t('changes.notSubmittedCount', {
+                            notSubmittedResponseCount: campaign.notSubmittedResponseCount.toLocaleString(),
+                        })}
+                        )
                     </span>
                 )}
             </span>
@@ -35,23 +39,19 @@ export const ChangesPageContentTitle = memo((props: ChangesPageContentTitleProps
     }
 
     if (leftCount) {
-        return (
-            <span>
-                승인 대기중 (<b className="text-scordi">{leftCount.toLocaleString()}개</b> 남았어요)
-            </span>
-        );
+        return <span>{t('changes.approvalWaiting', {notSubmittedResponseCount: leftCount.toLocaleString()})}</span>;
     }
 
     return (
         <span>
-            거의 다 끝났어요!{' '}
+            {t('changes.almostDone')}{' '}
             <b
                 className="text-scordi animate-pulse hover:animate-none cursor-pointer btn-animation"
                 onClick={() => document.getElementById('review-campaign-confirm-btn')?.click()}
             >
-                승인하기
+                {t('changes.approveButton')}
             </b>{' '}
-            버튼을 눌러 저장해주세요 💁‍♀️
+            {t('changes.approveMessage')}
         </span>
     );
 });

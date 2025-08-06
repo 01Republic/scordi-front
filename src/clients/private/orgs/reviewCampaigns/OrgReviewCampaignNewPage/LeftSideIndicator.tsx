@@ -1,11 +1,11 @@
-import React from 'react';
-import {cn} from '^public/lib/utils';
 import {useReviewCampaignCreateStep} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignNewPage/atom';
+import {useTranslation} from 'next-i18next';
 
 interface LeftSideIndicatorProps {}
 
 export const LeftSideIndicator = (props: LeftSideIndicatorProps) => {
     const {steps, focusedStep, changeStep, setFoldStep} = useReviewCampaignCreateStep();
+    const {t} = useTranslation('reviewCampaigns');
 
     const step = focusedStep?.step || 1;
     const stepHeight = `${((step - 1) / 2) * 100}%`;
@@ -13,7 +13,7 @@ export const LeftSideIndicator = (props: LeftSideIndicatorProps) => {
     return (
         <div className="flex flex-col items-stretch">
             <div className="flex flex-col gap-8 relative">
-                {leftSideIndicatorSteps.map((stepItem, i) => {
+                {leftSideIndicatorSteps(t).map((stepItem, i) => {
                     const isActive = stepItem.step === step;
 
                     return (
@@ -44,8 +44,8 @@ export const LeftSideIndicator = (props: LeftSideIndicatorProps) => {
     );
 };
 
-const leftSideIndicatorSteps = [
-    {step: 1, text: '제목 및 내용 작성'},
-    {step: 2, text: '요청할 대상 선택'},
-    {step: 3, text: '제출 마감일 설정'},
+const leftSideIndicatorSteps = (t: any) => [
+    {step: 1, text: t('step.titleAndContent')},
+    {step: 2, text: t('step.selectTarget')},
+    {step: 3, text: t('step.setDeadline')},
 ];
