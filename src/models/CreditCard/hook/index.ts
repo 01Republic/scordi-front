@@ -1,14 +1,16 @@
 import {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {useQueries} from '@tanstack/react-query';
+import {useQueries, useQuery} from '@tanstack/react-query';
 import {CreditCardManager} from '^models/CreditCard/manager';
 import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
 import {creditCardListForCreditCardListPageAtom, creditCardListResultAtom} from '^models/CreditCard/atom';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {CreditCardDto, FindAllCreditCardDto} from '^models/CreditCard/type';
 import {plainToast as toast} from '^hooks/useToast';
 import {ApiError} from '^api/api';
+import {Paginated} from '^types/utils/paginated.dto';
+import {CREDIT_CARD_HOOK_KEY} from '^models/CreditCard/hook/key';
 
 export const useCreditCardsOfOrganization = (isShow: boolean) => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -101,4 +103,22 @@ export const useSomeCreditCards = (orgId: number, codefCardIds: (number | null)[
     const isLoading = results.some((res) => res.isLoading);
 
     return {data, isLoading};
+};
+
+// 워크스페이스 카드 목록 조회
+export const useCreditCards2 = (orgId: number, params: FindAllCreditCardDto, manual?: boolean) => {
+    const [query, setQuery] = useState(params);
+
+    const queryResult = useQuery({
+        queryKey: [CREDIT_CARD_HOOK_KEY.base, orgId, query],
+        queryFn: () => creditCardApi.index(orgId, query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: manual ? false : !!orgId && !isNaN(orgId),
+    });
+
+    return usePaginateUtils({
+        query,
+        setQuery,
+        queryResult,
+    });
 };

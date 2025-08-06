@@ -48,6 +48,7 @@ export class BillingHistoryDto {
     @TypeCast(() => MoneyDto) abroadPayAmount: MoneyDto | null; // 해외결제금액
     paymentMethod: string; // 결제수단 (카드내역에서는 기본적으로 적요를 의미함.)
     memo: string | null; // 메모
+    connectMethod: ConnectMethod | null; // 연결 방식 (수동,코드에프,메일 등)
     // isSuccess: boolean; // 결제완료여부
 
     /**
@@ -231,6 +232,13 @@ export enum BillingHistorySubtype {
     EMAIL_INVOICE = 'EMAIL_INVOICE',
     MANUAL = 'MANUAL',
     CARD_RECEIPT = 'CARD_RECEIPT',
+}
+
+export enum ConnectMethod {
+    MANUAL = 'MANUAL',
+    CARD = 'CARD',
+    BANK = 'BANK',
+    EMAIL = 'EMAIL',
 }
 
 /**

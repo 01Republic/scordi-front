@@ -4,7 +4,7 @@ import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {billingHistoryApi} from '^models/BillingHistory/api';
-import {useBillingHistoryListOfBankAccount} from '^models/BillingHistory/hook';
+import {useBillingHistoryListOfBankAccount, useBillingHistoryListOfBankAccount2} from '^models/BillingHistory/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/atom';
@@ -17,7 +17,7 @@ export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHi
     const orgId = useOrgIdParam();
     const {currentBankAccount} = useCurrentBankAccount();
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
-        useBillingHistoryListOfBankAccount();
+        useBillingHistoryListOfBankAccount2(orgId, {}, currentBankAccount?.id);
 
     const onReady = () => {
         if (!currentBankAccount) return;
@@ -68,7 +68,7 @@ export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHi
                 hideTopPaginator
                 hideBottomPaginator={totalItemCount === 0}
             >
-                <BillingHistoryTableControl />
+                <BillingHistoryTableControl bankAccount={currentBankAccount} />
                 {isEmptyResult ? (
                     <EmptyTable message="결제된 내역이 없어요." />
                 ) : (

@@ -7,6 +7,8 @@ import {BillingHistoriesYearlySumBySubscriptionDto} from '^models/BillingHistory
 import {CurrencyCode} from '^models/Money';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 
 interface BillingHistoryYearlyRowProps {
     data: BillingHistoriesYearlySumBySubscriptionDto;
@@ -27,13 +29,29 @@ export const BillingHistoryYearlyRow = memo((props: BillingHistoryYearlyRowProps
 
     return (
         <tr className="group">
-            <td className="sticky left-0 bg-white z-10">
-                <OpenButtonColumn
-                    href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
-                >
-                    <SubscriptionProfile subscription={subscription} textClassName="font-medium" />
-                </OpenButtonColumn>
+            <td className="sticky left-0 bg-white min-w-64 flex z-10 border-r-2">
+                <div className="w-full">
+                    <OpenButtonColumn
+                        href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                    >
+                        <SubscriptionProfile subscription={subscription} textClassName="font-medium" />
+                    </OpenButtonColumn>
+                </div>
             </td>
+
+            {/* 결제수단 */}
+            <td className="font-medium">
+                <div className="flex justify-end">
+                    {subscription.creditCard ? (
+                        <CreditCardProfileCompact item={subscription.creditCard} />
+                    ) : subscription.bankAccount ? (
+                        <BankAccountProfileCompact item={subscription.bankAccount} />
+                    ) : (
+                        <p>-</p>
+                    )}
+                </div>
+            </td>
+
             <td className="text-right">
                 <IsFreeTierTagUI value={subscription.isFreeTier} />
             </td>

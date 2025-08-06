@@ -84,53 +84,34 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 상태 */}
             <td>
-                {currentUser?.isAdmin ? (
-                    <SelectColumn
-                        value={subscription.usingStatus}
-                        getOptions={async () => [...SubscriptionUsingStatusValues].reverse()}
-                        onSelect={async (usingStatus: SubscriptionUsingStatus) => {
-                            if (usingStatus === subscription.usingStatus) return;
-                            return _update({usingStatus});
-                        }}
-                        ValueComponent={({value}) => (
-                            <SubscriptionUsingStatusTag value={value} className="no-selectable !cursor-default" />
-                        )}
-                        contentMinWidth="240px"
-                        optionListBoxTitle="사용 상태를 변경합니다"
-                        inputDisplay={false}
-                    />
-                ) : (
-                    <SubscriptionUsingStatusTag
-                        value={subscription.usingStatus}
-                        className="no-selectable !cursor-default"
-                    />
-                )}
+                <SelectColumn
+                    value={subscription.usingStatus}
+                    getOptions={async () => [...SubscriptionUsingStatusValues].reverse()}
+                    onSelect={async (usingStatus: SubscriptionUsingStatus) => {
+                        if (usingStatus === subscription.usingStatus) return;
+                        return _update({usingStatus});
+                    }}
+                    ValueComponent={({value}) => <SubscriptionUsingStatusTag value={value} />}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="사용 상태를 변경합니다"
+                    inputDisplay={false}
+                />
             </td>
 
             {/* 결제주기 */}
             <td>
-                {currentUser?.isAdmin ? (
-                    <SelectColumn
-                        value={subscription.billingCycleType}
-                        getOptions={async () => [...SubscriptionBillingCycleTypeValues]}
-                        onSelect={async (billingCycleType) => {
-                            if (billingCycleType === subscription.billingCycleType) return;
-                            return _update({billingCycleType});
-                        }}
-                        ValueComponent={({value}) => (
-                            <BillingCycleTypeTagUI value={value} className="no-selectable !cursor-default" short />
-                        )}
-                        contentMinWidth="240px"
-                        optionListBoxTitle="결제주기를 변경합니다"
-                        inputDisplay={false}
-                    />
-                ) : (
-                    <BillingCycleTypeTagUI
-                        value={subscription.billingCycleType}
-                        className="no-selectable !cursor-default"
-                        short
-                    />
-                )}
+                <SelectColumn
+                    value={subscription.billingCycleType}
+                    getOptions={async () => [...SubscriptionBillingCycleTypeValues]}
+                    onSelect={async (billingCycleType) => {
+                        if (billingCycleType === subscription.billingCycleType) return;
+                        return _update({billingCycleType});
+                    }}
+                    ValueComponent={({value}) => <BillingCycleTypeTagUI value={value} short />}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="결제주기를 변경합니다"
+                    inputDisplay={false}
+                />
             </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
