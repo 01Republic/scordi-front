@@ -48,6 +48,7 @@ export const SingleCalendar = memo((props: SingleCalendarProps) => {
                 onChange={(selected) => onChange?.(new Date(selected))}
                 popoverProps={{position: 'bottom-start', offset: {mainAxis, crossAxis}}}
                 variant="unstyled"
+                maxDate={new Date()}
             />
         </DatesProvider>
     );
