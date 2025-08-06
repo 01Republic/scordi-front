@@ -15,6 +15,7 @@ import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {debounce} from 'lodash';
+import {MonthlyPaidAmount} from '^models/BillingHistory/components/MonthlyPaidAmount';
 
 interface CreditCardTableRowProps {
     creditCard: CreditCardDto;
@@ -73,6 +74,13 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
             <td>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     <small>{subscriptions ? subscriptions.length : 0} Apps</small>
+                </p>
+            </td>
+
+            {/* 월 누적 결제금액 */}
+            <td>
+                <p className="block text-14 font-normal group-hover:text-scordi-300 truncate">
+                    <MonthlyPaidAmount monthlyPaidAmount={creditCard.monthlyPaidAmount} />
                 </p>
             </td>
 

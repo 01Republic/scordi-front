@@ -40,7 +40,7 @@ export const BillingHistoryYearlyRow = memo((props: BillingHistoryYearlyRowProps
             </td>
 
             {/* 결제수단 */}
-            <td className="font-medium min-w-28">
+            <td className="font-medium">
                 <div className="flex justify-end">
                     {subscription.creditCard ? (
                         <CreditCardProfileCompact item={subscription.creditCard} />

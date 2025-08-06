@@ -75,7 +75,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                 </td>
 
                 {/*비고*/}
-                <td>
+                <td className="max-w-52">
                     <AirInputText
                         defaultValue={billingHistory.memo || undefined}
                         onChange={async (memo) => {

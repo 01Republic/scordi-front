@@ -22,6 +22,9 @@ export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) 
             {/* 구독 수 */}
             <th>구독 수</th>
 
+            {/* 월 누적 결제금액 */}
+            <th>월 누적 결제금액</th>
+
             {/* 은행명 */}
             <th>은행명</th>
 

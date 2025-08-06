@@ -9,6 +9,7 @@ import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAc
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {MonthlyPaidAmount} from '^models/BillingHistory/components/MonthlyPaidAmount';
 
 interface BankAccountTableRowProps {
     bankAccount: BankAccountDto;
@@ -67,6 +68,13 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
             <td>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     <small>{subscriptions ? subscriptions.length : 0} Apps</small>
+                </p>
+            </td>
+
+            {/* 월 누적 결제금액 */}
+            <td>
+                <p className="block text-14 font-normal group-hover:text-scordi-300 truncate">
+                    <MonthlyPaidAmount monthlyPaidAmount={bankAccount.monthlyPaidAmount} />
                 </p>
             </td>
 
