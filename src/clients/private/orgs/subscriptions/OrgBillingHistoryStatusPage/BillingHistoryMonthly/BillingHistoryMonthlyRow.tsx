@@ -52,14 +52,16 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
             <td className={isHidden ? 'hidden' : ''} />
 
             {/* 결제수단 */}
-            <td className={'font-medium min-w-28 text-right pr-0'}>
-                {subscription.creditCard ? (
-                    <CreditCardProfileCompact item={subscription.creditCard} />
-                ) : subscription.bankAccount ? (
-                    <BankAccountProfileCompact item={subscription.bankAccount} />
-                ) : (
-                    <p>-</p>
-                )}
+            <td className="font-medium min-w-28">
+                <div className="flex justify-end">
+                    {subscription.creditCard ? (
+                        <CreditCardProfileCompact item={subscription.creditCard} />
+                    ) : subscription.bankAccount ? (
+                        <BankAccountProfileCompact item={subscription.bankAccount} />
+                    ) : (
+                        <p>-</p>
+                    )}
+                </div>
             </td>
 
             {/* 상태 */}
