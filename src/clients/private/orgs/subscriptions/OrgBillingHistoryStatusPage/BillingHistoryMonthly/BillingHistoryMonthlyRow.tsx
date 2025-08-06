@@ -8,6 +8,8 @@ import {SubscriptionProfile} from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {WideMode} from '../../OrgBillingHistoryStatusPage';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
 
 interface BillingHistoryMonthlyRowProps {
     data: BillingHistoriesMonthlySumBySubscriptionDto;
@@ -48,6 +50,17 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
                 </div>
             </td>
             <td className={isHidden ? 'hidden' : ''} />
+
+            {/* 결제수단 */}
+            <td className={'font-medium min-w-28 text-right pr-0'}>
+                {subscription.creditCard ? (
+                    <CreditCardProfileCompact item={subscription.creditCard} />
+                ) : subscription.bankAccount ? (
+                    <BankAccountProfileCompact item={subscription.bankAccount} />
+                ) : (
+                    <p>-</p>
+                )}
+            </td>
 
             {/* 상태 */}
             <td className={isHidden ? 'hidden' : ''}>
