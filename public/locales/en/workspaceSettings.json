@@ -37,7 +37,8 @@
         "title": "Workspace Settings",
         "language": "Language Settings",
         "languagePlaceholder": "Select a language.",
-        "korean": "Korean"
+        "korean": "Korean",
+        "english": "English"
     },
     "changeModal": {
         "title": "Edit Workspace Information",

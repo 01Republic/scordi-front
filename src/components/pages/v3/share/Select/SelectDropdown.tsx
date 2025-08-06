@@ -1,6 +1,6 @@
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import {memo, useCallback, useEffect, useState} from 'react';
+import {SelectContainer} from './SelectContainer';
 import {SelectOption, SelectOptionProps} from './SelectOption';
-import {SelectContainer, SelectContainerProps} from './SelectContainer';
 
 interface SelectDropdownProps {
     placeholder?: string;

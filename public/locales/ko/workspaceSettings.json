@@ -37,7 +37,8 @@
         "title": "워크스페이스 설정",
         "language": "언어 설정",
         "languagePlaceholder": "언어를 선택해주세요.",
-        "korean": "한국어"
+        "korean": "한국어",
+        "english": "영어"
     },
     "changeModal": {
         "title": "워크스페이스 정보 수정",

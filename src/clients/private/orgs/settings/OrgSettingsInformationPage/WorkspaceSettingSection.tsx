@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
-import {SelectDropdown} from '^v3/share/Select';
 import {OrgSettingsListSection} from '^clients/private/_layouts/OrgSettingsLayout';
+import {SelectDropdown} from '^v3/share/Select';
 import {useTranslation} from 'next-i18next';
 import {useRouter} from 'next/router';
+import {memo} from 'react';
 
 interface WorkspaceSettingSectionProps {
     orgId: number;
@@ -15,17 +15,14 @@ export const WorkspaceSettingSection = memo((props: WorkspaceSettingSectionProps
 
     const handleLanguageChange = (option: {value?: string}) => {
         const value = option.value;
-        const currentPath = router.asPath;
-        if (value === 'en') {
-            if (!currentPath.startsWith('/en')) {
-                router.push('/en' + currentPath);
-            }
-        } else {
-            if (currentPath.startsWith('/en')) {
-                router.push(currentPath.replace(/^\/en/, '') || '/');
-            }
+        if (value) {
+            router.push(router.asPath, router.asPath, {locale: value});
         }
     };
+
+    console.log('Current locale:', router.locale);
+    console.log('Current pathname:', router.pathname);
+    console.log('Current asPath:', router.asPath);
 
     return (
         <OrgSettingsListSection
@@ -37,8 +34,8 @@ export const WorkspaceSettingSection = memo((props: WorkspaceSettingSectionProps
                         <SelectDropdown
                             placeholder={t('setting.languagePlaceholder') ?? ''}
                             options={[
-                                {value: 'kr', text: t('setting.korean'), selected: !router.asPath.startsWith('/en')},
-                                {value: 'en', text: t('setting.english'), selected: router.asPath.startsWith('/en')},
+                                {value: 'ko', text: t('setting.korean'), selected: router.locale === 'ko'},
+                                {value: 'en', text: t('setting.english'), selected: router.locale === 'en'},
                             ]}
                             onChange={handleLanguageChange}
                         />
