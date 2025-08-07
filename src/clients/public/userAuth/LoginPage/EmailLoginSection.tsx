@@ -5,6 +5,8 @@ import {UserLoginRequestDto} from '^models/User/types';
 import {useLogin, useUser} from '^clients/public/userAuth/UserSignUpPage/SignAuthPage.atom';
 import {validateEmailRegex, validPasswordRegex} from '^utils/valildation';
 import {FormInput} from '^clients/public/userAuth/common/FormInput';
+import Link from 'next/link';
+import {UserPasswordFindPageRoute} from '^pages/users/password/find';
 
 export const EmailLoginSection = memo(() => {
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
@@ -91,6 +93,12 @@ export const EmailLoginSection = memo(() => {
                 >
                     로그인
                 </button>
+                <Link
+                    href={UserPasswordFindPageRoute.path()}
+                    className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
+                >
+                    비밀번호 찾기
+                </Link>
             </form>
         </FormProvider>
     );
