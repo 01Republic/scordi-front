@@ -10,8 +10,13 @@ export const BillingHistoryYearlyHeader = memo((props: BillingHistoryYearlyHeade
     return (
         <thead className="[--rounded-box:0.375rem]">
             <tr className="bg-slate-100">
-                <th className="sticky left-0 !bg-slate-100 z-10 w-[10%]">서비스명</th>
-                <th className={'text-right max-w-28'}>결제수단</th>
+                <th
+                    colSpan={2}
+                    className="sticky flex left-0 !bg-slate-100 z-20 border-r-2 p-0 whitespace-nowrap colspan"
+                >
+                    <div className="!col-span-1 border-r-2 p-4 text-start min-w-60">서비스명</div>
+                    <div className="!col-span-1 p-4 text-start min-w-60">결제수단</div>
+                </th>
                 <th className="text-right">유/무료</th>
                 <th className="text-right">평균지출액</th>
                 {years.map((year) => (

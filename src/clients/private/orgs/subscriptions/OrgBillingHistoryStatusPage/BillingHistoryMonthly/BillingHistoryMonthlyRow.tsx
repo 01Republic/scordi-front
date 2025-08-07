@@ -10,6 +10,8 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {WideMode} from '../../OrgBillingHistoryStatusPage';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAccountId]';
 
 interface BillingHistoryMonthlyRowProps {
     data: BillingHistoriesMonthlySumBySubscriptionDto;
@@ -40,24 +42,36 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
 
     return (
         <tr className="group">
-            <td className="sticky left-0 bg-white min-w-64 flex z-10 border-r-2">
-                <div className="w-full">
+            <td colSpan={2} className="sticky left-0 !bg-white border-r-2 !min-w-md p-0 grid grid-cols-2 min-w-fix">
+                {/* 서비스 명 */}
+                <div className="!col-span-1 border-r-2 p-4 min-w-60">
                     <OpenButtonColumn
                         href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
                     >
                         <SubscriptionProfile subscription={subscription} />
                     </OpenButtonColumn>
                 </div>
-            </td>
-            <td className={isHidden ? 'hidden' : ''} />
 
-            {/* 결제수단 */}
-            <td className="font-medium min-w-28">
-                <div className="flex justify-end">
-                    {subscription.creditCard ? (
-                        <CreditCardProfileCompact item={subscription.creditCard} />
-                    ) : subscription.bankAccount ? (
-                        <BankAccountProfileCompact item={subscription.bankAccount} />
+                {/* 결제수단 */}
+                <div className="!col-span-1 p-4">
+                    {subscription.creditCardId ? (
+                        <OpenButtonColumn
+                            href={OrgCreditCardShowPageRoute.path(
+                                subscription.organizationId,
+                                subscription.creditCardId,
+                            )}
+                        >
+                            <CreditCardProfileCompact item={subscription.creditCard} />
+                        </OpenButtonColumn>
+                    ) : subscription.bankAccountId ? (
+                        <OpenButtonColumn
+                            href={OrgBankAccountShowPageRoute.path(
+                                subscription.organizationId,
+                                subscription.bankAccountId,
+                            )}
+                        >
+                            <BankAccountProfileCompact item={subscription.bankAccount} />
+                        </OpenButtonColumn>
                     ) : (
                         <p>-</p>
                     )}
