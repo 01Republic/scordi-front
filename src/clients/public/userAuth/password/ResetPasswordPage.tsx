@@ -35,7 +35,9 @@ export const ResetPasswordPage = memo(() => {
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
-                        <span className="text-28 font-bold text-gray-900">비밀번호 변경</span>
+                        <span className="text-28 font-bold text-gray-900 text-start w-full">
+                            재설정할 비밀번호를 <br /> 입력해 주세요.
+                        </span>
                         <section className="w-full flex flex-col gap-3">
                             <FormInput<CreateUserRequestDto>
                                 name="password"

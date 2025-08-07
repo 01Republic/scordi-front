@@ -11,10 +11,11 @@ interface FormInputProps<TForm extends FieldValues> {
     validation?: RegisterOptions<TForm, Path<TForm>>;
     showTogglePassword?: boolean;
     autoComplete: string;
+    placeholder?: string;
 }
 
 function FormInputInner<TForm extends FieldValues = FieldValues>(props: FormInputProps<TForm>) {
-    const {name, label, icon, type = 'text', autoComplete, validation, showTogglePassword = false} = props;
+    const {name, label, icon, type = 'text', autoComplete, validation, showTogglePassword = false, placeholder} = props;
 
     const [isActive, setIsActive] = useState(false);
     const [showPwd, setShowPwd] = useState(false);
@@ -61,7 +62,7 @@ function FormInputInner<TForm extends FieldValues = FieldValues>(props: FormInpu
                         )}
                     >
                         <span className="flex items-center justify-center">
-                            {label}
+                            {placeholder ? placeholder : label}
                             <Dot className={cn('text-[#f57453] text-lg', isActive || value ? 'hidden' : 'flex')} />
                         </span>
                     </div>
