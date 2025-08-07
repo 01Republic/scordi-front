@@ -13,6 +13,7 @@ import {toast} from 'react-hot-toast';
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
 import {useCreateCreditCardBillingHistory} from '^models/BillingHistory/hook';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {errorToast} from '^api/api';
 
 interface BillingHistoryTableControlProps {
     creditCard: CreditCardDto;
@@ -38,7 +39,7 @@ export const BillingHistoryTableControl = memo((props: BillingHistoryTableContro
 
                 <div>
                     <div className="flex items-center gap-2">
-                        <BillingHistoryManualUploadButton creditCard={creditCard} />
+                        <BillingHistoryManualUploadButton creditCard={creditCard} onSaved={() => refetch()} />
                         <ExcelUploadButton excelUploadModalClose={excelUploadModalClose} />
                     </div>
                 </div>
@@ -71,25 +72,22 @@ export const ExcelUploadButton = memo((props: ExcelUploadButtonProps) => {
 
 interface BillingHistoryManualUploadModalProps {
     creditCard: CreditCardDto;
+    onSaved?: () => any;
 }
 
 export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManualUploadModalProps) => {
-    const {creditCard} = props;
+    const {creditCard, onSaved} = props;
     const orgId = useOrgIdParam();
-    const creditCardId = useIdParam('creditCardId');
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useCreateCreditCardBillingHistory();
+    const {mutateAsync, isPending} = useCreateCreditCardBillingHistory(orgId, creditCard.id);
 
     const onCreate = async (dto: CreateBillingHistoryByManualRequestDto) => {
         if (!dto.subscriptionId) return;
-        await mutateAsync({
-            orgId,
-            id: creditCardId,
-            dto: {
-                ...dto,
-            },
-        }).then(() => toast.success('결제내역이 등록되었습니다.'));
+        await mutateAsync(dto)
+            .then(() => toast.success('결제내역이 등록되었습니다.'))
+            .then(() => onSaved && onSaved())
+            .catch(errorToast);
     };
 
     return (
@@ -102,7 +100,7 @@ export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManua
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 isLoading={isPending}
-                onCreate={(dto) => onCreate(dto)}
+                onCreate={onCreate}
                 creditCard={creditCard}
                 readonly="결제수단"
             />

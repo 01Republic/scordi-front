@@ -144,37 +144,37 @@ export const subscriptionBillingHistoryApi = {
 };
 
 export const creditCardBillingHistoryApi = {
-    create(orgId: number, id: number) {
-        const url = `/organizations/${orgId}/credit-cards/${id}/billing-histories`;
+    create(orgId: number, creditCardId: number) {
+        const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories`;
         return api.post(url).then(oneDtoOf(BillingHistoryDto));
     },
-    update(orgId: number, cardId: number, id: number, dto: UpdateBillingHistoryRequestDto) {
-        const url = `/organizations/${orgId}/credit-cards/${cardId}/billing-histories/${id}`;
+    update(orgId: number, creditCardId: number, id: number, dto: UpdateBillingHistoryRequestDto) {
+        const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/${id}`;
         return api.patch(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
-    show(orgId: number, cardId: number, id: number) {
-        const url = `/organizations/${orgId}/credit-cards/${cardId}/billing-histories/${id}`;
+    show(orgId: number, creditCardId: number, id: number) {
+        const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/${id}`;
         return api.get(url).then(oneDtoOf(BillingHistoryDto));
     },
-    destroy(orgId: number, cardId: number, id: number) {
-        const url = `/organizations/${orgId}/credit-cards/${cardId}/billing-histories/${id}`;
+    destroy(orgId: number, creditCardId: number, id: number) {
+        const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/${id}`;
         return api.delete(url).then(oneDtoOf(BillingHistoryDto));
     },
 
-    createByManual: (orgId: number, id: number, dto: CreateBillingHistoryByManualRequestDto) => {
-        const url = `/organizations/${orgId}/credit-cards/${id}/billing-histories/by-manual`;
+    createByManual: (orgId: number, creditCardId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+        const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/by-manual`;
         return api.post(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 
-    updateByManual: (orgId: number, cardId: number, id: number, dto: UpdateBillingHistoryByManualRequestDto) => {
-        const url = `/organizations/${orgId}/credit-cards/${cardId}/billing-histories/${id}/by-manual`;
+    updateByManual: (orgId: number, creditCardId: number, id: number, dto: UpdateBillingHistoryByManualRequestDto) => {
+        const url = `/organizations/${orgId}/credit-cards/${creditCardId}/billing-histories/${id}/by-manual`;
         return api.patch(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 };
 
 export const bankAccountBillingHistoryApi = {
-    create(orgId: number, id: number) {
-        const url = `/organizations/${orgId}/bank-accounts/${id}/billing-histories`;
+    create(orgId: number, bankAccountId: number) {
+        const url = `/organizations/${orgId}/bank-accounts/${bankAccountId}/billing-histories`;
         return api.post(url).then(oneDtoOf(BillingHistoryDto));
     },
     update(orgId: number, bankAccountId: number, id: number, dto: UpdateBillingHistoryRequestDto) {
@@ -190,8 +190,8 @@ export const bankAccountBillingHistoryApi = {
         return api.delete(url).then(oneDtoOf(BillingHistoryDto));
     },
 
-    createByManual: (orgId: number, id: number, dto: CreateBillingHistoryByManualRequestDto) => {
-        const url = `/organizations/${orgId}/bank-accounts/${id}/billing-histories/by-manual`;
+    createByManual: (orgId: number, bankAccountId: number, dto: CreateBillingHistoryByManualRequestDto) => {
+        const url = `/organizations/${orgId}/bank-accounts/${bankAccountId}/billing-histories/by-manual`;
         return api.post(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 

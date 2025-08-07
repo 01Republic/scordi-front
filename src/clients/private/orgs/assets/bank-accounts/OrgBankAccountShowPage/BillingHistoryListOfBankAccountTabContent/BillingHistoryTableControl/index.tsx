@@ -10,20 +10,30 @@ import {BillingHistoryScopeHandlerOfBankAccount} from './BillingHistoryScopeHand
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
 import {BankAccountExcelUploadModal} from './BankAccountExcelUploadModal';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
+import {errorToast} from '^api/api';
+import {BillingHistoryDto, FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
+import {Paginated} from '^types/utils/paginated.dto';
 
 interface BillingHistoryTableControlProps {
     bankAccount: BankAccountDto;
+    query: FindAllBillingHistoriesQueryDto;
+    search: (params: FindAllBillingHistoriesQueryDto) => any;
+    data: Paginated<BillingHistoryDto>;
+    isLoading: boolean;
+    refetch: () => any;
 }
 
 export const BillingHistoryTableControl = memo((props: BillingHistoryTableControlProps) => {
     const {bankAccount} = props;
+    const {query, data, search, isLoading, refetch} = props;
+
     return (
         <div className="flex items-center justify-between mb-4">
             <BillingHistoryScopeHandlerOfBankAccount />
 
             <div>
                 <div className="flex items-center gap-2">
-                    <BillingHistoryManualUploadButton bankAccount={bankAccount} />
+                    <BillingHistoryManualUploadButton bankAccount={bankAccount} onSaved={() => refetch()} />
                     {/* 백엔드 개발 되면 활성화 할 예정 삭제하면 안됨 */}
                     {/* <ExcelUploadButton />*/}
                 </div>
@@ -55,23 +65,21 @@ export const ExcelUploadButton = memo(() => {
 
 interface BillingHistoryManualUploadModalProps {
     bankAccount: BankAccountDto;
+    onSaved?: () => any;
 }
 
 export const BillingHistoryManualUploadButton = memo((props: BillingHistoryManualUploadModalProps) => {
-    const {bankAccount} = props;
+    const {bankAccount, onSaved} = props;
     const orgId = useOrgIdParam();
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useCreateBankAccountBillingHistory();
+    const {mutateAsync, isPending} = useCreateBankAccountBillingHistory(orgId, bankAccount.id);
 
     const onCreate = async (dto: CreateBillingHistoryByManualRequestDto) => {
-        await mutateAsync({
-            orgId,
-            id: bankAccount.id,
-            dto: {
-                ...dto,
-            },
-        }).then(() => toast.success('결제내역이 등록되었습니다.'));
+        await mutateAsync(dto)
+            .then(() => toast.success('결제내역이 등록되었습니다.'))
+            .then(() => onSaved && onSaved())
+            .catch(errorToast);
     };
 
     return (

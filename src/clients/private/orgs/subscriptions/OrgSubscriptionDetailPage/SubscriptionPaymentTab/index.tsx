@@ -18,7 +18,13 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
         useBillingHistoriesOfSubscription(subscription, {
-            relations: ['invoiceApp', 'invoiceApp.invoiceAccount', 'invoiceApp.invoiceAccount.googleTokenData'],
+            relations: [
+                'invoiceApp',
+                'invoiceApp.invoiceAccount',
+                'invoiceApp.invoiceAccount.googleTokenData',
+                'creditCard',
+                'bankAccount',
+            ],
             where: {
                 organizationId: orgId,
                 subscriptionId: subscription?.id,
@@ -33,7 +39,7 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
             <div className={'flex justify-between'}>
                 <PaymentScopeHandler onSearch={search} />
                 <div className="flex items-center gap-2">
-                    <BillingHistoryManualUpload subscription={subscription} />
+                    <BillingHistoryManualUpload subscription={subscription} onSaved={() => reload()} />
                     <AddPaymentHistoryDropdown subscription={subscription} reload={reload} />
                 </div>
             </div>

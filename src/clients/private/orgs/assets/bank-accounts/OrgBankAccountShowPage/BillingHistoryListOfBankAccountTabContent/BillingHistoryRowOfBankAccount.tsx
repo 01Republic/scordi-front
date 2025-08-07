@@ -12,6 +12,8 @@ import {MoreHorizontal} from 'lucide-react';
 import {useUpdateBankAccountBillingHistory, useUpdateCreditCardBillingHistory} from '^models/BillingHistory/hook';
 import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
+import {errorToast} from '^api/api';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 
 interface BillingHistoryRowOfBankAccountProps {
     item: BillingHistoryDto;
@@ -21,29 +23,27 @@ interface BillingHistoryRowOfBankAccountProps {
 
 export const BillingHistoryRowOfBankAccount = memo((props: BillingHistoryRowOfBankAccountProps) => {
     const {item: billingHistory, onSaved, onDelete} = props;
+    const orgId = useOrgIdParam();
+    const bankAccountId = useIdParam('bankAccountId');
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useUpdateBankAccountBillingHistory();
+    const {mutateAsync, isPending} = useUpdateBankAccountBillingHistory(orgId, bankAccountId, billingHistory.id);
 
     const update = debounce((dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
             .updateV2(billingHistory.id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.success('문제가 발생했어요.'))
-            .finally(() => onSaved && onSaved());
+            .then(() => onSaved && onSaved())
+            .catch(() => toast.success('문제가 발생했어요.'));
     }, 250);
 
     const onUpdateBillingManual = async (dto: UpdateBillingHistoryByManualRequestDto) => {
         if (!billingHistory.bankAccountId) return;
 
-        await mutateAsync({
-            orgId: billingHistory.organizationId,
-            bankAccountId: billingHistory.bankAccountId,
-            id: billingHistory.id,
-            dto: {
-                ...dto,
-            },
-        }).then(() => toast.success('결제내역이 수정되었습니다.'));
+        await mutateAsync(dto)
+            .then(() => toast.success('결제내역이 수정되었습니다.'))
+            .then(() => onSaved && onSaved())
+            .catch(errorToast);
     };
 
     return (
