@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {DatesProvider, DatePickerInput} from '@mantine/dates';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import {ControlsGroupSettings} from '@mantine/dates/lib/types/ControlsGroupSettings';
 
 interface SingleCalendarProps {
     defaultValue?: Date;
@@ -15,6 +16,7 @@ interface SingleCalendarProps {
     placeHolder?: string;
     mainAxis?: number;
     crossAxis?: number;
+    maxDate?: ControlsGroupSettings['maxDate'];
 }
 
 export const SingleCalendar = memo((props: SingleCalendarProps) => {
@@ -28,6 +30,7 @@ export const SingleCalendar = memo((props: SingleCalendarProps) => {
         placeHolder = '날짜를 선택해주세요',
         mainAxis = 0,
         crossAxis = 0,
+        maxDate,
     } = props;
 
     const displayDate = defaultValue || date || null;
@@ -48,7 +51,7 @@ export const SingleCalendar = memo((props: SingleCalendarProps) => {
                 onChange={(selected) => onChange?.(new Date(selected))}
                 popoverProps={{position: 'bottom-start', offset: {mainAxis, crossAxis}}}
                 variant="unstyled"
-                maxDate={new Date()}
+                maxDate={maxDate}
             />
         </DatesProvider>
     );

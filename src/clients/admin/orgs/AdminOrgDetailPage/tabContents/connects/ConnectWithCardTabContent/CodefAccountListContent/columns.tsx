@@ -151,6 +151,16 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
                         .catch(errorToast);
                 };
 
+                const resetAccountError = () => {
+                    const removeConfirm = () =>
+                        confirm2(`[#${account.id} ${account.profile}] 계정 에러를 정말 초기화 할까요?`);
+                    return confirmed(removeConfirm())
+                        .then(() => codefAccountAdminApi.resetError(orgId, account.id))
+                        .then(() => toast.success('초기화 완료'))
+                        .then(() => reload())
+                        .catch(errorToast);
+                };
+
                 return (
                     <div className="flex items-center justify-end gap-1">
                         <MoreDropdown
@@ -165,6 +175,11 @@ export const getCodefAccountColumns = (options: Options): CardTableColumns<Codef
                                 {account.connectedIdentityId && (
                                     <MoreDropdown.MenuItem onClick={syncCodefCardsOfAccount}>
                                         [코드에프] 카드 상태 동기화
+                                    </MoreDropdown.MenuItem>
+                                )}
+                                {account.errorData && (
+                                    <MoreDropdown.MenuItem onClick={resetAccountError}>
+                                        계정 에러 초기화
                                     </MoreDropdown.MenuItem>
                                 )}
                                 <MoreDropdown.MenuItem onClick={removeAccount}>이 계정 삭제</MoreDropdown.MenuItem>

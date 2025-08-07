@@ -5,25 +5,25 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {CreateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/CreateBillingHistoryByManual.request.dto';
 import {ManualBillingHistoryModal} from 'src/clients/private/_modals/ManualBillingHistoryModal';
 import {useCreateSubscriptionBillingHistory} from '^models/BillingHistory/hook';
+import {errorToast} from '^api/api';
 
 interface BillingHistoryManualUploadProps {
     subscription: SubscriptionDto;
+    onSaved?: () => any;
 }
 
 export const BillingHistoryManualUpload = memo((props: BillingHistoryManualUploadProps) => {
-    const {subscription} = props;
+    const {subscription, onSaved} = props;
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useCreateSubscriptionBillingHistory();
+    const {mutateAsync, isPending} = useCreateSubscriptionBillingHistory(subscription.id);
 
     const onCreate = async (dto: CreateBillingHistoryByManualRequestDto) => {
         if (!dto.subscriptionId) return;
-        await mutateAsync({
-            subscriptionId: dto.subscriptionId,
-            dto: {
-                ...dto,
-            },
-        }).then(() => toast.success('결제내역이 등록되었습니다.'));
+        await mutateAsync(dto)
+            .then(() => toast.success('결제내역이 등록되었습니다.'))
+            .then(() => onSaved && onSaved())
+            .catch(errorToast);
     };
 
     return (

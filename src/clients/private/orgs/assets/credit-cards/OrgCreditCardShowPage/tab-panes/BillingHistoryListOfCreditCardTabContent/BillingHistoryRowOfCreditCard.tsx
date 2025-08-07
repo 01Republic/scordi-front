@@ -12,6 +12,10 @@ import {MoreHorizontal} from 'lucide-react';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
 import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
 import {useUpdateCreditCardBillingHistory} from '^models/BillingHistory/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {errorToast} from '^api/api';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
@@ -21,29 +25,27 @@ interface BillingHistoryRowOfCreditCardProps {
 
 export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCreditCardProps) => {
     const {item: billingHistory, onSaved, onDelete} = props;
+    const orgId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
     const [isOpen, setIsOpen] = useState(false);
 
-    const {mutateAsync, isPending} = useUpdateCreditCardBillingHistory();
+    const {mutateAsync, isPending} = useUpdateCreditCardBillingHistory(orgId, creditCardId, billingHistory.id);
 
     const update = debounce((dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
             .updateV2(billingHistory.id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.success('문제가 발생했어요.'))
-            .finally(() => onSaved && onSaved());
+            .then(() => onSaved && onSaved())
+            .catch(() => toast.success('문제가 발생했어요.'));
     }, 250);
 
     const onUpdateBillingManual = async (dto: UpdateBillingHistoryByManualRequestDto) => {
         if (!billingHistory.creditCardId) return;
 
-        await mutateAsync({
-            orgId: billingHistory.organizationId,
-            cardId: billingHistory.creditCardId,
-            id: billingHistory.id,
-            dto: {
-                ...dto,
-            },
-        }).then(() => toast.success('결제내역이 수정되었습니다.'));
+        await mutateAsync(dto)
+            .then(() => toast.success('결제내역이 수정되었습니다.'))
+            .then(() => onSaved && onSaved())
+            .catch(errorToast);
     };
 
     return (
@@ -71,7 +73,13 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
 
                 {/*연결된 구독*/}
                 <td>
-                    {billingHistory.subscription && <SubscriptionProfile subscription={billingHistory.subscription} />}
+                    {billingHistory.subscription && (
+                        <OpenButtonColumn
+                            href={OrgSubscriptionDetailPageRoute.path(orgId, billingHistory.subscription.id)}
+                        >
+                            <SubscriptionProfile subscription={billingHistory.subscription} />
+                        </OpenButtonColumn>
+                    )}
                 </td>
 
                 {/*비고*/}

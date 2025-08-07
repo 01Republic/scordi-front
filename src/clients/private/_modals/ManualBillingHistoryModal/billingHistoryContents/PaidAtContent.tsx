@@ -33,6 +33,7 @@ export const PaidAtContent = memo((props: PaidAtContentProps) => {
                 containerClassName="flex-1 px-3 py-2 ring-1 ring-inset ring-gray-300 overflow-hidden rounded-lg"
                 mainAxis={15}
                 crossAxis={-10}
+                // maxDate={new Date()}
             />
         </ContentBox>
     );
