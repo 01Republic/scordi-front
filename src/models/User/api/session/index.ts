@@ -4,6 +4,7 @@ import {
     CreateUserRequestDto,
     CreateUserResponseDto,
     SendPhoneAuthMessageDto,
+    UpdateUserPasswordRequestDto,
     UserGoogleSocialSignUpInvitedRequestDto,
     UserSocialSignUpInvitedRequestDto,
     UsersWebpushRegisterDto,
@@ -143,5 +144,11 @@ export const UserPasswordApi = {
     validate: (email: string) => {
         const url = `/users/${email}/password/validate`;
         return api.get(url);
+    },
+
+    /* 동일한 api 엔드포인트를 유지하기 위해 email로 작성되어있으나 token값을 넣어야합니다. */
+    update: (email: string, data: UpdateUserPasswordRequestDto) => {
+        const url = `/users/${email}/password`;
+        return api.patch(url, data);
     },
 };
