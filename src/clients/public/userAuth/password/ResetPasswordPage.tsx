@@ -55,7 +55,7 @@ export const ResetPasswordPage = memo(() => {
 
     useEffect(() => {
         if (!token) return;
-        mutateValidate(token).catch(failValidate);
+        mutateValidate(encodeURIComponent(token)).catch(failValidate);
     }, [token]);
 
     const methods = useForm<UpdateUserPasswordRequestDto>({
@@ -124,11 +124,11 @@ export const ResetPasswordPage = memo(() => {
                                 type="submit"
                                 className={cn(
                                     'w-full flex items-center justify-center rounded-lg btn',
-                                    !isValid ? 'btn-white' : ' btn-scordi ',
+                                    !isValid ? 'btn-disabled2' : ' btn-scordi ',
                                     isPending && 'link_to-loading',
                                 )}
                             >
-                                <p className="font-semibold text-16 py-3">확인</p>
+                                <p className="font-semibold text-16 py-3">비밀번호 변경</p>
                             </button>
                             <LinkTo
                                 href={UserLoginPageRoute.path()}
