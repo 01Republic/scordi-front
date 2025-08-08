@@ -1,30 +1,36 @@
+import React, {memo, useState} from 'react';
+import {Mail} from 'lucide-react';
+import cn from 'classnames';
+import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import {LinkTo} from '^components/util/LinkTo';
 import {UserLoginPageRoute} from '^pages/users/login';
-import React, {memo} from 'react';
-import {FormInput} from '^clients/public/userAuth/common/FormInput';
-import {UserLoginRequestDto} from '^models/User/types';
-import {Mail} from 'lucide-react';
-import {validateEmailRegex} from '^utils/valildation';
-import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
-import cn from 'classnames';
-import {FormProvider, useForm} from 'react-hook-form';
 import {UserPasswordResetPageRoute} from '^pages/users/password/reset';
 import {UserSignUpPageRoute} from '^pages/users/signup';
-
-interface FindPasswordDto {
-    email: string;
-}
+import {validateEmailRegex} from '^utils/valildation';
+import {useUserPasswordReset} from '^models/User/hook';
+import {FormInput} from '^clients/public/userAuth/common/FormInput';
+import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
 
 export const FindPasswordPage = memo(() => {
-    const methods = useForm<FindPasswordDto>({
+    const [successMessage, setSuccessMessage] = useState('');
+    const {mutateAsync, isPending} = useUserPasswordReset();
+    const methods = useForm<{email: string}>({
         mode: 'all',
     });
-    const {watch, handleSubmit} = methods;
+    const {watch, handleSubmit, setError} = methods;
     const email = watch('email');
-    const isPending = false;
 
-    const onSubmit = (data: FindPasswordDto) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<{email: string}> = ({email}) => {
+        setSuccessMessage('');
+        mutateAsync(email, {
+            onSuccess: () => {
+                setSuccessMessage('메일이 발송되었습니다. 메일을 확인해주세요.');
+            },
+            onError: (e) => {
+                console.log(e);
+                setError('email', {type: 'server', message: '가입된 이메일이 아닙니다.'});
+            },
+        });
     };
 
     return (
@@ -34,7 +40,7 @@ export const FindPasswordPage = memo(() => {
                     <div className="flex flex-col items-center justify-center gap-10 w-[380px]">
                         <span className="text-28 font-bold text-gray-900">비밀번호 찾기</span>
                         <section className="w-full flex flex-col gap-3">
-                            <FormInput<FindPasswordDto>
+                            <FormInput<{email: string}>
                                 name="email"
                                 type="text"
                                 label="이메일"
@@ -51,16 +57,21 @@ export const FindPasswordPage = memo(() => {
                                     },
                                 }}
                             />
+                            {successMessage && (
+                                <span className="font-normal text-12 text-gray-500">{successMessage}</span>
+                            )}
 
                             <button
                                 type="submit"
                                 className={cn(
                                     'w-full flex items-center justify-center rounded-lg btn',
-                                    !email ? 'btn-white' : ' btn-scordi ',
+                                    !email ? 'btn-disabled2' : ' btn-scordi ',
                                     isPending && 'link_to-loading',
                                 )}
                             >
-                                <p className="font-semibold text-16 py-3">비밀번호 재설정 이메일 발송</p>
+                                <p className="font-semibold text-16 py-3">
+                                    {successMessage ? '재발송' : '비밀번호 재설정 이메일 발송'}
+                                </p>
                             </button>
 
                             <div className="flex justify-between w-full">
