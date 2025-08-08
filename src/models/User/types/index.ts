@@ -261,3 +261,7 @@ export interface ErrorResponse {
     message: string;
     data: Record<string, any>;
 }
+
+export class UpdateUserPasswordRequestDto {
+    password: string;
+}
