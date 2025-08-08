@@ -1,13 +1,22 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
+import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
 import cn from 'classnames';
 import {LockKeyhole} from 'lucide-react';
 import {LinkTo} from '^components/util/LinkTo';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {FormInput} from '^clients/public/userAuth/common/FormInput';
-import {CreateUserRequestDto} from '^models/User/types';
+import {CreateUserRequestDto, UpdateUserPasswordRequestDto} from '^models/User/types';
 import {validPasswordRegex} from '^utils/valildation';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
+import {useUserPasswordUpdate, useUserPasswordValidate} from '^models/User/hook';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {codefAccountApi} from '^models/CodefAccount/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {UserPasswordFindPageRoute} from '^pages/users/password/find';
+import {subscriptionApi} from '^models/Subscription/api';
 
 interface ResetPasswordDto {
     password: string;
@@ -15,19 +24,55 @@ interface ResetPasswordDto {
 }
 
 export const ResetPasswordPage = memo(() => {
-    const methods = useForm<ResetPasswordDto>({
+    const router = useRouter();
+    const {query} = router;
+    const token = typeof query.token === 'string' ? query.token : '';
+
+    const {mutateAsync: mutateValidate} = useUserPasswordValidate();
+    const {mutateAsync: mutatePasswordUpdate} = useUserPasswordUpdate();
+
+    const failValidateConfirm = () => {
+        return confirm3(
+            '비밀번호 변경 시간이 만료되었습니다.',
+            <span className="text-16 text-gray-800 font-normal">
+                비밀번호 재설정 이메일 발송을 다시 진행해주세요.
+                <p className="text-14 text-red-500">* 취소하는 경우 로그인 페이지로 돌아갑니다.</p>
+            </span>,
+            undefined,
+            {allowOutsideClick: false, allowEscapeKey: false},
+        );
+    };
+
+    const failValidate = async () => {
+        return await confirmed(failValidateConfirm())
+            .then(() => {
+                router.replace(UserPasswordFindPageRoute.pathname);
+            })
+            .catch(() => {
+                router.replace(UserLoginPageRoute.pathname);
+            });
+    };
+
+    useEffect(() => {
+        if (!token) return;
+        mutateValidate(token).catch(failValidate);
+    }, [token]);
+
+    const methods = useForm<UpdateUserPasswordRequestDto>({
         mode: 'all',
     });
+
     const {
         watch,
         handleSubmit,
         formState: {isValid},
     } = methods;
-    const {password, passwordConfirmation} = watch();
+    const {password} = watch();
     const isPending = false;
 
-    const onSubmit = (data: ResetPasswordDto) => {
+    const onSubmit = (data: UpdateUserPasswordRequestDto) => {
         console.log(data);
+        // router.replace(UserLoginPageRoute.path())
     };
 
     return (
