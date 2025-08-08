@@ -3,25 +3,19 @@ import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
 import cn from 'classnames';
 import {LockKeyhole} from 'lucide-react';
-import {LinkTo} from '^components/util/LinkTo';
-import {UserLoginPageRoute} from '^pages/users/login';
-import {FormInput} from '^clients/public/userAuth/common/FormInput';
-import {CreateUserRequestDto, UpdateUserPasswordRequestDto} from '^models/User/types';
-import {validPasswordRegex} from '^utils/valildation';
-import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
-import {useUserPasswordUpdate, useUserPasswordValidate} from '^models/User/hook';
-import {confirm3} from '^components/util/dialog/confirm3';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {codefAccountApi} from '^models/CodefAccount/api';
-import {toast} from 'react-hot-toast';
+import {encryptValue} from '^utils/crypto';
 import {errorToast} from '^api/api';
+import {UserLoginPageRoute} from '^pages/users/login';
 import {UserPasswordFindPageRoute} from '^pages/users/password/find';
-import {subscriptionApi} from '^models/Subscription/api';
-
-interface ResetPasswordDto {
-    password: string;
-    passwordConfirmation: string;
-}
+import {UpdateUserPasswordRequestDto} from '^models/User/types';
+import {useUserPasswordUpdate, useUserPasswordValidate} from '^models/User/hook';
+import {validPasswordRegex} from '^utils/valildation';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {confirmed} from '^components/util/dialog';
+import {LinkTo} from '^components/util/LinkTo';
+import {FormInput} from '^clients/public/userAuth/common/FormInput';
+import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
+import {toast} from 'react-hot-toast';
 
 export const ResetPasswordPage = memo(() => {
     const router = useRouter();
@@ -29,7 +23,7 @@ export const ResetPasswordPage = memo(() => {
     const token = typeof query.token === 'string' ? query.token : '';
 
     const {mutateAsync: mutateValidate} = useUserPasswordValidate();
-    const {mutateAsync: mutatePasswordUpdate} = useUserPasswordUpdate();
+    const {mutateAsync: mutatePasswordUpdate, isPending} = useUserPasswordUpdate();
 
     const failValidateConfirm = () => {
         return confirm3(
@@ -67,12 +61,17 @@ export const ResetPasswordPage = memo(() => {
         handleSubmit,
         formState: {isValid},
     } = methods;
-    const {password} = watch();
-    const isPending = false;
 
     const onSubmit = (data: UpdateUserPasswordRequestDto) => {
-        console.log(data);
-        // router.replace(UserLoginPageRoute.path())
+        const encryptedPassword = {
+            ...data,
+            password: encryptValue(data.password),
+            passwordConfirmation: encryptValue(data.passwordConfirmation),
+        };
+        mutatePasswordUpdate({email: token, data: encryptedPassword})
+            .then(() => router.replace(UserLoginPageRoute.path()))
+            .then(() => toast.success('비밀번호가 변경되었습니다.'))
+            .catch(errorToast);
     };
 
     return (
@@ -84,7 +83,7 @@ export const ResetPasswordPage = memo(() => {
                             재설정할 비밀번호를 <br /> 입력해 주세요.
                         </span>
                         <section className="w-full flex flex-col gap-3">
-                            <FormInput<CreateUserRequestDto>
+                            <FormInput<UpdateUserPasswordRequestDto>
                                 name="password"
                                 type="password"
                                 label="비밀번호"
@@ -101,7 +100,7 @@ export const ResetPasswordPage = memo(() => {
                                     },
                                 }}
                             />
-                            <FormInput<CreateUserRequestDto>
+                            <FormInput<UpdateUserPasswordRequestDto>
                                 name="passwordConfirmation"
                                 type="password"
                                 label="비밀번호 확인"
