@@ -5,11 +5,17 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
-import {userApi, userSessionApi} from '^models/User/api/session';
+import {userApi, UserPasswordApi, userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgEmptyPageRoute} from '^pages/orgs/empty';
-import {ErrorResponse, UserDto, UserEditProfileRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
+import {
+    ErrorResponse,
+    UpdateUserPasswordRequestDto,
+    UserDto,
+    UserEditProfileRequestDto,
+    UserSocialLoginRequestDto,
+} from '^models/User/types';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
@@ -188,5 +194,23 @@ export const useUpdateUser = () => {
         onSuccess: (response) => {
             queryClient.invalidateQueries({queryKey: ['updateUser']});
         },
+    });
+};
+
+export const useUserPasswordReset = () => {
+    return useMutation<void, AxiosError, string>({
+        mutationFn: (email) => UserPasswordApi.reset(email).then((res) => res.data),
+    });
+};
+
+export const useUserPasswordValidate = () => {
+    return useMutation<void, ErrorResponse, string>({
+        mutationFn: (token) => UserPasswordApi.validate(token).then((res) => res.data),
+    });
+};
+
+export const useUserPasswordUpdate = () => {
+    return useMutation<void, ErrorResponse, {email: string; data: UpdateUserPasswordRequestDto}>({
+        mutationFn: ({email, data}) => UserPasswordApi.update(email, data).then((res) => res.data),
     });
 };
