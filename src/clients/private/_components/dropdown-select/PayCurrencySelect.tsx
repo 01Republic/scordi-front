@@ -16,7 +16,7 @@ export const PayCurrencySelect = memo((props: PayCurrencySelectProps) => {
 
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<CurrencyCode | null>(null);
-    const [triggerRef, dropdownWidth] = useElementWidth<HTMLDivElement>();
+    const [triggerRef, width] = useElementWidth<HTMLDivElement>();
 
     const billingHistoryStatusToShow = selected ? selected : defaultValue ? defaultValue : null;
 
@@ -52,7 +52,7 @@ export const PayCurrencySelect = memo((props: PayCurrencySelectProps) => {
                 placement="bottom-start"
             >
                 <ul
-                    style={{width: dropdownWidth}}
+                    style={{width: width}}
                     className="dropdown-portal-content relative z-10 bg-white border border-gray-300 w-full rounded-lg max-h-60 overflow-auto p-4 space-y-1"
                 >
                     {currencyOptions.map((code) => {
