@@ -7,6 +7,7 @@ import {validateEmailRegex, validPasswordRegex} from '^utils/valildation';
 import {FormInput} from '^clients/public/userAuth/common/FormInput';
 import Link from 'next/link';
 import {UserPasswordFindPageRoute} from '^pages/users/password/find';
+import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 
 export const EmailLoginSection = memo(() => {
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
@@ -93,12 +94,21 @@ export const EmailLoginSection = memo(() => {
                 >
                     로그인
                 </button>
-                <Link
-                    href={UserPasswordFindPageRoute.path()}
-                    className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
-                >
-                    비밀번호 찾기
-                </Link>
+                <div className="flex w-full items-center justify-center gap-2">
+                    <Link
+                        href={SignAuthCreateUserPageRoute.path()}
+                        className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
+                    >
+                        회원가입
+                    </Link>
+                    <span className="text-gray-400">|</span>
+                    <Link
+                        href={UserPasswordFindPageRoute.path()}
+                        className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
+                    >
+                        비밀번호 찾기
+                    </Link>
+                </div>
             </form>
         </FormProvider>
     );
