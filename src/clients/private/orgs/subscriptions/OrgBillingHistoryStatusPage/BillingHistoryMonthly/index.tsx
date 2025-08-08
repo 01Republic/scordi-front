@@ -20,16 +20,16 @@ import {WideMode} from '../../OrgBillingHistoryStatusPage';
 interface BillingHistoryMonthlyProps {
     focusYear: number;
     wideMode?: WideMode;
-    stickyPos?: number;
 }
 
 export const BillingHistoryMonthly = memo(
-    forwardRef(({focusYear, wideMode = WideMode.Narrow, stickyPos = 0}: BillingHistoryMonthlyProps, ref) => {
+    forwardRef(({focusYear, wideMode = WideMode.Narrow}: BillingHistoryMonthlyProps, ref) => {
         const orgId = useRecoilValue(orgIdParamState);
         const [displayCurrency, setDisplayCurrency] = useRecoilState(displayCurrencyAtom);
         const [isLoading, setIsLoading] = useState(false);
         const [histories, setHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
+        const [stickyPos, setStickyPos] = useState(2);
 
         const {currentOrg} = useCurrentOrg2();
         const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
@@ -100,6 +100,7 @@ export const BillingHistoryMonthly = memo(
                                 months={months}
                                 wideMode={wideMode}
                                 stickyPos={stickyPos}
+                                setStickyPos={setStickyPos}
                             />
                             <tbody>
                                 {histories.length === 0 ? (

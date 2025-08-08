@@ -40,64 +40,79 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
 
     const isHidden = wideMode === WideMode.WideHideColumn;
 
+    const Columns = [
+        // 서비스 명
+        () => (
+            <OpenButtonColumn href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}>
+                <SubscriptionProfile subscription={subscription} />
+            </OpenButtonColumn>
+        ),
+
+        // 결제수단
+        () => {
+            return subscription.creditCardId ? (
+                <OpenButtonColumn
+                    href={OrgCreditCardShowPageRoute.path(subscription.organizationId, subscription.creditCardId)}
+                >
+                    <CreditCardProfileCompact item={subscription.creditCard} />
+                </OpenButtonColumn>
+            ) : subscription.bankAccountId ? (
+                <OpenButtonColumn
+                    href={OrgBankAccountShowPageRoute.path(subscription.organizationId, subscription.bankAccountId)}
+                >
+                    <BankAccountProfileCompact item={subscription.bankAccount} />
+                </OpenButtonColumn>
+            ) : (
+                <p>-</p>
+            );
+        },
+
+        ...(isHidden
+            ? []
+            : [
+                  // 상태
+                  () => <IsFreeTierTagUI value={subscription.isFreeTier || false} />,
+
+                  // 지출 비중
+                  () => <div className="w-full text-right font-medium min-w-28">{ratio.toFixed(2)}%</div>,
+              ]),
+
+        // 총 지출액
+        () => (
+            <div className="w-full text-right font-medium min-w-28">
+                {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
+            </div>
+        ),
+
+        // 평균지출액
+        () => (
+            <div className="w-full text-right font-medium min-w-28">
+                {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
+            </div>
+        ),
+    ];
+
+    const FixedColumns = Columns.slice(0, stickyPos);
+    const ScrollColumns = Columns.slice(stickyPos);
+
     return (
         <tr className="group">
-            <td colSpan={2} className="sticky left-0 !bg-white p-0 min-w-max">
-                <div className="w-full grid grid-cols-2 min-w-max border-r-2">
-                    {/* 서비스 명 */}
-                    <div className="p-4 min-w-max">
-                        <OpenButtonColumn
-                            href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
-                        >
-                            <SubscriptionProfile subscription={subscription} />
-                        </OpenButtonColumn>
+            {stickyPos > 0 && (
+                <td colSpan={stickyPos} className="sticky left-0 !bg-white p-0 min-w-fit">
+                    <div className={`w-full grid grid-cols-${stickyPos} min-w-max border-r-2`}>
+                        {FixedColumns.map((Column, i) => (
+                            <div key={i} className="p-4 min-w-fit">
+                                <Column />
+                            </div>
+                        ))}
                     </div>
-
-                    {/* 결제수단 */}
-                    <div className="p-4 min-w-max">
-                        {subscription.creditCardId ? (
-                            <OpenButtonColumn
-                                href={OrgCreditCardShowPageRoute.path(
-                                    subscription.organizationId,
-                                    subscription.creditCardId,
-                                )}
-                            >
-                                <CreditCardProfileCompact item={subscription.creditCard} />
-                            </OpenButtonColumn>
-                        ) : subscription.bankAccountId ? (
-                            <OpenButtonColumn
-                                href={OrgBankAccountShowPageRoute.path(
-                                    subscription.organizationId,
-                                    subscription.bankAccountId,
-                                )}
-                            >
-                                <BankAccountProfileCompact item={subscription.bankAccount} />
-                            </OpenButtonColumn>
-                        ) : (
-                            <p>-</p>
-                        )}
-                    </div>
-                </div>
-            </td>
-
-            {/* 상태 */}
-            <td className={isHidden ? 'hidden' : ''}>
-                <IsFreeTierTagUI value={subscription.isFreeTier || false} />
-            </td>
-
-            {/* 지출 비중 */}
-            <td className={isHidden ? 'hidden' : 'text-right font-medium min-w-28'}>{ratio.toFixed(2)}%</td>
-
-            {/* 총 지출액 */}
-            <td className={'text-right font-medium min-w-28'}>
-                {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
-            </td>
-
-            {/* 평균지출액 */}
-            <td className={'text-right font-medium min-w-28'}>
-                {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
-            </td>
-
+                </td>
+            )}
+            {ScrollColumns.map((Column, i) => (
+                <td key={i}>
+                    <Column />
+                </td>
+            ))}
             {renderColumns(items)}
         </tr>
     );
