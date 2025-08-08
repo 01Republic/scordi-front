@@ -80,6 +80,8 @@ export const BillingHistoryYearly = memo(
             search,
         }));
 
+        const YEAR_COUNT = 5;
+
         return (
             <CardContainerTableLayout isLoading={isLoading}>
                 {/*<div className={'flex justify-start pb-2'}>*/}
@@ -89,7 +91,7 @@ export const BillingHistoryYearly = memo(
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full">
                         <table className="table w-full text-sm">
-                            <BillingHistoryYearlyHeader years={reversedYears} />
+                            <BillingHistoryYearlyHeader years={reversedYears} minYearLen={YEAR_COUNT} />
                             <tbody>
                                 {sortedHistories.length === 0 ? (
                                     <tr>
@@ -117,7 +119,13 @@ export const BillingHistoryYearly = memo(
                                                     />
                                                 ));
                                             }}
-                                        />
+                                        >
+                                            {Array.from({length: YEAR_COUNT - reversedYears.length}).map((_, i) => (
+                                                <td key={i} className="text-right text-gray-400">
+                                                    -
+                                                </td>
+                                            ))}
+                                        </BillingHistoryYearlyRow>
                                     ))
                                 )}
                             </tbody>

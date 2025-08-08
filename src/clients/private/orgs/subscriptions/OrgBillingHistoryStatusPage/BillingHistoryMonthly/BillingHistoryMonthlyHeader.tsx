@@ -18,12 +18,11 @@ export const BillingHistoryMonthlyHeader = memo((props: BillingHistoryMonthlyHea
     return (
         <thead className="[--rounded-box:0.375rem]">
             <tr className="bg-slate-100">
-                <th
-                    colSpan={2}
-                    className="sticky flex left-0 !bg-slate-100 z-20 border-r-2 p-0 whitespace-nowrap colspan"
-                >
-                    <div className="!col-span-1 border-r-2 p-4 text-start min-w-60">서비스명</div>
-                    <div className="!col-span-1 p-4 text-start min-w-60">결제수단</div>
+                <th colSpan={2} className="!bg-slate-100 p-0">
+                    <div className="w-full grid grid-cols-2 min-w-max border-r-2">
+                        <div className="p-4 text-start min-w-max">서비스명</div>
+                        <div className="p-4 text-start min-w-max">결제수단</div>
+                    </div>
                 </th>
                 <th className={isHidden ? 'hidden' : 'text-center'}>상태 &nbsp;</th>
                 <th className={isHidden ? 'hidden' : 'text-right'}>지출 비중</th>

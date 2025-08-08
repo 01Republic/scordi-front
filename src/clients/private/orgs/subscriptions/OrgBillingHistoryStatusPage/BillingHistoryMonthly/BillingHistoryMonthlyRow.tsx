@@ -42,39 +42,41 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
 
     return (
         <tr className="group">
-            <td colSpan={2} className="sticky left-0 !bg-white border-r-2 !min-w-md p-0 grid grid-cols-2 min-w-fix">
-                {/* 서비스 명 */}
-                <div className="!col-span-1 border-r-2 p-4 min-w-60">
-                    <OpenButtonColumn
-                        href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
-                    >
-                        <SubscriptionProfile subscription={subscription} />
-                    </OpenButtonColumn>
-                </div>
+            <td colSpan={2} className="sticky left-0 !bg-white p-0 min-w-max">
+                <div className="w-full grid grid-cols-2 min-w-max border-r-2">
+                    {/* 서비스 명 */}
+                    <div className="p-4 min-w-max">
+                        <OpenButtonColumn
+                            href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                        >
+                            <SubscriptionProfile subscription={subscription} />
+                        </OpenButtonColumn>
+                    </div>
 
-                {/* 결제수단 */}
-                <div className="!col-span-1 p-4">
-                    {subscription.creditCardId ? (
-                        <OpenButtonColumn
-                            href={OrgCreditCardShowPageRoute.path(
-                                subscription.organizationId,
-                                subscription.creditCardId,
-                            )}
-                        >
-                            <CreditCardProfileCompact item={subscription.creditCard} />
-                        </OpenButtonColumn>
-                    ) : subscription.bankAccountId ? (
-                        <OpenButtonColumn
-                            href={OrgBankAccountShowPageRoute.path(
-                                subscription.organizationId,
-                                subscription.bankAccountId,
-                            )}
-                        >
-                            <BankAccountProfileCompact item={subscription.bankAccount} />
-                        </OpenButtonColumn>
-                    ) : (
-                        <p>-</p>
-                    )}
+                    {/* 결제수단 */}
+                    <div className="p-4 min-w-max">
+                        {subscription.creditCardId ? (
+                            <OpenButtonColumn
+                                href={OrgCreditCardShowPageRoute.path(
+                                    subscription.organizationId,
+                                    subscription.creditCardId,
+                                )}
+                            >
+                                <CreditCardProfileCompact item={subscription.creditCard} />
+                            </OpenButtonColumn>
+                        ) : subscription.bankAccountId ? (
+                            <OpenButtonColumn
+                                href={OrgBankAccountShowPageRoute.path(
+                                    subscription.organizationId,
+                                    subscription.bankAccountId,
+                                )}
+                            >
+                                <BankAccountProfileCompact item={subscription.bankAccount} />
+                            </OpenButtonColumn>
+                        ) : (
+                            <p>-</p>
+                        )}
+                    </div>
                 </div>
             </td>
 
