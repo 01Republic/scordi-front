@@ -8,6 +8,7 @@ import {FormInput} from '^clients/public/userAuth/common/FormInput';
 import Link from 'next/link';
 import {UserPasswordFindPageRoute} from '^pages/users/password/find';
 import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
+import {encryptValue} from '^utils/crypto';
 
 export const EmailLoginSection = memo(() => {
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
@@ -27,8 +28,13 @@ export const EmailLoginSection = memo(() => {
         setIsLoading(true);
         clearErrors(['email', 'password']);
 
+        const encryptedPassword = {
+            ...data,
+            password: encryptValue(userData.password),
+        };
+
         loginMutate(
-            {data},
+            {encryptedPassword},
             {
                 onSuccess: () => userMutate(),
                 onError: (err: any) => {

@@ -264,4 +264,5 @@ export interface ErrorResponse {
 
 export class UpdateUserPasswordRequestDto {
     password: string;
+    passwordConfirmation: string;
 }

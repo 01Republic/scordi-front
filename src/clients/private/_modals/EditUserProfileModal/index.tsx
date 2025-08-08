@@ -15,6 +15,7 @@ import {useForm} from 'react-hook-form';
 import {useUpdateUser} from '^models/User/hook';
 import {validPasswordRegex} from '^utils/valildation';
 import {deployEnv} from '^config/environments';
+import {encryptValue} from '^utils/crypto';
 
 interface EditUserProfileModalProps {
     isOpened: boolean;
@@ -57,7 +58,14 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
 
     const onSubmit = (data: UserEditProfileRequestDto) => {
         if (!data.password && !data.passwordConfirmation) return;
-        mutateAsync({data})
+
+        const encryptedPassword = {
+            ...data,
+            password: data.password ? encryptValue(data.password) : undefined,
+            passwordConfirmation: data.passwordConfirmation ? encryptValue(data.passwordConfirmation) : undefined,
+        };
+
+        mutateAsync({data: encryptedPassword})
             .then(() => userSessionApi.index())
             .then((req) => {
                 setCurrentUser(req.data);
