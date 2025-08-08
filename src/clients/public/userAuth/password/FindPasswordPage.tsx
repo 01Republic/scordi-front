@@ -30,7 +30,7 @@ export const FindPasswordPage = memo(() => {
                 console.log(e);
                 setError('email', {type: 'server', message: '가입된 이메일이 아닙니다.'});
             },
-        });
+        }).catch(() => console.log('가입된 이메일이 아닙니다.'));
     };
 
     return (
