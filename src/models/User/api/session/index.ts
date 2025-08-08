@@ -132,3 +132,16 @@ export const SignUserApi = {
         return api.post(url, data);
     },
 };
+
+export const UserPasswordApi = {
+    reset: (email: string) => {
+        const url = `/users/${email}/password/reset`;
+        return api.post(url);
+    },
+
+    /* 동일한 api 엔드포인트를 유지하기 위해 email로 작성되어있으나 token값을 넣어야합니다. */
+    validate: (email: string) => {
+        const url = `/users/${email}/password/validate`;
+        return api.get(url);
+    },
+};
