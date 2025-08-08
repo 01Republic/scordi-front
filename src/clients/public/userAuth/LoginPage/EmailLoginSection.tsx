@@ -89,7 +89,7 @@ export const EmailLoginSection = memo(() => {
                 <button
                     type="submit"
                     className={`btn btn-lg btn-block  flex items-center justify-center font-medium  ${
-                        !isValid ? 'btn-disabled' : 'btn-scordi'
+                        !isValid ? 'btn-disabled2' : 'btn-scordi'
                     } ${isLoading || isLoginPending || isUserPending ? 'link_to-loading' : ''}`}
                 >
                     로그인
