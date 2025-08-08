@@ -30,11 +30,11 @@ export const EmailLoginSection = memo(() => {
 
         const encryptedPassword = {
             ...data,
-            password: encryptValue(userData.password),
+            password: encryptValue(data.password),
         };
 
         loginMutate(
-            {encryptedPassword},
+            {data: encryptedPassword},
             {
                 onSuccess: () => userMutate(),
                 onError: (err: any) => {
