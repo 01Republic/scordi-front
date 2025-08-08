@@ -88,13 +88,6 @@ export const FindPasswordPage = memo(() => {
                                     회원가입
                                 </LinkTo>
                             </div>
-
-                            <LinkTo
-                                href={UserPasswordResetPageRoute.path()}
-                                className="text-gray-500 text-sm hover:underline text-center"
-                            >
-                                비밀번호 셋팅
-                            </LinkTo>
                         </section>
                     </div>
                 </form>
