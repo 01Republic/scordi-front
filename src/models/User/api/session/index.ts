@@ -134,21 +134,19 @@ export const SignUserApi = {
     },
 };
 
-export const UserPasswordApi = {
+export const userPasswordApi = {
     reset: (email: string) => {
         const url = `/users/${email}/password/reset`;
         return api.post(url);
     },
 
-    /* 동일한 api 엔드포인트를 유지하기 위해 email로 작성되어있으나 token값을 넣어야합니다. */
-    validate: (email: string) => {
-        const url = `/users/${email}/password/validate`;
+    validate: (token: string) => {
+        const url = `/users/${encodeURIComponent(token)}/password/validate`;
         return api.get(url);
     },
 
-    /* 동일한 api 엔드포인트를 유지하기 위해 email로 작성되어있으나 token값을 넣어야합니다. */
-    update: (email: string, data: UpdateUserPasswordRequestDto) => {
-        const url = `/users/${email}/password`;
+    update: (token: string, data: UpdateUserPasswordRequestDto) => {
+        const url = `/users/${encodeURIComponent(token)}/password`;
         return api.patch(url, data);
     },
 };

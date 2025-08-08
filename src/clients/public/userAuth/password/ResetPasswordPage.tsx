@@ -16,14 +16,14 @@ import {LinkTo} from '^components/util/LinkTo';
 import {FormInput} from '^clients/public/userAuth/common/FormInput';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
 import {toast} from 'react-hot-toast';
+import {useStrParam} from '^atoms/common';
 
 export const ResetPasswordPage = memo(() => {
     const router = useRouter();
-    const {query} = router;
-    const token = typeof query.token === 'string' ? query.token : '';
+    const token = useStrParam('token');
 
-    const {mutateAsync: mutateValidate} = useUserPasswordValidate();
-    const {mutateAsync: mutatePasswordUpdate, isPending} = useUserPasswordUpdate();
+    const {mutateAsync: mutateValidate} = useUserPasswordValidate(token);
+    const {mutateAsync: mutatePasswordUpdate, isPending} = useUserPasswordUpdate(token);
 
     const failValidateConfirm = () => {
         return confirm3(
@@ -49,7 +49,7 @@ export const ResetPasswordPage = memo(() => {
 
     useEffect(() => {
         if (!token) return;
-        mutateValidate(encodeURIComponent(token)).catch(failValidate);
+        mutateValidate().catch(failValidate);
     }, [token]);
 
     const methods = useForm<UpdateUserPasswordRequestDto>({
@@ -65,10 +65,11 @@ export const ResetPasswordPage = memo(() => {
     const onSubmit = (data: UpdateUserPasswordRequestDto) => {
         const encryptedPassword = {
             ...data,
+            token,
             password: encryptValue(data.password),
             passwordConfirmation: encryptValue(data.passwordConfirmation),
         };
-        mutatePasswordUpdate({email: token, data: encryptedPassword})
+        mutatePasswordUpdate(encryptedPassword)
             .then(() => router.replace(UserLoginPageRoute.path()))
             .then(() => toast.success('비밀번호가 변경되었습니다.'))
             .catch(errorToast);

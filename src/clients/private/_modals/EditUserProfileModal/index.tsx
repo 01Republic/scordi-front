@@ -45,7 +45,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
         formState: {errors},
     } = form;
 
-    const {password, passwordConfirmation} = watch();
+    const {password} = watch();
 
     const updateUser = debounce((updateDto: UserEditProfileRequestDto) => {
         return userApi.registration
@@ -65,7 +65,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
             passwordConfirmation: data.passwordConfirmation ? encryptValue(data.passwordConfirmation) : undefined,
         };
 
-        mutateAsync({data: encryptedPassword})
+        mutateAsync(encryptedPassword)
             .then(() => userSessionApi.index())
             .then((req) => {
                 setCurrentUser(req.data);

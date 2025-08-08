@@ -5,7 +5,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
-import {userApi, UserPasswordApi, userSessionApi} from '^models/User/api/session';
+import {userApi, userPasswordApi, userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgEmptyPageRoute} from '^pages/orgs/empty';
@@ -185,8 +185,8 @@ export const useSocialLoginV2 = () => {
 
 export const useUpdateUser = () => {
     const queryClient = useQueryClient();
-    return useMutation<UserDto, ErrorResponse, {data: UserEditProfileRequestDto}>({
-        mutationFn: ({data}) =>
+    return useMutation({
+        mutationFn: (data: UserEditProfileRequestDto) =>
             userApi.registration
                 .update(data) //
                 .then((response) => response.data),
@@ -199,18 +199,18 @@ export const useUpdateUser = () => {
 
 export const useUserPasswordReset = () => {
     return useMutation<void, AxiosError, string>({
-        mutationFn: (email) => UserPasswordApi.reset(email).then((res) => res.data),
+        mutationFn: (email) => userPasswordApi.reset(email).then((res) => res.data),
     });
 };
 
-export const useUserPasswordValidate = () => {
-    return useMutation<void, ErrorResponse, string>({
-        mutationFn: (token) => UserPasswordApi.validate(token).then((res) => res.data),
+export const useUserPasswordValidate = (token: string) => {
+    return useMutation({
+        mutationFn: () => userPasswordApi.validate(token).then((res) => res.data),
     });
 };
 
-export const useUserPasswordUpdate = () => {
-    return useMutation<void, ErrorResponse, {email: string; data: UpdateUserPasswordRequestDto}>({
-        mutationFn: ({email, data}) => UserPasswordApi.update(email, data).then((res) => res.data),
+export const useUserPasswordUpdate = (token: string) => {
+    return useMutation({
+        mutationFn: (data: UpdateUserPasswordRequestDto) => userPasswordApi.update(token, data).then((res) => res.data),
     });
 };
