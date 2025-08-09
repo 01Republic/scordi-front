@@ -1,10 +1,9 @@
-import React, {memo} from 'react';
-import cn from 'classnames';
-import {currencyFormat, roundNumber, unitFormat} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfState} from '^types/dashboard.type';
-import {toast} from 'react-hot-toast';
+import {currencyFormatWithI18n, roundNumber} from '^utils/number';
+import cn from 'classnames';
 import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface ExpenseStatusTabProps {
     status: BillingHistoryStatus;
@@ -20,6 +19,7 @@ interface ExpenseStatusTabProps {
 export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
     const {status, currentStatus, onClick, summaryData} = props;
     const {t} = useTranslation('dashboard');
+    const {t: tCommon} = useTranslation('common');
     const {activeTextColorClass, activeBorderColorClass, hoverBorderColorClass, activeBgColorClass} = props;
 
     const isActive = currentStatus === status;
@@ -44,11 +44,11 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
             <div
                 className={`flex items-center justify-center px-3 py-1 rounded-lg ${activeBgColorClass} ${activeTextColorClass}`}
             >
-                {t_billingHistoryStatusForDashboard(status)}
+                {t_billingHistoryStatusForDashboard(status, t)}
             </div>
             <div>
                 {t('expenseStatus.total', {
-                    amount: currencyFormat(roundNumber(summaryData?.amount || 0)),
+                    amount: currencyFormatWithI18n(roundNumber(summaryData?.amount || 0), tCommon),
                     count: summaryData?.count || 0,
                 })}
             </div>

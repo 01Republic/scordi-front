@@ -1,24 +1,26 @@
-import React, {memo} from 'react';
-import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {useRecoilValue} from 'recoil';
-import {secretCodeParamsAtom} from '^clients/public/etc/DPaySecretCodePage/atom';
-import {useDPayPlan, useDPayScordiPayments2} from '^models/_scordi/ScordiPayment/hook';
-import {DPayPaymentTableRow} from './DPayPaymentTableRow';
-import {LoadableBox} from '^components/util/loading';
 import Tippy from '@tippyjs/react';
-import {exportTableToExcel} from '^utils/export-table-to-excel';
-import {useRouter} from 'next/router';
-import {cryptoUtil} from '^utils/crypto';
-import {yyyy_mm_dd} from '^utils/dateTime';
-import {toast} from 'react-hot-toast';
+import {secretCodeParamsAtom} from '^clients/public/etc/DPaySecretCodePage/atom';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import {LoadableBox} from '^components/util/loading';
+import {useDPayPlan, useDPayScordiPayments2} from '^models/_scordi/ScordiPayment/hook';
 import {ScordiPaymentStatus} from '^models/_scordi/ScordiPayment/type';
 import {SUPER_ACCESS_CODE} from '^pages/direct-pay/[secretCode]/payments';
+import {cryptoUtil} from '^utils/crypto';
+import {yyyy_mm_dd} from '^utils/dateTime';
+import {exportTableToExcel} from '^utils/export-table-to-excel';
 import {parseQueryValue} from '^utils/get-query-params';
 import {FileSpreadsheet, Info, RotateCw, Share} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
+import {DPayPaymentTableRow} from './DPayPaymentTableRow';
 
 export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePaymentListPage() {
     const router = useRouter();
     const secretCode = useRecoilValue(secretCodeParamsAtom);
+    const {t} = useTranslation('common');
     const accessCode = parseQueryValue(router.query['accessCode']);
     const isSuperUser = accessCode === SUPER_ACCESS_CODE;
     const {
@@ -104,7 +106,7 @@ export const DPaySecretCodePaymentListPage = memo(function DPaySecretCodePayment
                     <div></div>
                     <div className="ml-auto">
                         <select className="select select-bordered select-sm focus:outline-none rounded-md">
-                            <option value="0">전체보기</option>
+                            <option value="0">{t('button.viewAll')}</option>
                         </select>
                     </div>
                 </section>

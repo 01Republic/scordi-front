@@ -1,18 +1,19 @@
-import React, {memo, useEffect} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
-import {usePayingTypeTags} from '^models/Tag/hook';
-import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
-import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
-import {Section} from '^v3/V3OrgHomePage/desktop/Section';
-import {MoreButton} from '^v3/V3OrgHomePage/desktop/MoreButton';
-import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable';
-import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
-import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {useDashBoardSubscriptionSummary} from '^models/SubscsriptionSummary/hook';
+import {usePayingTypeTags} from '^models/Tag/hook';
+import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable';
 import {EmptySubscriptionTableInDashBoard as EmptySubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/EmptySubscriptionTable';
+import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
+import {MoreButton} from '^v3/V3OrgHomePage/desktop/MoreButton';
+import {Section} from '^v3/V3OrgHomePage/desktop/Section';
+import {useTranslation} from 'next-i18next';
+import {useRouter} from 'next/router';
+import {memo, useEffect} from 'react';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 
 const SUBSCRIPTION_DISPLAY_LIMIT = 10;
 
@@ -20,6 +21,7 @@ const SUBSCRIPTION_DISPLAY_LIMIT = 10;
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
+    const {t} = useTranslation('common');
     const {isLoading, result, search: getSubscriptions, query, reload, clearCache} = useDashboardSubscriptions();
     const {safePath} = useSafePathInCurrentOrg();
     const {search: getTags} = usePayingTypeTags();
@@ -68,7 +70,9 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
                     </span>
                 </>
             }
-            titleButtons={[<MoreButton text="전체보기" href={safePath((org) => V3OrgAppsPageRoute.path(org.id))} />]}
+            titleButtons={[
+                <MoreButton text={t('button.viewAll')} href={safePath((org) => V3OrgAppsPageRoute.path(org.id))} />,
+            ]}
             rightTopCaption={
                 totalItemCount > SUBSCRIPTION_DISPLAY_LIMIT ? (
                     <p className="text-gray-500 italic text-sm">최근 {SUBSCRIPTION_DISPLAY_LIMIT}개만 불러왔어요</p>

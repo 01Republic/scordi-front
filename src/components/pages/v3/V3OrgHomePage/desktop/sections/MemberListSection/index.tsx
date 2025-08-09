@@ -1,18 +1,20 @@
-import React, {memo, useEffect} from 'react';
-import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
-import {useTeamMembersInDashboard} from '^models/TeamMember/hook';
-import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
-import {Section} from '../../Section';
-import {MoreButton} from '../../MoreButton';
-import {MemberItem} from './MemberItem';
-import {AddMemberItem} from './AddMemberItem';
-import {MemberLoading} from './MemberLoading';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {useTeamMembersInDashboard} from '^models/TeamMember/hook';
+import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect} from 'react';
+import {useRecoilValue} from 'recoil';
+import {MoreButton} from '../../MoreButton';
+import {Section} from '../../Section';
+import {AddMemberItem} from './AddMemberItem';
+import {MemberItem} from './MemberItem';
+import {MemberLoading} from './MemberLoading';
 
 export const MemberListSection = memo(function MemberListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const {safePath} = useSafePathInCurrentOrg();
+    const {t} = useTranslation('common');
     const {result: teamMembers, search: getTeamMembers, isLoading} = useTeamMembersInDashboard();
 
     useEffect(() => {
@@ -35,7 +37,10 @@ export const MemberListSection = memo(function MemberListSection() {
                 </>
             }
             titleButtons={[
-                <MoreButton href={safePath((org) => V3OrgTeamMembersPageRoute.path(org.id))} text="전체보기" />,
+                <MoreButton
+                    href={safePath((org) => V3OrgTeamMembersPageRoute.path(org.id))}
+                    text={t('button.viewAll')}
+                />,
             ]}
         >
             <div className="w-full flex gap-2 items-stretch min-h-[168px] overflow-x-auto mb-[-2rem] mx-[-1rem] px-[1rem] pb-[2rem]">

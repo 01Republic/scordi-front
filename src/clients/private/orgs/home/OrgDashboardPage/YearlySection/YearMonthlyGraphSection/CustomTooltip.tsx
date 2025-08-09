@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
-import {currencyFormat, roundNumber} from '^utils/number';
+import {currencyFormatWithI18n, roundNumber} from '^utils/number';
 import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface PayloadDataType {
     month: string;
@@ -32,6 +32,7 @@ interface CustomTooltipProps {
 export const CustomTooltip = memo((props: CustomTooltipProps) => {
     const {active, payload} = props;
     const {t} = useTranslation('dashboard');
+    const {t: tCommon} = useTranslation('common');
 
     if (active && payload && payload.length > 0) {
         const currentData = payload[0].payload;
@@ -47,8 +48,12 @@ export const CustomTooltip = memo((props: CustomTooltipProps) => {
                 {/*    </>*/}
                 {/*)}*/}
 
-                <p>{`지출된 구독 금액: ${currencyFormat(roundNumber(currentData.paidAmount || 0))}`}</p>
-                <p>{`지출된 구독수: ${currentData.paidDataServiceCount?.toLocaleString() || 0}건`}</p>
+                <p>
+                    {t('yearly.tooltip.paidAmount', {
+                        amount: currencyFormatWithI18n(roundNumber(currentData.paidAmount || 0), tCommon),
+                    })}
+                </p>
+                <p>{t('yearly.tooltip.paidCount', {count: currentData.paidDataServiceCount?.toLocaleString() || 0})}</p>
             </div>
         );
     }

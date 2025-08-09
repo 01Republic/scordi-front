@@ -1,21 +1,21 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {firstDayOfMonth, firstDayOfYear, monthAfter, yearAfter} from '^utils/dateTime';
-import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
-import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
+import {LinkTo} from '^components/util/LinkTo';
+import {useDashboardSubscriptionSpends} from '^models/_dashboard/hook';
 import {
     DashboardSummaryYearMonthlyItemDto,
     DashboardSummaryYearMonthlyResultDto,
     FindAllSubscriptionSpendsQueryDto,
 } from '^models/_dashboard/type';
-import {useDashboardSubscriptionSpends} from '^models/_dashboard/hook';
-import {LinkTo} from '^components/util/LinkTo';
+import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
+import {firstDayOfMonth, firstDayOfYear, monthAfter, yearAfter} from '^utils/dateTime';
+import {LayoutGrid} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {EmptyTableLayout} from '../../EmptyTableLayout';
 import {PaidSubscriptionSpendItem} from './PaidSubscriptionSpendItem';
-import {LayoutGrid} from 'lucide-react';
-import {useTranslation} from 'next-i18next';
 
 interface YearMonthlySubscriptionsSectionProps {
     year: number;
@@ -28,6 +28,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     const {year, result, monthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const {t} = useTranslation('dashboard');
+    const {t: tCommon} = useTranslation('common');
     const {data: paginatedSubscriptionSpends, isFetched} = useDashboardSubscriptionSpends(
         orgId,
         getParams(year, monthlyItem?.month),
@@ -48,7 +49,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
 
     const AllSubscriptionListShowButton = () => (
         <LinkTo href={OrgSubscriptionListPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400">
-            전체보기
+            {tCommon('button.viewAll')}
         </LinkTo>
     );
 

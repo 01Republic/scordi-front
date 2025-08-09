@@ -1,15 +1,14 @@
-import React, {memo} from 'react';
-import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
-import {currencyFormat, roundNumber} from '^utils/number';
-import {DashboardSectionLayout} from '../../DashboardSectionLayout';
-import {BarGraph} from './BarGraph';
-import {LinkTo} from '^components/util/LinkTo';
-import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {LinkTo} from '^components/util/LinkTo';
+import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
+import {currencyFormatWithI18n, roundNumber} from '^utils/number';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {DashboardSectionLayout} from '../../DashboardSectionLayout';
+import {BarGraph} from './BarGraph';
 
 interface YearMonthlyGraphSectionProps {
     result?: DashboardSummaryYearMonthlyResultDto;
@@ -23,13 +22,14 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
     const {year, changeYear, result, isLoading = false, changeMonthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const {t} = useTranslation('dashboard');
+    const {t: tCommon} = useTranslation('common');
 
     const lastYear = new Date().getFullYear();
     const yearName = year === lastYear ? t('yearly.thisYear') : t('yearly.year', {year});
 
     const AllInvoiceAccountShowButton = () => (
         <LinkTo href={OrgBillingHistoryStatusPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400">
-            전체보기
+            {tCommon('button.viewAll')}
         </LinkTo>
     );
 
@@ -72,7 +72,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                             <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">{t('yearly.subscriptionExpense')}</p>
                         </div>
                         <p className="font-bold text-20 md:text-24 lg:text-28">
-                            {currencyFormat(roundNumber(result?.didPayAmount || 0))}
+                            {currencyFormatWithI18n(roundNumber(result?.didPayAmount || 0), tCommon)}
                         </p>
                     </section>
                     <section className="w-full flex flex-col gap-1 md:gap-3 border rounded-xl p-4 md:p-5">
@@ -84,7 +84,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                             <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">{t('yearly.expectedExpense')}</p>
                         </div>
                         <p className="font-bold text-20 md:text-24 lg:text-28">
-                            {currencyFormat(roundNumber(result?.totalOnThisYear || 0))}
+                            {currencyFormatWithI18n(roundNumber(result?.totalOnThisYear || 0), tCommon)}
                         </p>
                     </section>
                 </div>

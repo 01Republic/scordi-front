@@ -1,9 +1,10 @@
-import React, {memo} from 'react';
+import {LinkTo} from '^components/util/LinkTo';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {currencyFormat, roundNumber} from '^utils/number';
-import {LinkTo} from '^components/util/LinkTo';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {currencyFormatWithI18n, roundNumber} from '^utils/number';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface PaidSubscriptionSpendItemProps {
     amount: number;
@@ -12,6 +13,7 @@ interface PaidSubscriptionSpendItemProps {
 
 export const PaidSubscriptionSpendItem = memo((props: PaidSubscriptionSpendItemProps) => {
     const {amount, subscription} = props;
+    const {t} = useTranslation('common');
 
     return (
         <li className="w-full">
@@ -27,7 +29,10 @@ export const PaidSubscriptionSpendItem = memo((props: PaidSubscriptionSpendItemP
                     textClassName="text-14 font-base font-normal"
                     isAlias={false}
                 />
-                <p className="whitespace-nowrap"> {amount > 0 ? currencyFormat(roundNumber(amount) * -1) : '-'}</p>
+                <p className="whitespace-nowrap">
+                    {' '}
+                    {amount > 0 ? currencyFormatWithI18n(roundNumber(amount) * -1, t) : '-'}
+                </p>
             </LinkTo>
         </li>
     );

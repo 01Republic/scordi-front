@@ -1,9 +1,10 @@
-import React, {memo} from 'react';
+import {LinkTo} from '^components/util/LinkTo';
 import {DashboardCreditCardsSectionItemDto} from '^models/_dashboard/type';
 import {CreditCardProfileOption2} from '^models/CreditCard/components';
-import {currencyFormat, roundNumber} from '^utils/number';
-import {LinkTo} from '^components/util/LinkTo';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {currencyFormatWithI18n, roundNumber} from '^utils/number';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface PaymentMethodItemProps {
     item: DashboardCreditCardsSectionItemDto;
@@ -11,6 +12,7 @@ interface PaymentMethodItemProps {
 
 export const PaymentMethodItem = memo((props: PaymentMethodItemProps) => {
     const {item} = props;
+    const {t} = useTranslation('common');
 
     const {creditCard, organizationId, payAmountSum = 0, payAmountCode, id} = item;
 
@@ -21,7 +23,10 @@ export const PaymentMethodItem = memo((props: PaymentMethodItemProps) => {
                     <CreditCardProfileOption2 item={creditCard} />
                     {/* TODO: 단위 원 고정으로 처리되어 있으나, 데이터로 전달받은 화폐코드에 따라 동적으로 처리되어야 함. */}
                     <p className="font-medium text-16 text-gray-900">
-                        {currencyFormat(payAmountSum > 0 ? roundNumber(payAmountSum) * -1 : roundNumber(payAmountSum))}
+                        {currencyFormatWithI18n(
+                            payAmountSum > 0 ? roundNumber(payAmountSum) * -1 : roundNumber(payAmountSum),
+                            t,
+                        )}
                     </p>
                 </div>
             </LinkTo>

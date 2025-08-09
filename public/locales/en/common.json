@@ -81,6 +81,11 @@
         "total": "Total"
     },
     "button": {
-        "back": "Back"
+        "back": "Back",
+        "viewAll": "View All"
+    },
+    "currency": {
+        "unit": "WON",
+        "format": "%n %u"
     }
 }

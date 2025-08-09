@@ -81,6 +81,11 @@
         "total": "전체"
     },
     "button": {
-        "back": "뒤로가기"
+        "back": "뒤로가기",
+        "viewAll": "전체보기"
+    },
+    "currency": {
+        "unit": "원",
+        "format": "%n%u"
     }
 }

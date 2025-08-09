@@ -1,59 +1,64 @@
 {
-  "title": {
-    "subscriptionCount": "You are using {{count}} subscription services",
-    "dashboard": "{{orgName}}'s Dashboard"
-  },
-  "quickButtons": {
-    "addSubscription": "Add Subscription",
-    "addPaymentMethod": "Add Payment Method",
-    "addInvoiceAccount": "Add Invoice Account",
-    "addTeamMember": "Add Team Member"
-  },
-  "sections": {
-    "monthlySubscription": "This Month's Subscription Status",
-    "paymentMethods": "Payment Methods",
-    "invoiceAccounts": "Invoice Accounts",
-    "yearlySubscription": "This Year's Subscription Status",
-    "subscriptionList": "Subscription List"
-  },
-  "emptyState": {
-    "noItems": "No {{itemName}} registered.",
-    "registerItem": "Register {{itemName}}",
-    "noHistory": "No {{status}} history."
-  },
-  "viewAll": "View All {{count}}",
-  "toast": {
-    "invoiceAccountAdded": "Added the imported invoice emails.",
-    "teamMembersLoaded": "All team members have been loaded.",
-    "dataNotLoaded": "Data has not been loaded yet."
-  },
-  "yearly": {
-    "thisYear": "This Year",
-    "year": "{{year}}",
-    "month": "",
-    "tenThousand": "K",
-    "totalExpense": "{{yearName}} Total Expenses",
-    "today": "{{year}}, Today",
-    "expected": "{{year}}, Expected",
-    "subscriptionExpense": "Standard Subscription Expenses",
-    "expectedExpense": "Subscription Expenses",
-    "tooltip": {
-      "paidAmount": "Paid Subscription Amount: {{amount}}",
-      "paidCount": "Paid Subscriptions: {{count}}"
+    "title": {
+        "subscriptionCount": "You are using {{count}} subscription services",
+        "dashboard": "{{orgName}}'s Dashboard"
+    },
+    "quickButtons": {
+        "addSubscription": "Add Subscription",
+        "addPaymentMethod": "Add Payment Method",
+        "addInvoiceAccount": "Add Invoice Account",
+        "addTeamMember": "Add Team Member"
+    },
+    "sections": {
+        "monthlySubscription": "This Month's Subscription Status",
+        "paymentMethods": "Payment Methods",
+        "invoiceAccounts": "Invoice Accounts",
+        "yearlySubscription": "This Year's Subscription Status",
+        "subscriptionList": "Subscription List"
+    },
+    "emptyState": {
+        "noItems": "No {{itemName}} registered.",
+        "registerItem": "Register {{itemName}}",
+        "noHistory": "No {{status}} history."
+    },
+    "viewAll": "View All {{count}}",
+    "toast": {
+        "invoiceAccountAdded": "Added the imported invoice emails.",
+        "teamMembersLoaded": "All team members have been loaded.",
+        "dataNotLoaded": "Data has not been loaded yet."
+    },
+    "yearly": {
+        "thisYear": "This Year",
+        "year": "{{year}}",
+        "month": "",
+        "tenThousand": "K",
+        "totalExpense": "{{yearName}} Total Expenses",
+        "today": "{{year}}, Today",
+        "expected": "{{year}}, Expected",
+        "subscriptionExpense": "Standard Subscription Expenses",
+        "expectedExpense": "Subscription Expenses",
+        "tooltip": {
+            "paidAmount": "Paid Subscription Amount: {{amount}}",
+            "paidCount": "Paid Subscriptions: {{count}}"
+        }
+    },
+    "teamScope": {
+        "all": "All"
+    },
+    "expenseStatus": {
+        "total": "Total: {{amount}} ({{count}})",
+        "noHistory": "No {{status}} history."
+    },
+    "invoiceAccount": {
+        "andOthers": "and"
+    },
+    "emptyTable": {
+        "noRegistered": "No {{title}} registered.",
+        "register": "Register {{title}}"
+    },
+    "billingStatus": {
+        "paySuccess": "Completed",
+        "payWait": "Scheduled",
+        "payFail": "Failed"
     }
-  },
-  "teamScope": {
-    "all": "All"
-  },
-  "expenseStatus": {
-    "total": "Total: {{amount}} ({{count}})",
-    "noHistory": "No {{status}} history."
-  },
-  "invoiceAccount": {
-    "andOthers": "and"
-  },
-  "emptyTable": {
-    "noRegistered": "No {{title}} registered.",
-    "register": "Register {{title}}"
-  }
-} 
+}

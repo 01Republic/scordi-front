@@ -1,19 +1,20 @@
-import {memo, useEffect} from 'react';
-import {AppUnit} from '^clients/private/orgs/home/OrgMainPage/AppUnit';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {AppUnit} from '^clients/private/orgs/home/OrgMainPage/AppUnit';
 import {Squircle} from '^components/ui/Squircle';
+import {LinkTo} from '^components/util/LinkTo';
 import {LoadableBox} from '^components/util/loading';
+import {useUnmount} from '^hooks/useUnmount';
 import {useProductOnMainPage} from '^models/Product/hook';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
-import {useRouter} from 'next/router';
-import {LinkTo} from '^components/util/LinkTo';
-import {useUnmount} from '^hooks/useUnmount';
 import {MoreHorizontal, Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect} from 'react';
+import {useRecoilValue} from 'recoil';
 
 export const AppUnitList = memo(function AppUnitList() {
     const organizationId = useRecoilValue(orgIdParamState);
     const {isLoading, result, search, reset, changePageSize} = useProductOnMainPage();
+    const {t} = useTranslation('common');
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;
@@ -38,7 +39,7 @@ export const AppUnitList = memo(function AppUnitList() {
 
                 {pagination.totalPage > 1 && (
                     <div className="flex items-center justify-center">
-                        <Squircle text="전체보기" onClick={() => changePageSize(0)}>
+                        <Squircle text={t('button.viewAll')} onClick={() => changePageSize(0)}>
                             <MoreHorizontal size={24} />
                         </Squircle>
                     </div>

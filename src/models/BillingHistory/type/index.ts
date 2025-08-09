@@ -1,17 +1,16 @@
-import {TypeCast} from '^types/utils/class-transformer';
+import {GmailParsedItem} from '^api/tasting.api';
+import {BankAccountDto} from '^models/BankAccount/type';
+import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {CreateMoneyRequestDto, CurrencyCode, MoneyDto} from '^models/Money';
 import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {InvoiceAppDto} from '^models/InvoiceApp/type';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {GmailParsedItem} from '^api/tasting.api';
 import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
+import {TypeCast} from '^types/utils/class-transformer';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {PartialType} from '^types/utils/partial-type';
-import {rangeToArr} from '^utils/range';
-import {BankAccountDto} from '^models/BankAccount/type';
-import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -160,14 +159,14 @@ export enum BillingHistoryStatus {
     PayFail = 'PayFail', // 결제 실패
 }
 
-export function t_billingHistoryStatusForDashboard(status: BillingHistoryStatus): string {
+export function t_billingHistoryStatusForDashboard(status: BillingHistoryStatus, t: (key: string) => string): string {
     switch (status) {
         case BillingHistoryStatus.PaySuccess:
-            return '완료';
+            return t('billingStatus.paySuccess');
         case BillingHistoryStatus.PayWait:
-            return '예정';
+            return t('billingStatus.payWait');
         case BillingHistoryStatus.PayFail:
-            return '실패';
+            return t('billingStatus.payFail');
         default:
             return '';
     }

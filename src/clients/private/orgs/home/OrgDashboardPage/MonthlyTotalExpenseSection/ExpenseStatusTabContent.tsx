@@ -1,11 +1,10 @@
-import React from 'react';
-import cn from 'classnames';
-import {currencyFormat, roundNumber} from '^utils/number';
-import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
+import {LinkTo} from '^components/util/LinkTo';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
-import {LinkTo} from '^components/util/LinkTo';
+import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
+import {currencyFormatWithI18n, roundNumber} from '^utils/number';
+import cn from 'classnames';
 import {useTranslation} from 'next-i18next';
 
 interface ExpenseSubscriptionProps {
@@ -16,6 +15,7 @@ interface ExpenseSubscriptionProps {
 export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
     const {summary, currentStatusTab = BillingHistoryStatus.PayWait} = props;
     const {t} = useTranslation('dashboard');
+    const {t: tCommon} = useTranslation('common');
     const summaryOfState = (() => {
         switch (currentStatusTab) {
             case BillingHistoryStatus.PayWait:
@@ -41,7 +41,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     'border-red-100 text-red-400': currentStatusTab === BillingHistoryStatus.PayFail,
                 })}
             >
-                <p>{t('expenseStatus.noHistory', {status: t_billingHistoryStatusForDashboard(currentStatusTab)})}</p>
+                <p>{t('expenseStatus.noHistory', {status: t_billingHistoryStatusForDashboard(currentStatusTab, t)})}</p>
             </div>
         );
     }
@@ -68,7 +68,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                         textClassName="text-14 font-base font-normal"
                         isAlias={false}
                     />
-                    <p>{currencyFormat(roundNumber(spend.amount))}</p>
+                    <p>{currencyFormatWithI18n(roundNumber(spend.amount), tCommon)}</p>
                 </LinkTo>
             ))}
         </div>
