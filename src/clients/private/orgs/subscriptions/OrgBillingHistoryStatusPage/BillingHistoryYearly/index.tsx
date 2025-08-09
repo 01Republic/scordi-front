@@ -81,7 +81,7 @@ export const BillingHistoryYearly = memo(
             search,
         }));
 
-        const YEAR_COUNT = 5;
+        const YEAR_COUNT = 10;
 
         return (
             <CardContainerTableLayout isLoading={isLoading}>
@@ -90,7 +90,7 @@ export const BillingHistoryYearly = memo(
                 {/*</div>*/}
 
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
-                    <div className="overflow-x-auto w-full">
+                    <div className="overflow-x-auto w-full hide-scrollbar">
                         <table className="table w-full text-sm">
                             <BillingHistoryYearlyHeader
                                 years={reversedYears}
