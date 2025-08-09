@@ -29,8 +29,8 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
         return appBillingHistoryApi
             .updateV2(id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
-            .finally(() => reload && reload());
+            .then(() => reload && reload())
+            .catch(() => toast.error('문제가 발생했어요.'));
     };
 
     const handleShowInvoice = () => {
@@ -60,7 +60,7 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
             {/* 결제금액 */}
             <td className={'text-14'}>
-                {billingHistory.payAmount?.amount ? <PayAmount billingHistory={billingHistory} /> : '-'}
+                <PayAmount billingHistory={billingHistory} />
             </td>
 
             {/* 연결된 결제수단 */}

@@ -77,7 +77,7 @@ export const CodefAccountListContent = memo(function (props: TabPaneProps) {
 
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
                 <CardTablePanel
-                    gridClass={`grid-cols-8`}
+                    gridClass={`grid-cols-9`}
                     entries={items}
                     pagination={pagination}
                     pageMove={movePage}

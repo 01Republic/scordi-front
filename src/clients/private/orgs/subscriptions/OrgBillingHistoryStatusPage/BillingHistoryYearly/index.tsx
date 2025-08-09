@@ -26,6 +26,7 @@ export const BillingHistoryYearly = memo(
         const [isLoading, setIsLoading] = useState(false);
         const [histories, setHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
+        const [stickyPos, setStickyPos] = useState(2);
 
         const {currentOrg} = useCurrentOrg2();
         const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
@@ -80,6 +81,8 @@ export const BillingHistoryYearly = memo(
             search,
         }));
 
+        const YEAR_COUNT = 10;
+
         return (
             <CardContainerTableLayout isLoading={isLoading}>
                 {/*<div className={'flex justify-start pb-2'}>*/}
@@ -87,9 +90,14 @@ export const BillingHistoryYearly = memo(
                 {/*</div>*/}
 
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
-                    <div className="overflow-x-auto w-full">
+                    <div className="overflow-x-auto w-full hide-scrollbar">
                         <table className="table w-full text-sm">
-                            <BillingHistoryYearlyHeader years={reversedYears} />
+                            <BillingHistoryYearlyHeader
+                                years={reversedYears}
+                                minYearLen={YEAR_COUNT}
+                                stickyPos={stickyPos}
+                                setStickyPos={setStickyPos}
+                            />
                             <tbody>
                                 {sortedHistories.length === 0 ? (
                                     <tr>
@@ -103,6 +111,7 @@ export const BillingHistoryYearly = memo(
                                             key={i}
                                             data={history}
                                             exchangeRate={exchangeRate}
+                                            stickyPos={stickyPos}
                                             renderColumns={(
                                                 items: BillingHistoriesYearlySumBySubscriptionDto['items'],
                                             ) => {
@@ -117,7 +126,13 @@ export const BillingHistoryYearly = memo(
                                                     />
                                                 ));
                                             }}
-                                        />
+                                        >
+                                            {Array.from({length: YEAR_COUNT - reversedYears.length}).map((_, i) => (
+                                                <td key={i} className="text-right text-gray-400">
+                                                    -
+                                                </td>
+                                            ))}
+                                        </BillingHistoryYearlyRow>
                                     ))
                                 )}
                             </tbody>
