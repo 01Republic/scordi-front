@@ -1,5 +1,5 @@
 import React, {CSSProperties, FC, memo} from 'react';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {PreLoader, PreLoaderProps} from '^components/PreLoader';
 
 interface ContentPanelProps {
@@ -37,7 +37,7 @@ export const ContentPanelPreloader = memo((props: PreLoaderProps) => {
 });
 
 interface ContentPanelHeadingProps {
-    title?: string;
+    title?: ReactNodeElement;
     desc?: string;
     stickyHeader?: boolean;
     collapsible?: boolean;

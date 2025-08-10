@@ -3,19 +3,24 @@ import {WithChildren} from '^types/global.type';
 import {TargetPropertyItemProps} from '../hooks';
 import {Checkbox} from '^public/components/ui/checkbox';
 
-interface Props extends TargetPropertyItemProps, WithChildren<(props: {isExists: boolean}) => JSX.Element> {
+interface ChildrenProps {
+    isExists: boolean;
+    isFinished: boolean;
+}
+
+interface Props extends TargetPropertyItemProps, WithChildren<(props: ChildrenProps) => JSX.Element> {
     //
 }
 
 export const TargetPropertyItemContainer = memo((props: Props) => {
-    const {title, emailItem, optional = false, children} = props;
+    const {title, optional = false, children, onChange} = props;
     const [isExists, setIsExists] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
     return (
         <div className="py-2 space-y-2 border-b border-gray-200">
             <div className="text-14 flex items-center justify-between">
-                <div className="flex items-center" onClick={() => console.log(emailItem)}>
+                <div className="flex items-center">
                     <div className="text-16 font-semibold">
                         <span
                             className={`cursor-default transition-all ${
@@ -71,7 +76,7 @@ export const TargetPropertyItemContainer = memo((props: Props) => {
                 </div>
             </div>
 
-            {isExists && !isFinished && (typeof children === 'function' ? children({isExists}) : children)}
+            {typeof children === 'function' ? children({isExists, isFinished}) : isExists && !isFinished && children}
         </div>
     );
 });

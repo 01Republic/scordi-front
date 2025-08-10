@@ -10,11 +10,18 @@ import {SetParserNamePanel} from '../../_common/form/SetParserNamePanel';
 import {SearchProductPanel} from '../../_common/form/SearchProductPanel';
 import {ServiceDetectStep} from './ServiceDetectStep';
 import {CreateEmailParserRequestDto} from '^models/EmailParser/types';
-import {ParsingOCRSettingStep} from '^admin/factories/email-parsers/EmailParserNewPage/ParsingOCRSettingStep';
+import {ParsingOCRSettingStep} from './ParsingOCRSettingStep';
+import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 export const EmailParserNewPage = memo(function EmailParserNewPage() {
     const router = useRouter();
-    const form = useForm<CreateEmailParserRequestDto>();
+    const form = useForm<CreateEmailParserRequestDto>({
+        defaultValues: {
+            isActive: false,
+        },
+    });
     const [isLoading, setIsLoading] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<ProductDto>();
     const [isOCRStepOpened, setIsOCRStepOpened] = useState(false);
@@ -25,6 +32,12 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
 
     const onSubmit = (data: CreateEmailParserRequestDto) => {
         console.log('data', data);
+        data.isActive ??= false;
+        gmailInvoiceParsersAdminApi
+            .create(data)
+            .then(() => toast.success('저장완료.'))
+            .then(() => router.push(EmailParserListPageRoute.path()))
+            .catch(errorToast);
     };
 
     return (
@@ -49,9 +62,9 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
                                 }}
                             />
 
-                            <ParsingOCRSettingStep />
                             <ServiceDetectStep onNext={() => setIsOCRStepOpened(true)} />
 
+                            <ParsingOCRSettingStep />
                             {/*{isOCRStepOpened && <ParsingOCRSettingStep />}*/}
                         </ContentForm>
                     </FormProvider>

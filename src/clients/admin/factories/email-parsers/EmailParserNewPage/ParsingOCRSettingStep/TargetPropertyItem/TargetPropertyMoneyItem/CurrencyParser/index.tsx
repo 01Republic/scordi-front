@@ -1,41 +1,58 @@
 import {memo, useEffect, useMemo} from 'react';
-import {GmailItemDto} from '^models/InvoiceAccount/type';
 import {CurrencyCode} from '^models/Money';
 import {useForm} from 'react-hook-form';
 import {useId} from 'react-id-generator';
 import {Plus, X} from 'lucide-react';
 import {isDefinedValue} from '^utils/array';
+import {CurrencyParserData} from '../../../EmailParserFormData/money.property.form-data';
 
 interface CurrencyParserProps {
-    emailItem?: GmailItemDto;
-    content?: string;
     regexResult?: string;
+    defaultValue?: CurrencyParserData;
+    onChange?: (currencyParserData: CurrencyParserData) => any;
 }
 
-export const CurrencyParser = memo((props: CurrencyParserProps) => {
-    const {emailItem, content, regexResult = ''} = props;
+export const CurrencyParser = (props: CurrencyParserProps) => {
+    const {regexResult = '', defaultValue, onChange} = props;
     const [id] = useId();
-    const form = useForm<{
-        isDynamicCurrency: boolean;
-        staticCurrencyCode?: CurrencyCode;
-        currencyCodeMappers: {pattern: string; currencyCode: CurrencyCode}[];
-    }>({
-        defaultValues: {
-            isDynamicCurrency: false,
-            staticCurrencyCode: CurrencyCode.KRW,
-            currencyCodeMappers: [],
-        },
-    });
+    const form = useForm<CurrencyParserData>();
+
+    useEffect(() => {
+        console.log('CurrencyParser.useEffect');
+        console.log('CurrencyParser.useEffect', 'defaultValue', defaultValue);
+        if (typeof defaultValue?.isDynamicCurrency !== 'undefined') {
+            console.log('CurrencyParser.useEffect', 'isDynamicCurrency', defaultValue.isDynamicCurrency);
+            form.setValue('isDynamicCurrency', defaultValue.isDynamicCurrency);
+            defaultValue.isDynamicCurrency
+                ? form.setValue('currencyCodeMappers', defaultValue.currencyCodeMappers)
+                : form.setValue('staticCurrencyCode', defaultValue.staticCurrencyCode);
+        } else {
+            form.setValue('isDynamicCurrency', false);
+            form.setValue('staticCurrencyCode', CurrencyCode.KRW);
+        }
+    }, [defaultValue]);
 
     form.register('isDynamicCurrency');
     form.register('currencyCodeMappers');
-    const isDynamicCurrency = form.watch('isDynamicCurrency');
-    const currencyCodeMappers = form.watch('currencyCodeMappers');
+    const values = form.watch();
+    const {isDynamicCurrency} = values;
+    const currencyCodeMappers = form.watch('currencyCodeMappers') || [];
 
+    // 동적 설정에서 화폐맵핑 결과
     const resultCurrencyCode = useMemo(() => {
         const matchedMapper = currencyCodeMappers.find((mapper) => mapper.pattern && regexResult.match(mapper.pattern));
         return matchedMapper?.currencyCode;
     }, [regexResult, currencyCodeMappers]);
+
+    useEffect(() => {
+        if (values && typeof values.isDynamicCurrency !== 'undefined' && onChange) {
+            console.log('CurrencyParser.onChange', 'defaultValue', defaultValue);
+            console.log('CurrencyParser.onChange', 'values', values);
+            if (JSON.stringify(defaultValue) !== JSON.stringify(values)) {
+                onChange(values);
+            }
+        }
+    }, [defaultValue, values]);
 
     return (
         <div className="text-14">
@@ -188,4 +205,4 @@ export const CurrencyParser = memo((props: CurrencyParserProps) => {
             </div>
         </div>
     );
-});
+};
