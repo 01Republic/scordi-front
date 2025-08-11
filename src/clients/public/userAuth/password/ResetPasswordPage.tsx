@@ -65,7 +65,6 @@ export const ResetPasswordPage = memo(() => {
     const onSubmit = (data: UpdateUserPasswordRequestDto) => {
         const encryptedPassword = {
             ...data,
-            token,
             password: encryptValue(data.password),
             passwordConfirmation: encryptValue(data.passwordConfirmation),
         };
