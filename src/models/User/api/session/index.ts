@@ -134,15 +134,21 @@ export const SignUserApi = {
     },
 };
 
+/* 비밀번호 재설정 */
 export const userPasswordApi = {
+    /* 비밀번호 재설정 이메일 발송 요청 */
     reset: (email: string) => {
         const url = `/users/${email}/password/reset`;
         return api.post(url);
     },
+
+    /* 비밀번호 재설정 페이지 - 유효 확인 요청 */
     validate: (email: string, token: string) => {
         const url = `/users/${email}/password/validate`;
         return api.post(url, {token});
     },
+
+    /* 비밀번호 재설정 요청 */
     update: (email: string, data: UpdateUserPasswordRequestDto) => {
         const url = `/users/${email}/password`;
         return api.patch(url, data);

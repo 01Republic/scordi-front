@@ -197,18 +197,21 @@ export const useUpdateUser = () => {
     });
 };
 
+// 비밀번호 재설정 이메일 발송 요청
 export const useUserPasswordReset = () => {
     return useMutation<void, AxiosError, string>({
         mutationFn: (email) => userPasswordApi.reset(email).then((res) => res.data),
     });
 };
 
+// 비밀번호 재설정 페이지 - 유효 확인 요청
 export const useUserPasswordValidate = (email: string, token: string) => {
     return useMutation({
         mutationFn: () => userPasswordApi.validate(email, token).then((res) => res.data),
     });
 };
 
+// 비밀번호 재설정 요청
 export const useUserPasswordUpdate = (email: string) => {
     return useMutation({
         mutationFn: (data: UpdateUserPasswordRequestDto) => userPasswordApi.update(email, data).then((res) => res.data),
