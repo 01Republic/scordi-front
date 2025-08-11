@@ -20,7 +20,10 @@ export const UsersLoginPage = memo(() => {
         <LandingPageLayout pageName="Login" hideNav hideFooter>
             <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                 <div className="flex flex-col items-center justify-center w-[400px] gap-8">
-                    <UserAuthTitleSection text="팀 생산성을 높이는 소프트웨어 구독 비용 관리" />
+                    <UserAuthTitleSection
+                        text="팀 생산성을 높이는 소프트웨어 구독 비용 관리"
+                        subTitle="팀 생산성을 높이는 소프트웨어 구독 비용 관리"
+                    />
 
                     {/* 이메일 로그인
                     스테이징 환경에서만 이메일 로그인이 가능합니다.

@@ -262,7 +262,9 @@ export interface ErrorResponse {
     data: Record<string, any>;
 }
 
+// 비밀번호 변경
 export class UpdateUserPasswordRequestDto {
     password: string;
     passwordConfirmation: string;
+    token: string;
 }

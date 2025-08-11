@@ -203,14 +203,14 @@ export const useUserPasswordReset = () => {
     });
 };
 
-export const useUserPasswordValidate = (token: string) => {
+export const useUserPasswordValidate = (email: string, token: string) => {
     return useMutation({
-        mutationFn: () => userPasswordApi.validate(token).then((res) => res.data),
+        mutationFn: () => userPasswordApi.validate(email, token).then((res) => res.data),
     });
 };
 
-export const useUserPasswordUpdate = (token: string) => {
+export const useUserPasswordUpdate = (email: string) => {
     return useMutation({
-        mutationFn: (data: UpdateUserPasswordRequestDto) => userPasswordApi.update(token, data).then((res) => res.data),
+        mutationFn: (data: UpdateUserPasswordRequestDto) => userPasswordApi.update(email, data).then((res) => res.data),
     });
 };

@@ -139,14 +139,12 @@ export const userPasswordApi = {
         const url = `/users/${email}/password/reset`;
         return api.post(url);
     },
-
-    validate: (token: string) => {
-        const url = `/users/${encodeURIComponent(token)}/password/validate`;
-        return api.get(url);
+    validate: (email: string, token: string) => {
+        const url = `/users/${email}/password/validate`;
+        return api.post(url, {token});
     },
-
-    update: (token: string, data: UpdateUserPasswordRequestDto) => {
-        const url = `/users/${encodeURIComponent(token)}/password`;
+    update: (email: string, data: UpdateUserPasswordRequestDto) => {
+        const url = `/users/${email}/password`;
         return api.patch(url, data);
     },
 };

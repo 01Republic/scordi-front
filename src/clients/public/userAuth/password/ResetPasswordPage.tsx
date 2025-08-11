@@ -20,10 +20,11 @@ import {useStrParam} from '^atoms/common';
 
 export const ResetPasswordPage = memo(() => {
     const router = useRouter();
+    const email = useStrParam('email');
     const token = useStrParam('token');
 
-    const {mutateAsync: mutateValidate} = useUserPasswordValidate(token);
-    const {mutateAsync: mutatePasswordUpdate, isPending} = useUserPasswordUpdate(token);
+    const {mutateAsync: mutateValidate} = useUserPasswordValidate(email, token);
+    const {mutateAsync: mutatePasswordUpdate, isPending} = useUserPasswordUpdate(email);
 
     const failValidateConfirm = () => {
         return confirm3(
@@ -48,9 +49,9 @@ export const ResetPasswordPage = memo(() => {
     };
 
     useEffect(() => {
-        if (!token) return;
+        if (!email && !token) return;
         mutateValidate().catch(failValidate);
-    }, [token]);
+    }, [token, email]);
 
     const methods = useForm<UpdateUserPasswordRequestDto>({
         mode: 'all',
@@ -65,6 +66,7 @@ export const ResetPasswordPage = memo(() => {
     const onSubmit = (data: UpdateUserPasswordRequestDto) => {
         const encryptedPassword = {
             ...data,
+            token,
             password: encryptValue(data.password),
             passwordConfirmation: encryptValue(data.passwordConfirmation),
         };
