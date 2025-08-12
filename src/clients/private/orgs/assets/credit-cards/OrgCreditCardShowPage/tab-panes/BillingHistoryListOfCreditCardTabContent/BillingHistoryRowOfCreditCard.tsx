@@ -103,17 +103,6 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                                 className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"
                                 onClick={eventCut}
                             >
-                                <li>
-                                    <a
-                                        className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 focus:bg-red-100 active:bg-red-100"
-                                        onClick={() => {
-                                            hide();
-                                            onDelete(billingHistory.id);
-                                        }}
-                                    >
-                                        삭제하기
-                                    </a>
-                                </li>
                                 {billingHistory.connectMethod === 'MANUAL' && (
                                     <li>
                                         <a
@@ -127,6 +116,17 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                                         </a>
                                     </li>
                                 )}
+                                <li>
+                                    <a
+                                        className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 focus:bg-red-100 active:bg-red-100"
+                                        onClick={() => {
+                                            hide();
+                                            onDelete(billingHistory.id);
+                                        }}
+                                    >
+                                        삭제하기
+                                    </a>
+                                </li>
                             </ul>
                         )}
                     </Dropdown>
