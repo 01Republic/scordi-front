@@ -47,7 +47,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
             bankAccountId: bankAccount?.id,
             paidAt: billingHistory?.paidAt,
             lastRequestedAt: billingHistory?.lastRequestedAt,
-            payCurrency: billingHistory?.abroadPayAmount?.code,
+            payCurrency: billingHistory?.abroadPayAmount?.code || billingHistory?.payAmount?.code,
             payDate: billingHistory?.paidAt || billingHistory?.lastRequestedAt || undefined,
             billingHistoryStatus: billingHistory?.about,
         },
