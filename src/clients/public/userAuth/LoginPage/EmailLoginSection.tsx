@@ -6,6 +6,7 @@ import {useLogin, useUser} from '^clients/public/userAuth/UserSignUpPage/SignAut
 import {validateEmailRegex, validPasswordRegex} from '^utils/valildation';
 import {FormInput} from '^clients/public/userAuth/common/FormInput';
 import Link from 'next/link';
+import {UserPasswordFindPageRoute} from '^pages/users/password/find';
 import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 import {encryptValue} from '^utils/crypto';
 
@@ -107,12 +108,12 @@ export const EmailLoginSection = memo(() => {
                         회원가입
                     </Link>
                     <span className="text-gray-400">|</span>
-                    {/*<Link*/}
-                    {/*    href={UserPasswordFindPageRoute.path()}*/}
-                    {/*    className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"*/}
-                    {/*>*/}
-                    {/*    비밀번호 찾기*/}
-                    {/*</Link>*/}
+                    <Link
+                        href={UserPasswordFindPageRoute.path()}
+                        className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
+                    >
+                        비밀번호 찾기
+                    </Link>
                 </div>
             </form>
         </FormProvider>

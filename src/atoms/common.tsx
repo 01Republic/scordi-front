@@ -57,6 +57,7 @@ export const orgIdParamState = atom({
 // useRecoilValue(orgIdParamState) => useOrgIdParam(); 로 교체
 export const useOrgIdParam = (key = 'id') => Number(useRouter().query[key]);
 export const useIdParam = (key = 'id') => Number(useRouter().query[key]);
+export const useStrParam = (key = 'id') => [useRouter().query[key] || ''].flat()[0] as string;
 
 export const productIdParamsState = atom({
     key: 'productIdParamsState',
