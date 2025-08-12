@@ -5,6 +5,9 @@ import {UserLoginRequestDto} from '^models/User/types';
 import {useLogin, useUser} from '^clients/public/userAuth/UserSignUpPage/SignAuthPage.atom';
 import {validateEmailRegex, validPasswordRegex} from '^utils/valildation';
 import {FormInput} from '^clients/public/userAuth/common/FormInput';
+import Link from 'next/link';
+import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
+import {encryptValue} from '^utils/crypto';
 
 export const EmailLoginSection = memo(() => {
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
@@ -24,8 +27,13 @@ export const EmailLoginSection = memo(() => {
         setIsLoading(true);
         clearErrors(['email', 'password']);
 
+        const encryptedPassword = {
+            ...data,
+            password: encryptValue(data.password),
+        };
+
         loginMutate(
-            {data},
+            {data: encryptedPassword},
             {
                 onSuccess: () => userMutate(),
                 onError: (err: any) => {
@@ -86,11 +94,26 @@ export const EmailLoginSection = memo(() => {
                 <button
                     type="submit"
                     className={`btn btn-lg btn-block  flex items-center justify-center font-medium  ${
-                        !isValid ? 'btn-disabled' : 'btn-scordi'
+                        !isValid ? 'btn-disabled2' : 'btn-scordi'
                     } ${isLoading || isLoginPending || isUserPending ? 'link_to-loading' : ''}`}
                 >
                     로그인
                 </button>
+                <div className="flex w-full items-center justify-center gap-2">
+                    <Link
+                        href={SignAuthCreateUserPageRoute.path()}
+                        className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
+                    >
+                        회원가입
+                    </Link>
+                    <span className="text-gray-400">|</span>
+                    {/*<Link*/}
+                    {/*    href={UserPasswordFindPageRoute.path()}*/}
+                    {/*    className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"*/}
+                    {/*>*/}
+                    {/*    비밀번호 찾기*/}
+                    {/*</Link>*/}
+                </div>
             </form>
         </FormProvider>
     );
