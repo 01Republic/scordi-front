@@ -309,9 +309,18 @@ export const useCreateSubscriptionBillingHistory = (subscriptionId: number) => {
         mutationFn: (dto: CreateBillingHistoryByManualRequestDto) =>
             subscriptionBillingHistoryApi.createByManual(subscriptionId, dto).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
         },
     });
 };
@@ -323,9 +332,18 @@ export const useUpdateSubscriptionBillingHistory = (subscriptionId: number, id: 
         mutationFn: (dto: UpdateBillingHistoryByManualRequestDto) =>
             subscriptionBillingHistoryApi.updateByManual(subscriptionId, id, dto).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
         },
     });
 };
@@ -337,9 +355,18 @@ export const useCreateCreditCardBillingHistory = (orgId: number, creditCardId: n
         mutationFn: (dto: CreateBillingHistoryByManualRequestDto) =>
             creditCardBillingHistoryApi.createByManual(orgId, creditCardId, dto).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
         },
     });
 };
@@ -351,9 +378,18 @@ export const useUpdateCreditCardBillingHistory = (orgId: number, creditCardId: n
         mutationFn: (dto: UpdateBillingHistoryByManualRequestDto) =>
             creditCardBillingHistoryApi.updateByManual(orgId, creditCardId, id, dto).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
         },
     });
 };
@@ -365,9 +401,18 @@ export const useCreateBankAccountBillingHistory = (orgId: number, bankAccountId:
         mutationFn: (dto: CreateBillingHistoryByManualRequestDto) =>
             bankAccountBillingHistoryApi.createByManual(orgId, bankAccountId, dto).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
         },
     });
 };
@@ -379,9 +424,40 @@ export const useUpdateBankAccountBillingHistory = (orgId: number, bankAccountId:
         mutationFn: (dto: UpdateBillingHistoryByManualRequestDto) =>
             bankAccountBillingHistoryApi.updateByManual(orgId, bankAccountId, id, dto).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]});
-            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2]});
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
+        },
+    });
+};
+
+// 결제내역 수동등록 삭제
+export const useDestroyBillingHistory = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => billingHistoryApi.destroy(id).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfBankAccount2],
+                exact: false,
+            });
         },
     });
 };
