@@ -101,7 +101,7 @@ export const SignCreateUserAuthPage = () => {
                  * */
                 const login = (email: string, password: string, redirectPath: string) => {
                     loginMutate(
-                        {data: {email, password}},
+                        {data: {email, password: encryptValue(password)}},
                         {
                             onSuccess: () => {
                                 setIsLoading(false);
