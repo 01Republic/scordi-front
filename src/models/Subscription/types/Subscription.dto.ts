@@ -75,6 +75,8 @@ export class SubscriptionDto {
     vendorCompanyId: number | null; // 파트너 벤더사 ID
     vendorManagerId: number | null; // 파트너 벤더사 담당자 ID
 
+    isBillingDateOverDue: boolean; // 결제 예정일 초과 여부
+
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
