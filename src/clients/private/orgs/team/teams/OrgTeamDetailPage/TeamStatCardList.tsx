@@ -1,10 +1,12 @@
 import React, {memo, useEffect} from 'react';
-import {useCurrentTeam} from '^models/Team/hook';
+import {useCurrentTeam, useCurrentTeam2} from '^models/Team/hook';
 import {TabName} from './OrgTeamDetailPageTabContent';
 import {TeamStatCard} from './TeamStatCard';
 import {useUnmount} from '^hooks/useUnmount';
 import {debounce} from 'lodash';
 import {CreditCard, LayoutGrid, Receipt, RotateCw, Users} from 'lucide-react';
+import {teamIdParamState, useOrgIdParam} from '^atoms/common';
+import {useRecoilState, useRecoilValue} from 'recoil';
 
 interface TeamStatCardListProps {
     changeCurrentTab?: (tabName: TabName) => any;
@@ -12,10 +14,13 @@ interface TeamStatCardListProps {
 
 export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const {changeCurrentTab} = props;
+    const orgId = useOrgIdParam();
+    const teamId = useRecoilValue(teamIdParamState);
+
     const {team, reloadWithUpdateCounters, isLoading} = useCurrentTeam();
+    const {data: currentTeamData} = useCurrentTeam2(orgId, teamId);
 
-    const updateCounter = () => team && reloadWithUpdateCounters();
-
+    const updateCounter = () => currentTeamData && reloadWithUpdateCounters();
     return (
         <div className="bg-slate-100 rounded-lg p-2 shadow-lg">
             <div className="flex items-center justify-between mb-3">
@@ -33,7 +38,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                 <TeamStatCard
                     Icon={() => <Users fontSize={15} className="text-yellow-600" />}
                     title="구성원"
-                    count={team ? team.teamMemberCount : 0}
+                    count={currentTeamData ? currentTeamData.teamMemberCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.members)}
                     isLoading={isLoading}
@@ -41,7 +46,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                 <TeamStatCard
                     Icon={() => <LayoutGrid fontSize={13} className="text-scordi-500" />}
                     title="구독"
-                    count={team ? team.subscriptionCount : 0}
+                    count={currentTeamData ? currentTeamData.subscriptionCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.subscriptions)}
                     isLoading={isLoading}
@@ -49,7 +54,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                 <TeamStatCard
                     Icon={() => <CreditCard fontSize={14} className="text-green-600" />}
                     title="결제수단"
-                    count={team ? team.creditCardCount : 0}
+                    count={currentTeamData ? currentTeamData.creditCardCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.payments)}
                     isLoading={isLoading}
@@ -57,7 +62,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                 <TeamStatCard
                     Icon={() => <Receipt fontSize={14} className="text-blue-600" />}
                     title="청구서"
-                    count={team ? team.invoiceAccountCount : 0}
+                    count={currentTeamData ? currentTeamData.invoiceAccountCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.invoices)}
                     isLoading={isLoading}

@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto, useDestroyTeamMemberShip} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import Tippy from '@tippyjs/react';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {teamIdParamState, useOrgIdParam} from '^atoms/common';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
@@ -24,8 +24,9 @@ interface TeamMemberTableRowProps {
 
 export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const {teamMember, onClick, isChecked, onCheck, reload} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const teamId = useRecoilValue(teamIdParamState);
+    const {mutateAsync} = useDestroyTeamMemberShip(orgId);
 
     if (!teamMember) return null;
 
@@ -56,7 +57,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
         };
 
         confirmed(deleteConfirm())
-            .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
+            .then(() => mutateAsync({teamId, teamMemberId: teamMember.id}))
             .then(() => toast.success('연결을 해제했어요.'))
             .then(() => reload && reload())
             .catch(errorToast);

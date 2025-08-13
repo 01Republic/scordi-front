@@ -3,7 +3,11 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
-import {useAddableTeamMemberListInAddTeamMemberModal} from '^models/TeamMember';
+import {
+    useAddableTeamMemberListInAddTeamMemberModal,
+    useCreateTeamMemberShip,
+    useTeamMembers2,
+} from '^models/TeamMember';
 import {SlideUpAllSelectModal} from '^clients/private/_modals/SlideUpAllSelectModal';
 
 interface AddMemberModalProps {
@@ -16,23 +20,18 @@ export const AddMemberModal = memo((props: AddMemberModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
     const {isOpened, onClose, onCreate} = props;
-    const {result, search, reset, isLoading} = useAddableTeamMemberListInAddTeamMemberModal();
+    const {result} = useTeamMembers2(orgId, {
+        relations: ['teams'],
+        where: {organizationId: orgId},
+        itemsPerPage: 0,
+        order: {id: 'DESC'},
+    });
 
-    const fetchAddableTeamMembers = () => {
-        if (!orgId || isNaN(orgId)) return;
-        if (!teamId || isNaN(teamId)) return;
-
-        search({
-            relations: ['teams'],
-            where: {organizationId: orgId},
-            itemsPerPage: 0,
-            order: {id: 'DESC'},
-        });
-    };
+    const {mutateAsync} = useCreateTeamMemberShip(orgId);
 
     const onSave = async (selectedIds: number[]) => {
         const requests = selectedIds.map((teamMemberId) => {
-            return teamMembershipApi.create(orgId, {teamId, teamMemberId});
+            return mutateAsync({teamId, teamMemberId});
         });
 
         await Promise.allSettled(requests);
@@ -41,10 +40,6 @@ export const AddMemberModal = memo((props: AddMemberModalProps) => {
     const availableTeamMembers = result.items.filter(({teams = []}) => {
         return teams.every((team) => team.id !== teamId);
     });
-
-    useEffect(() => {
-        isOpened ? fetchAddableTeamMembers() : reset();
-    }, [isOpened]);
 
     return (
         <SlideUpAllSelectModal

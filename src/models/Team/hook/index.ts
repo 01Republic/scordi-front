@@ -1,7 +1,7 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
 import {
@@ -12,6 +12,12 @@ import {
     teamsListForTeamListPageAtom,
 } from '../atom';
 import {useIsLoading} from '^hooks/useResource/useIsLoading';
+import {FindAllTeamMemberQueryDto, teamMemberApi} from '^models/TeamMember';
+import {useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
+import {Paginated} from '^types/utils/paginated.dto';
+import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -77,4 +83,14 @@ export const useCurrentTeam = () => {
         isLoading,
         reloadWithUpdateCounters,
     };
+};
+
+// 팀 상세p - 요약패널 구성원
+export const useCurrentTeam2 = (orgId: number, id?: number) => {
+    console.log('들어는옴???', id);
+    return useQuery({
+        queryKey: [TEAM_HOOK_KEY.detail, orgId, id],
+        queryFn: () => teamApi.show(orgId, id!).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId) && !!id,
+    });
 };

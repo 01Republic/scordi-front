@@ -3,10 +3,10 @@ import {useRecoilValue} from 'recoil';
 import {useUnmount} from '^hooks/useUnmount';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {teamIdParamState} from '^atoms/common';
+import {teamIdParamState, useOrgIdParam} from '^atoms/common';
 import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableRow';
 import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableHeader';
-import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
+import {useTeamMembership2} from '^models/TeamMembership/hook/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/AddMemberModal';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 import {Plus} from 'lucide-react';
@@ -16,9 +16,13 @@ import {TeamMembersBulkActionPanel} from '^clients/private/orgs/team/teams/OrgTe
 
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
+    const orgId = useOrgIdParam();
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy, reset} =
-        useTeamMembershipListInTeamDetail();
+    const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy} =
+        useTeamMembership2(orgId, {
+            relations: ['teamMember', 'teamMember.membership'],
+            where: {teamId},
+        });
     const [isOpened, setIsOpened] = useState(false);
     const ch = useCheckboxHandler<TeamMembershipDto>([], (item) => item.teamMemberId);
 
@@ -31,15 +35,8 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
     };
 
     useEffect(() => {
-        if (!teamId || isNaN(teamId)) return;
-        onSearch();
-    }, [teamId]);
-
-    useEffect(() => {
         ch.init(result.items);
     }, [result.items]);
-
-    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 
