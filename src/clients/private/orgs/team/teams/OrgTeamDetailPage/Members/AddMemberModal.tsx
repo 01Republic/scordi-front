@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
 import {
@@ -17,8 +17,8 @@ interface AddMemberModalProps {
 }
 
 export const AddMemberModal = memo((props: AddMemberModalProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRecoilValue(teamIdParamState);
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
     const {isOpened, onClose, onCreate} = props;
     const {result} = useTeamMembers2(orgId, {
         relations: ['teams'],

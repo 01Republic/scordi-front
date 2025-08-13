@@ -190,7 +190,7 @@ export const useUpdateTeamMembers2 = () => {
         mutationFn: ({orgId, id, data}) => teamMemberApi.update(orgId, id, data).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
-            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.detail], exact: false});
         },
     });
 };

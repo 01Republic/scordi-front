@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {useUnmount} from '^hooks/useUnmount';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {teamIdParamState, useOrgIdParam} from '^atoms/common';
+import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableRow';
 import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableHeader';
 import {useTeamMembership2} from '^models/TeamMembership/hook/hook';
@@ -17,9 +17,9 @@ import {TeamMembersBulkActionPanel} from '^clients/private/orgs/team/teams/OrgTe
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
     const orgId = useOrgIdParam();
-    const teamId = useRecoilValue(teamIdParamState);
+    const teamId = useIdParam('teamId');
     const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy} =
-        useTeamMembership2(orgId, {
+        useTeamMembership2(orgId, teamId, {
             relations: ['teamMember', 'teamMember.membership'],
             where: {teamId},
         });
@@ -105,16 +105,18 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
             </ListTableContainer>
 
             {/* 연결 추가 모달 */}
-            <AddMemberModal
-                isOpened={isOpened}
-                onClose={() => {
-                    setIsOpened(false);
-                }}
-                onCreate={() => {
-                    setIsOpened(false);
-                    reload();
-                }}
-            />
+            {isOpened && (
+                <AddMemberModal
+                    isOpened={isOpened}
+                    onClose={() => {
+                        setIsOpened(false);
+                    }}
+                    onCreate={() => {
+                        setIsOpened(false);
+                        reload();
+                    }}
+                />
+            )}
         </>
     );
 });

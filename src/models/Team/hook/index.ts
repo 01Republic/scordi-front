@@ -85,9 +85,8 @@ export const useCurrentTeam = () => {
     };
 };
 
-// 팀 상세p - 요약패널 구성원
+// 팀 상세p - 요약패널
 export const useCurrentTeam2 = (orgId: number, id?: number) => {
-    console.log('들어는옴???', id);
     return useQuery({
         queryKey: [TEAM_HOOK_KEY.detail, orgId, id],
         queryFn: () => teamApi.show(orgId, id!).then((res) => res.data),

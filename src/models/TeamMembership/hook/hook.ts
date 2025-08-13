@@ -25,13 +25,13 @@ const useTeamMembership = (
 };
 
 // 팀 상세p - 연결된 멤버 목록
-export const useTeamMembership2 = (orgId: number, params: FindAllTeamMembershipQueryDto) => {
+export const useTeamMembership2 = (orgId: number, teamId: number, params: FindAllTeamMembershipQueryDto) => {
     const [query, setQuery] = useState(params);
     const queryResult = useQuery({
-        queryKey: [TEAM_MEMBER_SHIP_HOOK_KEY.base, orgId, query],
+        queryKey: [TEAM_MEMBER_SHIP_HOOK_KEY.base, orgId, query, teamId],
         queryFn: () => teamMembershipApi.index(orgId, query).then((res) => res.data),
         initialData: Paginated.init(),
-        enabled: !!orgId && !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId) && !!teamId,
     });
 
     return usePaginateUtils({query, setQuery, queryResult});

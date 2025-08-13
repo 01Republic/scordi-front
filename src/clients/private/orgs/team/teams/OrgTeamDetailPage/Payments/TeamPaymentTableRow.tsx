@@ -8,12 +8,13 @@ import {CreditCardProfileOption2, UsingStatusTag} from '^models/CreditCard/compo
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
-import {teamIdParamState} from '^atoms/common';
+import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {MinusCircle} from 'lucide-react';
 import {useCreditCardUpdate} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {useDeleteTeamCreditCard} from '^models/CreditCard/hook';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -21,9 +22,11 @@ interface TeamPaymentTableRowProps {
 }
 
 export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
-    const teamId = useRecoilValue(teamIdParamState);
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
     const {creditCard, reload} = props;
     const {mutateAsync} = useCreditCardUpdate();
+    const {mutateAsync: deleteTeamCreditCard} = useDeleteTeamCreditCard(teamId);
 
     if (!creditCard) return null;
 
@@ -51,7 +54,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
             'warning',
         ).then((res) => {
             if (res.isConfirmed) {
-                creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
+                deleteTeamCreditCard(creditCard.id).then(() => {
                     toast.success('연결을 해제했어요.');
                     reload && reload();
                 });

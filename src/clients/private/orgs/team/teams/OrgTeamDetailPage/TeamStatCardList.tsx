@@ -17,7 +17,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const orgId = useOrgIdParam();
     const teamId = useRecoilValue(teamIdParamState);
 
-    const {team, reloadWithUpdateCounters, isLoading} = useCurrentTeam();
+    const {reloadWithUpdateCounters, isLoading} = useCurrentTeam();
     const {data: currentTeamData} = useCurrentTeam2(orgId, teamId);
 
     const updateCounter = () => currentTeamData && reloadWithUpdateCounters();

@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useCreditCards2} from '^models/CreditCard/hook';
 import {teamCreditCardApi} from '^models/TeamCreditCard/api';
 import {TeamCreditCardDto} from '^models/TeamCreditCard/type';
 import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
 import {CreditCardSelectItem} from '^models/CreditCard/components/CreditCardSelectItem';
+import {useUpdateTeamCreditCard} from '^models/TeamCreditCard/hook';
 
 interface AddPaymentModalProps {
     teamCreditCard: TeamCreditCardDto[];
@@ -16,14 +16,17 @@ interface AddPaymentModalProps {
 
 export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
     const {teamCreditCard, isOpened, onClose, onCreate} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRecoilValue(teamIdParamState);
-    const {result, search} = useCreditCardListForListPage();
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
+    const {result, search} = useCreditCards2(orgId, {
+        itemsPerPage: 0,
+        relations: ['holdingMember', 'subscriptions'],
+    });
+
+    const {mutateAsync} = useUpdateTeamCreditCard(orgId);
 
     const onSave = async (selectedIds: number[]) => {
-        const requests = selectedIds.map((creditCardId) =>
-            teamCreditCardApi.create(orgId, {teamId: teamId, creditCardId: creditCardId}),
-        );
+        const requests = selectedIds.map((creditCardId) => mutateAsync({teamId: teamId, creditCardId: creditCardId}));
         await Promise.allSettled(requests);
     };
 
