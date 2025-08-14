@@ -2,8 +2,7 @@ import {useEffect} from 'react';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {SelectedProperty} from '../../EmailParserFormData';
-import {EnumPropertyFormData} from '../../EmailParserFormData/enum.property.form-data';
+import {EnumPropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 
 export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumPropertyFormData<BillingCycleOptions>>) {
     const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
@@ -35,7 +34,6 @@ export const TargetPropertyEnumItemContent = (
     });
 
     useEffect(() => {
-        console.log('isFinished', isFinished, form.getValues());
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
 

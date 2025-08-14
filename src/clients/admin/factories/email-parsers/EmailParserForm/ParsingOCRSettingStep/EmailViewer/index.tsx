@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
 import {Tip} from '^admin/share/Tip';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
@@ -9,6 +9,7 @@ import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
 import {lpp} from '^utils/dateTime';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
+import {useEventListener} from '^hooks/useEventListener';
 
 interface EmailViewerProps {
     email: GmailItemDto;
@@ -22,7 +23,7 @@ interface EmailViewerProps {
 
 export const EmailViewer = memo((props: EmailViewerProps) => {
     const {email, content, focusedIndex, prev, next, pagination, overflow = false} = props;
-    const [html, setHtml] = useState(content);
+    const [html, setHtml] = useState('');
     const invoiceAccount = email?.invoiceAccount;
 
     const getUrl = () => {
@@ -32,6 +33,27 @@ export const EmailViewer = memo((props: EmailViewerProps) => {
     };
 
     const loadContent = () => email.loadContent().then(setHtml);
+
+    useEffect(() => {
+        if (content) setHtml(content);
+    }, [content]);
+
+    useEventListener({
+        eventName: 'keydown',
+        deps: [focusedIndex],
+        listener: (evt) => {
+            if (evt.ctrlKey && evt.shiftKey && evt.key === 'ArrowRight') {
+                evt.preventDefault();
+                evt.stopPropagation();
+                focusedIndex + 1 < pagination.totalItemCount && next();
+            }
+            if (evt.ctrlKey && evt.shiftKey && evt.key === 'ArrowLeft') {
+                evt.preventDefault();
+                evt.stopPropagation();
+                focusedIndex > 0 && prev();
+            }
+        },
+    });
 
     return (
         <div>

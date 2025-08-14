@@ -39,7 +39,12 @@ export class FilterQuery {
 
     // JSON에서 복원
     static fromJSON(json: Record<string, any>): FilterQuery {
-        return new FilterQuery(FilterGroup.fromJSON(json.rootGroup));
+        try {
+            const rootGroup = FilterGroup.fromJSON(json.rootGroup);
+            return new FilterQuery(rootGroup);
+        } catch {
+            return new FilterQuery();
+        }
     }
 
     // URL 파라미터로 변환

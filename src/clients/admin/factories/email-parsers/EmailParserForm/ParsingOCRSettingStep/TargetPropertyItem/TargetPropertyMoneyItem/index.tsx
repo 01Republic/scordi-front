@@ -1,16 +1,20 @@
 import {useEffect} from 'react';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {SelectedProperty} from '../../EmailParserFormData';
-import {BooleanPropertyFormData} from '../../EmailParserFormData/boolean.property.form-data';
+import {CurrencyParser} from './CurrencyParser';
+import {MoneyPropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 
-export function TargetPropertyBooleanItem(props: TargetPropertyItemProps<BooleanPropertyFormData>) {
+interface TargetPropertyMoneyItemProps extends TargetPropertyItemProps<MoneyPropertyFormData> {
+    //
+}
+
+export function TargetPropertyMoneyItem(props: TargetPropertyMoneyItemProps) {
     const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional}>
             {({isExists, isFinished}) => (
-                <TargetPropertyBooleanItemContent
+                <TargetPropertyMoneyItemContent
                     emailItem={emailItem}
                     content={content}
                     defaultValue={defaultValue}
@@ -23,27 +27,43 @@ export function TargetPropertyBooleanItem(props: TargetPropertyItemProps<Boolean
     );
 }
 
-export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemContentProps<BooleanPropertyFormData>) => {
+const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<MoneyPropertyFormData>) => {
     const {emailItem, content, defaultValue, onChange, isExists = false, isFinished = false} = props;
-    const {form, resultValue, regexResult} = useTargetPropertyItem({
+    const {form, resultValue, regexResult} = useTargetPropertyItem<MoneyPropertyFormData>({
         defaultValue,
         emailItem,
         content,
     });
 
     useEffect(() => {
-        console.log('isFinished', isFinished, form.getValues());
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
+    if (isFinished) {
+        // const currencyParserData = form.getValues('currencyParser');
+        // const currencyCodeMappers = form.getValues('currencyParser.currencyCodeMappers') || [];
+        return (
+            <div className="text-12 text-scordi font-semibold">
+                {/*<div>*/}
+                {/*    <div>화폐:</div>*/}
+                {/*    <div>{currencyParserData.isDynamicCurrency ? currencyParserData}</div>*/}
+                {/*</div>*/}
+                <div>
+                    {/*<div>금액:</div>*/}
+                    <div>{resultValue}</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="space-y-2">
+        <div className={`space-y-2`}>
             <div className="text-14">
                 <div className="mb-2">
-                    <div className="text-12 text-gray-400">추출 방법</div>
+                    <div className="text-12 text-gray-400" onClick={() => console.log(form.getValues())}>
+                        추출 방법
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-2 mb-1.5">
@@ -63,8 +83,9 @@ export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemConten
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <div>다음 패턴(정규식)과 일치하는</div>
+                    <div>패턴(정규식)</div>
                     <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
+                    <div>과 일치하는</div>
 
                     <div />
                     <div />
@@ -89,6 +110,18 @@ export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemConten
                     {resultValue}
                 </pre>
             </div>
+
+            <CurrencyParser
+                regexResult={Array.isArray(regexResult) ? regexResult[0] : regexResult}
+                defaultValue={form.getValues('currencyParser')}
+                onChange={(currencyParserData) => {
+                    console.log('onChange');
+                    const currencyParserValue = form.getValues('currencyParser');
+                    console.log('onChange', 'currencyParserValue', currencyParserValue);
+                    console.log('onChange', 'currencyParserData', currencyParserData);
+                    form.setValue('currencyParser', currencyParserData);
+                }}
+            />
         </div>
     );
 };

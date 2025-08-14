@@ -25,4 +25,3 @@ export const SelectedResource = memo((props: SelectedResourceProps) => {
         </div>
     );
 });
-SelectedResource.displayName = 'SelectedResource';

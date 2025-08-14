@@ -1,16 +1,16 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
+import {parse} from 'date-fns';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {SelectedProperty} from '../../EmailParserFormData';
-import {NumberPropertyFormData} from '../../EmailParserFormData/number.property.form-data';
+import {DatePropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 
-export function TargetPropertyNumberItem(props: TargetPropertyItemProps<NumberPropertyFormData>) {
+export function TargetPropertyDateItem(props: TargetPropertyItemProps<DatePropertyFormData>) {
     const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional}>
             {({isExists, isFinished}) => (
-                <TargetPropertyNumberItemContent
+                <TargetPropertyDateItemContent
                     emailItem={emailItem}
                     content={content}
                     defaultValue={defaultValue}
@@ -23,7 +23,7 @@ export function TargetPropertyNumberItem(props: TargetPropertyItemProps<NumberPr
     );
 }
 
-export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContentProps<NumberPropertyFormData>) => {
+const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<DatePropertyFormData>) => {
     const {emailItem, content, defaultValue, onChange, isExists = false, isFinished = false} = props;
     const {form, resultValue, regexResult} = useTargetPropertyItem({
         defaultValue,
@@ -31,13 +31,19 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
         content,
     });
 
+    const [dateFormat, setDateFormat] = useState('');
+    const dateString = (() => {
+        if (!dateFormat) return resultValue;
+        const parsed = parse(resultValue, dateFormat, new Date());
+        return isNaN(parsed.valueOf()) ? resultValue : parsed.toLocaleString();
+    })();
+
     useEffect(() => {
-        console.log('isFinished', isFinished, form.getValues());
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
+    if (isFinished) return <div className="text-12 text-scordi font-semibold">{dateString}</div>;
 
     return (
         <div className="space-y-2">
@@ -62,7 +68,7 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
                     <div>중 에서,</div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mb-1.5">
                     <div>다음 패턴(정규식)과 일치하는</div>
                     <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
 
@@ -77,6 +83,19 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
                         {...form.register('pattern.captureIndex', {min: 0})}
                     />
                     <div>번째 값</div>
+
+                    <div>에서, </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <div>날짜 형식</div>
+                    <input
+                        type="text"
+                        className="input input-bordered input-sm"
+                        defaultValue={dateFormat}
+                        onChange={(e) => setDateFormat(e.target.value)}
+                    />
+                    <div>으로 매칭</div>
                 </div>
             </div>
 
@@ -86,7 +105,7 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
                 </div>
 
                 <pre className="p-2 bg-gray-100 border rounded-md border-gray-200 whitespace-pre-wrap">
-                    {resultValue}
+                    {dateString}
                 </pre>
             </div>
         </div>

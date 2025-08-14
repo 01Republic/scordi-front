@@ -2,7 +2,7 @@ import {memo, useEffect, useState} from 'react';
 import {ContentPanel, ContentPanelBody, ContentPanelHeading, ContentPanelList} from '^layouts/ContentLayout';
 import {useFormContext} from 'react-hook-form';
 import {FilterQuery} from '^lib/notion-like-filter';
-import {FindAllGmailItemQueryDto} from '^models/InvoiceAccount/type';
+import {FindAllGmailItemQueryDto, GmailItemDto} from '^models/InvoiceAccount/type';
 import {useQuery} from '@tanstack/react-query';
 import {invoiceAccountEmailItemsForAdminApi} from '^models/InvoiceAccount/api';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -15,15 +15,12 @@ import {
     TargetPropertyBooleanItem,
     TargetPropertyEnumItem,
 } from './TargetPropertyItem';
-import {EmailParserFormData} from './EmailParserFormData';
+import {EmailParserFormData} from '^models/EmailParser/types';
 
-interface ParsingOCRSettingStepProps {}
-
-export const ParsingOCRSettingStep = memo((props: ParsingOCRSettingStepProps) => {
-    const {} = props;
+// 4단계
+export const ParsingOCRSettingStep = memo(() => {
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
-    const defaultValue = form.watch('filterQuery');
-    const [filterQuery, setFilterQuery] = useState(FilterQuery.fromUrlParams(defaultValue || ''));
+    const filterQuery = FilterQuery.fromUrlParams(form.getValues('filterQuery') || '');
     const [params, setParams] = useState<FindAllGmailItemQueryDto>({
         relations: ['organization', 'invoiceAccount', 'invoiceAccount.googleTokenData'],
         page: 1,
@@ -42,20 +39,33 @@ export const ParsingOCRSettingStep = memo((props: ParsingOCRSettingStepProps) =>
         refetchOnWindowFocus: false,
     });
     const [focusedIndex, setFocusedIndex] = useState(0);
-    const [html, setHtml] = useState<string>();
-
     const email = data.items[focusedIndex];
+    const currentContentUrl = email?.contentUrl;
 
-    useEffect(() => {
-        email && email.loadContent().then(setHtml);
-    }, [email]);
+    const {data: html = ''} = useQuery({
+        queryKey: ['Fetch email content html', currentContentUrl],
+        queryFn: () => GmailItemDto.loadContent(currentContentUrl).then((data) => data || ''),
+        placeholderData: (prev) => prev,
+        enabled: !!currentContentUrl,
+    });
+
+    // console.log('\n');
+    // console.log('email', email);
+    // console.log('currentContentUrl', currentContentUrl);
+    console.log('html', html.length);
 
     return (
         <ContentPanel bodyWrap={false}>
             <ContentPanelHeading
                 stickyHeader
                 title={
-                    <span onClick={() => console.log(form.getValues())}>
+                    <span
+                        onClick={() => {
+                            console.log('filterQuery', filterQuery);
+                            console.log('params', params);
+                            console.log('form.getValues()', form.getValues());
+                        }}
+                    >
                         [4단계] 이메일로부터 값을 추출하는 방법을 구성합니다.
                     </span>
                 }
@@ -64,7 +74,12 @@ export const ParsingOCRSettingStep = memo((props: ParsingOCRSettingStepProps) =>
                     <button
                         type="button"
                         className={`btn btn-white btn-xs no-animation btn-animation ${isFetching ? 'loading' : ''}`}
-                        onClick={() => refetch()}
+                        onClick={() => {
+                            const query = form.getValues('filterQuery');
+                            params.filterQuery == query
+                                ? refetch()
+                                : setParams((prev) => ({...prev, filterQuery: query}));
+                        }}
                     >
                         3단계 데이터 불러오기
                     </button>

@@ -56,10 +56,14 @@ export class GmailItemDto {
     content?: string;
 
     async loadContent() {
-        const url = encodeURIComponent(this.contentUrl);
-        return (this.content ||= await api
+        return GmailItemDto.loadContent(this.contentUrl);
+    }
+
+    static loadContent(contentUrl: string): Promise<string> {
+        const url = encodeURIComponent(contentUrl);
+        return api
             .get('/proxy', {params: {url}})
-            .then((res) => res.data)
-            .catch(errorToast));
+            .then((res) => res.data || '')
+            .catch(errorToast);
     }
 }

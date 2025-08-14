@@ -1,4 +1,4 @@
-import {EmailParserFormData} from '^admin/factories/email-parsers/EmailParserNewPage/ParsingOCRSettingStep/EmailParserFormData';
+import {EmailParserFormData} from './EmailParserFormData';
 
 export class CreateEmailParserRequestDto {
     title: string;

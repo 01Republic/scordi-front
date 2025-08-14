@@ -1,17 +1,15 @@
-import {useEffect, useState} from 'react';
-import {parse} from 'date-fns';
+import {useEffect} from 'react';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {SelectedProperty} from '../../EmailParserFormData';
-import {DatePropertyFormData} from '../../EmailParserFormData/date.property.form-data';
+import {SelectedProperty} from '^models/EmailParser/types';
 
-export function TargetPropertyDateItem(props: TargetPropertyItemProps<DatePropertyFormData>) {
+export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
     const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional}>
             {({isExists, isFinished}) => (
-                <TargetPropertyDateItemContent
+                <TargetPropertyTextItemContent
                     emailItem={emailItem}
                     content={content}
                     defaultValue={defaultValue}
@@ -24,7 +22,7 @@ export function TargetPropertyDateItem(props: TargetPropertyItemProps<DateProper
     );
 }
 
-const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<DatePropertyFormData>) => {
+export const TargetPropertyTextItemContent = (props: TargetPropertyItemContentProps) => {
     const {emailItem, content, defaultValue, onChange, isExists = false, isFinished = false} = props;
     const {form, resultValue, regexResult} = useTargetPropertyItem({
         defaultValue,
@@ -32,20 +30,12 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
         content,
     });
 
-    const [dateFormat, setDateFormat] = useState('');
-    const dateString = (() => {
-        if (!dateFormat) return resultValue;
-        const parsed = parse(resultValue, dateFormat, new Date());
-        return isNaN(parsed.valueOf()) ? resultValue : parsed.toLocaleString();
-    })();
-
     useEffect(() => {
-        console.log('isFinished', isFinished, form.getValues());
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{dateString}</div>;
+    if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
 
     return (
         <div className="space-y-2">
@@ -70,7 +60,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
                     <div>중 에서,</div>
                 </div>
 
-                <div className="flex items-center gap-2 mb-1.5">
+                <div className="flex items-center gap-2">
                     <div>다음 패턴(정규식)과 일치하는</div>
                     <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
 
@@ -85,19 +75,6 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
                         {...form.register('pattern.captureIndex', {min: 0})}
                     />
                     <div>번째 값</div>
-
-                    <div>에서, </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <div>날짜 형식</div>
-                    <input
-                        type="text"
-                        className="input input-bordered input-sm"
-                        defaultValue={dateFormat}
-                        onChange={(e) => setDateFormat(e.target.value)}
-                    />
-                    <div>으로 매칭</div>
                 </div>
             </div>
 
@@ -107,7 +84,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
                 </div>
 
                 <pre className="p-2 bg-gray-100 border rounded-md border-gray-200 whitespace-pre-wrap">
-                    {dateString}
+                    {resultValue}
                 </pre>
             </div>
         </div>

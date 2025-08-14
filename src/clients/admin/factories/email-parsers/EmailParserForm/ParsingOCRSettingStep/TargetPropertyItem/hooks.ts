@@ -1,10 +1,9 @@
 import {useMemo, useState} from 'react';
+import {DeepPartial, useForm} from 'react-hook-form';
 import {ReactNodeElement} from '^types/global.type';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
-import {SelectedProperty} from '../EmailParserFormData';
-import {BasePropertyFormData} from '../EmailParserFormData/base.property.form-data';
-import {TextPropertyFormData} from '../EmailParserFormData/text.property.form-data';
-import {DeepPartial, useForm} from 'react-hook-form';
+import {SelectedProperty, TextPropertyFormData} from '^models/EmailParser/types';
+import {BasePropertyFormData} from '^models/EmailParser/types/EmailParserFormData/base.property.form-data';
 
 export interface TargetPropertyItemProps<V = TextPropertyFormData> {
     title: ReactNodeElement;

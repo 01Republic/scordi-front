@@ -1,6 +1,6 @@
-import {EmailParserDtoInFactory} from '^models/EmailParser/types';
 import React, {memo} from 'react';
-import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
+import {EmailParserDtoInFactory} from '^models/EmailParser/types';
+import {EmailParserEditPageRoute} from '^pages/admin/factories/email-parsers/[id]/edit';
 import {LinkTo} from '^components/util/LinkTo';
 import {CardViewItem} from '^admin/factories/_common/CardViewItem';
 
@@ -16,7 +16,7 @@ export const EmailParserGroup = memo((props: EmailParserGroupProps) => {
     const activeItem = parsers.find((parser) => parser.isActive);
     const lastItem = parsers[parsers.length - 1];
     const parser = activeItem || lastItem;
-    const redirectTo = CodefCardParserEditPageRoute.path(parser.id);
+    const redirectTo = EmailParserEditPageRoute.path(parser.id);
 
     return (
         <div className="relative w-full group">

@@ -1,15 +1,15 @@
 import {useEffect} from 'react';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {SelectedProperty} from '../../EmailParserFormData';
+import {NumberPropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 
-export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
+export function TargetPropertyNumberItem(props: TargetPropertyItemProps<NumberPropertyFormData>) {
     const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional}>
             {({isExists, isFinished}) => (
-                <TargetPropertyTextItemContent
+                <TargetPropertyNumberItemContent
                     emailItem={emailItem}
                     content={content}
                     defaultValue={defaultValue}
@@ -22,7 +22,7 @@ export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
     );
 }
 
-export const TargetPropertyTextItemContent = (props: TargetPropertyItemContentProps) => {
+export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContentProps<NumberPropertyFormData>) => {
     const {emailItem, content, defaultValue, onChange, isExists = false, isFinished = false} = props;
     const {form, resultValue, regexResult} = useTargetPropertyItem({
         defaultValue,
@@ -31,7 +31,6 @@ export const TargetPropertyTextItemContent = (props: TargetPropertyItemContentPr
     });
 
     useEffect(() => {
-        console.log('isFinished', isFinished, form.getValues());
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
 

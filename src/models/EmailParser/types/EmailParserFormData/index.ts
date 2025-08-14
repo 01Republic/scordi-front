@@ -7,6 +7,13 @@ import {BooleanPropertyFormData} from './boolean.property.form-data';
 import {EnumPropertyFormData} from './enum.property.form-data';
 
 export * from './selected-property.enum';
+export * from './base.property.form-data';
+export * from './money.property.form-data';
+export * from './text.property.form-data';
+export * from './date.property.form-data';
+export * from './number.property.form-data';
+export * from './boolean.property.form-data';
+export * from './enum.property.form-data';
 
 // EmailParser 를 만드는 form 데이터의 자료 구조
 export class EmailParserFormData {
