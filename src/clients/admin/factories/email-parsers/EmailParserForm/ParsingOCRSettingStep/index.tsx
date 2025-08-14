@@ -155,6 +155,7 @@ export const ParsingOCRSettingStep = memo(() => {
                                     content={html}
                                     defaultValue={form.getValues('parserData.payMethodParser')}
                                     onChange={(value) => form.setValue('parserData.payMethodParser', value)}
+                                    question="결제수단(카드번호)"
                                 />
                                 <TargetPropertyTextItem
                                     title="청구서 파일 주소"
@@ -162,6 +163,7 @@ export const ParsingOCRSettingStep = memo(() => {
                                     content={html}
                                     defaultValue={form.getValues('parserData.invoiceUrlParser')}
                                     onChange={(value) => form.setValue('parserData.invoiceUrlParser', value)}
+                                    question="Invoice File URL"
                                 />
                                 <TargetPropertyDateItem
                                     title="청구일시"
@@ -191,6 +193,7 @@ export const ParsingOCRSettingStep = memo(() => {
                                     defaultValue={form.getValues('parserData.workspaceNameParser')}
                                     onChange={(value) => form.setValue('parserData.workspaceNameParser', value)}
                                     optional
+                                    question="Workspace Name"
                                 />
                                 <TargetPropertyTextItem
                                     title="플랜명"
@@ -199,6 +202,7 @@ export const ParsingOCRSettingStep = memo(() => {
                                     defaultValue={form.getValues('parserData.planNameParser')}
                                     onChange={(value) => form.setValue('parserData.planNameParser', value)}
                                     optional
+                                    question="Plan or Subscription Name"
                                 />
                                 <TargetPropertyEnumItem
                                     title="결제주기"
