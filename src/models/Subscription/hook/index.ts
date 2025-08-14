@@ -298,3 +298,20 @@ export const useMergeSubscriptions = () => {
         },
     });
 };
+
+// 팀 상세 p/구독 탭 - 구독 조회
+export const useTeamSubscriptions2 = (orgId: number, teamId: number, params: FindAllSubscriptionsQuery) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.base, orgId, query, teamId],
+        queryFn: () => teamApi.subscriptions.index(orgId, teamId, query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!teamId && !!orgId,
+    });
+
+    return usePaginateUtils({
+        query,
+        setQuery,
+        queryResult,
+    });
+};

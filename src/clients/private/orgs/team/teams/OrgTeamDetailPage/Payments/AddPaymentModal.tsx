@@ -21,6 +21,7 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
     const {result, search} = useCreditCards2(orgId, {
         itemsPerPage: 0,
         relations: ['holdingMember', 'subscriptions'],
+        where: {organizationId: orgId},
     });
 
     const {mutateAsync} = useUpdateTeamCreditCard(orgId);
@@ -34,9 +35,9 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
         (item) => !teamCreditCard?.map((item) => item.creditCard?.id).includes(item.id),
     );
 
-    useEffect(() => {
-        !!orgId && !!teamId && search({where: {organizationId: orgId}});
-    }, [orgId, teamId]);
+    // useEffect(() => {
+    //     !!orgId && !!teamId && search({where: {organizationId: orgId}});
+    // }, [orgId, teamId]);
 
     return (
         <SlideUpSelectModal

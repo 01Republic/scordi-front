@@ -34,8 +34,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
         const {id, organizationId: orgId} = creditCard;
         return mutateAsync({orgId, id, data: dto})
             .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.error('문제가 발생했습니다'))
-            .finally(() => reload && reload());
+            .catch(() => toast.error('문제가 발생했습니다'));
     };
 
     const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
@@ -56,7 +55,6 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
             if (res.isConfirmed) {
                 deleteTeamCreditCard(creditCard.id).then(() => {
                     toast.success('연결을 해제했어요.');
-                    reload && reload();
                 });
             }
         });

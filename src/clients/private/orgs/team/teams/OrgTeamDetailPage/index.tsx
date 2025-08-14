@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState, useOrgIdParam} from '^atoms/common';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
-import {useCurrentTeam} from '^models/Team/hook';
+import {useCurrentTeam, useCurrentTeam2} from '^models/Team/hook';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {TeamProfileSection} from './TeamProfileSection';
@@ -11,20 +11,12 @@ import {OrgTeamDetailPageTabContent, TabName} from './OrgTeamDetailPageTabConten
 import {useUnmount} from '^hooks/useUnmount';
 
 export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
-    const orgId = useRecoilValue(orgIdParamState);
-    const [teamId, setTeamId] = useRecoilState(teamIdParamState);
+    const orgId = useOrgIdParam();
+    const teamId = useRecoilValue(teamIdParamState);
     const {team, fetchData, clear, reloadWithUpdateCounters} = useCurrentTeam();
     const [tab, setTab] = useState(TabName.members);
 
-    useEffect(() => {
-        if (!teamId || isNaN(teamId)) return;
-        fetchData(teamId);
-    }, [teamId]);
-
-    useUnmount(() => {
-        clear();
-        setTeamId(NaN);
-    });
+    const {data: currentTeamData} = useCurrentTeam2(orgId, teamId);
 
     return (
         <MainLayout>
@@ -33,7 +25,7 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
                     paths={[
                         '팀',
                         {text: '팀 목록', active: false, href: OrgTeamListPageRoute.path(orgId)},
-                        {text: team?.name || '', active: true},
+                        {text: currentTeamData?.name || '', active: true},
                     ]}
                 />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>

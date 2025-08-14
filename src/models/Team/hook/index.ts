@@ -1,6 +1,6 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useOrgIdParam} from '^atoms/common';
 import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
@@ -36,7 +36,7 @@ const useTeams = (atoms: PagedResourceAtoms<TeamDto, FindAllTeamQueryDto>, merge
 };
 
 export const useCurrentTeam = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [team, setTeam] = useRecoilState(currentTeamAtom);
     const {isLoading, loadingScope} = useIsLoading(isCurrentTeamLoadingAtom);
 
