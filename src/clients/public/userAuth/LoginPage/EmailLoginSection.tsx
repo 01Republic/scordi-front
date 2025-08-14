@@ -37,27 +37,24 @@ export const EmailLoginSection = memo(() => {
             password: encryptValue(data.password),
         };
 
-        loginMutate(
-            {data: encryptedPassword},
-            {
-                onSuccess: () => userMutate(),
-                onError: (err: any) => {
-                    setIsLoading(false);
-                    const status = err.response?.status;
-                    if (status === 404) {
-                        setError('email', {
-                            type: 'server',
-                            message: '등록된 이메일이 없습니다.',
-                        });
-                    } else if (status === 401) {
-                        setError('password', {
-                            type: 'server',
-                            message: '비밀번호가 일치하지 않습니다.',
-                        });
-                    }
-                },
+        loginMutate(encryptedPassword, {
+            onSuccess: () => userMutate(),
+            onError: (err: any) => {
+                setIsLoading(false);
+                const status = err.response?.status;
+                if (status === 404) {
+                    setError('email', {
+                        type: 'server',
+                        message: '등록된 이메일이 없습니다.',
+                    });
+                } else if (status === 401) {
+                    setError('password', {
+                        type: 'server',
+                        message: '비밀번호가 일치하지 않습니다.',
+                    });
+                }
             },
-        );
+        });
     };
 
     return (
