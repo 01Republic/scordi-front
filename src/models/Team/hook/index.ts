@@ -1,7 +1,7 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState} from '^atoms/common';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {orgIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
 import {
@@ -12,6 +12,12 @@ import {
     teamsListForTeamListPageAtom,
 } from '../atom';
 import {useIsLoading} from '^hooks/useResource/useIsLoading';
+import {FindAllTeamMemberQueryDto, teamMemberApi} from '^models/TeamMember';
+import {useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
+import {Paginated} from '^types/utils/paginated.dto';
+import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -30,7 +36,8 @@ const useTeams = (atoms: PagedResourceAtoms<TeamDto, FindAllTeamQueryDto>, merge
 };
 
 export const useCurrentTeam = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
     const [team, setTeam] = useRecoilState(currentTeamAtom);
     const {isLoading, loadingScope} = useIsLoading(isCurrentTeamLoadingAtom);
 
@@ -48,7 +55,7 @@ export const useCurrentTeam = () => {
         });
     };
 
-    const reload = () => team && fetchData(team.id, true);
+    const reload = () => team && fetchData(teamId, true);
     const reloadWithUpdateCounters = () => update({}, {silent: true});
 
     const update = (
@@ -57,9 +64,9 @@ export const useCurrentTeam = () => {
             silent?: boolean;
         },
     ) => {
-        if (!team) return;
+        if (!teamId) return;
         return loadingScope(() => {
-            return teamApi.update(orgId, team.id, data).then(() => {
+            return teamApi.update(orgId, teamId, data).then(() => {
                 if (!option?.silent) toast.success('변경사항이 저장되었습니다.');
                 reload();
             });
@@ -77,4 +84,13 @@ export const useCurrentTeam = () => {
         isLoading,
         reloadWithUpdateCounters,
     };
+};
+
+// 팀 상세p - 요약패널
+export const useCurrentTeam2 = (orgId: number, id?: number) => {
+    return useQuery({
+        queryKey: [TEAM_HOOK_KEY.detail, orgId, id],
+        queryFn: () => teamApi.show(orgId, id!).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId) && !!id,
+    });
 };

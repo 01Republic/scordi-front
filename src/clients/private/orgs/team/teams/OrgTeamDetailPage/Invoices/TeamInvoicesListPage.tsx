@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {useTeamInvoiceAccountListInTeamDetail} from '^models/TeamInvoiceAccount/hook';
+import {useTeamInvoiceAccount2, useTeamInvoiceAccountListInTeamDetail} from '^models/TeamInvoiceAccount/hook/hook';
 import {AddInvoiceModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/AddInvoiceModal';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/InvoicesTableHeader';
@@ -15,9 +15,18 @@ import {Plus} from 'lucide-react';
 
 export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
-    const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy, reset} =
-        useTeamInvoiceAccountListInTeamDetail();
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
+    const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy} =
+        useTeamInvoiceAccount2(orgId, teamId, {
+            relations: [
+                'invoiceAccount',
+                'invoiceAccount.holdingMember',
+                'invoiceAccount.subscriptions',
+                'invoiceAccount.googleTokenData',
+            ],
+            where: {teamId},
+        });
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
@@ -32,13 +41,6 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
             keyword,
         });
     };
-
-    useEffect(() => {
-        if (!teamId || isNaN(teamId)) return;
-        onSearch();
-    }, [teamId]);
-
-    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 
@@ -81,17 +83,19 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
             </ListTableContainer>
 
             {/* 연결 추가 모달 */}
-            <AddInvoiceModal
-                teamInvoiceAccount={result.items}
-                isOpened={isOpened}
-                onClose={() => {
-                    setIsOpened(false);
-                }}
-                onCreate={() => {
-                    setIsOpened(false);
-                    reload();
-                }}
-            />
+            {isOpened && (
+                <AddInvoiceModal
+                    teamInvoiceAccount={result.items}
+                    isOpened={isOpened}
+                    onClose={() => {
+                        setIsOpened(false);
+                    }}
+                    onCreate={() => {
+                        setIsOpened(false);
+                        reload();
+                    }}
+                />
+            )}
         </>
     );
 });

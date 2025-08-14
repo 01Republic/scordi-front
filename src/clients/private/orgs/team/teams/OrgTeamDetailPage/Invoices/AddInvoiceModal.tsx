@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {teamIdParamState} from '^atoms/common';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
+import {useCreateTeamInvoiceAccount, useInvoiceAccountList, useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type';
 import {InvoiceAccountSelectItem} from '^models/InvoiceAccount/components/InvoiceAccountSelectItem';
@@ -15,32 +15,23 @@ interface AddInvoiceModalProps {
 }
 
 export const AddInvoiceModal = memo((props: AddInvoiceModalProps) => {
-    const teamId = useRecoilValue(teamIdParamState);
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
     const {teamInvoiceAccount = [], isOpened, onClose, onCreate} = props;
-    const {result, search, reload} = useInvoiceAccounts();
-    const {items, pagination} = result;
+    const {result} = useInvoiceAccountList(orgId, {
+        relations: ['holdingMember', 'subscriptions', 'googleTokenData'],
+        itemsPerPage: 0,
+    });
+    const {mutateAsync} = useCreateTeamInvoiceAccount(teamId);
 
-    const selectables = items.filter(
+    const selectables = result.items.filter(
         (item) => !teamInvoiceAccount.map((item) => item.invoiceAccount?.id).includes(item.id),
     );
 
     const onSave = async (selectedIds: number[]) => {
-        const requests = selectedIds.map((invoiceAccountId) =>
-            invoiceAccountApi.teamsApi.create(invoiceAccountId, teamId),
-        );
+        const requests = selectedIds.map((invoiceAccountId) => mutateAsync(invoiceAccountId));
         await Promise.allSettled(requests);
     };
-
-    useEffect(() => {
-        if (isOpened) reload();
-    }, [isOpened]);
-
-    useEffect(() => {
-        search({
-            relations: ['holdingMember', 'subscriptions', 'googleTokenData'],
-            itemsPerPage: 0,
-        });
-    }, []);
 
     return (
         <SlideUpSelectModal

@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {useCreditCardUpdate, useCurrentCreditCardEdit} from '../atom';
+import {useCurrentCreditCardEdit, useCurrentCreditCardUpdate} from '../atom';
 import {EditButton} from './EditButton';
 import {CreditCardName} from './CreditCardName';
 import {CreditCardIsPersonal} from './CreditCardIsPersonal';
@@ -34,7 +34,7 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
         setIsEditMode,
         isLoading,
     } = useCurrentCreditCardEdit();
-    const {mutateAsync: update} = useCreditCardUpdate();
+    const {mutateAsync: update} = useCurrentCreditCardUpdate();
 
     if (!currentCreditCard) return <></>;
 

@@ -1,24 +1,26 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {useUnmount} from '^hooks/useUnmount';
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {teamIdParamState} from '^atoms/common';
-import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableRow';
-import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableHeader';
-import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
-import {AddMemberModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/AddMemberModal';
-import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 import {Plus} from 'lucide-react';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useTeamMembership2} from '^models/TeamMembership/hook/hook';
 import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
 import {TeamMembershipDto} from '^models/TeamMembership/type';
-import {TeamMembersBulkActionPanel} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersBulkActionPanel';
+import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {TeamMembersTableRow} from '../Members/TeamMembersTableRow';
+import {TeamMembersTableHeader} from '../Members/TeamMembersTableHeader';
+import {TeamMembersBulkActionPanel} from '../Members/TeamMembersBulkActionPanel';
+import {AddMemberModal} from '../Members/AddMemberModal';
 
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
-    const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy, reset} =
-        useTeamMembershipListInTeamDetail();
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
+    const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy} =
+        useTeamMembership2(orgId, teamId, {
+            relations: ['teamMember', 'teamMember.membership'],
+            where: {teamId},
+        });
     const [isOpened, setIsOpened] = useState(false);
     const ch = useCheckboxHandler<TeamMembershipDto>([], (item) => item.teamMemberId);
 
@@ -31,15 +33,8 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
     };
 
     useEffect(() => {
-        if (!teamId || isNaN(teamId)) return;
-        onSearch();
-    }, [teamId]);
-
-    useEffect(() => {
         ch.init(result.items);
     }, [result.items]);
-
-    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 
@@ -108,16 +103,18 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
             </ListTableContainer>
 
             {/* 연결 추가 모달 */}
-            <AddMemberModal
-                isOpened={isOpened}
-                onClose={() => {
-                    setIsOpened(false);
-                }}
-                onCreate={() => {
-                    setIsOpened(false);
-                    reload();
-                }}
-            />
+            {isOpened && (
+                <AddMemberModal
+                    isOpened={isOpened}
+                    onClose={() => {
+                        setIsOpened(false);
+                    }}
+                    onCreate={() => {
+                        setIsOpened(false);
+                        reload();
+                    }}
+                />
+            )}
         </>
     );
 });
