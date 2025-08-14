@@ -218,6 +218,19 @@ export class CreateUserDetailRequestDto {
     funnelEtc: string; // funnel이 기타인 경우 기타 경로 작성
 }
 
+export class CreateInvitedUserRequestDto {
+    organizationId: number; // 초대받은 조직 ID
+    isFromCopiedLink?: boolean; // 링크를 통해 초대된 경우 여부
+    name: string;
+    phone: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+    isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
+    isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
+    isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
+}
+
 /* API 요청 성공 시 반환 */
 export interface CreateUserResponseDto {
     id: number;
