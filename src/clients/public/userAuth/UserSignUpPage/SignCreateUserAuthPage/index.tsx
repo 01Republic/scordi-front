@@ -9,9 +9,11 @@ import {CreateUserRequestDto} from '^models/User/types';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {encryptValue} from '^utils/crypto';
 import {
+    useCheckInvitedUser,
     useCreateUserAuth,
     useGoogleLogin,
     useInvitedCreateUserAuth,
+    useJoinInvitedCreateUserAuth,
     useLogin,
 } from '^clients/public/userAuth/UserSignUpPage/SignAuthPage.atom';
 import {NewLandingPageLayout} from '^clients/public/home/LandingPages/NewLandingPageLayout';
@@ -27,21 +29,14 @@ import {
 import {PhoneNumberSection} from './PhoneNumberSection';
 import {JobSection} from './JobSection';
 import {AgreeTermModal} from './AgreeTermModal';
+import {MainPageRoute} from '^pages/index';
+import {errorToast} from '^api/api';
+import {inviteMembershipApi} from '^models/Membership/api';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const SignCreateUserAuthPage = () => {
-    const {mutate, isPending} = useCreateUserAuth();
-    const {mutate: inviteMutate, isPending: isInvitePending} = useInvitedCreateUserAuth();
-    const {mutate: googleLoginMutate, isPending: isGoogleLoginPending} = useGoogleLogin();
-    const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
-    const [isOpenTermModal, setIsOpenTermModal] = useState(false);
-    const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
-    const isCopied = useRecoilValue(isCopiedAtom);
-    const setTokenData = useSetRecoilState(googleTokenDataAtom);
-    const tokenData = useRecoilValue(googleTokenDataAtom);
     const router = useRouter();
-
+    const tokenData = useRecoilValue(googleTokenDataAtom);
     const accessToken = tokenData?.accessToken;
 
     const methods = useForm<CreateUserRequestDto>({
@@ -59,6 +54,19 @@ export const SignCreateUserAuthPage = () => {
         setError,
         formState: {isValid},
     } = methods;
+
+    const {mutate, isPending} = useCreateUserAuth();
+
+    const {mutate: inviteMutate, isPending: isInvitePending} = useInvitedCreateUserAuth();
+    const {mutate: joinInviteMutate, isPending: isJoinInvitePending} = useJoinInvitedCreateUserAuth();
+    const {mutate: googleLoginMutate, isPending: isGoogleLoginPending} = useGoogleLogin();
+    const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
+    const [isOpenTermModal, setIsOpenTermModal] = useState(false);
+    const [isCodeConfirmed, setIsCodeConfirmed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
+    const isCopied = useRecoilValue(isCopiedAtom);
+    const setTokenData = useSetRecoilState(googleTokenDataAtom);
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -95,26 +103,38 @@ export const SignCreateUserAuthPage = () => {
 
             if (!tokenData && !accessToken) {
                 if (!userData.password) return;
-                /* 이메일,패스워드 로그인
-                 * 유저 생성 후 로그인.
+                /* 유저 생성 후 로그인.
                  * 로그인 이후 상세정보, 조직 생성이 가능
                  * */
                 const login = (email: string, password: string, redirectPath: string) => {
                     loginMutate(
-                        {data: {email, password: encryptValue(password)}},
+                        {email, password: encryptValue(password)},
                         {
                             onSuccess: () => {
-                                setIsLoading(false);
-                                router.push(redirectPath);
+                                // 로그인 후 초대받은 조직아이디가 있는 경우
+                                if (invitedOrgId) {
+                                    inviteMembershipApi
+                                        .validate(invitedOrgId, email)
+                                        .then(() => {
+                                            setIsLoading(false);
+                                            router.push(redirectPath);
+                                        })
+                                        .catch(() => {
+                                            setIsLoading(false);
+                                            setError('email', {
+                                                type: 'server',
+                                                message: `입력된 ${email}계정은 초대받은 계정이 아닙니다.`,
+                                            });
+                                        });
+                                } else {
+                                    setIsLoading(false);
+                                    router.push(redirectPath);
+                                }
                             },
                         },
                     );
                 };
 
-                /* 이메일,패스워드 로그인
-                 * 유저 생성 후 로그인.
-                 * 로그인 이후 상세정보, 조직 생성 가능
-                 */
                 const encryptedPassword = {
                     ...userData,
                     password: encryptValue(userData.password),
@@ -123,22 +143,48 @@ export const SignCreateUserAuthPage = () => {
                         : undefined,
                 };
 
-                mutate(
-                    {data: encryptedPassword},
-                    {
-                        onSuccess: () => login(userData.email, userData.password!, OrgCreatePageRoute.path()),
-                        onError: (err: any) => {
-                            setIsLoading(false);
-                            const status = err.response?.status;
-                            if (status === 422) {
-                                setError('email', {
-                                    type: 'server',
-                                    message: '이미 가입된 이메일입니다.',
-                                });
-                            }
+                if (invitedOrgId) {
+                    joinInviteMutate(
+                        {...encryptedPassword, organizationId: invitedOrgId},
+                        {
+                            onSuccess: () =>
+                                login(userData.email, userData.password!, OrgMainPageRoute.path(invitedOrgId)),
+                            onError: (err) => {
+                                setIsLoading(false);
+                                const status = err.response?.status;
+                                if (status === 422) {
+                                    setError('email', {
+                                        type: 'server',
+                                        message: '이미 가입된 이메일입니다.',
+                                    });
+                                }
+                                if (status === 400) {
+                                    setError('email', {
+                                        type: 'server',
+                                        message: '이미 가입된 메일이 있습니다.',
+                                    });
+                                }
+                            },
                         },
-                    },
-                );
+                    );
+                } else {
+                    mutate(
+                        {data: encryptedPassword},
+                        {
+                            onSuccess: () => login(userData.email, userData.password!, OrgCreatePageRoute.path()),
+                            onError: (err: any) => {
+                                setIsLoading(false);
+                                const status = err.response?.status;
+                                if (status === 422) {
+                                    setError('email', {
+                                        type: 'server',
+                                        message: '이미 가입된 이메일입니다.',
+                                    });
+                                }
+                            },
+                        },
+                    );
+                }
             }
 
             if ((!isValid && !isCodeConfirmed) || !accessToken) return;
@@ -152,6 +198,7 @@ export const SignCreateUserAuthPage = () => {
                     onSuccess: () => {
                         router.push(redirectPath);
                     },
+                    onError: () => errorToast,
                 });
             };
 
@@ -226,7 +273,12 @@ export const SignCreateUserAuthPage = () => {
                             disabled={isTermModalValid}
                             onClick={() => setIsOpenTermModal(true)}
                             isPending={
-                                isPending || isGoogleLoginPending || isLoginPending || isInvitePending || isLoading
+                                isPending ||
+                                isGoogleLoginPending ||
+                                isLoginPending ||
+                                isInvitePending ||
+                                isJoinInvitePending ||
+                                isLoading
                             }
                         />
                     </div>

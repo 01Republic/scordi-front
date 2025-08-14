@@ -224,8 +224,9 @@ export class CreateInvitedUserRequestDto {
     name: string;
     phone: string;
     email: string;
-    password: string;
-    passwordConfirmation: string;
+    password?: string;
+    passwordConfirmation?: string;
+    job?: UserJob;
     isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
     isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
     isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부

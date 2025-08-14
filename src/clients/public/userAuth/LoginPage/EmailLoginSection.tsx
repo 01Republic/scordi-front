@@ -9,8 +9,12 @@ import Link from 'next/link';
 import {UserPasswordFindPageRoute} from '^pages/users/password/find';
 import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 import {encryptValue} from '^utils/crypto';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {googleTokenDataAtom} from '^atoms/common';
 
 export const EmailLoginSection = memo(() => {
+    const setTokenData = useSetRecoilState(googleTokenDataAtom);
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const {mutate: userMutate, isPending: isUserPending} = useUser();
     const [isLoading, setIsLoading] = useState(false);
@@ -103,6 +107,7 @@ export const EmailLoginSection = memo(() => {
                 <div className="flex w-full items-center justify-center gap-2">
                     <Link
                         href={SignAuthCreateUserPageRoute.path()}
+                        onClick={() => setTokenData(null)}
                         className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
                     >
                         회원가입
