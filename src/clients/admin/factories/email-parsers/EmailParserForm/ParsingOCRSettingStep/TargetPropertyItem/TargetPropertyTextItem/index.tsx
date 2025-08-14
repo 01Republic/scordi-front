@@ -16,6 +16,7 @@ export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
         question,
         selectorEngine = 'xpath',
     } = props;
+    console.log(title, 'defaultValue', defaultValue);
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>
@@ -57,7 +58,17 @@ export const TargetPropertyTextItemContent = (props: TargetPropertyItemContentPr
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
+    if (isFinished) {
+        return (
+            <div className="text-12 text-scordi font-semibold break-all">
+                {isLinkString(resultValue) ? (
+                    <OutLink href={resultValue} className="text-indigo-500/70 hover:text-indigo-700" target="_blank" />
+                ) : (
+                    resultValue
+                )}
+            </div>
+        );
+    }
 
     const isHTMLParsingMode = selectedProperty === SelectedProperty.content;
 

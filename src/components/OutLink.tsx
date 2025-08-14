@@ -2,6 +2,7 @@ import React, {HTMLAttributeAnchorTarget, memo, ReactNode} from 'react';
 import {WithChildren} from '^types/global.type';
 import {LinkTo} from '^components/util/LinkTo';
 import {ExternalLink} from 'lucide-react';
+import {cn} from '^public/lib/utils';
 
 interface OutLinkProps {
     href: string;
@@ -11,7 +12,7 @@ interface OutLinkProps {
     className?: string;
 }
 
-const isLinkString = (str: string) => {
+export const isLinkString = (str: string) => {
     const protocols = ['http', 'mailto'];
     const sentence = `${str}`.trim();
     return !!protocols.find((protocol) => sentence.startsWith(protocol));
@@ -26,7 +27,10 @@ export const OutLink = memo((props: OutLinkProps & WithChildren) => {
                 <LinkTo
                     href={href}
                     target={target}
-                    className={`link text-gray-400 hover:text-gray-800 transition-all inline-flex items-center gap-1 ${className}`}
+                    className={cn(
+                        `link text-gray-400 hover:text-gray-800 transition-all inline-flex items-center gap-1`,
+                        className,
+                    )}
                 >
                     <span>{children || text || href}</span>
                     {icon ? icon : <ExternalLink size={11} />}
