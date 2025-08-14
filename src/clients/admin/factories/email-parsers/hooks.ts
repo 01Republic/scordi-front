@@ -9,6 +9,7 @@ export const useEmailParser = (id: number) => {
         queryFn: () => gmailInvoiceParsersAdminApi.show(id).then((res) => res.data),
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
+        enabled: !!id,
     });
 };
 

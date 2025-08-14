@@ -1,11 +1,21 @@
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {EnumPropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {EnumPropertyFormData, SelectedProperty} from '^models/EmailParser/types';
+import {CopyPromptButton} from '../share/CopyPromtButton';
 
 export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumPropertyFormData<BillingCycleOptions>>) {
-    const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
+    const {
+        defaultValue,
+        onChange,
+        title,
+        emailItem,
+        content,
+        optional = false,
+        question,
+        selectorEngine = 'xpath',
+    } = props;
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional}>
@@ -17,6 +27,8 @@ export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumProper
                     isExists={isExists}
                     isFinished={isFinished}
                     onChange={onChange}
+                    question={question || `${title}`}
+                    selectorEngine={selectorEngine}
                 />
             )}
         </TargetPropertyItemContainer>
@@ -26,8 +38,17 @@ export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumProper
 export const TargetPropertyEnumItemContent = (
     props: TargetPropertyItemContentProps<EnumPropertyFormData<BillingCycleOptions>>,
 ) => {
-    const {emailItem, content, defaultValue, onChange, isExists = false, isFinished = false} = props;
-    const {form, resultValue, regexResult} = useTargetPropertyItem({
+    const {
+        emailItem,
+        content,
+        defaultValue,
+        onChange,
+        isExists = false,
+        isFinished = false,
+        question,
+        selectorEngine = 'xpath',
+    } = props;
+    const {form, selectedProperty, resultValue} = useTargetPropertyItem({
         defaultValue,
         emailItem,
         content,
@@ -39,6 +60,8 @@ export const TargetPropertyEnumItemContent = (
 
     if (!isExists) return <></>;
     if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
+
+    const isHTMLParsingMode = selectedProperty === SelectedProperty.content;
 
     return (
         <div className="space-y-2">
@@ -61,24 +84,42 @@ export const TargetPropertyEnumItemContent = (
                         </option>
                     </select>
                     <div>중 에서,</div>
+
+                    {isHTMLParsingMode && content && question && (
+                        <div className="ml-auto">
+                            <CopyPromptButton content={content} question={question} engine={selectorEngine} />
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <div>다음 패턴(정규식)과 일치하는</div>
-                    <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
+                {isHTMLParsingMode ? (
+                    <div className="flex items-center gap-2">
+                        <div>다음 경로(XPath)와 일치하는</div>
+                        <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
 
-                    <div />
-                    <div />
+                        <div>값</div>
 
-                    <input
-                        type="number"
-                        className="input input-bordered input-sm"
-                        defaultValue={0}
-                        min={0}
-                        {...form.register('pattern.captureIndex', {min: 0})}
-                    />
-                    <div>번째 값</div>
-                </div>
+                        <div />
+                        <div />
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <div>다음 패턴(정규식)과 일치하는</div>
+                        <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
+
+                        <div />
+                        <div />
+
+                        <input
+                            type="number"
+                            className="input input-bordered input-sm"
+                            defaultValue={0}
+                            min={0}
+                            {...form.register('pattern.captureIndex', {min: 0})}
+                        />
+                        <div>번째 값</div>
+                    </div>
+                )}
             </div>
 
             <div className="text-14">

@@ -49,11 +49,6 @@ export const ParsingOCRSettingStep = memo(() => {
         enabled: !!currentContentUrl,
     });
 
-    // console.log('\n');
-    // console.log('email', email);
-    // console.log('currentContentUrl', currentContentUrl);
-    console.log('html', html.length);
-
     return (
         <ContentPanel bodyWrap={false}>
             <ContentPanelHeading
@@ -178,6 +173,7 @@ export const ParsingOCRSettingStep = memo(() => {
                                     content={html}
                                     defaultValue={form.getValues('parserData.isPaidParser')}
                                     onChange={(value) => form.setValue('parserData.isPaidParser', value)}
+                                    question="결제완료여부"
                                 />
                                 <TargetPropertyDateItem
                                     title="결제완료일시"
@@ -185,6 +181,7 @@ export const ParsingOCRSettingStep = memo(() => {
                                     content={html}
                                     defaultValue={form.getValues('parserData.paidAtParser')}
                                     onChange={(value) => form.setValue('parserData.paidAtParser', value)}
+                                    question="Paid Date"
                                 />
                                 <TargetPropertyTextItem
                                     title="워크스페이스명"

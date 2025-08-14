@@ -1,11 +1,21 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {parse} from 'date-fns';
+import {DatePropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
-import {DatePropertyFormData, SelectedProperty} from '^models/EmailParser/types';
+import {CopyPromptButton} from '../share/CopyPromtButton';
 
 export function TargetPropertyDateItem(props: TargetPropertyItemProps<DatePropertyFormData>) {
-    const {defaultValue, onChange, title, emailItem, content, optional = false} = props;
+    const {
+        defaultValue,
+        onChange,
+        title,
+        emailItem,
+        content,
+        optional = false,
+        question,
+        selectorEngine = 'xpath',
+    } = props;
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional}>
@@ -17,6 +27,8 @@ export function TargetPropertyDateItem(props: TargetPropertyItemProps<DateProper
                     isExists={isExists}
                     isFinished={isFinished}
                     onChange={onChange}
+                    question={question || `${title}`}
+                    selectorEngine={selectorEngine}
                 />
             )}
         </TargetPropertyItemContainer>
@@ -24,8 +36,17 @@ export function TargetPropertyDateItem(props: TargetPropertyItemProps<DateProper
 }
 
 const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<DatePropertyFormData>) => {
-    const {emailItem, content, defaultValue, onChange, isExists = false, isFinished = false} = props;
-    const {form, resultValue, regexResult} = useTargetPropertyItem({
+    const {
+        emailItem,
+        content,
+        defaultValue,
+        onChange,
+        isExists = false,
+        isFinished = false,
+        question,
+        selectorEngine = 'xpath',
+    } = props;
+    const {form, selectedProperty, resultValue} = useTargetPropertyItem({
         defaultValue,
         emailItem,
         content,
@@ -44,6 +65,8 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
 
     if (!isExists) return <></>;
     if (isFinished) return <div className="text-12 text-scordi font-semibold">{dateString}</div>;
+
+    const isHTMLParsingMode = selectedProperty === SelectedProperty.content;
 
     return (
         <div className="space-y-2">
@@ -66,26 +89,43 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
                         </option>
                     </select>
                     <div>중 에서,</div>
+
+                    {isHTMLParsingMode && content && question && (
+                        <div className="ml-auto">
+                            <CopyPromptButton content={content} question={question} engine={selectorEngine} />
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex items-center gap-2 mb-1.5">
-                    <div>다음 패턴(정규식)과 일치하는</div>
-                    <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
+                {isHTMLParsingMode ? (
+                    <div className="flex items-center gap-2">
+                        <div>다음 경로(XPath)와 일치하는</div>
+                        <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
 
-                    <div />
-                    <div />
+                        <div>값</div>
 
-                    <input
-                        type="number"
-                        className="input input-bordered input-sm"
-                        defaultValue={0}
-                        min={0}
-                        {...form.register('pattern.captureIndex', {min: 0})}
-                    />
-                    <div>번째 값</div>
+                        <div>에서, </div>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <div>다음 패턴(정규식)과 일치하는</div>
+                        <input className="input input-bordered input-sm flex-1" {...form.register('pattern.value')} />
 
-                    <div>에서, </div>
-                </div>
+                        <div />
+                        <div />
+
+                        <input
+                            type="number"
+                            className="input input-bordered input-sm"
+                            defaultValue={0}
+                            min={0}
+                            {...form.register('pattern.captureIndex', {min: 0})}
+                        />
+                        <div>번째 값</div>
+
+                        <div>에서, </div>
+                    </div>
+                )}
 
                 <div className="flex items-center gap-2">
                     <div>날짜 형식</div>
