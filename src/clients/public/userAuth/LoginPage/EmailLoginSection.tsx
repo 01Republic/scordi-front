@@ -12,8 +12,13 @@ import {encryptValue} from '^utils/crypto';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {googleTokenDataAtom} from '^atoms/common';
+import {inviteMembershipApi} from '^models/Membership/api';
+import {useRouter} from 'next/router';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const EmailLoginSection = memo(() => {
+    const router = useRouter();
+    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const setTokenData = useSetRecoilState(googleTokenDataAtom);
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const {mutate: userMutate, isPending: isUserPending} = useUser();
@@ -38,7 +43,25 @@ export const EmailLoginSection = memo(() => {
         };
 
         loginMutate(encryptedPassword, {
-            onSuccess: () => userMutate(),
+            onSuccess: () => {
+                if (invitedOrgId) {
+                    inviteMembershipApi
+                        .validate(invitedOrgId, data.email)
+                        .then(() => {
+                            setIsLoading(false);
+                            router.push(OrgMainPageRoute.path(invitedOrgId));
+                        })
+                        .catch(() => {
+                            setIsLoading(false);
+                            setError('email', {
+                                type: 'server',
+                                message: `입력된 ${data.email}계정은 초대받은 계정이 아닙니다.`,
+                            });
+                        });
+                } else {
+                    userMutate();
+                }
+            },
             onError: (err: any) => {
                 setIsLoading(false);
                 const status = err.response?.status;
