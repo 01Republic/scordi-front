@@ -1,17 +1,18 @@
 import React, {memo} from 'react';
-import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
-import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {CurrencyCode} from '^models/Money';
+import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
+import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {WideMode} from '../../OrgBillingHistoryStatusPage';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAccountId]';
+import {WideMode} from '../../OrgBillingHistoryStatusPage';
+import {FixedTdGroup} from '../fixed/FixedTdGroup';
 
 interface BillingHistoryMonthlyRowProps {
     data: BillingHistoriesMonthlySumBySubscriptionDto;
@@ -43,72 +44,72 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
     const Columns = [
         // 서비스 명
         () => (
-            <OpenButtonColumn href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}>
-                <SubscriptionProfile subscription={subscription} />
-            </OpenButtonColumn>
+            <div className="peer w-48 overflow-hidden">
+                <OpenButtonColumn
+                    href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                >
+                    <SubscriptionProfile
+                        subscription={subscription}
+                        textClassName="text-sm font-base overflow-ellipsis overflow-hidden"
+                    />
+                </OpenButtonColumn>
+            </div>
         ),
 
         // 결제수단
-        () => {
-            return subscription.creditCardId ? (
-                <OpenButtonColumn
-                    href={OrgCreditCardShowPageRoute.path(subscription.organizationId, subscription.creditCardId)}
-                >
-                    <CreditCardProfileCompact item={subscription.creditCard} />
-                </OpenButtonColumn>
-            ) : subscription.bankAccountId ? (
-                <OpenButtonColumn
-                    href={OrgBankAccountShowPageRoute.path(subscription.organizationId, subscription.bankAccountId)}
-                >
-                    <BankAccountProfileCompact item={subscription.bankAccount} />
-                </OpenButtonColumn>
-            ) : (
-                <p>-</p>
-            );
-        },
+        () => (
+            <div className="peer w-48 overflow-hidden">
+                {subscription.creditCardId ? (
+                    <OpenButtonColumn
+                        href={OrgCreditCardShowPageRoute.path(subscription.organizationId, subscription.creditCardId)}
+                    >
+                        <CreditCardProfileCompact item={subscription.creditCard} />
+                    </OpenButtonColumn>
+                ) : subscription.bankAccountId ? (
+                    <OpenButtonColumn
+                        href={OrgBankAccountShowPageRoute.path(subscription.organizationId, subscription.bankAccountId)}
+                    >
+                        <BankAccountProfileCompact item={subscription.bankAccount} />
+                    </OpenButtonColumn>
+                ) : (
+                    <p>-</p>
+                )}
+            </div>
+        ),
 
         ...(isHidden
             ? []
             : [
                   // 상태
-                  () => <IsFreeTierTagUI value={subscription.isFreeTier || false} />,
+                  () => (
+                      <div className="peer w-28 text-center">
+                          <IsFreeTierTagUI value={subscription.isFreeTier || false} />
+                      </div>
+                  ),
 
                   // 지출 비중
-                  () => <div className="w-full text-right font-medium min-w-28">{ratio.toFixed(2)}%</div>,
+                  () => <div className="peer w-28 text-right font-medium min-w-28">{ratio.toFixed(2)}%</div>,
               ]),
 
         // 총 지출액
         () => (
-            <div className="w-full text-right font-medium min-w-28">
+            <div className="peer w-28 text-right font-medium">
                 {symbol} {displayCost(data.getCostSum(exchangeRate, displayCurrency), currentCode)}
             </div>
         ),
 
         // 평균지출액
         () => (
-            <div className="w-full text-right font-medium min-w-28">
+            <div className="peer w-28 text-right font-medium">
                 {symbol} {displayCost(data.getAverageCost(exchangeRate, displayCurrency), currentCode)}
             </div>
         ),
     ];
 
-    const FixedColumns = Columns.slice(0, stickyPos);
-    const ScrollColumns = Columns.slice(stickyPos);
-
     return (
         <tr className="group">
-            {stickyPos > 0 && (
-                <td colSpan={stickyPos} className="sticky left-0 !bg-white p-0 min-w-fit">
-                    <div className={`w-full grid grid-cols-${stickyPos} min-w-max border-r-2`}>
-                        {FixedColumns.map((Column, i) => (
-                            <div key={i} className="p-4 min-w-fit">
-                                <Column />
-                            </div>
-                        ))}
-                    </div>
-                </td>
-            )}
-            {ScrollColumns.map((Column, i) => (
+            {stickyPos > 0 && <FixedTdGroup Columns={Columns.slice(0, stickyPos)} />}
+            {Columns.slice(stickyPos).map((Column, i) => (
                 <td key={i}>
                     <Column />
                 </td>
