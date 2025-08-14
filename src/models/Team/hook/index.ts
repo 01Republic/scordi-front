@@ -1,6 +1,6 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState, useOrgIdParam} from '^atoms/common';
+import {orgIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
@@ -37,6 +37,7 @@ const useTeams = (atoms: PagedResourceAtoms<TeamDto, FindAllTeamQueryDto>, merge
 
 export const useCurrentTeam = () => {
     const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
     const [team, setTeam] = useRecoilState(currentTeamAtom);
     const {isLoading, loadingScope} = useIsLoading(isCurrentTeamLoadingAtom);
 
@@ -54,7 +55,7 @@ export const useCurrentTeam = () => {
         });
     };
 
-    const reload = () => team && fetchData(team.id, true);
+    const reload = () => team && fetchData(teamId, true);
     const reloadWithUpdateCounters = () => update({}, {silent: true});
 
     const update = (
@@ -63,9 +64,9 @@ export const useCurrentTeam = () => {
             silent?: boolean;
         },
     ) => {
-        if (!team) return;
+        if (!teamId) return;
         return loadingScope(() => {
-            return teamApi.update(orgId, team.id, data).then(() => {
+            return teamApi.update(orgId, teamId, data).then(() => {
                 if (!option?.silent) toast.success('변경사항이 저장되었습니다.');
                 reload();
             });

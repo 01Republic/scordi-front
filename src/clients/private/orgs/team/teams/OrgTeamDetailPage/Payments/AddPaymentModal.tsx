@@ -35,10 +35,6 @@ export const AddPaymentModal = memo((props: AddPaymentModalProps) => {
         (item) => !teamCreditCard?.map((item) => item.creditCard?.id).includes(item.id),
     );
 
-    // useEffect(() => {
-    //     !!orgId && !!teamId && search({where: {organizationId: orgId}});
-    // }, [orgId, teamId]);
-
     return (
         <SlideUpSelectModal
             isOpened={isOpened}

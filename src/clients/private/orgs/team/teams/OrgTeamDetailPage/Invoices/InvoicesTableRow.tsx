@@ -22,12 +22,12 @@ interface InvoicesTableRowProps {
 export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
     const {teamInvoiceAccount, onClick, reload} = props;
     const orgId = useOrgIdParam();
-
     const {invoiceAccountId, invoiceAccount} = teamInvoiceAccount;
     const {mutateAsync: updateTeamInvoiceAccount} = useUpdateTeamInvoiceAccount(orgId);
     const {mutateAsync: destroyTeamInvoiceAccount} = useDestroyTeamInvoiceAccount(orgId);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+    const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, invoiceAccountId);
 
     const update = async (dto: UpdateInvoiceAccountDto) => {
         return updateTeamInvoiceAccount({id: invoiceAccountId, data: dto})
@@ -52,8 +52,6 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
             }
         });
     };
-
-    const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, invoiceAccountId);
 
     if (!invoiceAccount) return <tr className="group"></tr>;
 

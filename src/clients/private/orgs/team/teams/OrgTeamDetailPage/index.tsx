@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState, useOrgIdParam} from '^atoms/common';
+import {orgIdParamState, teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {useCurrentTeam, useCurrentTeam2} from '^models/Team/hook';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
@@ -12,7 +12,7 @@ import {useUnmount} from '^hooks/useUnmount';
 
 export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
     const orgId = useOrgIdParam();
-    const teamId = useRecoilValue(teamIdParamState);
+    const teamId = useIdParam('teamId');
     const {team, fetchData, clear, reloadWithUpdateCounters} = useCurrentTeam();
     const [tab, setTab] = useState(TabName.members);
 

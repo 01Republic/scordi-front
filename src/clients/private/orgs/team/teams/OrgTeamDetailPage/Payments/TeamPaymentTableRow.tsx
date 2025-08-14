@@ -1,8 +1,6 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
-import {creditCardApi} from '^models/CreditCard/api';
 import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
 import {CreditCardProfileOption2, UsingStatusTag} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
@@ -22,24 +20,23 @@ interface TeamPaymentTableRowProps {
 }
 
 export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
-    const orgId = useOrgIdParam();
+    const {creditCard} = props;
     const teamId = useIdParam('teamId');
-    const {creditCard, reload} = props;
     const {mutateAsync} = useCreditCardUpdate();
     const {mutateAsync: deleteTeamCreditCard} = useDeleteTeamCreditCard(teamId);
 
     if (!creditCard) return null;
 
+    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+    const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
+
     const update = async (dto: UpdateCreditCardDto) => {
         const {id, organizationId: orgId} = creditCard;
+
         return mutateAsync({orgId, id, data: dto})
             .then(() => toast.success('수정했습니다'))
             .catch(() => toast.error('문제가 발생했습니다'));
     };
-
-    const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
-
-    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const onDelete = () => {
         confirm2(
