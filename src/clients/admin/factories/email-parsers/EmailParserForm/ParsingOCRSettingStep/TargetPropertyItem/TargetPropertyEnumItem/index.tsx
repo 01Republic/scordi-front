@@ -18,7 +18,7 @@ export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumProper
     } = props;
 
     return (
-        <TargetPropertyItemContainer title={title} optional={optional}>
+        <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>
             {({isExists, isFinished}) => (
                 <TargetPropertyEnumItemContent
                     emailItem={emailItem}
@@ -59,7 +59,7 @@ export const TargetPropertyEnumItemContent = (
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
+    if (isFinished) return <div className="text-12 text-scordi font-semibold break-all">{resultValue}</div>;
 
     const isHTMLParsingMode = selectedProperty === SelectedProperty.content;
 

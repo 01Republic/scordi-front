@@ -22,7 +22,7 @@ export function TargetPropertyMoneyItem(props: TargetPropertyMoneyItemProps) {
     } = props;
 
     return (
-        <TargetPropertyItemContainer title={title} optional={optional}>
+        <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>
             {({isExists, isFinished}) => (
                 <TargetPropertyMoneyItemContent
                     emailItem={emailItem}
@@ -65,7 +65,7 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
         // const currencyParserData = form.getValues('currencyParser');
         // const currencyCodeMappers = form.getValues('currencyParser.currencyCodeMappers') || [];
         return (
-            <div className="text-12 text-scordi font-semibold">
+            <div className="text-12 text-scordi font-semibold break-all">
                 {/*<div>*/}
                 {/*    <div>화폐:</div>*/}
                 {/*    <div>{currencyParserData.isDynamicCurrency ? currencyParserData}</div>*/}

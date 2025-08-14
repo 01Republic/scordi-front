@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {parse} from 'date-fns';
 import {DatePropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
@@ -18,7 +18,7 @@ export function TargetPropertyDateItem(props: TargetPropertyItemProps<DateProper
     } = props;
 
     return (
-        <TargetPropertyItemContainer title={title} optional={optional}>
+        <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>
             {({isExists, isFinished}) => (
                 <TargetPropertyDateItemContent
                     emailItem={emailItem}
@@ -52,7 +52,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
         content,
     });
 
-    const [dateFormat, setDateFormat] = useState('');
+    const dateFormat = form.watch('dateParser.format') || '';
     const dateString = (() => {
         if (!dateFormat) return resultValue;
         const parsed = parse(resultValue, dateFormat, new Date());
@@ -64,7 +64,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{dateString}</div>;
+    if (isFinished) return <div className="text-12 text-scordi font-semibold break-all">{dateString}</div>;
 
     const isHTMLParsingMode = selectedProperty === SelectedProperty.content;
 
@@ -132,8 +132,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
                     <input
                         type="text"
                         className="input input-bordered input-sm"
-                        defaultValue={dateFormat}
-                        onChange={(e) => setDateFormat(e.target.value)}
+                        {...form.register('dateParser.format')}
                     />
                     <div>으로 매칭</div>
                 </div>

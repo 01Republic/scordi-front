@@ -9,13 +9,13 @@ interface ChildrenProps {
 }
 
 interface Props extends TargetPropertyItemProps, WithChildren<(props: ChildrenProps) => JSX.Element> {
-    //
+    isFinished?: boolean;
 }
 
 export const TargetPropertyItemContainer = memo((props: Props) => {
     const {title, optional = false, children, onChange} = props;
-    const [isExists, setIsExists] = useState(false);
-    const [isFinished, setIsFinished] = useState(false);
+    const [isFinished, setIsFinished] = useState(props.isFinished ?? false);
+    const [isExists, setIsExists] = useState(props.isFinished ?? false);
 
     return (
         <div className="py-2 space-y-2 border-b border-gray-200">

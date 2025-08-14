@@ -17,7 +17,7 @@ export function TargetPropertyBooleanItem(props: TargetPropertyItemProps<Boolean
     } = props;
 
     return (
-        <TargetPropertyItemContainer title={title} optional={optional}>
+        <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>
             {({isExists, isFinished}) => (
                 <TargetPropertyBooleanItemContent
                     emailItem={emailItem}
@@ -56,7 +56,8 @@ export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemConten
     }, [isFinished]);
 
     if (!isExists) return <></>;
-    if (isFinished) return <div className="text-12 text-scordi font-semibold">{resultValue}</div>;
+    if (isFinished)
+        return <div className="text-12 text-scordi font-semibold break-all">{resultValue ? 'True' : 'False'}</div>;
 
     const isHTMLParsingMode = selectedProperty === SelectedProperty.content;
 

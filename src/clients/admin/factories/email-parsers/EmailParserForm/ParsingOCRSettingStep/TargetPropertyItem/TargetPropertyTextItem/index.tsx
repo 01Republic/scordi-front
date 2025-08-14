@@ -3,6 +3,7 @@ import {SelectedProperty} from '^models/EmailParser/types';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
 import {CopyPromptButton} from '../share/CopyPromtButton';
+import {isLinkString, OutLink} from '^components/OutLink';
 
 export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
     const {
@@ -17,7 +18,7 @@ export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
     } = props;
 
     return (
-        <TargetPropertyItemContainer title={title} optional={optional}>
+        <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>
             {({isExists, isFinished}) => (
                 <TargetPropertyTextItemContent
                     emailItem={emailItem}
