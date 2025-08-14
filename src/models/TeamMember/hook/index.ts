@@ -30,7 +30,7 @@ import {paginatedDtoOf} from '^types/utils/response-of';
 import {usePaginateUtils} from '^hooks/usePagedResource';
 import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
 import {teamMembershipApi} from '^models/TeamMembership/api';
-import {CreateTeamMembershipDto} from '^models/TeamMembership/type';
+import {CreateTeamMembershipDto, FindOneTeamMembershipQueryDto} from '^models/TeamMembership/type';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -221,29 +221,3 @@ export const useConnectTeamMemberAndSubscription = () => {
 };
 
 /* 팀 과 팀멤버 */
-
-//팀과 팀멤버 연결
-export const useCreateTeamMemberShip = (orgId: number) => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (dto: CreateTeamMembershipDto) => teamMembershipApi.create(orgId, dto).then((res) => res.data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
-            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false, refetchType: 'all'});
-            queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.detail], exact: false, refetchType: 'all'});
-        },
-    });
-};
-
-//팀과 팀멤버 연결 삭제
-export const useDestroyTeamMemberShip = (orgId: number) => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (dto: CreateTeamMembershipDto) => teamMembershipApi.destroy(orgId, dto).then((res) => res.data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
-            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false, refetchType: 'all'});
-            queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.detail], exact: false, refetchType: 'all'});
-        },
-    });
-};

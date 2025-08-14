@@ -1,18 +1,16 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {useUnmount} from '^hooks/useUnmount';
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
-import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableRow';
-import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableHeader';
-import {useTeamMembership2} from '^models/TeamMembership/hook/hook';
-import {AddMemberModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/AddMemberModal';
-import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 import {Plus} from 'lucide-react';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useTeamMembership2} from '^models/TeamMembership/hook/hook';
 import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
 import {TeamMembershipDto} from '^models/TeamMembership/type';
-import {TeamMembersBulkActionPanel} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersBulkActionPanel';
+import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {TeamMembersTableRow} from '../Members/TeamMembersTableRow';
+import {TeamMembersTableHeader} from '../Members/TeamMembersTableHeader';
+import {TeamMembersBulkActionPanel} from '../Members/TeamMembersBulkActionPanel';
+import {AddMemberModal} from '../Members/AddMemberModal';
 
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;

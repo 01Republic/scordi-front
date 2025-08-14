@@ -1,14 +1,9 @@
-import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
-import {teamMembershipApi} from '^models/TeamMembership/api';
-import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
-import {
-    useAddableTeamMemberListInAddTeamMemberModal,
-    useCreateTeamMemberShip,
-    useTeamMembers2,
-} from '^models/TeamMember';
+import React, {memo} from 'react';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useCreateTeamMemberShip} from '^models/TeamMembership/hook/hook';
+import {useTeamMembers2} from '^models/TeamMember';
 import {SlideUpAllSelectModal} from '^clients/private/_modals/SlideUpAllSelectModal';
+import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
 
 interface AddMemberModalProps {
     isOpened: boolean;

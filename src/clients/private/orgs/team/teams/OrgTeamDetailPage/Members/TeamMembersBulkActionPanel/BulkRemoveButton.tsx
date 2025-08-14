@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {CheckboxHandler} from '^hooks/useCheckboxHandler';
-import {TeamMembershipDto} from '^models/TeamMembership/type';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {teamMembershipApi} from '^models/TeamMembership/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
+import {CheckboxHandler} from '^hooks/useCheckboxHandler';
+import {TeamMembershipDto} from '^models/TeamMembership/type';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {useDestroyTeamMemberShips} from '^models/TeamMembership/hook/hook';
 
 interface BulkRemoveButtonProps {
     checkboxHandler: CheckboxHandler<TeamMembershipDto>;
@@ -18,6 +18,7 @@ export const BulkRemoveButton = memo((props: BulkRemoveButtonProps) => {
     const {checkedItems} = checkboxHandler;
     const checkedCount = checkedItems.length;
     const countStr = checkedCount.toLocaleString();
+    const {mutateAsync} = useDestroyTeamMemberShips(orgId);
 
     const onClick = () => {
         const deleteConfirm = () => {
@@ -35,8 +36,7 @@ export const BulkRemoveButton = memo((props: BulkRemoveButtonProps) => {
 
         confirmed(deleteConfirm())
             .then(() => {
-                return teamMembershipApi.destroyAll(
-                    orgId,
+                return mutateAsync(
                     checkedItems.map((item) => ({
                         teamId: item.teamId,
                         teamMemberId: item.teamMemberId,
