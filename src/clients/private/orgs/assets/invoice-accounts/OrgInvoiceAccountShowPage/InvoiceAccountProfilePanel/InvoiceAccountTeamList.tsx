@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {useCurrentInvoiceAccount} from '../atom';
-import {useTeamTagListInInvoiceAccountDetail} from '^models/TeamInvoiceAccount/hook';
+import {useTeamTagListInInvoiceAccountDetail} from '^models/TeamInvoiceAccount/hook/hook';
 import {TeamTag} from '^models/Team/components/TeamTag';
 
 export const InvoiceAccountTeamList = memo(function InvoiceAccountTeamList() {

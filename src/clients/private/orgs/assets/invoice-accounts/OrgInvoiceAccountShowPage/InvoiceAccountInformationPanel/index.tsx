@@ -7,7 +7,7 @@ import {InvoiceAccountMemo} from '^clients/private/orgs/assets/invoice-accounts/
 import {InvoiceAccountEmail} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountEmail';
 import {InvoiceAccountHoldingMemberId} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountHoldingMemberId';
 import {InvoiceAccountTeamList} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountTeamList';
-import {useTeamTagListInInvoiceAccountDetail} from '^models/TeamInvoiceAccount/hook';
+import {useTeamTagListInInvoiceAccountDetail} from '^models/TeamInvoiceAccount/hook/hook';
 
 export const InvoiceAccountInformationPanel = memo(function InvoiceAccountInformationPanel() {
     const {currentInvoiceAccount, formData, setFormValue, onSubmit, patch, isEditMode, setIsEditMode, isLoading} =
