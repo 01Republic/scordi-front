@@ -1,19 +1,17 @@
 import React, {memo} from 'react';
-import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {MinusCircle} from 'lucide-react';
+import Tippy from '@tippyjs/react';
+import {toast} from 'react-hot-toast';
+import {useOrgIdParam} from '^atoms/common';
 import {UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import Tippy from '@tippyjs/react';
-import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {toast} from 'react-hot-toast';
+import {useDestroyTeamInvoiceAccount} from '^models/TeamInvoiceAccount/hook/hook';
+import {useUpdateTeamInvoiceAccount} from '^models/InvoiceAccount/hook';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
-import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {confirm2} from '^components/util/dialog';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {MinusCircle} from 'lucide-react';
 
 interface InvoicesTableRowProps {
     teamInvoiceAccount: TeamInvoiceAccountDto;
@@ -23,18 +21,18 @@ interface InvoicesTableRowProps {
 
 export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
     const {teamInvoiceAccount, onClick, reload} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-
+    const orgId = useOrgIdParam();
     const {invoiceAccountId, invoiceAccount} = teamInvoiceAccount;
+    const {mutateAsync: updateTeamInvoiceAccount} = useUpdateTeamInvoiceAccount(orgId);
+    const {mutateAsync: destroyTeamInvoiceAccount} = useDestroyTeamInvoiceAccount(orgId);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+    const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, invoiceAccountId);
 
     const update = async (dto: UpdateInvoiceAccountDto) => {
-        return invoiceAccountApi
-            .updateV3(orgId, invoiceAccountId, dto)
+        return updateTeamInvoiceAccount({id: invoiceAccountId, data: dto})
             .then(() => toast.success('수정했습니다'))
-            .catch((e) => toast.error(e.response.data.message))
-            .finally(() => reload && reload());
+            .catch((e) => toast.error(e.response.data.message));
     };
     const onDelete = () => {
         confirm2(
@@ -48,15 +46,12 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
             'warning',
         ).then((res) => {
             if (res.isConfirmed) {
-                teamInvoiceAccountApi.destroy(orgId, teamInvoiceAccount.id).then(() => {
+                destroyTeamInvoiceAccount(teamInvoiceAccount.id).then(() => {
                     toast.success('연결을 해제했어요.');
-                    reload && reload();
                 });
             }
         });
     };
-
-    const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, invoiceAccountId);
 
     if (!invoiceAccount) return <tr className="group"></tr>;
 

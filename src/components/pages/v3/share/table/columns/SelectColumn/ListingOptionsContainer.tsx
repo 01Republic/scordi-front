@@ -93,7 +93,7 @@ export const ListingOptionsContainer = <T,>(props: ListingOptionsContainerProps<
                     const isFirstChild = i === 0;
 
                     return (
-                        <>
+                        <div key={i}>
                             {isDifferentType && <hr className={'my-3'} />}
                             {(isFirstChild || isDifferentType) && (
                                 <ContainerHeader
@@ -111,7 +111,7 @@ export const ListingOptionsContainer = <T,>(props: ListingOptionsContainerProps<
                                 className={optionWrapperClass}
                                 destroyRequest={destroyOption}
                             />
-                        </>
+                        </div>
                     );
                 })}
 

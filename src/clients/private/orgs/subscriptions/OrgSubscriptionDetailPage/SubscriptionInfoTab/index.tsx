@@ -10,6 +10,7 @@ import {SubscriptionBasicInfoSection} from './SubscriptionBasicInfoSection';
 import {SubscriptionPaymentInfoSection} from './SubscriptionPaymentInfoSection';
 import {SubscriptionBusinessInfoSection} from './SubscriptionBusinessInfoSection';
 import {ConnectedAssetCard} from './ConnectedAssetCard';
+import {useShowSubscription} from '^models/Subscription/hook';
 
 /**
  * 구독 상세p > 정보탭
@@ -17,38 +18,46 @@ import {ConnectedAssetCard} from './ConnectedAssetCard';
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 
-    if (!subscription) return <></>;
+    const {data: currentSubscription} = useShowSubscription(subscription?.id, {
+        relations: ['invoiceAccounts.googleTokenData'],
+    });
+
+    if (!currentSubscription) return <></>;
 
     return (
         <div className={'py-4 space-y-4'}>
             <div className={'bg-gray-200 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 rounded'}>
                 <StatusCard
                     label={'구독상태'}
-                    value={subscription?.isFreeTier ? '무료' : '유료'}
+                    value={currentSubscription?.isFreeTier ? '무료' : '유료'}
                     icon={<Folder className="size-5 text-white" />}
                     iconColor={'bg-purple-400'}
                 />
                 <StatusCard
                     label={'결제 예정 금액'}
-                    value={`${subscription?.currentBillingAmount?.symbol} ${roundNumber(
-                        subscription.nextBillingAmount,
+                    value={`${currentSubscription?.currentBillingAmount?.symbol} ${roundNumber(
+                        currentSubscription?.nextBillingAmount || 0,
                     ).toLocaleString()}`}
                     icon={<Banknote className="size-6 text-white" />}
                     iconColor={'bg-orange-400'}
                 />
                 <StatusCard
                     label={'다음 결제 예정일'}
-                    value={subscription?.nextBillingDate ? lpp(subHours(subscription.nextBillingDate, 9), 'P') : '-'}
+                    value={
+                        currentSubscription?.nextBillingDate
+                            ? lpp(subHours(currentSubscription.nextBillingDate, 9), 'P')
+                            : '-'
+                    }
                     icon={<Calendar className="size-5 text-white" />}
                     iconColor={'bg-pink-400'}
                 />
 
                 {/* 결제수단 */}
-                <ConnectedAssetCard subscription={subscription} />
+                <ConnectedAssetCard subscription={currentSubscription} />
             </div>
 
             {/* 기본 정보 */}
-            <SubscriptionBasicInfoSection />
+            <SubscriptionBasicInfoSection currentSubscription={currentSubscription} />
 
             {/* 결제 정보 */}
             <SubscriptionPaymentInfoSection />

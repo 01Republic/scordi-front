@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {subscriptionApi} from '^models/Subscription/api';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {CardSection} from '^clients/private/_components/CardSection';
 import {SubscriptionAlias} from './SubscriptionAlias';
@@ -12,11 +12,13 @@ import {SubscriptionTeam} from './SubscriptionTeam';
 import {errorToast} from '^api/api';
 import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
 
-export const SubscriptionBasicInfoSection = memo(() => {
-    const {reload, currentSubscription} = useCurrentSubscription();
-    const {data} = useShowSubscription(currentSubscription?.id, {
-        relations: ['invoiceAccounts.googleTokenData'],
-    });
+interface SubscriptionBasicInfoSectionProps {
+    currentSubscription: SubscriptionDto;
+}
+
+export const SubscriptionBasicInfoSection = memo((props: SubscriptionBasicInfoSectionProps) => {
+    const {currentSubscription} = props;
+
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -46,9 +48,9 @@ export const SubscriptionBasicInfoSection = memo(() => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 isSaving={isSaving}
             >
-                <SubscriptionAlias isEditMode={isEditMode} form={form} defaultValue={data?.alias} />
-                <SubscriptionMaster isEditMode={isEditMode} form={form} defaultValue={data?.master} />
-                <SubscriptionDesc isEditMode={isEditMode} form={form} defaultValue={data?.desc} />
+                <SubscriptionAlias isEditMode={isEditMode} form={form} defaultValue={currentSubscription?.alias} />
+                <SubscriptionMaster isEditMode={isEditMode} form={form} defaultValue={currentSubscription?.master} />
+                <SubscriptionDesc isEditMode={isEditMode} form={form} defaultValue={currentSubscription?.desc} />
                 <SubscriptionTeam />
             </CardSection.Form>
         </CardSection.Base>

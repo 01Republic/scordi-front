@@ -1,19 +1,18 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
-import {creditCardApi} from '^models/CreditCard/api';
 import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
 import {CreditCardProfileOption2, UsingStatusTag} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
-import {teamIdParamState} from '^atoms/common';
+import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {MinusCircle} from 'lucide-react';
 import {useCreditCardUpdate} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {useDeleteTeamCreditCard} from '^models/CreditCard/hook';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -21,23 +20,23 @@ interface TeamPaymentTableRowProps {
 }
 
 export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
-    const teamId = useRecoilValue(teamIdParamState);
-    const {creditCard, reload} = props;
+    const {creditCard} = props;
+    const teamId = useIdParam('teamId');
     const {mutateAsync} = useCreditCardUpdate();
+    const {mutateAsync: deleteTeamCreditCard} = useDeleteTeamCreditCard(teamId);
 
     if (!creditCard) return null;
 
-    const update = async (dto: UpdateCreditCardDto) => {
-        const {id, organizationId: orgId} = creditCard;
-        return mutateAsync({orgId, id, data: dto})
-            .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.error('문제가 발생했습니다'))
-            .finally(() => reload && reload());
-    };
-
+    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
     const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
 
-    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+    const update = async (dto: UpdateCreditCardDto) => {
+        const {id, organizationId: orgId} = creditCard;
+
+        return mutateAsync({orgId, id, data: dto})
+            .then(() => toast.success('수정했습니다'))
+            .catch(() => toast.error('문제가 발생했습니다'));
+    };
 
     const onDelete = () => {
         confirm2(
@@ -51,9 +50,8 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
             'warning',
         ).then((res) => {
             if (res.isConfirmed) {
-                creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
+                deleteTeamCreditCard(creditCard.id).then(() => {
                     toast.success('연결을 해제했어요.');
-                    reload && reload();
                 });
             }
         });
