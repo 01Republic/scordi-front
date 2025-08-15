@@ -1,6 +1,6 @@
-import {Dispatch, SetStateAction} from 'react';
-import {PaginationMetaData} from '^types/utils/paginated.dto';
+import {useFormContext} from 'react-hook-form';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {EmailParserFormData} from '^models/EmailParser/types';
 import {EmailViewer} from './EmailViewer';
 import {
     TargetPropertyBooleanItem,
@@ -10,19 +10,18 @@ import {
     TargetPropertyNumberItem,
     TargetPropertyTextItem,
 } from './TargetPropertyItem';
-import {useFormContext} from 'react-hook-form';
-import {EmailParserFormData} from '^models/EmailParser/types';
 
 interface EmailParserFormProps {
     email: GmailItemDto;
     html: string;
-    pagination: PaginationMetaData;
     focusedIndex: number;
-    setFocusedIndex: Dispatch<SetStateAction<number>>;
+    totalItemCount: number;
+    onPrev: () => any;
+    onNext: () => any;
 }
 
 export const EmailParserForm = (props: EmailParserFormProps) => {
-    const {email, html, pagination, focusedIndex, setFocusedIndex} = props;
+    const {email, html, totalItemCount, focusedIndex, onPrev, onNext} = props;
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
 
     return (
@@ -32,9 +31,9 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     email={email}
                     content={html}
                     focusedIndex={focusedIndex}
-                    next={() => setFocusedIndex((i) => i + 1)}
-                    prev={() => setFocusedIndex((i) => i - 1)}
-                    pagination={pagination}
+                    totalItemCount={totalItemCount}
+                    prev={onPrev}
+                    next={onNext}
                 />
             </div>
 

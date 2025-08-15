@@ -4,6 +4,7 @@ import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetProper
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
 import {CopyPromptButton} from '../share/CopyPromtButton';
 import {CurrencyParser} from './CurrencyParser';
+import {plainToInstance} from 'class-transformer';
 
 interface TargetPropertyMoneyItemProps extends TargetPropertyItemProps<MoneyPropertyFormData> {
     //
@@ -68,20 +69,12 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
 
     if (!isExists) return <></>;
     if (isFinished) {
-        // const currencyParserData = form.getValues('currencyParser');
-        // const currencyCodeMappers = form.getValues('currencyParser.currencyCodeMappers') || [];
-        return (
-            <div className="text-12 text-scordi font-semibold break-all">
-                {/*<div>*/}
-                {/*    <div>화폐:</div>*/}
-                {/*    <div>{currencyParserData.isDynamicCurrency ? currencyParserData}</div>*/}
-                {/*</div>*/}
-                <div>
-                    {/*<div>금액:</div>*/}
-                    <div>{resultValue}</div>
-                </div>
-            </div>
-        );
+        const propertyFormData = plainToInstance(MoneyPropertyFormData, form.getValues());
+        if (!emailItem || !content || !propertyFormData) {
+            return <div className="text-12 text-scordi font-semibold break-all">{resultValue}</div>;
+        }
+        const value = propertyFormData.parse(emailItem, content).resultValue;
+        return <div className="text-12 text-scordi font-semibold break-all">{value}</div>;
     }
 
     const isHTMLParsingMode = selectedProperty === SelectedProperty.content;

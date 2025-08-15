@@ -16,8 +16,10 @@ interface Props {
 export const ParsingOCRSettingStep = memo((props: Props) => {
     const {parserFilterQuery} = props;
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
-    const {params, setParams, data, refetch, isFetching} = useEmailItemsForOCRStep(form.getValues('filterQuery') || '');
-    const {focusedIndex, setFocusedIndex, email, html} = useFocusedEmailItem(data);
+    const {params, setParams, emails, pagination, refetch, isFetching, fetchNextPage} = useEmailItemsForOCRStep(
+        form.getValues('filterQuery') || '',
+    );
+    const {focusedIndex, setFocusedIndex, email, html} = useFocusedEmailItem(emails);
 
     // 수정페이지에서, 파서에 저장되어있던 값을 받아 상태 셋업
     useEffect(() => {
@@ -26,19 +28,34 @@ export const ParsingOCRSettingStep = memo((props: Props) => {
 
     return (
         <ContentPanel bodyWrap={false}>
-            <ParsingEmailStepHeader params={params} setParams={setParams} refetch={refetch} isFetching={isFetching} />
+            <ParsingEmailStepHeader
+                params={params}
+                setParams={setParams}
+                refetch={refetch}
+                isFetching={isFetching}
+                pagination={pagination}
+            />
 
             <ContentPanelBody>
                 <ContentPanelList>
-                    <EmailItemsContainer data={data} focusedIndex={focusedIndex} setFocusedIndex={setFocusedIndex} />
+                    <EmailItemsContainer
+                        emails={emails}
+                        isLoading={isFetching}
+                        focusedIndex={focusedIndex}
+                        onFocus={setFocusedIndex}
+                        onNext={() => fetchNextPage()}
+                        currentPage={pagination.currentPage}
+                        totalPage={pagination.totalPage}
+                    />
 
                     {email && html && (
                         <EmailParserForm
                             email={email}
                             html={html}
-                            pagination={data.pagination}
                             focusedIndex={focusedIndex}
-                            setFocusedIndex={setFocusedIndex}
+                            totalItemCount={emails.length}
+                            onPrev={() => setFocusedIndex((i) => (i - 1 >= 0 ? i - 1 : i))}
+                            onNext={() => setFocusedIndex((i) => (i + 1 < emails.length ? i + 1 : i))}
                         />
                     )}
                 </ContentPanelList>

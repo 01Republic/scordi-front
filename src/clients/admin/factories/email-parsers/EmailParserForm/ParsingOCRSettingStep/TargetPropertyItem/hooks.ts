@@ -1,10 +1,9 @@
-import {useMemo, useState} from 'react';
+import {useMemo} from 'react';
 import {DeepPartial, useForm} from 'react-hook-form';
 import {ReactNodeElement} from '^types/global.type';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
-import {SelectedProperty, TextPropertyFormData} from '^models/EmailParser/types';
-import {BasePropertyFormData} from '^models/EmailParser/types/EmailParserFormData/base.property.form-data';
-import {querySelectorXPath} from '^utils/dom-parser';
+import {BasePropertyFormData, SelectedProperty, TextPropertyFormData} from '^models/EmailParser/types';
+import {getMatchResultForHtml} from '^utils/dom-parser';
 
 export interface TargetPropertyItemProps<V = TextPropertyFormData> {
     title: ReactNodeElement;
@@ -60,22 +59,6 @@ export function getMatchResult(dataSource: string, inputValue: string) {
     try {
         const regex = new RegExp(inputValue, 'g');
         return [...(regex.exec(dataSource) || [])];
-    } catch (e: any) {
-        return e.message as string;
-    }
-}
-
-export function getMatchResultForHtml(dataSource: string, inputValue: string) {
-    if (!inputValue) return '';
-
-    try {
-        const nodeValue = querySelectorXPath(dataSource, inputValue, true);
-
-        if (!nodeValue) return '';
-        if (nodeValue instanceof Text) return nodeValue.nodeValue || '';
-        if (nodeValue instanceof HTMLElement) return nodeValue.outerHTML || '';
-
-        return nodeValue.nodeValue || '';
     } catch (e: any) {
         return e.message as string;
     }

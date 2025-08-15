@@ -18,3 +18,19 @@ export function querySelectorXPath(html: string, selector: string, throwErr = fa
         return null;
     }
 }
+
+export function getMatchResultForHtml(dataSource: string, inputValue: string) {
+    if (!inputValue) return '';
+
+    try {
+        const nodeValue = querySelectorXPath(dataSource, inputValue, true);
+
+        if (!nodeValue) return '';
+        if (nodeValue instanceof Text) return nodeValue.nodeValue || '';
+        if (nodeValue instanceof HTMLElement) return nodeValue.outerHTML || '';
+
+        return nodeValue.nodeValue || '';
+    } catch (e: any) {
+        return e.message as string;
+    }
+}

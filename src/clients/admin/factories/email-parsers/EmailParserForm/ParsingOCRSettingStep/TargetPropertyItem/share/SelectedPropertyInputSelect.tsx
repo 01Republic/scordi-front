@@ -1,5 +1,5 @@
-import {SelectedProperty} from '../../EmailParserFormData';
 import {forwardRef} from 'react';
+import {SelectedProperty} from '^models/EmailParser/types';
 
 interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {}
 

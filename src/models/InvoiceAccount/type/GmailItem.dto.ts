@@ -59,7 +59,8 @@ export class GmailItemDto {
         return GmailItemDto.loadContent(this.contentUrl);
     }
 
-    static loadContent(contentUrl: string): Promise<string> {
+    static async loadContent(contentUrl?: string): Promise<string> {
+        if (!contentUrl) return '';
         const url = encodeURIComponent(contentUrl);
         return api
             .get('/proxy', {params: {url}})

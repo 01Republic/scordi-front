@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {FindAllGmailItemQueryDto, GmailItemDto} from '^models/InvoiceAccount/type';
-import {useQuery} from '@tanstack/react-query';
+import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {invoiceAccountEmailItemsForAdminApi} from '^models/InvoiceAccount/api';
 import {Paginated} from '^types/utils/paginated.dto';
 
@@ -13,37 +13,52 @@ export const useEmailItemsForOCRStep = (filterQuery: string) => {
         filterQuery,
     });
 
-    const {data, refetch, isFetching} = useQuery({
-        queryKey: ['ParsingOCRSettingStep', 'emailItems', params],
-        queryFn: async () => invoiceAccountEmailItemsForAdminApi.index(params).then((res) => res.data),
-        initialData: Paginated.init(),
-        refetchOnMount: false,
-        retryOnMount: false,
-        refetchOnReconnect: false,
+    const infiniteQuery = useInfiniteQuery({
+        queryKey: ['ParsingOCRSettingStep.useInfiniteQuery', 'emailItems', params],
+        queryFn: async ({pageParam = 1}) =>
+            invoiceAccountEmailItemsForAdminApi.index({...params, page: pageParam}).then((res) => res.data),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => {
+            const totalPage = lastPage.pagination.totalPage;
+            const nextPage = lastPage.pagination.currentPage + 1;
+            return nextPage <= totalPage ? nextPage : undefined;
+        },
+        getPreviousPageParam: (firstPage) => {
+            const prevPage = firstPage.pagination.currentPage - 1;
+            return prevPage > 0 ? prevPage : undefined;
+        },
+        enabled: !!filterQuery,
         refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
+
+    // const {data, refetch, isFetching} = useQuery({
+    //     queryKey: ['ParsingOCRSettingStep', 'emailItems', params],
+    //     queryFn: async () => invoiceAccountEmailItemsForAdminApi.index(params).then((res) => res.data),
+    //     initialData: Paginated.init(),
+    //     refetchOnMount: false,
+    //     retryOnMount: false,
+    //     refetchOnReconnect: false,
+    //     refetchOnWindowFocus: false,
+    // });
+    const pages = infiniteQuery.data?.pages || [];
+    const pagination = pages[pages.length - 1]?.pagination || Paginated.init().pagination;
 
     return {
         params,
         setParams,
-        data,
-        refetch,
-        isFetching,
+        ...infiniteQuery,
+        emails: pages.map((page) => page.items).flat(),
+        pages,
+        pagination,
     };
 };
 
-export const useFocusedEmailItem = (data: Paginated<GmailItemDto>) => {
+export const useFocusedEmailItem = (emails: GmailItemDto[]) => {
     const [focusedIndex, setFocusedIndex] = useState(0);
 
-    const email = data.items[focusedIndex];
-    const currentContentUrl = email?.contentUrl;
-
-    const {data: html = ''} = useQuery({
-        queryKey: ['Fetch email content html', currentContentUrl],
-        queryFn: () => GmailItemDto.loadContent(currentContentUrl).then((data) => data || ''),
-        placeholderData: (prev) => prev,
-        enabled: !!currentContentUrl,
-    });
+    const email = emails[focusedIndex];
+    const {data: html = ''} = useEmailHtml(email?.contentUrl);
 
     return {
         focusedIndex,
@@ -52,3 +67,14 @@ export const useFocusedEmailItem = (data: Paginated<GmailItemDto>) => {
         html,
     };
 };
+
+export function useEmailHtml(contentUrl?: string) {
+    return useQuery({
+        queryKey: ['Fetch email content html', contentUrl],
+        queryFn: () => GmailItemDto.loadContent(contentUrl).then((data) => data || ''),
+        placeholderData: (prev) => prev,
+        enabled: !!contentUrl,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+    });
+}

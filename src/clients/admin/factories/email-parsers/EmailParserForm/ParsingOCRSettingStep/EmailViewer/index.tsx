@@ -5,7 +5,6 @@ import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {copyText} from '^components/util/copy';
 import {toast} from 'react-hot-toast';
 import {GmailContentDisplayByUrl} from '^components/lib/gmail/gmail-finder/GmailDetailPage/GmailContentDisplay';
-import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/invoiceAccounts/[invoiceAccountId]/emails/[messageId]';
 import {lpp} from '^utils/dateTime';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
@@ -16,14 +15,14 @@ interface EmailViewerProps {
     email: GmailItemDto;
     content?: string;
     focusedIndex: number;
+    totalItemCount: number;
     prev: () => any;
     next: () => any;
-    pagination: PaginationMetaData;
     overflow?: boolean;
 }
 
 export const EmailViewer = memo((props: EmailViewerProps) => {
-    const {email, content, focusedIndex, prev, next, pagination, overflow = false} = props;
+    const {email, content, focusedIndex, totalItemCount, prev, next, overflow = false} = props;
     const [html, setHtml] = useState('');
     const invoiceAccount = email?.invoiceAccount;
 
@@ -41,17 +40,17 @@ export const EmailViewer = memo((props: EmailViewerProps) => {
 
     useEventListener({
         eventName: 'keydown',
-        deps: [focusedIndex],
+        deps: [],
         listener: (evt) => {
             if (evt.ctrlKey && evt.shiftKey && evt.key === 'ArrowRight') {
                 evt.preventDefault();
                 evt.stopPropagation();
-                focusedIndex + 1 < pagination.totalItemCount && next();
+                next();
             }
             if (evt.ctrlKey && evt.shiftKey && evt.key === 'ArrowLeft') {
                 evt.preventDefault();
                 evt.stopPropagation();
-                focusedIndex > 0 && prev();
+                prev();
             }
         },
     });
@@ -75,7 +74,7 @@ export const EmailViewer = memo((props: EmailViewerProps) => {
                             type="button"
                             onClick={() => next()}
                             className="btn btn-xs btn-square !bg-transparent !border-none text-gray-400 hover:text-gray-500 transition-all !outline-none"
-                            disabled={focusedIndex + 1 >= pagination.totalItemCount}
+                            disabled={focusedIndex + 1 >= totalItemCount}
                         >
                             <ChevronRight size={16} className="scale-[1.5]" />
                         </button>
