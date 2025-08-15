@@ -8,6 +8,9 @@ import {useIdParam} from '^atoms/common';
 import {LoadableBox} from '^components/util/loading';
 import {useEmailParser} from '../hooks';
 import {EmailParserForm} from '../EmailParserForm';
+import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 export const EmailParserEditPage = memo(function EmailParserEditPage() {
     const id = useIdParam('id');
@@ -17,6 +20,13 @@ export const EmailParserEditPage = memo(function EmailParserEditPage() {
 
     const onSubmit = (data: UpdateEmailParserRequestDto) => {
         console.log('data', data);
+        gmailInvoiceParsersAdminApi
+            .update(id, data)
+            .then((res) => {
+                toast.success('저장완료.');
+                return refetch();
+            })
+            .catch(errorToast);
     };
 
     return (
