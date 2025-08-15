@@ -68,7 +68,13 @@ export const TargetPropertyItemContainer = memo((props: Props) => {
                                 type="checkbox"
                                 className="toggle toggle-primary toggle-sm"
                                 defaultChecked={isExists}
-                                onChange={(e) => setIsExists(e.target.checked)}
+                                onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setIsExists(checked);
+                                    if (!checked) {
+                                        setIsFinished(false);
+                                    }
+                                }}
                             />
                             <span className="label-text">있어요</span>
                         </label>

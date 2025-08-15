@@ -56,9 +56,15 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
         content,
     });
 
+    // 완료 체크되면 본체 폼에 값 반영
     useEffect(() => {
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
+
+    // 없어요로 바뀌면 본체 폼에 값을 비움 (작성되어있는 인풋값은 유지)
+    useEffect(() => {
+        if (!isFinished && !isExists && defaultValue) onChange && onChange(undefined);
+    }, [isFinished, isExists]);
 
     if (!isExists) return <></>;
     if (isFinished) {
@@ -155,10 +161,7 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
                 regexResult={Array.isArray(regexResult) ? regexResult[0] : regexResult}
                 defaultValue={form.getValues('currencyParser')}
                 onChange={(currencyParserData) => {
-                    console.log('onChange');
                     const currencyParserValue = form.getValues('currencyParser');
-                    console.log('onChange', 'currencyParserValue', currencyParserValue);
-                    console.log('onChange', 'currencyParserData', currencyParserData);
                     form.setValue('currencyParser', currencyParserData);
                 }}
             />

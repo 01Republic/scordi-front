@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {useId} from 'react-id-generator';
 import {Plus, X} from 'lucide-react';
 import {isDefinedValue} from '^utils/array';
-import {CurrencyParserData} from '../../../EmailParserFormData/money.property.form-data';
+import {CurrencyParserData} from '^models/EmailParser/types';
 
 interface CurrencyParserProps {
     regexResult?: string;
@@ -18,10 +18,10 @@ export const CurrencyParser = (props: CurrencyParserProps) => {
     const form = useForm<CurrencyParserData>();
 
     useEffect(() => {
-        console.log('CurrencyParser.useEffect');
-        console.log('CurrencyParser.useEffect', 'defaultValue', defaultValue);
+        // console.log('CurrencyParser.useEffect');
+        // console.log('CurrencyParser.useEffect', 'defaultValue', defaultValue);
         if (typeof defaultValue?.isDynamicCurrency !== 'undefined') {
-            console.log('CurrencyParser.useEffect', 'isDynamicCurrency', defaultValue.isDynamicCurrency);
+            // console.log('CurrencyParser.useEffect', 'isDynamicCurrency', defaultValue.isDynamicCurrency);
             form.setValue('isDynamicCurrency', defaultValue.isDynamicCurrency);
             defaultValue.isDynamicCurrency
                 ? form.setValue('currencyCodeMappers', defaultValue.currencyCodeMappers)
@@ -46,8 +46,8 @@ export const CurrencyParser = (props: CurrencyParserProps) => {
 
     useEffect(() => {
         if (values && typeof values.isDynamicCurrency !== 'undefined' && onChange) {
-            console.log('CurrencyParser.onChange', 'defaultValue', defaultValue);
-            console.log('CurrencyParser.onChange', 'values', values);
+            // console.log('CurrencyParser.onChange', 'defaultValue', defaultValue);
+            // console.log('CurrencyParser.onChange', 'values', values);
             if (JSON.stringify(defaultValue) !== JSON.stringify(values)) {
                 onChange(values);
             }

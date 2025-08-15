@@ -11,7 +11,7 @@ export interface TargetPropertyItemProps<V = TextPropertyFormData> {
     emailItem?: GmailItemDto;
     content?: string;
     optional?: boolean;
-    onChange?: (value: V) => any;
+    onChange?: (value?: V) => any;
     defaultValue?: V;
     question?: string;
     selectorEngine?: 'xpath' | 'css';
@@ -21,7 +21,7 @@ export interface TargetPropertyItemContentProps<V = TextPropertyFormData> {
     emailItem?: GmailItemDto;
     content?: string;
     defaultValue?: V;
-    onChange?: (value: V) => any;
+    onChange?: (value?: V) => any;
     isExists?: boolean;
     isFinished?: boolean;
     question?: string;

@@ -59,9 +59,15 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
         return isNaN(parsed.valueOf()) ? resultValue : parsed.toLocaleString();
     })();
 
+    // 완료 체크되면 본체 폼에 값 반영
     useEffect(() => {
         if (isFinished) onChange && onChange(form.getValues());
     }, [isFinished]);
+
+    // 없어요로 바뀌면 본체 폼에 값을 비움 (작성되어있는 인풋값은 유지)
+    useEffect(() => {
+        if (!isFinished && !isExists && defaultValue) onChange && onChange(undefined);
+    }, [isFinished, isExists]);
 
     if (!isExists) return <></>;
     if (isFinished) return <div className="text-12 text-scordi font-semibold break-all">{dateString}</div>;
