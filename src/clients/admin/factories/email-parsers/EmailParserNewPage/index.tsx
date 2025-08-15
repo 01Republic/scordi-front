@@ -1,10 +1,9 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
-import {LoadableBox} from '^components/util/loading';
 import {EmailParserListPageRoute} from '^pages/admin/factories/email-parsers';
 import {EmailParserEditPageRoute} from '^pages/admin/factories/email-parsers/[id]/edit';
 import {CreateEmailParserRequestDto} from '^models/EmailParser/types';
@@ -19,13 +18,15 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
     const onSubmit = (data: CreateEmailParserRequestDto) => {
         console.log('data', data);
         data.isActive ??= false;
+        setIsLoading(true);
         gmailInvoiceParsersAdminApi
             .create(data)
             .then((res) => {
                 toast.success('저장완료.');
                 return router.push(EmailParserEditPageRoute.path(res.data.id));
             })
-            .catch(errorToast);
+            .catch(errorToast)
+            .finally(() => setIsLoading(false));
     };
 
     return (

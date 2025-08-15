@@ -1,16 +1,15 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
-import {UpdateEmailParserRequestDto} from '^models/EmailParser/types';
-import {EmailParserListPageRoute} from '^pages/admin/factories/email-parsers';
-import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
-import {useIdParam} from '^atoms/common';
-import {LoadableBox} from '^components/util/loading';
-import {useEmailParser} from '../hooks';
-import {EmailParserForm} from '../EmailParserForm';
-import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {useIdParam} from '^atoms/common';
+import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
+import {EmailParserListPageRoute} from '^pages/admin/factories/email-parsers';
+import {UpdateEmailParserRequestDto} from '^models/EmailParser/types';
+import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
+import {useEmailParser} from '../hooks';
+import {EmailParserForm} from '../EmailParserForm';
 
 export const EmailParserEditPage = memo(function EmailParserEditPage() {
     const id = useIdParam('id');
@@ -38,14 +37,6 @@ export const EmailParserEditPage = memo(function EmailParserEditPage() {
                 {text: `이메일 파서 수정 (#${id})`},
             ]}
         >
-            <p
-                onClick={() => {
-                    console.log('parser', parser);
-                    console.log('form', form.getValues());
-                }}
-            >
-                hi
-            </p>
             <AdminPageContainer fluid>
                 <FormProvider {...form}>
                     <EmailParserForm parser={parser} onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading} />

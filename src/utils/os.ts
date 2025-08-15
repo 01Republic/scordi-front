@@ -1,3 +1,5 @@
+import {isDefinedValue} from '^utils/array';
+
 export const getOS = () => {
     if (!window || typeof window !== 'object') return;
 
@@ -17,4 +19,30 @@ export const getOS = () => {
     if (userAgent.includes('linux')) {
         return 'Linux';
     }
+};
+
+export const keyboardKeyIcons = {
+    join: () => (getOS() === 'MacOS' ? '' : '+'),
+    ctrl: () => (getOS() === 'MacOS' ? '⌃' : 'Ctrl'),
+    shift: () => (getOS() === 'MacOS' ? '⇧' : 'Shift'),
+    alt: () => (getOS() === 'MacOS' ? '⌥' : 'Alt'),
+    cmd: () => (getOS() === 'MacOS' ? '⌘' : 'fn'),
+    arrowLeft: () => '←',
+    arrowRight: () => '→',
+    arrowUp: () => '↑',
+    arrowDown: () => '↓',
+    escape: () => (getOS() === 'MacOS' ? '⎋' : 'ESC'),
+    enter: () => '↩',
+    tab: () => '⇥',
+    backTab: () => '⇤',
+    capsLock: () => '⇪',
+    func: () => 'fn',
+};
+
+export const composeKeyIcons = (...keys: (keyof typeof keyboardKeyIcons)[]): string => {
+    return keys
+        .map((key) => keyboardKeyIcons[key])
+        .filter(isDefinedValue)
+        .map((keyFn) => keyFn())
+        .join(keyboardKeyIcons.join());
 };

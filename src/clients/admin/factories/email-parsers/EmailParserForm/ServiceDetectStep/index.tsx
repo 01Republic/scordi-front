@@ -23,20 +23,13 @@ export const ServiceDetectStep = memo((props: Props) => {
     const [filterQuery, setFilterQuery] = useState(FilterQuery.fromUrlParams(''));
     const [isTableShow, setIsTableShow] = useState(true);
 
-    // 수정페이지에서, 파서에 저장되어있던 값을 받아 상태 셋업
-    useEffect(() => {
-        if (!defaultValue) return;
-        const query = FilterQuery.fromUrlParams(defaultValue);
-        if (filterQuery.isEmpty() && !query.isEmpty()) setFilterQuery(query);
-    }, [defaultValue]);
-
     const [qId, setQId] = useState(0);
     const [params, setParams] = useState<FindAllGmailItemQueryDto>({
         relations: ['organization', 'invoiceAccount', 'invoiceAccount.googleTokenData'],
         page: 1,
         itemsPerPage: 200,
         order: {internalDate: 'DESC'},
-        filterQuery: filterQuery.toUrlParams(),
+        // filterQuery: filterQuery.toUrlParams(),
     });
 
     const {data, refetch, isFetching} = useQuery({
@@ -55,6 +48,23 @@ export const ServiceDetectStep = memo((props: Props) => {
         setIsTableShow(false);
         params.filterQuery && onChange && onChange(params.filterQuery);
     };
+
+    const setFilterParam = (query: FilterQuery) => {
+        setParams((p) => ({...p, filterQuery: query.toUrlParams()}));
+    };
+
+    // 수정페이지에서, 파서에 저장되어있던 값을 받아 상태 셋업
+    useEffect(() => {
+        if (!defaultValue) return;
+        const query = FilterQuery.fromUrlParams(defaultValue);
+        if (filterQuery.isEmpty() && !query.isEmpty()) setFilterQuery(query);
+    }, [defaultValue]);
+
+    useEffect(() => {
+        const empty = FilterQuery.fromUrlParams('');
+        if (empty.toUrlParams() === filterQuery.toUrlParams()) return;
+        setFilterParam(filterQuery);
+    }, [filterQuery.toUrlParams()]);
 
     return (
         <ContentPanel title="[3단계] 이메일 내역에서 위 서비스의 메일만 추출하는 조건을 설정합니다." stickyHeader>

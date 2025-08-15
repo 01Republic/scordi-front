@@ -10,6 +10,7 @@ import {AdminOrgInvoiceAccountEmailShowPageRoute} from '^pages/admin/orgs/[id]/i
 import {lpp} from '^utils/dateTime';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {useEventListener} from '^hooks/useEventListener';
+import {composeKeyIcons} from '^utils/os';
 
 interface EmailViewerProps {
     email: GmailItemDto;
@@ -59,7 +60,7 @@ export const EmailViewer = memo((props: EmailViewerProps) => {
         <div>
             <div className="relative flex items-center gap-2">
                 <div className="flex items-center">
-                    <Tip text="이전" subtext="Ctrl+K">
+                    <Tip text="이전" subtext={composeKeyIcons('ctrl', 'shift', 'arrowLeft')}>
                         <button
                             type="button"
                             onClick={() => prev()}
@@ -69,7 +70,7 @@ export const EmailViewer = memo((props: EmailViewerProps) => {
                             <ChevronLeft size={16} className="scale-[1.5]" />
                         </button>
                     </Tip>
-                    <Tip text="다음" subtext="Ctrl+J">
+                    <Tip text="다음" subtext={composeKeyIcons('ctrl', 'shift', 'arrowRight')}>
                         <button
                             type="button"
                             onClick={() => next()}
