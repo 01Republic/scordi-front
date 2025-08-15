@@ -69,7 +69,7 @@ export function EmailParserForm(props: EmailParserFormProps) {
             />
 
             {/* 4단계 */}
-            <ParsingOCRSettingStep />
+            <ParsingOCRSettingStep parserFilterQuery={parser?.filterQuery} />
             {/*{isOCRStepOpened && <ParsingOCRSettingStep />}*/}
         </ContentForm>
     );

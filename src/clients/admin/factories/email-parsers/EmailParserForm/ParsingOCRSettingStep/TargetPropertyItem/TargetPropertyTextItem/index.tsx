@@ -16,7 +16,6 @@ export function TargetPropertyTextItem(props: TargetPropertyItemProps) {
         question,
         selectorEngine = 'xpath',
     } = props;
-    console.log(title, 'defaultValue', defaultValue);
 
     return (
         <TargetPropertyItemContainer title={title} optional={optional} isFinished={!!defaultValue}>

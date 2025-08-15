@@ -17,8 +17,13 @@ import {
 } from './TargetPropertyItem';
 import {EmailParserFormData} from '^models/EmailParser/types';
 
+interface Props {
+    parserFilterQuery?: FilterQuery;
+}
+
 // 4단계
-export const ParsingOCRSettingStep = memo(() => {
+export const ParsingOCRSettingStep = memo((props: Props) => {
+    const {parserFilterQuery} = props;
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
     const filterQuery = FilterQuery.fromUrlParams(form.getValues('filterQuery') || '');
     const [params, setParams] = useState<FindAllGmailItemQueryDto>({
@@ -48,6 +53,11 @@ export const ParsingOCRSettingStep = memo(() => {
         placeholderData: (prev) => prev,
         enabled: !!currentContentUrl,
     });
+
+    // 수정페이지에서, 파서에 저장되어있던 값을 받아 상태 셋업
+    useEffect(() => {
+        if (parserFilterQuery) setParams((prev) => ({...prev, filterQuery: parserFilterQuery.toUrlParams()}));
+    }, [parserFilterQuery]);
 
     return (
         <ContentPanel bodyWrap={false}>

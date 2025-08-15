@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {Play, RotateCw} from 'lucide-react';
 import {useQuery} from '@tanstack/react-query';
 import {invoiceAccountEmailItemsForAdminApi} from '^models/InvoiceAccount/api';
@@ -14,13 +14,21 @@ interface Props {
     onChange?: (value: string) => any;
 }
 
+// 3단계
 export const ServiceDetectStep = memo((props: Props) => {
     const {defaultValue, onChange} = props;
     // const form = useForm<{filterQuery: string}>({
     //     defaultValues: {filterQuery: defaultValue},
     // });
-    const [filterQuery, setFilterQuery] = useState(FilterQuery.fromUrlParams(defaultValue || ''));
+    const [filterQuery, setFilterQuery] = useState(FilterQuery.fromUrlParams(''));
     const [isTableShow, setIsTableShow] = useState(true);
+
+    // 수정페이지에서, 파서에 저장되어있던 값을 받아 상태 셋업
+    useEffect(() => {
+        if (!defaultValue) return;
+        const query = FilterQuery.fromUrlParams(defaultValue);
+        if (filterQuery.isEmpty() && !query.isEmpty()) setFilterQuery(query);
+    }, [defaultValue]);
 
     const [qId, setQId] = useState(0);
     const [params, setParams] = useState<FindAllGmailItemQueryDto>({
@@ -78,8 +86,19 @@ export const ServiceDetectStep = memo((props: Props) => {
                                 </button>
                             )}
 
-                            <button type="button" className="btn btn-sm btn-circle btn-ghost" onClick={() => refetch()}>
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-circle btn-ghost"
+                                onClick={() => {
+                                    refetch();
+                                    setIsTableShow(true);
+                                }}
+                            >
                                 <RotateCw />
+                            </button>
+
+                            <button type="button" className="link text-12" onClick={() => setIsTableShow((v) => !v)}>
+                                테이블 {isTableShow ? '숨김' : '보기'}
                             </button>
                         </div>
                     </FilterBuilder>
