@@ -10,6 +10,7 @@ import {UpdateEmailParserRequestDto} from '^models/EmailParser/types';
 import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
 import {useEmailParser} from '../hooks';
 import {EmailParserForm} from '../EmailParserForm';
+import {EmailParserActions} from './EmailParserActions';
 
 export const EmailParserEditPage = memo(function EmailParserEditPage() {
     const id = useIdParam('id');
@@ -38,9 +39,13 @@ export const EmailParserEditPage = memo(function EmailParserEditPage() {
             ]}
         >
             <AdminPageContainer fluid>
-                <FormProvider {...form}>
-                    <EmailParserForm parser={parser} onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading} />
-                </FormProvider>
+                {parser && <EmailParserActions parser={parser} refetch={refetch} />}
+
+                <div className="relative pt-4">
+                    <FormProvider {...form}>
+                        <EmailParserForm parser={parser} onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading} />
+                    </FormProvider>
+                </div>
             </AdminPageContainer>
         </AdminDetailPageLayout>
     );

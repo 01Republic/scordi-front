@@ -1,16 +1,12 @@
 import React, {useEffect} from 'react';
+import {plainToInstance} from 'class-transformer';
 import {MoneyPropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 import {TargetPropertyItemContentProps, TargetPropertyItemProps, useTargetPropertyItem} from '../hooks';
 import {TargetPropertyItemContainer} from '../share/TargetPropertyItemContainer';
 import {CopyPromptButton} from '../share/CopyPromtButton';
 import {CurrencyParser} from './CurrencyParser';
-import {plainToInstance} from 'class-transformer';
 
-interface TargetPropertyMoneyItemProps extends TargetPropertyItemProps<MoneyPropertyFormData> {
-    //
-}
-
-export function TargetPropertyMoneyItem(props: TargetPropertyMoneyItemProps) {
+export function TargetPropertyMoneyItem(props: TargetPropertyItemProps<MoneyPropertyFormData>) {
     const {
         defaultValue,
         onChange,

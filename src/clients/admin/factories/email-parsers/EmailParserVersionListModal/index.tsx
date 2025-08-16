@@ -1,15 +1,15 @@
 import React, {ChangeEvent, memo, useState} from 'react';
+import Tippy from '@tippyjs/react';
+import {StickyNote, X} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {StickyNote, X} from 'lucide-react';
-import {LoadableBox} from '^components/util/loading';
-import {LinkTo} from '^components/util/LinkTo';
-import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
-import Tippy from '@tippyjs/react';
-import {ago} from '^utils/dateTime';
 import {EmailParserDto, EmailParserDtoInFactory} from '^models/EmailParser/types';
 import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
+import {EmailParserEditPageRoute} from '^pages/admin/factories/email-parsers/[id]/edit';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {LoadableBox} from '^components/util/loading';
+import {LinkTo} from '^components/util/LinkTo';
+import {ago} from '^utils/dateTime';
 
 interface EmailParserVersionListModalProps {
     isOpen: boolean;
@@ -69,7 +69,7 @@ export const EmailParserVersionListModal = memo((props: EmailParserVersionListMo
                     <header className={`flex justify-between items-start ${'mb-8'}`}>
                         <div>
                             <h3 className="text-xl mb-1.5">
-                                {productName} <code className="code code-xl">카드</code> 파서 버전이{' '}
+                                {productName} <code className="code code-xl">Gmail</code> 파서 버전이{' '}
                                 {parsers.length.toLocaleString()}개 있어요.
                             </h3>
                             <p className="text-[#999] font-medium text-16">
@@ -111,7 +111,7 @@ export const EmailParserVersionListModal = memo((props: EmailParserVersionListMo
                                     <div className="p-1 py-2 col-span-4">
                                         <div className="flex items-center gap-1.5">
                                             <LinkTo
-                                                href={CodefCardParserEditPageRoute.path(parser.id)}
+                                                href={EmailParserEditPageRoute.path(parser.id)}
                                                 className="text-blue-500 hover:underline hover:underline-offset-2 hover:underline-blue-500"
                                                 displayLoading={false}
                                             >

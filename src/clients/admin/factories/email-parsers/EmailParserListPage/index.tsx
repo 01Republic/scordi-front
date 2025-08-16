@@ -1,15 +1,15 @@
 import React, {memo, useState} from 'react';
 import {AdminListPageLayout} from '^admin/layouts';
-import {ListPageTitle} from '^admin/factories/_common/ListPageTitle';
 import {EmailParserNewPageRoute} from '^pages/admin/factories/email-parsers/new';
+import {EmailParserDtoInFactory} from '^models/EmailParser/types';
+import {useEmailParserListInFactory} from '^models/EmailParser/hooks';
+import {ListPageTitle} from '^admin/factories/_common/ListPageTitle';
 import {FilterScope} from '^admin/factories/_common/FilterScope';
 import {ListPageControl} from '^admin/factories/_common/ListPageControl';
-import {useEmailParserListInFactory} from '^models/EmailParser/hooks/useEmailParserListInFactory';
 import {getGroupByProduct} from '^admin/factories/_common/ListPageControl/groupByProduct';
-import {EmailParserDtoInFactory} from '^models/EmailParser/types';
 import {LoadableBox} from '^components/util/loading';
+import {EmailParserVersionListModal} from '../EmailParserVersionListModal';
 import {EmailParserGroup} from './EmailParserGroup';
-import {EmailParserVersionListModal} from '^admin/factories/email-parsers/EmailParserListPage/EmailParserVersionListModal';
 
 export const EmailParserListPage = memo(function EmailParserListPage() {
     const {data: result, isFetching: isLoading, refetch} = useEmailParserListInFactory();
