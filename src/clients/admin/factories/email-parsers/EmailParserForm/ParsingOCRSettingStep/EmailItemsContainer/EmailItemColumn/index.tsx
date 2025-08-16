@@ -23,7 +23,7 @@ export const EmailItemColumn = memo((props: EmailItemColumnProps) => {
     const {data: html = '', isFetching} = useEmailHtml(email.contentUrl);
 
     const loading = isLoading || isFetching;
-    const parserData = form.getValues('parserData');
+    const parserData = form.getValues('parserData') || {};
     const keys = Object.keys(ParserTypes);
     const entries = Object.entries(parserData).sort(([aKey], [bKey]) => keys.indexOf(aKey) - keys.indexOf(bKey));
     const parsers = entries.map(([key, val]) => {

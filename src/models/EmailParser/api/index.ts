@@ -19,6 +19,11 @@ export const gmailInvoiceParsersAdminApi = {
         return api.post(url, dto).then(oneDtoOf(EmailParserDto));
     },
 
+    clone(id: number) {
+        const url = `/admin/gmail/invoice-email-parsers/${id}/clone`;
+        return api.post(url).then(oneDtoOf(EmailParserDto));
+    },
+
     update(id: number, dto: UpdateEmailParserRequestDto) {
         const url = `/admin/gmail/invoice-email-parsers/${id}`;
         return api.patch(url, dto).then(oneDtoOf(EmailParserDto));

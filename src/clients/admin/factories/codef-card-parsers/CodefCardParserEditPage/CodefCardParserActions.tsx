@@ -1,17 +1,17 @@
 import {memo, useState} from 'react';
-import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
+import {useRouter} from 'next/router';
 import {useIdParam} from '^atoms/common';
+import {errorToast} from '^api/api';
+import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type';
 import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
 import {useCodefCardParserVersionsInFactory} from '^models/_codef/CodefCardParser/hooks';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
-import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
 import {CodefCardParserVersionListModal} from '../CodefCardParserVersionListModal';
+import {ActivateButton} from './ActivateButton';
 import {RemoveParserItem} from './RemoveParserItem';
 import {MakeBankAccountParserItem} from './MakeBankAccountParserItem';
-import {ActivateButton} from './ActivateButton';
 
 interface CodefCardParserActionsProps {
     parser: CodefCardParserDto;

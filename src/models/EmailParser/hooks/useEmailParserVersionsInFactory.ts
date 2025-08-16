@@ -7,9 +7,16 @@ export const useEmailParserVersionsInFactory = (productId?: number | null) => {
     return useQuery({
         queryKey: ['useEmailParserVersionsInFactory', productId],
         queryFn: () =>
-            gmailInvoiceParsersAdminApi.index({}).then((res) => {
-                return res.data as Paginated<EmailParserDtoInFactory>;
-            }),
+            gmailInvoiceParsersAdminApi
+                .index({
+                    relations: ['product'],
+                    where: productId ? {productId: productId} : {},
+                    order: {productId: 'DESC', id: 'DESC'},
+                    itemsPerPage: 0,
+                })
+                .then((res) => {
+                    return res.data as Paginated<EmailParserDtoInFactory>;
+                }),
         initialData: Paginated.init(),
         enabled: !!productId,
     });

@@ -14,7 +14,7 @@ interface HeadingColumnProps {
 export const HeadingColumn = memo((props: HeadingColumnProps) => {
     const {isExpanded = false, setIsExpanded, pos, setPos} = props;
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
-    const parserData = form.getValues('parserData');
+    const parserData = form.getValues('parserData') || {};
     const keys = Object.keys(ParserTypes);
     const entries = Object.entries(parserData)
         .sort(([aKey], [bKey]) => keys.indexOf(aKey) - keys.indexOf(bKey))
