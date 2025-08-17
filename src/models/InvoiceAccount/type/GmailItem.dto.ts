@@ -1,12 +1,12 @@
-import {TypeCast} from '^types/utils/class-transformer';
+import {api, errorToast} from '^api/api';
 import {AttachmentFile} from '^api/tasting.api';
+import {TypeCast} from '^types/utils/class-transformer';
+import {allFulfilled, captures} from '^utils/array';
 import {OrganizationDto} from '^models/Organization/type';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {GmailContentPayloadHeader, GmailPermittedMetadata} from './gmail.type';
 import {GmailItemBillingInfoDto} from './GmailItemBillingInfo.dto';
 import {InvoiceAccountDto} from './index';
-import {captures} from '^utils/array';
-import {api, errorToast} from '^api/api';
 
 export class GmailItemDto {
     id: number; // ID
@@ -67,4 +67,22 @@ export class GmailItemDto {
             .then((res) => res.data || '')
             .catch(errorToast);
     }
+}
+
+export type FetchedAttachmentFile = {file: AttachmentFile; data?: string};
+
+export async function fetchAttachmentFiles(files: AttachmentFile[]): Promise<FetchedAttachmentFile[]> {
+    return allFulfilled(
+        files.map(async (file) => {
+            if (!file.url) {
+                return {file, data: undefined};
+            } else {
+                const url = encodeURIComponent(file.url);
+                return api.get('/proxy-get-text', {params: {url}}).then(({data}) => {
+                    // new Blob([data], { type: 'application/pdf', encoding: 'UTF-8' });
+                    return {file, data: data?.content || ''};
+                });
+            }
+        }),
+    );
 }

@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import {FindAllGmailItemQueryDto, GmailItemDto} from '^models/InvoiceAccount/type';
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import {fetchAttachmentFiles, FindAllGmailItemQueryDto, GmailItemDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountEmailItemsForAdminApi} from '^models/InvoiceAccount/api';
 import {Paginated} from '^types/utils/paginated.dto';
 
@@ -59,12 +59,14 @@ export const useFocusedEmailItem = (emails: GmailItemDto[]) => {
 
     const email = emails[focusedIndex];
     const {data: html = ''} = useEmailHtml(email?.contentUrl);
+    const {data: attachments = []} = useEmailAttachments(email);
 
     return {
         focusedIndex,
         setFocusedIndex,
         email,
         html,
+        attachments,
     };
 };
 
@@ -74,6 +76,18 @@ export function useEmailHtml(contentUrl?: string) {
         queryFn: () => GmailItemDto.loadContent(contentUrl).then((data) => data || ''),
         placeholderData: (prev) => prev,
         enabled: !!contentUrl,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+    });
+}
+
+export function useEmailAttachments(email?: GmailItemDto) {
+    const attachments = email?.attachments || [];
+    return useQuery({
+        queryKey: ['Fetch email attachments', email?.id],
+        queryFn: () => fetchAttachmentFiles(attachments).then((data) => data || []),
+        placeholderData: (prev) => prev,
+        enabled: !!email,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });

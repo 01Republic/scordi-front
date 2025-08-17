@@ -1,5 +1,5 @@
 import {useFormContext} from 'react-hook-form';
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {EmailParserFormData} from '^models/EmailParser/types';
 import {EmailViewer} from './EmailViewer';
 import {
@@ -14,6 +14,7 @@ import {
 interface EmailParserFormProps {
     email: GmailItemDto;
     html: string;
+    attachments: FetchedAttachmentFile[];
     focusedIndex: number;
     totalItemCount: number;
     onPrev: () => any;
@@ -21,7 +22,7 @@ interface EmailParserFormProps {
 }
 
 export const EmailParserForm = (props: EmailParserFormProps) => {
-    const {email, html, totalItemCount, focusedIndex, onPrev, onNext} = props;
+    const {email, html, attachments, totalItemCount, focusedIndex, onPrev, onNext} = props;
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
 
     return (
@@ -30,6 +31,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                 <EmailViewer
                     email={email}
                     content={html}
+                    attachments={attachments}
                     focusedIndex={focusedIndex}
                     totalItemCount={totalItemCount}
                     prev={onPrev}

@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {attachmentClickHandler, FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {Tip} from '^admin/share/Tip';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {copyText} from '^components/util/copy';
@@ -14,6 +14,7 @@ import {composeKeyIcons} from '^utils/os';
 interface EmailViewerProps {
     email: GmailItemDto;
     content?: string;
+    attachments?: FetchedAttachmentFile[];
     focusedIndex: number;
     totalItemCount: number;
     prev: () => any;
@@ -22,7 +23,7 @@ interface EmailViewerProps {
 }
 
 export const EmailViewer = memo((props: EmailViewerProps) => {
-    const {email, content, focusedIndex, totalItemCount, prev, next, overflow = false} = props;
+    const {email, content, attachments = [], focusedIndex, totalItemCount, prev, next, overflow = false} = props;
     const [html, setHtml] = useState('');
     const invoiceAccount = email?.invoiceAccount;
 
@@ -122,22 +123,26 @@ export const EmailViewer = memo((props: EmailViewerProps) => {
                     </Section>
 
                     <Section label="첨부파일">
-                        {/*{email?.attachments.length ? (*/}
-                        {/*    email.attachments.map((attachment, i) => {*/}
-                        {/*        return (*/}
-                        {/*            <div key={i}>*/}
-                        {/*                <button*/}
-                        {/*                    className="btn btn-xs btn-white rounded-full normal-case no-animation btn-animation"*/}
-                        {/*                    onClick={() => attachmentClickHandler(attachment)}*/}
-                        {/*                >*/}
-                        {/*                    {i + 1}. {attachment.filename}*/}
-                        {/*                </button>*/}
-                        {/*            </div>*/}
-                        {/*        );*/}
-                        {/*    })*/}
-                        {/*) : (*/}
-                        {/*    <EmptyText />*/}
-                        {/*)}*/}
+                        {attachments.length ? (
+                            attachments.map((attachment, i) => {
+                                const {file} = attachment;
+                                return (
+                                    <div key={i}>
+                                        <button
+                                            className="btn btn-xs btn-white rounded-full normal-case no-animation btn-animation"
+                                            onClick={() => {
+                                                console.log('attachment.data', attachment.data);
+                                                file.url && window.open(file.url, '_blank');
+                                            }}
+                                        >
+                                            {i + 1}. {file.fileName}
+                                        </button>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <EmptyText />
+                        )}
                     </Section>
                 </div>
 

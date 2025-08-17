@@ -19,7 +19,7 @@ export const ParsingOCRSettingStep = memo((props: Props) => {
     const {params, setParams, emails, pagination, refetch, isFetching, fetchNextPage} = useEmailItemsForOCRStep(
         form.getValues('filterQuery') || '',
     );
-    const {focusedIndex, setFocusedIndex, email, html} = useFocusedEmailItem(emails);
+    const {focusedIndex, setFocusedIndex, email, html, attachments} = useFocusedEmailItem(emails);
 
     // 수정페이지에서, 파서에 저장되어있던 값을 받아 상태 셋업
     useEffect(() => {
@@ -52,6 +52,7 @@ export const ParsingOCRSettingStep = memo((props: Props) => {
                         <EmailParserForm
                             email={email}
                             html={html}
+                            attachments={attachments}
                             focusedIndex={focusedIndex}
                             totalItemCount={emails.length}
                             onPrev={() => setFocusedIndex((i) => (i - 1 >= 0 ? i - 1 : i))}
