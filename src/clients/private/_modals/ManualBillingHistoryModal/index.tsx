@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {X} from 'lucide-react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -59,6 +59,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     } = methods;
 
     const onSubmit = (data: ManualPaymentHistoryRegisterForm) => {
+        console.log(data);
         const {creditCardId, bankAccountId, payAmount, payCurrency} = data;
         const {subscriptionId, payDate, billingHistoryStatus} = data;
 

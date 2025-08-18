@@ -25,7 +25,7 @@ export const PayCurrencyContent = memo((props: PayCurrencyContentProps) => {
 
     return (
         <ContentBox label="결제 통화">
-            <input type="hidden" {...register('payCurrency')} />
+            <input type="hidden" {...register('payCurrency', {required: true})} />
             <PayCurrencySelect
                 defaultValue={abroadPayAmountCode ? abroadPayAmountCode : payAmountCode}
                 onSelect={handleDateChange}

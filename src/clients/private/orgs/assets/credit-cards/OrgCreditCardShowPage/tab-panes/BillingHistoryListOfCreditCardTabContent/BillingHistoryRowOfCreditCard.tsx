@@ -131,17 +131,19 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                         )}
                     </Dropdown>
                 </td>
-                <ManualBillingHistoryModal
-                    isOpen={isOpen}
-                    onClose={() => setIsOpen(false)}
-                    isLoading={isPending}
-                    onUpdate={onUpdateBillingManual}
-                    billingHistory={billingHistory}
-                    creditCard={billingHistory?.creditCard || undefined}
-                    bankAccount={billingHistory?.bankAccount || undefined}
-                    subscription={billingHistory?.subscription}
-                    readonly="결제수단"
-                />
+                {isOpen && (
+                    <ManualBillingHistoryModal
+                        isOpen={isOpen}
+                        onClose={() => setIsOpen(false)}
+                        isLoading={isPending}
+                        onUpdate={onUpdateBillingManual}
+                        billingHistory={billingHistory}
+                        creditCard={billingHistory?.creditCard || undefined}
+                        bankAccount={billingHistory?.bankAccount || undefined}
+                        subscription={billingHistory?.subscription}
+                        readonly="결제수단"
+                    />
+                )}
             </tr>
         </>
     );
