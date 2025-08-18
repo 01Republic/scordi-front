@@ -1,3 +1,4 @@
+import {ClassConstructor} from 'class-transformer';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {BasePropertyFormData} from './base.property.form-data';
 import {MoneyPropertyFormData} from './money.property.form-data';
@@ -6,9 +7,10 @@ import {DatePropertyFormData} from './date.property.form-data';
 import {NumberPropertyFormData} from './number.property.form-data';
 import {BooleanPropertyFormData} from './boolean.property.form-data';
 import {EnumPropertyFormData} from './enum.property.form-data';
-import {ClassConstructor} from 'class-transformer';
 
 export * from './selected-property.enum';
+export * from './selected-pattern-method.enum';
+
 export * from './base.property.form-data';
 export * from './money.property.form-data';
 export * from './text.property.form-data';

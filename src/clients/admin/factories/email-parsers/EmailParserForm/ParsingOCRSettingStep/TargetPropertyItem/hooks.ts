@@ -2,7 +2,13 @@ import {useMemo} from 'react';
 import {DeepPartial, useForm} from 'react-hook-form';
 import {ReactNodeElement} from '^types/global.type';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
-import {BasePropertyFormData, SelectedProperty, TextPropertyFormData} from '^models/EmailParser/types';
+import {
+    BasePropertyFormData,
+    getMatchResultForRegExp,
+    SelectedPatternMethod,
+    SelectedProperty,
+    TextPropertyFormData,
+} from '^models/EmailParser/types';
 import {getMatchResultForHtml} from '^utils/dom-parser';
 
 export interface TargetPropertyItemProps<V = TextPropertyFormData> {
@@ -53,17 +59,6 @@ export function getDataSource(
     }
 }
 
-export function getMatchResult(dataSource: string, inputValue: string) {
-    if (!inputValue) return '';
-
-    try {
-        const regex = new RegExp(inputValue, 'g');
-        return [...(regex.exec(dataSource) || [])];
-    } catch (e: any) {
-        return e.message as string;
-    }
-}
-
 export function getResultValue(dataSource: string, regexResult: string | string[], captureIndex: number) {
     const extracted = typeof regexResult === 'string' ? regexResult : regexResult[captureIndex];
     return extracted || dataSource || '데이터 없음';
@@ -81,6 +76,7 @@ export function useTargetPropertyItem<PropertyFormData extends BasePropertyFormD
     });
     const value = form.watch();
     const selectedProperty = value?.selectedProperty || SelectedProperty.title;
+    const selectedMethod = value?.pattern?.method || SelectedPatternMethod.REGEX;
     const inputValue = value?.pattern?.value || '';
     const captureIndex = value?.pattern?.captureIndex || 0;
 
@@ -92,11 +88,15 @@ export function useTargetPropertyItem<PropertyFormData extends BasePropertyFormD
 
     // 입력한 정규식에 매칭된 값
     const regexResult = useMemo(() => {
-        if (selectedProperty === SelectedProperty.content) {
-            return getMatchResultForHtml(dataSource, inputValue);
+        switch (selectedMethod) {
+            case SelectedPatternMethod.XPATH:
+                return getMatchResultForHtml(dataSource, inputValue);
+            case SelectedPatternMethod.REGEX:
+            case SelectedPatternMethod.CODE:
+            default:
+                return getMatchResultForRegExp(dataSource, inputValue);
         }
-        return getMatchResult(dataSource, inputValue);
-    }, [selectedProperty, dataSource, inputValue]);
+    }, [dataSource, selectedMethod, inputValue]);
 
     // 캡쳐까지 고려해 최종적으로 추출된 값
     const resultValue = useMemo(

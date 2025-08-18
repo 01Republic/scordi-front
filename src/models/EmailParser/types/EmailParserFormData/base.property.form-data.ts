@@ -1,10 +1,15 @@
-import {propertyValueOfEmail, SelectedProperty} from './selected-property.enum';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
 import {getMatchResultForHtml} from '^utils/dom-parser';
+import {propertyValueOfEmail, SelectedProperty} from './selected-property.enum';
+import {SelectedPatternMethod} from './selected-pattern-method.enum';
 
 export class BasePropertyFormData {
     selectedProperty: SelectedProperty;
-    pattern: {value: string; captureIndex: number};
+    pattern: {
+        method?: SelectedPatternMethod;
+        value: string;
+        captureIndex: number;
+    };
 
     getDataSource(email: GmailItemDto, html: string): string {
         return propertyValueOfEmail(this.selectedProperty, email, html);
@@ -12,18 +17,15 @@ export class BasePropertyFormData {
 
     getRegexResult(dataSource: string): string | string[] {
         const pattern = this.pattern || {};
+        const {method: patternMethod = SelectedPatternMethod.REGEX, value: patternValue = ''} = pattern;
 
-        // xpath 로 파싱
-        if (this.selectedProperty === SelectedProperty.content) {
-            return getMatchResultForHtml(dataSource, pattern.value);
-        }
-
-        // regex 로 파싱
-        try {
-            const regex = new RegExp(pattern.value, 'g');
-            return [...(regex.exec(dataSource) || [])];
-        } catch (e: any) {
-            return e.message as string;
+        switch (patternMethod) {
+            case SelectedPatternMethod.XPATH:
+                return getMatchResultForHtml(dataSource, patternValue);
+            case SelectedPatternMethod.REGEX:
+            case SelectedPatternMethod.CODE:
+            default:
+                return getMatchResultForRegExp(dataSource, patternValue);
         }
     }
 
@@ -38,5 +40,16 @@ export class BasePropertyFormData {
         const regexResult = this.getRegexResult(dataSource);
         const resultValue = this.getResultValue(dataSource, regexResult);
         return {resultValue};
+    }
+}
+
+export function getMatchResultForRegExp(dataSource: string, inputValue: string) {
+    if (!inputValue) return '';
+
+    try {
+        const regex = new RegExp(inputValue, 'g');
+        return [...(regex.exec(dataSource) || [])];
+    } catch (e: any) {
+        return e.message as string;
     }
 }
