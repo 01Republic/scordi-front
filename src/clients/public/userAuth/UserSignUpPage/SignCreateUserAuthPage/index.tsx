@@ -9,7 +9,6 @@ import {CreateUserRequestDto} from '^models/User/types';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {encryptValue} from '^utils/crypto';
 import {
-    useCheckInvitedUser,
     useCreateUserAuth,
     useGoogleLogin,
     useInvitedCreateUserAuth,
@@ -29,7 +28,6 @@ import {
 import {PhoneNumberSection} from './PhoneNumberSection';
 import {JobSection} from './JobSection';
 import {AgreeTermModal} from './AgreeTermModal';
-import {MainPageRoute} from '^pages/index';
 import {errorToast} from '^api/api';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
@@ -58,7 +56,7 @@ export const SignCreateUserAuthPage = () => {
     const {mutate, isPending} = useCreateUserAuth();
 
     const {mutate: inviteMutate, isPending: isInvitePending} = useInvitedCreateUserAuth();
-    const {mutate: joinInviteMutate, isPending: isJoinInvitePending} = useJoinInvitedCreateUserAuth();
+    const {mutateAsync: joinInviteMutate, isPending: isJoinInvitePending} = useJoinInvitedCreateUserAuth();
     const {mutate: googleLoginMutate, isPending: isGoogleLoginPending} = useGoogleLogin();
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const [isOpenTermModal, setIsOpenTermModal] = useState(false);
@@ -155,7 +153,7 @@ export const SignCreateUserAuthPage = () => {
                                 if (status === 422) {
                                     setError('email', {
                                         type: 'server',
-                                        message: '이미 가입된 이메일입니다.',
+                                        message: '다른 인증 방식으로 가입된 계정입니다.',
                                     });
                                 }
                                 if (status === 400) {
@@ -166,7 +164,7 @@ export const SignCreateUserAuthPage = () => {
                                 }
                             },
                         },
-                    );
+                    ).catch(errorToast);
                 } else {
                     mutate(
                         {data: encryptedPassword},
