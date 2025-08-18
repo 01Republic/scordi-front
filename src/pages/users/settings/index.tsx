@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import {UserEditPageRoute} from '^pages/users/edit';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav} from '^components/MobileTopNav';
-import {removeToken} from '^api/api';
+import {removeToken, SIGNED_TOKEN_STORAGE_KEY} from '^api/api';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {useCurrentUser} from '^models/User/hook';
