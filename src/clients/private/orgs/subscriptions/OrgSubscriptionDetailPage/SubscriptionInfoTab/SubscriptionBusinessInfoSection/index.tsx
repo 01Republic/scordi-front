@@ -1,24 +1,26 @@
-import React, {memo, useEffect, useState} from 'react';
-import {toast} from 'react-hot-toast';
-import {useForm} from 'react-hook-form';
-import cn from 'classnames';
-import {AlertOctagon} from 'lucide-react';
 import {errorToast} from '^api/api';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
-import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
-import {VendorManagerDto} from '^models/vendor/VendorManager/type';
-import {useUpdateVendorManager, useUpsertVendorManager} from '^models/vendor/VendorManager/hooks';
+import {CardSection} from '^clients/private/_components/CardSection';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorManagerSelectModal';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
-import {CardSection} from '^clients/private/_components/CardSection';
-import {VendorContractMemo} from './VendorContractMemo';
+import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
+import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {useUpdateVendorManager, useUpsertVendorManager} from '^models/vendor/VendorManager/hooks';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import cn from 'classnames';
+import {AlertOctagon} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import {VendorCompanyName} from './VendorCompanyName';
+import {VendorContractMemo} from './VendorContractMemo';
 import {VendorManager} from './VendorManager';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
+    const {t} = useTranslation('subscription');
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -110,7 +112,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
         Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise])
             .then(() => setIsSaving(true))
             .then(() => {
-                toast.success('변경사항을 저장했어요.');
+                toast.success(t('toast.saveSuccess'));
                 setIsEditMode(false);
             })
             .catch(errorToast)
@@ -132,7 +134,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     return (
         <CardSection.Base>
             <CardSection.Form
-                title="거래처 정보"
+                title={t('detail.businessInfo.title')}
                 isEditMode={isEditMode}
                 setIsEditMode={setIsEditMode}
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -154,7 +156,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                     onManagerChange={onManagerChange}
                     onClick={openManagerSelectModal}
                 />
-                <FormControl label="이메일">
+                <FormControl label={t('detail.businessInfo.email')}>
                     {isEditMode ? (
                         <div>
                             <input
@@ -170,7 +172,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             {isEmailError && (
                                 <div className="flex items-center gap-[3px] -mb-2 pt-2 w-full">
                                     <AlertOctagon className="text-error" />
-                                    <p className="text-error text-13 ">담당자를 먼저 선택해주세요.</p>
+                                    <p className="text-error text-13 ">{t('detail.businessInfo.selectManagerError')}</p>
                                 </div>
                             )}
                         </div>
@@ -180,7 +182,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                         </div>
                     )}
                 </FormControl>
-                <FormControl label="전화번호">
+                <FormControl label={t('detail.businessInfo.phone')}>
                     {isEditMode ? (
                         <>
                             <input
@@ -198,7 +200,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             {isPhoneError && (
                                 <div className="flex items-center gap-[3px] -mb-2 pt-2 w-full">
                                     <AlertOctagon className="text-error" />
-                                    <p className="text-error text-13">담당자를 먼저 선택해주세요.</p>
+                                    <p className="text-error text-13">{t('detail.businessInfo.selectManagerError')}</p>
                                 </div>
                             )}
                         </>

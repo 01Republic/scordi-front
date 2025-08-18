@@ -1,10 +1,11 @@
-import React, {memo} from 'react';
-import {CreditCard} from 'lucide-react';
 import Tippy from '@tippyjs/react';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {LoadableBox} from '^components/util/loading';
 import {NextImage} from '^components/NextImage';
-import {useCreditCardOfSubscription, useBankAccountOfSubscription} from '../hooks';
+import {LoadableBox} from '^components/util/loading';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {CreditCard} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useBankAccountOfSubscription, useCreditCardOfSubscription} from '../hooks';
 import {StatusCard} from './StatusCard';
 
 interface ConnectedAssetCardProps {
@@ -13,6 +14,7 @@ interface ConnectedAssetCardProps {
 
 export const ConnectedAssetCard = memo((props: ConnectedAssetCardProps) => {
     const {subscription} = props;
+    const {t} = useTranslation('subscription');
     const {creditCardId, bankAccountId} = subscription;
     const creditCardQuery = useCreditCardOfSubscription(subscription);
     const bankAccountQuery = useBankAccountOfSubscription(subscription);
@@ -24,7 +26,7 @@ export const ConnectedAssetCard = memo((props: ConnectedAssetCardProps) => {
         const company = creditCard?.company;
         return (
             <StatusCard
-                label={'결제수단'}
+                label={t('paymentMethod.label')}
                 icon={
                     company ? (
                         <NextImage src={company.logo} alt={company.displayName} fill />
@@ -57,7 +59,7 @@ export const ConnectedAssetCard = memo((props: ConnectedAssetCardProps) => {
         const company = bankAccount?.company;
         return (
             <StatusCard
-                label={'결제수단'}
+                label={t('paymentMethod.label')}
                 icon={
                     company ? (
                         <NextImage src={company.logo} alt={company.displayName} fill />
@@ -84,8 +86,12 @@ export const ConnectedAssetCard = memo((props: ConnectedAssetCardProps) => {
     }
 
     return (
-        <StatusCard label={'결제수단'} icon={<CreditCard className="size-6 text-white" />} iconColor={'bg-blue-400'}>
-            <span className="text-gray-300">없음</span>
+        <StatusCard
+            label={t('paymentMethod.label')}
+            icon={<CreditCard className="size-6 text-white" />}
+            iconColor={'bg-blue-400'}
+        >
+            <span className="text-gray-300">{t('paymentMethod.none')}</span>
         </StatusCard>
     );
 });

@@ -1,21 +1,24 @@
-import React, {memo} from 'react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface SubscriptionBillingHistoriesTableHeaderProps {}
 
 export const SubscriptionBillingHistoriesTableHeader = memo((props: SubscriptionBillingHistoriesTableHeaderProps) => {
+    const {t} = useTranslation('subscription');
+
     return (
         <tr className="bg-slate-100">
-            <th>일시</th>
+            <th>{t('tableHeaders.datetime')}</th>
 
-            <th>상태</th>
+            <th>{t('tableHeaders.status')}</th>
 
-            <th>결제금액</th>
+            <th>{t('tableHeaders.paymentAmount')}</th>
 
-            <th>연결된 결제수단</th>
+            <th>{t('tableHeaders.paymentMethod')}</th>
 
-            <th>연결된 청구서메일</th>
+            <th>{t('tableHeaders.invoiceEmail')}</th>
 
-            <th>비고</th>
+            <th>{t('tableHeaders.note')}</th>
 
             {/* 청구서 보기 */}
             <th />

@@ -1,9 +1,10 @@
-import React, {memo} from 'react';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {VendorContractDto} from '^models/vendor/VendorContract/types';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
-import {EmptyValue} from '../../EmptyValue';
 import {AlertOctagon, X} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {EmptyValue} from '../../EmptyValue';
 
 interface VendorManagerProps {
     isEditMode?: boolean;
@@ -15,11 +16,12 @@ interface VendorManagerProps {
 }
 
 export const VendorManager = memo((props: VendorManagerProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, isError = false, vendorContract, selectedManager, onManagerChange, onClick} = props;
 
     return (
         <>
-            <FormControl label="담당자">
+            <FormControl label={t('detail.businessInfo.manager')}>
                 {isEditMode ? (
                     <>
                         <div
@@ -42,7 +44,7 @@ export const VendorManager = memo((props: VendorManagerProps) => {
                         {isError && (
                             <div className="flex items-center gap-[3px] -mb-2 pt-2 w-full">
                                 <AlertOctagon className="text-error" />
-                                <p className="text-error text-13 ">거래처를 먼저 선택해주세요.</p>
+                                <p className="text-error text-13 ">{t('detail.businessInfo.selectCompanyError')}</p>
                             </div>
                         )}
                     </>

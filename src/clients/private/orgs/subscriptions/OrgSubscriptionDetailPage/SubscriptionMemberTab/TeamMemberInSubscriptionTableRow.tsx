@@ -1,26 +1,27 @@
-import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {toast} from 'react-hot-toast';
-import {MinusCircle} from 'lucide-react';
 import Tippy from '@tippyjs/react';
 import {errorToast} from '^api/api';
-import {TeamMemberDto} from '^models/TeamMember';
 import {orgIdParamState} from '^atoms/common';
-import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {useUpdateSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {SubscriptionSeatStatusTag} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusTag';
+import {MultiCalender} from '^components/ui/calenders/MultiCalender';
+import {useUpdateSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {
     SubscriptionSeatDto,
     SubscriptionSeatStatus,
     UpdateSubscriptionSeatRequestDto,
 } from '^models/SubscriptionSeat/type';
+import {TeamMemberDto} from '^models/TeamMember';
+import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
-import {SubscriptionSeatStatusTag} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/SubscriptionSeatStatusTag';
-import {MultiCalender} from '^components/ui/calenders/MultiCalender';
+import {MinusCircle} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {toast} from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
@@ -32,6 +33,7 @@ interface TeamMemberInSubscriptionTableRowProps {
 }
 
 export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscriptionTableRowProps) => {
+    const {t} = useTranslation('subscription');
     const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +53,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
         setIsLoading(true);
 
         updateSubscriptionSeat({orgId, subscriptionId: subscription.id, id: seat.id, dto})
-            .then(() => toast.success('변경사항을 저장했어요.'))
+            .then(() => toast.success(t('detail.toast.saveSuccess')))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     };
@@ -103,7 +105,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                     }}
                     ValueComponent={SubscriptionSeatStatusTag}
                     contentMinWidth="240px"
-                    optionListBoxTitle="상태를 변경합니다."
+                    optionListBoxTitle={t('detail.memberTable.changeStatus') as string}
                     inputDisplay={false}
                 />
             </td>
@@ -144,7 +146,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             {/* 제외 */}
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">
-                    <Tippy content="이 구독에서 제외">
+                    <Tippy content={t('detail.memberTable.excludeFromSubscription')}>
                         <div>
                             <MinusCircle
                                 fontSize={24}

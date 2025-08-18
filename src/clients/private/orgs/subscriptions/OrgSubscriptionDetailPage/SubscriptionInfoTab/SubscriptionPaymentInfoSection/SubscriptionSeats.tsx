@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
-import {useCurrentSubscription} from '../../atom';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface SubscriptionSeatsProps {
     isEditMode?: boolean;
@@ -10,10 +10,11 @@ interface SubscriptionSeatsProps {
 }
 
 export const SubscriptionSeats = memo((props: SubscriptionSeatsProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, currentSeatCount, currentAssignedSeatCount, setUpdateSeatCount} = props;
 
     return (
-        <FormControl label="구매수량">
+        <FormControl label={t('detail.paymentInfo.purchaseQuantity')}>
             {isEditMode ? (
                 <div className="relative">
                     <input
@@ -28,7 +29,10 @@ export const SubscriptionSeats = memo((props: SubscriptionSeatsProps) => {
                         }}
                     />
                     <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
-                        {`할당: ${currentAssignedSeatCount} / 보유: ${currentSeatCount}`}
+                        {t('detail.paymentInfo.assignedHold', {
+                            assigned: currentAssignedSeatCount,
+                            total: currentSeatCount,
+                        })}
                     </div>
                 </div>
             ) : (

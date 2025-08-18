@@ -13,7 +13,28 @@ export const SubscriptionBillingCycleTypeValues = [
     BillingCycleOptions.Onetime, // 일회성
 ];
 
-export function t_SubscriptionBillingCycleType(value: BillingCycleOptions, short = false) {
+export function t_SubscriptionBillingCycleType(value: BillingCycleOptions, short = false, t?: (key: string) => string) {
+    return getBillingCycleTypeText(value, short, t);
+}
+
+// 백워드 호환성을 위한 fallback 함수
+export function getBillingCycleTypeText(value: BillingCycleOptions, short = false, t?: (key: string) => string) {
+    if (t) {
+        switch (value) {
+            case BillingCycleOptions.None:
+                return short ? t('billingCycle.short.none') : t('billingCycle.none');
+            case BillingCycleOptions.Monthly:
+                return short ? t('billingCycle.short.monthly') : t('billingCycle.monthly');
+            case BillingCycleOptions.Yearly:
+                return short ? t('billingCycle.short.yearly') : t('billingCycle.yearly');
+            case BillingCycleOptions.Onetime:
+                return short ? t('billingCycle.short.onetime') : t('billingCycle.onetime');
+            default:
+                return '-';
+        }
+    }
+
+    // 기본 한국어 텍스트 (번역 함수가 없을 때)
     switch (value) {
         case BillingCycleOptions.None:
             return '무관';
@@ -28,7 +49,28 @@ export function t_SubscriptionBillingCycleType(value: BillingCycleOptions, short
     }
 }
 
-export function t_SubscriptionBillingCycleTiny(value: BillingCycleOptions) {
+export function t_SubscriptionBillingCycleTiny(value: BillingCycleOptions, t?: (key: string) => string) {
+    return getBillingCycleTinyText(value, t);
+}
+
+// 백워드 호환성을 위한 fallback 함수
+export function getBillingCycleTinyText(value: BillingCycleOptions, t?: (key: string) => string) {
+    if (t) {
+        switch (value) {
+            case BillingCycleOptions.None:
+                return t('billingCycle.tiny.none');
+            case BillingCycleOptions.Monthly:
+                return t('billingCycle.tiny.monthly');
+            case BillingCycleOptions.Yearly:
+                return t('billingCycle.tiny.yearly');
+            case BillingCycleOptions.Onetime:
+                return t('billingCycle.tiny.onetime');
+            default:
+                return '-';
+        }
+    }
+
+    // 기본 한국어 텍스트 (번역 함수가 없을 때)
     switch (value) {
         case BillingCycleOptions.None:
             return '무관';

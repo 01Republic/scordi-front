@@ -1,20 +1,21 @@
-import {memo, useEffect, useState} from 'react';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {usePayingTypeTags} from '^models/Tag/hook';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {TagDto} from '^models/Tag/type';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
-import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
+import {subscriptionApi} from '^models/Subscription/api';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {
     c_PricingModelValue,
     PricingModelOptions,
     PricingModelValues,
     t_SubscriptionPricingModel,
 } from '^models/Subscription/types/PricingModelOptions';
+import {usePayingTypeTags} from '^models/Tag/hook';
+import {TagDto} from '^models/Tag/type';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
 
 interface PayingTypeProps {
     subscription: SubscriptionDto;
@@ -53,8 +54,9 @@ PayingType.displayName = 'PayingType';
 
 export const PayingTypeTag = memo((props: {value: PricingModelOptions | string}) => {
     const {value} = props;
+    const {t} = useTranslation('subscription');
     const colorClass = c_PricingModelValue(value as PricingModelOptions);
-    const text = t_SubscriptionPricingModel(value as PricingModelOptions);
+    const text = t_SubscriptionPricingModel(value as PricingModelOptions, t);
 
     return <TagUI className={colorClass}>{text}</TagUI>;
 });

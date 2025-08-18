@@ -1,50 +1,262 @@
 {
-  "list": {
-    "title": "구독 리스트",
-    "breadcrumb": "구독",
-    "breadcrumbActive": "구독 리스트",
-    "addButton": "구독 추가",
-    "emptyMessage": "조회된 구독이 없어요.",
-    "unit": "개"
-  },
-  "scope": {
-    "all": "전체",
-    "none": "미정",
-    "free": "무료",
-    "paid": "유료",
-    "quit": "해지"
-  },
-  "table": {
-    "header": {
-      "serviceName": "서비스 명",
-      "status": "상태",
-      "billingCycle": "결제주기",
-      "paymentAmount": "결제금액",
-      "renewalDate": "갱신일",
-      "userCount": "사용인원",
-      "paymentMethod": "결제수단",
-      "note": "비고"
+    "list": {
+        "title": "구독 리스트",
+        "breadcrumb": "구독",
+        "breadcrumbActive": "구독 리스트",
+        "addButton": "구독 추가",
+        "emptyMessage": "조회된 구독이 없어요.",
+        "unit": "개"
     },
-    "actions": {
-      "delete": "삭제하기",
-      "changeStatus": "사용 상태를 변경합니다",
-      "changeBillingCycle": "결제주기를 변경합니다"
-    }
-  },
-  "excel": {
-    "downloadSuccess": "구독리스트 엑셀 다운로드가 완료되었어요.",
-    "filename": "구독리스트_다운로드"
-  },
-  "delete": {
-    "confirmTitle": "구독을 삭제할까요?",
-    "confirmMessage": "이 작업은 취소할 수 없습니다.\n워크스페이스 전체에서 삭제됩니다.\n그래도 삭제하시겠어요?",
-    "cancelText": "삭제 취소",
-    "success": "구독을 삭제했어요."
-  },
-  "update": {
-    "success": "변경사항을 저장했어요."
-  },
-      "billingHistory": {
+    "scope": {
+        "all": "전체",
+        "none": "미정",
+        "free": "무료",
+        "paid": "유료",
+        "quit": "해지"
+    },
+    "billingCycle": {
+        "none": "무관",
+        "monthly": "월결제",
+        "yearly": "연결제",
+        "onetime": "일회성",
+        "short": {
+            "none": "무관",
+            "monthly": "매월",
+            "yearly": "매년",
+            "onetime": "단건"
+        },
+        "tiny": {
+            "none": "무관",
+            "monthly": "월",
+            "yearly": "년",
+            "onetime": "한번"
+        }
+    },
+    "pricingModel": {
+        "none": "무관",
+        "perSeat": "인원당",
+        "perUsage": "사용량",
+        "perUnit": "건별결제",
+        "fixed": "고정요금",
+        "license": "라이센스",
+        "credit": "크레딧"
+    },
+    "table": {
+        "header": {
+            "serviceName": "서비스 명",
+            "status": "상태",
+            "billingCycle": "결제주기",
+            "paymentAmount": "결제금액",
+            "renewalDate": "갱신일",
+            "userCount": "사용인원",
+            "paymentMethod": "결제수단",
+            "note": "비고"
+        },
+        "actions": {
+            "delete": "삭제하기",
+            "changeStatus": "사용 상태를 변경합니다",
+            "changeBillingCycle": "결제주기를 변경합니다"
+        }
+    },
+    "excel": {
+        "downloadSuccess": "구독리스트 엑셀 다운로드가 완료되었어요.",
+        "filename": "구독리스트_다운로드"
+    },
+    "delete": {
+        "confirmTitle": "구독을 삭제할까요?",
+        "confirmMessage": "이 작업은 취소할 수 없습니다.\n워크스페이스 전체에서 삭제됩니다.\n그래도 삭제하시겠어요?",
+        "cancelText": "삭제 취소",
+        "success": "구독을 삭제했어요."
+    },
+    "update": {
+        "success": "변경사항을 저장했어요."
+    },
+    "detail": {
+        "tabs": {
+            "info": "정보",
+            "payment": "결제",
+            "member": "시트"
+        },
+        "paymentTab": {
+            "unit": "개",
+            "emptyMessage": "조회된 결제내역이 없어요.",
+            "manualUpload": {
+                "button": "직접 추가",
+                "success": "결제내역이 등록되었습니다.",
+                "readonly": "구독"
+            }
+        },
+        "infoTab": {
+            "status": {
+                "label": "구독상태",
+                "free": "무료",
+                "paid": "유료"
+            },
+            "paymentAmount": {
+                "label": "결제 예정 금액"
+            },
+            "nextBillingDate": {
+                "label": "다음 결제 예정일"
+            },
+            "basicInfo": {
+                "title": "기본 정보"
+            }
+        },
+        "memberTab": {
+            "addMember": "멤버 연결하기",
+            "unit": "명",
+            "emptyMessage": "조회된 구성원이 없어요.",
+            "emptyButtonText": "구성원 등록",
+            "selectedMembers": "{{count}}명 선택됨",
+            "disconnectConfirm": {
+                "title": "구독 연결을 해제할까요?",
+                "message": "이 작업은 취소할 수 없습니다.\n<b>선택한 멤버가 구독에서 제외</b>됩니다. \n그래도 연결을 해제 하시겠어요?",
+                "success": "계정을 회수했어요."
+            },
+            "tableHeaders": {
+                "datetime": "일시",
+                "status": "상태",
+                "paymentAmount": "결제금액",
+                "paymentMethod": "연결된 결제수단",
+                "invoiceEmail": "연결된 청구서메일",
+                "note": "비고"
+            }
+        },
+        "paymentSync": {
+            "loadLatest": "최신내역 불러오기"
+        },
+        "paymentStatus": {
+            "all": "전체",
+            "paid": "결제됨",
+            "failed": "실패"
+        },
+        "billingStatus": {
+            "payWait": "예정",
+            "paySuccess": "결제됨",
+            "payFail": "실패",
+            "warning": "정보",
+            "info": "정보",
+            "unknown": "미정"
+        },
+        "toast": {
+            "saveSuccess": "변경사항을 저장했어요.",
+            "saveError": "문제가 발생했어요.",
+            "noInvoice": "청구서가 없어요."
+        },
+        "paymentSync": {
+            "invoiceEmail": {
+                "title": "청구서 메일 불러오기",
+                "desc": "구글 로그인으로 한 번에 불러와요"
+            },
+            "creditCard": {
+                "title": "결제내역 불러오기",
+                "desc": "카드사 로그인으로 한 번에 불러와요"
+            },
+            "modal": {
+                "reconnectRequired": "재로그인이 필요한 청구서 메일이에요.",
+                "afterData": "{{date}} 이후의 데이터가 없어요",
+                "loginSameAccount": "아래 버튼을 클릭해 같은 청구서 메일 계정으로 로그인해주세요.",
+                "apiConnect": "API 연결하기",
+                "gmailAuth": "Gmail 계정 인증을 시작합니다",
+                "checkRequired": "꼭 확인해주세요",
+                "apiPermission": "API 조회를 위한 권한",
+                "approveAll": "모두 승인",
+                "confirmAccount": "계정 확인하기",
+                "grantPermission": "이어지는 창에서 권한은 해주세요"
+            }
+        },
+        "memberStatus": {
+            "quit": "해지",
+            "paid": "유료",
+            "free": "무료",
+            "none": "미정"
+        },
+        "memberTable": {
+            "headers": {
+                "name": "이름",
+                "team": "팀",
+                "status": "상태",
+                "email": "이메일 계정",
+                "accountPeriod": "계정부여(예정)일 ~ 계정회수(예정)일",
+                "note": "비고"
+            },
+            "changeStatus": "상태를 변경합니다.",
+            "excludeFromSubscription": "이 구독에서 제외"
+        },
+        "memberSelect": {
+            "titleCaption": "이미 이용중인 구성원은 제외했어요.",
+            "title": "이용중인 구성원을 모두 선택해주세요.",
+            "ctaInactiveText": "이용중인 구성원을 선택해주세요.",
+            "ctaActiveText": "%n명의 이용중인 구성원 연결하기",
+            "successMessage": "선택한 구성원을 연결했어요.",
+            "emptyText": "연결할 구성원이 없어요"
+        },
+        "seatStatus": {
+            "assigned": "이용중인 시트",
+            "purchased": "구매된 시트",
+            "finishTarget": "이번달 회수(예정) 계정",
+            "quitCompleted": "해지 완료된 계정"
+        },
+        "usingStatus": {
+            "label": "사용 상태",
+            "changeConfirm": "사용 상태를 변경할까요?"
+        },
+        "basicInfo": {
+            "workspaceName": "워크스페이스명",
+            "manager": "담당자",
+            "note": "비고",
+            "teamsInUse": "이용중인 팀"
+        },
+        "businessInfo": {
+            "title": "거래처 정보",
+            "company": "거래처",
+            "manager": "담당자",
+            "email": "이메일",
+            "phone": "전화번호",
+            "memo": "비고",
+            "selectManagerError": "담당자를 먼저 선택해주세요.",
+            "selectCompanyError": "거래처를 먼저 선택해주세요."
+        },
+        "paymentInfo": {
+            "title": "결제 정보",
+            "purchaseQuantity": "구매수량",
+            "assignedHold": "할당: {{assigned}} / 보유: {{total}}",
+            "startDate": "시작일",
+            "endDate": "종료일",
+            "billingAmount": "결제금액",
+            "billingCycle": "결제주기",
+            "pricingModel": "요금책정모델",
+            "freePaid": "유료/무료",
+            "creditCard": "연결된 카드",
+            "bankAccount": "연결된 계좌",
+            "invoiceAccount": "청구서메일",
+            "moreItems": "외 {{count}}개",
+            "quantityError": "구매 수량은 할당된 멤버 수 이상이어야 합니다.",
+            "dateError": "시작일은 종료일보다 빨라야 합니다.",
+            "dateValidation": {
+                "endDateFirst": "종료일보다는 작아야 합니다.",
+                "startDateFirst": "시작일보다는 커야 합니다.",
+                "setStartDateFirst": "시작일을 먼저 설정해주세요."
+            },
+            "selectOptions": {
+                "billingCycle": "결제주기를 수정합니다",
+                "freePaid": "유/무료 여부를 변경합니다"
+            }
+        },
+        "paymentMethod": {
+            "label": "결제수단",
+            "none": "없음"
+        }
+    },
+    "tableHeaders": {
+        "datetime": "일시",
+        "status": "상태",
+        "paymentAmount": "결제금액",
+        "paymentMethod": "연결된 결제수단",
+        "invoiceEmail": "연결된 청구서메일",
+        "note": "비고"
+    },
+    "billingHistory": {
         "title": "결제현황",
         "breadcrumb": "결제현황",
         "searchPlaceholder": "서비스명 검색",
@@ -73,4 +285,4 @@
             "sheetName": "결제현황 조회결과"
         }
     }
-} 
+}

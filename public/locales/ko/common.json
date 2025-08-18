@@ -1,5 +1,6 @@
 {
     "hi": "안녕",
+    "empty": "비어있음",
     "date": {
         "year": "년",
         "years": "년",
@@ -82,7 +83,11 @@
     },
     "button": {
         "back": "뒤로가기",
-        "viewAll": "전체보기"
+        "viewAll": "전체보기",
+        "cancel": "취소",
+        "edit": "수정",
+        "add": "추가",
+        "save": "저장"
     },
     "currency": {
         "unit": "원",

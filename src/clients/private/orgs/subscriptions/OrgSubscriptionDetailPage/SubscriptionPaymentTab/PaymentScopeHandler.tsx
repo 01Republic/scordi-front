@@ -1,6 +1,7 @@
-import React, {memo, useState} from 'react';
 import {ScopeButton} from '^clients/private/_components/rest-pages/ListPage/ScopeButton';
 import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 
 interface Props {
     onSearch: (query: FindAllBillingHistoriesQueryDto) => any;
@@ -8,6 +9,7 @@ interface Props {
 
 export const PaymentScopeHandler = memo(function (props: Props) {
     const {onSearch} = props;
+    const {t} = useTranslation('subscription');
     const [selected, setSelected] = useState<number>(0);
 
     const getBillingHistories = (where: FindAllBillingHistoriesQueryDto['where'] | null) => {
@@ -28,7 +30,7 @@ export const PaymentScopeHandler = memo(function (props: Props) {
                     getBillingHistories(null);
                 }}
             >
-                전체
+                {t('detail.paymentStatus.all')}
             </ScopeButton>
             <ScopeButton
                 active={selected === 1}
@@ -37,7 +39,7 @@ export const PaymentScopeHandler = memo(function (props: Props) {
                     getBillingHistories({paidAt: {op: 'not', val: 'NULL'}});
                 }}
             >
-                결제됨
+                {t('detail.paymentStatus.paid')}
             </ScopeButton>
             <ScopeButton
                 active={selected === 2}
@@ -46,7 +48,7 @@ export const PaymentScopeHandler = memo(function (props: Props) {
                     getBillingHistories({paidAt: 'NULL'});
                 }}
             >
-                실패
+                {t('detail.paymentStatus.failed')}
             </ScopeButton>
         </div>
     );

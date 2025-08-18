@@ -1,9 +1,10 @@
-import React, {memo} from 'react';
-import {UseFormReturn} from 'react-hook-form';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {BankAccountSelect} from '^models/BankAccount/components/BankAccountSelect';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {UseFormReturn} from 'react-hook-form';
 import {useBankAccountOfSubscription} from '../../hooks';
 
 interface SubscriptionBankAccountProps {
@@ -13,13 +14,14 @@ interface SubscriptionBankAccountProps {
 }
 
 export const SubscriptionBankAccount = memo((props: SubscriptionBankAccountProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, form, subscription} = props;
     const bankAccountQuery = useBankAccountOfSubscription(subscription);
 
     const defaultBankAccount = bankAccountQuery.data || subscription.bankAccount;
 
     return (
-        <FormControl label="연결된 계좌">
+        <FormControl label={t('detail.paymentInfo.bankAccount')}>
             {isEditMode ? (
                 <div className={'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'}>
                     <BankAccountSelect

@@ -1,11 +1,12 @@
-import React, {memo} from 'react';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {dateIsBeforeThen, intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {UseFormReturn, useWatch} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import Datepicker from 'react-tailwindcss-datepicker';
-import {dateIsBeforeThen, intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
-import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 
 interface SubscriptionStartAtProps {
     isEditMode?: boolean;
@@ -14,6 +15,7 @@ interface SubscriptionStartAtProps {
 }
 
 export const SubscriptionStartAt = memo((props: SubscriptionStartAtProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, form, subscription} = props;
 
     const startAt = useWatch({
@@ -29,7 +31,7 @@ export const SubscriptionStartAt = memo((props: SubscriptionStartAtProps) => {
     });
 
     return (
-        <FormControl label="구독시작일">
+        <FormControl label={t('detail.paymentInfo.startDate')}>
             {isEditMode ? (
                 <Datepicker
                     inputClassName="input border-gray-200 bg-gray-100 w-full"
@@ -43,7 +45,7 @@ export const SubscriptionStartAt = memo((props: SubscriptionStartAtProps) => {
                         const startAt = newValue?.startDate;
                         if (startAt) {
                             if (finishAt && !dateIsBeforeThen(startAt, finishAt)) {
-                                toast('종료일보다는 작아야 합니다.');
+                                toast(t('detail.paymentInfo.dateValidation.endDateFirst'));
                                 form.setValue('startAt', form.watch('startAt'));
                             } else {
                                 form.setValue('startAt', new Date(yyyy_mm_dd(startAt)));

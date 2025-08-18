@@ -1,7 +1,6 @@
-import React, {memo} from 'react';
-import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
-import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface TeamMemberInSubscriptionTableHeaderProps {
     sortVal: 'ASC' | 'DESC';
@@ -11,6 +10,7 @@ interface TeamMemberInSubscriptionTableHeaderProps {
 }
 
 export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubscriptionTableHeaderProps) => {
+    const {t} = useTranslation('subscription');
     const {sortVal, orderBy} = props;
     const {allSelected, onAllSelect} = props;
 
@@ -26,20 +26,20 @@ export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubs
             </th>
 
             <SortableTH2 sortKey="[teamMember][name]" sortVal={sortVal} onClick={orderBy}>
-                이름
+                {t('detail.memberTable.headers.name')}
             </SortableTH2>
 
             <SortableTH2 sortKey="[teamMember][teams][name]" sortVal={sortVal} onClick={orderBy}>
-                팀
+                {t('detail.memberTable.headers.team')}
             </SortableTH2>
 
-            <th>상태</th>
+            <th>{t('detail.memberTable.headers.status')}</th>
 
-            <th>이메일 계정</th>
+            <th>{t('detail.memberTable.headers.email')}</th>
 
-            <th>계정부여(예정)일 ~ 계정회수(예정)일</th>
+            <th>{t('detail.memberTable.headers.accountPeriod')}</th>
 
-            <th>비고</th>
+            <th>{t('detail.memberTable.headers.note')}</th>
 
             <th />
         </tr>

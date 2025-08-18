@@ -1,5 +1,6 @@
 {
     "hi": "Hello",
+    "empty": "Empty",
     "date": {
         "year": "year",
         "years": "years",
@@ -82,7 +83,11 @@
     },
     "button": {
         "back": "Back",
-        "viewAll": "View All"
+        "viewAll": "View All",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "add": "Add",
+        "save": "Save"
     },
     "currency": {
         "unit": "WON",

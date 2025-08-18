@@ -18,7 +18,34 @@ export const PricingModelValues = [
     PricingModelOptions.CREDIT, // 크레딧
 ];
 
-export function t_SubscriptionPricingModel(value: PricingModelOptions) {
+export function t_SubscriptionPricingModel(value: PricingModelOptions, t?: (key: string) => string) {
+    return getPricingModelText(value, t);
+}
+
+// 백워드 호환성을 위한 fallback 함수
+export function getPricingModelText(value: PricingModelOptions, t?: (key: string) => string) {
+    if (t) {
+        switch (value) {
+            case PricingModelOptions.NONE:
+                return t('pricingModel.none');
+            case PricingModelOptions.PER_SEAT:
+                return t('pricingModel.perSeat');
+            case PricingModelOptions.PER_USAGE:
+                return t('pricingModel.perUsage');
+            case PricingModelOptions.PER_UNIT:
+                return t('pricingModel.perUnit');
+            case PricingModelOptions.FIXED:
+                return t('pricingModel.fixed');
+            case PricingModelOptions.LICENSE:
+                return t('pricingModel.license');
+            case PricingModelOptions.CREDIT:
+                return t('pricingModel.credit');
+            default:
+                return '-';
+        }
+    }
+
+    // 기본 한국어 텍스트 (번역 함수가 없을 때)
     switch (value) {
         case PricingModelOptions.NONE:
             return '무관';

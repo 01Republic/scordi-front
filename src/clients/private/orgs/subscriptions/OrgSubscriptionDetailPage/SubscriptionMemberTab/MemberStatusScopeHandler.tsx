@@ -1,6 +1,7 @@
-import React, {memo, useState} from 'react';
-import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
 import {ScopeButton} from '^clients/private/_components/rest-pages/ListPage/ScopeButton';
+import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 
 interface MemberStatusScopeHandlerProps {
     onSearch: (status: SubscriptionSeatStatus | null) => void;
@@ -9,6 +10,7 @@ interface MemberStatusScopeHandlerProps {
 export const MemberStatusScopeHandler = memo(function InviteStatusScopeHandler(props: MemberStatusScopeHandlerProps) {
     const {onSearch} = props;
     const [memberStatus, setMemberStatus] = useState<SubscriptionSeatStatus | null>(null);
+    const {t} = useTranslation('subscription');
 
     const handleClick = (status: SubscriptionSeatStatus | null) => {
         setMemberStatus(status);
@@ -18,31 +20,31 @@ export const MemberStatusScopeHandler = memo(function InviteStatusScopeHandler(p
     return (
         <div className="flex items-center gap-2">
             <ScopeButton active={memberStatus == null} onClick={() => handleClick(null)}>
-                전체
+                {t('scope.all')}
             </ScopeButton>
             <ScopeButton
                 active={memberStatus === SubscriptionSeatStatus.NONE}
                 onClick={() => handleClick(SubscriptionSeatStatus.NONE)}
             >
-                미정
+                {t('scope.none')}
             </ScopeButton>
             <ScopeButton
                 active={memberStatus === SubscriptionSeatStatus.PAID}
                 onClick={() => handleClick(SubscriptionSeatStatus.PAID)}
             >
-                유료
+                {t('scope.paid')}
             </ScopeButton>
             <ScopeButton
                 active={memberStatus === SubscriptionSeatStatus.FREE}
                 onClick={() => handleClick(SubscriptionSeatStatus.FREE)}
             >
-                무료
+                {t('scope.free')}
             </ScopeButton>
             <ScopeButton
                 active={memberStatus === SubscriptionSeatStatus.QUIT}
                 onClick={() => handleClick(SubscriptionSeatStatus.QUIT)}
             >
-                해지
+                {t('scope.quit')}
             </ScopeButton>
         </div>
     );

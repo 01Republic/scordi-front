@@ -1,8 +1,9 @@
-import React, {memo} from 'react';
-import {UseFormReturn} from 'react-hook-form';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {UseFormReturn} from 'react-hook-form';
 import {useCreditCardOfSubscription} from '../../hooks';
 
 interface SubscriptionCreditCardProps {
@@ -12,13 +13,14 @@ interface SubscriptionCreditCardProps {
 }
 
 export const SubscriptionCreditCard = memo((props: SubscriptionCreditCardProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, form, subscription} = props;
     const creditCardQuery = useCreditCardOfSubscription(subscription);
 
     const defaultCreditCard = creditCardQuery.data || subscription.creditCard;
 
     return (
-        <FormControl label="연결된 카드">
+        <FormControl label={t('detail.paymentInfo.creditCard')}>
             {isEditMode ? (
                 <div className={'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'}>
                     <CreditCardSelect

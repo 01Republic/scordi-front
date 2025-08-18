@@ -1,10 +1,11 @@
-import React, {memo} from 'react';
-import {UseFormReturn} from 'react-hook-form';
 import Tippy from '@tippyjs/react';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
 import {InvoiceAccountSelectForTableView} from '^models/InvoiceAccount/components/InvoiceAccountSelectForTableView';
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {UseFormReturn} from 'react-hook-form';
 import {EmptyValue} from '../../EmptyValue';
 
 interface SubscriptionInvoiceAccountProps {
@@ -14,10 +15,11 @@ interface SubscriptionInvoiceAccountProps {
 }
 
 export const SubscriptionInvoiceAccount = memo((props: SubscriptionInvoiceAccountProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, form, subscription} = props;
 
     return (
-        <FormControl label="청구서메일">
+        <FormControl label={t('detail.paymentInfo.invoiceAccount')}>
             {isEditMode ? (
                 <div className="flex items-center input border-gray-200 bg-gray-100 ">
                     <InvoiceAccountSelectForTableView
@@ -58,7 +60,10 @@ export const SubscriptionInvoiceAccount = memo((props: SubscriptionInvoiceAccoun
                                     }
                                 >
                                     <div className="text-gray-500 text-13 cursor-pointer">
-                                        &nbsp; 외 {subscription.invoiceAccounts?.length - 1}개
+                                        &nbsp;{' '}
+                                        {t('detail.paymentInfo.moreItems', {
+                                            count: subscription.invoiceAccounts?.length - 1,
+                                        })}
                                     </div>
                                 </Tippy>
                             )}

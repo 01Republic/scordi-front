@@ -1,13 +1,14 @@
-import React, {memo} from 'react';
-import {UseFormReturn} from 'react-hook-form';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {
     CurrencySelect,
     InputSection,
     RecurringAmount,
 } from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
 import {CurrencyCode} from '^models/Money';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {UseFormReturn} from 'react-hook-form';
 
 interface SubscriptionBillingAmountProps {
     isEditMode?: boolean;
@@ -16,12 +17,13 @@ interface SubscriptionBillingAmountProps {
 }
 
 export const SubscriptionBillingAmount = memo((props: SubscriptionBillingAmountProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, form, subscription} = props;
 
     if (!subscription) return <></>;
 
     return (
-        <FormControl label="결제금액">
+        <FormControl label={t('detail.paymentInfo.billingAmount')}>
             {isEditMode ? (
                 <InputSection className="max-w-lg !mb-0">
                     <div className="grid grid-cols-8 gap-2">

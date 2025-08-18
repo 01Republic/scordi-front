@@ -1,6 +1,7 @@
-import {memo} from 'react';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface FreeTierSelectProps {
     isFreeTier: boolean;
@@ -11,6 +12,7 @@ interface FreeTierSelectProps {
  * 유/무료
  */
 export const FreeTierSelect = memo((props: FreeTierSelectProps) => {
+    const {t} = useTranslation('subscription');
     const {isFreeTier, onChange} = props;
 
     const onSelect = async (isFreeTier: boolean) => {
@@ -24,7 +26,7 @@ export const FreeTierSelect = memo((props: FreeTierSelectProps) => {
             onSelect={onSelect}
             ValueComponent={IsFreeTierTag}
             contentMinWidth="240px"
-            optionListBoxTitle="유/무료 여부를 변경합니다"
+            optionListBoxTitle={t('detail.paymentInfo.selectOptions.freePaid') as string}
             inputDisplay={false}
         />
     );

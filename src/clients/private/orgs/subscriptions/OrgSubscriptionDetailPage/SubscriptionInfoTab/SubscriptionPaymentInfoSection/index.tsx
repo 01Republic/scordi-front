@@ -1,28 +1,30 @@
 'use client';
 
-import React, {memo, useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast';
+import {CardSection} from '^clients/private/_components/CardSection';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {CurrencyCode} from '^models/Money';
 import {subscriptionApi} from '^models/Subscription/api';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {useShowSubscription} from '^models/Subscription/hook';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {CardSection} from '^clients/private/_components/CardSection';
+import {useCreateSubscriptionSeat, useDestroyAllSubscriptionSeat} from '^models/SubscriptionSeat/hook';
+import {useTranslation} from 'next-i18next';
+import {memo, useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import {useCurrentSubscription} from '../../atom';
-import {SubscriptionIsFreeTier} from './SubscriptionIsFreeTier';
+import {SubscriptionBankAccount} from './SubscriptionBankAccount';
 import {SubscriptionBillingAmount} from './SubscriptionBillingAmount';
 import {SubscriptionBillingCycleType} from './SubscriptionBillingCycleType';
+import {SubscriptionCreditCard} from './SubscriptionCreditCard';
+import {SubscriptionFinishAt} from './SubscriptionFinishAt';
+import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
+import {SubscriptionIsFreeTier} from './SubscriptionIsFreeTier';
 import {SubscriptionPricingModel} from './SubscriptionPricingModel';
 import {SubscriptionSeats} from './SubscriptionSeats';
-import {SubscriptionCreditCard} from './SubscriptionCreditCard';
-import {SubscriptionInvoiceAccount} from './SubscriptionInvoiceAccount';
 import {SubscriptionStartAt} from './SubscriptionStartAt';
-import {SubscriptionFinishAt} from './SubscriptionFinishAt';
-import {SubscriptionBankAccount} from './SubscriptionBankAccount';
-import {useShowSubscription} from '^models/Subscription/hook';
-import {useCreateSubscriptionSeat, useDestroyAllSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
+    const {t} = useTranslation('subscription');
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -67,7 +69,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
             if (updateSeatCount > 0) {
                 if (updateSeatCount < currentAssignedSeatCount) {
-                    toast.error('구매 수량은 할당된 멤버 수 이상이어야 합니다.');
+                    toast.error(t('detail.paymentInfo.quantityError'));
                     return;
                 }
 
@@ -117,10 +119,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             await subscriptionApi.update(subscription.id, dtoWithoutInvoiceAccountIdsForMulti);
             await reload();
             refetch();
-            toast.success('변경사항을 저장했어요.');
+            toast.success(t('toast.saveSuccess'));
             setIsEditMode(false);
         } catch (error) {
-            toast.error('변경사항 저장 중 오류가 발생했어요.');
+            toast.error(t('toast.saveError'));
         } finally {
             setIsSaving(false);
         }
@@ -129,7 +131,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     return (
         <CardSection.Base>
             <CardSection.Form
-                title="결제 정보"
+                title={t('detail.paymentInfo.title')}
                 isEditMode={isEditMode}
                 setIsEditMode={setIsEditMode}
                 onSubmit={form.handleSubmit(onSubmit)}

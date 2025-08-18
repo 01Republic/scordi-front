@@ -1,14 +1,14 @@
-import React, {memo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {BillingHistoryManualUpload} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/BillingHistoryManualUpload';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {useCurrentSubscription} from '../atom';
 import {useBillingHistoriesOfSubscription} from '../hooks';
+import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
+import {PaymentScopeHandler} from './PaymentScopeHandler';
 import {SubscriptionBillingHistoriesTableHeader} from './SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from './SubscriptionBillingHistoriesTableRow';
-import {PaymentScopeHandler} from './PaymentScopeHandler';
-import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
-import {PencilLine} from 'lucide-react';
-import {BillingHistoryManualUpload} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/BillingHistoryManualUpload';
 
 /**
  * 구독 상세p > 결제탭
@@ -16,6 +16,7 @@ import {BillingHistoryManualUpload} from '^clients/private/orgs/subscriptions/Or
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const orgId = useOrgIdParam();
     const {currentSubscription: subscription} = useCurrentSubscription();
+    const {t} = useTranslation('subscription');
     const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
         useBillingHistoriesOfSubscription(subscription, {
             relations: ['invoiceApp', 'invoiceApp.invoiceAccount', 'invoiceApp.invoiceAccount.googleTokenData'],
@@ -42,11 +43,11 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
                 pagination={result.pagination}
                 movePage={movePage}
                 changePageSize={changePageSize}
-                unit="개"
+                unit={t('detail.paymentTab.unit') as string}
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={result.items.length === 0}
-                emptyMessage="조회된 결제내역이 없어요."
+                emptyMessage={t('detail.paymentTab.emptyMessage') as string}
                 // EmptyButtons={AddCreditCardDropdown}
             >
                 <ListTable

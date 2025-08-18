@@ -1,24 +1,25 @@
-import React, {memo, useState} from 'react';
-import {toast} from 'react-hot-toast';
-import {MinusCircle, Plus} from 'lucide-react';
-import {confirm2, confirmed} from '^components/util/dialog';
 import {ApiError, errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
-import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
-import {useDestroyAllSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {useDestroyAllSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
+import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
+import {MinusCircle, Plus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {toast} from 'react-hot-toast';
 import {MemberStatusScopeHandler} from '../SubscriptionMemberTab/MemberStatusScopeHandler';
 import {SubscriptionSeatStatusSection} from '../SubscriptionMemberTab/SubscriptionSeatStatusSection';
+import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect';
 import {TeamMemberInSubscriptionTableHeader} from './TeamMemberInSubscriptionTableHeader';
 import {TeamMemberInSubscriptionTableRow} from './TeamMemberInSubscriptionTableRow';
-import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect';
-import Qs from 'qs';
 
 /**
  * 구독 상세p > 시트탭
  */
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
+    const {t} = useTranslation('subscription');
     const orgId = useOrgIdParam();
     const {currentSubscription: subscription} = useCurrentSubscription();
 
@@ -73,13 +74,8 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const onDeleteMembers = (targetMembers: number[]) => {
         confirmed(
             confirm2(
-                `구독 연결을 해제할까요?`,
-                <span>
-                    이 작업은 취소할 수 없습니다.
-                    <br />
-                    <b>선택한 멤버가 구독에서 제외</b>됩니다. <br />
-                    그래도 연결을 해제 하시겠어요?
-                </span>,
+                t('detail.memberTab.disconnectConfirm.title'),
+                <div dangerouslySetInnerHTML={{__html: t('detail.memberTab.disconnectConfirm.message')}} />,
                 'warning',
                 {
                     showLoaderOnConfirm: true,
@@ -87,7 +83,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                         try {
                             await destroySubscriptionSeat({orgId, subscriptionId: subscription.id, ids: targetMembers});
                             setSelectedMembers([]);
-                            toast.success('계정을 회수했어요.');
+                            toast.success(t('detail.memberTab.disconnectConfirm.success'));
                         } catch (e) {
                             errorToast(e as ApiError);
                         }
@@ -108,7 +104,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 <MemberStatusScopeHandler onSearch={onChangeScopeHandler} />
                 <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
                     <Plus />
-                    &nbsp;멤버 연결하기
+                    &nbsp;{t('detail.memberTab.addMember')}
                 </button>
             </div>
 
@@ -116,23 +112,25 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 pagination={subscriptionSeat.pagination}
                 movePage={movePage}
                 changePageSize={changePageSize}
-                unit="명"
+                unit={t('detail.memberTab.unit')}
                 isNotLoaded={!isFetched}
                 isLoading={isLoading}
                 isEmptyResult={subscriptionSeat.pagination.totalItemCount === 0 && !isLoading}
-                emptyMessage="조회된 구성원이 없어요."
-                emptyButtonText="구성원 등록"
+                emptyMessage={t('detail.memberTab.emptyMessage')}
+                emptyButtonText={t('detail.memberTab.emptyButtonText')}
                 EmptyButtons={() => (
                     <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
                         <Plus />
-                        &nbsp;멤버 연결하기
+                        &nbsp;{t('detail.memberTab.addMember')}
                     </button>
                 )}
                 TopMenu={
                     selectedMembers.length > 0
                         ? () => (
                               <div className="flex items-stretch border border-gray-200 rounded-md shadow-sm">
-                                  <div className="text-sm py-1 px-2">{`${selectedMembers.length}명 선택됨`}</div>
+                                  <div className="text-sm py-1 px-2">
+                                      {t('detail.memberTab.selectedMembers', {count: selectedMembers.length})}
+                                  </div>
                                   <button
                                       onClick={() => onDeleteMembers(selectedMembers)}
                                       className="border-l border-gray-200 py-1 px-2 hover:bg-gray-100"

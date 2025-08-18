@@ -1,19 +1,18 @@
-import React, {memo} from 'react';
-import {toast} from 'react-hot-toast';
-import {CreditCardProfileCompact, CreditCardProfileOption2} from '^models/CreditCard/components';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {BillingHistoryDto, BillingHistoryStatus, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
-import {yyyy_mm_dd} from '^utils/dateTime';
-import {BillingHistoryStatusTagUI, PayAmount} from '^models/BillingHistory/components';
-import {appBillingHistoryApi} from '^models/BillingHistory/api';
-import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
-import {InvoiceAccountProfile, InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
 import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/button/BillingHistoryAttachmentShowButton';
-import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
+import {appBillingHistoryApi} from '^models/BillingHistory/api';
+import {BillingHistoryStatusTagUI, PayAmount} from '^models/BillingHistory/components';
+import {BillingHistoryDto, BillingHistoryStatus, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
-import {PriceText} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/PriceText';
-import {LatestPayAmount} from '^models/Subscription/components';
+import {yyyy_mm_dd} from '^utils/dateTime';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {toast} from 'react-hot-toast';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -23,19 +22,20 @@ interface SubscriptionBillingHistoriesTableRowProps {
 export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBillingHistoriesTableRowProps) => {
     const {billingHistory, reload} = props;
     const {organizationId} = billingHistory;
+    const {t} = useTranslation('subscription');
 
     const update = async (dto: UpdateBillingHistoryRequestDto) => {
         const {id, organizationId: orgId} = billingHistory;
         return appBillingHistoryApi
             .updateV2(id, dto)
-            .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
+            .then(() => toast.success(t('toast.saveSuccess')))
+            .catch(() => toast.error(t('toast.saveError')))
             .finally(() => reload && reload());
     };
 
     const handleShowInvoice = () => {
         if (!billingHistory.invoiceUrl) {
-            toast.success('청구서가 없어요.');
+            toast.success(t('toast.noInvoice'));
         } else {
             window.open(billingHistory.invoiceUrl, '_blank');
         }

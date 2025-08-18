@@ -1,17 +1,19 @@
-import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useOrgIdParam} from '^atoms/common';
-import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
+import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from './atom';
-import {SubscriptionProfilePanel} from './SubscriptionProfilePanel';
-import {SubscriptionInfoTab} from './SubscriptionInfoTab';
-import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
-import {SubscriptionMemberTab} from './SubscriptionMemberTab';
 import {SubscriptionActionPanel} from './SubscriptionActionPanel';
+import {SubscriptionInfoTab} from './SubscriptionInfoTab';
+import {SubscriptionMemberTab} from './SubscriptionMemberTab';
+import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
+import {SubscriptionProfilePanel} from './SubscriptionProfilePanel';
 
 export const OrgSubscriptionDetailPage = memo(() => {
+    const {t} = useTranslation('subscription');
     const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
@@ -19,8 +21,12 @@ export const OrgSubscriptionDetailPage = memo(() => {
     return (
         <ShowPage
             breadcrumb={[
-                '구독',
-                {text: '구독 리스트', active: false, href: OrgSubscriptionListPageRoute.path(orgId)},
+                t('list.breadcrumb') as string,
+                {
+                    text: t('list.breadcrumbActive') as string,
+                    active: false,
+                    href: OrgSubscriptionListPageRoute.path(orgId),
+                },
                 {text: subscription?.product.name() || '', active: true},
             ]}
         >
@@ -37,7 +43,7 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['정보', '결제', '시트']}
+                        tabs={[t('detail.tabs.info'), t('detail.tabs.payment'), t('detail.tabs.member')]}
                     />
                 </div>
 

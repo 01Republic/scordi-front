@@ -1,7 +1,8 @@
-import React, {memo} from 'react';
-import {UserMinus} from 'lucide-react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useSeatCounter} from '^models/SubscriptionSeat/hook/useSeatCounter';
+import {UserMinus} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 import {useCurrentSubscription} from '../../atom';
 import {StatusCard} from '../../SubscriptionInfoTab/StatusCard';
 
@@ -10,12 +11,13 @@ export const useFinishTargetSeatCounter = (subscription: SubscriptionDto | null)
 };
 
 export const FinishTargetSeatCounter = memo(() => {
+    const {t} = useTranslation('subscription');
     const {currentSubscription} = useCurrentSubscription();
     const {count} = useFinishTargetSeatCounter(currentSubscription);
 
     return (
         <StatusCard
-            label="이번달 회수(예정) 계정"
+            label={t('detail.seatStatus.finishTarget')}
             value={count.toLocaleString()}
             icon={<UserMinus className="size-6 text-white" />}
             iconColor="bg-pink-400"

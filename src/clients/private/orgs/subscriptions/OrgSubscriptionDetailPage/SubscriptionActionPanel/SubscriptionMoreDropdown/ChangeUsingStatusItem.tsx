@@ -1,16 +1,18 @@
-import React, {memo, useState} from 'react';
 import Tippy from '@tippyjs/react/headless';
-import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
+import {subscriptionApi} from '^models/Subscription/api';
 import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
 import {SubscriptionUsingStatus} from '^models/Subscription/types';
-import {subscriptionApi} from '^models/Subscription/api';
-import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
-import {useCurrentSubscription} from '../../atom';
 import {Check, ChevronDown} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
+import {toast} from 'react-hot-toast';
+import {useCurrentSubscription} from '../../atom';
 
 export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
     const {currentSubscription, reload} = useCurrentSubscription();
+    const {t} = useTranslation('subscription');
     const [isLoading, setIsLoading] = useState(false);
 
     if (!currentSubscription) return <></>;
@@ -24,7 +26,7 @@ export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
                     isLoading ? 'opacity-50 pointer-events-none' : ''
                 }`}
             >
-                <div className="">사용 상태</div>
+                <div className="">{t('usingStatus.label')}</div>
                 <div>
                     <Tippy
                         interactive
@@ -38,7 +40,7 @@ export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
                                     setIsLoading(true);
                                     subscriptionApi
                                         .update(currentSubscription.id, {usingStatus: option})
-                                        .then(() => toast.success('변경사항을 저장했어요.'))
+                                        .then(() => toast.success(t('toast.saveSuccess')))
                                         .then(() => reload())
                                         .catch(errorToast)
                                         .finally(() => setIsLoading(false));
@@ -67,10 +69,11 @@ const UsingStatusSelect = (props: {
     selectOption: (option: SubscriptionUsingStatus) => any;
 }) => {
     const {selectedValue, selectOption} = props;
+    const {t} = useTranslation('subscription');
     return (
         <div className="text-14 menu px-0 py-0.5 shadow-xl bg-white border rounded-md min-w-[180px] !z-[1]">
             <div className="w-full mb-1 px-2 pt-2 pb-1">
-                <p className="text-12 font-semibold text-gray-500">사용 상태를 변경할까요?</p>
+                <p className="text-12 font-semibold text-gray-500">{t('usingStatus.changeConfirm')}</p>
                 {/*<p className="text-10">사용상태 변경하기</p>*/}
             </div>
 

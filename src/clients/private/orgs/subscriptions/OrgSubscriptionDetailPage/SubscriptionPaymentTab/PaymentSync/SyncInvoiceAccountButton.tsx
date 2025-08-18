@@ -5,6 +5,7 @@ import {MethodOption} from '^clients/private/_layouts/_shared/ListPageMainDropdo
 import {startSyncInvoiceAccount} from './InvoiceAccountReconnectModal';
 import {useStartInvoiceAccountSync} from './atom';
 import {Database} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
 
 interface SyncInvoiceAccountButtonProps {
     subscription: SubscriptionDto;
@@ -13,6 +14,7 @@ interface SyncInvoiceAccountButtonProps {
 
 export const SyncInvoiceAccountButton = memo((props: SyncInvoiceAccountButtonProps) => {
     const {subscription, reload} = props;
+    const {t} = useTranslation('subscription');
     const [isInvoiceAutoCreateModalOpened, setIsInvoiceAutoCreateModalOpened] = useState(false);
     const {invoiceAccounts = []} = subscription;
 

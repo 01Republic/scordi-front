@@ -1,16 +1,16 @@
-import React, {memo, useEffect, useState} from 'react';
+import {errorToast} from '^api/api';
+import {CardSection} from '^clients/private/_components/CardSection';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
+import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
-import {subscriptionApi} from '^models/Subscription/api';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {CardSection} from '^clients/private/_components/CardSection';
 import {SubscriptionAlias} from './SubscriptionAlias';
 import {SubscriptionDesc} from './SubscriptionDesc';
 import {SubscriptionMaster} from './SubscriptionMaster';
 import {SubscriptionTeam} from './SubscriptionTeam';
-import {errorToast} from '^api/api';
-import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const {reload, currentSubscription} = useCurrentSubscription();
@@ -20,6 +20,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const {t} = useTranslation('subscription');
 
     if (!currentSubscription) return <></>;
 
@@ -29,7 +30,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
         if (!currentSubscription) return;
         updateSubscription({subscriptionId: currentSubscription.id, data: dto})
             .then(() => setIsSaving(true))
-            .then(() => toast.success('변경사항을 저장했어요.'))
+            .then(() => toast.success(t('update.success')))
             .then(() => setIsEditMode(false))
             .catch(errorToast)
             .finally(() => {
@@ -40,7 +41,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
     return (
         <CardSection.Base>
             <CardSection.Form
-                title="기본 정보"
+                title={t('detail.infoTab.basicInfo.title')}
                 isEditMode={isEditMode}
                 setIsEditMode={setIsEditMode}
                 onSubmit={form.handleSubmit(onSubmit)}

@@ -1,10 +1,11 @@
-import React, {memo, useState} from 'react';
 import {MethodOption} from '^clients/private/_layouts/_shared/ListPageMainDropdown';
-import {useCreditCardSync} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/PaymentSync/atom';
-import {SubscriptionDto} from '^models/Subscription/types';
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
+import {useCreditCardSync} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/PaymentSync/atom';
 import {LoadableBox} from '^components/util/loading';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {Database} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 
 interface SycnCreditCardButtonProps {
     subscription: SubscriptionDto;
@@ -16,6 +17,7 @@ export const SycnCreditCardButton = memo((props: SycnCreditCardButtonProps) => {
     const {startSync, isSyncRunning} = useCreditCardSync(subscription.creditCard);
     const creditCardId = subscription.creditCardId;
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
+    const {t} = useTranslation('subscription');
 
     const onClickCreditCard = () => {
         if (!creditCardId) {
@@ -35,8 +37,8 @@ export const SycnCreditCardButton = memo((props: SycnCreditCardButtonProps) => {
             >
                 <MethodOption
                     Icon={Database}
-                    title="결제내역 불러오기"
-                    desc="카드사 로그인으로 한 번에 불러와요"
+                    title={t('detail.paymentSync.creditCard.title')}
+                    desc={t('detail.paymentSync.creditCard.desc')}
                     onClick={onClickCreditCard}
                 />
                 <CardAutoCreateModal

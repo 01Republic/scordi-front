@@ -1,12 +1,13 @@
-import React, {memo} from 'react';
-import {UseFormReturn} from 'react-hook-form';
-import {WithChildren} from '^types/global.type';
-import {TeamMemberDto} from '^models/TeamMember';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
+import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {TeamMemberDto} from '^models/TeamMember';
+import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
+import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {WithChildren} from '^types/global.type';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {UseFormReturn} from 'react-hook-form';
 import {useCurrentSubscription} from '../../atom';
 
 interface SubscriptionMasterProps extends WithChildren {
@@ -16,6 +17,7 @@ interface SubscriptionMasterProps extends WithChildren {
 }
 
 export const SubscriptionMaster = memo((props: SubscriptionMasterProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, form, defaultValue} = props;
 
     const {currentSubscription: subscription} = useCurrentSubscription();
@@ -23,7 +25,7 @@ export const SubscriptionMaster = memo((props: SubscriptionMasterProps) => {
     if (!subscription) return <></>;
 
     return (
-        <FormControl label="담당자">
+        <FormControl label={t('detail.basicInfo.manager')}>
             {isEditMode ? (
                 <TeamMemberSelectColumn
                     className={'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center h-[50px]'}

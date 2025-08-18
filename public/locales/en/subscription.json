@@ -1,50 +1,266 @@
 {
-  "list": {
-    "title": "Subscription List",
-    "breadcrumb": "Subscriptions",
-    "breadcrumbActive": "Subscription List",
-    "addButton": "Add Subscription",
-    "emptyMessage": "No subscriptions found.",
-    "unit": "items"
-  },
-  "scope": {
-    "all": "All",
-    "none": "Undefined",
-    "free": "Free",
-    "paid": "Paid",
-    "quit": "Cancelled"
-  },
-  "table": {
-    "header": {
-      "serviceName": "Service Name",
-      "status": "Status",
-      "billingCycle": "Billing Cycle",
-      "paymentAmount": "Payment Amount",
-      "renewalDate": "Renewal Date",
-      "userCount": "User Count",
-      "paymentMethod": "Payment Method",
-      "note": "Note"
+    "list": {
+        "title": "Subscription List",
+        "breadcrumb": "Subscriptions",
+        "breadcrumbActive": "Subscription List",
+        "addButton": "Add Subscription",
+        "emptyMessage": "No subscriptions found.",
+        "unit": "items"
     },
-    "actions": {
-      "delete": "Delete",
-      "changeStatus": "Change usage status",
-      "changeBillingCycle": "Change billing cycle"
-    }
-  },
-  "excel": {
-    "downloadSuccess": "Subscription list Excel download completed.",
-    "filename": "subscription_list_download"
-  },
-  "delete": {
-    "confirmTitle": "Delete subscription?",
-    "confirmMessage": "This action cannot be undone.\nIt will be deleted from the entire workspace.\nAre you sure you want to delete it?",
-    "cancelText": "Cancel Delete",
-    "success": "Subscription deleted."
-  },
-  "update": {
-    "success": "Changes saved."
-  },
-      "billingHistory": {
+    "scope": {
+        "all": "All",
+        "none": "Pending",
+        "free": "Free",
+        "paid": "Paid",
+        "quit": "Quit"
+    },
+    "billingCycle": {
+        "none": "None",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "onetime": "One-time",
+        "short": {
+            "none": "None",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "onetime": "Once"
+        },
+        "tiny": {
+            "none": "None",
+            "monthly": "Mon",
+            "yearly": "Yr",
+            "onetime": "Once"
+        }
+    },
+    "pricingModel": {
+        "none": "None",
+        "perSeat": "Per Seat",
+        "perUsage": "Per Usage",
+        "perUnit": "Per Unit",
+        "fixed": "Fixed",
+        "license": "License",
+        "credit": "Credit"
+    },
+    "table": {
+        "header": {
+            "serviceName": "Service Name",
+            "status": "Status",
+            "billingCycle": "Billing Cycle",
+            "paymentAmount": "Payment Amount",
+            "renewalDate": "Renewal Date",
+            "userCount": "User Count",
+            "paymentMethod": "Payment Method",
+            "note": "Note"
+        },
+        "actions": {
+            "delete": "Delete",
+            "changeStatus": "Change usage status",
+            "changeBillingCycle": "Change billing cycle"
+        }
+    },
+    "excel": {
+        "downloadSuccess": "Subscription list Excel download completed.",
+        "filename": "subscription_list_download"
+    },
+    "delete": {
+        "confirmTitle": "Delete subscription?",
+        "confirmMessage": "This action cannot be undone.\nIt will be deleted from the entire workspace.\nAre you sure you want to delete it?",
+        "cancelText": "Cancel Delete",
+        "success": "Subscription deleted."
+    },
+    "update": {
+        "success": "Changes saved."
+    },
+    "detail": {
+        "tabs": {
+            "info": "Info",
+            "payment": "Payment",
+            "member": "Members"
+        },
+        "paymentTab": {
+            "unit": "items",
+            "emptyMessage": "No payment history found.",
+            "manualUpload": {
+                "button": "Add Manually",
+                "success": "Payment history has been registered.",
+                "readonly": "Subscription"
+            }
+        },
+        "infoTab": {
+            "status": {
+                "label": "Subscription Status",
+                "free": "Free",
+                "paid": "Paid"
+            },
+            "paymentAmount": {
+                "label": "Next Payment Amount"
+            },
+            "nextBillingDate": {
+                "label": "Next Billing Date"
+            },
+            "basicInfo": {
+                "title": "Basic Information"
+            }
+        },
+        "memberTab": {
+            "addMember": "Connect Member",
+            "unit": "members",
+            "emptyMessage": "No members found.",
+            "emptyButtonText": "Add Member",
+            "selectedMembers": "{{count}} selected",
+            "disconnectConfirm": {
+                "title": "Disconnect subscription?",
+                "message": "This action cannot be undone.\n<b>Selected members will be removed from subscription</b>. \nAre you sure you want to disconnect?",
+                "success": "Account has been recovered."
+            },
+            "tableHeaders": {
+                "datetime": "Date/Time",
+                "status": "Status",
+                "paymentAmount": "Payment Amount",
+                "paymentMethod": "Connected Payment Method",
+                "invoiceEmail": "Connected Invoice Email",
+                "note": "Note"
+            }
+        },
+        "paymentSync": {
+            "loadLatest": "Load Latest"
+        },
+        "paymentStatus": {
+            "all": "All",
+            "paid": "Paid",
+            "failed": "Failed"
+        },
+        "billingStatus": {
+            "payWait": "Scheduled",
+            "paySuccess": "Paid",
+            "payFail": "Failed",
+            "warning": "Info",
+            "info": "Info",
+            "unknown": "Unknown"
+        },
+        "toast": {
+            "saveSuccess": "Changes saved.",
+            "saveError": "An error occurred.",
+            "noInvoice": "No invoice available."
+        },
+        "paymentSync": {
+            "invoiceEmail": {
+                "title": "Load Invoice Emails",
+                "desc": "Load all at once with Google login"
+            },
+            "creditCard": {
+                "title": "Load Payment History",
+                "desc": "Load all at once with card company login"
+            },
+            "modal": {
+                "reconnectRequired": "This invoice email requires re-login.",
+                "afterData": "No data available after {{date}}",
+                "loginSameAccount": "Please click the button below to log in with the same invoice email account.",
+                "apiConnect": "Connect API",
+                "gmailAuth": "Starting Gmail account authentication",
+                "checkRequired": "Please make sure to check",
+                "apiPermission": "permission for API access",
+                "approveAll": "approve all",
+                "confirmAccount": "Confirm Account",
+                "grantPermission": "Please grant permissions in the following window"
+            }
+        },
+        "memberStatus": {
+            "quit": "Quit",
+            "paid": "Paid",
+            "free": "Free",
+            "none": "Pending"
+        },
+        "memberTable": {
+            "headers": {
+                "name": "Name",
+                "team": "Team",
+                "status": "Status",
+                "email": "Email Account",
+                "accountPeriod": "Account Grant ~ Revoke Period",
+                "note": "Note"
+            },
+            "changeStatus": "Change status.",
+            "excludeFromSubscription": "Exclude from this subscription"
+        },
+        "memberSelect": {
+            "titleCaption": "Members already in use have been excluded.",
+            "title": "Please select all members in use.",
+            "ctaInactiveText": "Please select members in use.",
+            "ctaActiveText": "Connect %n members in use",
+            "successMessage": "Selected members have been connected.",
+            "emptyText": "No members to connect"
+        },
+        "seatStatus": {
+            "assigned": "Seats in Use",
+            "purchased": "Purchased Seats",
+            "finishTarget": "Revoke This Month",
+            "quitCompleted": "Terminated Accounts"
+        },
+        "usingStatus": {
+            "label": "Usage Status",
+            "changeConfirm": "Change usage status?"
+        },
+        "basicInfo": {
+            "workspaceName": "Workspace Name",
+            "manager": "Manager",
+            "note": "Note",
+            "teamsInUse": "Teams in Use"
+        },
+        "businessInfo": {
+            "title": "Business Information",
+            "vendor": "Vendor",
+            "manager": "Manager",
+            "email": "Email",
+            "phone": "Phone",
+            "note": "Note",
+            "selectManagerFirst": "Please select a manager first.",
+            "selectVendorFirst": "Please select a vendor first.",
+            "cancel": "Cancel",
+            "edit": "Edit",
+            "add": "Add",
+            "save": "Save"
+        },
+        "paymentInfo": {
+            "title": "Payment Information",
+            "purchaseQuantity": "Purchase Quantity",
+            "assignedHold": "Assigned: {{assigned}} / Total: {{total}}",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "billingAmount": "Billing Amount",
+            "billingCycle": "Billing Cycle",
+            "pricingModel": "Pricing Model",
+            "freePaid": "Free/Paid",
+            "creditCard": "Connected Card",
+            "bankAccount": "Connected Account",
+            "invoiceAccount": "Invoice Email",
+            "moreItems": "and {{count}} more",
+            "quantityError": "Purchase quantity must be greater than or equal to assigned members.",
+            "dateError": "Start date must be before end date.",
+            "dateValidation": {
+                "endDateFirst": "Must be before end date.",
+                "startDateFirst": "Must be after start date.",
+                "setStartDateFirst": "Please set start date first."
+            },
+            "selectOptions": {
+                "billingCycle": "Modify billing cycle",
+                "freePaid": "Change free/paid status"
+            }
+        },
+        "paymentMethod": {
+            "label": "Payment Method",
+            "none": "None"
+        }
+    },
+    "tableHeaders": {
+        "datetime": "Date/Time",
+        "status": "Status",
+        "paymentAmount": "Payment Amount",
+        "paymentMethod": "Connected Payment Method",
+        "invoiceEmail": "Connected Invoice Email",
+        "note": "Note"
+    },
+    "billingHistory": {
         "title": "Payment Status",
         "breadcrumb": "Payment Status",
         "searchPlaceholder": "Search service name",
@@ -73,4 +289,4 @@
             "sheetName": "Payment Status Query Result"
         }
     }
-} 
+}

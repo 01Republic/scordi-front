@@ -1,11 +1,12 @@
-import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useTeamMembers2} from '^models/TeamMember';
-import {useCreateSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
-import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
 import {SlideUpAllSelectModal} from '^clients/private/_modals/SlideUpAllSelectModal';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useCreateSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
+import {useTeamMembers2} from '^models/TeamMember';
+import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 
 interface SubscriptionTeamMemberSelectModalProps {
     isOpened: boolean;
@@ -14,6 +15,7 @@ interface SubscriptionTeamMemberSelectModalProps {
 }
 
 export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMemberSelectModalProps) => {
+    const {t} = useTranslation('subscription');
     const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {isOpened, onClose, onCreate} = props;
@@ -50,12 +52,12 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
                 <TeamMemberSelectItem teamMember={item} onClick={onClick} isSelected={isSelected} />
             )}
             onSubmit={handleUpdate}
-            titleCaption="이미 이용중인 구성원은 제외했어요."
-            title="이용중인 구성원을 모두 선택해주세요."
-            ctaInactiveText="이용중인 구성원을 선택해주세요."
-            ctaActiveText="%n명의 이용중인 구성원 연결하기"
-            successMessage="선택한 구성원을 연결했어요."
-            emptyText="연결할 구성원이 없어요"
+            titleCaption={t('detail.memberSelect.titleCaption') as string}
+            title={t('detail.memberSelect.title') as string}
+            ctaInactiveText={t('detail.memberSelect.ctaInactiveText') as string}
+            ctaActiveText={t('detail.memberSelect.ctaActiveText') as string}
+            successMessage={t('detail.memberSelect.successMessage') as string}
+            emptyText={t('detail.memberSelect.emptyText') as string}
         />
     );
 });

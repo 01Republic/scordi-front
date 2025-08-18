@@ -1,11 +1,12 @@
-import React, {memo, useState} from 'react';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
-import {VendorContractDto} from '^models/vendor/VendorContract/types';
+import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {VendorContractDto} from '^models/vendor/VendorContract/types';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {X} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo, useState} from 'react';
 
 interface VendorCompanyNameProps {
     isEditMode?: boolean;
@@ -16,11 +17,12 @@ interface VendorCompanyNameProps {
 }
 
 export const VendorCompanyName = memo((props: VendorCompanyNameProps) => {
+    const {t} = useTranslation('subscription');
     const {isEditMode, vendorContract, selectedCompany, onCompanyChange} = props;
     const [isCompanySelectModalOpened, setIsCompanySelectModalOpened] = useState(false);
 
     return (
-        <FormControl label="거래처">
+        <FormControl label={t('detail.businessInfo.company')}>
             {isEditMode ? (
                 <div
                     className="cursor-pointer input border-gray-200 bg-gray-100 w-full flex items-center justify-between"

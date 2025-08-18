@@ -1,7 +1,8 @@
-import React, {memo} from 'react';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components';
+import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 interface BillingCycleSelectProps {
     billingCycle: BillingCycleOptions;
@@ -12,6 +13,7 @@ interface BillingCycleSelectProps {
  * 결제주기
  */
 export const BillingCycleSelect = memo((props: BillingCycleSelectProps) => {
+    const {t} = useTranslation('subscription');
     const {billingCycle, onChange} = props;
 
     const onSelect = async (billingCycleType: BillingCycleOptions) => {
@@ -25,7 +27,7 @@ export const BillingCycleSelect = memo((props: BillingCycleSelectProps) => {
             onSelect={onSelect}
             ValueComponent={BillingCycleTypeTag}
             contentMinWidth="240px"
-            optionListBoxTitle="결제주기를 수정합니다"
+            optionListBoxTitle={t('detail.paymentInfo.selectOptions.billingCycle') as string}
             inputDisplay={false}
         />
     );

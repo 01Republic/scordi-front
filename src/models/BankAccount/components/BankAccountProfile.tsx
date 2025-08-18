@@ -1,12 +1,11 @@
-import React, {memo} from 'react';
-import {getColor, palette} from '^components/util/palette';
 import {Avatar} from '^components/Avatar';
 import {NextImage} from '^components/NextImage';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {CreditCardDto} from '^models/CreditCard/type';
+import {getColor, palette} from '^components/util/palette';
 import {BankAccountDto} from '^models/BankAccount/type';
-import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {Building, CreditCard} from 'lucide-react';
+import {useTranslation} from 'next-i18next';
+import {memo} from 'react';
 
 /**
  * 계좌 프로필 : 기본
@@ -157,7 +156,9 @@ interface BankAccountProfileCompactProps {
 
 export const BankAccountProfileCompact = memo((props: BankAccountProfileCompactProps) => {
     const {item: bankAccount, className = ''} = props;
-    if (!bankAccount) return <div className="text-13 text-gray-300">비어있음</div>;
+    const {t} = useTranslation('common');
+
+    if (!bankAccount) return <div className="text-13 text-gray-300">{t('empty')}</div>;
 
     const company = bankAccount.company;
 
