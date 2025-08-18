@@ -21,7 +21,7 @@ export const UsersLoginPage = memo(() => {
             <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                 <div className="flex flex-col items-center justify-center w-[400px] gap-8">
                     <UserAuthTitleSection
-                        text="팀 생산성을 높이는 소프트웨어 구독 비용 관리"
+                        text="SaaS 관리는 스코디"
                         subTitle="팀 생산성을 높이는 소프트웨어 구독 비용 관리"
                     />
 
