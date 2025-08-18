@@ -13,7 +13,7 @@ import {useUnmount} from '^hooks/useUnmount';
 export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
     const orgId = useOrgIdParam();
     const teamId = useIdParam('teamId');
-    const {team, fetchData, clear, reloadWithUpdateCounters} = useCurrentTeam();
+    const {reloadWithUpdateCounters} = useCurrentTeam();
     const [tab, setTab] = useState(TabName.members);
 
     const {data: currentTeamData} = useCurrentTeam2(orgId, teamId);

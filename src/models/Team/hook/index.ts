@@ -14,7 +14,7 @@ import {
 import {useIsLoading} from '^hooks/useResource/useIsLoading';
 import {FindAllTeamMemberQueryDto, teamMemberApi} from '^models/TeamMember';
 import {useState} from 'react';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
 import {Paginated} from '^types/utils/paginated.dto';
 import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
@@ -92,5 +92,18 @@ export const useCurrentTeam2 = (orgId: number, id?: number) => {
         queryKey: [TEAM_HOOK_KEY.detail, orgId, id],
         queryFn: () => teamApi.show(orgId, id!).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId) && !!id,
+        retry: false,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+    });
+};
+
+export const useUpdateTeam = (orgId: number, id: number) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: UpdateTeamDto) => teamApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.detail, orgId, id], exact: true});
+        },
     });
 };
