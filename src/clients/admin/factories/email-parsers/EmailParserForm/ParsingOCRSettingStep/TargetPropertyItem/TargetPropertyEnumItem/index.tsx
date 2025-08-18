@@ -18,6 +18,7 @@ export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumProper
         title,
         emailItem,
         content,
+        attachments = [],
         optional = false,
         question,
         selectorEngine = 'xpath',
@@ -29,6 +30,7 @@ export function TargetPropertyEnumItem(props: TargetPropertyItemProps<EnumProper
                 <TargetPropertyEnumItemContent
                     emailItem={emailItem}
                     content={content}
+                    attachments={attachments}
                     defaultValue={defaultValue}
                     isExists={isExists}
                     isFinished={isFinished}
@@ -47,6 +49,7 @@ export const TargetPropertyEnumItemContent = (
     const {
         emailItem,
         content,
+        attachments = [],
         defaultValue,
         onChange,
         isExists = false,
@@ -58,6 +61,7 @@ export const TargetPropertyEnumItemContent = (
         defaultValue,
         emailItem,
         content,
+        attachments,
     });
 
     // 완료 체크되면 본체 폼에 값 반영
@@ -84,7 +88,9 @@ export const TargetPropertyEnumItemContent = (
 
                 <SelectedPropertySelectSection
                     form={form}
+                    email={emailItem}
                     content={content}
+                    attachments={attachments}
                     question={question}
                     selectorEngine={selectorEngine}
                 />

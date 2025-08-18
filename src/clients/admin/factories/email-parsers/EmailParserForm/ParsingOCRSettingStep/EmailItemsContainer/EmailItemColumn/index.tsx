@@ -3,7 +3,7 @@ import {useFormContext} from 'react-hook-form';
 import {ClassConstructor, plainToInstance} from 'class-transformer';
 import {GmailItemDto} from '^models/InvoiceAccount/type';
 import {BasePropertyFormData, EmailParserFormData, ParserTypes} from '^models/EmailParser/types';
-import {useEmailHtml} from '../../hooks';
+import {useEmailAttachments, useEmailHtml} from '../../hooks';
 import {PropertyValueColumn} from './PropertyValueColumn';
 
 interface EmailItemColumnProps {
@@ -20,9 +20,10 @@ interface EmailItemColumnProps {
 export const EmailItemColumn = memo((props: EmailItemColumnProps) => {
     const {x, pos, setPos, email, onClick, isActive = false, isExpanded = false, isLoading = false} = props;
     const form = useFormContext<{filterQuery: string; parserData: EmailParserFormData}>();
-    const {data: html = '', isFetching} = useEmailHtml(email.contentUrl);
+    const {data: html = '', isFetching: isContentLoading} = useEmailHtml(email.contentUrl);
+    const {data: attachments = [], isFetching: isAttchmentsLoading} = useEmailAttachments(email);
 
-    const loading = isLoading || isFetching;
+    const loading = isLoading || isContentLoading || isAttchmentsLoading;
     const parserData = form.getValues('parserData') || {};
     const keys = Object.keys(ParserTypes);
     const entries = Object.entries(parserData).sort(([aKey], [bKey]) => keys.indexOf(aKey) - keys.indexOf(bKey));
@@ -59,6 +60,7 @@ export const EmailItemColumn = memo((props: EmailItemColumnProps) => {
                             key={j}
                             email={email}
                             html={html}
+                            attachments={attachments}
                             isLoading={loading}
                             onClick={onClick}
                             defaultValue={defaultValue}

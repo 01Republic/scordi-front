@@ -1,5 +1,5 @@
 import {CurrencyCode} from '^models/Money';
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {BasePropertyFormData} from './base.property.form-data';
 
 type CurrencyParserStaticData = {
@@ -17,8 +17,8 @@ export type CurrencyParserData = CurrencyParserStaticData | CurrencyParserDynami
 export class MoneyPropertyFormData extends BasePropertyFormData {
     currencyParser: CurrencyParserData;
 
-    override parse(email: GmailItemDto, html: string): {resultValue: string} {
-        const dataSource = this.getDataSource(email, html);
+    override parse(email: GmailItemDto, html: string, attachments: FetchedAttachmentFile[]): {resultValue: string} {
+        const dataSource = this.getDataSource(email, html, attachments);
         const regexResult = this.getRegexResult(dataSource);
         const resultValue = this.getResultValue(dataSource, regexResult);
 

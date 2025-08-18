@@ -1,4 +1,4 @@
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {BasePropertyFormData} from '^models/EmailParser/types';
 import {FocusableColumn} from '../Column';
 import {Empty} from './Empty';
@@ -7,6 +7,7 @@ import {cn} from '^public/lib/utils';
 interface PropertyValueColumnProps<V extends BasePropertyFormData> {
     email: GmailItemDto;
     html: string;
+    attachments: FetchedAttachmentFile[];
     isLoading?: boolean;
     onClick?: () => any;
     defaultValue?: V;
@@ -21,6 +22,7 @@ export const PropertyValueColumn = <V extends BasePropertyFormData>(props: Prope
     const {
         email,
         html,
+        attachments = [],
         isLoading = false,
         isFocused = false,
         isReacted = false,
@@ -33,7 +35,7 @@ export const PropertyValueColumn = <V extends BasePropertyFormData>(props: Prope
 
     if (!defaultValue) return <></>;
 
-    const {resultValue} = defaultValue.parse(email, html);
+    const {resultValue} = defaultValue.parse(email, html, attachments);
 
     return (
         <FocusableColumn

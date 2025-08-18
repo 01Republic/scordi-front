@@ -17,6 +17,7 @@ export function TargetPropertyBooleanItem(props: TargetPropertyItemProps<Boolean
         title,
         emailItem,
         content,
+        attachments = [],
         optional = false,
         question,
         selectorEngine = 'xpath',
@@ -28,6 +29,7 @@ export function TargetPropertyBooleanItem(props: TargetPropertyItemProps<Boolean
                 <TargetPropertyBooleanItemContent
                     emailItem={emailItem}
                     content={content}
+                    attachments={attachments}
                     defaultValue={defaultValue}
                     isExists={isExists}
                     isFinished={isFinished}
@@ -44,6 +46,7 @@ export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemConten
     const {
         emailItem,
         content,
+        attachments = [],
         defaultValue,
         onChange,
         isExists = false,
@@ -55,6 +58,7 @@ export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemConten
         defaultValue,
         emailItem,
         content,
+        attachments,
     });
 
     // 완료 체크되면 본체 폼에 값 반영
@@ -82,7 +86,9 @@ export const TargetPropertyBooleanItemContent = (props: TargetPropertyItemConten
 
                 <SelectedPropertySelectSection
                     form={form}
+                    email={emailItem}
                     content={content}
+                    attachments={attachments}
                     question={question}
                     selectorEngine={selectorEngine}
                 />

@@ -1,9 +1,18 @@
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {getMatchResultForHtml} from '^utils/dom-parser';
 import {propertyValueOfEmail, SelectedProperty} from './selected-property.enum';
 import {SelectedPatternMethod} from './selected-pattern-method.enum';
 
-export class BasePropertyFormData {
+export interface PropertyFormData {
+    selectedProperty: SelectedProperty;
+    pattern: {
+        method?: SelectedPatternMethod;
+        value: string;
+        captureIndex: number;
+    };
+}
+
+export class BasePropertyFormData implements PropertyFormData {
     selectedProperty: SelectedProperty;
     pattern: {
         method?: SelectedPatternMethod;
@@ -11,8 +20,8 @@ export class BasePropertyFormData {
         captureIndex: number;
     };
 
-    getDataSource(email: GmailItemDto, html: string): string {
-        return propertyValueOfEmail(this.selectedProperty, email, html);
+    getDataSource(email: GmailItemDto, html: string, attachments: FetchedAttachmentFile[]): string {
+        return propertyValueOfEmail(this.selectedProperty, email, html, attachments);
     }
 
     getRegexResult(dataSource: string): string | string[] {
@@ -35,8 +44,8 @@ export class BasePropertyFormData {
         return extracted || dataSource || '데이터 없음';
     }
 
-    parse(email: GmailItemDto, html: string): {resultValue: string} {
-        const dataSource = this.getDataSource(email, html);
+    parse(email: GmailItemDto, html: string, attachments: FetchedAttachmentFile[]): {resultValue: string} {
+        const dataSource = this.getDataSource(email, html, attachments);
         const regexResult = this.getRegexResult(dataSource);
         const resultValue = this.getResultValue(dataSource, regexResult);
         return {resultValue};

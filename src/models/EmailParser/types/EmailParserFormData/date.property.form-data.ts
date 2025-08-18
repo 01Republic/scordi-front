@@ -1,5 +1,5 @@
 import {parse} from 'date-fns';
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {BasePropertyFormData} from './base.property.form-data';
 
 export type DateParserData = {format: string};
@@ -7,8 +7,8 @@ export type DateParserData = {format: string};
 export class DatePropertyFormData extends BasePropertyFormData {
     dateParser: DateParserData;
 
-    override parse(email: GmailItemDto, html: string): {resultValue: string} {
-        const dataSource = this.getDataSource(email, html);
+    override parse(email: GmailItemDto, html: string, attachments: FetchedAttachmentFile[]): {resultValue: string} {
+        const dataSource = this.getDataSource(email, html, attachments);
         const regexResult = this.getRegexResult(dataSource);
         const resultValue = this.getResultValue(dataSource, regexResult);
 

@@ -46,6 +46,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="국내 결제금액"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.payAmountParser')}
                     onChange={(value) => form.setValue('parserData.payAmountParser', value)}
                 />
@@ -53,6 +54,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="해외 결제금액"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.abroadPayAmountParser')}
                     onChange={(value) => form.setValue('parserData.abroadPayAmountParser', value)}
                 />
@@ -60,6 +62,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="부가세"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.vatAmountParser')}
                     onChange={(value) => form.setValue('parserData.vatAmountParser', value)}
                 />
@@ -67,6 +70,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="결제수단(카드번호)"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.payMethodParser')}
                     onChange={(value) => form.setValue('parserData.payMethodParser', value)}
                     question="결제수단(카드번호)"
@@ -75,6 +79,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="청구서 파일 주소"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.invoiceUrlParser')}
                     onChange={(value) => form.setValue('parserData.invoiceUrlParser', value)}
                     question="Invoice File URL"
@@ -83,6 +88,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="청구일시"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.issuedAtParser')}
                     onChange={(value) => form.setValue('parserData.issuedAtParser', value)}
                 />
@@ -90,6 +96,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="결제완료여부"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.isPaidParser')}
                     onChange={(value) => form.setValue('parserData.isPaidParser', value)}
                     question="결제완료여부"
@@ -98,6 +105,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="결제완료일시"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.paidAtParser')}
                     onChange={(value) => form.setValue('parserData.paidAtParser', value)}
                     question="Paid Date"
@@ -106,6 +114,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="워크스페이스명"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.workspaceNameParser')}
                     onChange={(value) => form.setValue('parserData.workspaceNameParser', value)}
                     optional
@@ -115,6 +124,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="플랜명"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.planNameParser')}
                     onChange={(value) => form.setValue('parserData.planNameParser', value)}
                     optional
@@ -124,6 +134,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="결제주기"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.billingCycleParser')}
                     onChange={(value) => form.setValue('parserData.billingCycleParser', value)}
                 />
@@ -131,6 +142,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="다음결제예정일"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.nextBillingDateParser')}
                     onChange={(value) => form.setValue('parserData.nextBillingDateParser', value)}
                 />
@@ -138,6 +150,7 @@ export const EmailParserForm = (props: EmailParserFormProps) => {
                     title="결제 계정수(시트수)"
                     emailItem={email}
                     content={html}
+                    attachments={attachments}
                     defaultValue={form.getValues('parserData.paidMemberCountParser')}
                     onChange={(value) => form.setValue('parserData.paidMemberCountParser', value)}
                     optional

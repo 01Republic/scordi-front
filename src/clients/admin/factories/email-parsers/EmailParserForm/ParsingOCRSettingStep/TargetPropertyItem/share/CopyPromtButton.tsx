@@ -1,22 +1,38 @@
 import React from 'react';
 import {minify} from 'html-minifier-next';
 import {toast} from 'react-hot-toast';
+import {UseFormReturn} from 'react-hook-form';
 import {querySelectorXPath} from '^utils/dom-parser';
 import {copyText} from '^components/util/copy';
 import {MoreDropdown} from '^_components/MoreDropdown';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
+import {propertyValueOfEmail, SelectedPatternMethod, SelectedProperty} from '^models/EmailParser/types';
 
-export const CopyPromptButton = (props: {content: string; question: string; engine?: 'xpath' | 'css'}) => {
-    const {question, content, engine = 'xpath'} = props;
+interface Props {
+    form: UseFormReturn<any>;
+    email: GmailItemDto;
+    content: string; // 메일본문
+    attachments: FetchedAttachmentFile[]; // 첨부파일
+    question: string;
+    engine?: 'xpath' | 'css';
+}
+
+export const CopyPromptButton = (props: Props) => {
+    const {form, email, question, content, attachments = [], engine = 'xpath'} = props;
+    const patternMethod = form.watch('pattern.method') as SelectedPatternMethod;
+
     const copy = async () => {
-        return getPromptText(question, content, engine)
+        const selectedProperty = form.getValues('selectedProperty') as SelectedProperty;
+        const targetText = propertyValueOfEmail(selectedProperty, email, content, attachments);
+        return getPromptText(question, targetText, patternMethod)
             .then(copyText)
             .then(() => {
-                toast.success('이메일 본문을 복사했어요.\n\n이용하시는 AI 서비스를 열고,\n붙여넣기만 하면 돼요!');
+                toast.success('내용을 복사했어요.\n\n이용하시는 AI 서비스를 열고,\n붙여넣기만 하면 돼요!');
             });
     };
 
     const copyQuestion = async () => {
-        const text = `본문으로 부터 "${question}" 값을 추출하는 "${engine.toUpperCase()} Selector" 는?`;
+        const text = `내용으로 부터 "${question}" 값을 추출하는 "${patternMethod} Selector" 는?`;
         return copyText(text).then(() => toast.success('질문을 복사했어요.'));
     };
 
@@ -33,7 +49,7 @@ export const CopyPromptButton = (props: {content: string; question: string; engi
             {() => (
                 <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-13 min-w-[100px]">
                     <div className="cursor-pointer px-2 py-1 hover:bg-slate-100" onClick={() => copy()}>
-                        이메일 본문 포함
+                        본문 or 첨부파일 포함
                     </div>
                     <div className="cursor-pointer px-2 py-1 hover:bg-slate-100" onClick={() => copyQuestion()}>
                         질문만 간단하게
@@ -44,7 +60,7 @@ export const CopyPromptButton = (props: {content: string; question: string; engi
     );
 };
 
-const getPromptText = async (question: string, html: string, engine: 'xpath' | 'css' = 'xpath') => `
+const getPromptText = async (question: string, targetText: string, patternMethod: SelectedPatternMethod) => `
 # 지침
 ## 역할
 - 마지막에 주어지는 임의의 형식으로 된 본문을 읽고, 질문에 답하라.
@@ -61,19 +77,19 @@ const getPromptText = async (question: string, html: string, engine: 'xpath' | '
 - 재고해본 결과 만약 답변이 정확하지 않을 때의 행동: 절대로 함부로 추측하지 말고, "알수없음" 을 응답.
 
 # 질문
-- 본문으로 부터 "${question}" 값을 추출하기 위한 "${engine.toUpperCase()} Selector" 는 무엇인가.
+- 본문으로 부터 "${question}" 값을 추출하기 위한 "${patternMethod} Selector" 는 무엇인가.
 
 # Given TEXT Content
 
 \`\`\`
-${await minifyIfHTML(html)}
+${await minifyIfHTML(targetText)}
 \`\`\``;
 
-async function minifyIfHTML(content: string) {
+async function minifyIfHTML(targetText: string) {
     const checkHTML = (text: string) => !!querySelectorXPath(text, '//div');
 
-    if (checkHTML(content)) {
-        return minify(content, {
+    if (checkHTML(targetText)) {
+        return minify(targetText, {
             collapseWhitespace: true,
             removeComments: true,
             removeEmptyAttributes: true,
@@ -84,5 +100,5 @@ async function minifyIfHTML(content: string) {
             minifyCSS: true,
         });
     }
-    return content;
+    return targetText;
 }

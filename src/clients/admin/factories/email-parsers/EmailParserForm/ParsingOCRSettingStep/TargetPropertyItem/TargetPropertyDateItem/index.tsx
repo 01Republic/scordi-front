@@ -18,6 +18,7 @@ export function TargetPropertyDateItem(props: TargetPropertyItemProps<DateProper
         title,
         emailItem,
         content,
+        attachments = [],
         optional = false,
         question,
         selectorEngine = 'xpath',
@@ -29,6 +30,7 @@ export function TargetPropertyDateItem(props: TargetPropertyItemProps<DateProper
                 <TargetPropertyDateItemContent
                     emailItem={emailItem}
                     content={content}
+                    attachments={attachments}
                     defaultValue={defaultValue}
                     isExists={isExists}
                     isFinished={isFinished}
@@ -45,6 +47,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
     const {
         emailItem,
         content,
+        attachments = [],
         defaultValue,
         onChange,
         isExists = false,
@@ -56,6 +59,7 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
         defaultValue,
         emailItem,
         content,
+        attachments,
     });
 
     const dateFormat = form.watch('dateParser.format') || '';
@@ -89,7 +93,9 @@ const TargetPropertyDateItemContent = (props: TargetPropertyItemContentProps<Dat
 
                 <SelectedPropertySelectSection
                     form={form}
+                    email={emailItem}
                     content={content}
+                    attachments={attachments}
                     question={question}
                     selectorEngine={selectorEngine}
                 />

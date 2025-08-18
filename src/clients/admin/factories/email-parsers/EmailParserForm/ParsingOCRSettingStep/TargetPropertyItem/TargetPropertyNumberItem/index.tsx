@@ -17,6 +17,7 @@ export function TargetPropertyNumberItem(props: TargetPropertyItemProps<NumberPr
         title,
         emailItem,
         content,
+        attachments = [],
         optional = false,
         question,
         selectorEngine = 'xpath',
@@ -28,6 +29,7 @@ export function TargetPropertyNumberItem(props: TargetPropertyItemProps<NumberPr
                 <TargetPropertyNumberItemContent
                     emailItem={emailItem}
                     content={content}
+                    attachments={attachments}
                     defaultValue={defaultValue}
                     isExists={isExists}
                     isFinished={isFinished}
@@ -44,6 +46,7 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
     const {
         emailItem,
         content,
+        attachments = [],
         defaultValue,
         onChange,
         isExists = false,
@@ -55,6 +58,7 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
         defaultValue,
         emailItem,
         content,
+        attachments,
     });
 
     // 완료 체크되면 본체 폼에 값 반영
@@ -81,7 +85,9 @@ export const TargetPropertyNumberItemContent = (props: TargetPropertyItemContent
 
                 <SelectedPropertySelectSection
                     form={form}
+                    email={emailItem}
                     content={content}
+                    attachments={attachments}
                     question={question}
                     selectorEngine={selectorEngine}
                 />

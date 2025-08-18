@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import {DeepPartial, useForm} from 'react-hook-form';
 import {ReactNodeElement} from '^types/global.type';
-import {GmailItemDto} from '^models/InvoiceAccount/type';
+import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
 import {
     BasePropertyFormData,
     getMatchResultForRegExp,
@@ -15,6 +15,7 @@ export interface TargetPropertyItemProps<V = TextPropertyFormData> {
     title: ReactNodeElement;
     emailItem?: GmailItemDto;
     content?: string;
+    attachments?: FetchedAttachmentFile[];
     optional?: boolean;
     onChange?: (value?: V) => any;
     defaultValue?: V;
@@ -25,6 +26,7 @@ export interface TargetPropertyItemProps<V = TextPropertyFormData> {
 export interface TargetPropertyItemContentProps<V = TextPropertyFormData> {
     emailItem?: GmailItemDto;
     content?: string;
+    attachments?: FetchedAttachmentFile[];
     defaultValue?: V;
     onChange?: (value?: V) => any;
     isExists?: boolean;
@@ -41,6 +43,7 @@ interface Props {
 export function getDataSource(
     emailItem?: GmailItemDto,
     content?: string,
+    attachments: FetchedAttachmentFile[] = [],
     selectedProperty: SelectedProperty = SelectedProperty.title,
 ) {
     if (!emailItem) return '';
@@ -53,7 +56,9 @@ export function getDataSource(
         case SelectedProperty.content:
             return content || '';
         case SelectedProperty.attachment_1:
+            return attachments[0]?.data || '';
         case SelectedProperty.attachment_2:
+            return attachments[1]?.data || '';
         default:
             return '';
     }
@@ -67,9 +72,10 @@ export function getResultValue(dataSource: string, regexResult: string | string[
 export function useTargetPropertyItem<PropertyFormData extends BasePropertyFormData>(props: {
     emailItem?: GmailItemDto;
     content?: string;
+    attachments?: FetchedAttachmentFile[];
     defaultValue?: PropertyFormData;
 }) {
-    const {defaultValue, emailItem, content} = props;
+    const {defaultValue, emailItem, content, attachments = []} = props;
     const form = useForm<PropertyFormData>({
         mode: 'onChange',
         defaultValues: defaultValue as DeepPartial<PropertyFormData>,
@@ -82,12 +88,13 @@ export function useTargetPropertyItem<PropertyFormData extends BasePropertyFormD
 
     // selectedProperty 에 맞는 데이터를 가져옵니다.
     const dataSource = useMemo(
-        () => getDataSource(emailItem, content, selectedProperty),
-        [emailItem, content, selectedProperty],
+        () => getDataSource(emailItem, content, attachments, selectedProperty),
+        [emailItem, content, attachments, selectedProperty],
     );
 
     // 입력한 정규식에 매칭된 값
     const regexResult = useMemo(() => {
+        console.log('selectedMethod', selectedMethod, 'inputValue', inputValue, 'dataSource', dataSource);
         switch (selectedMethod) {
             case SelectedPatternMethod.XPATH:
                 return getMatchResultForHtml(dataSource, inputValue);

@@ -19,6 +19,7 @@ export function TargetPropertyMoneyItem(props: TargetPropertyItemProps<MoneyProp
         title,
         emailItem,
         content,
+        attachments = [],
         optional = false,
         question,
         selectorEngine = 'xpath',
@@ -30,6 +31,7 @@ export function TargetPropertyMoneyItem(props: TargetPropertyItemProps<MoneyProp
                 <TargetPropertyMoneyItemContent
                     emailItem={emailItem}
                     content={content}
+                    attachments={attachments}
                     defaultValue={defaultValue}
                     isExists={isExists}
                     isFinished={isFinished}
@@ -46,6 +48,7 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
     const {
         emailItem,
         content,
+        attachments = [],
         defaultValue,
         onChange,
         isExists = false,
@@ -57,6 +60,7 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
         defaultValue,
         emailItem,
         content,
+        attachments,
     });
 
     // 완료 체크되면 본체 폼에 값 반영
@@ -75,7 +79,7 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
         if (!emailItem || !content || !propertyFormData) {
             return <div className="text-12 text-scordi font-semibold break-all">{resultValue}</div>;
         }
-        const value = propertyFormData.parse(emailItem, content).resultValue;
+        const value = propertyFormData.parse(emailItem, content, attachments).resultValue;
         return <div className="text-12 text-scordi font-semibold break-all">{value}</div>;
     }
 
@@ -90,7 +94,9 @@ const TargetPropertyMoneyItemContent = (props: TargetPropertyItemContentProps<Mo
 
                 <SelectedPropertySelectSection
                     form={form}
+                    email={emailItem}
                     content={content}
+                    attachments={attachments}
                     question={question}
                     selectorEngine={selectorEngine}
                 />
