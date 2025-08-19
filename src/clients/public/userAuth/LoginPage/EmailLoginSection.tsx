@@ -59,6 +59,7 @@ export const EmailLoginSection = memo(() => {
                             });
                         });
                 } else {
+                    setIsLoading(false);
                     userMutate();
                 }
             },

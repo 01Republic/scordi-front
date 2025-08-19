@@ -90,7 +90,7 @@ export const useGoogleLogin = () => {
     return useMutation<JwtContainer, ErrorResponse, string>({
         mutationFn: (accessToken) => SignUserApi.login(accessToken).then((response) => response.data),
         onSuccess: (response) => {
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('accessToken', response.token);
         },
         onError: (error: any) => {
             throw error;
@@ -103,7 +103,7 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: (data: UserLoginRequestDto) => userSessionApi.create(data).then((res) => res.data),
         onSuccess: (response) => {
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('accessToken', response.token);
         },
     });
 };

@@ -12,7 +12,6 @@ import {GoogleLoginBtn} from '../common/GoogleLoginBtn';
 import {EmailLoginButton} from '^clients/public/userAuth/UserSignUpPage/EmailLoginButton';
 
 export const UserSignUpPage = memo(() => {
-    const isNotProduction = deployEnv !== 'production';
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -25,21 +24,19 @@ export const UserSignUpPage = memo(() => {
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                     <div className="flex flex-col items-center justify-center w-[400px] gap-5">
-                        <UserAuthTitleSection text="팀 생산성을 높이는 소프트웨어 구독 비용 관리" />
+                        <UserAuthTitleSection
+                            text="SaaS 관리는 스코디"
+                            subTitle="팀 생산성을 높이는 소프트웨어 구독 비용 관리"
+                        />
 
-                        {/* 이메일 회원가입
-                        스테이징 환경에서만 이메일 회원가입이 가능합니다.
-                        */}
-                        {isNotProduction && (
-                            <EmailLoginButton
-                                isLoading={isLoading}
-                                buttonText="이메일로 시작하기"
-                                onClick={() => {
-                                    setIsLoading(true);
-                                    router.push(SignAuthCreateUserPageRoute.path());
-                                }}
-                            />
-                        )}
+                        <EmailLoginButton
+                            isLoading={isLoading}
+                            buttonText="이메일로 시작하기"
+                            onClick={() => {
+                                setIsLoading(true);
+                                router.push(SignAuthCreateUserPageRoute.path());
+                            }}
+                        />
 
                         {/* 구글 회원가입 */}
                         <GoogleLoginBtn
