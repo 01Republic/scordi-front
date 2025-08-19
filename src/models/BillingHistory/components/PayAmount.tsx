@@ -23,7 +23,7 @@ export const PayAmount = memo((props: PayAmountProps) => {
             }`}
         >
             <span>{displayPayAmount.symbol}</span>
-            <span>{displayPayAmount.roundedAmount}</span>
+            <span>{displayPayAmount.formatRoundedAmount}</span>
         </div>
     );
 });
