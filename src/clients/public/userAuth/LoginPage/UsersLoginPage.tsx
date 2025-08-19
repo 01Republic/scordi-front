@@ -10,7 +10,6 @@ import {GoogleLoginBtn} from '../common/GoogleLoginBtn';
 import {EmailLoginSection} from '^clients/public/userAuth/LoginPage/EmailLoginSection';
 
 export const UsersLoginPage = memo(() => {
-    const isNotProduction = deployEnv !== 'production';
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {currentUser, loginRedirect} = useCurrentUser();
 
@@ -25,16 +24,8 @@ export const UsersLoginPage = memo(() => {
                         subTitle="팀 생산성을 높이는 소프트웨어 구독 비용 관리"
                     />
 
-                    {/* 이메일 로그인
-                    스테이징 환경에서만 이메일 로그인이 가능합니다.
-                    */}
-                    {isNotProduction && (
-                        <>
-                            <EmailLoginSection />
-                            <div className="w-full h-px bg-gray-200" />
-                        </>
-                    )}
-
+                    <EmailLoginSection />
+                    <div className="w-full h-px bg-gray-200" />
                     {/* 구글 로그인 */}
                     <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                         <GoogleLoginBtn

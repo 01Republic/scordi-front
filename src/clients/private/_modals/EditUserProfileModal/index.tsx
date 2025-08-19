@@ -24,7 +24,6 @@ interface EditUserProfileModalProps {
 
 export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
     const {isOpened, onClose} = props;
-    const isNotProduction = deployEnv !== 'production';
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {mutateAsync} = useUpdateUser();
@@ -117,7 +116,6 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                                         <button
                                             type="button"
                                             onClick={() => {
-                                                if (!isNotProduction) return;
                                                 setIsChangePasswordClicked(!isChangePasswordClicked);
                                             }}
                                             className={`w-32 flex justify-start underline hover:text-scordi ${
@@ -127,7 +125,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                                             비밀번호 변경
                                         </button>
                                     </p>
-                                    {isNotProduction && isChangePasswordClicked && (
+                                    {isChangePasswordClicked && (
                                         <div className="w-full grid grid-cols-3 gap-4">
                                             <div className="col-span-2 flex flex-col gap-2">
                                                 <label className="flex items-center gap-4">
