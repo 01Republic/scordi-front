@@ -10,12 +10,11 @@ import {EmptyValue} from '../../EmptyValue';
 const SubscriptionTeamList = memo(function TeamList() {
     const orgId = useOrgIdParam();
     const subscription = useRecoilValue(subscriptionSubjectAtom);
-    const {search, result} = useTeamMembersInSubscriptionShowModal();
 
-    const {setQuery, data} = useTeamMembers2(orgId);
+    const {search, result} = useTeamMembers2(orgId, {});
 
     const onReady = () => {
-        setQuery({
+        search({
             where: {
                 // @ts-ignore
                 subscriptions: {id: subscription.id},
@@ -27,7 +26,7 @@ const SubscriptionTeamList = memo(function TeamList() {
 
     const teams = Array.from(
         new Map(
-            data.items
+            result.items
                 .map((teamMember) => teamMember.teams)
                 .flat()
                 .filter((team): team is TeamDto => !!team)

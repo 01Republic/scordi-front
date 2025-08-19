@@ -5,6 +5,7 @@ import {useOrgIdParam} from '^atoms/common';
 import {AssetConnectSuccessPageTemplate} from '^_components/pages/assets/connect-steps/AssetConnectSuccessPageTemplate';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {connectedAssetsAtom} from '../atom';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 
 export const OrgSubscriptionConnectionSuccessPage = memo(function OrgSubscriptionConnectionSuccessPage() {
     const router = useRouter();
@@ -16,6 +17,7 @@ export const OrgSubscriptionConnectionSuccessPage = memo(function OrgSubscriptio
         <AssetConnectSuccessPageTemplate
             assets={connectedAssets}
             onNext={() => router.replace(OrgSubscriptionListPageRoute.path(orgId))}
+            moveFirst={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
         />
     );
 });

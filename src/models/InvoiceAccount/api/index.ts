@@ -15,93 +15,91 @@ import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
 import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type/TeamInvoiceAccount.dto';
 import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
 
-const NAMESPACE = 'organizations';
-
 export const invoiceAccountApi = {
     index(orgId: number, params?: FindAllInvoiceAccountQueryDto) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts`;
-        return api.get<Paginated<InvoiceAccountDto>>(url, {params}).then(paginatedDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts`;
+        return api.get(url, {params}).then(paginatedDtoOf(InvoiceAccountDto));
     },
 
     show(orgId: number, id: number) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}`;
-        return api.get<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts/${id}`;
+        return api.get(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     create(orgId: number, data: CreateInvoiceAccountRequestDto) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts`;
-        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts`;
+        return api.post(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     destroy(orgId: number, id: number) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}`;
-        return api.delete<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts/${id}`;
+        return api.delete(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     draft(data: CreateInvoiceAccountRequestDto) {
-        const url = `/${NAMESPACE}/0/invoice_accounts/draft`;
-        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/0/invoice_accounts/draft`;
+        return api.post(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     // InvoiceAccount 토큰 만료여부 체크
     isValidToken(orgId: number, id: number) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/isValidToken`;
+        const url = `/organizations/${orgId}/invoice_accounts/${id}/isValidToken`;
         return api.get<boolean>(url);
     },
 
     sync(orgId: number, id: number) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/sync`;
-        return api.patch<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts/${id}/sync`;
+        return api.patch(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     renew(orgId: number, id: number, data: SyncInvoiceAccountRequestDto) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/re-sync`;
-        return api.patch<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts/${id}/re-sync`;
+        return api.patch(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     // V2
 
     createV2(orgId: number, data: CreateInvoiceAccountRequestDto2) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v2`;
-        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v2`;
+        return api.post(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     draftV2(data: CreateInvoiceAccountRequestDto2) {
-        const url = `/${NAMESPACE}/0/invoice_accounts_v2/draft`;
-        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/0/invoice_accounts_v2/draft`;
+        return api.post(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     syncV2(orgId: number, id: number) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v2/${id}/sync`;
-        return api.patch<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v2/${id}/sync`;
+        return api.patch(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     // InvoiceAccount Sync - TokenData를 다시 받아옵니다.
     reConnect(orgId: number, id: number, data: ReConnectInvoiceAccountRequestDto) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v2/${id}/re-connect`;
-        return api.patch<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v2/${id}/re-connect`;
+        return api.patch(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     // v3
 
     createV3(orgId: number, data: CreateInvoiceAccountDto) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3`;
-        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v3`;
+        return api.post(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     upsertByCode(orgId: number, data: CreateInvoiceAccountRequestDto2) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/by-code`;
-        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v3/by-code`;
+        return api.post(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     updateV3(orgId: number, id: number, data: UpdateInvoiceAccountDto) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/${id}`;
-        return api.patch<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v3/${id}`;
+        return api.patch(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     destroyV3(orgId: number, id: number) {
-        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/${id}`;
-        return api.delete<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+        const url = `/organizations/${orgId}/invoice_accounts_v3/${id}`;
+        return api.delete(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     teamsApi: {

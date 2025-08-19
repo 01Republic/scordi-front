@@ -1,14 +1,21 @@
-import {useEffect, useRef} from 'react';
+import {useEffect} from 'react';
+import {NextRouter, useRouter} from 'next/router';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
-import {getToken, removeToken, setToken} from '^api/api';
-import {userSessionApi} from '^models/User/api/session';
+import {getToken, removeGoogleToken, removeToken, setToken} from '^api/api';
+import {errorNotify} from '^utils/toast-notify';
+import {userApi, userPasswordApi, userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgEmptyPageRoute} from '^pages/orgs/empty';
-import {NextRouter, useRouter} from 'next/router';
-import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
-import {errorNotify} from '^utils/toast-notify';
+import {
+    ErrorResponse,
+    UpdateUserPasswordRequestDto,
+    UserDto,
+    UserEditProfileRequestDto,
+    UserSocialLoginRequestDto,
+} from '^models/User/types';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
@@ -63,6 +70,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
                     .catch((err) => {
                         // invalid token 에러가 발생하면 localStorage token 삭제
                         localStorage.removeItem('token');
+                        localStorage.removeItem('googleToken');
                         loginRequiredHandler(err, router, fallbackPath);
                         reject();
                     });
@@ -123,6 +131,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
 
     const logout = () => {
         removeToken();
+        removeGoogleToken();
         setCurrentUser(null);
         setAuthenticatedUserData(undefined);
         router.push(UserLoginPageRoute.path());
@@ -174,4 +183,39 @@ export const useSocialLoginV2 = () => {
                 return user;
             });
     };
+};
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: UserEditProfileRequestDto) =>
+            userApi.registration
+                .update(data) //
+                .then((response) => response.data),
+
+        onSuccess: (response) => {
+            queryClient.invalidateQueries({queryKey: ['updateUser']});
+        },
+    });
+};
+
+// 비밀번호 재설정 이메일 발송 요청
+export const useUserPasswordReset = () => {
+    return useMutation<void, AxiosError, string>({
+        mutationFn: (email) => userPasswordApi.reset(email).then((res) => res.data),
+    });
+};
+
+// 비밀번호 재설정 페이지 - 유효 확인 요청
+export const useUserPasswordValidate = (email: string, token: string) => {
+    return useMutation({
+        mutationFn: () => userPasswordApi.validate(email, token).then((res) => res.data),
+    });
+};
+
+// 비밀번호 재설정 요청
+export const useUserPasswordUpdate = (email: string) => {
+    return useMutation({
+        mutationFn: (data: UpdateUserPasswordRequestDto) => userPasswordApi.update(email, data).then((res) => res.data),
+    });
 };

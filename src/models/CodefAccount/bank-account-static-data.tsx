@@ -91,7 +91,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
+        loginPageUrl: 'https://kiup.ibk.co.kr/uib/jsp/index.jsp',
     },
     {
         displayName: '기업은행',
@@ -101,7 +101,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.shinhancard.com/pconts/html/main.html',
+        loginPageUrl: 'https://mybank.ibk.co.kr/uib/jsp/index.jsp',
     },
     {
         displayName: 'KDB산업은행',
@@ -111,7 +111,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#e30614',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
+        loginPageUrl: 'https://banking.kdb.co.kr/be/index.jsp',
     },
     {
         displayName: 'KDB산업은행',
@@ -121,7 +121,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#e30614',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.lottecard.co.kr/app/LPMAIAA_V100.lc?LPTKN=',
+        loginPageUrl: 'https://banking.kdb.co.kr/bp/',
     },
     {
         displayName: '국민은행',
@@ -131,7 +131,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#60584c',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://biz.kbcard.com/CXORMPIC0001.cms',
+        loginPageUrl: 'https://biz.kbcard.com/CXERCZZC0001.cms?czone=CXORMPIC0001_TOP_%B1%E2%BE%F7',
     },
     {
         displayName: '국민은행',
@@ -151,7 +151,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#f14755',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://wisebiz.bccard.com/app/corp/ComLoginActn.corp',
+        loginPageUrl: 'https://biz.suhyup-bank.com/',
     },
     {
         displayName: '수협은행',
@@ -161,7 +161,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#f14755',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.bccard.com/app/card/MainActn.do',
+        loginPageUrl: 'https://www.suhyup-bank.com/',
     },
     {
         displayName: '하나은행',
@@ -171,7 +171,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://biz.kebhana.com/index.jsp',
     },
     {
         displayName: '하나은행',
@@ -181,7 +181,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://www.hanabank.com/common/login.do#//HanaBank',
     },
     {
         displayName: '신한은행',
@@ -191,7 +191,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://bizbank.shinhan.com/main.html',
     },
     {
         displayName: '신한은행',
@@ -201,7 +201,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://bank.shinhan.com/index.jsp#011100000000',
     },
     {
         displayName: 'SC제일은행',
@@ -211,7 +211,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://bb.standardchartered.co.kr/login/lgn11000mp.mnu',
     },
     {
         displayName: 'SC제일은행',
@@ -221,7 +221,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://open.standardchartered.co.kr/login/index',
     },
     {
         displayName: '우리은행',
@@ -231,7 +231,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://nbi.wooribank.com/nbi/woori?withyou=bi',
     },
     {
         displayName: '우리은행',
@@ -241,7 +241,8 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl:
+            'https://spib.wooribank.com/pib/Dream?withyou=CMLGN0001&target=https://spib.wooribank.com/pib/Dream?withyou=ps',
     },
     {
         displayName: '씨티은행',
@@ -271,7 +272,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://banking.imbank.co.kr/index.jsp',
     },
     {
         displayName: 'IM뱅크(대구은행)',
@@ -281,7 +282,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://banking.imbank.co.kr/index.jsp',
     },
     {
         displayName: '케이뱅크',
@@ -291,7 +292,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://biz.kbanknow.com/ib20/mnu/CBKCOM020100',
     },
     // {
     //     displayName: '케이뱅크',
@@ -311,7 +312,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://ibs.jbbank.co.kr/',
     },
     {
         displayName: '전북은행',
@@ -321,7 +322,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://ibs.jbbank.co.kr/',
     },
     {
         displayName: '경남은행',
@@ -331,7 +332,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'http://mnanum.knbank.co.kr/ib20/mnu/CMMLGI001001001',
     },
     {
         displayName: '경남은행',
@@ -341,7 +342,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://www.knbank.co.kr/ib20/mnu/CMMLGI001001001',
     },
     {
         displayName: '새마을금고',
@@ -351,7 +352,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://biz.kfcc.co.kr/ib20/mnu/CIB000000000110',
     },
     {
         displayName: '새마을금고',
@@ -361,7 +362,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://ibs.kfcc.co.kr/LOGN/02/PIBLOGN020001',
     },
     {
         displayName: '신협은행',
@@ -371,7 +372,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://bizbank.cu.co.kr/lgn/EI_LGN010101_01',
     },
     {
         displayName: '신협은행',
@@ -381,7 +382,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://openbank.cu.co.kr/',
     },
     {
         displayName: '우체국',
@@ -391,7 +392,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://www.epostbank.go.kr/LNLNDM00DM.do',
     },
     {
         displayName: '우체국',
@@ -401,7 +402,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://www.epostbank.go.kr/LNLNDM00DM.do',
     },
     {
         displayName: '토스뱅크',
@@ -411,7 +412,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://biz.tossbank.com/login',
     },
     {
         displayName: '토스뱅크',
@@ -421,7 +422,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://www.tossbank.com/',
     },
     {
         displayName: '부산은행',
@@ -431,7 +432,8 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl:
+            'https://ebank.busanbank.co.kr/ib20/mnu/PEBLIN0020001?NEXT_PAGE=ECBMPG000000000&NEXT_PARAMETER=b_page_id%3D%26ib20.persistent.lang.code%3D%26selectmenuid%3DECBMPG000000000&ib20_redirect_org_mnu=ECBMPG000000000',
     },
     {
         displayName: '부산은행',
@@ -441,7 +443,8 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl:
+            'https://ibank.busanbank.co.kr/ib20/mnu/PEBLIN0010001?NEXT_PAGE=PEBMPG000000000&NEXT_PARAMETER=b_page_id%3D%26ib20.persistent.lang.code%3D%26selectmenuid%3DPEBMPG000000000&ib20_redirect_org_mnu=PEBMPG000000000',
     },
     {
         displayName: '카카오뱅크',
@@ -451,7 +454,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://www.kakaobank.com/',
     },
     {
         displayName: '카카오뱅크',
@@ -461,7 +464,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://www.kakaobank.com/',
     },
     {
         displayName: 'SBI저축은행',
@@ -471,7 +474,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://www.sbisb.co.kr/bizlgn0010100.act',
     },
     {
         displayName: 'SBI저축은행',
@@ -481,7 +484,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://www.sbisb.co.kr/lgn0010100.act',
     },
     {
         displayName: '광주은행',
@@ -491,7 +494,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://cib.kjbank.com/ib20/mnu/BCB0000000001',
     },
     {
         displayName: '광주은행',
@@ -501,7 +504,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://pib.kjbank.com/ib20/mnu/CMMLGIN010101',
     },
     {
         displayName: '제주은행',
@@ -511,7 +514,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Business,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://bank.jejubank.co.kr:6443/inbank/ws/pr/cm/PRCM01401.do',
     },
     {
         displayName: '제주은행',
@@ -521,7 +524,7 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.Certificate,
-        loginPageUrl: 'https://www.hanacard.co.kr/',
+        loginPageUrl: 'https://bank.jejubank.co.kr:6443/inbank/ws/pr/cm/PRCM01401.do',
     },
 ];
 

@@ -141,6 +141,20 @@ module.exports = {
             boxShadow: {
                 top: '0 -8px 12px -1px rgba(0, 0, 0, 0.08), 0 -4px 6px -1px rgba(0, 0, 0, 0.05)',
             },
+            keyframes: {
+                'slide-left-infinite': {
+                    '0%': {transform: 'translateX(0)'},
+                    '100%': {transform: 'translateX(-100%)'},
+                },
+                'infinite-scroll': {
+                    '0%': {transform: 'translateX(0)'},
+                    '100%': {transform: 'translateX(-50%)'},
+                },
+            },
+            animation: {
+                'slide-left-infinite': 'slide-left-infinite 20s linear infinite',
+                'infinite-scroll': 'infinite-scroll 20s linear infinite',
+            },
         },
         container: {
             center: true,

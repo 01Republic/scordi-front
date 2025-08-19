@@ -19,6 +19,9 @@ export const SubscriptionBillingHistoriesTableHeader = memo((props: Subscription
 
             {/* 청구서 보기 */}
             <th />
+
+            {/* 더보기 버튼 */}
+            <th />
         </tr>
     );
 });

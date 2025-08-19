@@ -90,6 +90,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.4
         version: 0.5.15(tailwindcss@3.4.15)
+      '@tanstack/query-core':
+        specifier: ^5.83.0
+        version: 5.83.0
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.60.6(react@18.2.0)
@@ -135,6 +138,9 @@ importers:
       axios:
         specifier: ^1.8.4
         version: 1.8.4
+      canvas-confetti:
+        specifier: ^1.9.3
+        version: 1.9.3
       chart.js:
         specifier: ^3.9.1
         version: 3.9.1
@@ -334,6 +340,9 @@ importers:
       '@ky-is/tailwindcss-plugin-width-height':
         specifier: ^1.0.0
         version: 1.0.0
+      '@types/canvas-confetti':
+        specifier: ^1.9.0
+        version: 1.9.0
       '@types/node':
         specifier: 18.0.3
         version: 18.0.3
@@ -2146,6 +2155,9 @@ packages:
   '@tanstack/query-core@5.60.6':
     resolution: {integrity: sha512-tI+k0KyCo1EBJ54vxK1kY24LWj673ujTydCZmzEZKAew4NqZzTaVQJEuaG1qKj2M03kUHN46rchLRd+TxVq/zQ==}
 
+  '@tanstack/query-core@5.83.0':
+    resolution: {integrity: sha512-0M8dA+amXUkyz5cVUm/B+zSk3xkQAcuXuz5/Q/LveT4ots2rBpPTZOzd7yJa2Utsf8D2Upl5KyjhHRY+9lB/XA==}
+
   '@tanstack/react-query@5.60.6':
     resolution: {integrity: sha512-FUzSDaiPkuZCmuGqrixfRRXJV9u+nrUh9lAlA5Q3ZFrOw1Js1VeBfxi1NIcJO3ZWJdKceBqKeBJdNcWStCYZnw==}
     peerDependencies:
@@ -2214,6 +2226,9 @@ packages:
 
   '@types/aos@3.0.7':
     resolution: {integrity: sha512-sEhyFqvKauUJZDbvAB3Pggynrq6g+2PS4XB3tmUr+mDL1gfDJnwslUC4QQ7/l8UD+LWpr3RxZVR/rHoZrLqZVg==}
+
+  '@types/canvas-confetti@1.9.0':
+    resolution: {integrity: sha512-aBGj/dULrimR1XDZLtG9JwxX1b4HPRF6CX9Yfwh3NvstZEm1ZL7RBnel4keCPSqs1ANRu1u2Aoz9R+VmtjYuTg==}
 
   '@types/crypto-js@4.2.2':
     resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
@@ -2715,6 +2730,9 @@ packages:
 
   caniuse-lite@1.0.30001683:
     resolution: {integrity: sha512-iqmNnThZ0n70mNwvxpEC2nBJ037ZHZUoBI5Gorh1Mw6IlEAZujEoU1tXA628iZfzm7R9FvFzxbfdgml82a3k8Q==}
+
+  canvas-confetti@1.9.3:
+    resolution: {integrity: sha512-rFfTURMvmVEX1gyXFgn5QMn81bYk70qa0HLzcIOSVEyl57n6o9ItHeBtUSWdvKAPY0xlvBHno4/v3QPrT83q9g==}
 
   cfb@1.2.2:
     resolution: {integrity: sha512-KfdUZsSOw19/ObEWasvBP/Ac4reZvAGauZhs6S/gqNhXhI7cKwvlH7ulj+dOEYnca4bm4SGo8C1bTAQvnTjgQA==}
@@ -7423,6 +7441,8 @@ snapshots:
 
   '@tanstack/query-core@5.60.6': {}
 
+  '@tanstack/query-core@5.83.0': {}
+
   '@tanstack/react-query@5.60.6(react@18.2.0)':
     dependencies:
       '@tanstack/query-core': 5.60.6
@@ -7498,6 +7518,8 @@ snapshots:
     optional: true
 
   '@types/aos@3.0.7': {}
+
+  '@types/canvas-confetti@1.9.0': {}
 
   '@types/crypto-js@4.2.2': {}
 
@@ -8051,6 +8073,8 @@ snapshots:
   camelize@1.0.1: {}
 
   caniuse-lite@1.0.30001683: {}
+
+  canvas-confetti@1.9.3: {}
 
   cfb@1.2.2:
     dependencies:

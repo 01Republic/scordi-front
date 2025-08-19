@@ -8,6 +8,7 @@ import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {Select} from '^components/Select';
 import {SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {toast} from 'react-toastify';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 type AppNextPayInputsBlockProps = {
     form: UseFormReturn<UpdateSubscriptionRequestDto, any>;
@@ -22,6 +23,8 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
 
     const {product} = subscription;
     const {paymentPlans} = product;
+
+    const nextBillingDate = subscription.nextBillingDate ? yyyy_mm_dd(subscription.nextBillingDate) : '';
 
     const onPlanChange = (planId: number) => {
         // form.setValue('paymentPlanId', planId);
@@ -45,7 +48,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
         <>
             <MobileSection className="pb-3 border-b-8">
                 <TitleSection.Title size="lg" className="text-right mb-3">
-                    <div className="text-base font-medium">Next {subscription.nextBillingDate}</div>
+                    <div className="text-base font-medium">Next {nextBillingDate}</div>
                     <div>US${subscription.nextBillingAmount.toLocaleString()}</div>
                 </TitleSection.Title>
             </MobileSection>

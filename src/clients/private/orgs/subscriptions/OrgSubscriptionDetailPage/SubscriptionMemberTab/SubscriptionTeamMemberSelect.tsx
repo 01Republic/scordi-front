@@ -21,7 +21,9 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
 
     if (!subscription) return <></>;
     const {data: subscriptionSeat} = useSubscriptionSeat(orgId, subscription?.id);
-    const {setQuery: teamMemberSearch, data: teamMemberList} = useTeamMembers2(orgId);
+    const {result: teamMemberList} = useTeamMembers2(orgId, {
+        itemsPerPage: 0,
+    });
 
     if (!orgId || !subscription) return null;
 
@@ -36,10 +38,6 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
     const filterTeamMemberSeatList = teamMemberList.items.filter(
         (teamMember) => !subscriptionSeat.items.find((seat) => seat.teamMember?.id === teamMember.id),
     );
-
-    useEffect(() => {
-        teamMemberSearch({itemsPerPage: 0});
-    }, []);
 
     return (
         <SlideUpAllSelectModal

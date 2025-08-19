@@ -12,9 +12,9 @@ import {
     SubscriptionDto,
     UpdateSubscriptionRequestDto,
 } from 'src/models/Subscription/types';
-import {invoiceAccountIdParamState, teamIdParamState} from '^atoms/common';
+import {invoiceAccountIdParamState, teamIdParamState, useOrgIdParam} from '^atoms/common';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
-import {usePagedResource, PagedResourceAtoms} from '^hooks/usePagedResource';
+import {usePagedResource, PagedResourceAtoms, usePaginateUtils} from '^hooks/usePagedResource';
 import {
     addableSubscriptionsOfCreditCardAtom,
     addableSubscriptionsOfInvoiceAccountAtom,
@@ -22,17 +22,15 @@ import {
     getCurrentSubscriptionQuery,
     subscriptionListAtom,
     subscriptionListOfBankAccountAtom,
-    subscriptionListOfCreditCardAtom,
     subscriptionListOfInvoiceAccountAtom,
     subscriptionsForSummaryState,
     subscriptionsInTeamMemberShowModalAtom,
     subscriptionsInTeamShowPageAtom,
     subscriptionTableListAtom,
 } from '^models/Subscription/atom';
-import {api} from '^api/api';
-import {oneDtoOf} from '^types/utils/response-of';
 import {ErrorResponse} from '^models/User/types';
 import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
+import {MergeSubscriptionRequestDto} from '^models/Subscription/types/MergeSubscription.request.dto';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -62,8 +60,50 @@ export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subsc
 // 계좌 상세 페이지 > 구독 테이블
 export const useSubscriptionListOfBankAccount = () => useSubscriptions(subscriptionListOfBankAccountAtom);
 
-// 카드 상세 페이지 > 구독 테이블
-export const useSubscriptionListOfCreditCard = () => useSubscriptions(subscriptionListOfCreditCardAtom);
+// 카드 상세 페이지 > 구독 테이블 (신)
+export const useSubscriptionListOfCreditCard2 = (
+    organizationId: number,
+    creditCardId: number,
+    params: FindAllSubscriptionsQuery,
+) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.listOfCreditCard, organizationId, creditCardId, query],
+        queryFn: () =>
+            subscriptionApi
+                .index({
+                    ...query,
+                    where: {organizationId, creditCardId, ...query.where},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!organizationId && !!creditCardId,
+    });
+
+    const isEmptyResult = queryResult.data.items.length === 0;
+
+    const search = (params: FindAllSubscriptionsQuery) => setQuery((q) => ({...q, ...params}));
+    const movePage = (page: number) => search({page});
+    const resetPage = () => movePage(1);
+    const changePageSize = (pageSize: number) => search({page: 1, itemsPerPage: pageSize});
+    const orderBy = (sortKey: string, value: 'ASC' | 'DESC') => {
+        return setQuery((q) => ({
+            ...q,
+            order: {...q.order, [sortKey]: value},
+            page: 1,
+        }));
+    };
+
+    return {
+        ...queryResult,
+        query,
+        isEmptyResult,
+        search: setQuery,
+        movePage,
+        changePageSize,
+        orderBy,
+    };
+};
 
 // 카드 상세 페이지 > 구독 연결 모달
 export const useAddableSubscriptionsOfCreditCard = () => useSubscriptions(addableSubscriptionsOfCreditCardAtom);
@@ -194,11 +234,28 @@ export const useWorkspaceSubscriptionCount = (orgId: number) => {
 
 /* tanstack Query   */
 
+//구독 조회
+export const useSubscription3 = (orgId: number, params: FindAllSubscriptionsQuery, manual?: boolean) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.base, orgId, query],
+        queryFn: () => subscriptionApi.index(query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: manual ? false : !!orgId,
+    });
+
+    return usePaginateUtils({
+        query,
+        setQuery,
+        queryResult,
+    });
+};
+
 // 구독 상세조회
-export const useShowSubscription = (subscriptionId: number, params?: FindOneSubscriptionQueryDto) => {
+export const useShowSubscription = (subscriptionId?: number, params?: FindOneSubscriptionQueryDto) => {
     return useQuery<SubscriptionDto, ErrorResponse>({
         queryKey: [SUBSCRIPTION_HOOK_KEY.detail, subscriptionId, params],
-        queryFn: () => subscriptionApi.show(subscriptionId, params).then((res) => res.data),
+        queryFn: () => subscriptionApi.show(subscriptionId!, params).then((res) => res.data),
         enabled: !!subscriptionId && !isNaN(subscriptionId),
     });
 };
@@ -226,5 +283,35 @@ export const useRemoveSubscription = () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
         },
+    });
+};
+
+//구독 병합하기
+export const useMergeSubscriptions = () => {
+    const queryClient = useQueryClient();
+    return useMutation<SubscriptionDto[], ErrorResponse, {id: number; data: MergeSubscriptionRequestDto}>({
+        mutationFn: ({id, data}) => subscriptionApi.merge(id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
+        },
+    });
+};
+
+// 팀 상세 p/구독 탭 - 구독 조회
+export const useTeamSubscriptions2 = (orgId: number, teamId: number, params: FindAllSubscriptionsQuery) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.base, orgId, query, teamId],
+        queryFn: () => teamApi.subscriptions.index(orgId, teamId, query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!teamId && !!orgId,
+    });
+
+    return usePaginateUtils({
+        query,
+        setQuery,
+        queryResult,
     });
 };

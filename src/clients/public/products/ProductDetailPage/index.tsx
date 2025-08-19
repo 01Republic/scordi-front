@@ -62,13 +62,13 @@ export const ProductDetailPage = memo((props: ProductDetailPageProps) => {
 
                     <SaaSReportSection />
 
-                    <div className="w-full">
-                        <div className="blog-container blog-container--default">
-                            <div className="blog-container--inner" style={{width: 'calc(92% + 2rem)'}}>
-                                <BetaServiceFooter />
-                            </div>
-                        </div>
-                    </div>
+                    {/*<div className="w-full">*/}
+                    {/*    <div className="blog-container blog-container--default">*/}
+                    {/*        <div className="blog-container--inner" style={{width: 'calc(92% + 2rem)'}}>*/}
+                    {/*            <BetaServiceFooter />*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </AOSProvider>
             )}
         </div>

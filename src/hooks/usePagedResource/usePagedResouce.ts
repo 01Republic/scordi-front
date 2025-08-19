@@ -10,8 +10,11 @@ import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {DefinedUseQueryResult, useQuery} from '@tanstack/react-query';
+import {DefinedUseQueryResult, QueryClient, useQuery} from '@tanstack/react-query';
 import {subscriptionApi} from '^models/Subscription/api';
+import type {UseQueryOptions} from '@tanstack/react-query/src/types';
+import {DefaultError, QueryKey} from '@tanstack/query-core';
+import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
 
 type ApiEndpoint<DTO, Query> = (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
 
@@ -154,6 +157,7 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
     const {query, setQuery, queryResult} = base;
     const {data: result, isFetching: isLoading, refetch: reload, isFetched} = queryResult;
     const [isFirstLoaded, setIsFirstLoaded] = useState(false);
+    const [sortVal, setSortVal] = useState<'ASC' | 'DESC'>('DESC');
 
     useEffect(() => {
         if (isFetched) setIsFirstLoaded(true);
@@ -175,6 +179,18 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
         return search({...query, page: 1, order: Qs.parse(`${sortKey}=${value}`)});
     }
 
+    const newOrderBy = (sortKey: string) => {
+        setSortVal((prev) => {
+            const next: 'ASC' | 'DESC' = prev === 'ASC' ? 'DESC' : 'ASC';
+            setQuery((prevQ) => ({
+                ...prevQ,
+                page: 1,
+                order: Qs.parse(`${sortKey}=${next}`),
+            }));
+            return next;
+        });
+    };
+
     const isNotLoaded = !isFirstLoaded;
     const isEmptyResult = !isNotLoaded && result.pagination.totalItemCount === 0;
 
@@ -184,11 +200,69 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
         search,
         isLoading,
         reload,
+        isFetched,
         isNotLoaded,
         isEmptyResult,
         movePage,
         resetPage,
         changePageSize,
         orderBy,
+        sortVal,
+        newOrderBy,
     };
 }
+
+// export function usePagedQuery<
+//     DTO,
+//     Query extends FindAllQueryDto<DTO> = FindAllQueryDto<DTO>,
+//     TQueryFnData extends Paginated<DTO> = Paginated<DTO>,
+//     TError = DefaultError,
+//     TData extends Paginated<DTO> = TQueryFnData,
+//     TQueryKey extends QueryKey = QueryKey,
+// >(
+//     {
+//         initialQuery,
+//         queryKey,
+//         queryFn,
+//         ...options
+//     }: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey> & {
+//         initialQuery: Query;
+//         queryFn: (query: Query) => Promise<TQueryFnData>;
+//     },
+//     queryClient?: QueryClient,
+// ) {
+//     const [query, setQuery] = useState(initialQuery);
+//     const queryResult = useQuery<TQueryFnData, TError, TData, TQueryKey>(
+//         {
+//             queryKey: [...queryKey, query] as unknown as TQueryKey,
+//             queryFn: () => queryFn(query),
+//             ...options,
+//             initialData: Paginated.init<DTO>() as TQueryFnData,
+//         },
+//         queryClient,
+//     );
+//
+//     const isEmptyResult = !queryResult.data || queryResult.data.items.length === 0;
+//
+//     const search = (params: Query) => setQuery((q) => ({...q, ...params}));
+//     const movePage = (page: number) => search({page});
+//     const resetPage = () => movePage(1);
+//     const changePageSize = (pageSize: number) => search({page: 1, itemsPerPage: pageSize});
+//     const orderBy = (sortKey: string, value: 'ASC' | 'DESC') => {
+//         return setQuery((q) => ({
+//             ...q,
+//             order: {...q.order, [sortKey]: value},
+//             page: 1,
+//         }));
+//     };
+//
+//     return {
+//         ...queryResult,
+//         query,
+//         isEmptyResult,
+//         search,
+//         movePage,
+//         changePageSize,
+//         orderBy,
+//     };
+// }

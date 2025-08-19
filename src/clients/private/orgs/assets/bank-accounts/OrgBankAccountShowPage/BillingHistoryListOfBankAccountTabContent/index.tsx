@@ -1,10 +1,10 @@
 import React, {memo, useEffect} from 'react';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {useOrgIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {billingHistoryApi} from '^models/BillingHistory/api';
-import {useBillingHistoryListOfBankAccount} from '^models/BillingHistory/hook';
+import {useBillingHistoryListOfBankAccount, useBillingHistoryListOfBankAccount2} from '^models/BillingHistory/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/atom';
@@ -15,24 +15,13 @@ import {BillingHistoryTableControl} from './BillingHistoryTableControl';
 
 export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHistoryListOfBankAccountTabContent() {
     const orgId = useOrgIdParam();
+    const bankAccountId = useIdParam('bankAccountId');
     const {currentBankAccount} = useCurrentBankAccount();
-    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
-        useBillingHistoryListOfBankAccount();
-
-    const onReady = () => {
-        if (!currentBankAccount) return;
-        search({
-            where: {
-                bankAccountId: currentBankAccount.id,
-                organizationId: orgId,
-            },
-            order: {issuedAt: 'DESC'},
-        });
-    };
-
-    useEffect(() => {
-        onReady();
-    }, [currentBankAccount]);
+    const queryResult = useBillingHistoryListOfBankAccount2(orgId, bankAccountId, {
+        relations: ['subscription'],
+        order: {issuedAt: 'DESC'},
+    });
+    const {query, isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} = queryResult;
 
     const onDelete = (id: number) => {
         const deleteConfirm = () => {
@@ -68,7 +57,14 @@ export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHi
                 hideTopPaginator
                 hideBottomPaginator={totalItemCount === 0}
             >
-                <BillingHistoryTableControl />
+                <BillingHistoryTableControl
+                    bankAccount={currentBankAccount}
+                    query={query}
+                    data={result}
+                    search={search}
+                    isLoading={isLoading}
+                    refetch={reload}
+                />
                 {isEmptyResult ? (
                     <EmptyTable message="결제된 내역이 없어요." />
                 ) : (

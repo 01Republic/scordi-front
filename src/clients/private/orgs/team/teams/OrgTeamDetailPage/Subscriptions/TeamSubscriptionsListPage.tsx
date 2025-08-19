@@ -1,38 +1,31 @@
-import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {teamIdParamState} from '^atoms/common';
-import {useUnmount} from '^hooks/useUnmount';
+import React, {memo} from 'react';
+import {debounce} from 'lodash';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {useCurrentTeam} from '^models/Team/hook';
+import {useTeamSubscriptions2} from '^models/Subscription/hook';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {useSubscriptionsInTeamShowPage} from '^models/Subscription/hook';
 import {TeamSubscriptionCard} from './TeamSubscriptionCard';
 import {LoadableBox} from '^components/util/loading';
-import {debounce} from 'lodash';
-import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 
 export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
     const {team} = useCurrentTeam();
-    const {search, result, isLoading, reset} = useSubscriptionsInTeamShowPage();
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
 
-    const loadData = (teamId: number, params: FindAllSubscriptionsQuery = {}) => {
+    const {search, result, isLoading} = useTeamSubscriptions2(orgId, teamId, {
+        relations: ['product', 'teamMembers'],
+        itemsPerPage: 0,
+    });
+
+    const onSearch = debounce((keyword?: string) => {
         return search({
             relations: ['product', 'teamMembers'],
             itemsPerPage: 0,
-            ...params,
+            keyword,
         });
-    };
-
-    const onSearch = debounce((keyword?: string) => {
-        return team && loadData(team.id, {keyword});
     }, 500);
-
-    useEffect(() => {
-        team && loadData(team.id);
-    }, [team]);
-
-    useUnmount(() => reset());
 
     return (
         <>

@@ -1,10 +1,13 @@
 import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {MoreHorizontal} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
-import {Dropdown} from '^v3/share/Dropdown';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {currentUserAtom} from '^models/User/atom';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {
     SubscriptionDto,
     SubscriptionUsingStatus,
@@ -21,26 +24,25 @@ import {
     SubscriptionProfile,
     SubscriptionUsingStatusTag,
 } from '^models/Subscription/components';
+import {Dropdown} from '^v3/share/Dropdown';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
-import {currentUserAtom} from '^models/User/atom';
-import {useRecoilValue} from 'recoil';
-import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
-import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
-import {MoreHorizontal} from 'lucide-react';
+import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
     onDelete: (subscription: SubscriptionDto) => any;
     reload: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
-    const {subscription, onDelete, reload} = props;
+    const {subscription, onDelete, reload, isChecked, onCheck} = props;
     const currentUser = useRecoilValue(currentUserAtom);
 
     const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
@@ -51,12 +53,23 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             .finally(() => reload());
     }, 250);
 
-    const update = debounce(_update, 250);
-
     const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
+
+    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     return (
         <tr onClick={() => console.log(subscription)}>
+            <td className={`pr-1 pl-3 ${hoverBgColor}`}>
+                <label className={`flex justify-center items-center`}>
+                    <input
+                        type="checkbox"
+                        className="bg-white rounded checkbox checkbox-primary checkbox-xs"
+                        checked={isChecked}
+                        onChange={(e) => onCheck && onCheck(e.target.checked)}
+                    />
+                </label>
+            </td>
+
             {/* 서비스 명 */}
             <td>
                 <OpenButtonColumn href={showPagePath}>
@@ -71,53 +84,34 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 상태 */}
             <td>
-                {currentUser?.isAdmin ? (
-                    <SelectColumn
-                        value={subscription.usingStatus}
-                        getOptions={async () => [...SubscriptionUsingStatusValues].reverse()}
-                        onSelect={async (usingStatus: SubscriptionUsingStatus) => {
-                            if (usingStatus === subscription.usingStatus) return;
-                            return _update({usingStatus});
-                        }}
-                        ValueComponent={({value}) => (
-                            <SubscriptionUsingStatusTag value={value} className="no-selectable !cursor-default" />
-                        )}
-                        contentMinWidth="240px"
-                        optionListBoxTitle="사용 상태를 변경합니다"
-                        inputDisplay={false}
-                    />
-                ) : (
-                    <SubscriptionUsingStatusTag
-                        value={subscription.usingStatus}
-                        className="no-selectable !cursor-default"
-                    />
-                )}
+                <SelectColumn
+                    value={subscription.usingStatus}
+                    getOptions={async () => [...SubscriptionUsingStatusValues].reverse()}
+                    onSelect={async (usingStatus: SubscriptionUsingStatus) => {
+                        if (usingStatus === subscription.usingStatus) return;
+                        return _update({usingStatus});
+                    }}
+                    ValueComponent={({value}) => <SubscriptionUsingStatusTag value={value} />}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="사용 상태를 변경합니다"
+                    inputDisplay={false}
+                />
             </td>
 
             {/* 결제주기 */}
             <td>
-                {currentUser?.isAdmin ? (
-                    <SelectColumn
-                        value={subscription.billingCycleType}
-                        getOptions={async () => [...SubscriptionBillingCycleTypeValues]}
-                        onSelect={async (billingCycleType) => {
-                            if (billingCycleType === subscription.billingCycleType) return;
-                            return _update({billingCycleType});
-                        }}
-                        ValueComponent={({value}) => (
-                            <BillingCycleTypeTagUI value={value} className="no-selectable !cursor-default" short />
-                        )}
-                        contentMinWidth="240px"
-                        optionListBoxTitle="결제주기를 변경합니다"
-                        inputDisplay={false}
-                    />
-                ) : (
-                    <BillingCycleTypeTagUI
-                        value={subscription.billingCycleType}
-                        className="no-selectable !cursor-default"
-                        short
-                    />
-                )}
+                <SelectColumn
+                    value={subscription.billingCycleType}
+                    getOptions={async () => [...SubscriptionBillingCycleTypeValues]}
+                    onSelect={async (billingCycleType) => {
+                        if (billingCycleType === subscription.billingCycleType) return;
+                        return _update({billingCycleType});
+                    }}
+                    ValueComponent={({value}) => <BillingCycleTypeTagUI value={value} short />}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="결제주기를 변경합니다"
+                    inputDisplay={false}
+                />
             </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
@@ -141,7 +135,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             </td>
 
             {/* 결제수단 */}
-            <td className="pl-3 py-0">
+            <td className="py-0 pl-3">
                 <PayMethodSelect
                     payMethodSelectType={PayMethodSelectType.BOTH}
                     subscription={subscription}

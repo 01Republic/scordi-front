@@ -15,7 +15,7 @@ export const TeamPaymentTableHeader = memo((props: TeamPaymentTableHeaderProps) 
             </SortableTH>
 
             {/* 상태 (editable, sortable) */}
-            <SortableTH sortKey="[usingStatus]" onClick={orderBy}>
+            <SortableTH sortKey="[creditCard][usingStatus]" onClick={orderBy}>
                 상태
             </SortableTH>
 

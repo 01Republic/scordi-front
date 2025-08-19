@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {atom, useRecoilState, useSetRecoilState} from 'recoil';
+import {atom} from 'recoil';
 import {AxiosResponse} from 'axios';
 import {plainToInstance} from 'class-transformer';
 import {padStart} from 'lodash';
@@ -9,14 +9,14 @@ import {creditCardApi} from '^models/CreditCard/api';
 import {useAltForm} from '^hooks/useAltForm';
 import {errorNotify} from '^utils/toast-notify';
 import {TeamDto} from '^models/Team/type';
-import {useOrgIdParam} from '^atoms/common';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
-import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
-import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useCodefCardsOfCreditCardShow2} from '^models/CodefCard/hook';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {pick} from '^types/utils/one-of-list.type';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {ErrorResponse} from '^models/User/types';
+import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
+import {BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
+import {TEAM_CREDIT_CARD_HOOK_KEY} from '^models/TeamCreditCard/hook/key';
 
 export const creditCardSubjectAtom = atom<CreditCardDto | null>({
     key: 'OrgCreditCardShowPage/creditCardSubjectAtom',
@@ -24,49 +24,34 @@ export const creditCardSubjectAtom = atom<CreditCardDto | null>({
 });
 
 export const useCurrentCreditCard = () => {
-    const [currentCreditCard, setCurrentCreditCard] = useRecoilState(creditCardSubjectAtom);
+    const orgId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
+    const {data: currentCreditCard, refetch} = useQuery({
+        queryKey: ['useCurrentCreditCard', orgId, creditCardId],
+        queryFn: () => creditCardApi.show(orgId, creditCardId).then((res) => res.data),
+        enabled: !!orgId && !!creditCardId,
+    });
 
-    const findOne = async (orgId: number, id: number) => {
-        return creditCardApi.show(orgId, id).then((res) => {
-            setCurrentCreditCard(res.data);
-            return res.data;
-        });
-    };
-
-    const reload = async () => {
-        if (!currentCreditCard) return;
-        return findOne(currentCreditCard.organizationId, currentCreditCard.id);
-    };
-
-    return {currentCreditCard, setCurrentCreditCard, findOne, reload};
+    return {currentCreditCard, reload: refetch};
 };
 
 export const useCurrentCodefCard = () => {
-    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, clearCache, reset} =
-        useCodefCardsOfCreditCardShow();
-    const currentCodefCard = pick(result.items[0]);
+    const creditCardId = useIdParam('creditCardId');
+    const queryResult = useCodefCardsOfCreditCardShow2(creditCardId);
+    const {currentCodefCard} = queryResult;
 
-    const isApiConnected = !isNotLoaded && !!currentCodefCard;
+    const isApiConnected = !!currentCodefCard;
     const isManuallyCreated = !isApiConnected;
 
     return {
-        currentCodefCard,
-        isApiConnected,
         isManuallyCreated,
-        search,
-        reload,
-        result,
-        isLoading,
-        isNotLoaded,
-        isEmptyResult,
-        clearCache,
-        reset,
+        ...queryResult,
     };
 };
 
 export const useCurrentCreditCardEdit = () => {
     const orgId = useOrgIdParam();
-    const {currentCreditCard, setCurrentCreditCard} = useCurrentCreditCard();
+    const {currentCreditCard, reload} = useCurrentCreditCard();
     const {formData, setFormValue} = useAltForm(plainToInstance(UpdateCreditCardDto, {}));
     const [expiryValues, setExpiryValues] = useState<string[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -99,7 +84,7 @@ export const useCurrentCreditCardEdit = () => {
     const handleResponse = (req: Promise<AxiosResponse<CreditCardDto, any>>) => {
         req.then((res) => {
             toast.success('변경사항을 저장했어요.');
-            setCurrentCreditCard(res.data);
+            reload();
             setIsEditMode(false);
         })
             .catch(errorNotify)
@@ -189,20 +174,18 @@ export const useCurrentCreditCardEdit = () => {
 };
 
 export const useCurrentCreditCardSync = () => {
+    const creditCardId = useIdParam('creditCardId');
+    const queryClient = useQueryClient();
     const {currentCreditCard, reload: reloadCurrentCreditCard} = useCurrentCreditCard();
-    const {result, reload: reloadCodefCards} = useCodefCardsOfCreditCardShow();
-    const {reload: reloadSubscriptions, isNotLoaded: subscriptionIsNotLoaded} = useSubscriptionListOfCreditCard();
-    const {reload: reloadBillingHistories, isNotLoaded: billingHistoryIsNotLoaded} =
-        useBillingHistoryListOfCreditCard();
+    const {currentCodefCard, refetch: reloadCodefCards} = useCodefCardsOfCreditCardShow2(creditCardId);
     const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
-    const currentCodefCard = pick(result.items[0]);
 
     const onFinish = () => {
         return Promise.allSettled([
             reloadCurrentCreditCard(),
             reloadCodefCards(),
-            !subscriptionIsNotLoaded && reloadSubscriptions(),
-            !billingHistoryIsNotLoaded && reloadBillingHistories(),
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.listOfCreditCard]}),
+            queryClient.invalidateQueries({queryKey: [BILLING_HISTORY_HOOK_KEY.useBillingHistoryListOfCreditCard2]}),
         ]);
     };
 
@@ -220,15 +203,27 @@ export const useCurrentCreditCardSync = () => {
     return {startSync, isSyncRunning, onFinish, currentCodefCard};
 };
 
-export const useCreditCardUpdate = (orgId: number, id: number) => {
+export const useCurrentCreditCardUpdate = () => {
     const {reload} = useCurrentCreditCard();
     const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (data: UpdateCreditCardDto) => creditCardApi.update(orgId, id, data).then((res) => res.data),
+
+    return useMutation<CreditCardDto, ErrorResponse, {orgId: number; id: number; data: UpdateCreditCardDto}>({
+        mutationFn: ({orgId, id, data}) => creditCardApi.update(orgId, id, data).then((res) => res.data),
         onSuccess: (creditCard) => {
             reload();
-            queryClient.setQueryData(['page/subject', 'creditCards', 'detail', id], creditCard);
+            queryClient.setQueryData(['page/subject', 'creditCards', 'detail', creditCard.id], creditCard);
             queryClient.invalidateQueries({queryKey: ['page/subject', 'creditCards', 'list']});
+        },
+    });
+};
+
+export const useCreditCardUpdate = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation<CreditCardDto, ErrorResponse, {orgId: number; id: number; data: UpdateCreditCardDto}>({
+        mutationFn: ({orgId, id, data}) => creditCardApi.update(orgId, id, data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [TEAM_CREDIT_CARD_HOOK_KEY.base], refetchType: 'all'});
         },
     });
 };

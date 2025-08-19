@@ -138,3 +138,45 @@ export const CurrencyListV2: {[key in CurrencyCode]: CurrencyInfo} = {
     },
     [CurrencyCode.BGN]: {code: CurrencyCode.BGN, symbol: 'лв', format: '%s%u', desc: 'Bulgarian Lev', unit: '레프'},
 };
+
+export const currencyDecimalMap: Record<CurrencyCode, number> = {
+    [CurrencyCode.USD]: 2, // 미국 달러
+    [CurrencyCode.KRW]: 0, // 한국 원
+    [CurrencyCode.EUR]: 2, // 유럽 유로
+    [CurrencyCode.JPY]: 0, // 일본 엔
+    [CurrencyCode.GBP]: 2, // 영국 파운드 스털링
+    [CurrencyCode.CAD]: 2, // 캐나다 달러
+    [CurrencyCode.CNY]: 2, // 중국 위안
+    [CurrencyCode.VND]: 0, // 베트남 동
+    [CurrencyCode.ARS]: 2, // 아르헨티나 페소
+    [CurrencyCode.INR]: 2, // 인도 루피
+    [CurrencyCode.TWD]: 2, // 대만 달러
+    [CurrencyCode.AUD]: 2, // 호주 달러
+    [CurrencyCode.HKD]: 2, // 홍콩 달러
+    [CurrencyCode.IDR]: 2, // 인도네시아 루피아
+    [CurrencyCode.MXN]: 2, // 멕시코 페소
+    [CurrencyCode.NZD]: 2, // 뉴질랜드 달러
+    [CurrencyCode.SGD]: 2, // 싱가포르 달러
+    [CurrencyCode.CHF]: 2, // 스위스 프랑
+    [CurrencyCode.THB]: 2, // 태국 바트
+    [CurrencyCode.BRL]: 2, // 브라질 레알
+    [CurrencyCode.TRY]: 2, // 터키 리라
+    [CurrencyCode.RUB]: 2, // 러시아 루블
+    [CurrencyCode.NOK]: 2, // 노르웨이 크로네
+    [CurrencyCode.DKK]: 2, // 덴마크 크로네
+    [CurrencyCode.SEK]: 2, // 스웨덴 크로나
+    [CurrencyCode.ILS]: 2, // 이스라엘 세켈
+    [CurrencyCode.ZAR]: 2, // 남아프리카 랜드
+    [CurrencyCode.PLN]: 2, // 폴란드 즐로티
+    [CurrencyCode.PHP]: 2, // 필리핀 페소
+    [CurrencyCode.CZK]: 2, // 체코 코루나
+    [CurrencyCode.CLP]: 2, // 칠레 페소
+    [CurrencyCode.COP]: 2, // 콜롬비아 페소
+    [CurrencyCode.EGP]: 2, // 이집트 파운드
+    [CurrencyCode.MYR]: 2, // 말레이시아 링깃
+    [CurrencyCode.HUF]: 2, // 헝가리 포린트
+    [CurrencyCode.AED]: 2, // 아랍에미리트 디르함
+    [CurrencyCode.SAR]: 2, // 사우디 리얄
+    [CurrencyCode.RON]: 2, // 루마니아 레우
+    [CurrencyCode.BGN]: 2, // 불가리아 레프
+};

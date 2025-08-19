@@ -1,9 +1,10 @@
 import {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
-import {LogOut} from 'lucide-react';
+import {Headset, LogOut} from 'lucide-react';
 import Image from 'next/image';
 import BaseNavLogo from '^public/images/renewallogo/base_nav-logo.png';
 import {useCurrentUser} from '^models/User/hook';
+import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 
 interface BaseNavProps {
     //
@@ -18,7 +19,18 @@ export const BaseNav = memo((props: BaseNavProps) => {
             <div>
                 <Image src={BaseNavLogo} alt="scordi" height={21} className="h-[21px]" />
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-6">
+                {currentUser && currentUser.isAdmin && (
+                    <LinkTo
+                        href={AdminOrgsPageRoute.path()}
+                        className="flex items-center text-14 text-gray-400 hover:text-gray-700 transition-all cursor-pointer gap-2"
+                        displayLoading={false}
+                    >
+                        <Headset />
+                        <span>어드민</span>
+                    </LinkTo>
+                )}
+
                 {currentUser && (
                     <LinkTo
                         onClick={() => logout()}

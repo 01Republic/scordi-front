@@ -3,11 +3,15 @@ import {AxiosResponse} from 'axios';
 import {toast} from 'react-hot-toast';
 import {atom, useRecoilState} from 'recoil';
 import {plainToInstance} from 'class-transformer';
-import {useOrgIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {useAltForm} from '^hooks/useAltForm';
 import {errorNotify} from '^utils/toast-notify';
 import {bankAccountApi} from '^models/BankAccount/api';
 import {BankAccountDto, UpdateBankAccountRequestDto} from '^models/BankAccount/type';
+import {useQuery} from '@tanstack/react-query';
+import {codefBankAccountApi} from '^models/CodefBankAccount/api';
+import {Paginated} from '^types/utils/paginated.dto';
+import {pick} from '^types/utils/one-of-list.type';
 
 export const bankAccountSubjectAtom = atom<BankAccountDto | null>({
     key: 'OrgBankAccountShowPage/bankAccountSubjectAtom',
@@ -30,6 +34,30 @@ export const useCurrentBankAccount = () => {
     };
 
     return {currentBankAccount, setCurrentBankAccount, findOne, reload};
+};
+
+export const useCurrentCodefBankAccount = () => {
+    const orgId = useOrgIdParam();
+    const bankAccountId = useIdParam('bankAccountId');
+    const queryResult = useQuery({
+        queryKey: ['useCurrentCodefBankAccount', orgId, bankAccountId],
+        queryFn: () =>
+            codefBankAccountApi
+                .index(orgId, {
+                    where: {bankAccountId},
+                    order: {id: 'DESC'},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId && !!bankAccountId,
+    });
+
+    const currentCodefBankAccount = pick(queryResult.data.items[0]);
+
+    const isApiConnected = !!currentCodefBankAccount;
+    const isManuallyCreated = !isApiConnected;
+
+    return {isManuallyCreated, ...queryResult, currentCodefBankAccount};
 };
 
 export const useCurrentBankAccountEdit = () => {

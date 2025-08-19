@@ -1,7 +1,7 @@
-import {V3OrgJoin} from '^v3/V3OrgJoin';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {JoinPage} from '^clients/public/userAuth/JoinPage/JoinPage';
 
 export const V3OrgJoinPageRoute = pathRoute({
     pathname: 'v3/orgs/[orgId]/join',
@@ -26,5 +26,5 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function V3OrgJoinPage() {
-    return <V3OrgJoin />;
+    return <JoinPage />;
 }

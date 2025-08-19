@@ -13,8 +13,6 @@ import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
-import {OrgReviewUncategoriedPageRoute} from '^pages/orgs/[id]/reviewUncategorized';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 import {MembershipDto, MembershipLevel} from '^models/Membership/types';
@@ -26,13 +24,7 @@ interface TopNavBarProps {
 
 const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
     {name: '홈', routeProps: OrgMainPageRoute},
-    {
-        name: '업무',
-        items: [
-            {name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute},
-            {name: '미분류', Icon: CircleHelp, routeProps: OrgReviewUncategoriedPageRoute},
-        ],
-    },
+
     {
         name: '구독',
         items: [
@@ -53,6 +45,13 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
             {name: '결제수단', Icon: CreditCard, routeProps: OrgCreditCardListPageRoute},
             {name: '청구서 메일', Icon: Mail, routeProps: OrgInvoiceAccountListPageRoute},
         ],
+    },
+    {
+        name: '업무',
+        items: [{name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute},
+          {name: '미분류', Icon: CircleHelp, routeProps: OrgReviewUncategoriedPageRoute},
+        ],
+
     },
     {
         name: '설정',

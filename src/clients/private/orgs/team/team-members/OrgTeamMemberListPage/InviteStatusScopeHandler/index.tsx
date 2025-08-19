@@ -1,9 +1,14 @@
 import {useState} from 'react';
-import {TeamMemberInviteStatus, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import {FindAllTeamMemberQueryDto, TeamMemberInviteStatus, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
-export function InviteStatusScopeHandler() {
-    const {search, query} = useTeamMembersInTeamMembersTable();
+interface InviteStatusScopeHandlerProps {
+    search: (params?: Partial<FindAllTeamMemberQueryDto>) => void;
+}
+
+export function InviteStatusScopeHandler(props: InviteStatusScopeHandlerProps) {
+    const {search} = props;
+    const {query} = useTeamMembersInTeamMembersTable();
     const [memberStatus, setMemberStatus] = useState(TeamMemberInviteStatus.All);
 
     const searchMembers = (inviteStatus: TeamMemberInviteStatus) => {

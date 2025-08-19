@@ -16,10 +16,11 @@ interface ConnectEditAccountNestedStepProps {
     codefAccount: CodefAccountDto;
     setCodefAccountFetchCardsResults: Dispatch<SetStateAction<CodefAccountFetchCardsResult[] | undefined>>;
     onBack: () => any;
+    onNext?: () => any;
 }
 
 export const ConnectEditAccountNestedStep = memo((props: ConnectEditAccountNestedStepProps) => {
-    const {cardCompany, codefAccount, setCodefAccountFetchCardsResults, onBack} = props;
+    const {cardCompany, codefAccount, setCodefAccountFetchCardsResults, onBack, onNext} = props;
     const orgId = useOrgIdParam();
     const {form, updateAccount, isLoading, errorMessages} = useCreateCodefAccount(orgId);
     const {fetch: fetchCardsQuery} = useCodefAccountFetchCardsResult();
@@ -32,14 +33,17 @@ export const ConnectEditAccountNestedStep = memo((props: ConnectEditAccountNeste
             onSubmit={(dto) => {
                 updateAccount(orgId, codefAccount.id, dto)
                     .then(async (res) => {
-                        if (res.errorList.length) return;
+                        if (res.errorList.length) {
+                            console.error('updateAccount', 'res.errorList', res.errorList);
+                            return;
+                        }
 
                         const result = await fetchCardsQuery(codefAccount);
                         toast.success(`${codefAccount.company}에 안전하게 로그인했어요.`);
                         setCodefAccountFetchCardsResults((results = []) => {
                             return results.map((r) => (r.codefAccount.id === codefAccount.id ? result : r));
                         });
-                        onBack();
+                        onNext ? onNext() : onBack();
                     })
                     .catch(errorToast);
             }}

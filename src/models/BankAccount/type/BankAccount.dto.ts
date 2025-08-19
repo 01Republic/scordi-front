@@ -35,6 +35,7 @@ export class BankAccountDto {
     currencyCode: string; // 결제통화 (default: "KRW")
     usingStatus: BankAccountUsingStatus; // 사용상태 (0: UnDef, 1: NoUse, 2: InUse, 3: Expired) - sortable
     memo: string | null; // 메모
+    monthlyPaidAmount: number; // 월간 누적 결제금액
     @TypeCast(() => Date) startDate: Date | null; // 신규일
     @TypeCast(() => Date) endDate: Date | null; // 만기일
     @TypeCast(() => Date) lastTransDate: Date | null; // 최종거래일

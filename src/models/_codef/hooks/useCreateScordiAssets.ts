@@ -15,23 +15,27 @@ import {creditCardApi} from '^models/CreditCard/api';
  */
 export async function createScordiAsset(orgId: number, codefAsset: CodefBankAccountDto | CodefCardDto) {
     if (codefAsset instanceof CodefBankAccountDto) {
-        // 1) 거래내역 불러오기 (완료를 기다리지않음)
-        codefBankAccountApi.patchHistories(orgId, codefAsset.id).catch(console.warn);
-        // 2) 스코디 계좌 생성
-        return codefBankAccountApi
-            .createBankAccount(orgId, codefAsset.id)
-            .then((res) => res.data as NonNullableProp<CodefBankAccountDto, 'bankAccountId'>)
-            .then((codefBankAccount) => bankAccountApi.show(orgId, codefBankAccount.bankAccountId))
-            .then((res) => res.data);
+        // 1) 거래내역 불러오기
+        return (
+            codefBankAccountApi
+                .patchHistories(orgId, codefAsset.id)
+                // 2) 스코디 계좌 생성
+                .then(() => codefBankAccountApi.createBankAccount(orgId, codefAsset.id))
+                .then((res) => res.data as NonNullableProp<CodefBankAccountDto, 'bankAccountId'>)
+                .then((codefBankAccount) => bankAccountApi.show(orgId, codefBankAccount.bankAccountId))
+                .then((res) => res.data)
+        );
     } else {
-        // 1) 거래내역 불러오기 (완료를 기다리지않음)
-        codefCardApi.patchHistories(orgId, codefAsset.id).catch(console.warn);
-        // 2) 스코디 카드 생성
-        return codefCardApi
-            .createCreditCard(orgId, codefAsset.id)
-            .then((res) => res.data as NonNullableProp<CodefCardDto, 'creditCardId'>)
-            .then((codefCard) => creditCardApi.show(orgId, codefCard.creditCardId))
-            .then((res) => res.data);
+        // 1) 거래내역 불러오기
+        return (
+            codefCardApi
+                .patchHistories(orgId, codefAsset.id)
+                // 2) 스코디 카드 생성
+                .then(() => codefCardApi.createCreditCard(orgId, codefAsset.id))
+                .then((res) => res.data as NonNullableProp<CodefCardDto, 'creditCardId'>)
+                .then((codefCard) => creditCardApi.show(orgId, codefCard.creditCardId))
+                .then((res) => res.data)
+        );
     }
 }
 

@@ -29,7 +29,10 @@ export const useCheckboxHandler = <T, V = any>(
     const checkOne = useCallback((item: T, checked: boolean) => (checked ? add(item) : remove(item)), [add, remove]);
     const checkAll = useCallback((checked: boolean) => setCheckedItems(checked ? items : []), [items]);
 
-    const isChecked = useCallback((item: T) => checkedItems.some((it) => it === item), [checkedItems]);
+    const isChecked = useCallback(
+        (item: T) => checkedItems.some((i) => getKey(i) === getKey(item)),
+        [checkedItems, getKey],
+    );
     const isCheckedAll = useCallback(() => checkedItems.length === items.length, [checkedItems, items]);
 
     const init = (data: T[]) => {

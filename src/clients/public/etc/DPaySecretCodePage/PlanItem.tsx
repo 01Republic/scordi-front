@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {currencyFormat} from '^utils/number';
 
 interface PlanItemProps {
     plan: ScordiPlanDto;
@@ -23,8 +24,12 @@ export const PlanItem = memo((props: PlanItemProps) => {
             <div className="flex sm:flex-col justify-between">
                 <p className="font-semibold">{plan.name}</p>
                 <p className="font-bold sm:text-lg">
-                    {/*<span className="block text-11 text-right font-normal text-gray-500">참가비</span>*/}
-                    <span>{plan.price.toLocaleString()}원</span>
+                    {plan.regularPrice > plan.price && (
+                        <span className="block text-11 text-right font-normal text-gray-500 line-through">
+                            {currencyFormat(plan.regularPrice)}
+                        </span>
+                    )}
+                    <span>{currencyFormat(plan.price)}</span>
                 </p>
             </div>
         </div>

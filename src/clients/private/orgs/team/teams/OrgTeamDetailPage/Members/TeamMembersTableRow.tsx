@@ -1,18 +1,17 @@
 import React, {memo} from 'react';
+import {debounce} from 'lodash';
+import {MinusCircle} from 'lucide-react';
+import Tippy from '@tippyjs/react';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import Tippy from '@tippyjs/react';
-import {teamMembershipApi} from '^models/TeamMembership/api';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {confirm2, confirmed} from '^components/util/dialog';
-import {toast} from 'react-hot-toast';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {errorToast} from '^api/api';
-import {debounce} from 'lodash';
-import {MinusCircle} from 'lucide-react';
+import {useDestroyTeamMemberShip} from '^models/TeamMembership/hook/hook';
 
 interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;
@@ -24,8 +23,9 @@ interface TeamMemberTableRowProps {
 
 export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const {teamMember, onClick, isChecked, onCheck, reload} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRecoilValue(teamIdParamState);
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
+    const {mutateAsync} = useDestroyTeamMemberShip(orgId);
 
     if (!teamMember) return null;
 
@@ -56,7 +56,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
         };
 
         confirmed(deleteConfirm())
-            .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
+            .then(() => mutateAsync({teamId, teamMemberId: teamMember.id}))
             .then(() => toast.success('연결을 해제했어요.'))
             .then(() => reload && reload())
             .catch(errorToast);

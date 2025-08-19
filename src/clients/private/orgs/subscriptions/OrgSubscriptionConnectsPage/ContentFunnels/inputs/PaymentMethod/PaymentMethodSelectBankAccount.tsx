@@ -85,7 +85,10 @@ export const PaymentMethodSelectBankAccount = memo(function PaymentMethodSelectB
                 entries={result.items}
                 defaultValue={formData.bankAccountId}
                 onSelect={onChange}
-                onCtaButtonClick={() => setIsBankAccountCreateMethodModalOpen(true)}
+                onCtaButtonClick={() => {
+                    selectModal.hide();
+                    setIsBankAccountCreateMethodModalOpen(true);
+                }}
             />
 
             {/* 결제수단 등록 > 등록 방법 선택 */}

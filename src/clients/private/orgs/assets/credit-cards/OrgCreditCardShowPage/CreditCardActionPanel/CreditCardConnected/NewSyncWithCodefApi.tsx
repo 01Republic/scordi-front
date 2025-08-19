@@ -1,25 +1,30 @@
 import React, {memo, useState} from 'react';
-import {useCurrentCreditCard, useCurrentCreditCardSync} from '../../atom';
+import {useCurrentCreditCard} from '../../atom';
 import {ConnectCodefModal} from './ConnectCodefModal';
 import {codefCardApi} from '^models/CodefCard/api';
-import {useOrgIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
 import {creditCardApi} from '^models/CreditCard/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRouter} from 'next/router';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {Sparkles} from 'lucide-react';
 
-export const NewSyncWithCodefApi = memo(() => {
+interface Props {
+    isLoading: boolean;
+    reload: () => Promise<any>;
+}
+
+export const NewSyncWithCodefApi = memo((props: Props) => {
+    const {isLoading, reload} = props;
+
     const orgId = useOrgIdParam();
     const router = useRouter();
     const {currentCreditCard} = useCurrentCreditCard();
     const {isSyncRunning, syncCard} = useCodefCardSync();
-    const {reload} = useCodefCardsOfCreditCardShow();
     const [isConnectModalOpened, setIsConnectModalOpened] = useState(false);
 
     if (!currentCreditCard) return <></>;
@@ -78,7 +83,9 @@ export const NewSyncWithCodefApi = memo(() => {
     return (
         <>
             <button
-                className={`btn btn-scordi no-animation btn-animation gap-2 ${isSyncRunning ? 'link_to-loading' : ''}`}
+                className={`btn btn-scordi no-animation btn-animation gap-2 ${
+                    isLoading || isSyncRunning ? 'link_to-loading' : ''
+                }`}
                 onClick={onClick}
             >
                 <Sparkles />

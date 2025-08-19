@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import toast from 'react-hot-toast';
 import {debounce} from 'lodash';
@@ -11,6 +11,11 @@ import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import SwitchNotificationCard from './SwitchNotificationCard';
 import {t_membershipLevel} from '^models/Membership/types';
 import {X} from 'lucide-react';
+import {useForm} from 'react-hook-form';
+import {useUpdateUser} from '^models/User/hook';
+import {validPasswordRegex} from '^utils/valildation';
+import {deployEnv} from '^config/environments';
+import {encryptValue} from '^utils/crypto';
 
 interface EditUserProfileModalProps {
     isOpened: boolean;
@@ -19,8 +24,28 @@ interface EditUserProfileModalProps {
 
 export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
     const {isOpened, onClose} = props;
+    const isNotProduction = deployEnv !== 'production';
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const {mutateAsync} = useUpdateUser();
+    const [isChangePasswordClicked, setIsChangePasswordClicked] = useState(false);
+
+    const form = useForm<UserEditProfileRequestDto>({
+        mode: 'all',
+        defaultValues: {
+            password: '',
+            passwordConfirmation: '',
+        },
+    });
+
+    const {
+        register,
+        watch,
+        handleSubmit,
+        formState: {errors},
+    } = form;
+
+    const {password} = watch();
 
     const updateUser = debounce((updateDto: UserEditProfileRequestDto) => {
         return userApi.registration
@@ -30,6 +55,24 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
             .then(() => toast.success('변경사항이 저장되었습니다.'))
             .catch(() => toast.error('프로필 수정을 다시 시도해주세요.'));
     }, 500);
+
+    const onSubmit = (data: UserEditProfileRequestDto) => {
+        if (!data.password && !data.passwordConfirmation) return;
+
+        const encryptedPassword = {
+            ...data,
+            password: data.password ? encryptValue(data.password) : undefined,
+            passwordConfirmation: data.passwordConfirmation ? encryptValue(data.passwordConfirmation) : undefined,
+        };
+
+        mutateAsync(encryptedPassword)
+            .then(() => userSessionApi.index())
+            .then((req) => {
+                setCurrentUser(req.data);
+                setIsChangePasswordClicked(false);
+            })
+            .then(() => toast.success('변경사항이 저장되었습니다.'));
+    };
 
     if (!currentUser) return <></>;
 
@@ -55,24 +98,100 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                 <div className="w-full flex flex-col sm:flex-row gap-6 sm:gap-8">
                     <UserAvatar src={profileImgUrl} className="w-20 h-20 sm:w-24 sm:h-24" alt="프로필 이미지" />
                     <div className="grow">
-                        <div>
+                        <div className="mb-6">
                             <h4 className="font-bold text-18 mb-1">{name}</h4>
                             <p className="text-gray-700 capitalize mb-6">
                                 {t_membershipLevel(membership.level)} @{currentOrg.name}
                             </p>
-                            <div className="mb-6 flex flex-col gap-2 text-14 text-gray-900">
-                                <p className="flex items-center gap-4">
-                                    <span className="w-32">휴대전화 번호</span>
-                                    <span>{phone}</span>
-                                </p>
-                                <p className="flex items-center gap-4">
-                                    <span className="w-32">이메일</span>
-                                    <span>{email}</span>
-                                </p>
-                            </div>
-                            <p>
-                                <button className="cursor-not-allowed text-gray-300 mb-6">비밀번호 변경하기</button>
-                            </p>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <div className="mb-6 flex flex-col gap-2 text-14 text-gray-900">
+                                    <p className="flex items-center gap-4">
+                                        <span className="w-32">휴대전화 번호</span>
+                                        <span>{phone}</span>
+                                    </p>
+                                    <p className="flex items-center gap-4">
+                                        <span className="w-32">이메일</span>
+                                        <span>{email}</span>
+                                    </p>
+                                    <p className="flex items-center gap-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (!isNotProduction) return;
+                                                setIsChangePasswordClicked(!isChangePasswordClicked);
+                                            }}
+                                            className={`w-32 flex justify-start underline hover:text-scordi ${
+                                                isChangePasswordClicked ? 'hidden' : ''
+                                            }`}
+                                        >
+                                            비밀번호 변경
+                                        </button>
+                                    </p>
+                                    {isNotProduction && isChangePasswordClicked && (
+                                        <div className="w-full grid grid-cols-3 gap-4">
+                                            <div className="col-span-2 flex flex-col gap-2">
+                                                <label className="flex items-center gap-4">
+                                                    <span className="w-32">새 비밀번호</span>
+
+                                                    <div className="flex flex-col gap-2">
+                                                        <input
+                                                            type="password"
+                                                            className="w-full input input-xs border-0 px-0 rounded-none border-b border-gray-300 focus:outline-none"
+                                                            {...register('password', {
+                                                                pattern: {
+                                                                    value: validPasswordRegex,
+                                                                    message: '8~20자의 영문, 숫자를 사용해 주세요.',
+                                                                },
+                                                            })}
+                                                            placeholder="8~20자의 영문, 숫자"
+                                                        />
+
+                                                        {errors.password && (
+                                                            <p className="text-red-400 text-12">
+                                                                {errors.password.message}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </label>
+
+                                                <label className="flex items-center gap-4">
+                                                    <span className="w-32">비밀번호 확인</span>
+
+                                                    <div className="flex flex-col gap-2">
+                                                        <input
+                                                            type="password"
+                                                            className="w-full input input-xs border-0 px-0 rounded-none border-b border-gray-300 focus:outline-none"
+                                                            {...register('passwordConfirmation', {
+                                                                validate: (value) =>
+                                                                    value === password ||
+                                                                    '비밀번호가 일치하지 않습니다.',
+                                                            })}
+                                                        />
+
+                                                        {errors.passwordConfirmation && (
+                                                            <p className="text-red-400 text-12">
+                                                                {errors.passwordConfirmation.message}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div className="col-span-1 flex gap-2 h-full items-end justify-end">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setIsChangePasswordClicked(false)}
+                                                    className="btn btn-xs btn-white"
+                                                >
+                                                    취소
+                                                </button>
+                                                <button type="submit" className="btn btn-xs btn-scordi">
+                                                    변경
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </form>
                         </div>
 
                         <div className="h-[1.5px] w-full bg-stroke-gray mb-6"></div>

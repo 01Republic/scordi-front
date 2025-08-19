@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
+import {useSubscription3, useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentTeamMember} from '../../atom';
 import {TeamMemberSubscriptionTableHeader} from './TeamMemberSubscriptionTableHeader';
@@ -11,11 +11,20 @@ import {TeamMemberConnectModal} from '^clients/private/orgs/team/team-members/Or
 import Tippy from '@tippyjs/react';
 import {useUnmount} from '^hooks/useUnmount';
 import {Plus, RotateCw} from 'lucide-react';
+import {useOrgIdParam} from '^atoms/common';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();
-    const {search, result, isLoading, reset, movePage, changePageSize, reload, orderBy, isNotLoaded, isEmptyResult} =
-        useSubscriptionsInTeamMemberShowPage();
+    const orgId = useOrgIdParam();
+    const {result, isLoading, movePage, changePageSize, reload, orderBy, isEmptyResult} = useSubscription3(orgId, {
+        relations: ['creditCard', 'invoiceAccounts'],
+        where: {
+            organizationId: teamMember?.organizationId,
+            // @ts-ignore
+            teamMembers: {id: teamMember.id},
+        },
+        order: {id: 'DESC'},
+    });
 
     const [isConnectSubscription, setConnectSubscriptionModalOpened] = useState(false);
 
@@ -30,20 +39,6 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     );
 
     if (!teamMember) return <></>;
-
-    const onReady = () => {
-        search({
-            relations: ['creditCard', 'invoiceAccounts'],
-            where: {
-                organizationId: teamMember.organizationId,
-                // @ts-ignore
-                teamMembers: {id: teamMember.id},
-            },
-            order: {id: 'DESC'},
-        });
-    };
-
-    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 
@@ -94,7 +89,6 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
                     <EmptyTable message="연결된 구독이 없어요." Buttons={ConnectSubscriptionButton} />
                 ) : (
                     <ListTable
-                        onReady={onReady}
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <TeamMemberSubscriptionTableHeader orderBy={orderBy} />}

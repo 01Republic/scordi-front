@@ -46,9 +46,9 @@ export class SubscriptionDto {
     @TypeCast(() => Date) registeredAt?: Date | null; // 스코디 연동 시작일
     @TypeCast(() => Date) startAt?: Date | null; // 구독시작일
     @TypeCast(() => Date) finishAt?: Date | null; // 구독종료일
-    nextBillingDate: string | null; // 다음결제일
+    @TypeCast(() => Date) nextBillingDate: Date | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
-    nextComputedBillingDate: string | null; // 다음결제일 (최종 계산결과)
+    @TypeCast(() => Date) nextComputedBillingDate: Date | null; // 다음결제일 (최종 계산결과)
     @TypeCast(() => MoneyDto) currentBillingAmount: MoneyDto | null; // 현재 결제 금액
     @TypeCast(() => Date) lastPaidAt: Date | null; // 최신 결제일
     isPerUser: boolean; // 인당 과금 여부
@@ -74,6 +74,8 @@ export class SubscriptionDto {
 
     vendorCompanyId: number | null; // 파트너 벤더사 ID
     vendorManagerId: number | null; // 파트너 벤더사 담당자 ID
+
+    isBillingDateOverDue: boolean; // 결제 예정일 초과 여부
 
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
