@@ -16,7 +16,9 @@ import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 import {MembershipDto, MembershipLevel} from '^models/Membership/types';
-import {BarChart4, CreditCard, CircleHelp,LayoutGrid, Mail, MessagesSquare, User, Users} from 'lucide-react';
+import {BarChart4, CreditCard, CircleHelp, LayoutGrid, Mail, MessagesSquare, User, Users} from 'lucide-react';
+import {OrgReviewCampaignListPageRoute} from '^pages/orgs/[id]/reviewCampaigns';
+import {OrgReviewUncategoriedPageRoute} from '^pages/orgs/[id]/reviewUncategorized';
 
 interface TopNavBarProps {
     //
@@ -48,10 +50,10 @@ const getTopNavStructure = (props: {currentUserMembership?: MembershipDto}) => [
     },
     {
         name: '업무',
-        items: [{name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute},
-          {name: '미분류', Icon: CircleHelp, routeProps: OrgReviewUncategoriedPageRoute},
+        items: [
+            {name: '요청', Icon: MessagesSquare, routeProps: OrgReviewCampaignListPageRoute},
+            {name: '미분류', Icon: CircleHelp, routeProps: OrgReviewUncategoriedPageRoute},
         ],
-
     },
     {
         name: '설정',

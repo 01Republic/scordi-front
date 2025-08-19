@@ -4,7 +4,6 @@ import {InvoiceAccountsSection} from './InvoiceAccountsSection';
 import {MonthlyTotalExpenseSection} from './MonthlyTotalExpenseSection';
 import {PaymentMethodsSection} from './PaymentMethodsSection';
 import {QuickButtonGroup} from './QuickButtonGroup';
-import {QuickButtonGroup} from './QuickButtonGroup';
 import {RibbonBanner} from './RibbonBanner';
 import {YearlySection} from './YearlySection';
 
