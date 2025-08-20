@@ -6,9 +6,10 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {usePaginateUtils} from '^hooks/usePagedResource';
 import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
+import {FindAllSubscriptionsGroupedByProductDto} from '^models/Subscription/types/find-all.subscriptions-grouped-by-product.query.dto';
 
 /** 구독목록 페이지 전용 훅 / 구독 목록 조회 */
-export const useSubscriptionList = (params: FindAllSubscriptionsQuery) => {
+export const useSubscriptionListSingle = (isGroupMode: boolean, params: FindAllSubscriptionsQuery) => {
     const orgId = useOrgIdParam();
     const [query, setQuery] = useState(params);
 
@@ -19,10 +20,90 @@ export const useSubscriptionList = (params: FindAllSubscriptionsQuery) => {
             return subscriptionApi.index(query).then((res) => res.data);
         },
         initialData: Paginated.init(),
-        enabled: !!orgId && !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId) && !isGroupMode,
         // refetchOnMount: false,
         refetchOnWindowFocus: false,
     });
 
     return usePaginateUtils({query, setQuery, queryResult});
 };
+
+export const useSubscriptionListGrouped = (isGroupMode: boolean, params: FindAllSubscriptionsGroupedByProductDto) => {
+    const orgId = useOrgIdParam();
+    const [query, setQuery] = useState({
+        ...params,
+        organizationId: orgId,
+    });
+
+    const queryResult = useQuery({
+        queryKey: [SUBSCRIPTION_HOOK_KEY.list, orgId, query],
+        queryFn: async () => {
+            query.where = {...query.where};
+            return subscriptionApi.groupedByProduct(query).then((res) => res.data);
+        },
+        initialData: Paginated.init(),
+        enabled: !!orgId && !isNaN(orgId) && isGroupMode,
+        // refetchOnMount: false,
+        refetchOnWindowFocus: false,
+    });
+
+    return usePaginateUtils({query, setQuery, queryResult});
+};
+
+export function useOrgSubscriptionList(
+    isGroupMode: boolean,
+    singleParams: FindAllSubscriptionsQuery,
+    groupParams: FindAllSubscriptionsGroupedByProductDto,
+) {
+    const single = useSubscriptionListSingle(isGroupMode, singleParams);
+    const group = useSubscriptionListGrouped(isGroupMode, groupParams);
+
+    const searchByKeyword = (kw?: string) => {
+        const keyword = kw || undefined;
+        if (isGroupMode) {
+            return group.search({
+                ...group.query,
+                keyword,
+                page: 1,
+                itemsPerPage: 30,
+            });
+        } else {
+            return single.search({
+                ...single.query,
+                keyword,
+                page: 1,
+                itemsPerPage: 30,
+            });
+        }
+    };
+
+    if (isGroupMode) {
+        return {
+            mode: 'group',
+            result: group.result,
+            query: group.query,
+            searchByKeyword,
+            isLoading: group.isLoading,
+            reload: group.reload,
+            isNotLoaded: group.isNotLoaded,
+            isEmptyResult: group.isEmptyResult,
+            movePage: group.movePage,
+            changePageSize: group.changePageSize,
+            orderBy: group.orderBy,
+        } as const;
+    }
+
+    return {
+        mode: 'single',
+        result: single.result,
+        query: single.query,
+        searchByKeyword,
+        isLoading: single.isLoading,
+        reload: single.reload,
+        isNotLoaded: single.isNotLoaded,
+        isEmptyResult: single.isEmptyResult,
+        movePage: single.movePage,
+        changePageSize: single.changePageSize,
+        orderBy: single.orderBy,
+    } as const;
+}
