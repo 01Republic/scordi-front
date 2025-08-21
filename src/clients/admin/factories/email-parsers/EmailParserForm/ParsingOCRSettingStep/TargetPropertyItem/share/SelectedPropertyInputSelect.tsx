@@ -1,7 +1,7 @@
 import {UseFormReturn} from 'react-hook-form';
-import {BasePropertyFormData, SelectedPatternMethod, SelectedProperty} from '^models/EmailParser/types';
-import {CopyPromptButton} from './CopyPromtButton';
+import {BasePropertyFormData, SelectedProperty} from '^models/EmailParser/types';
 import {FetchedAttachmentFile, GmailItemDto} from '^models/InvoiceAccount/type';
+import {CopyPromptButton} from './CopyPromtButton';
 
 interface Props<T extends BasePropertyFormData = BasePropertyFormData> {
     form: UseFormReturn<T>;
@@ -17,10 +17,6 @@ export const SelectedPropertySelectSection = <T extends BasePropertyFormData>(pr
 
     // @ts-ignore
     const register = form.register('selectedProperty');
-    // @ts-ignore
-    const patternMethod = form.watch('pattern.method') as SelectedPatternMethod;
-
-    const isPromptButtonShow = patternMethod === SelectedPatternMethod.XPATH;
 
     return (
         <div className="flex items-center gap-2 mb-1.5">

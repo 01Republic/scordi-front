@@ -94,7 +94,6 @@ export function useTargetPropertyItem<PropertyFormData extends BasePropertyFormD
 
     // 입력한 정규식에 매칭된 값
     const regexResult = useMemo(() => {
-        console.log('selectedMethod', selectedMethod, 'inputValue', inputValue, 'dataSource', dataSource);
         switch (selectedMethod) {
             case SelectedPatternMethod.XPATH:
                 return getMatchResultForHtml(dataSource, inputValue);
