@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 
 import {Plus} from 'lucide-react';
 import {toast} from 'react-hot-toast';
@@ -25,7 +25,8 @@ import {SubscriptionGroupingTableHeader} from '^clients/private/orgs/subscriptio
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
-    const [isGroupMode, setIsGroupMode] = useState(false);
+    const [isGroupMode, setIsGroupMode] = useState(true);
+
     const {
         mode,
         result,
@@ -38,22 +39,42 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         movePage,
         changePageSize,
         orderBy,
+        sortVal,
     } = useOrgSubscriptionList(
         isGroupMode,
         {
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
-            order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+            order: {
+                currentBillingAmount: {dollarPrice: 'DESC'},
+                isFreeTier: 'ASC',
+                id: 'DESC',
+                product: {nameKo: 'ASC'},
+            },
         },
-        {organizationId: orgId, relations: ['subscriptions', 'subscriptions.creditCard', 'subscriptions.bankAccount']},
+        {
+            organizationId: orgId,
+            relations: ['subscriptions', 'subscriptions.creditCard', 'subscriptions.bankAccount'],
+            order: {
+                subscriptions: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+                nameKo: 'ASC',
+            },
+        },
     );
 
+    const [openProductIds, setOpenProductIds] = useState<number[]>(result.items.map((item) => item.id));
     const {mutate: deleteSubscription} = useRemoveSubscription();
     const ch = useCheckboxHandler<SubscriptionDto>([], (item) => item.id);
 
     const onSearch = (keyword?: string) => {
         return searchByKeyword(keyword);
     };
+
+    useEffect(() => {
+        if (result.items.length > 0) {
+            setOpenProductIds(result.items.map((item) => item.id));
+        }
+    }, [result.items]);
 
     const AddSubscriptionButton = () => (
         <div>
@@ -131,16 +152,28 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <ListTable
                         items={result.items}
                         isLoading={isLoading}
-                        Header={() => <SubscriptionGroupingTableHeader orderBy={orderBy} />}
+                        Header={() => <SubscriptionGroupingTableHeader orderBy={orderBy} sortVal={sortVal} />}
                         Row={({item}) => (
-                            <SubscriptionGroupingTableRow product={item} reload={reload} onDelete={onDelete} ch={ch} />
+                            <SubscriptionGroupingTableRow
+                                key={item.id}
+                                product={item}
+                                reload={reload}
+                                onDelete={onDelete}
+                                ch={ch}
+                                isOpen={openProductIds.includes(item.id)}
+                                toggleOpen={(id: number) => {
+                                    setOpenProductIds((prev) =>
+                                        prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+                                    );
+                                }}
+                            />
                         )}
                     />
                 ) : (
                     <ListTable
                         items={result.items}
                         isLoading={isLoading}
-                        Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
+                        Header={() => <SubscriptionTableHeader orderBy={orderBy} sortVal={sortVal} />}
                         Row={({item}) => (
                             <SubscriptionTableRow
                                 subscription={item}

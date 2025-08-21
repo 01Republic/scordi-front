@@ -1,23 +1,24 @@
 import {memo} from 'react';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 
-interface SubscriptionGroupingTableHeaderProps extends ListTableHeaderProps {
-    //
+interface SubscriptionGroupingTableHeaderProps {
+    sortVal: 'ASC' | 'DESC';
+    orderBy: (sortKey: string) => void;
 }
 
 export const SubscriptionGroupingTableHeader = memo((props: SubscriptionGroupingTableHeaderProps) => {
-    const {orderBy} = props;
+    const {orderBy, sortVal} = props;
 
     return (
         <tr className="bg-slate-100">
             <th />
-            <th />
-            {/*<th className="bg-transparent"></th>*/}
-            <SortableTH sortKey="[nameKo]" onClick={orderBy}>
-                서비스 명
-            </SortableTH>
 
+            {/*<th className="bg-transparent"></th>*/}
+            <SortableTH2 sortKey="[nameEn]" sortVal={sortVal} onClick={orderBy} colSpan={2} className="min-w-60">
+                서비스 명
+            </SortableTH2>
             {/* [상태] : 유료, 무료, 해지, 미정 */}
             <SortableTH>상태</SortableTH>
 
@@ -45,9 +46,9 @@ export const SubscriptionGroupingTableHeader = memo((props: SubscriptionGrouping
             <SortableTH className="text-right">갱신일</SortableTH>
             <SortableTH>사용인원</SortableTH>
 
-            <SortableTH sortKey="[creditCard][name]" sortVal="DESC" onClick={orderBy}>
+            <SortableTH2 sortKey="[subscriptions][creditCard][name]" sortVal={sortVal} onClick={orderBy}>
                 결제수단
-            </SortableTH>
+            </SortableTH2>
 
             <SortableTH>비고</SortableTH>
 

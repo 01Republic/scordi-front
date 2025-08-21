@@ -39,11 +39,12 @@ interface SubscriptionGroupingTableRowProps {
     onDelete: (subscription: SubscriptionDto) => any;
     reload: () => any;
     ch?: CheckboxHandler<SubscriptionDto>;
+    isOpen?: boolean;
+    toggleOpen: (id: number) => void;
 }
 
 export const SubscriptionGroupingTableRow = memo((props: SubscriptionGroupingTableRowProps) => {
-    const {product, onDelete, reload, ch} = props;
-    const [isOpen, setIsOpen] = useState(true);
+    const {product, onDelete, reload, ch, isOpen, toggleOpen} = props;
 
     const _update = debounce(async (id: number, dto: UpdateSubscriptionRequestDto) => {
         return subscriptionApi
@@ -62,7 +63,7 @@ export const SubscriptionGroupingTableRow = memo((props: SubscriptionGroupingTab
                     <button
                         type="button"
                         className="flex gap-2 justify-center items-center"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => toggleOpen(product.id)}
                     >
                         {isOpen ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
                         <ProductProfile product={product} />
@@ -70,27 +71,36 @@ export const SubscriptionGroupingTableRow = memo((props: SubscriptionGroupingTab
                 </td>
             </tr>
             {isOpen &&
-                product?.subscriptions?.map((subscription, index) => (
-                    <tr key={`${subscription.id}-${index}`}>
+                product?.subscriptions?.map((subscription) => (
+                    <tr key={`${product.id}-${subscription.id}`}>
                         <td />
-                        <td className={`pr-1 pl-3 ${hoverBgColor}`}>
-                            <label className={`flex justify-center items-center`}>
-                                <input
-                                    type="checkbox"
-                                    className="bg-white rounded checkbox checkbox-primary checkbox-xs"
-                                    checked={ch?.isChecked(subscription)}
-                                    onChange={(e) => ch?.checkOne(subscription, e.target.checked)}
-                                />
-                            </label>
+                        <td className="pr-1 pl-3" colSpan={2}>
+                            <div className="flex gap-3 items-center">
+                                <label className={`flex justify-center items-center`}>
+                                    <input
+                                        type="checkbox"
+                                        className="bg-white rounded checkbox checkbox-primary checkbox-xs min-w"
+                                        checked={ch?.isChecked(subscription)}
+                                        onChange={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            ch?.checkOne(subscription, e.target.checked);
+                                        }}
+                                    />
+                                </label>
+                                {/*/!* 서비스 명 *!/*/}
+                                <OpenButtonColumn
+                                    href={OrgSubscriptionDetailPageRoute.path(
+                                        subscription.organizationId,
+                                        subscription.id,
+                                    )}
+                                >
+                                    <SubscriptionProfile subscription={subscription} className="gap-2 mr-2" />
+                                </OpenButtonColumn>
+                            </div>
                         </td>
-                        {/*/!* 서비스 명 *!/*/}
-                        <td>
-                            <OpenButtonColumn
-                                href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
-                            >
-                                <SubscriptionProfile subscription={subscription} className="gap-2 mr-2" />
-                            </OpenButtonColumn>
-                        </td>
+
+                        {/*<td></td>*/}
                         {/* 상태 */}
                         <td>
                             <SelectColumn
@@ -161,6 +171,11 @@ export const SubscriptionGroupingTableRow = memo((props: SubscriptionGroupingTab
                                 }}
                             />
                         </td>
+
+                        {/* 담당자 */}
+                        {/*<td className="py-0 pl-5 w-40">*/}
+                        {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}
+                        {/*</td>*/}
 
                         {/*Actions*/}
                         <td className="cursor-pointer">
