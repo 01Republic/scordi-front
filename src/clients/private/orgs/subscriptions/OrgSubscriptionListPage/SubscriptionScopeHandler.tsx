@@ -5,9 +5,10 @@ import {
     SubscriptionUsingStatus,
     t_SubscriptionUsingStatus,
 } from '^models/Subscription/types';
+import {FindAllSubscriptionsGroupedByProductDto} from '^models/Subscription/types/find-all.subscriptions-grouped-by-product.query.dto';
 
 interface Props {
-    onSearch: (query: FindAllSubscriptionsQuery) => any;
+    onSearch?: (query: FindAllSubscriptionsQuery | FindAllSubscriptionsGroupedByProductDto) => any;
 }
 
 export function SubscriptionScopeHandler(props: Props) {
@@ -17,7 +18,7 @@ export function SubscriptionScopeHandler(props: Props) {
     const searchResource = (usingStatus?: SubscriptionUsingStatus) => {
         if (usingStatus === activeStatus) return;
         setActiveUsingStatus(usingStatus);
-        onSearch({usingStatus, page: 1});
+        // onSearch({usingStatus, page: 1});
     };
 
     return (
