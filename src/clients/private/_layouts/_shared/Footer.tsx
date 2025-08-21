@@ -25,7 +25,7 @@ export const Footer = memo(function Footer() {
                     통신판매업번호: 2023-서울서초-3752 <br className="sm:hidden" /> 주소: 서울특별시 강남구 역삼동
                     826-26 패스트파이브빌딩 13층 1315호 <br className="sm:hidden" /> <br /> 고객센터 유선전화:
                     02-2088-6337 <br />
-                    Copyright 2024 © 01Republic. All Rights Reserved
+                    Copyright {new Date().getFullYear()} © 01Republic. All Rights Reserved
                     {currentOrg && (
                         <LinkTo text="." href={V3OrgHomePageRoute.path(currentOrg.id)} displayLoading={false} />
                     )}
