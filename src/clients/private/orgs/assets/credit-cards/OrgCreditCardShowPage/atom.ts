@@ -148,6 +148,7 @@ export const useCurrentCreditCardEdit = () => {
 
     return {
         currentCreditCard,
+        reload,
         formData,
         setFormValue,
         onSubmit,
