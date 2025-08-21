@@ -27,7 +27,7 @@ export const PaidSubscriptionSpendItem = memo((props: PaidSubscriptionSpendItemP
                     textClassName="text-14 font-base font-normal"
                     isAlias={false}
                 />
-                <p className="whitespace-nowrap"> {amount > 0 ? currencyFormat(roundNumber(amount) * -1) : '-'}</p>
+                <p className="whitespace-nowrap"> {amount > 0 ? currencyFormat(roundNumber(amount)) : '-'}</p>
             </LinkTo>
         </li>
     );
