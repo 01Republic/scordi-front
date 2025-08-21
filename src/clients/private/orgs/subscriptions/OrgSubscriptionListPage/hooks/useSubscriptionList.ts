@@ -94,31 +94,12 @@ export function useOrgSubscriptionList(
     const single = useSubscriptionListSingle(isGroupMode, singleParams);
     const group = useSubscriptionListGrouped(isGroupMode, groupParams);
 
-    const searchByKeyword = (kw?: string) => {
-        const keyword = kw || undefined;
-        if (isGroupMode) {
-            return group.search({
-                ...group.query,
-                keyword,
-                page: 1,
-                itemsPerPage: 30,
-            });
-        } else {
-            return single.search({
-                ...single.query,
-                keyword,
-                page: 1,
-                itemsPerPage: 30,
-            });
-        }
-    };
-
     if (isGroupMode) {
         return {
             mode: 'group',
             result: group.result,
             query: group.query,
-            searchByKeyword,
+            search: group.search,
             isLoading: group.isLoading,
             reload: group.reload,
             isNotLoaded: group.isNotLoaded,
@@ -134,7 +115,7 @@ export function useOrgSubscriptionList(
         mode: 'single',
         result: single.result,
         query: single.query,
-        searchByKeyword,
+        search: single.search,
         isLoading: single.isLoading,
         reload: single.reload,
         isNotLoaded: single.isNotLoaded,
