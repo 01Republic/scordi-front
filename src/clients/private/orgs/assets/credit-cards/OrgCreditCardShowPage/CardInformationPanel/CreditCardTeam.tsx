@@ -28,7 +28,6 @@ export const CreditCardTeam = memo((props: CreditCardTeamProps) => {
                         className="flex-auto"
                         defaultValue={(defaultValue || [])[0]}
                         onChange={(team) => {
-                            console.log('team', team);
                             onChange(team?.id ? [team.id] : []);
                         }}
                         creatable

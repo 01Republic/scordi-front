@@ -29,7 +29,11 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     } = useCreditCardListForListPage();
 
     const onReady = () => {
-        search({where: {organizationId}, order: {id: 'DESC'}});
+        search({
+            relations: ['holdingMember', 'subscriptions', 'teams'],
+            where: {organizationId},
+            order: {id: 'DESC'},
+        });
     };
 
     const onSearch = debounce((keyword?: string) => {
