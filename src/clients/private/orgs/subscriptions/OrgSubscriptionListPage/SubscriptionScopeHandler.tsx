@@ -18,7 +18,7 @@ export function SubscriptionScopeHandler(props: Props) {
     const searchResource = (usingStatus?: SubscriptionUsingStatus) => {
         if (usingStatus === activeStatus) return;
         setActiveUsingStatus(usingStatus);
-        onSearch({usingStatus, page: 1});
+        // onSearch({usingStatus, page: 1});
     };
 
     return (
