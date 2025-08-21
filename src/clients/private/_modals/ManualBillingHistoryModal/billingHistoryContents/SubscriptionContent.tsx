@@ -30,7 +30,7 @@ export const SubscriptionContent = memo((props: SubscriptionContentProps) => {
 
     return (
         <ContentBox label="구독">
-            <input type="hidden" {...register('subscriptionId')} />
+            <input type="hidden" {...register('subscriptionId', {required: true})} />
             <SubscriptionSelect
                 defaultValue={defaultValue || undefined}
                 isLoading={isLoading}

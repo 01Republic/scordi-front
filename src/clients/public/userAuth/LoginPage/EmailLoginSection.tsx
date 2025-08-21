@@ -9,8 +9,17 @@ import Link from 'next/link';
 import {UserPasswordFindPageRoute} from '^pages/users/password/find';
 import {SignAuthCreateUserPageRoute} from '^pages/sign/createUser';
 import {encryptValue} from '^utils/crypto';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {googleTokenDataAtom} from '^atoms/common';
+import {inviteMembershipApi} from '^models/Membership/api';
+import {useRouter} from 'next/router';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const EmailLoginSection = memo(() => {
+    const router = useRouter();
+    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
+    const setTokenData = useSetRecoilState(googleTokenDataAtom);
     const {mutate: loginMutate, isPending: isLoginPending} = useLogin();
     const {mutate: userMutate, isPending: isUserPending} = useUser();
     const [isLoading, setIsLoading] = useState(false);
@@ -33,27 +42,43 @@ export const EmailLoginSection = memo(() => {
             password: encryptValue(data.password),
         };
 
-        loginMutate(
-            {data: encryptedPassword},
-            {
-                onSuccess: () => userMutate(),
-                onError: (err: any) => {
+        loginMutate(encryptedPassword, {
+            onSuccess: () => {
+                if (invitedOrgId) {
+                    inviteMembershipApi
+                        .validate(invitedOrgId, data.email)
+                        .then(() => {
+                            setIsLoading(false);
+                            router.push(OrgMainPageRoute.path(invitedOrgId));
+                        })
+                        .catch(() => {
+                            setIsLoading(false);
+                            setError('email', {
+                                type: 'server',
+                                message: `입력된 ${data.email}계정은 초대받은 계정이 아닙니다.`,
+                            });
+                        });
+                } else {
                     setIsLoading(false);
-                    const status = err.response?.status;
-                    if (status === 404) {
-                        setError('email', {
-                            type: 'server',
-                            message: '등록된 이메일이 없습니다.',
-                        });
-                    } else if (status === 401) {
-                        setError('password', {
-                            type: 'server',
-                            message: '비밀번호가 일치하지 않습니다.',
-                        });
-                    }
-                },
+                    userMutate();
+                }
             },
-        );
+            onError: (err: any) => {
+                setIsLoading(false);
+                const status = err.response?.status;
+                if (status === 404) {
+                    setError('email', {
+                        type: 'server',
+                        message: '등록된 이메일이 없습니다.',
+                    });
+                } else if (status === 401) {
+                    setError('password', {
+                        type: 'server',
+                        message: '비밀번호가 일치하지 않습니다.',
+                    });
+                }
+            },
+        });
     };
 
     return (
@@ -103,6 +128,7 @@ export const EmailLoginSection = memo(() => {
                 <div className="flex w-full items-center justify-center gap-2">
                     <Link
                         href={SignAuthCreateUserPageRoute.path()}
+                        onClick={() => setTokenData(null)}
                         className="btn-link text-center text-gray-400 hover:text-gray-500 !no-underline hover:underline text-14"
                     >
                         회원가입

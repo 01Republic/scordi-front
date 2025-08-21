@@ -1,4 +1,5 @@
 import {
+    CreateInvitedUserRequestDto,
     CreateUserDetailRequestDto,
     CreateUserDeviceRequestDto,
     CreateUserRequestDto,
@@ -130,6 +131,12 @@ export const SignUserApi = {
     /* 유저 상세 정보 생성 (유입경로) */
     createUserDetail: (data: CreateUserDetailRequestDto, userId: number) => {
         const url = `/users/${userId}/detail`;
+        return api.post(url, data);
+    },
+
+    /* 초대받은 유저 로컬방식 회원가입 */
+    createByLocalInvitation: (data: CreateInvitedUserRequestDto) => {
+        const url = '/users/local/invited';
         return api.post(url, data);
     },
 };

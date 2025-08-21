@@ -7,13 +7,15 @@ import {ProductListPageRoute} from '^pages/products';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {appEnv} from '^config/environments';
 
-export const SIGNED_TOKEN_STORAGE_KEY = 'token';
+export const SIGNED_TOKEN_STORAGE_KEY = 'accessToken';
+export const SIGNED_TOKEN_GOOGLE_STORAGE_KEY = 'googleTokenData';
 export const getToken = (): string | null => {
     if (typeof window == 'undefined') return null;
     return localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
 };
 export const setToken = (token: string) => localStorage.setItem(SIGNED_TOKEN_STORAGE_KEY, token);
 export const removeToken = () => localStorage.removeItem(SIGNED_TOKEN_STORAGE_KEY);
+export const removeGoogleToken = () => localStorage.removeItem(SIGNED_TOKEN_GOOGLE_STORAGE_KEY);
 
 export type ApiErrorDto<T = any> = {
     code: string;

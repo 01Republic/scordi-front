@@ -3,7 +3,7 @@ import {NextRouter, useRouter} from 'next/router';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
-import {getToken, removeToken, setToken} from '^api/api';
+import {getToken, removeGoogleToken, removeToken, setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {userApi, userPasswordApi, userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
@@ -70,6 +70,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
                     .catch((err) => {
                         // invalid token 에러가 발생하면 localStorage token 삭제
                         localStorage.removeItem('token');
+                        localStorage.removeItem('googleToken');
                         loginRequiredHandler(err, router, fallbackPath);
                         reject();
                     });
@@ -130,6 +131,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
 
     const logout = () => {
         removeToken();
+        removeGoogleToken();
         setCurrentUser(null);
         setAuthenticatedUserData(undefined);
         router.push(UserLoginPageRoute.path());

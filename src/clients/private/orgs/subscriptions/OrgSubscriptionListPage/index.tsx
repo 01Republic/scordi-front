@@ -1,4 +1,5 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
+
 import {Plus} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import {useOrgIdParam} from '^atoms/common';
@@ -10,34 +11,79 @@ import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRemoveSubscription} from '^models/Subscription/hook';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {useSubscriptionList} from './hooks/useSubscriptionList';
+import {SubscriptionDto, SubscriptionUsingStatus} from '^models/Subscription/types';
+import {useOrgSubscriptionList} from './hooks/useSubscriptionList';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
 import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
 import {BottomActionBar} from './SubscriptionTableRow/BottomAction/BottomActionBar';
+import {ViewModeSwitch} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/ViewModeSwitch';
+import {SubscriptionGroupingTableRow} from 'src/clients/private/orgs/subscriptions/OrgSubscriptionListPage/subscriptionGroupingTable';
+import {SubscriptionGroupingTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/subscriptionGroupingTable/SubscriptionGroupingTableHeader';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
-    const {result, query, search, isLoading, reload, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy} =
-        useSubscriptionList({
+    const [isGroupMode, setIsGroupMode] = useState(true);
+
+    const {
+        mode,
+        result,
+        query,
+        search,
+        isLoading,
+        reload,
+        isNotLoaded,
+        isEmptyResult,
+        movePage,
+        changePageSize,
+        orderBy,
+        sortVal,
+    } = useOrgSubscriptionList(
+        isGroupMode,
+        {
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
-            order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
-        });
+            order: {
+                currentBillingAmount: {dollarPrice: 'DESC'},
+                isFreeTier: 'ASC',
+                id: 'DESC',
+                product: {nameKo: 'ASC'},
+            },
+        },
+        {
+            organizationId: orgId,
+            relations: ['subscriptions', 'subscriptions.creditCard', 'subscriptions.bankAccount'],
+            order: {
+                subscriptions: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+                nameKo: 'ASC',
+            },
+        },
+    );
+
+    const [openProductIds, setOpenProductIds] = useState<number[]>(result.items.map((item) => item.id));
     const {mutate: deleteSubscription} = useRemoveSubscription();
     const ch = useCheckboxHandler<SubscriptionDto>([], (item) => item.id);
 
+    // const onSearch = (keyword?: string) => {
+    //     return searchByKeyword(keyword);
+    // };
+
     const onSearch = (keyword?: string) => {
         return search({
-            ...query,
+            // ...query,
             keyword: keyword || undefined,
             page: 1,
             itemsPerPage: 30,
         });
     };
+
+    useEffect(() => {
+        if (result.items.length > 0) {
+            setOpenProductIds(result.items.map((item) => item.id));
+        }
+    }, [result.items]);
 
     const AddSubscriptionButton = () => (
         <div>
@@ -69,7 +115,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         confirmed(deleteConfirm(), '삭제 취소')
             .then(() => deleteSubscription(subscription.id))
             .then(() => toast.success('구독을 삭제했어요.'))
-            .then(() => reload())
+            // .then(() => reload())
             .catch(errorToast);
     };
 
@@ -84,7 +130,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <AddSubscriptionButton />
                 </div>
             )}
-            ScopeHandler={<SubscriptionScopeHandler onSearch={search} />}
+            ScopeHandler={<SubscriptionScopeHandler />}
             onSearch={onSearch}
         >
             <ListTableContainer
@@ -102,6 +148,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 <div className="flex justify-between items-center mb-4">
                     <div>
                         {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
+                        <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
                     </div>
                     <ListTablePaginator
                         pagination={result.pagination}
@@ -110,21 +157,43 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                         unit="개"
                     />
                 </div>
-
-                <ListTable
-                    items={result.items}
-                    isLoading={isLoading}
-                    Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => (
-                        <SubscriptionTableRow
-                            subscription={item}
-                            reload={reload}
-                            onDelete={onDelete}
-                            isChecked={ch.isChecked(item)}
-                            onCheck={(checked) => ch.checkOne(item, checked)}
-                        />
-                    )}
-                />
+                {mode === 'group' ? (
+                    <ListTable
+                        items={result.items}
+                        isLoading={isLoading}
+                        Header={() => <SubscriptionGroupingTableHeader orderBy={orderBy} sortVal={sortVal} />}
+                        Row={({item}) => (
+                            <SubscriptionGroupingTableRow
+                                key={item.id}
+                                product={item}
+                                reload={reload}
+                                onDelete={onDelete}
+                                ch={ch}
+                                isOpen={openProductIds.includes(item.id)}
+                                toggleOpen={(id: number) => {
+                                    setOpenProductIds((prev) =>
+                                        prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+                                    );
+                                }}
+                            />
+                        )}
+                    />
+                ) : (
+                    <ListTable
+                        items={result.items}
+                        isLoading={isLoading}
+                        Header={() => <SubscriptionTableHeader orderBy={orderBy} sortVal={sortVal} />}
+                        Row={({item}) => (
+                            <SubscriptionTableRow
+                                subscription={item}
+                                reload={reload}
+                                onDelete={onDelete}
+                                isChecked={ch.isChecked(item)}
+                                onCheck={(checked) => ch.checkOne(item, checked)}
+                            />
+                        )}
+                    />
+                )}
 
                 {ch.checkedItems.length > 0 && (
                     <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">

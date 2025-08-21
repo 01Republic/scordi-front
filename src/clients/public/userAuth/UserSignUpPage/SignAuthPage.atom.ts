@@ -1,5 +1,6 @@
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {
+    CreateInvitedUserRequestDto,
     CreateUserDetailRequestDto,
     CreateUserRequestDto,
     CreateUserResponseDto,
@@ -15,6 +16,7 @@ import {
 import {SignUserApi, userApi, userSessionApi} from '^models/User/api/session';
 import {AxiosResponse} from 'axios';
 import {useCurrentUser} from '^models/User/hook';
+import {inviteMembershipApi} from '^models/Membership/api';
 
 // 인증번호 요청
 export const useCodeSend = () => {
@@ -68,22 +70,40 @@ export const useInvitedCreateUserAuth = () => {
     });
 };
 
+/* 초대 이메일,비밀번호 회원가입 */
+export const useJoinInvitedCreateUserAuth = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: CreateInvitedUserRequestDto) =>
+            SignUserApi.createByLocalInvitation(data).then((response) => response.data),
+        onSuccess: (response) => {
+            queryClient.setQueryData(['JoinInvitedCreateUserAuth'], response);
+        },
+        onError: (error: any) => {
+            throw error;
+        },
+    });
+};
+
 // 구글 로그인
 export const useGoogleLogin = () => {
     return useMutation<JwtContainer, ErrorResponse, string>({
         mutationFn: (accessToken) => SignUserApi.login(accessToken).then((response) => response.data),
         onSuccess: (response) => {
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('accessToken', response.token);
+        },
+        onError: (error: any) => {
+            throw error;
         },
     });
 };
 
 //이메일,패스워드 로그인
 export const useLogin = () => {
-    return useMutation<string, ErrorResponse, {data: UserLoginRequestDto}>({
-        mutationFn: ({data}) => userSessionApi.create(data).then((res) => res.data.token),
+    return useMutation({
+        mutationFn: (data: UserLoginRequestDto) => userSessionApi.create(data).then((res) => res.data),
         onSuccess: (response) => {
-            localStorage.setItem('token', response);
+            localStorage.setItem('accessToken', response.token);
         },
     });
 };
@@ -111,5 +131,15 @@ export const useUser = () => {
             setCurrentUser(response);
             loginRedirect(response);
         },
+    });
+};
+
+// 초대된 유저가 맞는지 확인 요청
+export const useCheckInvitedUser = (orgId: number, email: string) => {
+    return useQuery({
+        queryKey: ['invitedCreateUserAuth'],
+        queryFn: () => inviteMembershipApi.validate(orgId, email).then((res) => res.data),
+        enabled: !!email && !!orgId,
+        retry: false,
     });
 };

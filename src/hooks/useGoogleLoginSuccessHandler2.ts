@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {setToken} from '^api/api';
+import {errorToast, removeGoogleToken, removeToken, setToken} from '^api/api';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
@@ -100,11 +100,21 @@ export const useGoogleLoginSuccessHandler2 = () => {
             })
 
             // 만약 가입된 계정이 없으면, 구글 회원 정보를 상태에 저장하고 추가정보 입력을 위해 가입페이지로 넘깁니다.
-            .catch(() => {
-                localStorage.setItem('accessToken', accessToken);
+            .catch((err) => {
+                if (err.response.status === 422) {
+                    // 가입된 계정이 소셜이 아닌 이메일,패스워드로 회원가입이 완료된 상태인 경우
+                    // 구글 회원정보를 상태에 저장 하지 않음.
+                    removeGoogleToken();
+                    removeToken();
+                    errorToast(err);
+                    return;
+                }
+
                 if (callbackFn) {
+                    localStorage.setItem('accessToken', accessToken);
                     callbackFn();
                 } else {
+                    localStorage.setItem('accessToken', accessToken);
                     moveToSignUpPage();
                 }
             });

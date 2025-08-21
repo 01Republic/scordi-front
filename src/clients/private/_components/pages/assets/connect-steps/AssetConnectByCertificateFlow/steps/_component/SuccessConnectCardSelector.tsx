@@ -14,7 +14,7 @@ interface Props {
 
 export const SuccessConnectCardSelector = memo((props: Props) => {
     const {codefCards = [], isLoading = false, onSelect} = props;
-    const selectables = codefCards.filter((codefCard) => !codefCard.creditCardId);
+    const selectables = codefCards.filter((c) => c.isSleep === false && !c.creditCardId);
     const [selectedItems, setSelectedItems] = useState(selectables);
 
     useEffect(() => {

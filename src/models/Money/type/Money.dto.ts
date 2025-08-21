@@ -1,6 +1,6 @@
 import {plainToInstance} from 'class-transformer';
 import {CurrencyCode} from './CurrencyCode.enum';
-import {CurrencyList} from '^models/Money';
+import {currencyDecimalMap, CurrencyList} from '^models/Money';
 
 export class MoneyDto {
     text: string; // 금액 관련 원본 텍스트
@@ -23,10 +23,17 @@ export class MoneyDto {
     // 화폐에 따라서 출력시 허용되는 소숫점 자릿수가 다릅니다.
     // (예를들어 원화는 출력시 정수만 허용합니다.)
     get roundedAmount() {
-        const onlyInteger = [CurrencyCode.KRW].includes(this.code);
-        if (onlyInteger) return Math.round(this.amount);
+        const decimals = currencyDecimalMap[this.code] ?? 0;
+        return Number(this.amount.toFixed(decimals));
+    }
 
-        return this.amount;
+    // 화폐에 따라서 출력시 허용되는 소숫점 자릿수가 다릅니다.
+    get formatRoundedAmount() {
+        const decimals = currencyDecimalMap[this.code] ?? 0;
+        return this.amount.toLocaleString(undefined, {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals, // 소수점이 설정해둔 자리 수보다 많을 수 있어서 잘라내기 용도
+        });
     }
 
     get dollar() {

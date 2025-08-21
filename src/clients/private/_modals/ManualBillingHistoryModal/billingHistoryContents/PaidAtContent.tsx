@@ -22,7 +22,7 @@ export const PaidAtContent = memo((props: PaidAtContentProps) => {
 
     return (
         <ContentBox label="결제일">
-            <input type="hidden" {...register('payDate')} />
+            <input type="hidden" {...register('payDate', {required: true})} />
             <SingleCalendar
                 date={selectDate}
                 onChange={handleDateChange}
