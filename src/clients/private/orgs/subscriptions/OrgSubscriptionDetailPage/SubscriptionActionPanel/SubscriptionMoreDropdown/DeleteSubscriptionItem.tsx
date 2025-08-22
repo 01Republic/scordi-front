@@ -13,9 +13,10 @@ export const DeleteSubscriptionItem = memo(() => {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const router = useRouter();
     const {reload} = useSubscriptionTableListAtom();
-    const {mutate: deleteSubscription} = useRemoveSubscription();
 
     if (!subscription) return <></>;
+
+    const {mutate: deleteSubscription} = useRemoveSubscription(subscription.id);
 
     const onClick = async () => {
         const {id, organizationId} = subscription;
@@ -33,7 +34,7 @@ export const DeleteSubscriptionItem = memo(() => {
             );
 
         return confirmed(removeConfirm())
-            .then(() => deleteSubscription(id))
+            .then(() => deleteSubscription())
             .then(() => toast.success('구독이 삭제되었어요.'))
             .then(() => router.replace(OrgSubscriptionListPageRoute.path(organizationId)))
             .then(() => reload())

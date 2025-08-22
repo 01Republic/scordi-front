@@ -30,10 +30,10 @@ interface TeamMemberSubscriptionTableRowProps {
 
 export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptionTableRowProps) => {
     const {teamMember, subscription, reload} = props;
-    const {mutateAsync} = useUpdateSubscription();
+    const {mutateAsync} = useUpdateSubscription(subscription.id);
 
     const update = (dto: UpdateSubscriptionRequestDto) => {
-        mutateAsync({subscriptionId: subscription.id, data: dto})
+        mutateAsync(dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(() => toast.error('문제가 발생했어요.'));
     };

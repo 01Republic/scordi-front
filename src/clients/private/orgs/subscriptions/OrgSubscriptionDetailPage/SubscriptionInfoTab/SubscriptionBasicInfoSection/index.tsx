@@ -25,11 +25,11 @@ export const SubscriptionBasicInfoSection = memo((props: SubscriptionBasicInfoSe
 
     if (!currentSubscription) return <></>;
 
-    const {mutateAsync: updateSubscription} = useUpdateSubscription();
+    const {mutateAsync: updateSubscription} = useUpdateSubscription(currentSubscription.id);
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         if (!currentSubscription) return;
-        updateSubscription({subscriptionId: currentSubscription.id, data: dto})
+        updateSubscription(dto)
             .then(() => setIsSaving(true))
             .then(() => toast.success('변경사항을 저장했어요.'))
             .then(() => setIsEditMode(false))

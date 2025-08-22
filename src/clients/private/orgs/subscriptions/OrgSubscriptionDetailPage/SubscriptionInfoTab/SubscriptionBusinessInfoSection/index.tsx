@@ -25,7 +25,6 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const {mutateAsync: updateVendorManger} = useUpdateVendorManager();
     const {mutateAsync: upsertVendorManger} = useUpsertVendorManager();
-    const {mutateAsync: updateSubscription} = useUpdateSubscription();
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
     const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
@@ -34,6 +33,8 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const [isPhoneError, setIsPhoneError] = useState<boolean>(false);
 
     if (!subscription?.id) return <></>;
+
+    const {mutateAsync: updateSubscription} = useUpdateSubscription(subscription.id);
 
     useEffect(() => {
         if (selectedCompany) {
@@ -105,7 +106,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
             },
         });
 
-        const updateSubscriptionPromise = updateSubscription({subscriptionId: subscription.id, data});
+        const updateSubscriptionPromise = updateSubscription(data);
 
         Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise])
             .then(() => setIsSaving(true))
