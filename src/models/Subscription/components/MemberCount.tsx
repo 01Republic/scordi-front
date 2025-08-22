@@ -35,21 +35,24 @@ export const MemberCount = memo((props: MemberCountProps) => {
      * 현재로써는 선구매 시트의 개념이 subscription 에 isSeatReserving 컬럼으로 구현되어 있지 않습니다. (추후 구현되어야 합니다.)
      * 따라서 "사용인원" 컬럼은 아직 "구매한 시트수" 와 "할당된 시트수" 가 분리되어 있어야 할 이유가 없습니다.
      */
-    const isReservedSeatSubscription = usedMemberCount !== paidMemberCount;
+    // const isReservedSeatSubscription = usedMemberCount !== paidMemberCount;
 
     return (
         <div>
-            {isReservedSeatSubscription ? (
-                <div className="text-sm flex items-center justify-end gap-0.5">
-                    <span>{usedMemberCount.toLocaleString()}</span>
-                    <span>/</span>
-                    <span>{paidMemberCount.toLocaleString()}</span>
-                </div>
-            ) : (
-                <div className="text-sm flex items-end justify-end gap-0.5">
-                    <span>{unitFormat(usedMemberCount, '명')}</span>
-                </div>
-            )}
+            <div className="text-sm flex items-end justify-end gap-0.5">
+                <span>{unitFormat(usedMemberCount, '명')}</span>
+            </div>
+            {/*{isReservedSeatSubscription ? (*/}
+            {/*    <div className="text-sm flex items-center justify-end gap-0.5">*/}
+            {/*        <span>{usedMemberCount.toLocaleString()}</span>*/}
+            {/*        <span>/</span>*/}
+            {/*        <span>{paidMemberCount.toLocaleString()}</span>*/}
+            {/*    </div>*/}
+            {/*) : (*/}
+            {/*    <div className="text-sm flex items-end justify-end gap-0.5">*/}
+            {/*        <span>{unitFormat(usedMemberCount, '명')}</span>*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 });

@@ -26,35 +26,35 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
 
     return (
         <div className={'py-4 space-y-4'}>
-            <div className={'bg-gray-200 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 rounded'}>
-                <StatusCard
-                    label={'구독상태'}
-                    value={currentSubscription?.isFreeTier ? '무료' : '유료'}
-                    icon={<Folder className="size-5 text-white" />}
-                    iconColor={'bg-purple-400'}
-                />
-                <StatusCard
-                    label={'결제 예정 금액'}
-                    value={`${currentSubscription?.currentBillingAmount?.symbol} ${roundNumber(
-                        currentSubscription?.nextBillingAmount || 0,
-                    ).toLocaleString()}`}
-                    icon={<Banknote className="size-6 text-white" />}
-                    iconColor={'bg-orange-400'}
-                />
-                <StatusCard
-                    label={'다음 결제 예정일'}
-                    value={
-                        currentSubscription?.nextBillingDate
-                            ? lpp(subHours(currentSubscription.nextBillingDate, 9), 'P')
-                            : '-'
-                    }
-                    icon={<Calendar className="size-5 text-white" />}
-                    iconColor={'bg-pink-400'}
-                />
+            {/*<div className={'bg-gray-200 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 rounded'}>*/}
+            {/*    <StatusCard*/}
+            {/*        label={'구독상태'}*/}
+            {/*        value={currentSubscription?.isFreeTier ? '무료' : '유료'}*/}
+            {/*        icon={<Folder className="size-5 text-white" />}*/}
+            {/*        iconColor={'bg-purple-400'}*/}
+            {/*    />*/}
+            {/*    <StatusCard*/}
+            {/*        label={'결제 예정 금액'}*/}
+            {/*        value={`${currentSubscription?.currentBillingAmount?.symbol} ${roundNumber(*/}
+            {/*            currentSubscription?.nextBillingAmount || 0,*/}
+            {/*        ).toLocaleString()}`}*/}
+            {/*        icon={<Banknote className="size-6 text-white" />}*/}
+            {/*        iconColor={'bg-orange-400'}*/}
+            {/*    />*/}
+            {/*    <StatusCard*/}
+            {/*        label={'다음 결제 예정일'}*/}
+            {/*        value={*/}
+            {/*            currentSubscription?.nextBillingDate*/}
+            {/*                ? lpp(subHours(currentSubscription.nextBillingDate, 9), 'P')*/}
+            {/*                : '-'*/}
+            {/*        }*/}
+            {/*        icon={<Calendar className="size-5 text-white" />}*/}
+            {/*        iconColor={'bg-pink-400'}*/}
+            {/*    />*/}
 
-                {/* 결제수단 */}
-                <ConnectedAssetCard subscription={currentSubscription} />
-            </div>
+            {/*    /!* 결제수단 *!/*/}
+            {/*    <ConnectedAssetCard subscription={currentSubscription} />*/}
+            {/*</div>*/}
 
             {/* 기본 정보 */}
             <SubscriptionBasicInfoSection currentSubscription={currentSubscription} />

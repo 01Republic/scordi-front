@@ -19,6 +19,9 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
                 서비스 명
             </SortableTH2>
 
+            {/* 팀 */}
+            <SortableTH>팀</SortableTH>
+
             {/* [상태] : 유료, 무료, 해지, 미정 */}
             <SortableTH>상태</SortableTH>
 
@@ -43,7 +46,10 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
                 결제금액
             </SortableTH>
 
-            <SortableTH className="text-right">갱신일</SortableTH>
+            <SortableTH sortKey="[lastPaidAt]" sortVal={sortVal} onClick={orderBy} className="text-right">
+                최근결제일
+            </SortableTH>
+
             <SortableTH>사용인원</SortableTH>
 
             <SortableTH2 sortKey="[creditCard][name]" sortVal={sortVal} onClick={orderBy}>

@@ -3,6 +3,7 @@ import {OpenButtonColumn} from '^_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {
     BillingCycleTypeTagUI,
+    LastPaidAt,
     LatestPayAmount,
     MemberCount,
     NextComputedBillingDateText,
@@ -32,6 +33,7 @@ import toast from 'react-hot-toast';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {subscriptionApi} from '^models/Subscription/api';
+import {TeamTag} from '^models/Team/components/TeamTag';
 
 interface GroupedSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -73,6 +75,9 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
             .finally(() => reload());
     }, 250);
 
+    const teams = (subscription.teamMembers || []).flatMap((member) => member.teams || []);
+    const team = teams[0];
+
     return (
         <tr>
             <td />
@@ -96,7 +101,21 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                 </div>
             </td>
 
-            {/*<td></td>*/}
+            {/* 팀 */}
+            <td>
+                <div className="flex items-center">
+                    {/*{teams.map((team) => (*/}
+                    {/*    <TeamTag key={team.id} id={team.id} name={team.name} />*/}
+                    {/*))}*/}
+                    {team && <TeamTag id={team.id} name={team.name} />}
+                </div>
+            </td>
+
+            {/* 유/무료 */}
+            {/*<td>*/}
+            {/*    <IsFreeTierColumn subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
+
             {/* 상태 */}
             <td>
                 <SelectColumn
@@ -112,6 +131,7 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     inputDisplay={false}
                 />
             </td>
+
             {/* 결제주기 */}
             <td>
                 <SelectColumn
@@ -127,18 +147,27 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     inputDisplay={false}
                 />
             </td>
+
+            {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
+            {/*<td className="">*/}
+            {/*    <PayingType subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
+
             {/* 결제금액 */}
             <td className="text-right">
                 <LatestPayAmount subscription={subscription} />
             </td>
-            {/* 갱신일 */}
+
+            {/* 최근결제일 */}
             <td className="text-right">
-                <NextComputedBillingDateText subscription={subscription} />
+                <LastPaidAt subscription={subscription} />
             </td>
+
             {/* 사용인원 */}
             <td className="text-center">
                 <MemberCount subscription={subscription} />
             </td>
+
             {/* 결제수단 */}
             <td className="py-0 pl-3">
                 <PayMethodSelect

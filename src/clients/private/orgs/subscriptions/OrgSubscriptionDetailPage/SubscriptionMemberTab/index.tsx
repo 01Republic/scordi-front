@@ -3,7 +3,7 @@ import {toast} from 'react-hot-toast';
 import {MinusCircle, Plus} from 'lucide-react';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {ApiError, errorToast} from '^api/api';
-import {useOrgIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
 import {useDestroyAllSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
@@ -20,10 +20,8 @@ import Qs from 'qs';
  */
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useOrgIdParam();
+    const id = useIdParam('subscriptionId');
     const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!orgId || !subscription) return <></>;
-
     const {
         query,
         setQuery,
@@ -32,10 +30,13 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
         isFetched,
         sortVal,
         orderBy,
-    } = useSubscriptionSeat(orgId, subscription.id);
-    const {mutateAsync: destroySubscriptionSeat} = useDestroyAllSubscriptionSeat();
+    } = useSubscriptionSeat(orgId, id);
+    const {mutateAsync: destroySubscriptionSeat} = useDestroyAllSubscriptionSeat(orgId, id);
+
     const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
     const [isOpened, setIsOpened] = useState(false);
+
+    if (!orgId || !subscription) return <></>;
 
     const teamMembers = subscriptionSeat?.items.filter((item) => item.teamMember);
 
@@ -70,7 +71,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
         }));
     };
 
-    const onDeleteMembers = (targetMembers: number[]) => {
+    const onDeleteMembers = (targetMemberIds: number[]) => {
         confirmed(
             confirm2(
                 `구독 연결을 해제할까요?`,
@@ -85,7 +86,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     showLoaderOnConfirm: true,
                     preConfirm: async () => {
                         try {
-                            await destroySubscriptionSeat({orgId, subscriptionId: subscription.id, ids: targetMembers});
+                            await destroySubscriptionSeat(targetMemberIds);
                             setSelectedMembers([]);
                             toast.success('계정을 회수했어요.');
                         } catch (e) {
@@ -102,7 +103,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
 
     return (
         <div className={'py-4 space-y-4'}>
-            <SubscriptionSeatStatusSection />
+            {/*<SubscriptionSeatStatusSection />*/}
 
             <div className={'flex justify-between'}>
                 <MemberStatusScopeHandler onSearch={onChangeScopeHandler} />

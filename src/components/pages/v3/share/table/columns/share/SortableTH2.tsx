@@ -25,7 +25,7 @@ export const SortableTH2 = memo((props: SortableTH2Props) => {
         <th onClick={handleSort} className={`cursor-pointer bg-transparent ${className}`} colSpan={colSpan && colSpan}>
             {isSortable ? (
                 <div className={`flex items-center ${className}`}>
-                    {children} {sortVal === 'DESC' ? <ArrowUp size={16} /> : <ArrowDown size={16} />}
+                    {children} {sortVal === 'DESC' ? <ArrowDown size={16} /> : <ArrowUp size={16} />}
                 </div>
             ) : (
                 children

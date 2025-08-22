@@ -38,13 +38,13 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['정보', '결제', '시트']}
+                        tabs={['멤버', '결제', '설정']}
                     />
                 </div>
 
-                {activeTabIndex == 0 && <SubscriptionInfoTab />}
+                {activeTabIndex == 0 && <SubscriptionMemberTab />}
                 {activeTabIndex == 1 && <SubscriptionPaymentTab />}
-                {activeTabIndex == 2 && <SubscriptionMemberTab />}
+                {activeTabIndex == 2 && <SubscriptionInfoTab />}
             </main>
         </ShowPage>
     );

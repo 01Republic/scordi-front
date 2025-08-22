@@ -1,6 +1,4 @@
 import {memo} from 'react';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 import {ListTable} from '^_components/table/ListTable';
 import {useSubscriptionListGroupedByProduct} from '../hooks/useSubscriptionList';
 import {GroupedByProductTableHeader} from './GroupedByProductTableHeader';

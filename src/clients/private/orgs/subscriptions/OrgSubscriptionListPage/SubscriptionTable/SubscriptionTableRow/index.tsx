@@ -14,6 +14,7 @@ import {
 } from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {
+    LastPaidAt,
     LatestPayAmount,
     MemberCount,
     NextComputedBillingDateText,
@@ -32,6 +33,7 @@ import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 import {useRemoveSubscription} from '^models/Subscription/hook';
 import {confirm2, confirmed} from '^components/util/dialog';
+import {TeamTag} from '^models/Team/components/TeamTag';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -73,6 +75,9 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             .finally(() => reload());
     }, 250);
 
+    const teams = (subscription.teamMembers || []).flatMap((member) => member.teams || []);
+    const team = teams[0];
+
     const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
@@ -95,6 +100,16 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 <OpenButtonColumn href={showPagePath}>
                     <SubscriptionProfile subscription={subscription} className="gap-2 mr-2" />
                 </OpenButtonColumn>
+            </td>
+
+            {/* 팀 */}
+            <td>
+                <div className="flex items-center">
+                    {/*{teams.map((team) => (*/}
+                    {/*    <TeamTag key={team.id} id={team.id} name={team.name} />*/}
+                    {/*))}*/}
+                    {team && <TeamTag id={team.id} name={team.name} />}
+                </div>
             </td>
 
             {/* 유/무료 */}
@@ -144,9 +159,9 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 <LatestPayAmount subscription={subscription} />
             </td>
 
-            {/* 갱신일 */}
+            {/* 최근결제일 */}
             <td className="text-right">
-                <NextComputedBillingDateText subscription={subscription} />
+                <LastPaidAt subscription={subscription} />
             </td>
 
             {/* 사용인원 */}

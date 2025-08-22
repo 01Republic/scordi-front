@@ -44,14 +44,10 @@ export const useSubscriptionSeat = (orgId: number, subscriptionId: number) => {
 };
 
 // 구독에 시트 생성
-export const useCreateSubscriptionSeat = () => {
+export const useCreateSubscriptionSeat = (orgId: number, subscriptionId: number) => {
     const queryClient = useQueryClient();
-    return useMutation<
-        SubscriptionSeatDto,
-        ErrorResponse,
-        {orgId: number; subscriptionId: number; dto: CreateSubscriptionSeatRequestDto}
-    >({
-        mutationFn: ({orgId, subscriptionId, dto}) =>
+    return useMutation({
+        mutationFn: (dto: CreateSubscriptionSeatRequestDto) =>
             subscriptionApi.seatsApi.create(orgId, subscriptionId, dto).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});
@@ -80,10 +76,10 @@ export const useUpdateSubscriptionSeat = () => {
 };
 
 // 구독에 시트 제거
-export const useDestroyAllSubscriptionSeat = () => {
+export const useDestroyAllSubscriptionSeat = (orgId: number, subscriptionId: number) => {
     const queryClient = useQueryClient();
-    return useMutation<void, ErrorResponse, {orgId: number; subscriptionId: number; ids: number[]}>({
-        mutationFn: ({orgId, subscriptionId, ids}) =>
+    return useMutation({
+        mutationFn: (ids: number[]) =>
             subscriptionApi.seatsApi.destroyAll(orgId, subscriptionId, ids).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_SEAT_HOOK_KEY.base], exact: false});

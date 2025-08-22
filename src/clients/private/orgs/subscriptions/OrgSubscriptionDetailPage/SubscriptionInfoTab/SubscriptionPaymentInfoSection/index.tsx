@@ -1,5 +1,3 @@
-'use client';
-
 import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
@@ -21,21 +19,23 @@ import {SubscriptionFinishAt} from './SubscriptionFinishAt';
 import {SubscriptionBankAccount} from './SubscriptionBankAccount';
 import {useShowSubscription} from '^models/Subscription/hook';
 import {useCreateSubscriptionSeat, useDestroyAllSubscriptionSeat} from '^models/SubscriptionSeat/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
+    const orgId = useOrgIdParam();
+    const id = useIdParam('subscriptionId');
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const {currentSubscription, reload} = useCurrentSubscription();
-    const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
-
-    if (!currentSubscription) return null;
-
-    const {data: subscription, refetch} = useShowSubscription(currentSubscription.id, {
+    const {data: subscription, refetch} = useShowSubscription(id, {
         relations: ['invoiceAccounts', 'subscriptionSeats'],
     });
-    const {mutateAsync: creatSubscriptionSeat} = useCreateSubscriptionSeat();
-    const {mutateAsync: destroyAllSubscriptionSeat} = useDestroyAllSubscriptionSeat();
+    const {mutateAsync: creatSubscriptionSeat} = useCreateSubscriptionSeat(orgId, id);
+    const {mutateAsync: destroyAllSubscriptionSeat} = useDestroyAllSubscriptionSeat(orgId, id);
+    const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
+
+    if (!currentSubscription) return <></>;
 
     useEffect(() => {
         if (!subscription) return;
@@ -75,21 +75,15 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                 if (changeCount < 0) {
                     const toRemoveCount = Math.abs(changeCount);
-                    const seatsToRemove = (subscription.subscriptionSeats || [])
+                    const seatIds = (subscription.subscriptionSeats || [])
                         .filter((seat) => seat.teamMemberId == null)
                         .slice(0, toRemoveCount)
                         .map((seat) => seat.id);
 
-                    await destroyAllSubscriptionSeat({orgId: organizationId, subscriptionId: id, ids: seatsToRemove});
+                    await destroyAllSubscriptionSeat(seatIds);
                 } else if (changeCount > 0) {
                     await Promise.all(
-                        Array.from({length: changeCount}).map(() =>
-                            creatSubscriptionSeat({
-                                orgId: organizationId,
-                                subscriptionId: id,
-                                dto: {subscriptionId: id},
-                            }),
-                        ),
+                        Array.from({length: changeCount}).map(() => creatSubscriptionSeat({subscriptionId: id})),
                     );
                 }
 

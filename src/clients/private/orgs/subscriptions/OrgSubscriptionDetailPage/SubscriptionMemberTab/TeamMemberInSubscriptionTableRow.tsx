@@ -5,7 +5,7 @@ import {MinusCircle} from 'lucide-react';
 import Tippy from '@tippyjs/react';
 import {errorToast} from '^api/api';
 import {TeamMemberDto} from '^models/TeamMember';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {useUpdateSubscriptionSeat} from '^models/SubscriptionSeat/hook';
@@ -32,13 +32,14 @@ interface TeamMemberInSubscriptionTableRowProps {
 }
 
 export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscriptionTableRowProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
+    const id = useIdParam('subscriptionId');
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const [isLoading, setIsLoading] = useState(false);
     const {seat, onClick, reload, selected, onSelect, onDelete} = props;
     const {mutateAsync: updateSubscriptionSeat} = useUpdateSubscriptionSeat();
 
-    if (!seat.teamMember || !subscription) return null;
+    if (!seat.teamMember || !subscription) return <></>;
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
     const loadingStyle = isLoading ? 'opacity-50 pointer-events-none' : '';

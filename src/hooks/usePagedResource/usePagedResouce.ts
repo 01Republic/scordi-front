@@ -10,7 +10,7 @@ import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {DefinedUseQueryResult, QueryClient, useQuery} from '@tanstack/react-query';
+import {DefinedUseQueryResult, QueryClient, useQuery, UseQueryResult} from '@tanstack/react-query';
 import {subscriptionApi} from '^models/Subscription/api';
 import type {UseQueryOptions} from '@tanstack/react-query/src/types';
 import {DefaultError, QueryKey} from '@tanstack/query-core';

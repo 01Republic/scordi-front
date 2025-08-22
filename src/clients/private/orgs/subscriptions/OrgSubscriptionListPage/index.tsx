@@ -21,7 +21,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
 
     const subscriptionListQuery = useSubscriptionList(isGroupMode, {
         where: {organizationId: orgId},
-        relations: ['master', 'teamMembers', 'creditCard', 'bankAccount'],
+        relations: ['master', 'teamMembers', 'teamMembers.teams', 'creditCard', 'bankAccount'],
         order: {
             currentBillingAmount: {dollarPrice: 'DESC'},
             isFreeTier: 'ASC',
@@ -32,9 +32,20 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
 
     const subscriptionListGroupedByProductQuery = useSubscriptionListGroupedByProduct(isGroupMode, {
         organizationId: orgId,
-        relations: ['subscriptions', 'subscriptions.creditCard', 'subscriptions.bankAccount'],
+        relations: [
+            'subscriptions',
+            'subscriptions.master',
+            'subscriptions.teamMembers',
+            'subscriptions.teamMembers.teams',
+            'subscriptions.creditCard',
+            'subscriptions.bankAccount',
+        ],
         order: {
-            subscriptions: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+            subscriptions: {
+                currentBillingAmount: {dollarPrice: 'DESC'},
+                isFreeTier: 'ASC',
+                id: 'DESC',
+            },
             nameKo: 'ASC',
         },
     });

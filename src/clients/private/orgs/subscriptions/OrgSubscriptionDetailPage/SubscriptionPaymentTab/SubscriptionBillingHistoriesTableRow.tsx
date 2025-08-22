@@ -20,6 +20,7 @@ import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/b
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -104,6 +105,12 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
                         href={OrgCreditCardShowPageRoute.path(organizationId, billingHistory.creditCard.id)}
                     >
                         <CreditCardProfileCompact item={billingHistory.creditCard} />
+                    </OpenButtonColumn>
+                ) : billingHistory.bankAccount ? (
+                    <OpenButtonColumn
+                        href={OrgCreditCardShowPageRoute.path(organizationId, billingHistory.bankAccount.id)}
+                    >
+                        <BankAccountProfileCompact item={billingHistory.bankAccount} />
                     </OpenButtonColumn>
                 ) : (
                     <EmptyValue />
