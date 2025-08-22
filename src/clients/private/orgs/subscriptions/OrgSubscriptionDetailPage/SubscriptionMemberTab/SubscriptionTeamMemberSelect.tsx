@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {useTeamMembers2} from '^models/TeamMember';
 import {useCreateSubscriptionSeat, useSubscriptionSeat} from '^models/SubscriptionSeat/hook';
 import {TeamMemberSelectItem} from '^models/TeamMember/components/TeamMemberSelectItem';
@@ -14,22 +14,23 @@ interface SubscriptionTeamMemberSelectModalProps {
 }
 
 export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMemberSelectModalProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
+    const id = useIdParam('subscriptionId');
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {isOpened, onClose, onCreate} = props;
-    const {mutateAsync: createSubscriptionSeat} = useCreateSubscriptionSeat();
-
-    if (!subscription) return <></>;
-    const {data: subscriptionSeat} = useSubscriptionSeat(orgId, subscription?.id);
+    const {mutateAsync: createSubscriptionSeat} = useCreateSubscriptionSeat(orgId, id);
+    const {data: subscriptionSeat} = useSubscriptionSeat(orgId, id);
     const {result: teamMemberList} = useTeamMembers2(orgId, {
         itemsPerPage: 0,
     });
+
+    if (!subscription) return <></>;
 
     if (!orgId || !subscription) return null;
 
     const handleUpdate = async (selectedIds: number[]) => {
         const requests = selectedIds.map((teamMemberId) => {
-            return createSubscriptionSeat({orgId, subscriptionId: subscription.id, dto: {teamMemberId: teamMemberId}});
+            return createSubscriptionSeat({teamMemberId: teamMemberId});
         });
 
         await Promise.allSettled(requests);
