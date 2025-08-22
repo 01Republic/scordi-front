@@ -3,20 +3,17 @@ import {Plus} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
+import {ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/ExternalCDNScripts/step-by';
 import {LinkTo} from '^components/util/LinkTo';
-import {SubscriptionDto} from '^models/Subscription/types';
 import {useSubscriptionList, useSubscriptionListGroupedByProduct} from './hooks/useSubscriptionList';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
-import {SubscriptionTableHeader} from './SubscriptionTableHeader';
-import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {ExcelDownLoadButton} from './ExcelDownLoadButton';
-import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
-import {BottomActionBar} from './SubscriptionTableRow/BottomAction/BottomActionBar';
 import {ViewModeSwitch} from './ViewModeSwitch';
 import {GroupedByProductScopeHandler} from './GroupedByProductScopeHandler';
 import {GroupedByProductTable} from './GroupedByProductTable';
+import {SubscriptionTable} from './SubscriptionTable';
+import {BottomAction} from './BottomAction';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
@@ -41,8 +38,6 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             nameKo: 'ASC',
         },
     });
-
-    const ch = useCheckboxHandler<SubscriptionDto>([], (item) => item.id);
 
     const queryResult = isGroupMode ? subscriptionListGroupedByProductQuery : subscriptionListQuery;
 
@@ -113,35 +108,12 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     />
                 </div>
                 {isGroupMode ? (
-                    <GroupedByProductTable query={subscriptionListGroupedByProductQuery} ch={ch} />
+                    <GroupedByProductTable query={subscriptionListGroupedByProductQuery} />
                 ) : (
-                    <ListTable
-                        items={subscriptionListQuery.result.items}
-                        isLoading={subscriptionListQuery.isLoading}
-                        Header={() => (
-                            <SubscriptionTableHeader
-                                orderBy={subscriptionListQuery.orderBy}
-                                sortVal={subscriptionListQuery.sortVal}
-                            />
-                        )}
-                        Row={({item}) => (
-                            <SubscriptionTableRow
-                                subscription={item}
-                                reload={subscriptionListQuery.reload}
-                                isChecked={ch.isChecked(item)}
-                                onCheck={(checked) => ch.checkOne(item, checked)}
-                            />
-                        )}
-                    />
+                    <SubscriptionTable query={subscriptionListQuery} />
                 )}
 
-                {ch.checkedItems.length > 0 && (
-                    <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">
-                        <div className="container px-4 pointer-events-auto">
-                            <BottomActionBar items={ch} onClear={() => ch.checkAll(false)} />
-                        </div>
-                    </div>
-                )}
+                <BottomAction />
             </ListTableContainer>
         </ListPage>
     );

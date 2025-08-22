@@ -26,22 +26,22 @@ import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreHorizontal} from 'lucide-react';
 import {eventCut} from '^utils/event';
-import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 import {useRemoveSubscription} from '^models/Subscription/hook';
 import {confirm2, confirmed} from '^components/util/dialog';
 import toast from 'react-hot-toast';
-import {errorToast} from '^api/api';
 import {debounce} from 'lodash';
+import {errorToast} from '^api/api';
 import {subscriptionApi} from '^models/Subscription/api';
 
 interface GroupedSubscriptionTableRowProps {
     subscription: SubscriptionDto;
-    ch?: CheckboxHandler<SubscriptionDto>;
     reload: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTableRowProps) => {
-    const {subscription, ch, reload} = props;
+    const {subscription, reload, isChecked, onCheck} = props;
     const {mutate: deleteSubscription} = useRemoveSubscription(subscription.id);
 
     const onDelete = (subscription: SubscriptionDto) => {
@@ -78,20 +78,14 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
             <td />
             <td className="pr-1 pl-3" colSpan={2}>
                 <div className="flex gap-3 items-center">
-                    {ch && (
-                        <label className={`flex justify-center items-center`}>
-                            <input
-                                type="checkbox"
-                                className="bg-white rounded checkbox checkbox-primary checkbox-xs min-w"
-                                checked={ch.isChecked(subscription)}
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    ch.checkOne(subscription, e.target.checked);
-                                }}
-                            />
-                        </label>
-                    )}
+                    <label className={`flex justify-center items-center`}>
+                        <input
+                            type="checkbox"
+                            className="bg-white rounded checkbox checkbox-primary checkbox-xs min-w"
+                            defaultChecked={isChecked}
+                            onChange={(e) => onCheck && onCheck(e.target.checked)}
+                        />
+                    </label>
 
                     {/*/!* 서비스 명 *!/*/}
                     <OpenButtonColumn

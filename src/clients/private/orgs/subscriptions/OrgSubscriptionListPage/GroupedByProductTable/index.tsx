@@ -8,11 +8,12 @@ import {GroupedByProductTableRow} from './GroupedByProductTableRow';
 
 interface GroupedByProductTableProps {
     query: ReturnType<typeof useSubscriptionListGroupedByProduct>;
-    ch?: CheckboxHandler<SubscriptionDto>;
+    // ch?: CheckboxHandler<SubscriptionDto>;
 }
 
 export const GroupedByProductTable = memo((props: GroupedByProductTableProps) => {
-    const {query, ch} = props;
+    // const {query, ch} = props;
+    const {query} = props;
     const {result, isLoading, orderBy, sortVal, reload} = query;
 
     return (
@@ -20,7 +21,7 @@ export const GroupedByProductTable = memo((props: GroupedByProductTableProps) =>
             items={result.items}
             isLoading={isLoading}
             Header={() => <GroupedByProductTableHeader orderBy={orderBy} sortVal={sortVal} />}
-            Row={({item}) => <GroupedByProductTableRow key={item.id} product={item} reload={reload} ch={ch} />}
+            Row={({item}) => <GroupedByProductTableRow key={item.id} product={item} reload={reload} />}
         />
     );
 });

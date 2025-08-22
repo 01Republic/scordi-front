@@ -1,11 +1,9 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {MoreHorizontal} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
-import {currentUserAtom} from '^models/User/atom';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {

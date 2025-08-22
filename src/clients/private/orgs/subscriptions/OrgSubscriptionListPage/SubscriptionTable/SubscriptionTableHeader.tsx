@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 

@@ -1,19 +1,19 @@
 import React, {memo, useState} from 'react';
+import {useRecoilState} from 'recoil';
 import {ChevronDown, ChevronRight} from 'lucide-react';
-import {SubscriptionDto} from '^models/Subscription/types';
 import {ProductDto} from '^models/Product/type';
+import {checkedSubscriptionList} from '../atom';
 import {ProductProfile} from './ProductProfile';
 import {GroupedSubscriptionTableRow} from './GroupedSubscriptionTableRow';
-import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 
 interface GroupedByProductTableRowProps {
     product: ProductDto;
     reload: () => any;
-    ch?: CheckboxHandler<SubscriptionDto>;
 }
 
 export const GroupedByProductTableRow = memo((props: GroupedByProductTableRowProps) => {
-    const {product, ch, reload} = props;
+    const {product, reload} = props;
+    const [checkedItems, setCheckedItems] = useRecoilState(checkedSubscriptionList);
     const [isOpen, setIsOpen] = useState(true);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
@@ -33,14 +33,23 @@ export const GroupedByProductTableRow = memo((props: GroupedByProductTableRowPro
                 </td>
             </tr>
             {isOpen &&
-                product.subscriptions?.map((subscription) => (
-                    <GroupedSubscriptionTableRow
-                        key={subscription.id}
-                        subscription={subscription}
-                        ch={ch}
-                        reload={reload}
-                    />
-                ))}
+                product.subscriptions?.map((subscription) => {
+                    const isChecked = checkedItems.map((i) => i.id).includes(subscription.id);
+                    return (
+                        <GroupedSubscriptionTableRow
+                            key={subscription.id}
+                            subscription={subscription}
+                            // ch={ch}
+                            reload={reload}
+                            isChecked={isChecked}
+                            onCheck={(checked) => {
+                                checked
+                                    ? setCheckedItems([...checkedItems, subscription])
+                                    : setCheckedItems((prev) => prev.filter((i) => i.id !== subscription.id));
+                            }}
+                        />
+                    );
+                })}
         </>
     );
 });
