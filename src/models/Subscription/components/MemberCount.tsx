@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {unitFormat} from '^utils/number';
 
 interface MemberCountProps {
     subscription: SubscriptionDto;
@@ -46,8 +47,7 @@ export const MemberCount = memo((props: MemberCountProps) => {
                 </div>
             ) : (
                 <div className="text-sm flex items-end justify-end gap-0.5">
-                    <span>{usedMemberCount.toLocaleString()}</span>
-                    <span className="text-gray-400 text-12">Seat</span>
+                    <span>{unitFormat(usedMemberCount, '명')}</span>
                 </div>
             )}
         </div>
