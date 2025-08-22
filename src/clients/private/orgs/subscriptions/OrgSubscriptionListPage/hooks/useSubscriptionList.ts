@@ -1,6 +1,6 @@
 import {useOrgIdParam} from '^atoms/common';
-import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
-import {useState} from 'react';
+import {FindAllSubscriptionsQuery, SubscriptionUsingStatus} from '^models/Subscription/types';
+import {useCallback, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {subscriptionApi} from '^models/Subscription/api';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -29,10 +29,7 @@ export const useSubscriptionListSingle = (isGroupMode: boolean, params: FindAllS
 
     const queryResult = useQuery({
         queryKey: [SUBSCRIPTION_HOOK_KEY.list, orgId, query],
-        queryFn: async () => {
-            query.where = {organizationId: orgId, ...query.where};
-            return subscriptionApi.index(query).then((res) => res.data);
-        },
+        queryFn: () => subscriptionApi.index(query).then((res) => res.data),
         initialData: Paginated.init(),
         enabled: !!orgId && !isNaN(orgId) && !isGroupMode,
         // refetchOnMount: false,
@@ -69,10 +66,7 @@ export const useSubscriptionListGrouped = (isGroupMode: boolean, params: FindAll
 
     const queryResult = useQuery({
         queryKey: [SUBSCRIPTION_HOOK_KEY.list, orgId, query],
-        queryFn: async () => {
-            query.where = {...query.where};
-            return subscriptionApi.groupedByProduct(query).then((res) => res.data);
-        },
+        queryFn: () => subscriptionApi.groupedByProduct(query).then((res) => res.data),
         initialData: Paginated.init(),
         enabled: !!orgId && !isNaN(orgId) && isGroupMode,
         // refetchOnMount: false,
@@ -86,6 +80,11 @@ export const useSubscriptionListGrouped = (isGroupMode: boolean, params: FindAll
     };
 };
 
+type ScopePatch = {
+    usingStatus?: SubscriptionUsingStatus;
+    page?: number;
+};
+
 export function useOrgSubscriptionList(
     isGroupMode: boolean,
     singleParams: FindAllSubscriptionsQuery,
@@ -94,12 +93,26 @@ export function useOrgSubscriptionList(
     const single = useSubscriptionListSingle(isGroupMode, singleParams);
     const group = useSubscriptionListGrouped(isGroupMode, groupParams);
 
+    const scopeSearch = useCallback(
+        (query: FindAllSubscriptionsQuery | FindAllSubscriptionsGroupedByProductDto) => {
+            const {usingStatus, page} = query as ScopePatch;
+
+            if (isGroupMode) {
+                group.search({usingStatus, page} as Partial<FindAllSubscriptionsGroupedByProductDto>);
+            } else {
+                single.search({usingStatus, page} as Partial<FindAllSubscriptionsQuery>);
+            }
+        },
+        [isGroupMode, group.search, single.search],
+    );
+
     if (isGroupMode) {
         return {
             mode: 'group',
             result: group.result,
             query: group.query,
             search: group.search,
+            scopeSearch,
             isLoading: group.isLoading,
             reload: group.reload,
             isNotLoaded: group.isNotLoaded,
@@ -116,6 +129,7 @@ export function useOrgSubscriptionList(
         result: single.result,
         query: single.query,
         search: single.search,
+        scopeSearch,
         isLoading: single.isLoading,
         reload: single.reload,
         isNotLoaded: single.isNotLoaded,

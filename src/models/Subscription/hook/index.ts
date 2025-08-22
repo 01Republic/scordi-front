@@ -292,8 +292,8 @@ export const useMergeSubscriptions = () => {
     return useMutation<SubscriptionDto[], ErrorResponse, {id: number; data: MergeSubscriptionRequestDto}>({
         mutationFn: ({id, data}) => subscriptionApi.merge(id, data).then((res) => res.data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
-            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list], exact: false});
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
         },
     });

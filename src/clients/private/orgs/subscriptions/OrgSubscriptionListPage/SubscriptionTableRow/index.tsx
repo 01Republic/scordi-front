@@ -43,7 +43,6 @@ interface SubscriptionTableRowProps {
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload, isChecked, onCheck} = props;
-    const currentUser = useRecoilValue(currentUserAtom);
 
     const _update = debounce(async (dto: UpdateSubscriptionRequestDto) => {
         return subscriptionApi

@@ -11,7 +11,7 @@ import {StepbyTutorialButton, StepByTutorialSubscriptionList} from '^components/
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {useRemoveSubscription} from '^models/Subscription/hook';
-import {SubscriptionDto, SubscriptionUsingStatus} from '^models/Subscription/types';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {useOrgSubscriptionList} from './hooks/useSubscriptionList';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
@@ -32,6 +32,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         result,
         query,
         search,
+        scopeSearch,
         isLoading,
         reload,
         isNotLoaded,
@@ -65,10 +66,6 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const [openProductIds, setOpenProductIds] = useState<number[]>(result.items.map((item) => item.id));
     const {mutate: deleteSubscription} = useRemoveSubscription();
     const ch = useCheckboxHandler<SubscriptionDto>([], (item) => item.id);
-
-    // const onSearch = (keyword?: string) => {
-    //     return searchByKeyword(keyword);
-    // };
 
     const onSearch = (keyword?: string) => {
         return search({
@@ -130,7 +127,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <AddSubscriptionButton />
                 </div>
             )}
-            ScopeHandler={<SubscriptionScopeHandler />}
+            ScopeHandler={<SubscriptionScopeHandler onSearch={scopeSearch} />}
             onSearch={onSearch}
         >
             <ListTableContainer
