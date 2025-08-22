@@ -10,7 +10,7 @@ import {FindAllSubscriptionsGroupedByProductDto} from '^models/Subscription/type
 import Qs from 'qs';
 
 /** 구독목록 페이지 전용 훅 / 구독 목록 조회 */
-export const useSubscriptionListSingle = (isGroupMode: boolean, params: FindAllSubscriptionsQuery) => {
+export const useSubscriptionList = (isGroupMode: boolean, params: FindAllSubscriptionsQuery) => {
     const orgId = useOrgIdParam();
     const [query, setQuery] = useState(params);
     const [sortVal, setSortVal] = useState<'ASC' | 'DESC'>('DESC');
@@ -43,7 +43,10 @@ export const useSubscriptionListSingle = (isGroupMode: boolean, params: FindAllS
     };
 };
 
-export const useSubscriptionListGrouped = (isGroupMode: boolean, params: FindAllSubscriptionsGroupedByProductDto) => {
+export const useSubscriptionListGroupedByProduct = (
+    isGroupMode: boolean,
+    params: FindAllSubscriptionsGroupedByProductDto,
+) => {
     const orgId = useOrgIdParam();
     const [query, setQuery] = useState({
         ...params,
@@ -85,58 +88,62 @@ type ScopePatch = {
     page?: number;
 };
 
-export function useOrgSubscriptionList(
-    isGroupMode: boolean,
-    singleParams: FindAllSubscriptionsQuery,
-    groupParams: FindAllSubscriptionsGroupedByProductDto,
-) {
-    const single = useSubscriptionListSingle(isGroupMode, singleParams);
-    const group = useSubscriptionListGrouped(isGroupMode, groupParams);
-
-    const scopeSearch = useCallback(
-        (query: FindAllSubscriptionsQuery | FindAllSubscriptionsGroupedByProductDto) => {
-            const {usingStatus, page} = query as ScopePatch;
-
-            if (isGroupMode) {
-                group.search({usingStatus, page} as Partial<FindAllSubscriptionsGroupedByProductDto>);
-            } else {
-                single.search({usingStatus, page} as Partial<FindAllSubscriptionsQuery>);
-            }
-        },
-        [isGroupMode, group.search, single.search],
-    );
-
-    if (isGroupMode) {
-        return {
-            mode: 'group',
-            result: group.result,
-            query: group.query,
-            search: group.search,
-            scopeSearch,
-            isLoading: group.isLoading,
-            reload: group.reload,
-            isNotLoaded: group.isNotLoaded,
-            isEmptyResult: group.isEmptyResult,
-            movePage: group.movePage,
-            changePageSize: group.changePageSize,
-            orderBy: group.orderBy,
-            sortVal: group.sortVal,
-        } as const;
-    }
-
-    return {
-        mode: 'single',
-        result: single.result,
-        query: single.query,
-        search: single.search,
-        scopeSearch,
-        isLoading: single.isLoading,
-        reload: single.reload,
-        isNotLoaded: single.isNotLoaded,
-        isEmptyResult: single.isEmptyResult,
-        movePage: single.movePage,
-        changePageSize: single.changePageSize,
-        orderBy: single.orderBy,
-        sortVal: single.sortVal,
-    } as const;
-}
+// export function useOrgSubscriptionList<
+//     IsGroupMode extends boolean,
+//     R extends ReturnType<typeof useSubscriptionListSingle> | ReturnType<typeof useSubscriptionListGrouped>,
+// >(
+//     isGroupMode: boolean,
+//     singleParams: FindAllSubscriptionsQuery,
+//     groupParams: FindAllSubscriptionsGroupedByProductDto,
+// ): R {
+//     const single = useSubscriptionList(isGroupMode, singleParams);
+//     const group = useSubscriptionListGroupedByProduct(isGroupMode, groupParams);
+//
+//     const scopeSearch = useCallback(
+//         (query: FindAllSubscriptionsQuery | FindAllSubscriptionsGroupedByProductDto) => {
+//             const {usingStatus, page} = query as ScopePatch;
+//
+//             if (isGroupMode) {
+//                 group.search({usingStatus, page} as Partial<FindAllSubscriptionsGroupedByProductDto>);
+//             } else {
+//                 single.search({usingStatus, page} as Partial<FindAllSubscriptionsQuery>);
+//             }
+//         },
+//         [isGroupMode, group.search, single.search],
+//     );
+//
+//     // return isGroupMode ? {mode: 'group', scopeSearch, ...group} : {mode: 'single', scopeSearch, ...single};
+//     // if (isGroupMode) {
+//     //     return {
+//     //         mode: 'group',
+//     //         result: group.result,
+//     //         query: group.query,
+//     //         search: group.search,
+//     //         scopeSearch,
+//     //         isLoading: group.isLoading,
+//     //         reload: group.reload,
+//     //         isNotLoaded: group.isNotLoaded,
+//     //         isEmptyResult: group.isEmptyResult,
+//     //         movePage: group.movePage,
+//     //         changePageSize: group.changePageSize,
+//     //         orderBy: group.orderBy,
+//     //         sortVal: group.sortVal,
+//     //     } as const;
+//     // }
+//     //
+//     // return {
+//     //     mode: 'single',
+//     //     result: single.result,
+//     //     query: single.query,
+//     //     search: single.search,
+//     //     scopeSearch,
+//     //     isLoading: single.isLoading,
+//     //     reload: single.reload,
+//     //     isNotLoaded: single.isNotLoaded,
+//     //     isEmptyResult: single.isEmptyResult,
+//     //     movePage: single.movePage,
+//     //     changePageSize: single.changePageSize,
+//     //     orderBy: single.orderBy,
+//     //     sortVal: single.sortVal,
+//     // } as const;
+// }

@@ -1,16 +1,16 @@
 import {useState} from 'react';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {
-    FindAllSubscriptionsQuery,
     SubscriptionUsingStatus,
     t_SubscriptionUsingStatus,
+    FindAllSubscriptionsGroupedByProductDto,
 } from '^models/Subscription/types';
 
 interface Props {
-    onSearch: (query: Partial<FindAllSubscriptionsQuery>) => any;
+    onSearch: (query: Partial<FindAllSubscriptionsGroupedByProductDto>) => any;
 }
 
-export function SubscriptionScopeHandler(props: Props) {
+export function GroupedByProductScopeHandler(props: Props) {
     const {onSearch} = props;
     const [activeStatus, setActiveUsingStatus] = useState<SubscriptionUsingStatus>();
 

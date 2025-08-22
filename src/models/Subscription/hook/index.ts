@@ -261,10 +261,11 @@ export const useShowSubscription = (subscriptionId?: number, params?: FindOneSub
 };
 
 // 구독 업데이트
-export const useUpdateSubscription = () => {
+export const useUpdateSubscription = (subscriptionId: number) => {
     const queryClient = useQueryClient();
-    return useMutation<SubscriptionDto, ErrorResponse, {subscriptionId: number; data: UpdateSubscriptionRequestDto}>({
-        mutationFn: ({subscriptionId, data}) => subscriptionApi.update(subscriptionId, data).then((res) => res.data),
+    return useMutation({
+        mutationFn: (data: UpdateSubscriptionRequestDto) =>
+            subscriptionApi.update(subscriptionId, data).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});
@@ -274,10 +275,10 @@ export const useUpdateSubscription = () => {
 };
 
 //구독 삭제하기
-export const useRemoveSubscription = () => {
+export const useRemoveSubscription = (subscriptionId: number) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (subscriptionId: number) => subscriptionApi.destroy(subscriptionId),
+        mutationFn: () => subscriptionApi.destroy(subscriptionId),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.base]});
             queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.list]});

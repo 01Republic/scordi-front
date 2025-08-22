@@ -7,3 +7,4 @@ export * from './CreateSubscription-by-invoices.request.dto';
 export * from './UpdateSubscription.request.dto';
 export * from './find-all.subscriptions.query.dto';
 export * from './find-one.subscription.query.dto';
+export * from './find-all.subscriptions-grouped-by-product.query.dto';

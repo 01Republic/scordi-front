@@ -3,12 +3,12 @@ import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 
-interface SubscriptionGroupingTableHeaderProps {
+interface Props {
     sortVal: 'ASC' | 'DESC';
     orderBy: (sortKey: string) => void;
 }
 
-export const SubscriptionGroupingTableHeader = memo((props: SubscriptionGroupingTableHeaderProps) => {
+export const GroupedByProductTableHeader = memo((props: Props) => {
     const {orderBy, sortVal} = props;
 
     return (
