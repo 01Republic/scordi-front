@@ -63,7 +63,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
             <SubscriptionPaymentInfoSection />
 
             {/* 거래처 정보 */}
-            <SubscriptionBusinessInfoSection />
+            <SubscriptionBusinessInfoSection currentSubscription={currentSubscription} />
         </div>
     );
 });

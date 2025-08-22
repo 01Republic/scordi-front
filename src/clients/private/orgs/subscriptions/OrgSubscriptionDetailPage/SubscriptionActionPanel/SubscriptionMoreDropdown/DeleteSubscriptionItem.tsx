@@ -8,15 +8,16 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {useCurrentSubscription} from '../../atom';
 import {useRemoveSubscription, useSubscriptionTableListAtom} from '^models/Subscription/hook';
+import {useIdParam} from '^atoms/common';
 
 export const DeleteSubscriptionItem = memo(() => {
+    const id = useIdParam('subscriptionId');
     const {currentSubscription: subscription} = useCurrentSubscription();
     const router = useRouter();
     const {reload} = useSubscriptionTableListAtom();
+    const {mutate: deleteSubscription} = useRemoveSubscription(id);
 
     if (!subscription) return <></>;
-
-    const {mutate: deleteSubscription} = useRemoveSubscription(subscription.id);
 
     const onClick = async () => {
         const {id, organizationId} = subscription;

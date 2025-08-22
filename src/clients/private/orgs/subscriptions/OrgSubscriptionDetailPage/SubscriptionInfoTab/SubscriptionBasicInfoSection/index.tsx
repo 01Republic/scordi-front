@@ -11,6 +11,7 @@ import {SubscriptionMaster} from './SubscriptionMaster';
 import {SubscriptionTeam} from './SubscriptionTeam';
 import {errorToast} from '^api/api';
 import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
+import {useIdParam} from '^atoms/common';
 
 interface SubscriptionBasicInfoSectionProps {
     currentSubscription: SubscriptionDto;
@@ -18,14 +19,13 @@ interface SubscriptionBasicInfoSectionProps {
 
 export const SubscriptionBasicInfoSection = memo((props: SubscriptionBasicInfoSectionProps) => {
     const {currentSubscription} = props;
+    const {mutateAsync: updateSubscription} = useUpdateSubscription(currentSubscription.id);
 
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
     if (!currentSubscription) return <></>;
-
-    const {mutateAsync: updateSubscription} = useUpdateSubscription(currentSubscription.id);
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         if (!currentSubscription) return;

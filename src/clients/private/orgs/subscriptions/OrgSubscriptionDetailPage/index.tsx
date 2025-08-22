@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {useOrgIdParam} from '^atoms/common';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
@@ -13,6 +13,7 @@ import {SubscriptionActionPanel} from './SubscriptionActionPanel';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useOrgIdParam();
+    const id = useIdParam('subscriptionId');
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 

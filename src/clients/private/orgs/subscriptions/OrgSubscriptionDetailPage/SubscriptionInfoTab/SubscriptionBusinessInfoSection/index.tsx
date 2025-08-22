@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import cn from 'classnames';
 import {AlertOctagon} from 'lucide-react';
 import {errorToast} from '^api/api';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
@@ -18,11 +18,16 @@ import {VendorContractMemo} from './VendorContractMemo';
 import {VendorCompanyName} from './VendorCompanyName';
 import {VendorManager} from './VendorManager';
 
-export const SubscriptionBusinessInfoSection = memo(() => {
+interface Props {
+    currentSubscription: SubscriptionDto;
+}
+
+export const SubscriptionBusinessInfoSection = memo((props: Props) => {
+    const {currentSubscription: subscription} = props;
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const {currentSubscription: subscription} = useCurrentSubscription();
+    const {mutateAsync: updateSubscription} = useUpdateSubscription(subscription.id);
     const {mutateAsync: updateVendorManger} = useUpdateVendorManager();
     const {mutateAsync: upsertVendorManger} = useUpsertVendorManager();
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
@@ -33,8 +38,6 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const [isPhoneError, setIsPhoneError] = useState<boolean>(false);
 
     if (!subscription?.id) return <></>;
-
-    const {mutateAsync: updateSubscription} = useUpdateSubscription(subscription.id);
 
     useEffect(() => {
         if (selectedCompany) {
