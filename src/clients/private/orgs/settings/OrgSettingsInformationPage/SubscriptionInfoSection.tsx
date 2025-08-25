@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsListSection} from '^clients/private/_layouts/OrgSettingsLayout';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {lpp} from '^utils/dateTime';
 
 interface SubscriptionInfoSectionProps {
     orgId: number;
@@ -25,7 +25,7 @@ export const SubscriptionInfoSection = memo((props: SubscriptionInfoSectionProps
             isLoading={isLoading}
             items={[
                 {title: '플랜', desc: currentSubscription?.scordiPlan.name || 'scordi 무료 체험'},
-                {title: '갱신일', desc: nextDate ? yyyy_mm_dd(nextDate) : '-'},
+                {title: '갱신일', desc: nextDate ? lpp(nextDate, 'P') : '-'},
             ]}
         />
     );

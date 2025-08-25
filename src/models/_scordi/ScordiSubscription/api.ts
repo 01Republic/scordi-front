@@ -1,6 +1,12 @@
 import {api} from '^api/api';
 import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {FindAllScordiSubscriptionsForAdminDto, ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {
+    CreateScordiSubscriptionRequestDto,
+    FindAllScordiSubscriptionsForAdminDto,
+    FindAllScordiSubscriptionsQueryDto,
+    ScordiSubscriptionDto,
+    UpdateScordiSubscriptionRequestDto,
+} from '^models/_scordi/ScordiSubscription/type';
 import {plainToInstance} from 'class-transformer';
 
 /**
@@ -53,5 +59,38 @@ export const adminScordiSubscriptionsApi = {
     index(params: FindAllScordiSubscriptionsForAdminDto) {
         const url = `/admin/billing/subscriptions`;
         return api.get(url, {params}).then(paginatedDtoOf(ScordiSubscriptionDto));
+    },
+};
+
+// [Admin] 스코디 구독 API
+export const scordiSubscriptionsApi = {
+    // 스코디 구독 조회
+    index(orgId: number, params: FindAllScordiSubscriptionsQueryDto) {
+        const url = `/admin/orgs/${orgId}/billing/subscriptions`;
+        return api.get(url, {params}).then(paginatedDtoOf(ScordiSubscriptionDto));
+    },
+
+    // 스코디 구독 상세
+    show(orgId: number, id: number) {
+        const url = `/admin/orgs/${orgId}/billing/subscriptions/${id}`;
+        return api.get(url).then(oneDtoOf(ScordiSubscriptionDto));
+    },
+
+    // 스코디 구독 생성
+    create(orgId: number, dto: CreateScordiSubscriptionRequestDto) {
+        const url = `/admin/orgs/${orgId}/billing/subscriptions`;
+        return api.post(url, dto).then(oneDtoOf(ScordiSubscriptionDto));
+    },
+
+    // 스코디 구독 수정
+    update(orgId: number, id: number, dto: UpdateScordiSubscriptionRequestDto) {
+        const url = `/admin/orgs/${orgId}/billing/subscriptions/${id}`;
+        return api.patch(url, dto).then(oneDtoOf(ScordiSubscriptionDto));
+    },
+
+    // 스코디 구독 삭제
+    destroy(orgId: number, id: number) {
+        const url = `/admin/orgs/${orgId}/billing/subscriptions/${id}`;
+        return api.delete(url).then(oneDtoOf(ScordiSubscriptionDto));
     },
 };

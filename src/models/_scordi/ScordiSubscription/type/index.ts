@@ -49,3 +49,10 @@ export class FindAllScordiSubscriptionsDto extends FindAllQueryDto<ScordiSubscri
 export class FindAllScordiSubscriptionsForAdminDto extends FindAllQueryDto<ScordiSubscriptionDto> {
     //
 }
+
+export class FindAllScordiSubscriptionsQueryDto extends FindAllQueryDto<ScordiSubscriptionDto> {
+    //
+}
+
+export * from './CreateScordiSubscription.request.dto';
+export * from './UpdateScordiSubscription.request.dto';

@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {t_planStepType} from '^models/_scordi/ScordiPlan/type';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {lpp} from '^utils/dateTime';
 
 interface OrgScheduledSubscriptionItemProps {
     scordiSubscription: ScordiSubscriptionDto;
@@ -34,7 +34,7 @@ export const OrgScheduledSubscriptionItem = memo((props: OrgScheduledSubscriptio
                 {scordiSubscription.startAt && scordiSubscription.finishAt ? (
                     <div className="flex items-center gap-1.5">
                         <span className="text-gray-500">변경 예정일 :</span>
-                        <span>{yyyy_mm_dd(scordiSubscription.startAt, '. ')}</span>
+                        <span>{lpp(scordiSubscription.startAt, 'P')}</span>
                     </div>
                 ) : (
                     ''
