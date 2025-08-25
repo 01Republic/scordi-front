@@ -72,7 +72,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                             className="flex items-center gap-2 cursor-pointer text-13 text-gray-500"
                         >
                             <HelpCircle className="size-4 fill-gray-500 text-white" />
-                            <span>찾는 구독이 없나요?</span>
+                            <span> 찾는 구독이 없나요?</span>
                         </button>
                     ) : (
                         <div className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import React, {memo, useRef} from 'react';
+import React, {memo, ReactNode, useRef} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import {CardTableTR} from '^admin/share';
@@ -18,7 +18,9 @@ import {codefCardApi} from '^models/CodefCard/api';
 import {errorToast} from '^api/api';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardRowActionColumn} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithCardTabContent/CodefCardListContent/ActionColumn';
-import {Check, FolderOpen, MoreHorizontal, RotateCw, X, XCircle} from 'lucide-react';
+import {Check, FolderOpen, MessageCircleQuestion, MoreHorizontal, RotateCw, X, XCircle} from 'lucide-react';
+import {format} from 'date-fns';
+import {ko} from 'date-fns/locale';
 
 interface CodefCardItemProps {
     codefCard: CodefCardDto;
@@ -120,11 +122,37 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                     )}
                 </div>
 
-                {/* 연동 시작일 */}
-                <div className="">{codefCard.syncedStartDate && yyyy_mm_dd(codefCard.syncedStartDate)}</div>
+                {/*/!* 연동 시작일 *!/*/}
+                {/*<div className="">{codefCard.syncedStartDate && yyyy_mm_dd(codefCard.syncedStartDate)}</div>*/}
+
+                {/*/!* 마지막 연동 *!/*/}
+                {/*<div className="">{codefCard.syncedEndDate && yyyy_mm_dd(codefCard.syncedEndDate)}</div>*/}
 
                 {/* 마지막 연동 */}
-                <div className="">{codefCard.syncedEndDate && yyyy_mm_dd(codefCard.syncedEndDate)}</div>
+                <div className="">
+                    {codefCard.lastSyncedAt && format(codefCard.lastSyncedAt, 'yyyy-MM-dd HH:mm', {locale: ko})}
+                </div>
+
+                {/* 결제기간 */}
+                <div className="">
+                    <div className="flex items-center flex-wrap gap-1 text-11 leading-none">
+                        <span>
+                            {codefCard.syncedStartDate ? (
+                                format(codefCard.syncedStartDate, 'yyyy-MM-dd', {locale: ko})
+                            ) : (
+                                <span className="italic text-gray-400">없음</span>
+                            )}
+                        </span>
+                        <span className="text-gray-500">~</span>
+                        <span>
+                            {codefCard.syncedEndDate ? (
+                                format(codefCard.syncedEndDate, 'yyyy-MM-dd', {locale: ko})
+                            ) : (
+                                <span className="italic text-gray-400">없음</span>
+                            )}
+                        </span>
+                    </div>
+                </div>
 
                 {/* 불러온 결제내역 수 */}
                 <div className="text-right" onClick={() => goCardHistories()}>
@@ -138,4 +166,3 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
         </LoadableBox>
     );
 });
-CodefCardItem.displayName = 'CodefCardItem';
