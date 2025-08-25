@@ -35,10 +35,10 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
     const today = new Date();
 
     const pastPaid = subscriptionSpends.filter(
-        (item) => item.subscription.lastPaidAt && item.subscription.lastPaidAt < today,
+        (item) => item.subscription.nextBillingDate && item.subscription.nextBillingDate < today,
     );
     const notPastPaid = subscriptionSpends.filter(
-        (item) => item.subscription.lastPaidAt && item.subscription.lastPaidAt >= today,
+        (item) => item.subscription.nextBillingDate && item.subscription.nextBillingDate >= today,
     );
 
     // 로딩이 아직 안되었거나, 결과가 없는 경우
