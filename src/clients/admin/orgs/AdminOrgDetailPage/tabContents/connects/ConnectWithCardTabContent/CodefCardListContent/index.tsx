@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, ReactNode, useEffect} from 'react';
 import {CardTablePanel, CardTableTH} from '^admin/share';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {LoadableBox} from '^components/util/loading';
@@ -8,7 +8,8 @@ import {PagePerSelect} from '^components/Paginator';
 import {TabPaneProps} from '^components/util/tabs';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardItem} from './CodefCardItem';
-import {X} from 'lucide-react';
+import {MessageCircleQuestion, X} from 'lucide-react';
+import Tippy from '@tippyjs/react';
 
 export const CodefCardListContent = memo(function CodefCardListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -95,8 +96,28 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
                         <div className="col-span-2">불러온 카드명</div>
                         <div>발행일</div>
                         <div>연동여부</div>
-                        <div className="">시작일</div>
-                        <div className="">마지막 연동</div>
+                        <div className="">
+                            <Label
+                                text="마지막 연동"
+                                hint={
+                                    <div>
+                                        코드에프 연동이 <br /> 마지막으로 실행된 날짜입니다.
+                                    </div>
+                                }
+                            />
+                        </div>
+                        <div className="">
+                            <Label
+                                text="결제기간"
+                                hint={
+                                    <div>
+                                        불러온 하위 결제내역 리스트에서 <br />
+                                        조회된 실제 결제일시 정보의 <br />
+                                        시작과 끝 날짜범위를 반환합니다.
+                                    </div>
+                                }
+                            />
+                        </div>
                         <div className="text-right">총 결제건수</div>
                         <div></div>
                     </CardTableTH>
@@ -105,3 +126,27 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
         </div>
     );
 });
+
+interface LabelProps {
+    text: ReactNode;
+    hint?: ReactNode;
+    className?: string;
+}
+
+const Label = (props: LabelProps) => {
+    const {text, hint, className = ''} = props;
+
+    return (
+        <div className="flex items-center gap-1">
+            <div>{text}</div>
+
+            {hint && (
+                <Tippy content={hint} className="!text-11">
+                    <div>
+                        <MessageCircleQuestion fontSize={12} className="text-gray-400" />
+                    </div>
+                </Tippy>
+            )}
+        </div>
+    );
+};

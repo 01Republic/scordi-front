@@ -16,6 +16,7 @@ export class CodefCardDto {
     creditCardId: number | null; // 등록된 카드 FK
     @TypeCast(() => Date) syncedStartDate: Date | null; // 연동된 결제내역 시작일시
     @TypeCast(() => Date) syncedEndDate: Date | null; // 연동된 결제내역 종료일시
+    @TypeCast(() => Date) lastSyncedAt: Date | null; // 마지막 연동 일시
     resCardNo: string; // 카드번호
 
     get cardNumbers() {
