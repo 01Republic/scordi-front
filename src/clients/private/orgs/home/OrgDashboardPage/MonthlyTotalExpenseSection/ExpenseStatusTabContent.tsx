@@ -34,12 +34,20 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
 
     const today = new Date();
 
-    const pastPaid = subscriptionSpends.filter(
-        (item) => item.subscription.nextBillingDate && item.subscription.nextBillingDate < today,
-    );
-    const notPastPaid = subscriptionSpends.filter(
-        (item) => item.subscription.nextBillingDate && item.subscription.nextBillingDate >= today,
-    );
+    const pastPaid = subscriptionSpends.filter((item) => {
+        const subscription = item.subscription;
+        const targetDate = subscription.nextComputedBillingDate || subscription.nextBillingDate;
+        if (!targetDate) return false;
+        return new Date(targetDate) < today;
+    });
+
+    const notPastPaid = subscriptionSpends.filter((item) => {
+        const subscription = item.subscription;
+        const targetDate = subscription.nextComputedBillingDate || subscription.nextBillingDate;
+        if (!targetDate) return false;
+
+        return new Date(targetDate) >= today;
+    });
 
     // 로딩이 아직 안되었거나, 결과가 없는 경우
     if (subscriptionSpends.length === 0) {
