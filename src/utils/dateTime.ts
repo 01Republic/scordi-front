@@ -303,6 +303,10 @@ export function lpp(date: Date, formatStr: string = 'Pp') {
     return format(date, formatStr || 'Pp', {locale: ko});
 }
 
+export function toDate(str: string) {
+    return new Date(`${str} `);
+}
+
 /**
  * Group By
  */

@@ -77,6 +77,9 @@ export class ScordiPlanDto {
 
         const num = this.stepSize.toLocaleString();
         const unit = t_planStepType(this.stepType, {
+            [ScordiPlanStepType.NO]: '',
+            [ScordiPlanStepType.DAY]: '일',
+            [ScordiPlanStepType.WEEK]: '주',
             [ScordiPlanStepType.Month]: '개월',
             [ScordiPlanStepType.Year]: '년',
         });
@@ -110,6 +113,9 @@ export function t_planStepType(
         [ScordiPlanStepType.Year]: '연',
     },
 ): string {
+    dic[ScordiPlanStepType.NO] ??= '';
+    dic[ScordiPlanStepType.DAY] ??= '일';
+    dic[ScordiPlanStepType.WEEK] ??= '주';
     dic[ScordiPlanStepType.Month] ??= '월';
     dic[ScordiPlanStepType.Year] ??= '연';
     return dic[stepType]!;
