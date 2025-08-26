@@ -1,23 +1,29 @@
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {FindAllAccountQueryForAdminDto} from '^models/CodefAccount/type/find-all-account.query.for-admin.dto';
-import {codefAccountAdminApi} from '^models/CodefAccount/api';
-import {codefAccountsAdminAtom} from '^models/CodefAccount/atom';
+import {useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {Paginated} from '^types/utils/paginated.dto';
+import {usePaginateUtils} from '^hooks/usePagedResource';
+import {codefAccountAdminApi} from '../api';
+import {FindAllAccountQueryForAdminDto} from '../type/find-all-account.query.for-admin.dto';
 
 /***
  * ADMIN
  */
 
-export const useAdminCodefAccounts = () => useCodefAccountsAdmin(codefAccountsAdminAtom);
-
-const useCodefAccountsAdmin = (
-    atoms: PagedResourceAtoms<CodefAccountDto, FindAllAccountQueryForAdminDto>,
-    mergeMode = false,
-) => {
-    return usePagedResource(atoms, {
-        useOrgId: true,
-        endpoint: (params, orgId) => codefAccountAdminApi.index(params),
-        getId: 'id',
-        mergeMode,
+export const useAdminCodefAccounts2 = (orgId: number | undefined, params: FindAllAccountQueryForAdminDto) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: ['admin/useAdminCodefAccounts2', orgId, query],
+        queryFn: () => {
+            const q = {...query};
+            q.where ??= {};
+            q.where.orgId = orgId;
+            return codefAccountAdminApi.index(q).then((res) => res.data);
+        },
+        initialData: Paginated.init(),
+        enabled: !!orgId && !isNaN(orgId),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
+
+    return usePaginateUtils({query, setQuery, queryResult});
 };

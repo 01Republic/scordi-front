@@ -17,7 +17,3 @@ export const codefAccountAtom = atom<CodefAccountDto | null>({
     key: 'codefAccountAtom',
     default: null,
 });
-
-export const codefAccountsAdminAtom = pagedResourceAtom<CodefAccountDto, FindAllAccountQueryDto>({
-    key: 'codefAccountsAdminAtom',
-});
