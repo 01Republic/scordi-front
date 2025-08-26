@@ -27,6 +27,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 where: {
                     codefCard: {account: {orgId}},
                 },
+                page: 1,
                 order: {usedAt: 'DESC'},
             });
         } else {
@@ -53,6 +54,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
 
                 <div className="flex items-center gap-4">
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}

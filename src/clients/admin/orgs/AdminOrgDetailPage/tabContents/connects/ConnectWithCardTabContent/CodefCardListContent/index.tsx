@@ -51,6 +51,7 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
 
                 <div className="flex items-center gap-4">
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}

@@ -51,6 +51,7 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
 
                 <div className="flex items-center gap-4">
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}
