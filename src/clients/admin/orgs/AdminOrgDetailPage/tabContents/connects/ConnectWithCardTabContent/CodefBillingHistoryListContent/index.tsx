@@ -9,11 +9,13 @@ import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share
 import {selectedCodefCardAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
 import {X} from 'lucide-react';
+import {useIdParam} from '^atoms/common';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefCard, setSelectedCodefCard] = useRecoilState(selectedCodefCardAtom);
-    const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories();
+    const orgId = useIdParam('id');
+    const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories(orgId);
 
     useEffect(() => {
         if (!org) return;
@@ -39,8 +41,6 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
             });
         }
     }, [org, selectedCodefCard]);
-
-    // useUnmount(() => setSelectedCodefCard(undefined));
 
     const {items, pagination} = result;
 
