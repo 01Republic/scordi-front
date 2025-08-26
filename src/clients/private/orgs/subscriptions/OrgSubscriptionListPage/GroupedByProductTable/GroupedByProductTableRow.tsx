@@ -49,7 +49,7 @@ export const GroupedByProductTableRow = memo((props: GroupedByProductTableRowPro
                         <span>{currencyFormat(totalSubscriptionAmountByProduct, '')}</span>
                     </p>
                 </td>
-                <td colSpan={4} />
+                <td colSpan={5} />
             </tr>
             {isOpen &&
                 product.subscriptions?.map((subscription) => {
