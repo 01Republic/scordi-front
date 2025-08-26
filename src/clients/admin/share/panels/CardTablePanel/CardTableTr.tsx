@@ -1,5 +1,9 @@
+import React, {memo, ReactNode, useEffect, useState} from 'react';
+import {ChevronDown, ChevronUp, MessageCircleQuestion} from 'lucide-react';
+import Tippy from '@tippyjs/react';
 import {WithChildren} from '^types/global.type';
-import {memo} from 'react';
+import {cn} from '^public/lib/utils';
+import {FindOptionsOrderValue} from '^types/utils/find-options';
 
 interface CardTableTrProps extends WithChildren {
     gridClass?: string;
@@ -41,3 +45,60 @@ export const CardTableTR = memo((props: CardTableTrProps & {borderBottom?: boole
         </CardTableTr>
     );
 });
+
+interface CardTableThLabelProps {
+    text: ReactNode;
+    hint?: ReactNode;
+    className?: string;
+}
+
+export const CardTableThLabel = (props: CardTableThLabelProps) => {
+    const {text, hint, className = ''} = props;
+
+    return (
+        <div className={cn('flex items-center gap-1', className)}>
+            <div>{text}</div>
+
+            {hint && (
+                <Tippy content={hint} className="!text-11">
+                    <div>
+                        <MessageCircleQuestion fontSize={12} className="text-gray-400" />
+                    </div>
+                </Tippy>
+            )}
+        </div>
+    );
+};
+
+interface CardTableSortableColumnProps extends WithChildren {
+    className?: string;
+    defaultValue?: 'ASC' | 'DESC' | FindOptionsOrderValue;
+    onClick: (sortVal: 'ASC' | 'DESC') => any;
+}
+
+export const CardTableSortableColumn = (props: CardTableSortableColumnProps) => {
+    const {defaultValue = 'ASC', className = '', children, onClick} = props;
+    const [val, setVal] = useState<'ASC' | 'DESC'>(defaultValue === 'DESC' ? 'DESC' : 'ASC');
+
+    useEffect(() => {
+        setVal(defaultValue === 'DESC' ? 'DESC' : 'ASC');
+    }, [defaultValue]);
+
+    return (
+        <div className={cn('flex items-center justify-between', className)}>
+            {children}
+
+            <div
+                className="flex items-center ml-1.5"
+                onClick={() => {
+                    const nextVal = val === 'ASC' ? 'DESC' : 'ASC';
+                    setVal(nextVal);
+                    onClick(nextVal);
+                }}
+            >
+                {val === 'DESC' && <ChevronDown />}
+                {val === 'ASC' && <ChevronUp />}
+            </div>
+        </div>
+    );
+};

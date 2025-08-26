@@ -1,16 +1,15 @@
-import React, {memo, ReactNode, useEffect} from 'react';
-import {CardTablePanel, CardTableTH} from '^admin/share';
+import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {LoadableBox} from '^components/util/loading';
+import {X} from 'lucide-react';
+import {useIdParam} from '^atoms/common';
 import {useAdminCodefCards2} from '^models/CodefCard/hook';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
+import {LoadableBox} from '^components/util/loading';
 import {PagePerSelect} from '^components/Paginator';
 import {TabPaneProps} from '^components/util/tabs';
+import {CardTablePanel, CardTableSortableColumn, CardTableTH, CardTableThLabel} from '^admin/share';
+import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardItem} from './CodefCardItem';
-import {MessageCircleQuestion, X} from 'lucide-react';
-import Tippy from '@tippyjs/react';
-import {useIdParam} from '^atoms/common';
 
 export const CodefCardListContent = memo(function CodefCardListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -18,7 +17,7 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
     const [selectedCodefAccount, setSelectedCodefAccount] = useRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefCard = useSetRecoilState(selectedCodefCardAtom);
     const orgId = useIdParam('id');
-    const {isLoading, search, reload, movePage, result, changePageSize} = useAdminCodefCards2(orgId);
+    const {isLoading, search, reload, movePage, result, query, changePageSize, orderBy} = useAdminCodefCards2(orgId);
 
     useEffect(() => {
         if (!org) return;
@@ -89,7 +88,7 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
                     pagination={pagination}
                     pageMove={movePage}
                 >
-                    <CardTableTH gridClass="grid-cols-12" className="text-12 items-center">
+                    <CardTableTH gridClass="grid-cols-13" className="text-12 items-center">
                         <div>ID</div>
                         <div>카드사</div>
                         {/*<div>개인/법인</div>*/}
@@ -98,8 +97,12 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
                         <div className="col-span-2">불러온 카드명</div>
                         <div>발행일</div>
                         <div>연동여부</div>
-                        <div className="">
-                            <Label
+                        <CardTableSortableColumn
+                            className="col-span-2 justify-start"
+                            defaultValue={query.order?.lastSyncedAt}
+                            onClick={(sortVal) => orderBy('lastSyncedAt', sortVal)}
+                        >
+                            <CardTableThLabel
                                 text="마지막 연동"
                                 hint={
                                     <div>
@@ -107,9 +110,9 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
                                     </div>
                                 }
                             />
-                        </div>
+                        </CardTableSortableColumn>
                         <div className="">
-                            <Label
+                            <CardTableThLabel
                                 text="결제기간"
                                 hint={
                                     <div>
@@ -128,27 +131,3 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
         </div>
     );
 });
-
-interface LabelProps {
-    text: ReactNode;
-    hint?: ReactNode;
-    className?: string;
-}
-
-const Label = (props: LabelProps) => {
-    const {text, hint, className = ''} = props;
-
-    return (
-        <div className="flex items-center gap-1">
-            <div>{text}</div>
-
-            {hint && (
-                <Tippy content={hint} className="!text-11">
-                    <div>
-                        <MessageCircleQuestion fontSize={12} className="text-gray-400" />
-                    </div>
-                </Tippy>
-            )}
-        </div>
-    );
-};

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {Check, FolderOpen, X} from 'lucide-react';
 import Tippy from '@tippyjs/react';
-import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
+import {formatDate, hh_mm, lpp, yyyy_mm_dd} from '^utils/dateTime';
 import {LinkTo} from '^components/util/LinkTo';
 import {LoadableBox} from '^components/util/loading';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
@@ -44,7 +44,7 @@ export const CodefBankAccountItem = memo((props: CodefCardItemProps) => {
 
     return (
         <LoadableBox loadingType={2} isLoading={isSyncRunning} noPadding spinnerSize={20} spinnerPos="center">
-            <CardTableTR gridClass="grid-cols-12" className={`!text-12 cursor-pointer group !gap-1`}>
+            <CardTableTR gridClass="grid-cols-13" className={`!text-12 cursor-pointer group !gap-1`}>
                 {/* ID */}
                 <div>
                     <span className="badge badge-xs">#{codefBankAccount.id}</span>
@@ -133,22 +133,22 @@ export const CodefBankAccountItem = memo((props: CodefCardItemProps) => {
                 </div>
 
                 {/* 마지막 연동 */}
-                <div className="">{lastSyncedAt && format(lastSyncedAt, 'yyyy-MM-dd HH:mm', {locale: ko})}</div>
+                <div className="text-11 col-span-2">{lastSyncedAt && formatDate(lastSyncedAt)}</div>
 
                 {/* 결제기간 */}
                 <div className="">
-                    <div className="flex items-center flex-wrap gap-1 text-11 leading-none">
+                    <div className="flex items-center flex-wrap text-11 leading-none">
                         <span>
                             {syncedStartDate ? (
-                                format(syncedStartDate, 'yyyy-MM-dd', {locale: ko})
+                                lpp(syncedStartDate, 'P')
                             ) : (
                                 <span className="italic text-gray-400">없음</span>
                             )}
+                            <span className="mx-[1px]">~</span>
                         </span>
-                        <span className="text-gray-500">~</span>
                         <span>
                             {syncedEndDate ? (
-                                format(syncedEndDate, 'yyyy-MM-dd', {locale: ko})
+                                lpp(syncedEndDate, 'P')
                             ) : (
                                 <span className="italic text-gray-400">없음</span>
                             )}
