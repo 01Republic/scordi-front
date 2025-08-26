@@ -19,7 +19,7 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {isOpened, onClose, onCreate} = props;
     const {mutateAsync: createSubscriptionSeat} = useCreateSubscriptionSeat(orgId, id);
-    const {data: subscriptionSeat} = useSubscriptionSeat(orgId, id);
+    const {data: subscriptionSeat} = useSubscriptionSeat(orgId, id, {itemsPerPage: 0});
     const {result: teamMemberList} = useTeamMembers2(orgId, {
         itemsPerPage: 0,
     });
@@ -37,7 +37,7 @@ export const SubscriptionTeamMemberSelectModal = memo((props: SubscriptionTeamMe
     };
 
     const filterTeamMemberSeatList = teamMemberList.items.filter(
-        (teamMember) => !subscriptionSeat.items.find((seat) => seat.teamMember?.id === teamMember.id),
+        (teamMember) => !subscriptionSeat.items.some((seat) => seat.teamMember?.id === teamMember.id),
     );
 
     return (
