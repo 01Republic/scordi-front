@@ -94,7 +94,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                         ))}
                     </div>
 
-                    {pastPaid && (
+                    {pastPaid.length > 0 && (
                         <section className="p-2 flex flex-col gap-2">
                             <button
                                 type="button"

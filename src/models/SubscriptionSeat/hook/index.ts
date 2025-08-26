@@ -14,8 +14,9 @@ import {SUBSCRIPTION_SEAT_HOOK_KEY} from '^models/SubscriptionSeat/hook/key';
 import Qs from 'qs';
 
 //구독에 시트 불러오기
-export const useSubscriptionSeat = (orgId: number, subscriptionId: number) => {
+export const useSubscriptionSeat = (orgId: number, subscriptionId: number, params: FindAllSubscriptionSeatQueryDto) => {
     const [query, setQuery] = useState<FindAllSubscriptionSeatQueryDto>({
+        ...params,
         relations: ['teamMember', 'teamMember.teams'],
     });
 

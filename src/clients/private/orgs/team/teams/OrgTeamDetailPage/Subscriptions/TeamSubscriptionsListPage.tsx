@@ -32,7 +32,7 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
         });
     }, 500);
 
-    if (team?.subscriptionCount && team?.subscriptionCount > 0) {
+    if (result.items.length > 0 && !isLoading) {
         return (
             <>
                 <div className={'flex items-center justify-between pb-4'}>

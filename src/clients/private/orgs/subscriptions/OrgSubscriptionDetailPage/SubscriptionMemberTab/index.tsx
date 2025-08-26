@@ -30,7 +30,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
         isFetched,
         sortVal,
         orderBy,
-    } = useSubscriptionSeat(orgId, id);
+    } = useSubscriptionSeat(orgId, id, {});
     const {mutateAsync: destroySubscriptionSeat} = useDestroyAllSubscriptionSeat(orgId, id);
 
     const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
