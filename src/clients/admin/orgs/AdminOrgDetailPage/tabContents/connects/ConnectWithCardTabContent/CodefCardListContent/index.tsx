@@ -2,7 +2,7 @@ import React, {memo, ReactNode, useEffect} from 'react';
 import {CardTablePanel, CardTableTH} from '^admin/share';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {LoadableBox} from '^components/util/loading';
-import {useAdminCodefCards} from '^models/CodefCard/hook';
+import {useAdminCodefCards2} from '^models/CodefCard/hook';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {PagePerSelect} from '^components/Paginator';
 import {TabPaneProps} from '^components/util/tabs';
@@ -10,13 +10,15 @@ import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardItem} from './CodefCardItem';
 import {MessageCircleQuestion, X} from 'lucide-react';
 import Tippy from '@tippyjs/react';
+import {useIdParam} from '^atoms/common';
 
 export const CodefCardListContent = memo(function CodefCardListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefAccount, setSelectedCodefAccount] = useRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefCard = useSetRecoilState(selectedCodefCardAtom);
-    const {isLoading, search, reload, movePage, result, changePageSize} = useAdminCodefCards();
+    const orgId = useIdParam('id');
+    const {isLoading, search, reload, movePage, result, changePageSize} = useAdminCodefCards2(orgId);
 
     useEffect(() => {
         if (!org) return;
@@ -24,7 +26,7 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
         if (!selectedCodefAccount) {
             search({
                 relations: ['account', 'codefBillingHistories'],
-                organizationId: org.id,
+                page: 1,
                 order: {id: 'DESC'},
             });
         } else {

@@ -2,7 +2,7 @@ import React, {memo, ReactNode, useEffect} from 'react';
 import {CardTablePanel, CardTableTH} from '^admin/share';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {LoadableBox} from '^components/util/loading';
-import {useAdminCodefBankAccounts} from '^models/CodefBankAccount/hook';
+import {useAdminCodefBankAccounts2} from '^models/CodefBankAccount/hook';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {PagePerSelect} from '^components/Paginator';
 import {TabPaneProps} from '^components/util/tabs';
@@ -10,13 +10,15 @@ import {selectedCodefAccountAtom, selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBankAccountItem} from './CodefBankAccountItem';
 import {MessageCircleQuestion, X} from 'lucide-react';
 import Tippy from '@tippyjs/react';
+import {useIdParam} from '^atoms/common';
 
 export const CodefBankAccountListContent = memo(function CodefBankAccountListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefAccount, setSelectedCodefAccount] = useRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefAsset = useSetRecoilState(selectedCodefBankAccountAtom);
-    const {isLoading, search, reload, movePage, result, changePageSize} = useAdminCodefBankAccounts();
+    const orgId = useIdParam('id');
+    const {isLoading, search, reload, movePage, result, changePageSize} = useAdminCodefBankAccounts2(orgId);
 
     useEffect(() => {
         if (!org) return;
@@ -24,13 +26,12 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
         if (!selectedCodefAccount) {
             search({
                 relations: ['account', 'codefBillingHistories'],
-                organizationId: org.id,
+                page: 1,
                 order: {id: 'DESC'},
             });
         } else {
             search({
                 relations: ['account', 'codefBillingHistories'],
-                organizationId: org.id,
                 where: {accountId: selectedCodefAccount.id},
                 page: 1,
                 order: {id: 'DESC'},

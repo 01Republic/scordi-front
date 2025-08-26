@@ -196,6 +196,7 @@ export function usePaginateUtils<Query extends FindAllQueryDto<DTO>, DTO, ERR>(b
 
     return {
         query,
+        setQuery,
         result,
         search,
         isLoading,
