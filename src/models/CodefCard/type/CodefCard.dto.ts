@@ -48,6 +48,7 @@ export class CodefCardDto {
     resIssueDate: string | null; // 발급일자 (최초 발급일자)
     resReissueDate: string | null; // 재발급일자 (최근 재발급일자)
     resState: string | null; // 상태 (카드상태)
+    codefBillingHistoryCount: number; // 코드에프 결제내역 개수
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 

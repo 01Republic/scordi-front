@@ -60,6 +60,11 @@ export class CodefAccountDto {
         transactionId?: string;
     };
 
+    //연동된 코드에프 카드/계좌 개수
+    codefAssetCount: number;
+    //연동된 스코디 카드/계좌 개수
+    assetCount: number;
+
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 

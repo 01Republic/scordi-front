@@ -28,6 +28,7 @@ export class CreditCardDto {
     organizationId: number; // 조직 ID
     bankAccountId?: number | null; // 계좌 ID
     holdingMemberId?: number | null; // 카드 소유자 ID
+    subscriptionCount: number; // 구독 개수
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
