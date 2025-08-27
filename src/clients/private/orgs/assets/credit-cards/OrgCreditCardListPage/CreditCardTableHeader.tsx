@@ -26,7 +26,9 @@ export const CreditCardTableHeader = memo((props: CreditCardTableHeaderProps) =>
             <th>팀</th>
 
             {/* 구독 수 */}
-            <th>구독 수</th>
+            <SortableTH2 sortKey="[subscriptionCount]" onClick={orderBy} sortVal={sortVal}>
+                구독 수
+            </SortableTH2>
 
             {/* 월 누적 결제금액 */}
             <SortableTH2 sortKey="[monthlyPaidAmount]" onClick={orderBy} sortVal={sortVal}>

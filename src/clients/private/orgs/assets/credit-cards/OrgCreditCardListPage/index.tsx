@@ -3,7 +3,7 @@ import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useCreditCardListForListPage, useCreditCards2} from '^models/CreditCard/hook';
+import {useCreditCards2} from '^models/CreditCard/hook';
 import {StepByTutorialPaymentMethodCard} from '^components/ExternalCDNScripts/step-by';
 import {StepbyTutorialButton} from '^components/ExternalCDNScripts/step-by';
 import TitleScopeHandler from '../../bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
