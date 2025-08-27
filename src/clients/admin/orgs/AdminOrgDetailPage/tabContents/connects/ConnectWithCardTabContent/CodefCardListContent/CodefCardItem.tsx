@@ -68,7 +68,11 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
 
                 {/* 끝자리 */}
                 <div className="flex items-center gap-1 justify-between">
-                    <div className="tooltip tooltip-top tooltip-success" data-tip={codefCard.resCardNo}>
+                    <div
+                        className="tooltip tooltip-top tooltip-success"
+                        data-res-card-no={codefCard.resCardNo}
+                        data-tip={codefCard.resCardNo}
+                    >
                         <CodefCardTagUI codefCard={codefCard} onClick={() => goCardHistories()} />
                     </div>
                 </div>
@@ -103,7 +107,9 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 </div>
 
                 {/* 발행일 */}
-                <div className={isSleep ? sleepStyleClass : ''}>{codefCard.resIssueDate}</div>
+                <div className={isSleep ? sleepStyleClass : ''}>
+                    {codefCard.resIssueDate || <span className="italic text-gray-400">없음</span>}
+                </div>
 
                 {/* 연동여부 */}
                 <div className="flex items-center gap-1.5">
@@ -131,7 +137,13 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
 
                 {/* 마지막 연동 */}
                 <div className="text-11 col-span-2">
-                    {codefCard.lastSyncedAt && <div>{formatDate(codefCard.lastSyncedAt)}</div>}
+                    {codefCard.lastSyncedAt && (
+                        <div>
+                            <Tippy content={lpp(codefCard.lastSyncedAt)} placement="top-start">
+                                <div>{formatDate(codefCard.lastSyncedAt)}</div>
+                            </Tippy>
+                        </div>
+                    )}
                 </div>
 
                 {/* 결제기간 */}
