@@ -9,8 +9,8 @@ import {useOrgIdParam} from '^atoms/common';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {TeamMemberDto, useDeleteTeamMember} from '^models/TeamMember';
 import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
-import {confirm3} from '^components/util/dialog/confirm3';
 import {confirmed} from '^components/util/dialog';
+import {confirm3} from '^components/util/dialog/confirm3';
 
 interface RemoveTeamMembersProps {
     checkedItems: TeamMemberDto[];

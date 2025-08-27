@@ -46,7 +46,6 @@ export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
                     추후 <b>소유자 권한</b>으로 변경 가능합니다. <br />
                     멤버가 초대를 받지 못한다면, 다시 초대장을 보낼 수 있습니다.
                 </div>,
-                'warning',
             );
         };
         const emails = uniq(checkedItems.map((teamMember) => teamMember.email?.trim()).filter(isDefinedValue));
