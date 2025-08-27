@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {debounce} from 'lodash';
 import {useOrgIdParam} from '^atoms/common';
-import {useBankAccountListForListPage} from '^models/BankAccount/hook';
+import {useBankAccounts2} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialPaymentMethodAccount} from '^components/ExternalCDNScripts/step-by';
@@ -15,7 +15,6 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
     const organizationId = useOrgIdParam();
     const {
         search,
-        reset,
         result,
         isEmptyResult,
         isNotLoaded,
@@ -23,13 +22,15 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
         query,
         movePage,
         changePageSize,
-        orderBy,
         reload,
-    } = useBankAccountListForListPage();
-
-    const onReady = () => {
-        search({where: {organizationId}, order: {id: 'DESC'}});
-    };
+        newOrderBy,
+        sortVal,
+    } = useBankAccounts2(organizationId, {
+        relations: ['holdingMember', 'creditCards'],
+        where: {organizationId},
+        order: {id: 'DESC'},
+        itemsPerPage: 30,
+    });
 
     const onSearch = debounce((keyword?: string) => {
         return search({
@@ -40,14 +41,8 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
         });
     }, 500);
 
-    const refresh = () => {
-        search({...query, keyword: undefined, page: 1, itemsPerPage: 30}, false, true);
-    };
-
     return (
         <ListPage
-            onReady={onReady}
-            onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
             Buttons={() => (
@@ -74,7 +69,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    Header={() => <BankAccountTableHeader orderBy={orderBy} />}
+                    Header={() => <BankAccountTableHeader orderBy={newOrderBy} sortVal={sortVal} />}
                     Row={({item}) => <BankAccountTableRow bankAccount={item} reload={reload} />}
                 />
             </ListTableContainer>

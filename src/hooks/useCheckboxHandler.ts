@@ -10,6 +10,7 @@ export type CheckboxHandler<T> = {
     isCheckedAll: () => boolean;
     checkedItems: T[];
     isEmpty: boolean;
+    clearAll: () => void;
 };
 
 export const useCheckboxHandler = <T, V = any>(
@@ -44,6 +45,11 @@ export const useCheckboxHandler = <T, V = any>(
         addItems(...data);
     };
 
+    const clearAll = useCallback(() => {
+        clearList();
+        reset();
+    }, [clearList, reset]);
+
     return {
         init,
         append,
@@ -53,5 +59,6 @@ export const useCheckboxHandler = <T, V = any>(
         isCheckedAll,
         checkedItems,
         isEmpty: checkedItems.length === 0,
+        clearAll,
     };
 };

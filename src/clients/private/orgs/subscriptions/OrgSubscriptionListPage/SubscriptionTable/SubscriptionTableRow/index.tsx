@@ -17,7 +17,6 @@ import {
     LastPaidAt,
     LatestPayAmount,
     MemberCount,
-    NextComputedBillingDateText,
     PayMethodSelect,
     PayMethodSelectType,
     SubscriptionProfile,
@@ -34,6 +33,7 @@ import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/Bil
 import {useRemoveSubscription} from '^models/Subscription/hook';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {MasterSelect} from '^components/pages/v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -188,6 +188,11 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 />
             </td>
 
+            {/* 담당자 */}
+            <td className="py-0 pl-5 w-40">
+                <MasterSelect subscription={subscription} onChange={reload} />
+            </td>
+
             {/* 비고 */}
             <td>
                 <AirInputText
@@ -198,11 +203,6 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                     }}
                 />
             </td>
-
-            {/* 담당자 */}
-            {/*<td className="py-0 pl-5 w-40">*/}
-            {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}
-            {/*</td>*/}
 
             {/* Actions */}
             <td className="cursor-pointer">

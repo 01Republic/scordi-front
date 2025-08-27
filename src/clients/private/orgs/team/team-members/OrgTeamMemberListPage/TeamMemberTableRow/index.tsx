@@ -15,13 +15,15 @@ interface TeamMemberTableRowProps {
     teamMember: TeamMemberDto;
     onClick?: (teamMember: TeamMemberDto) => any;
     reload?: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
+    const {teamMember, onClick, reload, isChecked, onCheck} = props;
     const orgId = useOrgIdParam();
     const [isLoading, setIsLoading] = useState(false);
     const {mutateAsync} = useUpdateTeamMembers2();
-    const {teamMember, onClick, reload} = props;
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
@@ -36,6 +38,17 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
 
     return (
         <tr className="group">
+            <td className={`${hoverBgColor} pl-3 pr-1`}>
+                <label className={`flex items-center justify-center`}>
+                    <input
+                        type="checkbox"
+                        className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                        defaultChecked={isChecked}
+                        onChange={(e) => onCheck && onCheck(e.target.checked)}
+                    />
+                </label>
+            </td>
+
             {/* 이름 */}
             <td className={`${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(teamMember)}>
                 <OpenButtonColumn href={showPagePath}>
