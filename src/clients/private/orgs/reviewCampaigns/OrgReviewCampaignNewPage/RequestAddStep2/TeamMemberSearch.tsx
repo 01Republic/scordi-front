@@ -55,6 +55,7 @@ export const TeamMemberSearch: React.FC<TeamMemberSearchProps> = ({form, teamMem
                     className={'bg-white'}
                     onChange={(e) => setKeyword(e.target.value)}
                     onFocus={() => setIsShow(true)}
+                    autoComplete={'off'}
                 />
                 <div
                     className={cn(

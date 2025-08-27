@@ -1,15 +1,21 @@
 import {useState} from 'react';
-import {CreditCardUsingStatus} from '^models/CreditCard/type';
+import {CreditCardUsingStatus, FindAllCreditCardDto} from '^models/CreditCard/type';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
-export function CreditCardScopeHandler() {
-    const {query, search} = useCreditCardListForListPage();
+interface CreditCardScopeHandlerProps {
+    search: (params?: Partial<FindAllCreditCardDto> | undefined) => void;
+}
+
+export function CreditCardScopeHandler(props: CreditCardScopeHandlerProps) {
+    const {search} = props;
+    const {query} = useCreditCardListForListPage();
     const [usingStatus, setUsingStatus] = useState<CreditCardUsingStatus>();
 
     const searchResource = (val?: CreditCardUsingStatus) => {
-        return search({...query, where: {usingStatus: val}}).then(() => {
-            return setUsingStatus(val);
+        setUsingStatus(val);
+        return search({
+            where: {usingStatus: val},
         });
     };
 

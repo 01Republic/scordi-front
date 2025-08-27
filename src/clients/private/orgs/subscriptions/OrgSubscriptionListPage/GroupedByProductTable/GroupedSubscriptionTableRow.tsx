@@ -34,6 +34,7 @@ import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {subscriptionApi} from '^models/Subscription/api';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {MasterSelect} from '^components/pages/v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 
 interface GroupedSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -186,6 +187,12 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     }}
                 />
             </td>
+
+            {/* 담당자 */}
+            <td className="py-0 pl-5 w-40">
+                <MasterSelect subscription={subscription} onChange={reload} />
+            </td>
+
             {/*비고*/}
             <td>
                 <AirInputText
@@ -196,11 +203,6 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     }}
                 />
             </td>
-
-            {/* 담당자 */}
-            {/*<td className="py-0 pl-5 w-40">*/}
-            {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}
-            {/*</td>*/}
 
             {/*Actions*/}
             <td className="cursor-pointer">
