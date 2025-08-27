@@ -6,13 +6,23 @@ import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 interface TeamMemberTableHeaderProps {
     sortVal: 'ASC' | 'DESC';
     orderBy: (sortKey: string) => void;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) => {
-    const {sortVal, orderBy} = props;
+    const {sortVal, orderBy, isChecked, onCheck} = props;
 
     return (
         <tr className="bg-slate-100">
+            <th className="flex items-center justify-center pl-3 pr-1 !relative">
+                <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                    defaultChecked={isChecked}
+                    onChange={(e) => onCheck && onCheck(e.target.checked)}
+                />
+            </th>
             <SortableTH2 sortKey="[name]" sortVal={sortVal} onClick={orderBy}>
                 이름
             </SortableTH2>

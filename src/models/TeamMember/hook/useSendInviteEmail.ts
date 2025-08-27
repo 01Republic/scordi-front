@@ -3,6 +3,9 @@ import {useRecoilValue} from 'recoil';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {orgIdParamState} from '^atoms/common';
 import {toast} from 'react-hot-toast';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {CreateMembershipInviteDto} from '^models/Membership/types';
+import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
 
 export const useSendInviteEmail = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,4 +27,14 @@ export const useSendInviteEmail = () => {
     }
 
     return {sendEmail};
+};
+
+export const useSendInviteEmail2 = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: CreateMembershipInviteDto) => inviteMembershipApi.create(data).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [TEAM_MEMBER_HOOK_KEY.base], exact: false});
+        },
+    });
 };
