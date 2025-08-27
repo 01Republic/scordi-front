@@ -29,7 +29,6 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
     };
 
     const company = bankAccount.company;
-    const subscriptions = bankAccount.subscriptions;
     // const expiry = bankAccount.decryptSign().expiry;
 
     const showPagePath = OrgBankAccountShowPageRoute.path(bankAccount.organizationId, bankAccount.id);

@@ -39,7 +39,6 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
     }, 250);
 
     const company = creditCard.company;
-    const subscriptions = creditCard.subscriptions;
     const expiry = creditCard.decryptSign().expiry;
 
     const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);

@@ -108,21 +108,18 @@ export const useSomeCreditCards = (orgId: number, codefCardIds: (number | null)[
 };
 
 // 워크스페이스 카드 목록 조회
-export const useCreditCards2 = (orgId: number, params: FindAllCreditCardDto, manual?: boolean) => {
+export const useCreditCards2 = (orgId: number, params: FindAllCreditCardDto = {}) => {
     const [query, setQuery] = useState(params);
-
     const queryResult = useQuery({
         queryKey: [CREDIT_CARD_HOOK_KEY.base, orgId, query],
         queryFn: () => creditCardApi.index(orgId, query).then((res) => res.data),
         initialData: Paginated.init(),
-        enabled: manual ? false : !!orgId && !isNaN(orgId),
+        enabled: !!orgId || !!Object.keys(query).length,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
     });
 
-    return usePaginateUtils({
-        query,
-        setQuery,
-        queryResult,
-    });
+    return usePaginateUtils({query, setQuery, queryResult});
 };
 
 // 팀 상세p/결제수단 탭 - 결제수단 연결 해제

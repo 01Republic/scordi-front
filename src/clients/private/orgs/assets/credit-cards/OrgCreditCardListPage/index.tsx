@@ -26,16 +26,12 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
         newOrderBy,
         sortVal,
         reload,
-    } = useCreditCards2(
-        organizationId,
-        {
-            relations: ['holdingMember', 'subscriptions', 'teams'],
-            where: {organizationId},
-            order: {id: 'DESC'},
-            itemsPerPage: 30,
-        },
-        false,
-    );
+    } = useCreditCards2(organizationId, {
+        relations: ['holdingMember', 'teams'],
+        where: {organizationId},
+        order: {id: 'DESC'},
+        itemsPerPage: 30,
+    });
 
     const onSearch = debounce((keyword?: string) => {
         return search({

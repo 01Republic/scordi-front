@@ -61,18 +61,16 @@ export const useBankAccounts = (
 
 export const useBankAccountListForListPage = () => useBankAccounts(bankAccountListResultAtom);
 
-export const useBankAccounts2 = (orgId: number, params: FindAllBankAccountQueryDto, manual?: boolean) => {
+export const useBankAccounts2 = (orgId: number, params: FindAllBankAccountQueryDto = {}) => {
     const [query, setQuery] = useState(params);
     const queryResult = useQuery({
         queryKey: [BANK_ACCOUNT_HOOK_KEY.base, orgId, query],
         queryFn: () => bankAccountApi.index(orgId, query).then((res) => res.data),
         initialData: Paginated.init(),
-        enabled: manual ? false : !!orgId,
+        enabled: !!orgId || !!Object.keys(query).length,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
     });
 
-    return usePaginateUtils({
-        query,
-        setQuery,
-        queryResult,
-    });
+    return usePaginateUtils({query, setQuery, queryResult});
 };
