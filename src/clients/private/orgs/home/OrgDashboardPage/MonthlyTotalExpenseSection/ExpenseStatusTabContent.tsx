@@ -87,7 +87,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                                     height={20}
                                     className="gap-3"
                                     textClassName="text-14 font-base font-normal"
-                                    isAlias={false}
+                                    isAlias={true}
                                 />
                                 <p>{currencyFormat(roundNumber(spend.amount))}</p>
                             </LinkTo>
@@ -120,7 +120,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                                             height={20}
                                             className="gap-3"
                                             textClassName="text-14 font-base font-normal"
-                                            isAlias={false}
+                                            isAlias={true}
                                         />
                                         <p>{currencyFormat(roundNumber(spend.amount))}</p>
                                     </LinkTo>
@@ -143,7 +143,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                                 height={20}
                                 className="gap-3"
                                 textClassName="text-14 font-base font-normal"
-                                isAlias={false}
+                                isAlias={true}
                             />
                             <p>{currencyFormat(roundNumber(spend.amount))}</p>
                         </LinkTo>
