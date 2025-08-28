@@ -6,23 +6,24 @@ import {toast} from 'react-hot-toast';
 import {allSettled} from '^utils/array';
 import {errorToast} from '^api/api';
 import {useOrgIdParam} from '^atoms/common';
-import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {TeamMemberDto, useDeleteTeamMember} from '^models/TeamMember';
 import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
 import {confirmed} from '^components/util/dialog';
 import {confirm3} from '^components/util/dialog/confirm3';
+import {useTeamMemberDeleteTeamMember} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/BottomAction/hooks';
 
 interface RemoveTeamMembersProps {
     checkedItems: TeamMemberDto[];
     onClear: () => void;
+    reload: () => void;
 }
 
 export const RemoveTeamMembers = memo((props: RemoveTeamMembersProps) => {
-    const {checkedItems, onClear} = props;
+    const {checkedItems, onClear, reload} = props;
     const orgId = useOrgIdParam();
     const router = useRouter();
 
-    const {mutateAsync: deleteTeamMember} = useDeleteTeamMember();
+    const {mutateAsync: deleteTeamMember, isPending} = useTeamMemberDeleteTeamMember(orgId);
 
     const isMemberOrOwner = (temMember: {membership?: {level?: MembershipLevel; approvalStatus?: ApprovalStatus}}) =>
         temMember.membership?.level === MembershipLevel.OWNER ||
@@ -48,15 +49,10 @@ export const RemoveTeamMembers = memo((props: RemoveTeamMembersProps) => {
 
         return confirmed(removeConfirm())
             .then(() => {
-                const fetch = checkedItems.map((item) =>
-                    deleteTeamMember({
-                        orgId,
-                        id: item.id,
-                    }),
-                );
+                const fetch = checkedItems.map((item) => deleteTeamMember(item.id));
                 return allSettled(fetch);
             })
-            .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
+            .then(() => reload())
             .then(() => toast.success('구성원을 삭제했어요.'))
             .then(() => onClear())
             .catch(errorToast);
@@ -73,7 +69,9 @@ export const RemoveTeamMembers = memo((props: RemoveTeamMembersProps) => {
                 </Tippy>
             ) : (
                 <button
-                    className="flex gap-1 btn btn-sm no-animation btn-animation btn-white !text-red-400"
+                    className={`flex gap-1 btn btn-sm no-animation btn-animation btn-white !text-red-400 ${
+                        !eachRemove && isPending ? 'link_to-loading' : ''
+                    }`}
                     onClick={onRemoveTeamMember}
                 >
                     <Trash2 />

@@ -25,7 +25,7 @@ export const PaidSubscriptionSpendItem = memo((props: PaidSubscriptionSpendItemP
                     height={20}
                     className="gap-3"
                     textClassName="text-14 font-base font-normal"
-                    isAlias={false}
+                    isAlias={true}
                 />
                 <p className="whitespace-nowrap"> {amount > 0 ? currencyFormat(roundNumber(amount)) : '-'}</p>
             </LinkTo>

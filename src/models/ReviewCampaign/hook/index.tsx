@@ -5,6 +5,7 @@ import {useState} from 'react';
 import {Paginated} from '^types/utils/paginated.dto';
 import {FindAllReviewCampaignSubscriptionsQueryDto} from '../type';
 import {FindAllReviewResponseSubscriptionsQueryDto} from '^models/ReviewResponse/type';
+import {usePaginateUtils} from '^hooks/usePagedResource';
 
 export const useReviewCampaigns = (orgId: number, params: FindAllReviewCampaignsQueryDto = {}) => {
     const [query, setQuery] = useState(params);
@@ -19,13 +20,7 @@ export const useReviewCampaigns = (orgId: number, params: FindAllReviewCampaigns
         return setQuery((q) => ({...q, page}));
     };
 
-    return {
-        ...queryResult,
-        query,
-        result: queryResult.data,
-        search: setQuery,
-        movePage,
-    };
+    return usePaginateUtils({query, setQuery, queryResult});
 };
 
 export const useReviewCampaign = (orgId: number, id: number) => {

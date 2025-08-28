@@ -71,10 +71,12 @@ export const SubscriptionItemOfResponse = memo((props: SubscriptionItemOfRespons
                     </div>
                     <section className="flex gap-1 text-gray-500 text-14">
                         {/* 결제수단 */}
-                        <span>
-                            {`${creditCardCompany || bankCompany || '알수없음'} 
-														(${creditCardEndNumber || bankEndNumber || ''})`}
-                        </span>
+                        <div>
+                            <span>{creditCardCompany || bankCompany || '-'}</span>
+                            {(creditCardEndNumber || bankEndNumber) && (
+                                <span>({creditCardEndNumber || bankEndNumber})</span>
+                            )}
+                        </div>
                         <span>|</span>
                         {/* 마지막 결제금액 */}
                         <div className="whitespace-nowrap flex gap-1">
