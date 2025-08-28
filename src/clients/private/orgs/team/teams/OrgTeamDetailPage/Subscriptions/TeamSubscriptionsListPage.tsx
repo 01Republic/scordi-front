@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {debounce} from 'lodash';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {useCurrentTeam} from '^models/Team/hook';
@@ -11,13 +11,15 @@ import {EmptyTable} from '^_components/table/EmptyTable';
 import {Inbox} from 'lucide-react';
 import {useRouter} from 'next/router';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
+import {TeamSubscriptionDetailModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Subscriptions/teamSubscriptionDetailModal/TeamSubscriptionDetailModal';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
     const {team} = useCurrentTeam();
     const orgId = useOrgIdParam();
     const teamId = useIdParam('teamId');
-    const router = useRouter();
+    const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionDto | null>(null);
 
     const {search, result, isLoading} = useTeamSubscriptions2(orgId, teamId, {
         relations: ['product', 'teamMembers'],
@@ -48,10 +50,19 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
                     <div className="w-full">
                         <ul className="grid grid-cols-3 gap-x-2 gap-y-3">
                             {result.items.map((item) => (
-                                <TeamSubscriptionCard item={item} key={item.id} />
+                                <TeamSubscriptionCard
+                                    item={item}
+                                    key={item.id}
+                                    onClick={() => setSelectedSubscription(item)}
+                                />
                             ))}
                         </ul>
                     </div>
+                    <TeamSubscriptionDetailModal
+                        subscription={selectedSubscription}
+                        onClose={() => setSelectedSubscription(null)}
+                        isOpened={!!selectedSubscription}
+                    />
                 </LoadableBox>
             </>
         );
