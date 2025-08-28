@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState, teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {useCurrentTeam, useCurrentTeam2} from '^models/Team/hook';
@@ -9,6 +9,7 @@ import {TeamProfileSection} from './TeamProfileSection';
 import {TeamStatCardList} from './TeamStatCardList';
 import {OrgTeamDetailPageTabContent, TabName} from './OrgTeamDetailPageTabContent';
 import {useUnmount} from '^hooks/useUnmount';
+import {currentTeamAtom} from '^models/Team/atom';
 
 export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
     const orgId = useOrgIdParam();
@@ -17,6 +18,11 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
     const [tab, setTab] = useState(TabName.members);
 
     const {data: currentTeamData} = useCurrentTeam2(orgId, teamId);
+    const setTeam = useSetRecoilState(currentTeamAtom);
+
+    useEffect(() => {
+        setTeam(currentTeamData);
+    }, [orgId, currentTeamData]);
 
     return (
         <MainLayout>

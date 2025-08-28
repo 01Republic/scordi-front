@@ -22,7 +22,7 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
     const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionDto | null>(null);
 
     const {search, result, isLoading} = useTeamSubscriptions2(orgId, teamId, {
-        relations: ['product', 'teamMembers'],
+        relations: ['product', 'teamMembers', 'bankAccount', 'creditCard'],
         itemsPerPage: 0,
     });
 
