@@ -23,7 +23,7 @@ export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
     const orgId = useOrgIdParam();
     const router = useRouter();
 
-    const {mutateAsync: sendInviteEmail} = useSendInviteEmail2();
+    const {mutateAsync: sendInviteEmail, isPending} = useSendInviteEmail2();
 
     const isMemberOrOwner = (temMember: {membership?: {level?: MembershipLevel}}) =>
         temMember.membership?.level === MembershipLevel.OWNER || temMember.membership?.level === MembershipLevel.MEMBER;
@@ -48,23 +48,27 @@ export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
                 </div>,
             );
         };
-        const emails = uniq(checkedItems.map((teamMember) => teamMember.email?.trim()).filter(isDefinedValue));
 
-        return confirmed(sendInviteConfirm())
-            .then(() => {
-                const fetch = emails.map((email) => sendInviteEmail({organizationId: orgId, invitations: [{email}]}));
-                return allSettled(fetch);
-            })
-            .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
-            .then(() => toast.success('멤버들에게 초대메일을 보냈습니다..'))
-            .then(() => onClear())
-            .catch(errorToast);
+        const invitations = checkedItems.flatMap((teamMember) => {
+            const email = teamMember.email?.trim();
+            const teamMemberId = teamMember.id ?? teamMember.id;
+            return email && teamMemberId ? [{email, teamMemberId}] : [];
+        });
+
+        return (
+            confirmed(sendInviteConfirm())
+                .then(() => sendInviteEmail({organizationId: orgId, invitations}))
+                // .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
+                .then(() => toast.success('멤버들에게 초대메일을 보냈어요.'))
+                .then(() => onClear())
+                .catch(errorToast)
+        );
     };
 
     return (
         <>
             {notInvite ? (
-                <Tippy content="워크스페이스에 초대되어있는 구성원은 초대가 불가합나다">
+                <Tippy content="워크스페이스에 초대 되어있는 구성원은 초대가 안돼요.">
                     <div className="flex gap-1 text-gray-400 bg-gray-200 btn btn-sm no-animation btn-animation hover:!bg-gray-150">
                         <Mail />
                         초대하기
@@ -72,7 +76,9 @@ export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
                 </Tippy>
             ) : (
                 <button
-                    className="flex gap-1 btn btn-sm no-animation btn-animation btn-white"
+                    className={`flex gap-1 btn btn-sm no-animation btn-animation btn-white ${
+                        !notInvite && isPending ? 'link_to-loading' : ''
+                    }`}
                     onClick={onSendInviteEmail}
                 >
                     <Mail />
@@ -82,14 +88,16 @@ export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
 
             {reInvite ? (
                 <button
-                    className="flex gap-1 btn btn-sm no-animation btn-animation btn-white"
+                    className={`flex gap-1 btn btn-sm no-animation btn-animation btn-white ${
+                        reInvite && isPending ? 'link_to-loading' : ''
+                    }`}
                     onClick={onSendInviteEmail}
                 >
                     <Mails />
                     다시 초대하기
                 </button>
             ) : (
-                <Tippy content="가입 대기중인 멤버에게 다시 초대메일을 보낼 수 있어요">
+                <Tippy content="가입 대기중인 멤버에게 다시 초대메일을 보낼 수 있어요.">
                     <div className="flex gap-1 text-gray-400 bg-gray-200 btn btn-sm no-animation btn-animation hover:!bg-gray-150">
                         <Mails />
                         다시 초대하기

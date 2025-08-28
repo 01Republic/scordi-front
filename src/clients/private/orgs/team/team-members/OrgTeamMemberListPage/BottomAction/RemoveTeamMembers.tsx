@@ -22,7 +22,7 @@ export const RemoveTeamMembers = memo((props: RemoveTeamMembersProps) => {
     const orgId = useOrgIdParam();
     const router = useRouter();
 
-    const {mutateAsync: deleteTeamMember} = useDeleteTeamMember();
+    const {mutateAsync: deleteTeamMember, isPending} = useDeleteTeamMember();
 
     const isMemberOrOwner = (temMember: {membership?: {level?: MembershipLevel; approvalStatus?: ApprovalStatus}}) =>
         temMember.membership?.level === MembershipLevel.OWNER ||
@@ -46,20 +46,22 @@ export const RemoveTeamMembers = memo((props: RemoveTeamMembersProps) => {
             );
         };
 
-        return confirmed(removeConfirm())
-            .then(() => {
-                const fetch = checkedItems.map((item) =>
-                    deleteTeamMember({
-                        orgId,
-                        id: item.id,
-                    }),
-                );
-                return allSettled(fetch);
-            })
-            .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
-            .then(() => toast.success('구성원을 삭제했어요.'))
-            .then(() => onClear())
-            .catch(errorToast);
+        return (
+            confirmed(removeConfirm())
+                .then(() => {
+                    const fetch = checkedItems.map((item) =>
+                        deleteTeamMember({
+                            orgId,
+                            id: item.id,
+                        }),
+                    );
+                    return allSettled(fetch);
+                })
+                // .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
+                .then(() => toast.success('구성원을 삭제했어요.'))
+                .then(() => onClear())
+                .catch(errorToast)
+        );
     };
 
     return (
@@ -73,7 +75,9 @@ export const RemoveTeamMembers = memo((props: RemoveTeamMembersProps) => {
                 </Tippy>
             ) : (
                 <button
-                    className="flex gap-1 btn btn-sm no-animation btn-animation btn-white !text-red-400"
+                    className={`flex gap-1 btn btn-sm no-animation btn-animation btn-white !text-red-400 ${
+                        !eachRemove && isPending ? 'link_to-loading' : ''
+                    }`}
                     onClick={onRemoveTeamMember}
                 >
                     <Trash2 />
