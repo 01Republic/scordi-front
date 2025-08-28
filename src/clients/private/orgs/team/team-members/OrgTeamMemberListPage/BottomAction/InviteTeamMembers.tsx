@@ -12,18 +12,20 @@ import {useOrgIdParam} from '^atoms/common';
 import {TeamMemberDto, useSendInviteEmail2} from '^models/TeamMember';
 import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
+import {useTeamMemberSendInviteEmail} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/BottomAction/hooks';
 
 interface InviteTeamMembersProps {
     checkedItems: TeamMemberDto[];
     onClear: () => void;
+    reload: () => void;
 }
 
 export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
-    const {checkedItems, onClear} = props;
+    const {checkedItems, onClear, reload} = props;
     const orgId = useOrgIdParam();
     const router = useRouter();
 
-    const {mutateAsync: sendInviteEmail, isPending} = useSendInviteEmail2();
+    const {mutateAsync: sendInviteEmail, isPending} = useTeamMemberSendInviteEmail();
 
     const isMemberOrOwner = (temMember: {membership?: {level?: MembershipLevel}}) =>
         temMember.membership?.level === MembershipLevel.OWNER || temMember.membership?.level === MembershipLevel.MEMBER;
@@ -55,14 +57,12 @@ export const InviteTeamMembers = memo((props: InviteTeamMembersProps) => {
             return email && teamMemberId ? [{email, teamMemberId}] : [];
         });
 
-        return (
-            confirmed(sendInviteConfirm())
-                .then(() => sendInviteEmail({organizationId: orgId, invitations}))
-                // .then(() => router.replace(OrgTeamMemberListPageRoute.path(orgId)))
-                .then(() => toast.success('멤버들에게 초대메일을 보냈어요.'))
-                .then(() => onClear())
-                .catch(errorToast)
-        );
+        return confirmed(sendInviteConfirm())
+            .then(() => sendInviteEmail({organizationId: orgId, invitations}))
+            .then(() => reload())
+            .then(() => toast.success('멤버들에게 초대메일을 보냈어요.'))
+            .then(() => onClear())
+            .catch(errorToast);
     };
 
     return (

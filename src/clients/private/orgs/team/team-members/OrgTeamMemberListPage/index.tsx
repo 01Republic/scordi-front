@@ -99,7 +99,7 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
                     )}
                 />
             </ListTableContainer>
-            <BottomAction checkboxHandler={ch} />
+            <BottomAction checkboxHandler={ch} reload={reload} />
         </ListPage>
     );
 });

@@ -7,10 +7,11 @@ import {RemoveTeamMembers} from './RemoveTeamMembers';
 
 interface BottomActionBarProps {
     checkboxHandler: CheckboxHandler<TeamMemberDto>;
+    reload: () => void;
 }
 
 export const BottomActionBar = memo((props: BottomActionBarProps) => {
-    const {checkboxHandler: ch} = props;
+    const {checkboxHandler: ch, reload} = props;
 
     const checkedItems = ch.checkedItems;
     const itemCount = checkedItems.length;
@@ -21,9 +22,9 @@ export const BottomActionBar = memo((props: BottomActionBarProps) => {
             <div className="flex flex-row gap-3 items-center px-6 py-1 bg-white rounded-full border border-gray-300 shadow-lg min-w-md">
                 <span className="text-gray-600">{itemCount}개 선택됨</span>
 
-                <InviteTeamMembers checkedItems={checkedItems} onClear={onClear} />
+                <InviteTeamMembers checkedItems={checkedItems} onClear={onClear} reload={reload} />
 
-                <RemoveTeamMembers checkedItems={checkedItems} onClear={onClear} />
+                <RemoveTeamMembers checkedItems={checkedItems} onClear={onClear} reload={reload} />
 
                 <RotateCcw className="text-gray-500 cursor-pointer hover:text-red-400" onClick={onClear} />
             </div>
