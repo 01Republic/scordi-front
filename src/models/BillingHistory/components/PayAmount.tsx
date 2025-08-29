@@ -8,10 +8,9 @@ interface PayAmountProps {
 // 결제금액
 export const PayAmount = memo((props: PayAmountProps) => {
     const {billingHistory} = props;
-    const {about, payAmount, abroadPayAmount} = billingHistory;
+    const {about, payAmount} = billingHistory;
 
-    const displayPayAmount = abroadPayAmount || payAmount;
-    if (!displayPayAmount) return <>-</>;
+    if (!payAmount) return <>-</>;
 
     // const {code, amount, symbol, format} = payAmount;
     // const {exchangedCurrency, dollarPrice, exchangeRate} = payAmount;
@@ -22,8 +21,8 @@ export const PayAmount = memo((props: PayAmountProps) => {
                 about === BillingHistoryStatus.PayFail ? 'text-red-400' : ''
             }`}
         >
-            <span>{displayPayAmount.symbol}</span>
-            <span>{displayPayAmount.formatRoundedAmount}</span>
+            <span>{payAmount.symbol}</span>
+            <span>{payAmount.formatRoundedAmount}</span>
         </div>
     );
 });

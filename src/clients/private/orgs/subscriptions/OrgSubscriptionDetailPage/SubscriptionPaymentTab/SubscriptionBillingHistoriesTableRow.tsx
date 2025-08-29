@@ -21,6 +21,7 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {AbroadPayAmount} from '^models/BillingHistory/components/AbroadPayAmount';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -96,6 +97,11 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
             {/* 결제금액 */}
             <td className={'text-14'}>
                 <PayAmount billingHistory={billingHistory} />
+            </td>
+
+            {/* 청구금액 */}
+            <td className={'text-14'}>
+                <AbroadPayAmount billingHistory={billingHistory} />
             </td>
 
             {/* 연결된 결제수단 */}

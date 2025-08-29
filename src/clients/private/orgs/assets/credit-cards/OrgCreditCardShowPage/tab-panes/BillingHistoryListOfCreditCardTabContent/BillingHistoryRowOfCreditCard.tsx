@@ -16,6 +16,7 @@ import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {errorToast} from '^api/api';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {AbroadPayAmount} from '^models/BillingHistory/components/AbroadPayAmount';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
@@ -69,6 +70,11 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                 {/*결제금액*/}
                 <td>
                     <PayAmount billingHistory={billingHistory} />
+                </td>
+
+                {/*청구금액*/}
+                <td>
+                    <AbroadPayAmount billingHistory={billingHistory} />
                 </td>
 
                 {/*연결된 구독*/}
