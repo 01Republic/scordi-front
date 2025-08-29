@@ -12,6 +12,7 @@ export const BillingHistoryTableHeaderOfBankAccount = memo((props: BillingHistor
             <th>상태</th>
             <th>내용</th>
             <th className="text-center">결제금액</th>
+            <th className="text-center">청구금액</th>
             <th>연결된 구독</th>
             <th>비고</th>
             <th />

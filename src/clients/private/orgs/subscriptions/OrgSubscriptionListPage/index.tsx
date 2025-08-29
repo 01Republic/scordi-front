@@ -35,8 +35,9 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         relations: [
             'subscriptions',
             'subscriptions.master',
-            'subscriptions.teamMembers',
-            'subscriptions.teamMembers.teams',
+            // 'subscriptions.teamMembers',
+            // 'subscriptions.teamMembers.teams',
+            'subscriptions.billingHistories',
             'subscriptions.creditCard',
             'subscriptions.bankAccount',
         ],

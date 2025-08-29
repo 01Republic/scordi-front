@@ -9,7 +9,11 @@ export const SubscriptionBillingHistoriesTableHeader = memo((props: Subscription
 
             <th>상태</th>
 
+            {/* 원화환산금액 */}
             <th>결제금액</th>
+
+            {/* 원본화폐 */}
+            <th>청구금액</th>
 
             <th>연결된 결제수단</th>
 
