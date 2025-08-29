@@ -34,7 +34,7 @@ export const SubscriptionDetailProfile = memo((props: SubscriptionDetailProfileP
     const billingAmount = currentBillingAmount?.amount ? currentBillingAmount.toDisplayPrice(displayCurrency) : 0;
 
     return (
-        <div className="flex justify-between items-center rounded-lg cursor-pointer text-16 hover:bg-primaryColor-bg">
+        <div className="flex justify-between items-center rounded-lg cursor-pointer text-16">
             <div className="flex gap-4 items-center">
                 <section className={`flex gap-1 flex-row items-center ${imageClassName}`}>
                     <Avatar
