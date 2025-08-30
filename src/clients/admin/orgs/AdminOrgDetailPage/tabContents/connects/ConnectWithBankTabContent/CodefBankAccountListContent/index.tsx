@@ -10,6 +10,7 @@ import {CardTablePanel, CardTableSortableColumn, CardTableTH, CardTableThLabel} 
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {selectedCodefAccountAtom, selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBankAccountItem} from './CodefBankAccountItem';
+import {OrgAllCodefBankAccountSyncButton} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithBankTabContent/CodefBankAccountListContent/OrgAllCodefBankAccountSyncButton';
 
 export const CodefBankAccountListContent = memo(function CodefBankAccountListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
@@ -50,6 +51,10 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <div>
+                        <OrgAllCodefBankAccountSyncButton isLoading={isLoading} reload={reload} />
+                    </div>
+
                     <PagePerSelect
                         isLoading={isLoading}
                         className="select-sm"

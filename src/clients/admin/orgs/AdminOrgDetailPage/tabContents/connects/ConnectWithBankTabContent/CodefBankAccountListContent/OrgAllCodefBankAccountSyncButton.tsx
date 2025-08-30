@@ -2,19 +2,21 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import {useIdParam} from '^atoms/common';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
-import {codefCardAdminApi} from '^models/CodefCard/api';
+import {codefBankAccountAdminApi} from '^models/CodefBankAccount/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
+import {useRecoilState} from 'recoil';
+import {isSyncRunningAtom} from '^models/CodefCard/hooks/useCodefCardSyncQueue';
 
 interface Props {
     isLoading: boolean;
     reload: () => any;
 }
 
-export const OrgAllCodefCardSyncButton = memo((props: Props) => {
-    const {isLoading, reload} = props;
+export const OrgAllCodefBankAccountSyncButton = memo((props: Props) => {
+    const {reload} = props;
     const orgId = useIdParam('id');
-    const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
+    const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
 
     const onClick = () => {
         if (isSyncRunning) return;
@@ -22,7 +24,7 @@ export const OrgAllCodefCardSyncButton = memo((props: Props) => {
 
         const check = () => {
             return confirm2(
-                '이 조직의 카드배치를 지금 실행할까요?',
+                '이 조직의 계좌배치를 지금 실행할까요?',
                 <div className="text-14">
                     이 작업은 도중에 중단 할 수 없습니다.
                     <br />
@@ -33,7 +35,7 @@ export const OrgAllCodefCardSyncButton = memo((props: Props) => {
 
         return confirmed(check())
             .then(() => setIsSyncRunning(true))
-            .then(() => codefCardAdminApi.sync({orgId}))
+            .then(() => codefBankAccountAdminApi.sync({orgId}))
             .then(() => toast('배치 실행 완료'))
             .catch(errorToast)
             .finally(() => {
@@ -49,8 +51,8 @@ export const OrgAllCodefCardSyncButton = memo((props: Props) => {
             }`}
             onClick={onClick}
         >
-            카드 배치 수동 실행
+            계좌 배치 수동 실행
         </button>
     );
 });
-OrgAllCodefCardSyncButton.displayName = 'OrgAllCodefCardSyncButton';
+OrgAllCodefBankAccountSyncButton.displayName = 'OrgAllCodefBankAccountSyncButton';

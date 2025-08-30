@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {Check, FolderOpen, X} from 'lucide-react';
 import Tippy from '@tippyjs/react';
 import {formatDate, hh_mm, lpp, yyyy_mm_dd} from '^utils/dateTime';
@@ -16,6 +16,7 @@ import {t_codefCustomerType} from '^models/CodefAccount/type/enums';
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {unitFormat} from '^utils/number';
+import {isSyncRunningAtom} from '^models/CodefCard/hooks/useCodefCardSyncQueue';
 
 interface CodefCardItemProps {
     codefBankAccount: CodefBankAccountDto;
@@ -27,7 +28,7 @@ export const CodefBankAccountItem = memo((props: CodefCardItemProps) => {
     const {codefBankAccount, reload, moveTab} = props;
     const setSelectedCodefAccount = useSetRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefAsset = useSetRecoilState(selectedCodefBankAccountAtom);
-    const {isSyncRunning} = useCodefCardSync();
+    const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
 
     const account = codefBankAccount.account!;
     const codefBillingHistories = codefBankAccount.codefBillingHistories || [];
