@@ -27,29 +27,37 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
     const status = codefBillingHistory.memo;
 
     return (
-        <CardTableTR gridClass="grid-cols-14" className={`!text-12 cursor-pointer group`}>
+        <CardTableTR
+            gridClass="grid-cols-14"
+            className={`!text-12 cursor-pointer group`}
+            onClick={() => console.log(codefBillingHistory)}
+        >
             {/* ID */}
             <div>
                 <span className="badge badge-xs">#{codefBillingHistory.id}</span>
             </div>
 
-            {/* 카드 */}
+            {/* 승인일시 */}
             <div className="col-span-2 flex items-center gap-1">
                 <span
                     className="tooltip tooltip-primary"
-                    data-tip={`등록일: ${yyyy_mm_dd_hh_mm(subHours(codefBillingHistory.createdAt, 9))}`}
+                    // data-tip={`등록일: ${yyyy_mm_dd_hh_mm(subHours(codefBillingHistory.createdAt, 9))}`}
+                    data-tip={`등록일: ${lpp(codefBillingHistory.createdAt)}`}
                 >
                     {yyyymmdd}
                 </span>
-            </div>
 
-            <div className="flex items-center">
                 <span
-                    className="tooltip tooltip-primary"
+                    className="tooltip tooltip-primary text-10 font-light"
                     data-tip={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}
                 >
                     {hhmmss}
                 </span>
+            </div>
+
+            {/* 승인번호 */}
+            <div className="flex items-center text-11">
+                <span>{codefBillingHistory.resApprovalNo}</span>
             </div>
 
             {/* 카드 */}

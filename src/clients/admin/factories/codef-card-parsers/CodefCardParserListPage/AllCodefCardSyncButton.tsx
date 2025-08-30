@@ -7,7 +7,7 @@ import {codefCardAdminApi} from '^models/CodefCard/api';
 export const AllCodefCardSyncButton = memo(() => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const onClick = () => {
+    const onClick = (slackMute = false) => {
         if (isLoading) return;
 
         const check = () => {
@@ -18,14 +18,14 @@ export const AllCodefCardSyncButton = memo(() => {
                     <br />
                     <b>완료 될 때 까지 절대로 페이지를 벗어나지 마세요.</b>
                     <br />
-                    지금 시작할까요?
+                    지금 시작할까요? (슬랙실행: {slackMute ? 'Off' : 'On'})
                 </div>,
             );
         };
 
         return confirmed(check())
             .then(() => setIsLoading(true))
-            .then(() => codefCardAdminApi.sync({}))
+            .then(() => codefCardAdminApi.sync({slackMute}))
             .then(() => toast('배치 실행 완료'))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
@@ -36,7 +36,12 @@ export const AllCodefCardSyncButton = memo(() => {
             className={`btn btn-white no-animation btn-animation ${
                 isLoading ? 'loading pointer-events-none opacity-30' : ''
             }`}
-            onClick={onClick}
+            onClick={() => onClick()}
+            onContextMenu={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                return onClick(true);
+            }}
         >
             카드 배치 수동 실행
         </button>

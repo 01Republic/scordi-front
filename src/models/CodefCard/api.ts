@@ -64,7 +64,7 @@ export const codefCardAdminApi = {
     },
 
     // 카드 내역 및 구독 동기화
-    sync(params: {orgId?: number}) {
+    sync(params: {orgId?: number; slackMute?: boolean}) {
         const url = `/admin/codef-cards/sync`;
         return api.patch<void>(url, {}, {params});
     },

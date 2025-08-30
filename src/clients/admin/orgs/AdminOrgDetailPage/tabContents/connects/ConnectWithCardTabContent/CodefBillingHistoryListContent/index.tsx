@@ -100,7 +100,8 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 >
                     <CardTableTH gridClass="grid-cols-14" className="text-12 items-center">
                         <div>ID</div>
-                        <div className="col-span-3">결제일시</div>
+                        <div className="col-span-2">결제일시</div>
+                        <div className="">승인번호</div>
                         <div>카드</div>
                         <div className="col-span-3">제목</div>
                         <div className="col-span-2 text-right">금액</div>

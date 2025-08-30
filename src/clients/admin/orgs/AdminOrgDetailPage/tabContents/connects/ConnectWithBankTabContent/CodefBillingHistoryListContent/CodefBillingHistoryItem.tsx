@@ -7,6 +7,7 @@ import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {currencyFormat, roundNumber} from '^utils/number';
+import {lpp} from '^utils/dateTime';
 
 interface CodefBillingHistoryItemProps {
     codefBillingHistory: CodefBillingHistoryDto;
@@ -24,7 +25,11 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
     const status = codefBillingHistory.memo;
 
     return (
-        <CardTableTR gridClass="grid-cols-12" className={`!text-12 cursor-pointer group`}>
+        <CardTableTR
+            gridClass="grid-cols-12"
+            className={`!text-12 cursor-pointer group`}
+            onClick={() => console.log(codefBankBillingHistory)}
+        >
             {/* ID */}
             <div>
                 <span className="badge badge-xs">#{codefBillingHistory.id}</span>
@@ -36,14 +41,14 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
                     className="tooltip tooltip-primary"
                     data-tip={`등록일: ${format(codefBillingHistory.createdAt, 'yyyy-MM-dd HH:mm', {locale: ko})}`}
                 >
-                    {format(usedDate, 'yyyy-MM-dd', {locale: ko})}
+                    {lpp(usedDate, 'P')}
                 </span>
 
                 <span
                     className="tooltip tooltip-primary"
                     data-tip={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}
                 >
-                    {format(usedDate, 'HH:mm:ss', {locale: ko})}
+                    {lpp(usedDate, 'HH:mm')}
                 </span>
             </div>
 
