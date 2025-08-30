@@ -78,10 +78,7 @@ export const InvoiceAccountsSection = () => {
     }
 
     return (
-        <DashboardSectionLayout
-            title={<span onClick={() => console.log(items)}>청구서 메일</span>}
-            isLoading={isLoading}
-        >
+        <DashboardSectionLayout title="청구서 메일" isLoading={isLoading}>
             <div className="min-h-[250px] flex flex-col justify-between">
                 <ul>
                     {items.map((item) => (

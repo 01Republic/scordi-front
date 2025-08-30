@@ -1,17 +1,21 @@
 import {useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useOrgIdParam} from '^atoms/common';
 import {BillingHistoryStatus} from '^models/BillingHistory/type';
 import {useTeamListInDashboardExpenseSection, useDashboardSummarySection} from '^models/_dashboard/hook';
 import {TeamDto} from '^models/Team/type';
-import {orgIdParamState} from '^atoms/common';
+import {firstDayOfMonth} from '^utils/dateTime';
 
 export const useExpenseSection = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [selectedTeam, _setTeam] = useState<TeamDto>();
+    const [baseDate, setBaseDate] = useState(new Date());
     const [currentStatusTab, setCurrentStatusTab] = useState(BillingHistoryStatus.PaySuccess);
 
     const {data: teams, isLoading: isTeamLoading} = useTeamListInDashboardExpenseSection(orgId);
-    const {data: summary, isLoading: isSummaryLoading} = useDashboardSummarySection(orgId, {teamId: selectedTeam?.id});
+    const {data: summary, isLoading: isSummaryLoading} = useDashboardSummarySection(orgId, {
+        teamId: selectedTeam?.id,
+        startDate: firstDayOfMonth(baseDate),
+    });
 
     const setTeam = (team?: TeamDto) => {
         _setTeam(team);
@@ -28,5 +32,7 @@ export const useExpenseSection = () => {
         currentStatusTab,
         changeTab,
         isLoading: isTeamLoading || isSummaryLoading,
+        baseDate,
+        setBaseDate,
     };
 };
