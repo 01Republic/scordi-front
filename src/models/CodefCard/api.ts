@@ -62,4 +62,10 @@ export const codefCardAdminApi = {
         const url = `/admin/codef-cards`;
         return api.get(url, {params}).then(paginatedDtoOf(CodefCardDto));
     },
+
+    // 카드 내역 및 구독 동기화
+    sync(params: {orgId?: number}) {
+        const url = `/admin/codef-cards/sync`;
+        return api.patch<void>(url, {}, {params});
+    },
 };
