@@ -18,6 +18,8 @@ export const useTeamListInDashboardExpenseSection = (orgId: number) => {
         queryKey: ['teamList', orgId],
         queryFn: () => teamApi.index(orgId).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 };
 
@@ -56,6 +58,8 @@ export const useDashboardSummarySection = (orgId: number, params: GetSummaryOfSu
         queryKey: ['subscriptionList', orgId, params],
         queryFn: () => dashboardApi.summary(orgId, params).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 };
 
@@ -70,6 +74,8 @@ export const useDashboardCreditCardsSectionResultDto = (orgId: number, params?: 
         queryKey: ['CreditCardsResult', orgId, params],
         queryFn: () => dashboardApi.creditCardsSection(orgId, params || defaultParams).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 };
 
@@ -80,6 +86,8 @@ export const useDashboardInvoiceAccountsSection = (orgId: number, params: Dashbo
         queryFn: () => dashboardApi.invoiceAccountsSection(orgId, params).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
         initialData: Paginated.init(),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 };
 
@@ -89,6 +97,8 @@ export const useDashboardSummaryYearMonthlyResult = (orgId: number, year: number
         queryKey: ['summaryYearMonthlyResult', orgId, year],
         queryFn: () => dashboardApi.summaryYearMonthly(orgId, year).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 };
 
@@ -99,5 +109,7 @@ export const useDashboardSubscriptionSpends = (orgId: number, params: FindAllSub
         queryFn: () => dashboardApi.subscriptionSpends(orgId, params).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
         initialData: Paginated.init(),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 };
