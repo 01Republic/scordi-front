@@ -9,13 +9,17 @@ interface BaseDateHandlerProps {
 
 export const BaseDateHandler = memo((props: BaseDateHandlerProps) => {
     const {baseDate, onChange} = props;
+    const today = new Date();
+
+    const prevDate = monthBefore(1, baseDate);
+    const nextDate = monthAfter(1, baseDate);
 
     return (
         <div className="flex items-center gap-4">
             <div>
                 <button
                     className="btn btn-square btn-sm btn-ghost no-animation btn-animation !outline-0"
-                    onClick={() => onChange(monthBefore(1, baseDate))}
+                    onClick={() => onChange(prevDate)}
                 >
                     ◀︎{/*<ChevronLeft className="" fontSize={20} />*/}
                 </button>
@@ -25,8 +29,10 @@ export const BaseDateHandler = memo((props: BaseDateHandlerProps) => {
             </div>
             <div>
                 <button
-                    className="btn btn-square btn-sm btn-ghost no-animation btn-animation !outline-0"
-                    onClick={() => onChange(monthAfter(1, baseDate))}
+                    className={`btn btn-square btn-sm btn-ghost no-animation btn-animation !outline-0 ${
+                        nextDate.getTime() > today.getTime() ? 'pointer-events-none opacity-30' : ''
+                    }`}
+                    onClick={() => onChange(nextDate)}
                 >
                     ▶{/*<ChevronRight className="" fontSize={20} />*/}
                 </button>
