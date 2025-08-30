@@ -5,7 +5,6 @@ import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {codefBankAccountApi} from '^models/CodefBankAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {isSyncRunningAtom} from '^models/CodefCard/hooks/useCodefCardSyncQueue';

@@ -26,13 +26,13 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
 
         if (!selectedCodefAccount) {
             search({
-                relations: ['account', 'codefBillingHistories'],
+                relations: ['account'],
                 page: 1,
                 order: {id: 'DESC'},
             });
         } else {
             search({
-                relations: ['account', 'codefBillingHistories'],
+                relations: ['account'],
                 organizationId: org.id,
                 where: {accountId: selectedCodefAccount.id},
                 page: 1,

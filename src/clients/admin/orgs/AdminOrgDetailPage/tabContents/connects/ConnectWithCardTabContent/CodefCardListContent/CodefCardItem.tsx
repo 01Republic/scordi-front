@@ -36,7 +36,6 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
     const {isSyncRunning} = useCodefCardSync();
 
     const account = codefCard.account!;
-    const codefBillingHistories = codefCard.codefBillingHistories || [];
     const isConnected = !!codefCard.creditCardId;
     const isSleep = !!codefCard.isSleep;
     const sleepStyleClass: string = 'opacity-20';
@@ -169,7 +168,7 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
 
                 {/* 불러온 결제내역 수 */}
                 <div className="text-right" onClick={() => goCardHistories()}>
-                    {unitFormat(codefBillingHistories.length, '건')}
+                    {unitFormat(codefCard.codefBillingHistoryCount, '건')}
                 </div>
 
                 <div className="flex items-center justify-end gap-1">

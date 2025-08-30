@@ -26,13 +26,13 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
 
         if (!selectedCodefAccount) {
             search({
-                relations: ['account', 'codefBillingHistories'],
+                relations: ['account'],
                 page: 1,
                 order: {id: 'DESC'},
             });
         } else {
             search({
-                relations: ['account', 'codefBillingHistories'],
+                relations: ['account'],
                 where: {accountId: selectedCodefAccount.id},
                 page: 1,
                 order: {id: 'DESC'},

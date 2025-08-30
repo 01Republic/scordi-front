@@ -31,7 +31,6 @@ export const CodefBankAccountItem = memo((props: CodefCardItemProps) => {
     const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
 
     const account = codefBankAccount.account!;
-    const codefBillingHistories = codefBankAccount.codefBillingHistories || [];
     const isConnected = !!codefBankAccount.bankAccountId;
     const isSleep = false;
     const sleepStyleClass: string = 'opacity-20';
@@ -159,7 +158,7 @@ export const CodefBankAccountItem = memo((props: CodefCardItemProps) => {
 
                 {/* 불러온 결제내역 수 */}
                 <div className="text-right" onClick={() => goHistories()}>
-                    {unitFormat(codefBillingHistories.length, '건')}
+                    {unitFormat(codefBankAccount.codefBillingHistoryCount, '건')}
                 </div>
 
                 <div className="flex items-center justify-end gap-1">
