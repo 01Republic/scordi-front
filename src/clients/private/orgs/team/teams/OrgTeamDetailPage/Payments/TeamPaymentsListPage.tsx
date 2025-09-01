@@ -1,22 +1,24 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {teamIdParamState} from '^atoms/common';
-import {useUnmount} from '^hooks/useUnmount';
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import React, {memo, useState} from 'react';
+import {Plus} from 'lucide-react';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useTeamCreditCard} from '^models/TeamCreditCard/hook';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
-import {AddPaymentModal} from './AddPaymentModal';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {TeamPaymentTableRow} from './TeamPaymentTableRow';
 import {TeamPaymentTableHeader} from './TeamPaymentTableHeader';
-import {Plus} from 'lucide-react';
+import {AddPaymentModal} from './AddPaymentModal';
 
 export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
-    const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, orderBy, movePage, changePageSize, reset} =
-        useTeamCreditCardListInTeamDetail();
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
+
+    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, orderBy, movePage, changePageSize} =
+        useTeamCreditCard(orgId, teamId, {
+            relations: ['creditCard', 'creditCard.holdingMember'],
+            where: {teamId},
+        });
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
@@ -26,13 +28,6 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
             keyword,
         });
     };
-
-    useEffect(() => {
-        if (!teamId || isNaN(teamId)) return;
-        onSearch();
-    }, [teamId]);
-
-    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 
@@ -74,17 +69,19 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
                 />
             </ListTableContainer>
 
-            <AddPaymentModal
-                teamCreditCard={result.items}
-                isOpened={isOpened}
-                onClose={() => {
-                    setIsOpened(false);
-                }}
-                onCreate={() => {
-                    setIsOpened(false);
-                    reload();
-                }}
-            />
+            {isOpened && (
+                <AddPaymentModal
+                    teamCreditCard={result.items}
+                    isOpened={isOpened}
+                    onClose={() => {
+                        setIsOpened(false);
+                    }}
+                    onCreate={() => {
+                        setIsOpened(false);
+                        reload();
+                    }}
+                />
+            )}
         </>
     );
 });

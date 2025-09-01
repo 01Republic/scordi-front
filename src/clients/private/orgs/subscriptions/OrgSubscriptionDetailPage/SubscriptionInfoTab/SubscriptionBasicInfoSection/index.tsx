@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {subscriptionApi} from '^models/Subscription/api';
-import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {CardSection} from '^clients/private/_components/CardSection';
 import {SubscriptionAlias} from './SubscriptionAlias';
@@ -11,22 +11,26 @@ import {SubscriptionMaster} from './SubscriptionMaster';
 import {SubscriptionTeam} from './SubscriptionTeam';
 import {errorToast} from '^api/api';
 import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
+import {useIdParam} from '^atoms/common';
 
-export const SubscriptionBasicInfoSection = memo(() => {
+interface SubscriptionBasicInfoSectionProps {
+    currentSubscription: SubscriptionDto;
+}
+
+export const SubscriptionBasicInfoSection = memo((props: SubscriptionBasicInfoSectionProps) => {
+    const {currentSubscription} = props;
+    const {mutateAsync: updateSubscription} = useUpdateSubscription(currentSubscription.id);
+
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const {reload, currentSubscription} = useCurrentSubscription();
 
     if (!currentSubscription) return <></>;
 
-    const {mutateAsync: updateSubscription} = useUpdateSubscription();
-
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         if (!currentSubscription) return;
-        updateSubscription({subscriptionId: currentSubscription.id, data: dto})
+        updateSubscription(dto)
             .then(() => setIsSaving(true))
-            // .then(() => reload())
             .then(() => toast.success('변경사항을 저장했어요.'))
             .then(() => setIsEditMode(false))
             .catch(errorToast)
@@ -44,9 +48,9 @@ export const SubscriptionBasicInfoSection = memo(() => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 isSaving={isSaving}
             >
-                <SubscriptionAlias isEditMode={isEditMode} form={form} />
-                <SubscriptionMaster isEditMode={isEditMode} form={form} />
-                <SubscriptionDesc isEditMode={isEditMode} form={form} />
+                <SubscriptionAlias isEditMode={isEditMode} form={form} defaultValue={currentSubscription?.alias} />
+                <SubscriptionMaster isEditMode={isEditMode} form={form} defaultValue={currentSubscription?.master} />
+                <SubscriptionDesc isEditMode={isEditMode} form={form} defaultValue={currentSubscription?.desc} />
                 <SubscriptionTeam />
             </CardSection.Form>
         </CardSection.Base>

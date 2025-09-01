@@ -4,7 +4,7 @@ import {
     TeamMemberDto,
     CreateTeamMemberDto,
     UpdateTeamMemberDto,
-    CreateGoogleAdminTeamMembersRequestDto,
+    FindAllTeamMemberQueryDto,
 } from '^models/TeamMember/type';
 import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
@@ -12,11 +12,12 @@ import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {UploadFileDto} from '^api/file.api';
 import {AxiosProgressEvent} from 'axios';
+import {CreateGoogleAdminTeamMembersRequestDto} from '^models/integration/IntegrationGoogleWorkspaceWorkspace/type';
 
 // [유저] 팀 멤버 API
 export const teamMemberApi = {
     // 팀 멤버 조회
-    index(orgId: number, params?: FindAllQueryDto<TeamMemberDto>) {
+    index(orgId: number, params?: FindAllTeamMemberQueryDto) {
         const url = `/organizations/${orgId}/team_members`;
         return api.get<Paginated<TeamMemberDto>>(url, {params}).then(paginatedDtoOf(TeamMemberDto));
     },
@@ -77,6 +78,7 @@ export const teamMemberApi = {
 
 export const connectGoogleAdmin = {
     teamMembersApi: {
+        // @deprecated integrationGoogleWorkspaceWorkspaceApi.create() 를 사용하세요.
         upsertByCode(orgId: number, dto: CreateGoogleAdminTeamMembersRequestDto) {
             const url = `/connect/organizations/${orgId}/google-admin/team-members/by-code`;
             return api.post<TeamMemberDto[]>(url, dto);

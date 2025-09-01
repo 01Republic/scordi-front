@@ -2,21 +2,24 @@ import React, {memo} from 'react';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {RotateCw} from 'lucide-react';
 import Tippy from '@tippyjs/react';
-import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {intlDateRangeShort, intlDateShort} from '^utils/dateTime';
-import {useCurrentCodefCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {useOldestCodefBillingHistory} from '^models/CodefBillingHistory/hook';
+import {useCodefCardsOfCreditCardShow2} from '^models/CodefCard/hook';
+import {Paginated} from '^types/utils/paginated.dto';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BillingHistoryTableTitleProps {
     creditCard: CreditCardDto;
+    data: Paginated<BillingHistoryDto>;
+    isLoading: boolean;
+    refetch: () => any;
 }
 
 export const BillingHistoryTableTitle = memo((props: BillingHistoryTableTitleProps) => {
-    const {creditCard} = props;
-    const {currentCodefCard} = useCurrentCodefCard();
+    const {creditCard, data, isLoading, refetch} = props;
+    const {currentCodefCard} = useCodefCardsOfCreditCardShow2(creditCard.id);
     const {data: oldestBillingHistory} = useOldestCodefBillingHistory(creditCard.organizationId, currentCodefCard?.id);
-    const {result, isLoading, reload} = useBillingHistoryListOfCreditCard();
-    const lastBillingHistory = result.items[0];
+    const lastBillingHistory = data.items[0];
 
     const latestDateStr = () => {
         // const {syncedStartDate, syncedEndDate} = creditCard;
@@ -41,7 +44,7 @@ export const BillingHistoryTableTitle = memo((props: BillingHistoryTableTitlePro
             : `${issuedAt.getMonth() + 1}월 ${issuedAt.getDate()}일 까지의 결제내역`;
     };
 
-    const {totalItemCount} = result.pagination;
+    const {totalItemCount} = data.pagination;
 
     return (
         <div className="flex items-center gap-2 mb-4">
@@ -50,7 +53,10 @@ export const BillingHistoryTableTitle = memo((props: BillingHistoryTableTitlePro
             </h3>
 
             <Tippy className="!text-10" content="목록 새로고침">
-                <button className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`} onClick={() => reload()}>
+                <button
+                    className={`btn btn-xs btn-circle ${isLoading ? 'animate-spin' : ''}`}
+                    onClick={() => refetch()}
+                >
                     <RotateCw fontSize={14} />
                 </button>
             </Tippy>

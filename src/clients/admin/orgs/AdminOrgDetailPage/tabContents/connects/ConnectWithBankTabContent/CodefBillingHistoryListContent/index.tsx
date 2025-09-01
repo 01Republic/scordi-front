@@ -9,11 +9,13 @@ import {PagePerSelect} from '^components/Paginator';
 import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
 import {selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
+import {useIdParam} from '^atoms/common';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefAsset, setSelectedCodefAsset] = useRecoilState(selectedCodefBankAccountAtom);
-    const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories();
+    const orgId = useIdParam('id');
+    const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories(orgId);
 
     useEffect(() => {
         if (!org) return;
@@ -25,6 +27,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 where: {
                     codefBankAccount: {account: {orgId}},
                 },
+                page: 1,
                 order: {usedAt: 'DESC'},
             });
         } else {
@@ -40,8 +43,6 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
         }
     }, [org, selectedCodefAsset]);
 
-    // useUnmount(() => setSelectedCodefCard(undefined));
-
     const {items, pagination} = result;
 
     return (
@@ -53,6 +54,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
 
                 <div className="flex items-center gap-4">
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}

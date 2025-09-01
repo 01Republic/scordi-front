@@ -10,6 +10,7 @@ import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^
 import {useRecoilState} from 'recoil';
 import {useRouterIdParamState} from '^atoms/common';
 import {WorkspaceDto} from '^models/Workspace/type/workspace.type';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 export const ApplicationListItemDesktop = memo((props: {subscription: SubscriptionDto}) => {
     const router = useRouter();
@@ -18,6 +19,8 @@ export const ApplicationListItemDesktop = memo((props: {subscription: Subscripti
     const {billingCycle, paymentPlan, product} = subscription;
     const workspace = (subscription.workspace || {}) as WorkspaceDto;
     const appId = subscription.id;
+
+    const nextBillingDate = subscription.nextBillingDate ? yyyy_mm_dd(subscription.nextBillingDate) : '';
 
     return (
         <tr className="text-sm cursor-pointer" onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
@@ -41,7 +44,7 @@ export const ApplicationListItemDesktop = memo((props: {subscription: Subscripti
             {/*        <span>{billingCycle.unitPrice || 0}</span>*/}
             {/*    </p>*/}
             {/*</td>*/}
-            <td className="text-right">{subscription.nextBillingDate}</td>
+            <td className="text-right">{nextBillingDate}</td>
             <td className="text-right">
                 <p className="flex items-center justify-end font-semibold text-sm leading-none">
                     <small className="mr-[2px]">US$</small>

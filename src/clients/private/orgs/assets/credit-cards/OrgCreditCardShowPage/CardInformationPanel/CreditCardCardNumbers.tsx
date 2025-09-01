@@ -13,8 +13,6 @@ interface CreditCardCardNumbersProps extends WithChildren {
 export const CreditCardCardNumbers = memo((props: CreditCardCardNumbersProps) => {
     const {isEditMode, isLoading, value, children} = props;
 
-    console.log('??', value.isAmexCard);
-
     return (
         <FormControl label="카드번호">
             {isEditMode ? (

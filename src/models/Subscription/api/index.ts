@@ -9,7 +9,7 @@ import {
 } from 'src/models/Subscription/types';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {downloadBlobFromAxios} from '^utils/Blob';
 import {
     CreateSubscriptionSeatRequestDto,
@@ -17,6 +17,10 @@ import {
     SubscriptionSeatDto,
     UpdateSubscriptionSeatRequestDto,
 } from '^models/SubscriptionSeat/type';
+import {MergeSubscriptionRequestDto} from '^models/Subscription/types/MergeSubscription.request.dto';
+import {TeamMemberDto} from '^models/TeamMember';
+import {FindAllSubscriptionsGroupedByProductDto} from '../types/find-all.subscriptions-grouped-by-product.query.dto';
+import {ProductDto} from '^models/Product/type';
 
 const NAMESPACE = 'subscriptions';
 
@@ -28,6 +32,11 @@ export const subscriptionApi = {
     index: (params?: FindAllSubscriptionsQuery) => {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+    },
+
+    groupedByProduct: (params?: FindAllSubscriptionsGroupedByProductDto) => {
+        const url = `/${NAMESPACE}/grouped-by-product`;
+        return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
     },
 
     // 구독 조회 - 결과 다운로드
@@ -58,10 +67,10 @@ export const subscriptionApi = {
         return api.patch<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
     },
 
-    // 구독 병합 (id 의 구독(본구독)을 hostSubscriptionId 의 구독(호스트구독)에 병합)
-    merge(id: number, hostSubscriptionId: number) {
-        const url = `/subscriptions/${id}/merge/${hostSubscriptionId}`;
-        return api.patch<SubscriptionDto>(url).then(oneDtoOf(SubscriptionDto));
+    // 구독 병합 (id 의 구독(본구독)에 다른 구독(게스트구독) 병합)
+    merge(id: number, data: MergeSubscriptionRequestDto) {
+        const url = `/subscriptions/${id}/merge`;
+        return api.patch<SubscriptionDto[]>(url, data).then(listDtoOf(SubscriptionDto));
     },
 
     destroy: (id: number) => {

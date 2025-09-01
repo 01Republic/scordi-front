@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
+import {useUnmount} from '^hooks/useUnmount';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {defineTabs, useTabs} from '^components/util/tabs';
 import {CodefAccountListContent} from './CodefAccountListContent';
@@ -16,10 +17,12 @@ export const ConnectWithCardTabContent = memo(function ConnectWithCardTabContent
     const org = useRecoilValue(adminOrgDetail);
     const {tabs, currentTabIndex, setCurrentTabIndex, CurrentTabPane} = useTabs(cardConnectedTab);
 
+    useUnmount(() => setCurrentTabIndex(0), []);
+
     if (!org) return <></>;
 
     return (
-        <div className="grid grid-cols-6 gap-8">
+        <div className="grid grid-cols-7 gap-6">
             <div>
                 <ul className="p-0 menu bg-base-100 shadow">
                     {tabs.map((tab, i) => (
@@ -30,7 +33,7 @@ export const ConnectWithCardTabContent = memo(function ConnectWithCardTabContent
                 </ul>
             </div>
 
-            <div className="col-span-5">
+            <div className="col-span-6">
                 <CurrentTabPane moveTab={(tabIndex: number) => setCurrentTabIndex(tabIndex)} />
             </div>
         </div>

@@ -38,6 +38,7 @@ export const OrgSubscriptionConnectionPage = memo(() => {
             selectAssetsStep={{
                 title: '어떤 자산으로부터 구독을 불러올까요?',
                 subTitle: '',
+                nextButtonText: '다음',
             }}
             connectAssetsStep={{
                 strategy: ConnectAssetsStepStrategy.SyncSubscriptions,

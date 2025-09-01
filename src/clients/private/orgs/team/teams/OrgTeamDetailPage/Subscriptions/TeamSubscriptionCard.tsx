@@ -7,19 +7,23 @@ import {LinkTo} from '^components/util/LinkTo';
 
 interface TeamSubscriptionCardProps {
     item: SubscriptionDto;
+    onClick: () => void;
 }
 
 export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
-    const {item: subscription} = props;
+    const {item: subscription, onClick} = props;
 
     const {product, teamMembers = []} = subscription;
 
     const memberMaxLength = 3;
 
     return (
-        <li className="w-full border bg-white rounded-lg flex items-center shadow-xl hover:shadow-2xl">
-            <LinkTo
-                href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+        <li
+            className="w-full border bg-white rounded-lg flex items-center shadow-xl hover:shadow-2xl cursor-pointer"
+            onClick={onClick}
+        >
+            <div
+                // href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
                 className="w-full flex items-center justify-between p-4"
             >
                 <SubscriptionProfile
@@ -44,7 +48,7 @@ export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
                         </div>
                     )}
                 </div>
-            </LinkTo>
+            </div>
         </li>
     );
 });

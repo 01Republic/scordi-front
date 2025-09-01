@@ -7,7 +7,7 @@ import {
 } from '^models/Subscription/types';
 
 interface Props {
-    onSearch: (query: FindAllSubscriptionsQuery) => any;
+    onSearch: (query: Partial<FindAllSubscriptionsQuery>) => any;
 }
 
 export function SubscriptionScopeHandler(props: Props) {

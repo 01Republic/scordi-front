@@ -7,13 +7,17 @@ import {LinkTo} from '^components/util/LinkTo';
 import {OrgReviewCampaignDetailPageRoute} from '^pages/orgs/[id]/reviewCampaigns/[reviewCampaignId]';
 import {unitFormat} from '^utils/number';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {DeleteReviewCampaignItem} from '^clients/private/orgs/reviewCampaigns/OrgReviewCampaignDetailPage/ReviewCampaignControl/DeleteReviewCampaignItem';
+import {MoreDropdown, MoreDropdownButton, MoreDropdownMenu} from '^_components/rest-pages/ShowPage/MoreDropdown';
+import {EllipsisVertical} from 'lucide-react';
 
 interface RequestItemCardProps {
     item: ReviewCampaignDto;
+    reload: () => void;
 }
 
 export const RequestItemCard = (props: RequestItemCardProps) => {
-    const {item: reviewCampaign} = props;
+    const {item: reviewCampaign, reload} = props;
     const {organizationId, id} = reviewCampaign;
 
     const isOverdue = reviewCampaign.isOverdue(); // 마감여부
@@ -31,18 +35,42 @@ export const RequestItemCard = (props: RequestItemCardProps) => {
                         {currentStatus.text}
                     </TagUI>
                     {/*<Badge className={cn('text-white px-2', badgeColor)}>{currentStatus.text}</Badge>*/}
-                    <div
-                        className={cn(
-                            `text-sm`,
-                            currentStatus.textColor,
-                            // isFinished ? 'text-gray-300' : 'text-slate-800',
+                    <div className="flex items-center gap-1">
+                        <div
+                            className={cn(
+                                `text-sm`,
+                                currentStatus.textColor,
+                                // isFinished ? 'text-gray-300' : 'text-slate-800',
+                            )}
+                        >
+                            {reviewCampaign.isClosed()
+                                ? `완료일: ${reviewCampaign.closedAt?.toLocaleDateString()}`
+                                : isOverdue
+                                ? `마감일: ${reviewCampaign.finishAt.toLocaleDateString()}`
+                                : `시작일: ${reviewCampaign.startAt.toLocaleDateString()}`}
+                        </div>
+                        {reviewCampaign && !reviewCampaign.isClosed() && (
+                            <MoreDropdown
+                                moreDropdownButton={() => (
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                        aria-label="더보기"
+                                    >
+                                        <EllipsisVertical />
+                                    </button>
+                                )}
+                                noMenu
+                            >
+                                <MoreDropdownMenu className="!min-w-[8rem]">
+                                    {reviewCampaign && (
+                                        <DeleteReviewCampaignItem reviewCampaign={reviewCampaign} reload={reload} />
+                                    )}
+                                </MoreDropdownMenu>
+                            </MoreDropdown>
                         )}
-                    >
-                        {reviewCampaign.isClosed()
-                            ? `완료일: ${reviewCampaign.closedAt?.toLocaleDateString()}`
-                            : isOverdue
-                            ? `마감일: ${reviewCampaign.finishAt.toLocaleDateString()}`
-                            : `시작일: ${reviewCampaign.startAt.toLocaleDateString()}`}
                     </div>
                 </div>
 

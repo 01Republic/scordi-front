@@ -1,14 +1,14 @@
 import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integrations';
+import {useIntegrationWorkspaceInSettingPage} from '^models/IntegrationWorkspace/hook';
 import {IntegrationSlack} from './IntegrationSlack';
 import {IntegrationGoogleWorkspace} from './IntegrationGoogleWorkspace';
-import {toast} from 'react-hot-toast';
 
 export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrationsPage() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
+    const {refetch, findSlack, findGoogleWorkspace, isLoading} = useIntegrationWorkspaceInSettingPage(orgId);
 
     return (
         <OrgSettingsLayout
@@ -21,14 +21,11 @@ export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrations
         >
             <ul className="bg-white border rounded-lg">
                 <li className="border-b last-of-type:border-none">
-                    <IntegrationSlack />
+                    <IntegrationSlack config={findSlack()} reload={refetch} isLoading={isLoading} />
                 </li>
 
-                <li
-                    className="border-b last-of-type:border-none opacity-30"
-                    onClick={() => toast('준비중인 기능입니다.')}
-                >
-                    <IntegrationGoogleWorkspace />
+                <li className="border-b last-of-type:border-none">
+                    <IntegrationGoogleWorkspace config={findGoogleWorkspace()} reload={refetch} />
                 </li>
             </ul>
         </OrgSettingsLayout>

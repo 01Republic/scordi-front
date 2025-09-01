@@ -10,7 +10,7 @@ export const PayAmount = memo((props: PayAmountProps) => {
     const {billingHistory} = props;
     const {about, payAmount} = billingHistory;
 
-    if (!payAmount) return <></>;
+    if (!payAmount) return <>-</>;
 
     // const {code, amount, symbol, format} = payAmount;
     // const {exchangedCurrency, dollarPrice, exchangeRate} = payAmount;
@@ -22,7 +22,7 @@ export const PayAmount = memo((props: PayAmountProps) => {
             }`}
         >
             <span>{payAmount.symbol}</span>
-            <span>{payAmount.roundedAmount.toLocaleString()}</span>
+            <span>{payAmount.formatRoundedAmount}</span>
         </div>
     );
 });

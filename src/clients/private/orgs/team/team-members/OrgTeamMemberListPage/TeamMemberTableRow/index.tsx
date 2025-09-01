@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto, useUpdateTeamMembers2} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
 import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown';
@@ -15,20 +15,22 @@ interface TeamMemberTableRowProps {
     teamMember: TeamMemberDto;
     onClick?: (teamMember: TeamMemberDto) => any;
     reload?: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
+    const {teamMember, onClick, reload, isChecked, onCheck} = props;
     const orgId = useOrgIdParam();
     const [isLoading, setIsLoading] = useState(false);
-    const {teamMember, onClick, reload} = props;
+    const {mutateAsync} = useUpdateTeamMembers2();
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
     const loadingStyle = isLoading ? 'opacity-50 pointer-events-none' : '';
 
     const update = async (dto: UpdateTeamMemberDto) => {
-        return teamMemberApi
-            .update(orgId, teamMember.id, {notes: dto.notes})
+        return mutateAsync({orgId, id: teamMember.id, data: {notes: dto.notes}})
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
             .finally(() => reload && reload());
@@ -36,6 +38,17 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
 
     return (
         <tr className="group">
+            <td className={`${hoverBgColor} pl-3 pr-1`}>
+                <label className={`flex items-center justify-center`}>
+                    <input
+                        type="checkbox"
+                        className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                        defaultChecked={isChecked}
+                        onChange={(e) => onCheck && onCheck(e.target.checked)}
+                    />
+                </label>
+            </td>
+
             {/* 이름 */}
             <td className={`${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(teamMember)}>
                 <OpenButtonColumn href={showPagePath}>

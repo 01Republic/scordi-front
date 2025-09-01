@@ -1,10 +1,14 @@
 import React, {memo, useEffect} from 'react';
-import {useCurrentTeam} from '^models/Team/hook';
+import {useCurrentTeam, useCurrentTeam2} from '^models/Team/hook';
 import {TabName} from './OrgTeamDetailPageTabContent';
 import {TeamStatCard} from './TeamStatCard';
 import {useUnmount} from '^hooks/useUnmount';
 import {debounce} from 'lodash';
 import {CreditCard, LayoutGrid, Receipt, RotateCw, Users} from 'lucide-react';
+import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {useQueryClient} from '@tanstack/react-query';
+import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
 
 interface TeamStatCardListProps {
     changeCurrentTab?: (tabName: TabName) => any;
@@ -12,10 +16,24 @@ interface TeamStatCardListProps {
 
 export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const {changeCurrentTab} = props;
-    const {team, reloadWithUpdateCounters, isLoading} = useCurrentTeam();
+    const orgId = useOrgIdParam();
+    const teamId = useIdParam('teamId');
 
-    const updateCounter = () => team && reloadWithUpdateCounters();
+    const queryClient = useQueryClient();
+    const {team, reloadWithUpdateCounters, isLoading: isUpdateLoading} = useCurrentTeam();
+    const {data: currentTeamData, isLoading: isCurrentTeamLoading} = useCurrentTeam2(orgId, teamId);
 
+    const viewData = team ? team : currentTeamData;
+
+    const updateCounter = () => {
+        reloadWithUpdateCounters();
+        queryClient.invalidateQueries({
+            queryKey: [TEAM_HOOK_KEY.detail, orgId, teamId],
+            exact: true,
+        });
+    };
+
+    const loading = isUpdateLoading || isCurrentTeamLoading;
     return (
         <div className="bg-slate-100 rounded-lg p-2 shadow-lg">
             <div className="flex items-center justify-between mb-3">
@@ -23,7 +41,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
 
                 <RotateCw
                     className={`text-12 text-gray-400 hover:text-black transition cursor-pointer ${
-                        isLoading ? 'animate-spin' : ''
+                        loading ? 'animate-spin' : ''
                     }`}
                     onClick={updateCounter}
                 />
@@ -33,34 +51,34 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                 <TeamStatCard
                     Icon={() => <Users fontSize={15} className="text-yellow-600" />}
                     title="구성원"
-                    count={team ? team.teamMemberCount : 0}
-                    className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
+                    count={viewData ? viewData.teamMemberCount : 0}
+                    className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.members)}
-                    isLoading={isLoading}
+                    isLoading={loading}
                 />
                 <TeamStatCard
                     Icon={() => <LayoutGrid fontSize={13} className="text-scordi-500" />}
                     title="구독"
-                    count={team ? team.subscriptionCount : 0}
-                    className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
+                    count={viewData ? viewData.subscriptionCount : 0}
+                    className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.subscriptions)}
-                    isLoading={isLoading}
+                    isLoading={loading}
                 />
                 <TeamStatCard
                     Icon={() => <CreditCard fontSize={14} className="text-green-600" />}
                     title="결제수단"
-                    count={team ? team.creditCardCount : 0}
-                    className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
+                    count={viewData ? viewData.creditCardCount : 0}
+                    className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.payments)}
-                    isLoading={isLoading}
+                    isLoading={loading}
                 />
                 <TeamStatCard
                     Icon={() => <Receipt fontSize={14} className="text-blue-600" />}
                     title="청구서"
-                    count={team ? team.invoiceAccountCount : 0}
-                    className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
+                    count={viewData ? viewData.invoiceAccountCount : 0}
+                    className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.invoices)}
-                    isLoading={isLoading}
+                    isLoading={loading}
                 />
             </div>
         </div>

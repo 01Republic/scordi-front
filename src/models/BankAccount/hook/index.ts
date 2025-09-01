@@ -1,4 +1,4 @@
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {BankAccountDto, FindAllBankAccountQueryDto} from '^models/BankAccount/type';
 import {bankAccountApi} from '^models/BankAccount/api';
 import {bankAccountListResultAtom} from '^models/BankAccount/atom';
@@ -6,6 +6,12 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
 import {plainToast as toast} from '^hooks/useToast';
 import {ApiError} from '^api/api';
+import {BANK_ACCOUNT_HOOK_KEY} from '^models/BankAccount/hook/key';
+import {useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
+import {subscriptionApi} from '^models/Subscription/api';
+import {Paginated} from '^types/utils/paginated.dto';
 
 export const useBankAccounts = (
     atoms: PagedResourceAtoms<BankAccountDto, FindAllBankAccountQueryDto>,
@@ -54,3 +60,17 @@ export const useBankAccounts = (
 };
 
 export const useBankAccountListForListPage = () => useBankAccounts(bankAccountListResultAtom);
+
+export const useBankAccounts2 = (orgId: number, params: FindAllBankAccountQueryDto = {}) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [BANK_ACCOUNT_HOOK_KEY.base, orgId, query],
+        queryFn: () => bankAccountApi.index(orgId, query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId || !!Object.keys(query).length,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+    });
+
+    return usePaginateUtils({query, setQuery, queryResult});
+};

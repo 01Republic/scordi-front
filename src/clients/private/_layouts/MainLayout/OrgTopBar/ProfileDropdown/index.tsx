@@ -7,7 +7,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 import {ChannelTalk_Url} from '^config/constants';
-import {serviceHost} from '^config/environments';
+import {landingPageUrl} from '^config/environments';
 import {ArrowRight, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
@@ -44,9 +44,13 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                         alt={currentUser.name}
                                         className="w-8 h-8"
                                     />
-                                    <div>
-                                        <p className="text-sm font-semibold text-gray-900">{currentUser.name}님</p>
-                                        <p className="text-12 text-gray-400">{currentUser.email}</p>
+                                    <div className="overflow-hidden">
+                                        <p className="w-full overflow-hidden overflow-ellipsis text-sm font-semibold text-gray-900">
+                                            {currentUser.name}님
+                                        </p>
+                                        <p className="w-full overflow-hidden overflow-ellipsis text-12 text-gray-400">
+                                            {currentUser.email}
+                                        </p>
                                     </div>
                                 </div>
                             </li>
@@ -70,7 +74,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                             </li>
                             <li>
                                 <LinkTo
-                                    href={serviceHost}
+                                    href={landingPageUrl}
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     displayLoading={false}
                                 >

@@ -9,23 +9,20 @@ import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDet
 interface SubscriptionDescProps extends WithChildren {
     isEditMode?: boolean;
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    defaultValue?: string | null;
 }
 
 export const SubscriptionDesc = memo((props: SubscriptionDescProps) => {
-    const {isEditMode, form} = props;
+    const {isEditMode, form, defaultValue} = props;
 
-    const {currentSubscription: subscription} = useCurrentSubscription();
-
-    if (!subscription) return <></>;
-
-    const value = !subscription.desc ? <EmptyValue /> : subscription.desc;
+    const value = defaultValue ? defaultValue : <EmptyValue />;
 
     return (
         <FormControl label="비고">
             {isEditMode ? (
                 <input
                     className="w-full input border-gray-200 bg-gray-100 h-[50px]"
-                    defaultValue={subscription.desc || ''}
+                    defaultValue={defaultValue || ''}
                     {...form.register('desc')}
                 />
             ) : (

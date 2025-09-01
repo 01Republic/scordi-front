@@ -1,37 +1,35 @@
-import React from 'react';
-import {useRouter} from 'next/router';
-import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {useCurrentOrg} from '^models/Organization/hook';
-import OrgMainLayout from '^layouts/org/mainLayout';
-import {ContentLayout} from '^layouts/ContentLayout';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {PreLoader} from '^components/PreLoader';
+import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
+import {TextInput} from '^components/TextInput';
+import {ContentLayout} from '^layouts/ContentLayout';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
 import {
     ContentPanel,
     ContentPanelInput,
     ContentPanelItem,
     ContentPanelItemTitle,
-    ContentPanelItemText,
     ContentPanelList,
 } from '^layouts/ContentLayout/ContentPanel';
-import {useForm} from 'react-hook-form';
-import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
-import {TextInput} from '^components/TextInput';
-import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
+import OrgMainLayout from '^layouts/org/mainLayout';
 import {organizationApi} from '^models/Organization/api';
-import {errorNotify, successNotify} from '^utils/toast-notify';
-import {toast} from 'react-toastify';
+import {useCurrentOrg} from '^models/Organization/hook';
+import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {useCurrentUser} from '^models/User/hook';
-import {MembershipLevel} from 'src/models/Membership/types';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
+import {errorNotify, successNotify} from '^utils/toast-notify';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useRouter} from 'next/router';
+import {useForm} from 'react-hook-form';
+import {toast} from 'react-toastify';
+import {MembershipLevel} from 'src/models/Membership/types';
 // import {OrgMainPage} from '^clients/private/orgs/home/OrgMainPage';
 import {OrgDashboardPage} from 'src/clients/private/orgs/home/OrgDashboardPage';
 
 export const OrgMainPageRoute = pathRoute({
     pathname: '/orgs/[id]',
-    path: (orgId: number) => pathReplace(OrgMainPageRoute.pathname, {id: orgId}),
+    path: (orgId: number, query?: Record<string, string>) => pathReplace(OrgMainPageRoute.pathname, {id: orgId}, query),
 });
 
 export const getStaticPaths = async () => ({

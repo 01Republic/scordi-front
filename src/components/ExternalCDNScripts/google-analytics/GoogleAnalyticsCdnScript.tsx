@@ -2,7 +2,7 @@ import {appEnv, ga_id, serviceHost} from '^config/environments';
 
 // Google tag (gtag.js) -- production only
 export function GoogleAnalyticsCdnScript() {
-    return appEnv === 'production' && serviceHost === 'https://scordi.io' ? (
+    return appEnv === 'production' && serviceHost.startsWith('https://') && serviceHost.endsWith('scordi.io') ? (
         <>
             <script id="cdn-ga-core" async src={`https://www.googletagmanager.com/gtag/js?id=${ga_id}`} />
             <script

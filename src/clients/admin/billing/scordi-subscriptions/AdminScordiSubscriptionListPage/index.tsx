@@ -4,7 +4,7 @@ import {useAdminScordiSubscriptions} from '^models/_scordi/ScordiSubscription/ho
 import {CardTablePanel, ResourceColumn} from '^admin/share';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {currencyFormat, unitFormat} from '^utils/number';
-import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
+import {lpp, yyyy_mm_dd} from '^utils/dateTime';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {ScordiPlanNextStrategy} from '^models/_scordi/ScordiPlan/type';
 import {Paginator} from '^components/Paginator';
@@ -190,10 +190,10 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
                                     return (
                                         <div className="whitespace-nowrap">
                                             <p className="text-11 leading-none mb-0.5">
-                                                시작: {startAt ? `${yyyy_mm_dd(startAt)} ${hh_mm(startAt)}` : '-'}
+                                                시작: {startAt ? `${lpp(startAt)}` : '-'}
                                             </p>
                                             <p className="text-11 leading-none">
-                                                종료: {finishAt ? `${yyyy_mm_dd(finishAt)} ${hh_mm(finishAt)}` : '-'}
+                                                종료: {finishAt ? `${lpp(finishAt)}` : '-'}
                                             </p>
                                         </div>
                                     );
@@ -231,7 +231,7 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
                                         .reverse();
                                     return (
                                         <div className="text-13">
-                                            {lastPayment ? yyyy_mm_dd(lastPayment.createdAt) : '-'}
+                                            {lastPayment ? lpp(lastPayment.createdAt, 'P') : '-'}
                                         </div>
                                     );
                                 },

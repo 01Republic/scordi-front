@@ -20,8 +20,6 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
     const form = useForm<UpdateOrganizationRequestDto>();
     const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
 
-    console.log(currentOrg?.address);
-
     const onSave = () => {
         form.handleSubmit(async (data) => {
             organizationApi

@@ -9,11 +9,13 @@ import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share
 import {selectedCodefCardAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
 import {X} from 'lucide-react';
+import {useIdParam} from '^atoms/common';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefCard, setSelectedCodefCard] = useRecoilState(selectedCodefCardAtom);
-    const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories();
+    const orgId = useIdParam('id');
+    const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories(orgId);
 
     useEffect(() => {
         if (!org) return;
@@ -25,6 +27,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 where: {
                     codefCard: {account: {orgId}},
                 },
+                page: 1,
                 order: {usedAt: 'DESC'},
             });
         } else {
@@ -40,8 +43,6 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
         }
     }, [org, selectedCodefCard]);
 
-    // useUnmount(() => setSelectedCodefCard(undefined));
-
     const {items, pagination} = result;
 
     return (
@@ -53,6 +54,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
 
                 <div className="flex items-center gap-4">
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}
@@ -98,7 +100,8 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 >
                     <CardTableTH gridClass="grid-cols-14" className="text-12 items-center">
                         <div>ID</div>
-                        <div className="col-span-3">결제일시</div>
+                        <div className="col-span-2">결제일시</div>
+                        <div className="">승인번호</div>
                         <div>카드</div>
                         <div className="col-span-3">제목</div>
                         <div className="col-span-2 text-right">금액</div>

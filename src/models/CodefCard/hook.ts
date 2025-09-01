@@ -1,33 +1,46 @@
 import {useState} from 'react';
 import {RecoilState, useRecoilValue} from 'recoil';
-import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {useQueries, useQuery} from '@tanstack/react-query';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {CodefCardDto} from './type/CodefCard.dto';
-import {ErrorResponse} from '^models/User/types';
 import {Paginated} from '^types/utils/paginated.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {FindAllAccountQueryDto} from '^models/CodefAccount/type/find-all-account.query.dto';
 import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from './type/find-all.card.query.dto';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {
-    codefCardsAdminAtom,
-    codefCardsAtom,
-    codefCardsOfCreditCardShowAtom,
     connectedCodefCardsAtom,
     newCodefCardsAtom,
     subscriptionsForAccountAtom,
     subscriptionsForCardAtom,
 } from '^models/CodefCard/atom';
-import {CodefLoginType} from '^models/CodefAccount/type/enums';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {uniqBy} from 'lodash';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {pick} from '^types/utils/one-of-list.type';
 
-export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
+// 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 (신)
+export const useCodefCardsOfCreditCardShow2 = (creditCardId: number) => {
+    const orgId = useOrgIdParam();
+    const queryResult = useQuery({
+        queryKey: ['useCodefCardsOfCreditCardShow2', orgId, creditCardId],
+        queryFn: () =>
+            codefCardApi
+                .index(orgId, {
+                    relations: ['account'],
+                    where: {creditCardId},
+                    order: {id: 'DESC'},
+                })
+                .then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId && !!creditCardId,
+    });
 
-/** 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 */
-export const useCodefCardsOfCreditCardShow = () => useCodefCardsV3(codefCardsOfCreditCardShowAtom);
+    const currentCodefCard = pick(queryResult.data.items[0]);
+
+    return {...queryResult, currentCodefCard};
+};
 
 const useCodefCardsV3 = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardQueryDto>, mergeMode = false) => {
     return usePagedResource(atoms, {
@@ -42,16 +55,22 @@ const useCodefCardsV3 = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardQuer
  * ADMIN
  */
 
-export const useAdminCodefCards = () => useCodefCardsAdmin(codefCardsAdminAtom);
-
-const useCodefCardsAdmin = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardAdminQueryDto>, mergeMode = false) => {
-    return usePagedResource(atoms, {
-        useOrgId: false,
-        endpoint: (params) => codefCardAdminApi.index(params),
-        // @ts-ignore
-        getId: 'id',
-        mergeMode,
+export const useAdminCodefCards2 = (orgId: number | undefined, params?: FindAllCardAdminQueryDto) => {
+    const [query, setQuery] = useState(params || {});
+    const queryResult = useQuery({
+        queryKey: ['admin/useCodefCards2', orgId, query],
+        queryFn: () => {
+            const {...q} = query || {};
+            q.organizationId = orgId;
+            return codefCardAdminApi.index(q).then((res) => res.data);
+        },
+        initialData: Paginated.init(),
+        enabled: !!orgId && !!Object.keys(query).length,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
+
+    return usePaginateUtils({query, queryResult, setQuery});
 };
 
 /***

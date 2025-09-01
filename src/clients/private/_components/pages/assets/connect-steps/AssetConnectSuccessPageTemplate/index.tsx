@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {useRouter} from 'next/router';
 import {useOrgIdParam} from '^atoms/common';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -23,10 +23,13 @@ import {WithLoopText} from '^utils/TypeWritter';
 interface AssetConnectSuccessPageTemplateProps {
     assets: (CreditCardDto | BankAccountDto)[];
     onNext: () => any;
+    nextBtnText?: ReactNode;
+    moveFirst?: () => any;
+    moveFirstBtnText?: ReactNode;
 }
 
 export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessPageTemplateProps) => {
-    const {assets, onNext} = props;
+    const {assets, onNext, moveFirst, nextBtnText, moveFirstBtnText} = props;
 
     const router = useRouter();
     const orgId = useOrgIdParam();
@@ -126,17 +129,19 @@ export const AssetConnectSuccessPageTemplate = memo((props: AssetConnectSuccessP
                 >
                     <div className="flex items-center gap-2">
                         <NextStepButton
-                            text="완료하고 마치기"
+                            text={nextBtnText || `완료하고 마치기`}
                             onClick={onNext}
                             className="btn-secondary"
                             localLoading
                         />
-                        <NextStepButton
-                            text="다른 자산으로 불러오기"
-                            onClick={() => router.push(OrgSubscriptionConnectionPageRoute.path(orgId))}
-                            className="btn-scordi"
-                            localLoading
-                        />
+                        {moveFirst && (
+                            <NextStepButton
+                                text={moveFirstBtnText || '다른 자산으로 불러오기'}
+                                onClick={moveFirst}
+                                className="btn-scordi"
+                                localLoading
+                            />
+                        )}
                     </div>
                 </section>
             </PureLayoutContainer>

@@ -32,6 +32,11 @@ const nextConfig = {
                 protocol: 'http',
                 hostname: '**',
             },
+            // 전체이미지를 허용했으나 vercel 이미지최적화에서 막히는 경우의 도메인은 직접등록
+            {
+                protocol: 'https',
+                hostname: 'elements.envato.com',
+            },
         ],
     },
     i18n,

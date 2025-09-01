@@ -1,11 +1,14 @@
 import React, {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 
-interface BankAccountTableHeaderProps extends ListTableHeaderProps {}
+interface BankAccountTableHeaderProps extends ListTableHeaderProps {
+    sortVal: 'ASC' | 'DESC';
+}
 
 export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) => {
-    const {orderBy} = props;
+    const {orderBy, sortVal} = props;
 
     return (
         <tr className="bg-slate-100">
@@ -18,6 +21,16 @@ export const BankAccountTableHeader = memo((props: BankAccountTableHeaderProps) 
             <SortableTH sortKey="[usingStatus]" onClick={orderBy}>
                 상태
             </SortableTH>
+
+            {/* 구독 수 */}
+            <SortableTH2 sortKey="[subscriptionCount]" onClick={orderBy} sortVal={sortVal}>
+                구독 수
+            </SortableTH2>
+
+            {/* 월 누적 결제금액 */}
+            <SortableTH2 sortKey="[monthlyPaidAmount]" onClick={orderBy} sortVal={sortVal}>
+                월 누적 결제금액
+            </SortableTH2>
 
             {/* 은행명 */}
             <th>은행명</th>

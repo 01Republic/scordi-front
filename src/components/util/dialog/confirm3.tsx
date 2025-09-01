@@ -56,7 +56,7 @@ function styled(
         icon,
         ...options,
         customClass: {
-            popup: '!p-8 !rounded-2xl !w-auto !max-w-md',
+            popup: '!p-8 !rounded-2xl !w-auto !min-w-96',
             actions: `!m-0 !p-0  ${isCancelButton ? '!grid grid-cols-2 gap-2 direction-rtl' : '!flex !justify-center'}`,
             title: '!mx-0 !mt-0 !mb-4 !p-0',
             htmlContainer: '!mx-0 !mt-0 !mb-5 !p-0',

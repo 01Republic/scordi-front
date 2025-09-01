@@ -18,7 +18,10 @@ export const MoreDropdownMenuItem = memo((props: MoreDropdownMenuItemProps) => {
         <div className="group">
             <div
                 tabIndex={0}
-                onClick={onClick}
+                onClick={(e) => {
+                    e.preventDefault();
+                    onClick();
+                }}
                 className={`cursor-pointer ${sizeClass(size)} ${themeClass(theme)} ${className}`}
             >
                 {children}

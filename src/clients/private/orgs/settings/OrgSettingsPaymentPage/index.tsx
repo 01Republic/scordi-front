@@ -1,6 +1,5 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {memo} from 'react';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {OrgPlanSection} from './OrgPlanSection';
@@ -8,7 +7,7 @@ import {OrgPaymentMethodSection} from './OrgPaymentMethodSection';
 import {OrgPaymentsSection} from './OrgPaymentsSection';
 
 export const OrgSettingsPaymentPage = memo(function () {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
 
     return (
         <OrgSettingsLayout

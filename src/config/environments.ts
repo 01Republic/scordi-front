@@ -2,6 +2,7 @@ export const appEnv = process.env.NODE_ENV! as 'development' | 'production' | 't
 export const deployEnv = process.env.NEXT_PUBLIC_APP_ENV! as 'development' | 'production' | 'test' | 'staging';
 export const serviceHost = process.env.NEXT_PUBLIC_SERVICE_HOST!;
 export const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_API!;
+export const landingPageUrl = process.env.NEXT_PUBLIC_LANDING_PAGE_URL!;
 
 export const isLoggable = () => ['development', 'staging'].includes(appEnv) || serviceHost.includes('localhost');
 
@@ -47,6 +48,9 @@ export const ga_id = xxx('G-3N0EEGXZ8D');
 export const gtm_id = xxx('GTM-5RWDTWQF');
 export const measuredApiKey = xxx(process.env.NEXT_PUBLIC_MEASURED_API_KEY as string);
 export const stepByKey = xxx(process.env.NEXT_PUBLIC_STEPBY_KEY as string);
+
+// StepBy 기능 활성화 여부 (환경변수로 제어)
+export const isStepByEnabled = process.env.NEXT_PUBLIC_ENABLE_STEPBY === 'true';
 
 export const zero1_republic_workspace_id = 10;
 

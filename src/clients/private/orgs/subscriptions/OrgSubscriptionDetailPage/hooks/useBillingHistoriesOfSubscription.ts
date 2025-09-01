@@ -5,6 +5,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
 import {usePaginateUtils} from '^hooks/usePagedResource';
+import {APP_BILLING_HISTORY_HOOK_KEY} from '^models/BillingHistory/hook/key';
 
 /** 구독상세 페이지 전용 훅 / 구독에 연결된 결제내역 조회 */
 export const useBillingHistoriesOfSubscription = (
@@ -15,7 +16,7 @@ export const useBillingHistoriesOfSubscription = (
     const [query, setQuery] = useState(params);
 
     const queryResult = useQuery({
-        queryKey: ['subscription.billingHistories', orgId, id, query],
+        queryKey: [APP_BILLING_HISTORY_HOOK_KEY.useSubscriptionAppBillingHistory, orgId, id, query],
         queryFn: async () => {
             return appBillingHistoryApi.index(id!, query).then((res) => res.data);
         },

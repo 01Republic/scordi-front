@@ -11,11 +11,6 @@ export const codefCardsAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDt
     key: 'codefCardsAtom',
 });
 
-/** 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 */
-export const codefCardsOfCreditCardShowAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDto>({
-    key: 'codefCardsOfCreditCardShowAtom',
-});
-
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
 export const newCodefCardsAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDto>({
     key: 'newCodefCardsAtom',
@@ -35,8 +30,4 @@ export const subscriptionsForAccountAtom = pagedResourceAtom<SubscriptionDto, Fi
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
 export const subscriptionsForCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionByCardQueryDto>({
     key: 'subscriptionsForCardAtom',
-});
-
-export const codefCardsAdminAtom = pagedResourceAtom<CodefCardDto, FindAllCardAdminQueryDto>({
-    key: 'codefCardsAdminAtom',
 });

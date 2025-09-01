@@ -3,6 +3,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 
 export enum IntegrationProvider {
     slack = 'slack',
+    googleWorkspace = 'googleWorkspace',
 }
 
 export class IntegrationWorkspaceDto<Provider = IntegrationProvider, AuthorizedResponse = any, ConfigContent = any> {

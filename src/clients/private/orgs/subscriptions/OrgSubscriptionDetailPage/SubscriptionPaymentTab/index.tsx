@@ -7,6 +7,8 @@ import {SubscriptionBillingHistoriesTableHeader} from './SubscriptionBillingHist
 import {SubscriptionBillingHistoriesTableRow} from './SubscriptionBillingHistoriesTableRow';
 import {PaymentScopeHandler} from './PaymentScopeHandler';
 import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
+import {PencilLine} from 'lucide-react';
+import {BillingHistoryManualUpload} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/BillingHistoryManualUpload';
 
 /**
  * 구독 상세p > 결제탭
@@ -16,12 +18,18 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
         useBillingHistoriesOfSubscription(subscription, {
-            relations: ['invoiceApp', 'invoiceApp.invoiceAccount', 'invoiceApp.invoiceAccount.googleTokenData'],
+            relations: [
+                'invoiceApp',
+                'invoiceApp.invoiceAccount',
+                'invoiceApp.invoiceAccount.googleTokenData',
+                'creditCard',
+                'bankAccount',
+            ],
             where: {
                 organizationId: orgId,
                 subscriptionId: subscription?.id,
             },
-            order: {paidAt: 'DESC'},
+            order: {issuedAt: 'DESC'},
         });
 
     if (!orgId || !subscription) return <></>;
@@ -30,8 +38,10 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
         <div className={'py-4 space-y-4'}>
             <div className={'flex justify-between'}>
                 <PaymentScopeHandler onSearch={search} />
-
-                <AddPaymentHistoryDropdown subscription={subscription} reload={reload} />
+                <div className="flex items-center gap-2">
+                    <BillingHistoryManualUpload subscription={subscription} onSaved={() => reload()} />
+                    <AddPaymentHistoryDropdown subscription={subscription} reload={reload} />
+                </div>
             </div>
 
             <ListTableContainer

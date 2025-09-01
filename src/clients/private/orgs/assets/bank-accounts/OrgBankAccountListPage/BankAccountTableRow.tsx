@@ -9,6 +9,7 @@ import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAc
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {MonthlyPaidAmount} from '^models/BillingHistory/components/MonthlyPaidAmount';
 
 interface BankAccountTableRowProps {
     bankAccount: BankAccountDto;
@@ -62,6 +63,20 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
                 />
             </td>
 
+            {/* 구독 수 */}
+            <td>
+                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
+                    <small>{bankAccount.subscriptionCount} Apps</small>
+                </p>
+            </td>
+
+            {/* 월 누적 결제금액 */}
+            <td>
+                <p className="block text-14 font-normal group-hover:text-scordi-300 truncate">
+                    <MonthlyPaidAmount monthlyPaidAmount={bankAccount.monthlyPaidAmount} />
+                </p>
+            </td>
+
             {/* 은행명 */}
             <td>
                 {company ? (
@@ -108,7 +123,7 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
                     defaultValue={bankAccount.holdingMember || undefined}
                     onChange={async (holdingMember) => {
                         if (bankAccount.holdingMemberId === holdingMember?.id) return;
-                        return update({holdingMemberId: holdingMember?.id || undefined});
+                        return update({holdingMemberId: holdingMember?.id || null});
                     }}
                     optionListBoxTitle="관리자를 변경할까요?"
                     detachableOptionBoxTitle="현재 관리자"

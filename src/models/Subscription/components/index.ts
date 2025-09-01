@@ -7,3 +7,4 @@ export * from './BillingCycleTypeTagUI';
 export * from './IsFreeTierTagUI';
 export * from './NextComputedBillingDateText';
 export * from './SubscriptionInvoiceAccounts';
+export * from './LastPaidAt';

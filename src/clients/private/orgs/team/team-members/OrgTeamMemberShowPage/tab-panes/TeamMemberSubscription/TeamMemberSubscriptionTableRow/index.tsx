@@ -20,6 +20,7 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
 import {MinusCircle} from 'lucide-react';
+import {useUpdateSubscription} from '^models/Subscription/hook';
 
 interface TeamMemberSubscriptionTableRowProps {
     teamMember: TeamMemberDto;
@@ -29,13 +30,12 @@ interface TeamMemberSubscriptionTableRowProps {
 
 export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptionTableRowProps) => {
     const {teamMember, subscription, reload} = props;
+    const {mutateAsync} = useUpdateSubscription(subscription.id);
 
-    const update = async (dto: UpdateSubscriptionRequestDto) => {
-        return subscriptionApi
-            .update(subscription.id, dto)
+    const update = (dto: UpdateSubscriptionRequestDto) => {
+        mutateAsync(dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(() => toast.error('문제가 발생했어요.'))
-            .finally(() => reload && reload());
+            .catch(() => toast.error('문제가 발생했어요.'));
     };
 
     const disconnect = async () => {

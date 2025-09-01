@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from 'lucide-react';
 
 interface PaginatorProps {
@@ -51,15 +51,29 @@ interface PagePerSelectProps {
     perValues?: number[];
     allowAll?: boolean;
     className?: string;
+    isLoading?: boolean;
 }
 
 export const PagePerSelect = memo((props: PagePerSelectProps) => {
-    const {defaultValue, changePageSize, perValues = [10, 30, 50, 100], allowAll = false, className = ''} = props;
+    const {
+        defaultValue,
+        isLoading = false,
+        changePageSize,
+        perValues = [10, 30, 50, 100],
+        allowAll = false,
+        className = '',
+    } = props;
+    const [val, setVal] = useState(defaultValue);
+
+    useEffect(() => {
+        if (!isLoading) setVal(defaultValue);
+    }, [defaultValue, isLoading]);
 
     return (
         <select
+            key={val}
             className={`select select-bordered ${className}`}
-            defaultValue={defaultValue === 0 ? 0 : defaultValue}
+            defaultValue={val === 0 ? 0 : val}
             onChange={(e) => changePageSize(Number(e.target.value))}
         >
             {perValues.map((value, i) => (

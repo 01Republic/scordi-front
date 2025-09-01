@@ -12,7 +12,7 @@ import {RequestItemCard} from './RequestItemCard';
 
 export const OrgReviewCampaignListPage = () => {
     const orgId = useIdParam('id');
-    const {search, result, movePage, isFetching} = useReviewCampaigns(orgId, {
+    const {search, result, movePage, isLoading, reload, setQuery} = useReviewCampaigns(orgId, {
         where: {organizationId: orgId},
         relations: ['organization', 'author'],
         order: {id: 'DESC'},
@@ -20,12 +20,11 @@ export const OrgReviewCampaignListPage = () => {
     const campaigns = result.items;
 
     const onSearch = debounce((keyword?: string) => {
-        return search((q) => ({
-            ...q,
+        return search({
             keyword,
             page: 1,
             order: {id: 'DESC'},
-        }));
+        });
     }, 500);
 
     return (
@@ -38,16 +37,16 @@ export const OrgReviewCampaignListPage = () => {
                     <ReviewCampaignCreateButton orgId={orgId} />
                 </>
             )}
-            ScopeHandler={<RequestScopeHandler search={search} />}
+            ScopeHandler={<RequestScopeHandler search={setQuery} />}
             onSearch={onSearch}
         >
-            {isFetching ? (
+            {isLoading ? (
                 <Spinner />
             ) : campaigns.length > 0 ? (
                 <>
                     <div className={'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'}>
                         {campaigns.map((campaign) => (
-                            <RequestItemCard key={campaign.id} item={campaign} />
+                            <RequestItemCard key={campaign.id} item={campaign} reload={reload} />
                         ))}
                     </div>
                     {/* 하단 페이지네이션 */}

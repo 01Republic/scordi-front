@@ -24,9 +24,11 @@ export class CreditCardDto {
     usingStatus: CreditCardUsingStatus; // 사용상태
     isPersonal: boolean; // 법인카드 여부
     isCreditCard: boolean; // 신용카드 여부
+    monthlyPaidAmount: number; // 월간 누적 결제금액
     organizationId: number; // 조직 ID
     bankAccountId?: number | null; // 계좌 ID
     holdingMemberId?: number | null; // 카드 소유자 ID
+    subscriptionCount: number; // 구독 개수
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 

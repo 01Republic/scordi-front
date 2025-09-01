@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {atom, RecoilState, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {productIdParamsState} from '^atoms/common';
@@ -15,7 +15,19 @@ import {
 import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
-import {buildPagedResource, pagedResourceAtom, PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {
+    buildPagedResource,
+    pagedResourceAtom,
+    PagedResourceAtoms,
+    usePagedResource,
+    usePaginateUtils,
+} from '^hooks/usePagedResource';
+import {FindAllProductSimilarNameQuery} from '^models/ProductSimilarName/type';
+import {useQuery} from '@tanstack/react-query';
+import {productSimilarNameApi} from '^models/ProductSimilarName/api';
+import {Paginated} from '^types/utils/paginated.dto';
+import {api} from '^api/api';
+import {paginatedDtoOf} from '^types/utils/response-of';
 
 export const productSearchResultsState = atom({
     key: 'productSearchResultsState',
@@ -244,4 +256,19 @@ export const useProductPostContent = () => {
 const getLocale = () => {
     if (typeof window === 'undefined') return 'ko';
     return localStorage.getItem('locale') ?? 'ko';
+};
+
+export const useProductList = (params: FindAllProductQuery) => {
+    const [query, setQuery] = useState(params);
+
+    const queryResult = useQuery({
+        queryKey: ['productList', query],
+        queryFn: async () => {
+            return productApi.index(query).then((res) => res.data);
+        },
+        initialData: Paginated.init(),
+        refetchOnWindowFocus: false,
+    });
+
+    return usePaginateUtils({query, setQuery, queryResult});
 };

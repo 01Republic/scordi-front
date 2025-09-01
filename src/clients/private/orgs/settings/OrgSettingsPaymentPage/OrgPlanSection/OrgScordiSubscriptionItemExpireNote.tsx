@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {lpp} from '^utils/dateTime';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 
 interface OrgScordiSubscriptionItemExpireNoteProps {
@@ -15,7 +15,7 @@ export const OrgScordiSubscriptionItemExpireNote = memo((props: OrgScordiSubscri
         return (
             <div className="flex items-center gap-1.5">
                 <span className="text-gray-500">종료 예정일 :</span>
-                <span>{nextDate ? yyyy_mm_dd(nextDate, '. ') : '-'}</span>
+                <span>{nextDate ? lpp(nextDate, 'P') : '-'}</span>
                 {scordiSubscription.scordiPlan.isFreeTrial && (
                     <span className="text-gray-400 text-12">(체험 기간 종료)</span>
                 )}
@@ -26,7 +26,7 @@ export const OrgScordiSubscriptionItemExpireNote = memo((props: OrgScordiSubscri
     return (
         <div className="flex items-center gap-1.5">
             <span className="text-gray-500">다음 갱신일 :</span>
-            <span>{nextDate ? yyyy_mm_dd(nextDate, '. ') : '-'}</span>
+            <span>{nextDate ? lpp(nextDate, 'P') : '-'}</span>
         </div>
     );
 });

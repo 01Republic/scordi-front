@@ -1,4 +1,4 @@
-type FindOptionsOrderValue =
+export type FindOptionsOrderValue =
     | 'ASC'
     | 'DESC'
     | 'asc'

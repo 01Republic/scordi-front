@@ -46,11 +46,13 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const prevStep = () => setCurrentStep((prev) => prev - 1);
     const planNames = plans.map((plan) => plan.name).join(', ');
 
+    const {title, subtitle} = plan?.getDPayPlanData() || {};
+
     return (
         <DPayPageLayout>
             <SEO
                 url={DPaySecretCodePageRoute.url(secretCode)}
-                title={`참가비 결제를 요청합니다 | D-Pay`}
+                title={`${title || '참가비 결제를 요청합니다'} | D-Pay`}
                 description={`${plans.map((plan) => `${plan.name} - ${plan.price.toLocaleString()}원`).join(' / ')}`}
                 keywords={`D-Pay, 디페이, 간편결제, 스코디, 제로원리퍼블릭, ${planNames}`}
                 // thumbnail={serviceHost + '/images/thumbnails/01R-og_img-alt-241011.png'}
@@ -65,7 +67,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
                     {currentStep === 0 && (
                         <UserInfoSection form={form} nextStep={nextStep} plan={plan}>
-                            <Title text="환영합니다!" desc="모임 전, 참가비를 결제해주세요." />
+                            <Title text={title || `환영합니다!`} desc={subtitle || `모임 전, 참가비를 결제해주세요.`} />
                             <PlanList plans={plans} form={form} />
                         </UserInfoSection>
                     )}

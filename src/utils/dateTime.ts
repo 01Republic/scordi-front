@@ -280,7 +280,7 @@ export function ago(
     return distanceOfDay > 0 ? format(target, 'yyyy-MM-dd', options) : `${formatDistance(target, base, options)}전`;
 }
 
-export function formatDate(date: Date) {
+export function formatDate(date: Date, formatStr: string = 'P p') {
     const d = new Date(date);
     const now = Date.now();
     const diff = (now - d.getTime()) / 1000; // 현재 시간과의 차이(초)
@@ -292,7 +292,19 @@ export function formatDate(date: Date) {
         // 3일 미만일땐 시간차이 출력(몇시간 전, 몇일 전)
         return formatDistanceToNow(d, {addSuffix: true, locale: ko});
     }
-    return format(d, 'P p', {locale: ko}); // 날짜 포맷
+    return format(d, formatStr, {locale: ko}); // 날짜 포맷
+}
+
+export function l(date: Date, formatStr: string = 'yyyy-MM-dd HH:mm:ss') {
+    return format(date, formatStr || 'yyyy-MM-dd HH:mm:ss', {locale: ko});
+}
+
+export function lpp(date: Date, formatStr: string = 'Pp') {
+    return format(date, formatStr || 'Pp', {locale: ko});
+}
+
+export function toDate(str: string) {
+    return new Date(`${str} `);
 }
 
 /**

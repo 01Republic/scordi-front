@@ -1,14 +1,18 @@
 import {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {useQueries} from '@tanstack/react-query';
+import {useMutation, useQueries, useQuery, useQueryClient} from '@tanstack/react-query';
 import {CreditCardManager} from '^models/CreditCard/manager';
 import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
 import {creditCardListForCreditCardListPageAtom, creditCardListResultAtom} from '^models/CreditCard/atom';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {CreditCardDto, FindAllCreditCardDto} from '^models/CreditCard/type';
 import {plainToast as toast} from '^hooks/useToast';
 import {ApiError} from '^api/api';
+import {Paginated} from '^types/utils/paginated.dto';
+import {CREDIT_CARD_HOOK_KEY} from '^models/CreditCard/hook/key';
+import {TEAM_CREDIT_CARD_HOOK_KEY} from '^models/TeamCreditCard/hook/key';
+import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
 
 export const useCreditCardsOfOrganization = (isShow: boolean) => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -101,4 +105,31 @@ export const useSomeCreditCards = (orgId: number, codefCardIds: (number | null)[
     const isLoading = results.some((res) => res.isLoading);
 
     return {data, isLoading};
+};
+
+// 워크스페이스 카드 목록 조회
+export const useCreditCards2 = (orgId: number, params: FindAllCreditCardDto = {}) => {
+    const [query, setQuery] = useState(params);
+    const queryResult = useQuery({
+        queryKey: [CREDIT_CARD_HOOK_KEY.base, orgId, query],
+        queryFn: () => creditCardApi.index(orgId, query).then((res) => res.data),
+        initialData: Paginated.init(),
+        enabled: !!orgId || !!Object.keys(query).length,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+    });
+
+    return usePaginateUtils({query, setQuery, queryResult});
+};
+
+// 팀 상세p/결제수단 탭 - 결제수단 연결 해제
+export const useDeleteTeamCreditCard = (teamId: number) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (cardId: number) => creditCardApi.teamsApi.destroy(cardId, teamId).then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [TEAM_CREDIT_CARD_HOOK_KEY.base], exact: false});
+            queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.detail], exact: false, refetchType: 'all'}); // 팀상세 요약패널
+        },
+    });
 };

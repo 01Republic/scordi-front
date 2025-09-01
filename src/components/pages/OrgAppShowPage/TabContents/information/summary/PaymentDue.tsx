@@ -4,6 +4,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {useSetRecoilState} from 'recoil';
 import {navTabIndex} from '^components/pages/OrgAppShowPage';
 import {CalendarDays} from 'lucide-react';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface PaymentDueProps {
     subscription: SubscriptionDto;
@@ -14,8 +15,7 @@ export const PaymentDue = memo((props: PaymentDueProps & WithChildren) => {
     const setTabIndex = useSetRecoilState(navTabIndex);
 
     const {product} = subscription;
-
-    const paymentDue = subscription.nextBillingDate || '-';
+    const paymentDue = subscription.nextBillingDate ? yyyy_mm_dd(subscription.nextBillingDate) : '-';
 
     const colorClass = (() => {
         return 'text-primary';

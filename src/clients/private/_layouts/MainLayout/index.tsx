@@ -1,14 +1,15 @@
 import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
-import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
-import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import {useFlashMessagesConnector} from '^models/_notification/NotificationSession/hooks';
 import {TopLineBannerContainer} from '^models/TopLineBanner/components';
 import {useSelectProducts} from '^models/Product/hook';
-import {useFlashMessagesConnector} from '^models/_notification/NotificationSession/hooks';
-import {Footer} from '../_shared/Footer';
+import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {Background} from './Background';
 import {OrgTopBar} from './OrgTopBar';
 import {TopNavBar} from './TopNavBar';
+import {Footer} from '../_shared/Footer';
+import {OnboardingCatcher} from './OnboardingCatcher';
 import {FlashNotificationMessageContainer} from './FlashNotificationMessageContainer';
 
 interface MainLayoutProps extends WithChildren {
@@ -28,6 +29,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
         <BaseLayout>
             <Background />
             <ChannelTalkHideStyle />
+            <OnboardingCatcher />
 
             {/* Body */}
             <div className="relative min-h-screen">

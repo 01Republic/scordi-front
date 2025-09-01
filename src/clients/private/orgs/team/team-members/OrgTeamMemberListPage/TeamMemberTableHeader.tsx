@@ -1,27 +1,41 @@
 import React, {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 
-interface TeamMemberTableHeaderProps extends ListTableHeaderProps {}
+interface TeamMemberTableHeaderProps {
+    sortVal: 'ASC' | 'DESC';
+    orderBy: (sortKey: string) => void;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
+}
 
 export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) => {
-    const {orderBy} = props;
+    const {sortVal, orderBy, isChecked, onCheck} = props;
 
     return (
         <tr className="bg-slate-100">
-            <SortableTH sortKey="[name]" onClick={orderBy}>
+            <th className="flex items-center justify-center pl-3 pr-1 !relative">
+                <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                    defaultChecked={isChecked}
+                    onChange={(e) => onCheck && onCheck(e.target.checked)}
+                />
+            </th>
+            <SortableTH2 sortKey="[name]" sortVal={sortVal} onClick={orderBy}>
                 이름
-            </SortableTH>
+            </SortableTH2>
 
             {/* 구독 수 */}
-            <SortableTH sortKey="[subscriptionCount]" sortVal="DESC" onClick={orderBy}>
+            <SortableTH2 sortKey="[subscriptionCount]" sortVal={sortVal} onClick={orderBy}>
                 구독 수
-            </SortableTH>
+            </SortableTH2>
 
             {/* 팀 */}
-            <SortableTH sortKey="[teams][id]" onClick={orderBy}>
+            <SortableTH2 sortKey="[teams][id]" sortVal={sortVal} onClick={orderBy}>
                 팀
-            </SortableTH>
+            </SortableTH2>
 
             <th>이메일</th>
             {/*<th>전화번호</th>*/}

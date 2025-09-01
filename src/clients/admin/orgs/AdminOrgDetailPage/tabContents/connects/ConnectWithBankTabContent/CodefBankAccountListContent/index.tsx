@@ -1,36 +1,38 @@
 import React, {memo, ReactNode, useEffect} from 'react';
-import {CardTablePanel, CardTableTH} from '^admin/share';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {X} from 'lucide-react';
+import {useIdParam} from '^atoms/common';
+import {useAdminCodefBankAccounts2} from '^models/CodefBankAccount/hook';
 import {LoadableBox} from '^components/util/loading';
-import {useAdminCodefBankAccounts} from '^models/CodefBankAccount/hook';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {PagePerSelect} from '^components/Paginator';
 import {TabPaneProps} from '^components/util/tabs';
+import {CardTablePanel, CardTableSortableColumn, CardTableTH, CardTableThLabel} from '^admin/share';
+import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {selectedCodefAccountAtom, selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBankAccountItem} from './CodefBankAccountItem';
-import {MessageCircleQuestion, X} from 'lucide-react';
-import Tippy from '@tippyjs/react';
+import {OrgAllCodefBankAccountSyncButton} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithBankTabContent/CodefBankAccountListContent/OrgAllCodefBankAccountSyncButton';
 
 export const CodefBankAccountListContent = memo(function CodefBankAccountListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefAccount, setSelectedCodefAccount] = useRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefAsset = useSetRecoilState(selectedCodefBankAccountAtom);
-    const {isLoading, search, reload, movePage, result, changePageSize} = useAdminCodefBankAccounts();
+    const orgId = useIdParam('id');
+    const {isLoading, search, reload, movePage, result, query, changePageSize, orderBy} =
+        useAdminCodefBankAccounts2(orgId);
 
     useEffect(() => {
         if (!org) return;
 
         if (!selectedCodefAccount) {
             search({
-                relations: ['account', 'codefBillingHistories'],
-                organizationId: org.id,
+                relations: ['account'],
+                page: 1,
                 order: {id: 'DESC'},
             });
         } else {
             search({
-                relations: ['account', 'codefBillingHistories'],
-                organizationId: org.id,
+                relations: ['account'],
                 where: {accountId: selectedCodefAccount.id},
                 page: 1,
                 order: {id: 'DESC'},
@@ -49,7 +51,12 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <div>
+                        <OrgAllCodefBankAccountSyncButton isLoading={isLoading} reload={reload} />
+                    </div>
+
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}
@@ -92,7 +99,7 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
                     pagination={pagination}
                     pageMove={movePage}
                 >
-                    <CardTableTH gridClass="grid-cols-12" className="text-12 items-center">
+                    <CardTableTH gridClass="grid-cols-13" className="text-12 items-center">
                         <div>ID</div>
                         <div>은행</div>
                         {/*<div>개인/법인</div>*/}
@@ -101,8 +108,12 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
                         <div className="col-span-2">이름</div>
                         <div>발행일</div>
                         <div>연동여부</div>
-                        <div className="">
-                            <Label
+                        <CardTableSortableColumn
+                            className="col-span-2 justify-start"
+                            defaultValue={query.order?.lastSyncedAt}
+                            onClick={(sortVal) => orderBy('lastSyncedAt', sortVal)}
+                        >
+                            <CardTableThLabel
                                 text="마지막 연동"
                                 hint={
                                     <div>
@@ -110,9 +121,9 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
                                     </div>
                                 }
                             />
-                        </div>
+                        </CardTableSortableColumn>
                         <div className="">
-                            <Label
+                            <CardTableThLabel
                                 text="결제기간"
                                 hint={
                                     <div>
@@ -131,27 +142,3 @@ export const CodefBankAccountListContent = memo(function CodefBankAccountListCon
         </div>
     );
 });
-
-interface LabelProps {
-    text: ReactNode;
-    hint?: ReactNode;
-    className?: string;
-}
-
-const Label = (props: LabelProps) => {
-    const {text, hint, className = ''} = props;
-
-    return (
-        <div className="flex items-center gap-1">
-            <div>{text}</div>
-
-            {hint && (
-                <Tippy content={hint} className="!text-11">
-                    <div>
-                        <MessageCircleQuestion fontSize={12} className="text-gray-400" />
-                    </div>
-                </Tippy>
-            )}
-        </div>
-    );
-};

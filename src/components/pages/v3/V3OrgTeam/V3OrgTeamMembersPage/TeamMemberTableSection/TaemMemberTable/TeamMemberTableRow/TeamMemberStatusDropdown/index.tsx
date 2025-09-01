@@ -89,7 +89,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                         <MoreDropdownListItem
                                             onClick={() =>
                                                 membership &&
-                                                changeLevel(membership.id, MembershipLevel.MEMBER).then(() => {})
+                                                changeLevel(membership.id, MembershipLevel.MEMBER).then(hideAndReload)
                                             }
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">

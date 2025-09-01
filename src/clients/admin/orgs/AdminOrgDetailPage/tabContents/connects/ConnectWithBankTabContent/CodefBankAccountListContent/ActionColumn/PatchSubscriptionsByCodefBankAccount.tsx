@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {codefBankAccountApi} from '^models/CodefBankAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
+import {isSyncRunningAtom} from '^models/CodefCard/hooks/useCodefCardSyncQueue';
 
 interface PatchSubscriptionsByCodefCardItemProps {
     codefAsset: CodefBankAccountDto;
@@ -17,7 +17,7 @@ interface PatchSubscriptionsByCodefCardItemProps {
 export const PatchSubscriptionsByCodefBankAccount = memo((props: PatchSubscriptionsByCodefCardItemProps) => {
     const {codefAsset, reload} = props;
     const org = useRecoilValue(adminOrgDetail);
-    const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
+    const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
 
     const onClick = () => {
         if (!org) return;

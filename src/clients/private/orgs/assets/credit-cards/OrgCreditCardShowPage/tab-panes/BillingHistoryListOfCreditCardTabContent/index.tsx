@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
-import {useOrgIdParam} from '^atoms/common';
-import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {useBillingHistoryListOfCreditCard2} from '^models/BillingHistory/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentCreditCard} from '../../atom';
 import {BillingHistoryTableControl} from './BillingHistoryTableControl';
@@ -20,26 +20,24 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
     props: BillingHistoryListOfCreditCardTabContentProps,
 ) {
     const {excelUploadModalClose} = props;
-    const orgId = useOrgIdParam();
+    const organizationId = useOrgIdParam();
+    const creditCardId = useIdParam('creditCardId');
     const {currentCreditCard} = useCurrentCreditCard();
-    const {isLoading, isEmptyResult, isNotLoaded, search, result, reload, movePage, changePageSize, orderBy} =
-        useBillingHistoryListOfCreditCard();
-
-    const onReady = () => {
-        if (!currentCreditCard) return;
-        search({
-            relations: ['subscription'],
-            where: {
-                creditCardId: currentCreditCard.id,
-                organizationId: orgId,
-            },
-            order: {issuedAt: 'DESC'},
-        });
-    };
-
-    useEffect(() => {
-        onReady();
-    }, [currentCreditCard]);
+    const queryResult = useBillingHistoryListOfCreditCard2(organizationId, creditCardId, {
+        relations: ['subscription'],
+        order: {issuedAt: 'DESC'},
+    });
+    const {
+        query,
+        isFetching: isLoading,
+        isEmptyResult,
+        data,
+        search,
+        refetch: reload,
+        movePage,
+        changePageSize,
+        orderBy,
+    } = queryResult;
 
     const onDelete = (id: number) => {
         const deleteConfirm = () => {
@@ -64,12 +62,12 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
 
     if (!currentCreditCard) return <></>;
 
-    const {totalItemCount} = result.pagination;
+    const {totalItemCount} = data.pagination;
 
     return (
         <section className="py-4">
             <ListTableContainer
-                pagination={result.pagination}
+                pagination={data.pagination}
                 movePage={movePage}
                 changePageSize={changePageSize}
                 hideTopPaginator
@@ -78,12 +76,18 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
                 <BillingHistoryTableControl
                     creditCard={currentCreditCard}
                     excelUploadModalClose={excelUploadModalClose}
+                    query={query}
+                    data={data}
+                    search={search}
+                    isLoading={isLoading}
+                    refetch={reload}
                 />
+
                 {isEmptyResult ? (
                     <EmptyTable message="결제된 내역이 없어요." />
                 ) : (
                     <ListTable
-                        items={result.items}
+                        items={data.items}
                         isLoading={isLoading}
                         Header={() => <BillingHistoryTableHeaderOfCreditCard orderBy={orderBy} />}
                         Row={({item}) => (

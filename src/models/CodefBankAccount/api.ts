@@ -67,4 +67,10 @@ export const codefBankAccountAdminApi = {
         const url = `/admin/codef-bank-accounts`;
         return api.get(url, {params}).then(paginatedDtoOf(CodefBankAccountDto));
     },
+
+    // 계좌 내역 및 구독 동기화
+    sync(params: {orgId?: number; slackMute?: boolean}) {
+        const url = `/admin/codef-bank-accounts/sync`;
+        return api.patch<void>(url, {}, {params});
+    },
 };

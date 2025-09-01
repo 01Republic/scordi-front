@@ -11,6 +11,8 @@ import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
 import {RotateCw} from 'lucide-react';
+import {format} from 'date-fns';
+import {ko} from 'date-fns/locale';
 
 export const InformationTabContent = memo(() => {
     const [org, setOrg] = useRecoilState(adminOrgDetail);
@@ -110,6 +112,31 @@ export const InformationTabContent = memo(() => {
 
             <ContentPanel title="부가 정보">
                 <ContentPanelList>
+                    <ContentPanelItem>
+                        <div className="flex-1 pr-4">
+                            <div>온보딩 완료 여부</div>
+                        </div>
+                        <div className="flex-1">
+                            {org.onboardingFinishedAt ? (
+                                <div className="flex items-center gap-4">
+                                    <div>{format(org.onboardingFinishedAt, 'Pp', {locale: ko})}</div>
+
+                                    <div>
+                                        <button
+                                            className={`btn btn-scordi btn-sm no-animation btn-animation ${
+                                                isLoading ? 'loading pointer-events-none btn-square' : ''
+                                            }`}
+                                            onClick={() => updateOrg({onboardingFinishedAt: 'NULL'})}
+                                        >
+                                            <span className={isLoading ? 'hidden' : ''}>초기화</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-gray-400">완료안됨</div>
+                            )}
+                        </div>
+                    </ContentPanelItem>
                     <ContentPanelItem>
                         <div className="flex-1 pr-4">
                             <div>멤버 수</div>

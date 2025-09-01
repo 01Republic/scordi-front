@@ -10,6 +10,7 @@ import {getGroupByProduct} from '../../_common/ListPageControl/groupByProduct';
 import {FilterScope} from '../../_common/FilterScope';
 import {CodefAssetParserGroup} from '../../_common/CodefAssetParserGroup';
 import {CodefCardParserVersionListModal} from '../CodefCardParserVersionListModal';
+import {AllCodefCardSyncButton} from './AllCodefCardSyncButton';
 
 export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
     const {data: result, isFetching: isLoading, refetch} = useCodefCardParserListInFactory();
@@ -25,6 +26,11 @@ export const CodefCardParserListPage = memo(function CodefCardParserListPage() {
             title={<ListPageTitle currentSubject="card" />}
             breadcrumbs={[{text: '파서 공장 (신)'}, {text: '[코드에프] 카드 파서 목록'}]}
             createPageRoute={CodefCardParserNewPageRoute.path()}
+            Buttons={() => (
+                <div className="flex items-center gap-2 mr-4">
+                    <AllCodefCardSyncButton />
+                </div>
+            )}
         >
             <div className="pt-10 px-2 sm:px-4">
                 <ListPageControl
