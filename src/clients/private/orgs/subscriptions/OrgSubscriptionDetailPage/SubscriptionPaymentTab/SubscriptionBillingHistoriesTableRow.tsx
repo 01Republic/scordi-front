@@ -20,6 +20,8 @@ import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/b
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
+import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {AbroadPayAmount} from '^models/BillingHistory/components/AbroadPayAmount';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -97,6 +99,11 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
                 <PayAmount billingHistory={billingHistory} />
             </td>
 
+            {/* 청구금액 */}
+            <td className={'text-14'}>
+                <AbroadPayAmount billingHistory={billingHistory} />
+            </td>
+
             {/* 연결된 결제수단 */}
             <td>
                 {billingHistory.creditCard ? (
@@ -104,6 +111,12 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
                         href={OrgCreditCardShowPageRoute.path(organizationId, billingHistory.creditCard.id)}
                     >
                         <CreditCardProfileCompact item={billingHistory.creditCard} />
+                    </OpenButtonColumn>
+                ) : billingHistory.bankAccount ? (
+                    <OpenButtonColumn
+                        href={OrgCreditCardShowPageRoute.path(organizationId, billingHistory.bankAccount.id)}
+                    >
+                        <BankAccountProfileCompact item={billingHistory.bankAccount} />
                     </OpenButtonColumn>
                 ) : (
                     <EmptyValue />

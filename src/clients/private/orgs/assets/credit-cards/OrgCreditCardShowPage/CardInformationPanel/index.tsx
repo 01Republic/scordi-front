@@ -12,6 +12,12 @@ import {CreditCardTeam} from './CreditCardTeam';
 import {CreditCardHoldingMemberId} from './CreditCardHoldingMemberId';
 import {FormControl} from './FormControl';
 import {CardCompanyNotSetAlert} from './InformationAlert';
+import {teamCreditCardApi} from '^models/TeamCreditCard/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {creditCardApi} from '^models/CreditCard/api';
+import {allSettled} from '^utils/array';
+import {TeamDto} from '^models/Team/type';
 
 interface CreditCardInformationPanelProps {
     orgId: number;
@@ -23,6 +29,7 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
 
     const {
         currentCreditCard,
+        reload,
         formData,
         setFormValue,
         onSubmit,
@@ -55,6 +62,8 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
     };
 
     const expiry = currentCreditCard.decryptSign().expiry;
+
+    const originalTeams = currentCreditCard.teams || [];
 
     return (
         <div>
@@ -149,7 +158,34 @@ export const CardInformationPanel = memo(function CardInformationPanel(props: Cr
 
             <div className="p-8 border-t border-gray-200">
                 <div className="flex flex-col gap-2.5">
-                    <CreditCardTeam defaultValue={currentCreditCard?.teams} />
+                    <CreditCardTeam
+                        isEditMode={isEditMode}
+                        isLoading={isLoading}
+                        defaultValue={currentCreditCard?.teams}
+                        onChange={([teamId]) => {
+                            const api = creditCardApi.teamsApi;
+                            const allRemove = async (teams: TeamDto[]) => {
+                                const requests = teams.map((team) => api.destroy(creditCardId, team.id));
+                                return allSettled(requests)
+                                    .then(() => reload())
+                                    .catch(errorToast);
+                            };
+
+                            if (teamId) {
+                                const originalTeam = originalTeams.find((originalTeam) => originalTeam.id === teamId);
+                                if (originalTeam) return;
+
+                                return allRemove(originalTeams).then(() => {
+                                    api.create(creditCardId, teamId)
+                                        .then(() => reload())
+                                        .catch(errorToast);
+                                });
+                            } else {
+                                if (!originalTeams.length) return;
+                                return allRemove(originalTeams);
+                            }
+                        }}
+                    />
 
                     <CreditCardHoldingMemberId
                         isEditMode={isEditMode}

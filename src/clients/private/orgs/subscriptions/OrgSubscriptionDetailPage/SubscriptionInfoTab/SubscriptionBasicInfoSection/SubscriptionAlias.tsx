@@ -18,7 +18,7 @@ export const SubscriptionAlias = memo((props: CardSectionInputProps) => {
     const value = defaultValue ? defaultValue : <EmptyValue />;
 
     return (
-        <FormControl label="워크스페이스명">
+        <FormControl label="구독 별칭">
             {isEditMode ? (
                 <input
                     className="w-full input border-gray-200 bg-gray-100 h-[50px]"

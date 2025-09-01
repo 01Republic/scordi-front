@@ -23,7 +23,7 @@ export const SubscriptionMaster = memo((props: SubscriptionMasterProps) => {
     if (!subscription) return <></>;
 
     return (
-        <FormControl label="담당자">
+        <FormControl label="구독 관리자">
             {isEditMode ? (
                 <TeamMemberSelectColumn
                     className={'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center h-[50px]'}

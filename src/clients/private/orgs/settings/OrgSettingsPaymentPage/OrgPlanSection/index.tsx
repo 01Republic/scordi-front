@@ -7,6 +7,7 @@ import {OrgScheduledSubscriptionList} from './OrgScheduledSubscriptionList';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
 import {RotateCw} from 'lucide-react';
+import {ChannelTalk_Url} from '^config/constants';
 
 interface OrgPlanSectionProps {
     orgId: number;
@@ -50,7 +51,10 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                 }
                 titleNoMargin={!currentSubscription}
                 buttonText="플랜 변경"
-                buttonOnClick={() => setIsSelectPlanModalOpened(true)}
+                buttonOnClick={() => {
+                    window.open(ChannelTalk_Url, '_blank');
+                    // setIsSelectPlanModalOpened(true);
+                }}
                 isLoading={isLoading}
             >
                 {!currentSubscription && isLoading && (

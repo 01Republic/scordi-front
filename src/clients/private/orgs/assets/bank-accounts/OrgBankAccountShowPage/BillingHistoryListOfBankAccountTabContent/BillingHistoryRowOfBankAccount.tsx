@@ -14,6 +14,7 @@ import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/typ
 import {ManualBillingHistoryModal} from '^clients/private/_modals/ManualBillingHistoryModal';
 import {errorToast} from '^api/api';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
+import {AbroadPayAmount} from '^models/BillingHistory/components/AbroadPayAmount';
 
 interface BillingHistoryRowOfBankAccountProps {
     item: BillingHistoryDto;
@@ -64,6 +65,11 @@ export const BillingHistoryRowOfBankAccount = memo((props: BillingHistoryRowOfBa
             {/*결제금액*/}
             <td>
                 <PayAmount billingHistory={billingHistory} />
+            </td>
+
+            {/*청구금액*/}
+            <td>
+                <AbroadPayAmount billingHistory={billingHistory} />
             </td>
 
             {/*연결된 구독*/}

@@ -7,10 +7,11 @@ interface SortableTH2Props extends WithChildren {
     sortVal: 'ASC' | 'DESC';
     onClick: (sortKey: string, nextVal: 'ASC' | 'DESC') => void;
     className?: string;
+    colSpan?: number;
 }
 
 export const SortableTH2 = memo((props: SortableTH2Props) => {
-    const {sortKey, sortVal, onClick, className, children} = props;
+    const {sortKey, sortVal, onClick, className, children, colSpan} = props;
 
     const isSortable = !!sortKey && !!onClick;
     const nextVal = sortVal === 'ASC' ? 'DESC' : 'ASC';
@@ -21,10 +22,10 @@ export const SortableTH2 = memo((props: SortableTH2Props) => {
     };
 
     return (
-        <th onClick={handleSort} className={`cursor-pointer bg-transparent ${className}`}>
+        <th onClick={handleSort} className={`cursor-pointer bg-transparent ${className}`} colSpan={colSpan && colSpan}>
             {isSortable ? (
                 <div className={`flex items-center ${className}`}>
-                    {children} {sortVal === 'DESC' ? <ArrowUp size={16} /> : <ArrowDown size={16} />}
+                    {children} {sortVal === 'DESC' ? <ArrowDown size={16} /> : <ArrowUp size={16} />}
                 </div>
             ) : (
                 children

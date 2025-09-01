@@ -1,8 +1,8 @@
-import React, {memo, useRef} from 'react';
+import React, {memo, ReactNode, useRef} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import {CardTableTR} from '^admin/share';
-import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
+import {formatDate, hh_mm, lpp, yyyy_mm_dd} from '^utils/dateTime';
 import {LinkTo} from '^components/util/LinkTo';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
@@ -18,7 +18,10 @@ import {codefCardApi} from '^models/CodefCard/api';
 import {errorToast} from '^api/api';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardRowActionColumn} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithCardTabContent/CodefCardListContent/ActionColumn';
-import {Check, FolderOpen, MoreHorizontal, RotateCw, X, XCircle} from 'lucide-react';
+import {Check, FolderOpen, MessageCircleQuestion, MoreHorizontal, RotateCw, X, XCircle} from 'lucide-react';
+import {format} from 'date-fns';
+import {ko} from 'date-fns/locale';
+import {unitFormat} from '^utils/number';
 
 interface CodefCardItemProps {
     codefCard: CodefCardDto;
@@ -33,7 +36,6 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
     const {isSyncRunning} = useCodefCardSync();
 
     const account = codefCard.account!;
-    const codefBillingHistories = codefCard.codefBillingHistories || [];
     const isConnected = !!codefCard.creditCardId;
     const isSleep = !!codefCard.isSleep;
     const sleepStyleClass: string = 'opacity-20';
@@ -45,7 +47,7 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
 
     return (
         <LoadableBox loadingType={2} isLoading={isSyncRunning} noPadding spinnerSize={20} spinnerPos="center">
-            <CardTableTR gridClass="grid-cols-12" className={`!text-12 cursor-pointer group !gap-1`}>
+            <CardTableTR gridClass="grid-cols-13" className={`!text-12 cursor-pointer group !gap-1`}>
                 {/* ID */}
                 <div>
                     <span className="badge badge-xs">#{codefCard.id}</span>
@@ -65,7 +67,11 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
 
                 {/* 끝자리 */}
                 <div className="flex items-center gap-1 justify-between">
-                    <div className="tooltip tooltip-top tooltip-success" data-tip={codefCard.resCardNo}>
+                    <div
+                        className="tooltip tooltip-top tooltip-success"
+                        data-res-card-no={codefCard.resCardNo}
+                        data-tip={codefCard.resCardNo}
+                    >
                         <CodefCardTagUI codefCard={codefCard} onClick={() => goCardHistories()} />
                     </div>
                 </div>
@@ -100,7 +106,9 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 </div>
 
                 {/* 발행일 */}
-                <div className={isSleep ? sleepStyleClass : ''}>{codefCard.resIssueDate}</div>
+                <div className={isSleep ? sleepStyleClass : ''}>
+                    {codefCard.resIssueDate || <span className="italic text-gray-400">없음</span>}
+                </div>
 
                 {/* 연동여부 */}
                 <div className="flex items-center gap-1.5">
@@ -120,15 +128,47 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                     )}
                 </div>
 
-                {/* 연동 시작일 */}
-                <div className="">{codefCard.syncedStartDate && yyyy_mm_dd(codefCard.syncedStartDate)}</div>
+                {/*/!* 연동 시작일 *!/*/}
+                {/*<div className="">{codefCard.syncedStartDate && yyyy_mm_dd(codefCard.syncedStartDate)}</div>*/}
+
+                {/*/!* 마지막 연동 *!/*/}
+                {/*<div className="">{codefCard.syncedEndDate && yyyy_mm_dd(codefCard.syncedEndDate)}</div>*/}
 
                 {/* 마지막 연동 */}
-                <div className="">{codefCard.syncedEndDate && yyyy_mm_dd(codefCard.syncedEndDate)}</div>
+                <div className="text-11 col-span-2">
+                    {codefCard.lastSyncedAt && (
+                        <div>
+                            <Tippy content={lpp(codefCard.lastSyncedAt)} placement="top-start">
+                                <div>{formatDate(codefCard.lastSyncedAt)}</div>
+                            </Tippy>
+                        </div>
+                    )}
+                </div>
+
+                {/* 결제기간 */}
+                <div className="">
+                    <div className="flex items-center flex-wrap text-11 leading-none">
+                        <span>
+                            {codefCard.syncedStartDate ? (
+                                lpp(codefCard.syncedStartDate, 'P')
+                            ) : (
+                                <span className="italic text-gray-400">없음</span>
+                            )}
+                            <span className="mx-[1px]">~</span>
+                        </span>
+                        <span>
+                            {codefCard.syncedEndDate ? (
+                                lpp(codefCard.syncedEndDate, 'P')
+                            ) : (
+                                <span className="italic text-gray-400">없음</span>
+                            )}
+                        </span>
+                    </div>
+                </div>
 
                 {/* 불러온 결제내역 수 */}
                 <div className="text-right" onClick={() => goCardHistories()}>
-                    {codefBillingHistories.length.toLocaleString()}건
+                    {unitFormat(codefCard.codefBillingHistoryCount, '건')}
                 </div>
 
                 <div className="flex items-center justify-end gap-1">
@@ -138,4 +178,3 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
         </LoadableBox>
     );
 });
-CodefCardItem.displayName = 'CodefCardItem';

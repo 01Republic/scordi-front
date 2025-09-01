@@ -19,6 +19,8 @@ import {
 } from '^models/SubscriptionSeat/type';
 import {MergeSubscriptionRequestDto} from '^models/Subscription/types/MergeSubscription.request.dto';
 import {TeamMemberDto} from '^models/TeamMember';
+import {FindAllSubscriptionsGroupedByProductDto} from '../types/find-all.subscriptions-grouped-by-product.query.dto';
+import {ProductDto} from '^models/Product/type';
 
 const NAMESPACE = 'subscriptions';
 
@@ -30,6 +32,11 @@ export const subscriptionApi = {
     index: (params?: FindAllSubscriptionsQuery) => {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+    },
+
+    groupedByProduct: (params?: FindAllSubscriptionsGroupedByProductDto) => {
+        const url = `/${NAMESPACE}/grouped-by-product`;
+        return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
     },
 
     // 구독 조회 - 결과 다운로드

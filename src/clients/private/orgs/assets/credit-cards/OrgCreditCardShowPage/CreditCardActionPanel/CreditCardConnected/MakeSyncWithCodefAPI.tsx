@@ -40,13 +40,32 @@ export const MakeSyncWithCodefAPI = memo(() => {
     // 실행중이 아닌경우
     if (!isSyncRunning) {
         return (
-            <Tippy visible={isHover} content="Sync now">
-                <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-                    <div className="btn btn-square border-gray-300" onClick={onClick}>
-                        <RotateCw fontSize={20} />
-                    </div>
-                </div>
-            </Tippy>
+            <>
+                {currentCodefCard.isSleep === false ? (
+                    <Tippy visible={isHover} content="Sync now">
+                        <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+                            <div className="btn btn-square border-gray-300" onClick={onClick}>
+                                <RotateCw fontSize={20} />
+                            </div>
+                        </div>
+                    </Tippy>
+                ) : (
+                    <Tippy
+                        content={
+                            <div className="text-12 text-center">
+                                <div>해지 또는 휴면처리된 카드에요.</div>
+                            </div>
+                        }
+                        visible={true}
+                    >
+                        <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+                            <div className="border-gray-300 btn btn-disabled2" onClick={onClick}>
+                                <RotateCw fontSize={20} />
+                            </div>
+                        </div>
+                    </Tippy>
+                )}
+            </>
         );
     } else {
         // 실행중인 경우

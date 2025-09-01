@@ -43,18 +43,20 @@ export const RenewSyncWithCodefApi = memo(function (props: Props) {
 
     const errorData = currentCodefCard.account.errorData;
 
+    const a = true;
+
     return (
         <div className="flex items-center gap-4">
-            <Tippy
-                content={
-                    <div className="text-[13px] text-center">
-                        <div>인증이 만료되었어요.</div>
-                        <div>재연결이 필요합니다!</div>
-                    </div>
-                }
-                visible={true}
-            >
-                <div>
+            {currentCodefCard.isSleep === false ? (
+                <Tippy
+                    content={
+                        <div className="text-12 text-center">
+                            <div>인증이 만료되었어요.</div>
+                            <div>재연결이 필요합니다!</div>
+                        </div>
+                    }
+                    visible={true}
+                >
                     <button
                         className={`btn btn-scordi no-animation btn-animation gap-2 ${
                             isLoading || isSyncRunning ? 'link_to-loading' : ''
@@ -64,8 +66,22 @@ export const RenewSyncWithCodefApi = memo(function (props: Props) {
                         <Sparkles />
                         <span>재연결</span>
                     </button>
-                </div>
-            </Tippy>
+                </Tippy>
+            ) : (
+                <Tippy
+                    content={
+                        <div className="text-12 text-center">
+                            <div>해지 또는 휴면처리된 카드에요.</div>
+                        </div>
+                    }
+                    visible={true}
+                >
+                    <button className="gap-2 border-gray-300 btn btn-disabled2">
+                        <Sparkles />
+                        <span>재연결</span>
+                    </button>
+                </Tippy>
+            )}
 
             <ReConnectCodefAccountModal
                 isOpened={isConnectModalOpened}

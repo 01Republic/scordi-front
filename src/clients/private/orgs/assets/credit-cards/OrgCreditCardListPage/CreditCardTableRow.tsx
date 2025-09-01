@@ -16,6 +16,10 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {debounce} from 'lodash';
 import {MonthlyPaidAmount} from '^models/BillingHistory/components/MonthlyPaidAmount';
+import {TeamSelect} from '^models/Team/components/TeamSelect';
+import {TeamDto} from '^models/Team/type';
+import {allSettled} from '^utils/array';
+import {errorToast} from '^api/api';
 
 interface CreditCardTableRowProps {
     creditCard: CreditCardDto;
@@ -35,7 +39,6 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
     }, 250);
 
     const company = creditCard.company;
-    const subscriptions = creditCard.subscriptions;
     const expiry = creditCard.decryptSign().expiry;
 
     const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
@@ -70,10 +73,44 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
                 />
             </td>
 
+            {/* 팀 */}
+            <td>
+                <TeamSelect
+                    className="flex-auto"
+                    defaultValue={(creditCard.teams || [])[0]}
+                    onChange={(team) => {
+                        const api = creditCardApi.teamsApi;
+                        const originalTeams = creditCard.teams || [];
+                        const allRemove = async (teams: TeamDto[]) => {
+                            const requests = teams.map((team) => api.destroy(creditCard.id, team.id));
+                            return allSettled(requests)
+                                .then(() => reload && reload())
+                                .catch(errorToast);
+                        };
+
+                        const teamId = team?.id;
+                        if (teamId) {
+                            const originalTeam = originalTeams.find((originalTeam) => originalTeam.id === teamId);
+                            if (originalTeam) return;
+
+                            return allRemove(originalTeams).then(() => {
+                                api.create(creditCard.id, teamId)
+                                    .then(() => reload && reload())
+                                    .catch(errorToast);
+                            });
+                        } else {
+                            if (!originalTeams.length) return;
+                            return allRemove(originalTeams);
+                        }
+                    }}
+                    creatable
+                />
+            </td>
+
             {/* 구독 수 */}
             <td>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    <small>{subscriptions ? subscriptions.length : 0} Apps</small>
+                    <small>{creditCard.subscriptionCount} Apps</small>
                 </p>
             </td>
 

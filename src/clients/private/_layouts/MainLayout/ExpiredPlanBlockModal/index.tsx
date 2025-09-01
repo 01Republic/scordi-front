@@ -61,17 +61,25 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
                     </div>
                     <div className="flex flex-col gap-4 w-full justify-center mt-10">
                         <div className="flex items-center gap-2">
-                            <div className="flex-1 grid grid-cols-2 items-center gap-2">
-                                <button
-                                    className="btn btn-lg btn-block btn-scordi "
-                                    onClick={() => setIsSelectPlanModalOpened(true)}
-                                >
-                                    구독하기
-                                </button>
+                            <div className="flex-1 grid grid-cols-1 items-center gap-2">
+                                {/*<button*/}
+                                {/*    className="btn btn-lg btn-block btn-scordi "*/}
+                                {/*    onClick={() => setIsSelectPlanModalOpened(true)}*/}
+                                {/*>*/}
+                                {/*    구독하기*/}
+                                {/*</button>*/}
+                                {/*<LinkTo*/}
+                                {/*    href={ChannelTalk_Url}*/}
+                                {/*    target="_blank"*/}
+                                {/*    className="btn btn-block btn-lg"*/}
+                                {/*    displayLoading={false}*/}
+                                {/*>*/}
+                                {/*    문의하기*/}
+                                {/*</LinkTo>*/}
                                 <LinkTo
                                     href={ChannelTalk_Url}
                                     target="_blank"
-                                    className="btn btn-block btn-lg"
+                                    className="btn btn-block btn-lg btn-scordi"
                                     displayLoading={false}
                                 >
                                     문의하기

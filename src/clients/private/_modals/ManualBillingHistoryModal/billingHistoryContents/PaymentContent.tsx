@@ -23,26 +23,18 @@ export const PaymentContent = memo((props: PaymentContentProps) => {
         result: creditCardResult,
         reload: creditCardReload,
         isLoading: isCreditCardLoading,
-    } = useCreditCards2(
-        orgId,
-        {
-            where: {organizationId: orgId},
-            itemsPerPage: 0,
-        },
-        true,
-    );
+    } = useCreditCards2(orgId, {
+        where: {organizationId: orgId},
+        itemsPerPage: 0,
+    });
     const {
         result: bankAccountResult,
         reload: bankAccountReload,
         isLoading: isBankAccountLoading,
-    } = useBankAccounts2(
-        orgId,
-        {
-            where: {organizationId: orgId},
-            itemsPerPage: 0,
-        },
-        true,
-    );
+    } = useBankAccounts2(orgId, {
+        where: {organizationId: orgId},
+        itemsPerPage: 0,
+    });
 
     const noChange = readonly === '결제수단';
 

@@ -1,6 +1,7 @@
 export const appEnv = process.env.NODE_ENV! as 'development' | 'production' | 'test' | 'staging';
 export const deployEnv = process.env.NEXT_PUBLIC_APP_ENV! as 'development' | 'production' | 'test' | 'staging';
 export const serviceHost = process.env.NEXT_PUBLIC_SERVICE_HOST!;
+export const landingPageUrl = process.env.NEXT_PUBLIC_LANDING_PAGE_URL!;
 
 // 인라인 주석이 제거되지 않는 별 개 희한한 이슈가 있어서
 // 인라인 주석을 제거하는 간단한 함수를 만들었습니다.

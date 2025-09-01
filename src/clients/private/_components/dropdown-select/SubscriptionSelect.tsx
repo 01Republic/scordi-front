@@ -46,9 +46,9 @@ export const SubscriptionSelect = memo((props: SubscriptionSelectProps) => {
                     <SubscriptionProfile
                         subscription={subscriptionToShow}
                         className="gap-2"
-                        isAlias={false}
                         width={20}
                         height={20}
+                        isAlias={true}
                     />
                 ) : (
                     <span className="text-gray-500">구독 선택</span>
@@ -84,7 +84,6 @@ export const SubscriptionSelect = memo((props: SubscriptionSelectProps) => {
                                         <SubscriptionProfile
                                             subscription={subscription}
                                             className="gap-2"
-                                            isAlias={false}
                                             width={20}
                                             height={20}
                                         />

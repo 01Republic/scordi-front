@@ -6,6 +6,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
 import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {useUpdateSubscription} from '^models/Subscription/hook';
 
 interface MasterSelectProps {
     subscription: SubscriptionDto;
@@ -16,6 +17,8 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
     const {toast} = useToast();
     const {search} = useTeamMembers();
     const {subscription, onChange} = props;
+
+    const {mutateAsync} = useUpdateSubscription(subscription.id);
 
     const getOptions = async (keyword?: string) => {
         return search(
@@ -32,15 +35,13 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
     const onSelect = async (teamMember: TeamMemberDto) => {
         if (teamMember.id === subscription.master?.id) return;
 
-        return subscriptionApi
-            .update(subscription.id, {masterId: teamMember.id})
+        return mutateAsync({masterId: teamMember.id})
             .then(() => onChange(teamMember))
             .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     const optionDetach = async () => {
-        return subscriptionApi
-            .update(subscription.id, {masterId: null})
+        return mutateAsync({masterId: null})
             .then(() => onChange())
             .finally(() => toast.success('연결을 해제했어요.'));
     };

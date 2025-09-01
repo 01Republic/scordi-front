@@ -31,7 +31,3 @@ export const subscriptionsForAccountAtom = pagedResourceAtom<SubscriptionDto, Fi
 export const subscriptionsForCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionByCardQueryDto>({
     key: 'subscriptionsForCardAtom',
 });
-
-export const codefCardsAdminAtom = pagedResourceAtom<CodefCardDto, FindAllCardAdminQueryDto>({
-    key: 'codefCardsAdminAtom',
-});

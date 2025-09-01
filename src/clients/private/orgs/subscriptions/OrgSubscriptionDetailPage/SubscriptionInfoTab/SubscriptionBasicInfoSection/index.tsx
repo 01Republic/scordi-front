@@ -11,6 +11,7 @@ import {SubscriptionMaster} from './SubscriptionMaster';
 import {SubscriptionTeam} from './SubscriptionTeam';
 import {errorToast} from '^api/api';
 import {useShowSubscription, useUpdateSubscription} from '^models/Subscription/hook';
+import {useIdParam} from '^atoms/common';
 
 interface SubscriptionBasicInfoSectionProps {
     currentSubscription: SubscriptionDto;
@@ -18,6 +19,7 @@ interface SubscriptionBasicInfoSectionProps {
 
 export const SubscriptionBasicInfoSection = memo((props: SubscriptionBasicInfoSectionProps) => {
     const {currentSubscription} = props;
+    const {mutateAsync: updateSubscription} = useUpdateSubscription(currentSubscription.id);
 
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
@@ -25,11 +27,9 @@ export const SubscriptionBasicInfoSection = memo((props: SubscriptionBasicInfoSe
 
     if (!currentSubscription) return <></>;
 
-    const {mutateAsync: updateSubscription} = useUpdateSubscription();
-
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         if (!currentSubscription) return;
-        updateSubscription({subscriptionId: currentSubscription.id, data: dto})
+        updateSubscription(dto)
             .then(() => setIsSaving(true))
             .then(() => toast.success('변경사항을 저장했어요.'))
             .then(() => setIsEditMode(false))

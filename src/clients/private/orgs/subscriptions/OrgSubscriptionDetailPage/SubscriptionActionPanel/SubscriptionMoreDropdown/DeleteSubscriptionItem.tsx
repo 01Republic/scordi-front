@@ -8,12 +8,14 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {useCurrentSubscription} from '../../atom';
 import {useRemoveSubscription, useSubscriptionTableListAtom} from '^models/Subscription/hook';
+import {useIdParam} from '^atoms/common';
 
 export const DeleteSubscriptionItem = memo(() => {
+    const id = useIdParam('subscriptionId');
     const {currentSubscription: subscription} = useCurrentSubscription();
     const router = useRouter();
     const {reload} = useSubscriptionTableListAtom();
-    const {mutate: deleteSubscription} = useRemoveSubscription();
+    const {mutate: deleteSubscription} = useRemoveSubscription(id);
 
     if (!subscription) return <></>;
 
@@ -33,7 +35,7 @@ export const DeleteSubscriptionItem = memo(() => {
             );
 
         return confirmed(removeConfirm())
-            .then(() => deleteSubscription(id))
+            .then(() => deleteSubscription())
             .then(() => toast.success('구독이 삭제되었어요.'))
             .then(() => router.replace(OrgSubscriptionListPageRoute.path(organizationId)))
             .then(() => reload())

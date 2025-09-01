@@ -4,7 +4,7 @@ import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
 import {alert2, confirm2, confirmed} from '^components/util/dialog';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
-import {dayBefore, yyyy_mm_dd} from '^utils/dateTime';
+import {dayBefore, lpp, yyyy_mm_dd} from '^utils/dateTime';
 import {errorToast} from '^api/api';
 import {ChannelTalk_Url} from '^config/constants';
 
@@ -31,9 +31,7 @@ export const UnsubscribeButton = memo((props: UnsubscribeButtonProps) => {
 
                     <div className="text-14">
                         <div>1) 지금 해지해도 남은 구독 기간 동안 사용할 수 있어요.</div>
-                        <div className="text-center py-6 font-semibold">
-                            {yyyy_mm_dd(dayBefore(1, nextDate), '. ')} 까지
-                        </div>
+                        <div className="text-center py-6 font-semibold">{lpp(nextDate, 'P')} 까지</div>
                         <div>2) 다음 결제일 부터 결제가 갱신되지 않아요.</div>
                     </div>
                 </div>,

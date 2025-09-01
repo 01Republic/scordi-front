@@ -10,6 +10,7 @@ import {getGroupByProduct} from '../../_common/ListPageControl/groupByProduct';
 import {FilterScope} from '../../_common/FilterScope';
 import {CodefAssetParserGroup} from '../../_common/CodefAssetParserGroup';
 import {CodefBankAccountParserVersionListModal} from '../CodefBankAccountParserVersionListModal';
+import {AllCodefBankAccountSyncButton} from './AllCodefCardSyncButton';
 
 export const CodefBankAccountParserListPage = memo(function CodefBankAccountParserListPage() {
     const {data: result, isFetching: isLoading, refetch} = useCodefBankAccountParserListInFactory();
@@ -25,6 +26,11 @@ export const CodefBankAccountParserListPage = memo(function CodefBankAccountPars
             title={<ListPageTitle currentSubject="bank-account" />}
             breadcrumbs={[{text: '파서 공장 (신)'}, {text: '[코드에프] 계좌 파서 목록'}]}
             createPageRoute={CodefBankAccountParserNewPageRoute.path()}
+            Buttons={() => (
+                <div className="flex items-center gap-2 mr-4">
+                    <AllCodefBankAccountSyncButton />
+                </div>
+            )}
         >
             <div className="pt-10 px-2 sm:px-4">
                 <ListPageControl

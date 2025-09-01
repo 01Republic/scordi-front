@@ -5,7 +5,7 @@ import {errorToast} from '^api/api';
 import {CardTablePanel} from '^admin/share';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
-import {useAdminCodefAccounts} from '^models/CodefAccount/hook';
+import {useAdminCodefAccounts2} from '^models/CodefAccount/hook';
 import {codefAccountAdminApi} from '^models/CodefAccount/api';
 import {PagePerSelect} from '^components/Paginator';
 import {LoadableBox} from '^components/util/loading';
@@ -13,34 +13,27 @@ import {TabPaneProps} from '^components/util/tabs';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {selectedCodefAccountAtom} from '../atoms';
 import {getCodefAccountColumns} from './columns';
+import {useIdParam} from '^atoms/common';
 
 export const CodefAccountListContent = memo(function (props: TabPaneProps) {
     const {moveTab = console.log} = props;
     const org = useRecoilValue(adminOrgDetail);
-    const {search, result, isLoading, reload, movePage, changePageSize} = useAdminCodefAccounts();
     const setSelectedCodefAccount = useSetRecoilState(selectedCodefAccountAtom);
+    const orgId = useIdParam('id');
+    const {result, isLoading, reload, movePage, changePageSize} = useAdminCodefAccounts2(orgId, {
+        relations: ['connectedIdentity', 'codefBankAccounts', 'bankAccounts'],
+        where: {businessType: CodefRequestBusinessType.Bank},
+        order: {id: 'DESC'},
+    });
 
     useEffect(() => {
         if (!org) return;
-        search({
-            relations: ['connectedIdentity', 'codefBankAccounts', 'bankAccounts'],
-            where: {orgId: org.id, businessType: CodefRequestBusinessType.Bank},
-            order: {id: 'DESC'},
-        });
         setSelectedCodefAccount(undefined);
     }, [org]);
 
     if (!org) return <></>;
 
     const {items, pagination} = result;
-
-    const columns = getCodefAccountColumns({
-        reload,
-        moveTab: (tabIndex, account) => {
-            moveTab(tabIndex);
-            setSelectedCodefAccount(account);
-        },
-    });
 
     return (
         <div>
@@ -65,6 +58,7 @@ export const CodefAccountListContent = memo(function (props: TabPaneProps) {
                     </button>
 
                     <PagePerSelect
+                        isLoading={isLoading}
                         className="select-sm"
                         defaultValue={pagination.itemsPerPage}
                         changePageSize={changePageSize}
@@ -81,7 +75,13 @@ export const CodefAccountListContent = memo(function (props: TabPaneProps) {
                     entries={items}
                     pagination={pagination}
                     pageMove={movePage}
-                    columns={columns}
+                    columns={getCodefAccountColumns({
+                        reload,
+                        moveTab: (tabIndex, account) => {
+                            moveTab(tabIndex);
+                            setSelectedCodefAccount(account);
+                        },
+                    })}
                 />
             </LoadableBox>
         </div>

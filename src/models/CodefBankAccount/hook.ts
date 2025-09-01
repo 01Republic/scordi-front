@@ -10,8 +10,7 @@ import {ErrorResponse} from '^models/User/types';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
-import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
-import {codefBankAccountsAdminAtom} from '^models/CodefBankAccount/atom';
+import {usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {useState} from 'react';
 
 /* 코드에프 계좌 조회 */
@@ -132,17 +131,20 @@ export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAc
  * ADMIN
  */
 
-export const useAdminCodefBankAccounts = () => useCodefBankAccountsAdmin(codefBankAccountsAdminAtom);
-
-const useCodefBankAccountsAdmin = (
-    atoms: PagedResourceAtoms<CodefBankAccountDto, FindAllBankAccountAdminQueryDto>,
-    mergeMode = false,
-) => {
-    return usePagedResource(atoms, {
-        useOrgId: false,
-        endpoint: (params) => codefBankAccountAdminApi.index(params),
-        // @ts-ignore
-        getId: 'id',
-        mergeMode,
+export const useAdminCodefBankAccounts2 = (orgId: number | undefined, params?: FindAllBankAccountAdminQueryDto) => {
+    const [query, setQuery] = useState(params || {});
+    const queryResult = useQuery({
+        queryKey: ['admin/useAdminCodefBankAccounts2', orgId, query],
+        queryFn: () => {
+            const {...q} = query || {};
+            q.organizationId = orgId;
+            return codefBankAccountAdminApi.index(q).then((res) => res.data);
+        },
+        initialData: Paginated.init(),
+        enabled: !!orgId && !!Object.keys(query).length,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
+
+    return usePaginateUtils({query, queryResult, setQuery});
 };

@@ -6,16 +6,16 @@ import {SubscriptionDto} from '^models/Subscription/types/Subscription.dto';
 import {MergeSubscriptionModal} from './MergeSubscriptionModal';
 
 interface BottomActionBarProps {
-    items: CheckboxHandler<SubscriptionDto>;
+    items: SubscriptionDto[];
     onClear: () => void;
 }
 
 export const BottomActionBar = (props: BottomActionBarProps) => {
     const {items, onClear} = props;
-    const itemCount = items.checkedItems.length;
+    const itemCount = items.length;
     const [isMergeSubscriptionModal, setIsMergeSubscriptionModal] = useState(false);
 
-    const uniqueProductCount = new Set(items.checkedItems.map((subscription) => subscription.productId)).size;
+    const uniqueProductCount = new Set(items.map((subscription) => subscription.productId)).size;
 
     const canMerge = itemCount >= 2 && uniqueProductCount === 1;
 
@@ -53,7 +53,7 @@ export const BottomActionBar = (props: BottomActionBarProps) => {
             <MergeSubscriptionModal
                 isOpened={isMergeSubscriptionModal}
                 onClose={() => setIsMergeSubscriptionModal(false)}
-                subscriptions={items.checkedItems}
+                subscriptions={items}
                 onClear={onClear}
             />
         </div>

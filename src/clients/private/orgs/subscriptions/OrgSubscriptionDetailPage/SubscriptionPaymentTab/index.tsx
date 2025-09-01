@@ -29,7 +29,7 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
                 organizationId: orgId,
                 subscriptionId: subscription?.id,
             },
-            order: {paidAt: 'DESC'},
+            order: {issuedAt: 'DESC'},
         });
 
     if (!orgId || !subscription) return <></>;

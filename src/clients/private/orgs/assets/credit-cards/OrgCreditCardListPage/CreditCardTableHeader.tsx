@@ -1,29 +1,39 @@
 import React, {memo} from 'react';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 
-interface CreditCardTableHeaderProps extends ListTableHeaderProps {}
+interface CreditCardTableHeaderProps extends ListTableHeaderProps {
+    sortVal: 'ASC' | 'DESC';
+}
 
 export const CreditCardTableHeader = memo((props: CreditCardTableHeaderProps) => {
-    const {orderBy} = props;
+    const {orderBy, sortVal} = props;
 
     return (
         <tr className="bg-slate-100">
             {/* 카드 프로필 */}
-            <SortableTH sortKey="[name]" onClick={orderBy}>
+            <SortableTH2 sortKey="[name]" onClick={orderBy} sortVal={sortVal}>
                 이름
-            </SortableTH>
+            </SortableTH2>
 
             {/* 상태 (editable, sortable) */}
-            <SortableTH sortKey="[usingStatus]" onClick={orderBy}>
+            <SortableTH2 sortKey="[usingStatus]" onClick={orderBy} sortVal={sortVal}>
                 상태
-            </SortableTH>
+            </SortableTH2>
+
+            {/* 팀 */}
+            <th>팀</th>
 
             {/* 구독 수 */}
-            <th>구독 수</th>
+            <SortableTH2 sortKey="[subscriptionCount]" onClick={orderBy} sortVal={sortVal}>
+                구독 수
+            </SortableTH2>
 
             {/* 월 누적 결제금액 */}
-            <th>월 누적 결제금액</th>
+            <SortableTH2 sortKey="[monthlyPaidAmount]" onClick={orderBy} sortVal={sortVal}>
+                월 누적 결제금액
+            </SortableTH2>
 
             {/* 카드사 */}
             <th>카드사</th>

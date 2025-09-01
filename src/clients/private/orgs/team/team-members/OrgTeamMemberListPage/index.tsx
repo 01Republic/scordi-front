@@ -1,6 +1,5 @@
-import React, {memo} from 'react';
-import {debounce} from 'lodash';
-import {useTeamMembers2, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import React, {memo, useEffect} from 'react';
+import {TeamMemberDto, useTeamMembers2} from '^models/TeamMember';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {StepbyTutorialButton, StepByTutorialTeamMember} from '^components/ExternalCDNScripts/step-by';
@@ -10,6 +9,9 @@ import {InviteStatusScopeHandler} from './InviteStatusScopeHandler';
 import {TeamMemberTableHeader} from './TeamMemberTableHeader';
 import {TeamMemberTableRow} from './TeamMemberTableRow';
 import {useOrgIdParam} from '^atoms/common';
+import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
+import {TeamMembershipDto} from '^models/TeamMembership/type';
+import {BottomAction} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/BottomAction';
 
 export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
     const orgId = useOrgIdParam();
@@ -44,6 +46,12 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
         search({...query, keyword: undefined, page: 1, itemsPerPage: 30});
     };
 
+    const ch = useCheckboxHandler<TeamMemberDto>([], (item) => item.id);
+
+    useEffect(() => {
+        ch.init(result.items);
+    }, [result.items]);
+
     return (
         <ListPage
             breadcrumb={['팀', {text: '구성원', active: true}]}
@@ -73,10 +81,25 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    Header={() => <TeamMemberTableHeader sortVal={sortVal} orderBy={newOrderBy} />}
-                    Row={({item}) => <TeamMemberTableRow teamMember={item} reload={reload} />}
+                    Header={() => (
+                        <TeamMemberTableHeader
+                            sortVal={sortVal}
+                            orderBy={newOrderBy}
+                            isChecked={ch.isCheckedAll()}
+                            onCheck={(checked) => ch.checkAll(checked)}
+                        />
+                    )}
+                    Row={({item}) => (
+                        <TeamMemberTableRow
+                            teamMember={item}
+                            reload={reload}
+                            isChecked={ch.isChecked(item)}
+                            onCheck={(checked) => ch.checkOne(item, checked)}
+                        />
+                    )}
                 />
             </ListTableContainer>
+            <BottomAction checkboxHandler={ch} reload={reload} />
         </ListPage>
     );
 });

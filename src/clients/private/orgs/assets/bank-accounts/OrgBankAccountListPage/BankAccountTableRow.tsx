@@ -29,7 +29,6 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
     };
 
     const company = bankAccount.company;
-    const subscriptions = bankAccount.subscriptions;
     // const expiry = bankAccount.decryptSign().expiry;
 
     const showPagePath = OrgBankAccountShowPageRoute.path(bankAccount.organizationId, bankAccount.id);
@@ -67,7 +66,7 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
             {/* 구독 수 */}
             <td>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    <small>{subscriptions ? subscriptions.length : 0} Apps</small>
+                    <small>{bankAccount.subscriptionCount} Apps</small>
                 </p>
             </td>
 
