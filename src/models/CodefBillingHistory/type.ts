@@ -6,6 +6,7 @@ import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {plainToInstance} from 'class-transformer';
 import {parse} from 'date-fns';
+import {currencyFormatStr} from '^utils/number';
 
 export class CodefBillingHistoryDto {
     id: number;
@@ -29,6 +30,11 @@ export class CodefBillingHistoryDto {
     resMemberStoreName: string; // '자동결제';
     memberStoreName: string;
     resUsedAmount: string; // '99000';
+
+    get usedAmountStr(): string {
+        return currencyFormatStr(this.resUsedAmount, '');
+    }
+
     resPaymentType: string; // '1';
     resInstallmentMonth: string; // 할부개월 | '';
     resAccountCurrency: string; // 'KRW';
