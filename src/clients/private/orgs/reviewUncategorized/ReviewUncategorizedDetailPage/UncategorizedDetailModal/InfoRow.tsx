@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, {memo} from 'react';
 
 interface InfoRowProps {
     label: string;
@@ -6,11 +6,11 @@ interface InfoRowProps {
 }
 
 export const InfoRow = memo((props: InfoRowProps) => {
-    const { label, value } = props;
+    const {label, value} = props;
 
     return (
-        <div className="flex justify-between items-center py-2">
-            <span>{label}</span>
+        <div className="flex justify-between items-center p-2 ">
+            <span className="w-16">{label}</span>
             <span className="text-gray-600">{value}</span>
         </div>
     );

@@ -1,16 +1,17 @@
-import { Fragment, memo, useState } from 'react';
-import { Check } from 'lucide-react';
-import { Transition } from '@headlessui/react';
-import { SubscriptionDto } from '^models/Subscription/types';
+import {Fragment, memo, useState} from 'react';
+import {Check, CircleCheck} from 'lucide-react';
+import {Transition} from '@headlessui/react';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 interface ConfirmModalProps {
     isOpen: boolean;
     onClose: () => void;
-    selectedSubscription: SubscriptionDto | null;
+    selectedSubscription: SubscriptionDto;
 }
 
-export const ConfirmModal = memo(({ isOpen, onClose, selectedSubscription }: ConfirmModalProps) => {
-    const [checked, setChecked] = useState(true);
+export const ConfirmModal = memo((props: ConfirmModalProps) => {
+    const {isOpen, onClose, selectedSubscription} = props;
+    const [checked, setChecked] = useState(false);
 
     return (
         <Transition
@@ -23,21 +24,22 @@ export const ConfirmModal = memo(({ isOpen, onClose, selectedSubscription }: Con
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
         >
-            <div className="absolute inset-x-0 bottom-0 bg-white rounded-t-xl shadow-top m-[-24px]">
-                <div className="p-6">
-                    <div className="flex items-center gap-2 mb-6 cursor-pointer" onClick={() => setChecked(!checked)}>
+            <div className="relative bottom-0 bg-white rounded-t-xl shadow-top max-w-md -mx-5 px-6 pt-8 pb-4">
+                <div className="space-y-3 ">
+                    <button className="flex items-center gap-3 cursor-pointer" onClick={() => setChecked(!checked)}>
                         <div
-                            className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${checked ? 'bg-scordi-500' : 'bg-gray-300'
-                                }`}
+                            className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                                checked ? 'bg-primaryColor-900' : 'border-2 border-gray-900'
+                            }`}
                         >
-                            <Check className="w-4 h-4 text-white" />
+                            <Check className={`size-3 stroke-[4px] ${checked ? 'text-white' : 'text-gray-900 '}`} />
                         </div>
-                        <div className="text-sm">
-                            <b>매월 10일</b>에 결제되는 다른 <b>베스핀글로벌주식회사</b> 내역도{' '}
-                            <b>{selectedSubscription?.product.name()}</b> 구독으로 모두 바꾸기
-                        </div>
-                    </div>
-                    <button className="w-full py-4 bg-scordi-500 text-white rounded-xl font-medium" onClick={onClose}>
+                        <span className="text-sm break-all break-words text-start">
+                            <b>매월 10일</b>에 결제되는 다른 <b>베스핀글로벌주식회사</b> 내역도 <br />
+                            <b> {selectedSubscription?.product.name()}</b> 구독으로 모두 바꾸기
+                        </span>
+                    </button>
+                    <button className="btn btn-scordi btn-md btn-block" onClick={onClose}>
                         확인
                     </button>
                 </div>

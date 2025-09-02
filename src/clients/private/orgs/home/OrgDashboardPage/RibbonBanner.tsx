@@ -15,11 +15,11 @@ export const RibbonBanner = memo(() => {
     const linkToUncategorized = OrgReviewUncategoriedPageRoute.path(orgId);
 
     return (
-        <div className="p-4 bg-[#FFFBEC] text-center flex justify-between items-center gap-2">
+        <div className="p-3 bg-yellowColor-100 text-center flex justify-between items-center gap-2">
             <div></div>
             <div className="flex items-center gap-2">
-                <TriangleAlert className="w-5 h-5 text-[#D97707]" />
-                <div className="text-[#78350F] text-14">분류가 필요한 내역이 있어요!</div>
+                <TriangleAlert className="w-5 h-5 fill-yellowColor-200 text-yellowColor-300" />
+                <div className="text-yellowColor-400 text-14">분류가 필요한 내역이 있어요!</div>
                 <LinkTo
                     href={linkToUncategorized}
                     className="text-blue-500 underline ml-2 text-14"

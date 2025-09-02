@@ -1,7 +1,7 @@
-import { memo } from 'react';
-import { Check } from 'lucide-react';
-import { ProductDto } from '^models/Product/type';
-import { ProductAvatarImg } from '^components/pages/v3/share/ProductAvatar';
+import React, {memo} from 'react';
+import {Check} from 'lucide-react';
+import {ProductDto} from '^models/Product/type';
+import {ProductAvatarImg} from '^components/pages/v3/share/ProductAvatar';
 
 interface SelectableSubscriptionItemProps {
     product: ProductDto;
@@ -10,19 +10,28 @@ interface SelectableSubscriptionItemProps {
 }
 
 export const SelectableSubscriptionItem = memo((props: SelectableSubscriptionItemProps) => {
-    const { product, isSelected, onClick } = props;
+    const {product, isSelected, onClick} = props;
 
     return (
-        <button
-            className="w-full p-4 rounded-lg hover:bg-scordi-50 flex items-center justify-between"
+        <div
+            className="w-full cursor-pointer py-2 rounded-lg no-selectable hover:bg-scordi-light-50   group"
             onClick={onClick}
         >
-            <div className="flex items-center gap-2">
-                <ProductAvatarImg product={product} className="w-8 h-8" />
-                <span className="text-sm">{product.name()}</span>
+            <div className="flex items-center justify-between px-2">
+                <div className="flex items-center gap-2 ">
+                    <ProductAvatarImg product={product} className="w-8 h-8" />
+                    <span className="text-sm group-hover:text-indigo-500">{product.name()}</span>
+                </div>
+                <button className="relative">
+                    <Check
+                        strokeWidth={3}
+                        className={`text-20 ${
+                            isSelected ? `text-indigo-500` : 'text-transparent group-hover:text-indigo-200'
+                        }`}
+                    />
+                </button>
             </div>
-            {isSelected && <Check className="w-5 h-5 text-scordi-500" />}
-        </button>
+        </div>
     );
 });
 

@@ -1,17 +1,17 @@
-import { memo, useEffect, useRef } from 'react';
-import { debounce } from 'lodash';
-import { Inbox } from 'lucide-react';
-import { LoadableBox } from '^components/util/loading';
-import { useProductSearchResult } from '^models/Product/hook';
-import { PaginationMetaData } from '^types/utils/paginated.dto';
-import { SelectableSubscriptionItem } from '../SelectableSubscriptionItem';
+import {memo, useEffect, useRef} from 'react';
+import {debounce} from 'lodash';
+import {Inbox} from 'lucide-react';
+import {LoadableBox} from '^components/util/loading';
+import {useProductSearchResult} from '^models/Product/hook';
+import {PaginationMetaData} from '^types/utils/paginated.dto';
+import {SelectableSubscriptionItem} from '../SelectableSubscriptionItem';
 
 export const SelectableProductSectionVertical = memo(() => {
-    const { isLoading, result, movePage } = useProductSearchResult();
+    const {isLoading, result, movePage} = useProductSearchResult();
     const ref = useRef<HTMLDivElement>(null);
 
     const getNextPage = debounce((pagination: PaginationMetaData) => {
-        const { currentPage, totalPage } = pagination;
+        const {currentPage, totalPage} = pagination;
         if (currentPage < totalPage) movePage(currentPage + 1, true);
     }, 100);
 
@@ -43,13 +43,13 @@ export const SelectableProductSectionVertical = memo(() => {
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
                     {result.items.length === 0 ? (
                         <section className="w-full h-full flex justify-center">
-                            <div className="w-[380px] flex flex-col items-center justify-center gap-4 py-20">
+                            <div className="w-[380px] flex flex-col items-center justify-center gap-2 py-20">
                                 <Inbox className="size-[34px] text-gray-400" />
                                 <span className="text-base text-gray-400 font-semibold">조회된 앱이 없어요</span>
                             </div>
                         </section>
                     ) : (
-                        <div className="max-w-screen-md gap-y-2 mx-auto">
+                        <div className="max-w-screen-md space-y-2 mx-auto">
                             {result.items.map((product, i) => (
                                 <SelectableSubscriptionItem
                                     key={i}

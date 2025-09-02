@@ -1,9 +1,9 @@
-import { memo } from 'react';
-import { ArrowLeft } from 'lucide-react';
-import { LinkTo } from '^components/util/LinkTo';
-import { SlideSideModal } from '^components/modals/_shared/SlideSideModal';
-import { UncategorizedDetailContent } from './UncategorizedDetailContent';
-import { TransactionItem } from './TransactionItem';
+import {memo} from 'react';
+import {ArrowLeft} from 'lucide-react';
+import {LinkTo} from '^components/util/LinkTo';
+import {SlideSideModal} from '^components/modals/_shared/SlideSideModal';
+import {UncategorizedDetailContent} from './UncategorizedDetailContent';
+import {TransactionItem} from './TransactionItem';
 
 interface UncategorizedDetailModalProps {
     isOpen: boolean;
@@ -12,23 +12,32 @@ interface UncategorizedDetailModalProps {
 }
 
 export const UncategorizedDetailModal = memo((props: UncategorizedDetailModalProps) => {
-    const { isOpen, onClose, item } = props;
+    const {isOpen, onClose, item} = props;
 
     return (
-        <SlideSideModal open={isOpen} onClose={onClose} modalClassName="rounded-none" size="md">
-            <div className="py-3">
+        <SlideSideModal
+            open={isOpen}
+            onClose={onClose}
+            modalClassName="rounded-none p-0 flex flex-col h-full"
+            size="md"
+        >
+            <section className="p-5 flex-shrink-0">
                 <LinkTo onClick={onClose} className="flex items-center hover:text-scordi gap-2 cursor-pointer">
-                    <ArrowLeft className="w-5 h-5" />
-                    <span>상세내역</span>
+                    <ArrowLeft className="size-5" />
+                    <span className="text-sm">상세내역</span>
                 </LinkTo>
-            </div>
+            </section>
 
-            {item && <UncategorizedDetailContent item={item} />}
+            {item && (
+                <div className="flex-shrink-0">
+                    <UncategorizedDetailContent item={item} />
+                </div>
+            )}
 
-            <hr className="mx-[-24px]" />
+            <hr className="flex-shrink-0" />
 
-            <div className="py-6">
-                {[...Array(3)].map((_, index) => (
+            <div className="px-5 py-6 space-y-7 flex-1 overflow-y-auto min-h-0">
+                {[...Array(6)].map((_, index) => (
                     <TransactionItem
                         key={index}
                         item={{

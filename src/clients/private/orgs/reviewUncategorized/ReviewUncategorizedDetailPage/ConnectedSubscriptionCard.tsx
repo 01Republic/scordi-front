@@ -1,7 +1,7 @@
-import { memo } from 'react';
-import { PanelRight } from 'lucide-react';
-import { NextImage } from '^components/NextImage';
-import { Card } from '^public/components/ui/card';
+import {memo} from 'react';
+import {PanelRight} from 'lucide-react';
+import {NextImage} from '^components/NextImage';
+import {Card} from '^public/components/ui/card';
 
 interface ConnectedSubscriptionCardProps {
     item: {
@@ -13,7 +13,7 @@ interface ConnectedSubscriptionCardProps {
 }
 
 export const ConnectedSubscriptionCard = memo((props: ConnectedSubscriptionCardProps) => {
-    const { item, onClick } = props;
+    const {item, onClick} = props;
 
     return (
         <Card
@@ -35,7 +35,7 @@ export const ConnectedSubscriptionCard = memo((props: ConnectedSubscriptionCardP
                     <div className="text-xs">{item.price}</div>
                 </div>
             </div>
-            <PanelRight className="w-4 h-4 text-gray-400" />
+            <PanelRight className="w-5 h-5 text-gray-400" />
         </Card>
     );
 });
