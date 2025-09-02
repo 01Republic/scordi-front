@@ -18,7 +18,7 @@ interface CodefCardRowActionColumnProps {
 export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnProps) => {
     const {codefCard, reload, moveTab} = props;
 
-    const {codefBillingHistories = [], isSleep = false} = codefCard;
+    const {codefBillingHistoryCount, isSleep = false} = codefCard;
     const isConnected = !!codefCard.creditCardId;
     const sleepStyleClass: string = 'opacity-20';
 
@@ -41,7 +41,7 @@ export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnPro
                     ) : (
                         <></>
                     )}
-                    {!isSleep && isConnected && !!codefBillingHistories.length && (
+                    {!isSleep && isConnected && codefBillingHistoryCount > 0 && (
                         <PatchSubscriptionsByCodefCardItem codefCard={codefCard} reload={reload} />
                     )}
                     {!isSleep && <PatchAllForCodefCardItem codefCard={codefCard} reload={reload} />}
