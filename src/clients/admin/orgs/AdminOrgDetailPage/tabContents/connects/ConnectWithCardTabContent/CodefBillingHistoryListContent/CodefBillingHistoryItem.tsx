@@ -17,8 +17,6 @@ interface CodefBillingHistoryItemProps {
 export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps) => {
     const {codefBillingHistory, onCardSelect} = props;
 
-    const yyyymmdd = lpp(subHours(codefBillingHistory.usedAt, 9), 'P');
-    const hhmmss = hh_mm(subHours(codefBillingHistory.usedAt, 9));
     const memberStoreName = codefBillingHistory.resMemberStoreName;
     // const finalPrice = (() => {
     //     const integerStr = parseInt(codefBillingHistory.resUsedAmount).toLocaleString();
@@ -47,14 +45,14 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
                     // data-tip={`등록일: ${yyyy_mm_dd_hh_mm(subHours(codefBillingHistory.createdAt, 9))}`}
                     data-tip={`등록일: ${lpp(codefBillingHistory.createdAt)}`}
                 >
-                    {yyyymmdd}
+                    {lpp(codefBillingHistory.usedAt, 'P')}
                 </span>
 
                 <span
                     className="tooltip tooltip-primary text-10 font-light"
                     data-tip={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}
                 >
-                    {hhmmss}
+                    {lpp(codefBillingHistory.usedAt, 'p')}
                 </span>
             </div>
 
@@ -73,7 +71,7 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
             {/* 제목 */}
             <div className="col-span-3">
                 <div className="w-full whitespace-nowrap overflow-scroll no-scrollbar">
-                    <span>{memberStoreName}</span>
+                    <span>{codefBillingHistory.resMemberStoreName}</span>
                 </div>
             </div>
 
