@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {CodefCardParserListPageRoute} from '^pages/admin/factories/codef-card-parsers';
 import {CodefBankAccountParserListPageRoute} from '^pages/admin/factories/codef-bank-account-parsers';
-import {SubjectLink} from './SubjectLink';
 import {EmailParserListPageRoute} from '^pages/admin/factories/email-parsers';
+import {SubjectLink} from '^admin/layouts/_common/SubjectLink';
 
 interface ListPageTitleProps {
     currentSubject: 'card' | 'bank-account' | 'email';

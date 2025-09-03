@@ -5,7 +5,7 @@ import {UserSignUpPageRoute} from '^pages/users/signup';
 import {toast} from 'react-hot-toast';
 import {ProductListPageRoute} from '^pages/products';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
-import {appEnv} from '^config/environments';
+import {apiBaseUrl, appEnv, isLoggable} from '^config/environments';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'accessToken';
 export const SIGNED_TOKEN_GOOGLE_STORAGE_KEY = 'googleTokenData';
@@ -51,7 +51,7 @@ export function errorToast(e: ApiError, callback?: (message: string) => any) {
 }
 
 export const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BASE_API,
+    baseURL: apiBaseUrl,
 });
 
 /**
@@ -108,7 +108,7 @@ api.interceptors.request.use((config) => {
             encode: false,
         });
 
-    if (['development', 'staging'].includes(appEnv)) {
+    if (isLoggable()) {
         printRequest(config, true);
     }
 

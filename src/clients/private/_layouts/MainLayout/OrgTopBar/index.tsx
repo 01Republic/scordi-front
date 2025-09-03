@@ -1,18 +1,18 @@
 import {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {Plus, Snail} from 'lucide-react';
 import {useCurrentUser} from '^models/User/hook';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {t_membershipLevel} from '^models/Membership/types';
+import {useCurrentMembership} from '^models/Membership/hook';
+import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
+import {ExpiredPlanBlockModal} from '../ExpiredPlanBlockModal';
 import {WorkspaceDropdown} from './WorkspaceDropdown';
 import {ProfileDropdown} from './ProfileDropdown';
-import {LinkTo} from '^components/util/LinkTo';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
-import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
-import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
-import {t_membershipLevel} from '^models/Membership/types';
-import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {useCurrentMembership} from '^models/Membership/hook';
-import {Bell, Plus, Snail} from 'lucide-react';
-import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
+import {NotificationDropdown} from './NotificationDropdown';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -68,8 +68,8 @@ export const OrgTopBar = memo(() => {
                     </LinkTo>
                 </div>
 
-                <div className="text-gray-400 transition-all hover:text-scordi-500 cursor-pointer">
-                    <Bell className="size-5" />
+                <div>
+                    <NotificationDropdown />
                 </div>
 
                 <div>

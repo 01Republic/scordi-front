@@ -1,6 +1,6 @@
-import {Router, useRouter} from 'next/router';
 import {Props} from '^types/page';
 import {NextFetchEvent, NextRequest} from 'next/server';
+import {isLoggable} from '^config/environments';
 
 const logger =
     (prefix: string) =>
@@ -37,3 +37,5 @@ export const accessLog2 = (props: Props) => {
     log('Props:', pageProps);
     log('=====================================');
 };
+
+export const log2 = (...args: any[]) => isLoggable() && console.log(...args);

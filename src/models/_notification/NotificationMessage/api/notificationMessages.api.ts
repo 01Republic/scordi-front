@@ -5,7 +5,7 @@ import {
     UpdateNotificationMessageRequestDto,
 } from '^models/_notification/NotificationMessage/types';
 import {api} from '^api/api';
-import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {findAndCountDtoOf, listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 /**
  * [알림] 알림 메세지 API
@@ -18,6 +18,12 @@ export const notificationMessagesApi = {
     index(orgId: number, params: FindAllNotificationMessagesQueryDto) {
         const url = `/organizations/${orgId}/notification-messages`;
         return api.get(url, {params}).then(paginatedDtoOf(NotificationMessageDto));
+    },
+
+    /** 읽지않은 메세지 조회 */
+    findByUnread(orgId: number) {
+        const url = `/organizations/${orgId}/notification-messages/find-by/unread`;
+        return api.get(url).then(paginatedDtoOf(NotificationMessageDto));
     },
 
     /** 상세 */
@@ -39,6 +45,15 @@ export const notificationMessagesApi = {
     update(orgId: number, id: number, dto: UpdateNotificationMessageRequestDto) {
         const url = `/organizations/${orgId}/notification-messages/${id}`;
         return api.patch(url, dto).then(oneDtoOf(NotificationMessageDto));
+    },
+
+    /**
+     * Bulk 수정
+     * - 알림 읽음처리
+     */
+    updateAll(orgId: number, params: FindAllNotificationMessagesQueryDto, dto: UpdateNotificationMessageRequestDto) {
+        const url = `/organizations/${orgId}/notification-messages`;
+        return api.patch(url, dto, {params}).then(listDtoOf(NotificationMessageDto));
     },
 
     /**

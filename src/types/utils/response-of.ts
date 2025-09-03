@@ -30,4 +30,12 @@ export const listDtoOf =
         return res;
     };
 
+export const findAndCountDtoOf = <T>(DtoClass: ClassConstructor<T>) => {
+    return (res: AxiosResponse<[items: T[], count: number]>) => {
+        const [items, count] = res.data;
+        res.data = [plainToInstance(DtoClass, items), count];
+        return res;
+    };
+};
+
 export const getPaginatedItems = <T>(pagedItem?: Paginated<T>) => pagedItem?.items || [];
