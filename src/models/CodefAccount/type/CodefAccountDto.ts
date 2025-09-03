@@ -60,6 +60,8 @@ export class CodefAccountDto {
         transactionId?: string;
     };
 
+    isSyncRunning: boolean; // 동기화 실행중 여부
+
     //연동된 코드에프 카드/계좌 개수
     codefAssetCount: number;
     //연동된 스코디 카드/계좌 개수

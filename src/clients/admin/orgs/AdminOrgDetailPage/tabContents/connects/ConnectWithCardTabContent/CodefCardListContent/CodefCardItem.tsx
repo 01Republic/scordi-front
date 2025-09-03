@@ -47,7 +47,11 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
 
     return (
         <LoadableBox loadingType={2} isLoading={isSyncRunning} noPadding spinnerSize={20} spinnerPos="center">
-            <CardTableTR gridClass="grid-cols-13" className={`!text-12 cursor-pointer group !gap-1`}>
+            <CardTableTR
+                gridClass="grid-cols-13"
+                className={`!text-12 cursor-pointer group !gap-1`}
+                onClick={() => console.log(codefCard)}
+            >
                 {/* ID */}
                 <div>
                     <span className="badge badge-xs">#{codefCard.id}</span>

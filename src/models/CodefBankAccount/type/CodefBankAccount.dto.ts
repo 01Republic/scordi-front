@@ -58,6 +58,7 @@ export class CodefBankAccountDto {
 
     resAccountDeposit: string; // 예금구분
     resAccountName: string; // 계좌명(종류)
+    isSyncRunning: boolean; // 동기화 실행중 여부
     codefBillingHistoryCount: number; // 코드에프 결제내역 개수
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시

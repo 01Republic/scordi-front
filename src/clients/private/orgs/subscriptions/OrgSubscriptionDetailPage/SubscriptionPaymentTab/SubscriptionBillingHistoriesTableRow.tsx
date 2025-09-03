@@ -11,7 +11,7 @@ import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {UpdateBillingHistoryByManualRequestDto} from '^models/BillingHistory/type/UpdateBillingHistoryByManual.request.dto';
 import {BillingHistoryDto, BillingHistoryStatus, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useDestroyBillingHistory, useUpdateSubscriptionBillingHistory} from '^models/BillingHistory/hook';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {lpp, yyyy_mm_dd} from '^utils/dateTime';
 import {Dropdown} from '^v3/share/Dropdown';
 import {BillingHistoryStatusTagUI, PayAmount} from '^models/BillingHistory/components';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
@@ -77,17 +77,10 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
             .catch(errorToast);
     };
 
-    const payFail = billingHistory.about === BillingHistoryStatus.PayFail;
-    const paidAtDate = payFail
-        ? yyyy_mm_dd(billingHistory.issuedAt)
-        : billingHistory.paidAt
-        ? yyyy_mm_dd(billingHistory.paidAt)
-        : '';
-
     return (
-        <tr className="group">
+        <tr className="group" onClick={() => console.log(billingHistory)}>
             {/* 카드 프로필 */}
-            <td className={'text-14'}>{paidAtDate}</td>
+            <td className={'text-14'}>{lpp(billingHistory.paidAt || billingHistory.issuedAt, 'P')}</td>
 
             {/* 상태 */}
             <td>

@@ -18,7 +18,7 @@ interface CodefCardRowActionColumnProps {
 export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnProps) => {
     const {codefCard, reload, moveTab} = props;
 
-    const {codefBillingHistories = [], isSleep = false} = codefCard;
+    const {codefBillingHistoryCount, isSleep = false, account} = codefCard;
     const isConnected = !!codefCard.creditCardId;
     const sleepStyleClass: string = 'opacity-20';
 
@@ -33,7 +33,9 @@ export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnPro
         >
             {() => (
                 <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
-                    {!isSleep && <FetchBillingHistoriesItem codefCard={codefCard} reload={reload} />}
+                    {!isSleep && account?.connectedIdentityId && (
+                        <FetchBillingHistoriesItem codefCard={codefCard} reload={reload} />
+                    )}
                     {isConnected ? (
                         <RemoveCreditCardItem codefCard={codefCard} reload={reload} />
                     ) : !isSleep ? (
@@ -41,10 +43,10 @@ export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnPro
                     ) : (
                         <></>
                     )}
-                    {!isSleep && isConnected && !!codefBillingHistories.length && (
-                        <PatchSubscriptionsByCodefCardItem codefCard={codefCard} reload={reload} />
+                    {!isSleep && <PatchSubscriptionsByCodefCardItem codefCard={codefCard} reload={reload} />}
+                    {!isSleep && account?.connectedIdentityId && (
+                        <PatchAllForCodefCardItem codefCard={codefCard} reload={reload} />
                     )}
-                    {!isSleep && <PatchAllForCodefCardItem codefCard={codefCard} reload={reload} />}
                     <RemoveAllOfCodefCardItem codefCard={codefCard} reload={reload} />
                 </div>
             )}

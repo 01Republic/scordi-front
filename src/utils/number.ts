@@ -5,6 +5,9 @@
 export const currencyFormat = (num: number, unit = '원', format = '%n%u'): string => {
     return `${format || '%n%u'}`.replace('%u', unit).replace('%n', Number(num).toLocaleString());
 };
+export const currencyFormatStr = (numStr: string, unit = '원', format = '%n%u'): string => {
+    return `${format || '%n%u'}`.replace('%u', unit).replace('%n', parseFloat(numStr).toLocaleString());
+};
 
 export const unitFormat = (num = 0, unit = '개', format = '%n%u'): string => {
     return `${format || '%n%u'}`.replace('%u', unit).replace('%n', Number(num).toLocaleString());
