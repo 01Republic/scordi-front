@@ -30,7 +30,6 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
         }
     })();
     const subscriptionSpends = summaryOfState?.subscriptionSpends || [];
-    // const url = ;
 
     const today = new Date();
 
