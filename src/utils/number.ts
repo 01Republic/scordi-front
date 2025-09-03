@@ -6,7 +6,7 @@ export const currencyFormat = (num: number, unit = '원', format = '%n%u'): stri
     return `${format || '%n%u'}`.replace('%u', unit).replace('%n', Number(num).toLocaleString());
 };
 export const currencyFormatStr = (numStr: string, unit = '원', format = '%n%u'): string => {
-    return `${format || '%n%u'}`.replace('%u', unit).replace('%n', parseFloat(numStr).toLocaleString());
+    return `${format || '%n%u'}`.replace('%u', unit).replace('%n', toF(numStr).toLocaleString());
 };
 
 export const unitFormat = (num = 0, unit = '개', format = '%n%u'): string => {
@@ -47,3 +47,5 @@ export const zeroPad = (num: string, len = 2): string => {
 export const floatToPercent = (num: number, pos = 2): number => {
     return roundNumber(num * 100, pos);
 };
+
+export const toF = (v: string) => parseFloat(v.replace(/[^.\d]/g, '') || '0');
