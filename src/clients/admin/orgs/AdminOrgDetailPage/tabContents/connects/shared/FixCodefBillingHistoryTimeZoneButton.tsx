@@ -11,7 +11,7 @@ interface FixTimeZoneButtonProps {
     reload: () => any;
 }
 
-export const FixTimeZoneButton = memo((props: FixTimeZoneButtonProps) => {
+export const FixCodefBillingHistoryTimeZoneButton = memo((props: FixTimeZoneButtonProps) => {
     const {query, result, reload} = props;
     const [isLoading, setIsLoading] = useState(false);
 

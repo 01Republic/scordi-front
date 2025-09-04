@@ -45,7 +45,7 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
 
             {/* 승인일시 */}
             <div
-                className="col-span-2 flex items-center gap-1"
+                className="col-span-2"
                 onContextMenu={(e) => {
                     e.preventDefault();
                     setIsLoading(true);
