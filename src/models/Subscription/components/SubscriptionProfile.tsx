@@ -2,8 +2,9 @@ import React, {memo} from 'react';
 import Image from 'next/image';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {HelpCircle} from 'lucide-react';
+import {WithChildren} from '^types/global.type';
 
-interface SubscriptionProfileProps {
+interface SubscriptionProfileProps extends WithChildren {
     subscription: SubscriptionDto;
     width?: number;
     height?: number;
@@ -14,10 +15,11 @@ interface SubscriptionProfileProps {
 }
 
 export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
-    const {subscription, width = 24, height = 24, isAlias = true} = props;
+    const {subscription, width = 24, height = 24, isAlias = true, children} = props;
     const {className = 'gap-2', profileClassName, textClassName = 'text-sm font-base'} = props;
 
     const {product} = subscription;
+
     return (
         <div className={`flex items-center max-w-96 ${className}`}>
             {product.image ? (
@@ -38,9 +40,12 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
                     <HelpCircle className="text-gray-300 h-full w-full p-1" />
                 </div>
             )}
-            <span className={`text-gray-900 whitespace-nowrap ${textClassName}`}>
-                {product.name()} {isAlias && subscription.alias && `- ${subscription.alias}`}
-            </span>
+
+            {children || (
+                <div className={`text-gray-900 whitespace-nowrap ${textClassName}`}>
+                    {product.name()} {isAlias && subscription.alias && `- ${subscription.alias}`}
+                </div>
+            )}
         </div>
     );
 });
