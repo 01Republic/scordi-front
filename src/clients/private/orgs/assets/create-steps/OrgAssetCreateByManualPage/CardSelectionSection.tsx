@@ -67,7 +67,7 @@ export const CardSelectionSection = memo((props: CardSelectionSectionProps) => {
                     }}
                 />
             </section>
-            <CardManualForm isPersonal={isPersonal} />
+            <CardManualForm selectedCard={selectedCard} isPersonal={isPersonal} />
         </div>
     );
 });

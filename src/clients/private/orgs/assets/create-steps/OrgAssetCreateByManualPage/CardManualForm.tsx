@@ -17,13 +17,15 @@ import {CardIsPersonalSelect} from '../../credit-cards/OrgCreditCardNewPage/Card
 import {CardIsCreditCardSelect} from '../../credit-cards/OrgCreditCardNewPage/CardIsCreditCardSelect';
 import {CardExpirySelects} from '../../credit-cards/OrgCreditCardNewPage/CardExpirySelects';
 import {CardHoldingMemberIdSelect} from '../../credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 
 interface CardManualFormProps {
+    selectedCard: CardAccountsStaticData;
     isPersonal: boolean;
 }
 
 export const CardManualForm = memo((props: CardManualFormProps) => {
-    const {isPersonal} = props;
+    const {selectedCard, isPersonal} = props;
     const router = useRouter();
     const orgId = useOrgIdParam();
     const [isLoading, setLoading] = useState(false);
@@ -68,8 +70,11 @@ export const CardManualForm = memo((props: CardManualFormProps) => {
 
         const expiry = `${month}${year.slice(2, 4)}`;
 
+        data.issuerCompany = selectedCard.displayName;
         data.expiry = expiry;
         setFormValue({...permittedValues, expiry});
+
+        console.log(data);
 
         setLoading(true);
         creditCardApi
