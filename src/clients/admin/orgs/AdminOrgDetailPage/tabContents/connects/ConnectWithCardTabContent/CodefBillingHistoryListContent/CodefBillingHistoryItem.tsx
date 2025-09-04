@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
+import {checkCodefBillingHistoryNeedToFixTimeZone, CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {CardTableTR} from '^admin/share';
 import {hh_mm, lpp} from '^utils/dateTime';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
@@ -8,21 +8,22 @@ import {Check} from 'lucide-react';
 import {subHours} from 'date-fns';
 import {toast} from 'react-hot-toast';
 import {CreateBillingHistoryModal} from './CreateBillingHistoryModal';
+import {codefBillingHistoriesAdminApi} from '^models/CodefBillingHistory/api';
+import {errorToast} from '^api/api';
+import {useIdParam} from '^atoms/common';
+import Tippy from '@tippyjs/react';
 
 interface CodefBillingHistoryItemProps {
     codefBillingHistory: CodefBillingHistoryDto;
     onCardSelect: (codefCard?: CodefCardDto) => any;
+    reload: () => any;
 }
 
 export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps) => {
-    const {codefBillingHistory, onCardSelect} = props;
+    const {codefBillingHistory, onCardSelect, reload} = props;
+    const orgId = useIdParam('id');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const memberStoreName = codefBillingHistory.resMemberStoreName;
-    // const finalPrice = (() => {
-    //     const integerStr = parseInt(codefBillingHistory.resUsedAmount).toLocaleString();
-    //     const sub = Math.round((parseFloat(codefBillingHistory.resUsedAmount) % 1) * 100).toString();
-    //     return `${integerStr}.${sub}`;
-    // })();
     const finalPrice = codefBillingHistory.usedAmountStr;
     const currency = codefBillingHistory.resAccountCurrency;
     const status = codefBillingHistory.memo;
@@ -30,30 +31,46 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
     return (
         <CardTableTR
             gridClass="grid-cols-14"
-            className={`!text-12 cursor-pointer group`}
+            className={`!text-12 cursor-pointer group ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
             onClick={() => console.log(codefBillingHistory)}
         >
             {/* ID */}
             <div>
-                <span className="badge badge-xs">#{codefBillingHistory.id}</span>
+                <Tippy content={`등록일: ${lpp(codefBillingHistory.createdAt)}`}>
+                    <div>
+                        <span className="badge badge-xs">#{codefBillingHistory.id}</span>
+                    </div>
+                </Tippy>
             </div>
 
             {/* 승인일시 */}
-            <div className="col-span-2 flex items-center gap-1">
-                <span
-                    className="tooltip tooltip-primary"
-                    // data-tip={`등록일: ${yyyy_mm_dd_hh_mm(subHours(codefBillingHistory.createdAt, 9))}`}
-                    data-tip={`등록일: ${lpp(codefBillingHistory.createdAt)}`}
-                >
-                    {lpp(codefBillingHistory.usedAt, 'P')}
-                </span>
+            <div
+                className="col-span-2 flex items-center gap-1"
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    setIsLoading(true);
+                    codefBillingHistoriesAdminApi
+                        .fixTimeZone({where: {id: codefBillingHistory.id, codefCard: {account: {orgId}}}})
+                        .then(() => reload())
+                        .catch(errorToast)
+                        .finally(() => setIsLoading(false));
+                }}
+            >
+                <Tippy content={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}>
+                    <div>
+                        <div
+                            className={`flex items-center gap-1 ${
+                                checkCodefBillingHistoryNeedToFixTimeZone(codefBillingHistory) ? 'text-red-500' : ''
+                            }`}
+                        >
+                            <span>{lpp(codefBillingHistory.usedAt, 'P')}</span>
 
-                <span
-                    className="tooltip tooltip-primary text-10 font-light"
-                    data-tip={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}
-                >
-                    {lpp(codefBillingHistory.usedAt, 'p')}
-                </span>
+                            <span className="tooltip tooltip-primary text-10 font-light">
+                                {lpp(codefBillingHistory.usedAt, 'p')}
+                            </span>
+                        </div>
+                    </div>
+                </Tippy>
             </div>
 
             {/* 승인번호 */}

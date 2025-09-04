@@ -96,6 +96,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                             key={i}
                             codefBillingHistory={codefBillingHistory}
                             onCardSelect={setSelectedCodefCard}
+                            reload={reload}
                         />
                     )}
                     pagination={pagination}

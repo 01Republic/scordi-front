@@ -7,6 +7,7 @@ import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccoun
 import {plainToInstance} from 'class-transformer';
 import {parse} from 'date-fns';
 import {currencyFormatStr} from '^utils/number';
+import {lpp} from '^utils/dateTime';
 
 export class CodefBillingHistoryDto {
     id: number;
@@ -122,4 +123,16 @@ class CodefBankAccountBillingHistoryDto extends CodefBillingHistoryDto {
     get usedDate() {
         return parse(`${this.resUsedDate} ${this.resUsedTime}`, 'yyyyMMdd HHmmss', new Date());
     }
+}
+
+export function checkCodefBillingHistoryNeedToFixTimeZone(obj: {
+    resUsedDate: string;
+    resUsedTime: string;
+    usedAt: Date;
+}) {
+    const {resUsedDate, resUsedTime, usedAt} = obj;
+    if (resUsedDate !== lpp(usedAt, 'yyyyMMdd')) return true;
+    if (resUsedTime !== lpp(usedAt, 'HHmmss')) return true;
+
+    return false;
 }
