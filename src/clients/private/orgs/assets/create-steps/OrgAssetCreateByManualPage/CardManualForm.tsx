@@ -55,6 +55,7 @@ export const CardManualForm = memo((props: CardManualFormProps) => {
     const cardCompany = formData.issuerCompany || undefined;
 
     const onSubmit = (plainData: CreateCreditCardDto) => {
+        if (!selectedCard) return;
         const {year = '', month = '', ...permittedValues} = plainData as any;
         const data = plainToInstance(UnSignedCreditCardFormData, permittedValues);
 
