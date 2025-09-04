@@ -1,13 +1,11 @@
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {TypeCast} from '^types/utils/class-transformer';
-import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {plainToInstance} from 'class-transformer';
-import {parse} from 'date-fns';
+import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {currencyFormatStr} from '^utils/number';
 import {lpp} from '^utils/dateTime';
+import {TypeCast} from '^types/utils/class-transformer';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {CodefBankAccountDto} from '../CodefBankAccount/type/CodefBankAccount.dto';
 
 export class CodefBillingHistoryDto {
     id: number;
@@ -118,10 +116,6 @@ class CodefBankAccountBillingHistoryDto extends CodefBillingHistoryDto {
         if (this.resAccountOut > 0) return this.resAccountOut;
         if (this.resAccountIn > 0) return -1 * this.resAccountIn;
         return 0;
-    }
-
-    get usedDate() {
-        return parse(`${this.resUsedDate} ${this.resUsedTime}`, 'yyyyMMdd HHmmss', new Date());
     }
 }
 
