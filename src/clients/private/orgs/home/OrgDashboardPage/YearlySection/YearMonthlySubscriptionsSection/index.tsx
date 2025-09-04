@@ -55,7 +55,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
             title="구독 리스트"
             Buttons={AllSubscriptionListShowButton}
             isLoading={isLoading}
-            className="h-[826px]"
+            className="max-h-[826px]"
         >
             <ul className="w-full flex flex-col">
                 {items.map((item) => (
