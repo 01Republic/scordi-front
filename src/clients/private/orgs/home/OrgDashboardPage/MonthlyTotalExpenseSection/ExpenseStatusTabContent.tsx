@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
 import cn from 'classnames';
 import {TriangleAlert} from 'lucide-react';
-import {currencyFormat, roundNumber} from '^utils/number';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
-import {SubscriptionProfile} from '^models/Subscription/components';
-import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
-import {LinkTo} from '^components/util/LinkTo';
-import {NeedCheckSubscriptionIssueModal} from '^clients/private/orgs/home/OrgDashboardPage/MonthlyTotalExpenseSection/NeedCheckSubscriptionIssueModal';
+import {NeedCheckSubscriptionIssueModal} from './NeedCheckSubscriptionIssueModal';
+import {SubscriptionSpendItem} from './SubscriptionSpendItem';
 
 interface ExpenseSubscriptionProps {
     summary?: SummaryOfBillingHistoriesDto;
@@ -75,21 +72,11 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
                         {notPastPaid.map((spend) => (
-                            <LinkTo
-                                href={OrgSubscriptionDetailPageRoute.path(spend.organizationId, spend.subscriptionId)}
+                            <SubscriptionSpendItem
+                                currentStatusTab={currentStatusTab}
+                                spend={spend}
                                 key={spend.subscription.id}
-                                className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
-                            >
-                                <SubscriptionProfile
-                                    subscription={spend.subscription}
-                                    width={20}
-                                    height={20}
-                                    className="gap-3"
-                                    textClassName="text-14 font-base font-normal"
-                                    isAlias={true}
-                                />
-                                <p>{currencyFormat(roundNumber(spend.amount))}</p>
-                            </LinkTo>
+                            />
                         ))}
                     </div>
 
@@ -105,24 +92,11 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                             </button>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 ">
                                 {pastPaid.map((spend) => (
-                                    <LinkTo
-                                        href={OrgSubscriptionDetailPageRoute.path(
-                                            spend.organizationId,
-                                            spend.subscriptionId,
-                                        )}
+                                    <SubscriptionSpendItem
+                                        currentStatusTab={currentStatusTab}
+                                        spend={spend}
                                         key={spend.subscription.id}
-                                        className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
-                                    >
-                                        <SubscriptionProfile
-                                            subscription={spend.subscription}
-                                            width={20}
-                                            height={20}
-                                            className="gap-3"
-                                            textClassName="text-14 font-base font-normal"
-                                            isAlias={true}
-                                        />
-                                        <p>{currencyFormat(roundNumber(spend.amount))}</p>
-                                    </LinkTo>
+                                    />
                                 ))}
                             </div>
                         </section>
@@ -131,21 +105,11 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
                     {subscriptionSpends.map((spend) => (
-                        <LinkTo
-                            href={OrgSubscriptionDetailPageRoute.path(spend.organizationId, spend.subscriptionId)}
+                        <SubscriptionSpendItem
+                            currentStatusTab={currentStatusTab}
+                            spend={spend}
                             key={spend.subscription.id}
-                            className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
-                        >
-                            <SubscriptionProfile
-                                subscription={spend.subscription}
-                                width={20}
-                                height={20}
-                                className="gap-3"
-                                textClassName="text-14 font-base font-normal"
-                                isAlias={true}
-                            />
-                            <p>{currencyFormat(roundNumber(spend.amount))}</p>
-                        </LinkTo>
+                        />
                     ))}
                 </div>
             )}

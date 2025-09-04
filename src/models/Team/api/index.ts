@@ -34,7 +34,7 @@ export const teamApi = {
         // 팀의 구성원들이 연결되어있는 구독 목록 조회
         index(orgId: number, teamId: number, params?: FindAllSubscriptionsQuery) {
             const url = `/organizations/${orgId}/teams/${teamId}/subscriptions`;
-            return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+            return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
         },
     },
 };

@@ -299,7 +299,8 @@ export function l(date: Date, formatStr: string = 'yyyy-MM-dd HH:mm:ss') {
     return format(date, formatStr || 'yyyy-MM-dd HH:mm:ss', {locale: ko});
 }
 
-export function lpp(date: Date, formatStr: string = 'Pp') {
+export function lpp(date?: Date | null, formatStr: string = 'Pp') {
+    if (!date) return '';
     return format(date, formatStr || 'Pp', {locale: ko});
 }
 

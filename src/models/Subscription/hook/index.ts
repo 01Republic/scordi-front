@@ -308,6 +308,8 @@ export const useTeamSubscriptions2 = (orgId: number, teamId: number, params: Fin
         queryFn: () => teamApi.subscriptions.index(orgId, teamId, query).then((res) => res.data),
         initialData: Paginated.init(),
         enabled: !!teamId && !!orgId,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 
     return usePaginateUtils({
