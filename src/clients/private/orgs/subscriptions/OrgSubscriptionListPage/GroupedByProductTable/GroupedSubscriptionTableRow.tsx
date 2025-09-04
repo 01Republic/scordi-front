@@ -189,7 +189,7 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
             </td>
 
             {/* 담당자 */}
-            <td className="py-0 pl-5 w-40">
+            <td className="py-0 pl-3">
                 <MasterSelect subscription={subscription} onChange={reload} />
             </td>
 

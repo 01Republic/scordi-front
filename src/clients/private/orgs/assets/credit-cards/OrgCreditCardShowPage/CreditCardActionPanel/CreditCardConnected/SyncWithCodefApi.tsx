@@ -11,7 +11,9 @@ export const SyncWithCodefApi = memo(() => {
     console.log('SyncWithCodefApi.currentCodefCard', currentCodefCard);
 
     // creditCard.isManuallyCreated?
-    if (!currentCodefCard) return <NewSyncWithCodefApi reload={refetch} isLoading={isFetching} />;
+
+    if (!currentCodefCard || !currentCodefCard.account?.connectedIdentityId)
+        return <NewSyncWithCodefApi reload={refetch} isLoading={isFetching} />;
 
     const errorData = currentCodefCard.account?.errorData;
     if (errorData)
