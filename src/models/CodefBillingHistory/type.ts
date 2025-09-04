@@ -99,6 +99,11 @@ export class FindAllCodefBillingHistoryAdminQueryDto extends FindAllQueryDto<Cod
     organizationId?: number;
 }
 
+export class FixTimeZoneCodefBillingHistoriesQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
+    organizationId?: number;
+    codefCardId?: number;
+}
+
 class CodefBankAccountBillingHistoryDto extends CodefBillingHistoryDto {
     get content() {
         const d1 = this.resAccountDesc1;

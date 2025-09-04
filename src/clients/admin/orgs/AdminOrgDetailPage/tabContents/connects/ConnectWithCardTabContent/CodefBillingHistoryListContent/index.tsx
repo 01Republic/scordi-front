@@ -1,15 +1,16 @@
-import React, {memo, useEffect, useState} from 'react';
+import {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
+import {X} from 'lucide-react';
+import {useIdParam} from '^atoms/common';
 import {useAdminCodefBillingHistories} from '^models/CodefBillingHistory/hook';
+import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {LoadableBox} from '^components/util/loading';
-import {CardTablePanel, CardTableTH} from '^admin/share';
 import {PagePerSelect} from '^components/Paginator';
+import {CardTablePanel, CardTableTH} from '^admin/share';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import {selectedCodefCardAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
-import {X} from 'lucide-react';
-import {useIdParam} from '^atoms/common';
+import {FixTimeZoneButton} from './FixTimeZoneButton';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
@@ -53,6 +54,8 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <FixTimeZoneButton query={query} result={result} reload={reload} />
+
                     <PagePerSelect
                         isLoading={isLoading}
                         className="select-sm"

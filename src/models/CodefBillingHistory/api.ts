@@ -1,4 +1,8 @@
-import {CodefBillingHistoryDto, FindAllCodefBillingHistoryAdminQueryDto} from '^models/CodefBillingHistory/type';
+import {
+    CodefBillingHistoryDto,
+    FindAllCodefBillingHistoryAdminQueryDto,
+    FixTimeZoneCodefBillingHistoriesQueryDto,
+} from '^models/CodefBillingHistory/type';
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
@@ -22,5 +26,11 @@ export const codefBillingHistoriesAdminApi = {
     createBillingHistory(codefBillingHistoryId: number, productId: number) {
         const url = `/admin/codef-billing-histories/${codefBillingHistoryId}/billing-histories`;
         return api.post(url, {productId}).then(oneDtoOf(BillingHistoryDto));
+    },
+
+    // 코드에프 결제내역으로부터 타임존 문제 해결
+    fixTimeZone(params: FixTimeZoneCodefBillingHistoriesQueryDto) {
+        const url = `/admin/codef-billing-histories/fix-time-zone`;
+        return api.patch<void>(url, {}, {params});
     },
 };
