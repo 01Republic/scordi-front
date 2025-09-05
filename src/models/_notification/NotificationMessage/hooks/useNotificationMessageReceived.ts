@@ -20,6 +20,8 @@ export const useNotificationMessageReceived = () => {
         queryFn: () => notificationMessagesApi.index(orgId, query).then((res) => res.data),
         initialData: Paginated.init(),
         enabled: !!orgId,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 
     return {query, search: setQuery, ...receivedQuery};

@@ -16,13 +16,11 @@ interface NotificationMessageItemProps {
 export const NotificationMessageItem = memo((props: NotificationMessageItemProps) => {
     const {item, reload} = props;
     const orgId = useOrgIdParam();
-    const {removeOne} = useNotificationMessageUnread();
 
     const onClick = () => {
         if (!item.readAt) {
             return notificationMessagesApi
                 .update(orgId, item.id, {readAt: new Date()})
-                .then(() => removeOne(item.id))
                 .then(() => reload && reload())
                 .catch(errorToast);
         }
@@ -62,4 +60,3 @@ export const NotificationMessageItem = memo((props: NotificationMessageItemProps
         </div>
     );
 });
-NotificationMessageItem.displayName = 'NotificationMessageItem';

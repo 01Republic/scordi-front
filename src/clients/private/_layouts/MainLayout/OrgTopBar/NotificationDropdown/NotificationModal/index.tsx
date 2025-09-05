@@ -19,20 +19,20 @@ interface NotificationModalProps {
     open: boolean;
     onClose: () => void;
     unreadCount: number;
-    data: Paginated<NotificationMessageDto>;
+    items: NotificationMessageDto[];
     params: FindAllNotificationMessagesQueryDto;
     search: Dispatch<SetStateAction<FindAllNotificationMessagesQueryDto>>;
     reload: () => any;
 }
 
 export const NotificationModal = memo((props: NotificationModalProps) => {
-    const {open, onClose, unreadCount, data, params, search, reload} = props;
+    const {open, onClose, unreadCount, items, params, search, reload} = props;
     const orgId = useOrgIdParam();
     const setFlashMessages = useSetRecoilState(notificationFlashMessagesAtom);
 
     // const items = [];
     // const items = dummyItems;
-    const items = data.items;
+    // const items = data.items;
     // const {totalItemCount} = data.pagination;
     // const unreadItems = items.filter((item) => !item.readAt);
 
@@ -114,4 +114,3 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
         </AnimatedModal>
     );
 });
-NotificationModal.displayName = 'NotificationModal';
