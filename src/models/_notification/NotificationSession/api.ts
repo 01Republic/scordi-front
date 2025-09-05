@@ -35,11 +35,14 @@ export const notificationSessionApi = {
 
             // 메시지 수신 이벤트
             eventSource.addEventListener('message', (event: MessageEvent) => {
+                console.log('event', event);
+
                 onMessage(event.data); // 메시지 처리
             });
 
             // 에러 처리
             eventSource.onerror = (error: any) => {
+                console.log('error', error);
                 if (error?.error?.message) {
                     log2(error.error.message);
                 } else {

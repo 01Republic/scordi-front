@@ -36,7 +36,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
                 <TopLineBannerContainer />
                 <OrgTopBar />
                 <TopNavBar />
-                <FlashNotificationMessageContainer />
+                {/* <FlashNotificationMessageContainer /> */}
 
                 {children}
                 <Footer />
