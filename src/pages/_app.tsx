@@ -26,7 +26,15 @@ function MyApp(props: Props) {
     const getLayout = Component.getLayout ?? ((page) => page);
     const Layout = Component.layout ?? Fragment;
     // accessLog2(props);
-    const queryClient = new QueryClient();
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                refetchOnMount: true,
+                refetchOnWindowFocus: false,
+                refetchOnReconnect: false,
+            },
+        },
+    });
 
     return (
         <QueryClientProvider client={queryClient}>

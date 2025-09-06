@@ -10,6 +10,8 @@ export const useAdminScordiSubscriptions = (params: FindAllScordiSubscriptionsFo
         queryKey: ['useAdminScordiSubscriptionList', query],
         queryFn: () => adminScordiSubscriptionsApi.index(query).then((res) => res.data),
         initialData: Paginated.init(),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 
     const search = setQuery;
@@ -33,6 +35,8 @@ export const useAdminScordiSubscriptionsForOrg = (
         queryFn: () => scordiSubscriptionsApi.index(orgId, query).then((res) => res.data),
         initialData: Paginated.init(),
         enabled: !!orgId && !isNaN(orgId),
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 
     const search = setQuery;
