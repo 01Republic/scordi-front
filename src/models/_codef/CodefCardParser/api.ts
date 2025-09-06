@@ -5,6 +5,7 @@ import {UpdateCodefParserDto} from '^admin/factories/codef-parser-factories/Code
 import {CodefCardParserDto} from './type/CodefCardParser.dto';
 import {CreateCodefCardParserRequestDto} from './type/CreateCodefCardParser.request.dto';
 import {UpdateCodefCardParserRequestDto} from './type/UpdateCodefCardParser.request.dto';
+import {SyncCodefCardsQueryDto} from '^models/CodefCard/type/sync.codef-cards.query.dto';
 
 export const adminCodefCardParserApi = {
     index(params: FindAllQueryDto<CodefCardParserDto>) {
@@ -30,6 +31,11 @@ export const adminCodefCardParserApi = {
     show(id: number) {
         const url = `/admin/codef-card-parsers/${id}`;
         return api.get(url).then(oneDtoOf(CodefCardParserDto));
+    },
+
+    run(id: number, dto: SyncCodefCardsQueryDto) {
+        const url = `/admin/codef-card-parsers/${id}/run`;
+        return api.patch(url, dto);
     },
 
     update(id: number, dto: UpdateCodefCardParserRequestDto) {
