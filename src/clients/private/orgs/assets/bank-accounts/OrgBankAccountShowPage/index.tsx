@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
@@ -9,10 +9,12 @@ import {BankAccountInformationPanel} from './BankAccountInformationPanel';
 import {CreditCardListOfBankAccountTabContent} from './CreditCardListOfBankAccountTabContent';
 import {SubscriptionListOfBankAccountTabContent} from './SubscriptionListOfBankAccountTabContent';
 import {BillingHistoryListOfBankAccountTabContent} from './BillingHistoryListOfBankAccountTabContent';
+import { useHashTab } from '^hooks/useHashTab';
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
     const orgId = useOrgIdParam();
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const tabs = ['구독', '결제', '카드'];
+    const {activeTabIndex, setActiveTabIndex} = useHashTab({tabs});
 
     return (
         <ShowPage
@@ -36,7 +38,7 @@ export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제', '카드']}
+                        tabs={tabs}
                     />
                 </div>
 
