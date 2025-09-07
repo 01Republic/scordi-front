@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
@@ -9,10 +9,45 @@ import {BankAccountInformationPanel} from './BankAccountInformationPanel';
 import {CreditCardListOfBankAccountTabContent} from './CreditCardListOfBankAccountTabContent';
 import {SubscriptionListOfBankAccountTabContent} from './SubscriptionListOfBankAccountTabContent';
 import {BillingHistoryListOfBankAccountTabContent} from './BillingHistoryListOfBankAccountTabContent';
+import { TabConfig, useQueryTab } from '^hooks/useQueryTab';
+
+const SubscriptionTabContent = () => (
+    <div className="grid grid-cols-10">
+        <div className="col-span-7 pr-4">
+            <SubscriptionListOfBankAccountTabContent />
+        </div>
+
+        <div className="col-span-3 border-l border-gray-300 text-14">
+            <BankAccountInformationPanel />
+        </div>
+    </div>
+);
+
+const PaymentTabContent = () => (   
+    <BillingHistoryListOfBankAccountTabContent />
+);
+
+const CardTabContent = () => (
+    <div className="grid grid-cols-10">
+        <div className="col-span-7 pr-4">
+            <CreditCardListOfBankAccountTabContent />
+        </div>
+
+        <div className="col-span-3 border-l border-gray-300 text-14">
+            <BankAccountInformationPanel />
+        </div>
+    </div>
+);
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
     const orgId = useOrgIdParam();
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const tabConfig: TabConfig[] = [
+        { id: 'subscription', label: '구독', component: SubscriptionTabContent },
+        { id: 'payment', label: '결제', component: PaymentTabContent },
+        { id: 'card', label: '카드', component: CardTabContent },
+    ];
+
+    const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({tabs: tabConfig, paramKey: 'tab', defaultTab: 'subscription'});
 
     return (
         <ShowPage
@@ -36,38 +71,11 @@ export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제', '카드']}
+                        tabs={tabConfig.map((tab) => tab.label)}
                     />
                 </div>
 
-                {/* 구독탭 */}
-                {activeTabIndex == 0 && (
-                    <div className="grid grid-cols-10">
-                        <div className="col-span-7 pr-4">
-                            <SubscriptionListOfBankAccountTabContent />
-                        </div>
-
-                        <div className="col-span-3 border-l border-gray-300 text-14">
-                            <BankAccountInformationPanel />
-                        </div>
-                    </div>
-                )}
-
-                {/* 결제탭 */}
-                {activeTabIndex == 1 && <BillingHistoryListOfBankAccountTabContent />}
-
-                {/* 카드탭 */}
-                {activeTabIndex == 2 && (
-                    <div className="grid grid-cols-10">
-                        <div className="col-span-7 pr-4">
-                            <CreditCardListOfBankAccountTabContent />
-                        </div>
-
-                        <div className="col-span-3 border-l border-gray-300 text-14">
-                            <BankAccountInformationPanel />
-                        </div>
-                    </div>
-                )}
+                {activeTab.component && <activeTab.component />}
             </main>
         </ShowPage>
     );

@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useMemo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
@@ -10,10 +10,36 @@ import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
 import {useCurrentInvoiceAccount} from './atom';
+import {TabConfig, useQueryTab} from '^hooks/useQueryTab';
+
+const SubscriptionTabContent = () => (
+    <div className="grid grid-cols-10">
+        <div className="col-span-7 pr-4">
+            <SubscriptionListOfInvoiceAccountTabContent />
+        </div>
+
+        <div className="col-span-3 border-l border-gray-300 text-14">
+            <InvoiceAccountInformationPanel />
+        </div>
+    </div>
+);
+
+const PaymentTabContent = () => <BillingHistoryListOfInvoiceAccountTabContent />;
 
 export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useOrgIdParam();
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const tabConfig: TabConfig[] = useMemo(
+        () => [
+            {id: 'subscription', label: '구독', component: SubscriptionTabContent},
+            {id: 'payment', label: '청구서', component: PaymentTabContent},
+        ],
+        [],
+    );
+    const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({
+        tabs: tabConfig,
+        paramKey: 'tab',
+        defaultTab: 'subscription',
+    });
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const {renewAccountWithConfirm} = useInvoiceAccountSync();
 
@@ -39,7 +65,7 @@ export const OrgInvoiceAccountShowPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '청구서']}
+                        tabs={tabConfig.map((tab) => tab.label)}
                     />
 
                     {/* right side */}
@@ -48,18 +74,7 @@ export const OrgInvoiceAccountShowPage = memo(() => {
                     </div>
                 </div>
 
-                {activeTabIndex === 0 && (
-                    <div className="grid grid-cols-10">
-                        <div className="col-span-7 pr-4">
-                            <SubscriptionListOfInvoiceAccountTabContent />
-                        </div>
-
-                        <div className="col-span-3 border-l border-gray-300 text-14">
-                            <InvoiceAccountInformationPanel />
-                        </div>
-                    </div>
-                )}
-                {activeTabIndex === 1 && <BillingHistoryListOfInvoiceAccountTabContent />}
+                {activeTab.component && <activeTab.component />}
             </main>
 
             <div className="hidden">
