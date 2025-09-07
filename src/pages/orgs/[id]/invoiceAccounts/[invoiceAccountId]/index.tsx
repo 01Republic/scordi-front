@@ -8,13 +8,21 @@ import {invoiceAccountSubjectAtom} from '^clients/private/orgs/assets/invoice-ac
 import {OrgInvoiceAccountShowPage} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage';
 import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
 
+interface OrgInvoiceAccountShowPageRouteQuery {
+    tab?: 'subscription' | 'payment';
+}
+
 export const OrgInvoiceAccountShowPageRoute = pathRoute({
     pathname: '/orgs/[id]/invoiceAccounts/[invoiceAccountId]',
-    path: (orgId: number, id: number) =>
-        pathReplace(OrgInvoiceAccountShowPageRoute.pathname, {
-            id: orgId,
-            invoiceAccountId: id,
-        }),
+    path: (orgId: number, id: number, query?: OrgInvoiceAccountShowPageRouteQuery) =>
+        pathReplace(
+            OrgInvoiceAccountShowPageRoute.pathname,
+            {
+                id: orgId,
+                invoiceAccountId: id,
+            },
+            query,
+        ),
 });
 
 export const getStaticPaths = async () => ({
