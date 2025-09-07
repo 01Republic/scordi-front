@@ -40,24 +40,21 @@ import {Paginated} from '^types/utils/paginated.dto';
 //     };
 // }
 
+// 카드파서 > 입출금내역 조회
 export function useSearchCodefBillingHistories(initialParams: FindOperatorUnitDto, selectedCodefCard?: CodefCardDto) {
     const [params, setQuery] = useState(initialParams);
     const [codefCard, setCodefCard] = useState(selectedCodefCard);
     const queryResult = useQuery({
         queryKey: ['codef-card-parser.useSearchCodefBillingHistories2', params, codefCard],
         queryFn: async () => {
-            if (!params) return [];
-
             const {ops = FindOperatorType.Like, fo = false, bo = false, value = ''} = params;
             const query = {} as FindAllCodefBillingHistoryQueryDto;
-            query.where = {codefBankAccountId: 'NULL'};
+            query.where = {codefCardId: {op: 'not', val: 'NULL'}};
             if (codefCard) query.where.codefCardId = codefCard.id;
             query.find = {ops, value: getLikeQueryString(fo, bo, value)};
-            return codefParserFactoryApi.searchCodefBillingHistories(query).then((res) => {
-                return res.data;
-            });
+            return codefParserFactoryApi.searchCodefBillingHistories(query).then((res) => res.data);
         },
-        enabled: !!params,
+        enabled: !!params && !!params.value,
     });
 
     const search = (params: FindOperatorUnitDto, codefCard?: CodefCardDto) => {

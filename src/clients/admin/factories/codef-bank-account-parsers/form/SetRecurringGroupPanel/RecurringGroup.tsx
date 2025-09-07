@@ -10,10 +10,11 @@ import {SearchedCodefBillingHistoryItem} from '../SearchCodefBillingHistoriesPan
 interface RecurringGroupProps {
     group: CodefBillingHistoriesGroup;
     index: number;
+    reload?: () => any;
 }
 
 export const RecurringGroup = memo((props: RecurringGroupProps) => {
-    const {group, index} = props;
+    const {group, index, reload} = props;
 
     const {groupMethod} = group.metadata;
 
@@ -29,6 +30,7 @@ export const RecurringGroup = memo((props: RecurringGroupProps) => {
                         data={codefBillingHistory}
                         onSelect={() => 0}
                         preventHidden
+                        reload={reload}
                     />
                 ))}
             </div>
