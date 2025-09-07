@@ -9,3 +9,8 @@ export class FindAllCardQueryDto<T = CodefCardDto> extends FindAllQueryDto<T> {
 export class FindAllCardAdminQueryDto<T = CodefCardDto> extends FindAllQueryDto<T> {
     organizationId?: number;
 }
+
+export class BulkPatchCodefCardsHistoriesForAdminQueryDto extends FindAllCardAdminQueryDto<CodefCardDto> {
+    startDate?: string; // 조회시작일 (yyyy-mm-dd)
+    endDate?: string; // 조회종료일 (yyyy-mm-dd)
+}

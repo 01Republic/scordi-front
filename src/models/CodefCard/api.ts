@@ -2,7 +2,11 @@ import {ClassConstructor} from 'class-transformer';
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
+import {
+    BulkPatchCodefCardsHistoriesForAdminQueryDto,
+    FindAllCardAdminQueryDto,
+    FindAllCardQueryDto,
+} from '^models/CodefCard/type/find-all.card.query.dto';
 import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
 import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
 
@@ -67,5 +71,11 @@ export const codefCardAdminApi = {
     sync(params: {orgId?: number; slackMute?: boolean}) {
         const url = `/admin/codef-cards/sync`;
         return api.patch<void>(url, {}, {params});
+    },
+
+    // 코드에프 결제내역 패치 (코드에프 결제내역만 불러와서 저장)
+    patchHistories(params: BulkPatchCodefCardsHistoriesForAdminQueryDto) {
+        const url = `/admin/codef-cards/r/histories`;
+        return api.patch(url, {}, {params});
     },
 };
