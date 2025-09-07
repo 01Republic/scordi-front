@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useMemo, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
@@ -39,12 +39,13 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
     const {currentCreditCard} = useCurrentCreditCard();
     const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
-    const tabConfig: TabConfig[] = [
-        { id: 'subscription', label: '구독', component: () => SubscriptionTabContent(currentCreditCard, orgId) },
-        { id: 'payment', label: '결제', component: () => PaymentTabContent(setIsExcelUploadModalOpen) },
-    ];
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
+
+    const tabConfig: TabConfig[] = useMemo(() => [
+        { id: 'subscription', label: '구독', component: () => SubscriptionTabContent(currentCreditCard, orgId) },
+        { id: 'payment', label: '결제', component: () => PaymentTabContent(setIsExcelUploadModalOpen) },
+    ], []);
     const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({tabs: tabConfig, paramKey: 'tab', defaultTab: 'subscription'});
 
     return (

@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
@@ -30,10 +30,10 @@ const PaymentTabContent = () => (
 
 export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useOrgIdParam();
-    const tabConfig: TabConfig[] = [
+    const tabConfig: TabConfig[] = useMemo(() => [
         { id: 'subscription', label: '구독', component: SubscriptionTabContent },
         { id: 'payment', label: '청구서', component: PaymentTabContent },
-    ];
+    ], []);
     const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({tabs: tabConfig, paramKey: 'tab', defaultTab: 'subscription'});
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const {renewAccountWithConfirm} = useInvoiceAccountSync();
