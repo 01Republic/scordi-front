@@ -4,6 +4,7 @@ import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {
     BulkPatchCodefCardsHistoriesForAdminQueryDto,
+    BulkPatchCodefCardsSubscriptionsForAdminQueryDto,
     FindAllCardAdminQueryDto,
     FindAllCardQueryDto,
 } from '^models/CodefCard/type/find-all.card.query.dto';
@@ -67,15 +68,30 @@ export const codefCardAdminApi = {
         return api.get(url, {params}).then(paginatedDtoOf(CodefCardDto));
     },
 
-    // 카드 내역 및 구독 동기화
+    // 카드 내역 및 구독 동기화 (배치 수동실행)
     sync(params: {orgId?: number; slackMute?: boolean}) {
         const url = `/admin/codef-cards/sync`;
         return api.patch<void>(url, {}, {params});
     },
 
-    // 코드에프 결제내역 패치 (코드에프 결제내역만 불러와서 저장)
+    // 코드에프 결제내역 패치 (코드에프 결제내역만 불러와서 저장 (A))
+    // NOTE: 주의) account.orgId 는 반드시 organizationId 파라미터로 넣어야 함.
     patchHistories(params: BulkPatchCodefCardsHistoriesForAdminQueryDto) {
         const url = `/admin/codef-cards/r/histories`;
         return api.patch(url, {}, {params});
+    },
+
+    // 코드에프 구독 동기화 (기존 저장된 코드에프 결제내역을 토대로 구독 파싱만 (B))
+    // NOTE: 주의) account.orgId 는 반드시 organizationId 파라미터로 넣어야 함.
+    patchSubscriptions(params: BulkPatchCodefCardsSubscriptionsForAdminQueryDto) {
+        const url = `/admin/codef-cards/r/subscriptions`;
+        return api.patch(url, {}, {params});
+    },
+
+    // 결제내역 조회(전체최신화, A+B)
+    // NOTE: 주의) account.orgId 는 반드시 organizationId 파라미터로 넣어야 함.
+    syncAll(params: FindAllCardAdminQueryDto) {
+        const url = `/admin/codef-cards/r/sync-all`;
+        return api.patch(url);
     },
 };

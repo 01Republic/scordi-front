@@ -14,3 +14,7 @@ export class BulkPatchCodefCardsHistoriesForAdminQueryDto extends FindAllCardAdm
     startDate?: string; // 조회시작일 (yyyy-mm-dd)
     endDate?: string; // 조회종료일 (yyyy-mm-dd)
 }
+
+export class BulkPatchCodefCardsSubscriptionsForAdminQueryDto extends FindAllCardAdminQueryDto<CodefCardDto> {
+    parserIds?: number[];
+}

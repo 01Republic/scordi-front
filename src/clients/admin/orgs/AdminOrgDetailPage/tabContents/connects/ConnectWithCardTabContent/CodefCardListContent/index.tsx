@@ -53,7 +53,12 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
 
                 <div className="flex items-center gap-4">
                     <div>
-                        <BulkActionDropdown isLoading={isLoading} query={query} reload={reload} />
+                        <BulkActionDropdown
+                            isLoading={isLoading}
+                            pagination={pagination}
+                            query={query}
+                            reload={reload}
+                        />
                     </div>
                     <div>
                         <CheckDuplicateButton result={result} isLoading={isLoading} />

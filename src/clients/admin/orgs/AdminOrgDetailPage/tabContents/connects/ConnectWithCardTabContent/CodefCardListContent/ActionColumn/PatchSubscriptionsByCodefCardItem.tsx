@@ -1,40 +1,47 @@
 import React, {memo} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {useRecoilValue} from 'recoil';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
-import {codefCardApi} from '^models/CodefCard/api';
+import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {confirm2, confirmed} from '^components/util/dialog';
+import {useIdParam} from '^atoms/common';
+import {FindAllCardAdminQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 
 interface PatchSubscriptionsByCodefCardItemProps {
-    codefCard: CodefCardDto;
+    codefCard?: CodefCardDto;
+    query?: FindAllCardAdminQueryDto<CodefCardDto>;
     reload: () => Promise<any>;
 }
 
 export const PatchSubscriptionsByCodefCardItem = memo((props: PatchSubscriptionsByCodefCardItemProps) => {
-    const {codefCard, reload} = props;
-    const org = useRecoilValue(adminOrgDetail);
+    const {codefCard, query = {}, reload} = props;
+    const orgId = useIdParam('id');
     const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
 
     const onClick = () => {
-        if (!org) return;
-
+        if (isSyncRunning) return;
         const patchConfirm = () => {
             return confirm2('지금 파서를 실행할까요?');
         };
 
+        const request = () => {
+            return codefCard
+                ? codefCardApi.patchSubscriptions(orgId, codefCard.id)
+                : codefCardAdminApi.patchSubscriptions({
+                      ...query,
+                      organizationId: orgId,
+                  });
+        };
+
         return confirmed(patchConfirm())
             .then(() => setIsSyncRunning(true))
-            .then(() => codefCardApi.patchSubscriptions(org.id, codefCard.id))
+            .then(() => request())
             .then(() => toast.success('실행완료'))
+            .then(() => reload())
             .catch(errorToast)
-            .finally(() => {
-                setIsSyncRunning(false);
-                return reload();
-            });
+            .finally(() => setIsSyncRunning(false));
     };
 
     return (
