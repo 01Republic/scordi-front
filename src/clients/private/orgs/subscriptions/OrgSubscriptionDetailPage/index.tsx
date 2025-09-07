@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
@@ -10,14 +10,24 @@ import {SubscriptionInfoTab} from './SubscriptionInfoTab';
 import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './SubscriptionMemberTab';
 import {SubscriptionActionPanel} from './SubscriptionActionPanel';
-import { useHashTab } from '^hooks/useHashTab';
+import { useQueryTab, TabConfig } from '^hooks/useQueryTab';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useOrgIdParam();
     const id = useIdParam('subscriptionId');
-    const tabs = ['멤버', '결제', '설정'];
+    
+    // useMemo로 tabConfig 메모이제이션
+    const tabConfig: TabConfig[] = useMemo(() => [
+        { id: 'member', label: '멤버', component: SubscriptionMemberTab },
+        { id: 'payment', label: '결제', component: SubscriptionPaymentTab },
+        { id: 'setting', label: '설정', component: SubscriptionInfoTab }
+    ], []);
 
-    const {activeTabIndex, setActiveTabIndex} = useHashTab({tabs});
+    const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({
+        tabs: tabConfig,
+        paramKey: 'tab',
+        defaultTab: 'member'
+    });
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 
     return (
@@ -41,13 +51,11 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={tabs}
+                        tabs={tabConfig.map(tab => tab.label)}
                     />
                 </div>
 
-                {activeTabIndex == 0 && <SubscriptionMemberTab />}
-                {activeTabIndex == 1 && <SubscriptionPaymentTab />}
-                {activeTabIndex == 2 && <SubscriptionInfoTab />}
+                {activeTab.component && <activeTab.component />}
             </main>
         </ShowPage>
     );
