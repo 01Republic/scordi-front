@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
@@ -10,11 +10,14 @@ import {SubscriptionInfoTab} from './SubscriptionInfoTab';
 import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './SubscriptionMemberTab';
 import {SubscriptionActionPanel} from './SubscriptionActionPanel';
+import { useHashTab } from '^hooks/useHashTab';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useOrgIdParam();
     const id = useIdParam('subscriptionId');
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const tabs = ['멤버', '결제', '설정'];
+
+    const {activeTabIndex, setActiveTabIndex} = useHashTab({tabs});
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 
     return (
@@ -38,7 +41,7 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['멤버', '결제', '설정']}
+                        tabs={tabs}
                     />
                 </div>
 

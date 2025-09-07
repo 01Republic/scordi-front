@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
@@ -10,10 +10,12 @@ import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
 import {useCurrentInvoiceAccount} from './atom';
+import { useHashTab } from '^hooks/useHashTab';
 
 export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useOrgIdParam();
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const tabs = ['구독', '청구서'];
+    const {activeTabIndex, setActiveTabIndex} = useHashTab({tabs});
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const {renewAccountWithConfirm} = useInvoiceAccountSync();
 
@@ -39,7 +41,7 @@ export const OrgInvoiceAccountShowPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '청구서']}
+                        tabs={tabs}
                     />
 
                     {/* right side */}

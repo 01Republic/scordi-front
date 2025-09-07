@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
@@ -12,14 +12,17 @@ import {CardInformationPanel} from './CardInformationPanel';
 import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 import {useCreditCardPageFlashForExcelUpload} from './CreditCardPageFlashHandler/atom';
 import {useCurrentCreditCard} from './atom';
+import { useHashTab } from '^hooks/useHashTab';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
+    const tabs = ['구독', '결제'];
+    
     const {currentCreditCard} = useCurrentCreditCard();
     const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const {activeTabIndex, setActiveTabIndex} = useHashTab({tabs});
 
     return (
         <ShowPage
@@ -46,7 +49,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제']}
+                        tabs={tabs}
                     />
 
                     {/* right side */}
