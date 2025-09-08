@@ -10,7 +10,7 @@ import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
 import {useCurrentInvoiceAccount} from './atom';
-import { TabConfig, useQueryTab } from '^hooks/useQueryTab';
+import {TabConfig, useQueryTab} from '^hooks/useQueryTab';
 
 const SubscriptionTabContent = () => (
     <div className="grid grid-cols-10">
@@ -24,17 +24,22 @@ const SubscriptionTabContent = () => (
     </div>
 );
 
-const PaymentTabContent = () => (
-    <BillingHistoryListOfInvoiceAccountTabContent />
-);
+const PaymentTabContent = () => <BillingHistoryListOfInvoiceAccountTabContent />;
 
 export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useOrgIdParam();
-    const tabConfig: TabConfig[] = useMemo(() => [
-        { id: 'subscription', label: '구독', component: SubscriptionTabContent },
-        { id: 'payment', label: '청구서', component: PaymentTabContent },
-    ], []);
-    const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({tabs: tabConfig, paramKey: 'tab', defaultTab: 'subscription'});
+    const tabConfig: TabConfig[] = useMemo(
+        () => [
+            {id: 'subscription', label: '구독', component: SubscriptionTabContent},
+            {id: 'payment', label: '청구서', component: PaymentTabContent},
+        ],
+        [],
+    );
+    const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({
+        tabs: tabConfig,
+        paramKey: 'tab',
+        defaultTab: 'subscription',
+    });
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const {renewAccountWithConfirm} = useInvoiceAccountSync();
 
