@@ -18,7 +18,7 @@ export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHi
     const bankAccountId = useIdParam('bankAccountId');
     const {currentBankAccount} = useCurrentBankAccount();
     const queryResult = useBillingHistoryListOfBankAccount2(orgId, bankAccountId, {
-        relations: ['subscription'],
+        relations: ['subscription', 'bankAccount'],
         order: {issuedAt: 'DESC'},
     });
     const {query, isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} = queryResult;
