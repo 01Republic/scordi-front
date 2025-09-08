@@ -30,8 +30,8 @@ export const integrationSlackMemberApi = {
         return api.post(url).then(oneDtoOf(IntegrationSlackMemberDto));
     },
 
-    unlinkTeamMember(orgId: number, workspaceId: number, id: number, teamMemberId: number) {
-        const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members/${id}/team-members/${teamMemberId}`;
+    unlinkTeamMember(orgId: number, workspaceId: number, id: number) {
+        const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members/${id}/team-members`;
         return api.delete(url).then(oneDtoOf(IntegrationSlackMemberDto));
     },
 };

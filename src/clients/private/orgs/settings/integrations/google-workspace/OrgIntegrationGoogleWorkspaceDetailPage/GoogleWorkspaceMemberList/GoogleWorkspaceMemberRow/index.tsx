@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/IntegrationGoogleWorkspaceMember.dto';
 import {GoogleWorkspaceMemberProfile} from './GoogleWorkspaceMemberProfile';
-import {TeamMemberConnectDropdown} from './TeamMemberConnectDropdown';
+import {GoogleWorkspaceTeamMemberConnectDropdown} from './TeamMemberConnectDropdown';
 import {GoogleWorkspaceMemberMoreDropdown} from './GoogleWorkspaceMemberMoreDropdown';
 
 interface GoogleWorkspaceMemberRowProps {
@@ -29,7 +29,7 @@ export const GoogleWorkspaceMemberRow = memo((props: GoogleWorkspaceMemberRowPro
                 </div>
 
                 <div className="min-w-[10rem] flex items-center justify-end mr-2">
-                    <TeamMemberConnectDropdown item={item} reload={reload} />
+                    <GoogleWorkspaceTeamMemberConnectDropdown item={item} reload={reload} />
                 </div>
 
                 <div className="flex items-center">

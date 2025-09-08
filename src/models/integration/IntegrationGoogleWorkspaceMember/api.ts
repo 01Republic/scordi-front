@@ -39,8 +39,8 @@ export const integrationGoogleWorkspaceMemberApi = {
     },
 
     // 팀멤버 연결 해제
-    unlinkTeamMember(orgId: number, workspaceId: number, id: number, teamMemberId: number) {
-        const url = `/organizations/${orgId}/google-workspace/workspaces/${workspaceId}/google-workspace-members/${id}/team-members/${teamMemberId}`;
+    unlinkTeamMember(orgId: number, workspaceId: number, id: number) {
+        const url = `/organizations/${orgId}/google-workspace/workspaces/${workspaceId}/google-workspace-members/${id}/team-members`;
         return api.delete(url).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
     },
 };
