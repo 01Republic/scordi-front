@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useQuery, useMutation} from '@tanstack/react-query';
 import {WithChildren} from '^types/global.type';
 import {IntegrationSlackMemberDto} from '^models/integration/IntegrationSlackMember/type/IntegrationSlackMember.dto';
@@ -19,9 +19,10 @@ interface TeamMemberConnectDropdownProps extends WithChildren {
 export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownProps) => {
     const {item, reload} = props;
     const orgId = useOrgIdParam();
+    const [isLoading, setIsLoading] = useState(false);
 
     // 팀멤버 목록 API 호출
-    const {data: teamMembers, isLoading } = useQuery({
+    const {data: teamMembers, isLoading: isTeamMembersLoading } = useQuery({
         queryKey: ['teamMembers', orgId],
         queryFn: () => teamMemberApi.index(orgId, {page: 1, itemsPerPage: 0, relations: ['slackMember']}).then(res => res.data.items),
         enabled: !!orgId,
@@ -29,13 +30,16 @@ export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownP
 
     const linkTeamMemberMutation = useMutation({
         mutationFn: async (teamMemberId: number) => {
+            setIsLoading(true);
             const result = await integrationSlackMemberApi.linkTeamMember(orgId, item.integrationWorkspaceId, item.id, teamMemberId);
             return result.data;
         },
         onSuccess: (data) => {
+            setIsLoading(false);
             handleReload();
         },
         onError: (error) => {
+            setIsLoading(false);
             console.error(error);
             handleReload();
         }
@@ -43,12 +47,18 @@ export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownP
 
     const unlinkTeamMemberMutation = useMutation({
         mutationFn: async () => {
-            return await integrationSlackMemberApi.unlinkTeamMember(orgId, item.integrationWorkspaceId, item.id);
+            // 팀멤버가 연결되어 있지 않으면 무시
+            if (!item.teamMemberId) return;
+            
+            setIsLoading(true);
+            return await integrationSlackMemberApi.unlinkTeamMember(orgId, item.integrationWorkspaceId, item.id, item.teamMemberId);
         },
         onSuccess: () => {
+            setIsLoading(false);
             handleReload();
         },
         onError: (error) => {
+            setIsLoading(false);
             console.error(error);
             handleReload();
         }
@@ -85,7 +95,7 @@ export const TeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownP
         >
             {({ hide }) => (
                 <TeamMemberConnectDropdownContent
-                    isLoading={isLoading}
+                    isLoading={isTeamMembersLoading}
                     sortedTeamMembers={sortedTeamMembers}
                     item={item}
                     onSelectTeamMember={(teamMember) => {

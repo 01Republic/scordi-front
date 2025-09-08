@@ -1,14 +1,14 @@
 import {memo} from 'react';
-import {IntegrationSlackMemberDto} from '^models/integration/IntegrationSlackMember/type/IntegrationSlackMember.dto';
+import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/IntegrationGoogleWorkspaceMember.dto';
 import {ConnectedTeamMemberTag} from './ConnectedTeamMemberTag';
 
 interface TeamMemberConnectTriggerProps {
-    item: IntegrationSlackMemberDto;
-    isLoading: boolean;
+    item: IntegrationGoogleWorkspaceMemberDto;
+    isLoading?: boolean;
 }
 
 export const TeamMemberConnectTrigger = memo((props: TeamMemberConnectTriggerProps) => {
-    const {item, isLoading} = props;
+    const {item, isLoading = false} = props;
 
     return (
         <div

@@ -31,6 +31,18 @@ export const integrationGoogleWorkspaceMemberApi = {
         const url = `/organizations/${orgId}/google-workspace/workspaces/${workspaceId}/google-workspace-members/${id}`;
         return api.delete(url).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
     },
+
+    // 팀멤버 연결
+    linkTeamMember(orgId: number, workspaceId: number, id: number, teamMemberId: number) {
+        const url = `/organizations/${orgId}/google-workspace/workspaces/${workspaceId}/google-workspace-members/${id}/team-members/${teamMemberId}`;
+        return api.post(url).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
+    },
+
+    // 팀멤버 연결 해제
+    unlinkTeamMember(orgId: number, workspaceId: number, id: number, teamMemberId: number) {
+        const url = `/organizations/${orgId}/google-workspace/workspaces/${workspaceId}/google-workspace-members/${id}/team-members/${teamMemberId}`;
+        return api.delete(url).then(oneDtoOf(IntegrationGoogleWorkspaceMemberDto));
+    },
 };
 
 export const integrationGoogleWorkspaceMemberAdminApi = {
