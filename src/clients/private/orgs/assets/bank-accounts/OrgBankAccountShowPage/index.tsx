@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
@@ -41,12 +41,11 @@ const CardTabContent = () => (
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
     const orgId = useOrgIdParam();
-    const tabConfig: TabConfig[] = [
+    const tabConfig: TabConfig[] = useMemo(() => [
         { id: 'subscription', label: '구독', component: SubscriptionTabContent },
         { id: 'payment', label: '결제', component: PaymentTabContent },
         { id: 'card', label: '카드', component: CardTabContent },
-    ];
-
+    ], []);
     const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({tabs: tabConfig, paramKey: 'tab', defaultTab: 'subscription'});
 
     return (
