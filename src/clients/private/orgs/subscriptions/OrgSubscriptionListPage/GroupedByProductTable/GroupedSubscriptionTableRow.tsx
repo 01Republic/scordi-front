@@ -33,7 +33,7 @@ import toast from 'react-hot-toast';
 import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {subscriptionApi} from '^models/Subscription/api';
-import {TeamTag} from '^models/Team/components/TeamTag';
+import {TeamTag, TeamTags} from '^models/Team/components/TeamTag';
 import {MasterSelect} from '^components/pages/v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 
 interface GroupedSubscriptionTableRowProps {
@@ -83,28 +83,29 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
         <tr>
             <td />
             <td className="pr-1 pl-3" colSpan={2}>
-                <div className="flex gap-3 items-center">
-                    <label className={`flex justify-center items-center`}>
-                        <input
-                            type="checkbox"
-                            className="bg-white rounded checkbox checkbox-primary checkbox-xs min-w"
-                            defaultChecked={isChecked}
-                            onChange={(e) => onCheck && onCheck(e.target.checked)}
-                        />
-                    </label>
+                {/*/!* 서비스 명 *!/*/}
+                <OpenButtonColumn
+                    href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                >
+                    <div className="flex gap-3 items-center">
+                        <label className={`flex justify-center items-center`}>
+                            <input
+                                type="checkbox"
+                                className="bg-white rounded checkbox checkbox-primary checkbox-xs min-w"
+                                defaultChecked={isChecked}
+                                onChange={(e) => onCheck && onCheck(e.target.checked)}
+                            />
+                        </label>
 
-                    {/*/!* 서비스 명 *!/*/}
-                    <OpenButtonColumn
-                        href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
-                    >
                         <SubscriptionProfile subscription={subscription} className="gap-2 mr-2" />
-                    </OpenButtonColumn>
-                </div>
+                    </div>
+                </OpenButtonColumn>
             </td>
 
             {/* 팀 */}
             <td>
                 <div className="flex items-center">
+                    {/*<TeamTags teams={teams} nowrap summarize className="text-13" />*/}
                     {/*{teams.map((team) => (*/}
                     {/*    <TeamTag key={team.id} id={team.id} name={team.name} />*/}
                     {/*))}*/}
