@@ -41,6 +41,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
 
     const methods = useForm<ManualPaymentHistoryRegisterForm>({
         mode: 'all',
+        shouldUnregister: true,
         defaultValues: {
             subscriptionId: subscription?.id,
             creditCardId: creditCard?.id,
@@ -59,7 +60,6 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     } = methods;
 
     const onSubmit = (data: ManualPaymentHistoryRegisterForm) => {
-        console.log(data);
         const {creditCardId, bankAccountId, payAmount, payCurrency} = data;
         const {subscriptionId, payDate, billingHistoryStatus} = data;
 
@@ -76,7 +76,6 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
             paidAt: billingHistoryStatus === 'PaySuccess' ? payDate : null,
             lastRequestedAt: billingHistoryStatus === 'PayFail' ? payDate : null,
         };
-
         onCreate?.(dto)
             .then(() => onClose())
             .catch((e) => errorToast(e.response.data.message));
@@ -88,15 +87,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     const isSubmitDisabled = !isValid || (!!billingHistory && !isDirty);
 
     const onCloseModal = () => {
-        reset({
-            subscriptionId: undefined,
-            creditCardId: undefined,
-            bankAccountId: undefined,
-            payAmount: undefined,
-            payCurrency: undefined,
-            payDate: undefined,
-            billingHistoryStatus: undefined,
-        });
+        reset();
         onClose();
     };
 

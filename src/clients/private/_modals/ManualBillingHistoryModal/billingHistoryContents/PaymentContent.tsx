@@ -18,7 +18,8 @@ interface PaymentContentProps {
 export const PaymentContent = memo((props: PaymentContentProps) => {
     const {defaultValue, readonly} = props;
     const orgId = useOrgIdParam();
-    const {setValue, register} = useFormContext<ManualPaymentHistoryRegisterForm>();
+    const {setValue, register, watch} = useFormContext<ManualPaymentHistoryRegisterForm>();
+    const {bankAccountId, creditCardId} = watch();
     const {
         result: creditCardResult,
         reload: creditCardReload,
@@ -50,8 +51,18 @@ export const PaymentContent = memo((props: PaymentContentProps) => {
 
     return (
         <ContentBox label="결제수단" required>
-            <input type="hidden" {...register('creditCardId')} />
-            <input type="hidden" {...register('bankAccountId')} />
+            <input
+                type="hidden"
+                {...register('creditCardId', {
+                    validate: (value: number | undefined) => !!(value || bankAccountId),
+                })}
+            />
+            <input
+                type="hidden"
+                {...register('bankAccountId', {
+                    validate: (value: number | undefined) => !!(value || creditCardId),
+                })}
+            />
             <PaymentSelect
                 defaultValue={defaultValue || undefined}
                 isLoading={isCreditCardLoading || isBankAccountLoading}

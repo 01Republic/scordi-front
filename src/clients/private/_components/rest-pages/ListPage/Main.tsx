@@ -2,7 +2,7 @@ import React, {memo, ReactNode, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {ReactComponentLike} from 'prop-types';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useOrgIdParam} from '^atoms/common';
 import {WithChildren} from '^types/global.type';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
@@ -46,7 +46,8 @@ export const ListPageMain = memo((props: ListPageProps) => {
         //
         containerFluid = false,
     } = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    // const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const router = useRouter();
 
     useEffect(() => {
