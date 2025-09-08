@@ -35,14 +35,13 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     const {isOpen, isLoading, readonly} = props;
     const {subscription, creditCard, bankAccount, billingHistory} = props;
 
-    if (!isOpen) return <></>;
-
     const subscriptionName = subscription?.product?.name();
     const creditCardName = creditCard?.name;
     const bankAccountName = bankAccount?.name;
 
     const methods = useForm<ManualPaymentHistoryRegisterForm>({
         mode: 'all',
+        shouldUnregister: true,
         defaultValues: {
             subscriptionId: subscription?.id,
             creditCardId: creditCard?.id,
@@ -88,15 +87,7 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     const isSubmitDisabled = !isValid || (!!billingHistory && !isDirty);
 
     const onCloseModal = () => {
-        reset({
-            subscriptionId: undefined,
-            creditCardId: undefined,
-            bankAccountId: undefined,
-            payAmount: undefined,
-            payCurrency: undefined,
-            payDate: undefined,
-            billingHistoryStatus: undefined,
-        });
+        reset();
         onClose();
     };
 
