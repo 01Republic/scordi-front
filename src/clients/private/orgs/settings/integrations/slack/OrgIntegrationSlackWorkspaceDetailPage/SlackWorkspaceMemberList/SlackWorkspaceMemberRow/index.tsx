@@ -29,7 +29,7 @@ export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps
                 </div>
 
                 <div className="min-w-[10rem] flex items-center justify-end mr-2">
-                    <TeamMemberConnectDropdown item={item} />
+                    <TeamMemberConnectDropdown item={item} reload={reload} />
                 </div>
 
                 <div className="flex items-center">

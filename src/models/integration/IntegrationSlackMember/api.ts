@@ -24,4 +24,14 @@ export const integrationSlackMemberApi = {
         const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members/${id}`;
         return api.delete(url).then(oneDtoOf(IntegrationSlackMemberDto));
     },
+
+    linkTeamMember(orgId: number, workspaceId: number, id: number, teamMemberId: number) {
+        const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members/${id}/link/${teamMemberId}`;
+        return api.post(url).then(oneDtoOf(IntegrationSlackMemberDto));
+    },
+
+    unlinkTeamMember(orgId: number, workspaceId: number, id: number) {
+        const url = `/organizations/${orgId}/slack/workspaces/${workspaceId}/slack-members/${id}/link`;
+        return api.delete(url).then(oneDtoOf(IntegrationSlackMemberDto));
+    },
 };
