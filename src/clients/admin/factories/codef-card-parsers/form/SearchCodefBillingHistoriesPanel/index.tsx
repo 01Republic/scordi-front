@@ -19,13 +19,9 @@ import {unitFormat} from '^utils/number';
 export const SearchCodefBillingHistoriesPanel = memo(() => {
     const form = useFormContext<UpdateCodefCardParserRequestDto>();
     const [selectedCodefCard, selectCodefCard] = useState<CodefCardDto>();
-    const {isLoading, codefBillingHistories, search} = useSearchCodefBillingHistories();
 
-    useEffect(() => {
-        const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.resMemberStoreName || {};
-        search({ops, fo, bo, value});
-    }, []);
+    const {ops = FindOperatorType.Like, fo, bo, value = ''} = form.getValues()?.resMemberStoreName || {};
+    const {isLoading, codefBillingHistories, search, refetch} = useSearchCodefBillingHistories({ops, fo, bo, value});
 
     const onCardSelect = (codefCard?: CodefCardDto) => {
         selectCodefCard(codefCard);
@@ -104,6 +100,7 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                                         key={i}
                                         data={codefBillingHistory}
                                         onCardSelect={onCardSelect}
+                                        reload={refetch}
                                     />
                                 ))}
                             </LoadableBox>

@@ -35,6 +35,8 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     const {isOpen, isLoading, readonly} = props;
     const {subscription, creditCard, bankAccount, billingHistory} = props;
 
+    if (!isOpen) return <></>;
+
     const subscriptionName = subscription?.product?.name();
     const creditCardName = creditCard?.name;
     const bankAccountName = bankAccount?.name;
@@ -59,7 +61,6 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
     } = methods;
 
     const onSubmit = (data: ManualPaymentHistoryRegisterForm) => {
-        console.log(data);
         const {creditCardId, bankAccountId, payAmount, payCurrency} = data;
         const {subscriptionId, payDate, billingHistoryStatus} = data;
 
@@ -76,7 +77,6 @@ export const ManualBillingHistoryModal = memo((props: ManualBillingHistoryModalP
             paidAt: billingHistoryStatus === 'PaySuccess' ? payDate : null,
             lastRequestedAt: billingHistoryStatus === 'PayFail' ? payDate : null,
         };
-
         onCreate?.(dto)
             .then(() => onClose())
             .catch((e) => errorToast(e.response.data.message));

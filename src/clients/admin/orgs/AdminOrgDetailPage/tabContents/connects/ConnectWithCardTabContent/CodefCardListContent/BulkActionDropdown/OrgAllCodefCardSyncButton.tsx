@@ -5,14 +5,15 @@ import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {codefCardAdminApi} from '^models/CodefCard/api';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {errorToast} from '^api/api';
+import {WithChildren} from '^types/global.type';
 
-interface Props {
+interface Props extends WithChildren {
     isLoading: boolean;
     reload: () => any;
 }
 
 export const OrgAllCodefCardSyncButton = memo((props: Props) => {
-    const {isLoading, reload} = props;
+    const {isLoading, reload, children} = props;
     const orgId = useIdParam('id');
     const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
 
@@ -44,7 +45,7 @@ export const OrgAllCodefCardSyncButton = memo((props: Props) => {
         <button
             className={`btn btn-xs btn-white no-animation btn-animation ${
                 isSyncRunning ? 'loading pointer-events-none opacity-30' : ''
-            }`}
+            } ${children ? 'px-0 overflow-hidden flex items-stretch' : ''}`}
             onClick={() => onClick()}
             onContextMenu={(e) => {
                 e.stopPropagation();
@@ -52,7 +53,9 @@ export const OrgAllCodefCardSyncButton = memo((props: Props) => {
                 return onClick(true);
             }}
         >
-            카드 배치 수동 실행
+            <span className={`flex items-center ${children ? 'px-2' : ''}`}>카드 배치 수동 실행</span>
+
+            {children}
         </button>
     );
 });

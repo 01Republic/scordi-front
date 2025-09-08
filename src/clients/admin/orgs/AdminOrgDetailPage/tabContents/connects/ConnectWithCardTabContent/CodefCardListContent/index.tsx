@@ -10,7 +10,7 @@ import {CardTablePanel, CardTableSortableColumn, CardTableTH, CardTableThLabel} 
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 import {CodefCardItem} from './CodefCardItem';
-import {OrgAllCodefCardSyncButton} from './OrgAllCodefCardSyncButton';
+import {BulkActionDropdown} from './BulkActionDropdown';
 import {CheckDuplicateButton} from './CheckDuplicateButton';
 
 export const CodefCardListContent = memo(function CodefCardListContent(props: TabPaneProps) {
@@ -53,7 +53,12 @@ export const CodefCardListContent = memo(function CodefCardListContent(props: Ta
 
                 <div className="flex items-center gap-4">
                     <div>
-                        <OrgAllCodefCardSyncButton isLoading={isLoading} reload={reload} />
+                        <BulkActionDropdown
+                            isLoading={isLoading}
+                            pagination={pagination}
+                            query={query}
+                            reload={reload}
+                        />
                     </div>
                     <div>
                         <CheckDuplicateButton result={result} isLoading={isLoading} />

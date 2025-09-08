@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, MouseEvent} from 'react';
 import {WithChildren} from '^types/global.type';
 
 interface MoreDropdownMenuItemProps extends WithChildren {
-    onClick?: () => any;
+    onClick?: (e: MouseEvent<HTMLDivElement>) => any;
     className?: string;
 }
 

@@ -101,6 +101,7 @@ export class FindAllCodefBillingHistoryAdminQueryDto extends FindAllQueryDto<Cod
 export class FixTimeZoneCodefBillingHistoriesQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
     organizationId?: number;
     codefCardId?: number;
+    codefBankAccountId?: number;
 }
 
 class CodefBankAccountBillingHistoryDto extends CodefBillingHistoryDto {
