@@ -14,7 +14,7 @@ import {GroupedByProductScopeHandler} from './GroupedByProductScopeHandler';
 import {GroupedByProductTable} from './GroupedByProductTable';
 import {SubscriptionTable} from './SubscriptionTable';
 import {BottomAction} from './BottomAction';
-import {ColumnVisibilityTrigger} from './ColumnVisibilityTrigger';
+import {TableColumnsHandler} from './TableColumnsHandler';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
@@ -116,7 +116,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
                     <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
                     <div className="flex items-center gap-2 justify-between">
-                        <ColumnVisibilityTrigger />
+                        <TableColumnsHandler />
                         <ListTablePaginator
                             pagination={queryResult.result.pagination}
                             movePage={queryResult.movePage}
