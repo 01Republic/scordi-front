@@ -29,7 +29,7 @@ export const PatchAllForCodefCardItem = memo((props: PatchAllForCodefCardItemPro
 
         const request = () => {
             return codefCard
-                ? syncCard(orgId, codefCard)
+                ? syncCard(orgId, codefCard, true)
                 : codefCardAdminApi.syncAll({
                       ...query,
                       organizationId: orgId,
