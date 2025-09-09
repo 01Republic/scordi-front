@@ -1,6 +1,5 @@
 import {useEffect} from 'react';
 import {atom, AtomOptions, RecoilState, SetterOrUpdater, useRecoilState} from 'recoil';
-import {recoilPersist} from 'recoil-persist';
 import useLocalStorage from 'use-local-storage';
 import {ClassConstructor, plainToInstance} from 'class-transformer';
 
