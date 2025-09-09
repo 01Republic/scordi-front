@@ -34,7 +34,7 @@ export const OrgAllCodefCardSyncButton = memo((props: Props) => {
 
         return confirmed(check())
             .then(() => setIsSyncRunning(true))
-            .then(() => codefCardAdminApi.sync({orgId, slackMute}))
+            .then(() => codefCardAdminApi.sync({orgId, slackMute, notificationMute: true}))
             .then(() => toast('배치 실행 완료'))
             .then(() => reload())
             .catch(errorToast)

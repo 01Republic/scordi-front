@@ -25,7 +25,7 @@ export const AllCodefBankAccountSyncButton = memo(() => {
 
         return confirmed(check())
             .then(() => setIsLoading(true))
-            .then(() => codefBankAccountAdminApi.sync({slackMute}))
+            .then(() => codefBankAccountAdminApi.sync({slackMute, notificationMute: true}))
             .then(() => toast('배치 실행 완료'))
             .catch(errorToast)
             .finally(() => setIsLoading(false));

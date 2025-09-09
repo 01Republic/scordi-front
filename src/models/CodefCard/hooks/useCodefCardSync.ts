@@ -23,12 +23,12 @@ export function useCodefCardSync() {
     const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
     const queryClient = useQueryClient();
 
-    const syncCard = async (orgId: number, codefCard: CodefCardDto) => {
+    const syncCard = async (orgId: number, codefCard: CodefCardDto, notificationMute = false) => {
         if (!orgId || isNaN(orgId)) return;
 
         setIsSyncRunning(true);
         return codefCardApi
-            .histories(orgId, codefCard.id, {sync: true})
+            .histories(orgId, codefCard.id, {sync: true, notificationMute})
             .then((res) => {
                 toast.success(`${codefCard.number4} 동기화 완료!`);
                 return res;

@@ -29,7 +29,7 @@ export const PatchAllForCodefBankAccount = memo((props: Props) => {
 
         return confirmed(patchConfirm())
             .then(() => setIsSyncRunning(true))
-            .then(() => codefBankAccountApi.histories(org.id, codefAsset.id, {sync: true}))
+            .then(() => codefBankAccountApi.histories(org.id, codefAsset.id, {sync: true, notificationMute: true}))
             .then(() => toast.success('실행완료'))
             .catch(errorToast)
             .finally(() => {
