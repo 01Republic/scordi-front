@@ -25,7 +25,6 @@ export const TableColumnsHandler = memo(() => {
 
     return (
         <Dropdown
-            isAutoClose={false}
             placement="bottom-start"
             Trigger={() => (
                 <Tippy
