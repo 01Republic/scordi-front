@@ -36,7 +36,7 @@ import {TeamTag} from '^models/Team/components/TeamTag';
 import {MasterSelect} from '^components/pages/v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 import {useRecoilValue} from 'recoil';
 import {visibleColumnsState} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/atom';
-import {allColumnIds, ColumnId} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/tableColums';
+import {allColumnIds, ColumnId} from '../../TableColumnsHandler/tableColumns';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;

@@ -1,7 +1,7 @@
-import {atom, AtomEffect} from 'recoil';
+import {atom} from 'recoil';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {ColumnId, defaultVisibleColumns} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/tableColums';
 import {localStorageEffect} from '^atoms/localStorageEffect';
+import {ColumnId, defaultVisibleColumns} from './TableColumnsHandler/tableColumns';
 
 export const checkedSubscriptionList = atom<SubscriptionDto[]>({
     key: 'checkedSubscriptionList',

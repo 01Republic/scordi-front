@@ -9,7 +9,6 @@ interface DropdownContentProps extends Omit<TippyProps, 'children'> {
     triggerRef: RefObject<Element>;
     backdrop?: boolean; // default: true
     allowScroll?: boolean; // default: false
-    isAutoClose?: boolean; // default:true
     interactiveBorder?: number; // default: 30
     offset?: [number, number]; // default: undefined
     placement?: Placement;
@@ -24,7 +23,6 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
         children,
         backdrop = true,
         allowScroll = false,
-        isAutoClose = true,
         placement = 'bottom-end',
         interactiveBorder = 30,
         offset,
@@ -58,30 +56,16 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
                         hide();
                     }}
                     render={(attrs, content, instance) => (
-                        <>
-                            {isAutoClose ? (
-                                <div
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        hide();
-                                    }}
-                                    {...attrs}
-                                >
-                                    {children}
-                                </div>
-                            ) : (
-                                <div
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }}
-                                    {...attrs}
-                                >
-                                    {children}
-                                </div>
-                            )}
-                        </>
+                        <div
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                hide();
+                            }}
+                            {...attrs}
+                        >
+                            {children}
+                        </div>
                     )}
                     {...res}
                 />
