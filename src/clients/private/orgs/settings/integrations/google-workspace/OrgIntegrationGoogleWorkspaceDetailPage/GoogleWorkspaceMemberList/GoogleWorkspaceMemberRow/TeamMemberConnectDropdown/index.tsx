@@ -2,12 +2,12 @@ import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {IntegrationGoogleWorkspaceMemberDto} from '^models/integration/IntegrationGoogleWorkspaceMember/type/IntegrationGoogleWorkspaceMember.dto';
 import {useOrgIdParam} from '^atoms/common';
-import { TeamMemberDto, useTeamMembers } from '^models/TeamMember';
-import { useToast } from '^hooks/useToast';
-import { TeamMemberProfileOption } from '^models/TeamMember/components/TeamMemberProfile';
+import { TeamMemberDto, teamMemberApi } from '^models/TeamMember';
+import { TeamMemberProfileCompact } from '^models/TeamMember/components/TeamMemberProfile';
 import { TagUI } from '^components/pages/v3/share/table/columns/share/TagUI';
 import { SelectColumn } from '^components/pages/v3/share/table/columns/SelectColumn';
 import { usePatchGoogleWorkspaceMemberTeamMemberLink } from '^models/integration/IntegrationGoogleWorkspaceMember/hooks/usePatchGoogleWorkspaceMemberTeamMemberLink';
+import toast from 'react-hot-toast';
 
 interface TeamMemberConnectDropdownProps extends WithChildren {
     item: IntegrationGoogleWorkspaceMemberDto;
@@ -15,11 +15,8 @@ interface TeamMemberConnectDropdownProps extends WithChildren {
 }
 
 export const GoogleWorkspaceTeamMemberConnectDropdown = memo((props: TeamMemberConnectDropdownProps) => {
-    const {toast} = useToast();
-    const {search} = useTeamMembers();
     const {item, reload} = props;
     const orgId = useOrgIdParam();
-
     const {mutateAsync} = usePatchGoogleWorkspaceMemberTeamMemberLink({
         orgId, 
         workspaceId: item.integrationWorkspaceId, 
@@ -27,28 +24,27 @@ export const GoogleWorkspaceTeamMemberConnectDropdown = memo((props: TeamMemberC
     });
     
     const getOptions = async (keyword?: string) => {
-        return search(
-            {
-                keyword,
-                where: {organizationId: orgId},
-                itemsPerPage: 0,
-            },
-            false,
-            true,
-        ).then((res) => res?.items || []);
+        const response = await teamMemberApi.index(orgId, {
+            keyword,
+            relations: ['teams'],
+            order: {id: 'DESC'},
+            updateCounterCacheColumn: 'subscriptionCount',
+            itemsPerPage: 0,
+        });
+        return response.data.items;
     };
 
     const onSelect = async (teamMember: TeamMemberDto) => {
         if (teamMember.id === item.teamMemberId) return;
 
         return mutateAsync({teamMemberId: teamMember.id})
-            .then(() => reload?.())
+            .then(() => reload && reload())
             .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     const optionDetach = async () => {
         return mutateAsync({teamMemberId: null})
-            .then(() => reload?.())
+            .then(() => reload && reload())
             .finally(() => toast.success('연결을 해제했어요.'));
     };
 
@@ -57,7 +53,7 @@ export const GoogleWorkspaceTeamMemberConnectDropdown = memo((props: TeamMemberC
             <SelectColumn
                 value={item.teamMember}
                 getOptions={getOptions}
-                ValueComponent={TeamMemberProfile}
+                ValueComponent={TeamMemberProfileCompactWithPlaceholder}
                 valueOfOption={(member) => member.id}
                 textOfOption={(member) => member.name}
                 keywordFilter={(member, keyword) => member.name.includes(keyword)}
@@ -75,12 +71,9 @@ export const GoogleWorkspaceTeamMemberConnectDropdown = memo((props: TeamMemberC
 });
 GoogleWorkspaceTeamMemberConnectDropdown.displayName = 'GoogleWorkspaceTeamMemberConnectDropdown';
 
-const TeamMemberProfile = memo((props: {value: TeamMemberDto | string}) => {
-    const {value} = props;
+export const TeamMemberProfileCompactWithPlaceholder = memo((props: {value: TeamMemberDto | string}) => {
+    const {value: teamMember} = props;
+    if (!teamMember) return <p>연결된 계정 없음</p>;
 
-    if (typeof value === 'string') {
-        return <p>{value}</p>;
-    }
-
-    return <TeamMemberProfileOption item={value} placeholder="연결된 계정 없음" />;
+    return <TeamMemberProfileCompact item={teamMember as TeamMemberDto} />;
 });
