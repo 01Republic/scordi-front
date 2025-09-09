@@ -17,7 +17,7 @@ export const GroupedByProductTableHeader = memo((props: Props) => {
     const visibleSet = new Set(visible);
 
     const header: Record<ColumnId, React.ReactNode> = {
-        checkBox: <th />,
+        checkBox: <th className="w-8" />,
         subscriptionName: (
             <SortableTH2 sortKey="[nameEn]" sortVal={sortVal} onClick={orderBy} colSpan={2} className="min-w-60">
                 서비스 명
@@ -59,7 +59,7 @@ export const GroupedByProductTableHeader = memo((props: Props) => {
             </SortableTH>
         ),
         note: <th>비고</th>,
-        actions: <th />,
+        actions: <th className="w-8" />,
     };
 
     return (
