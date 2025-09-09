@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {Plus} from 'lucide-react';
+import {Plus, Settings2} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -14,6 +14,7 @@ import {GroupedByProductScopeHandler} from './GroupedByProductScopeHandler';
 import {GroupedByProductTable} from './GroupedByProductTable';
 import {SubscriptionTable} from './SubscriptionTable';
 import {BottomAction} from './BottomAction';
+import {ColumnVisibilityTrigger} from './ColumnVisibilityTrigger';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
@@ -28,6 +29,8 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             id: 'DESC',
             product: {nameKo: 'ASC'},
         },
+        page: 1,
+        itemsPerPage: 30,
     });
 
     const subscriptionListGroupedByProductQuery = useSubscriptionListGroupedByProduct(isGroupMode, {
@@ -49,6 +52,8 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             },
             nameKo: 'ASC',
         },
+        page: 1,
+        itemsPerPage: 30,
     });
 
     const queryResult = isGroupMode ? subscriptionListGroupedByProductQuery : subscriptionListQuery;
@@ -108,9 +113,10 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 hideTopPaginator
             >
                 <div className="flex justify-between items-center mb-4">
-                    <div>
+                    <div className="flex items-center gap-2 justify-between">
                         {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
                         <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
+                        <ColumnVisibilityTrigger />
                     </div>
                     <ListTablePaginator
                         pagination={queryResult.result.pagination}
