@@ -113,17 +113,17 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 hideTopPaginator
             >
                 <div className="flex justify-between items-center mb-4">
+                    {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
+                    <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
                     <div className="flex items-center gap-2 justify-between">
-                        {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
-                        <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
                         <ColumnVisibilityTrigger />
+                        <ListTablePaginator
+                            pagination={queryResult.result.pagination}
+                            movePage={queryResult.movePage}
+                            onChangePerPage={queryResult.changePageSize}
+                            unit="개"
+                        />
                     </div>
-                    <ListTablePaginator
-                        pagination={queryResult.result.pagination}
-                        movePage={queryResult.movePage}
-                        onChangePerPage={queryResult.changePageSize}
-                        unit="개"
-                    />
                 </div>
                 {isGroupMode ? (
                     <GroupedByProductTable query={subscriptionListGroupedByProductQuery} />

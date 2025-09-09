@@ -50,13 +50,4 @@ export const columnLabels: Record<ColumnId, string> = {
 };
 
 // 항상 보이게 할 컬럼
-export const requiredColumns: ColumnId[] = [
-    'checkBox',
-    'subscriptionName',
-    'team',
-    'status',
-    'memberCount',
-    'master',
-    'note',
-    'actions',
-];
+export const requiredColumns: ColumnId[] = ['checkBox', 'subscriptionName', 'actions'];
