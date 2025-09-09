@@ -82,6 +82,7 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
     const teams = (subscription.teamMembers || []).flatMap((member) => member.teams || []);
     const team = teams[0];
 
+
     const row: Record<ColumnId, () => React.ReactNode> = {
         checkBox: () => <td />,
 
@@ -102,15 +103,17 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                         href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
                     >
                         <SubscriptionProfile subscription={subscription} className="gap-2 mr-2" />
-                    </OpenButtonColumn>
-                </div>
+                    </div>
+                </OpenButtonColumn>
             </td>
         ),
 
         // 팀
         team: () => (
             <td>
+
                 <div className="flex items-center">{team && <TeamTag id={team.id} name={team.name} />}</div>
+
             </td>
         ),
 

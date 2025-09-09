@@ -1,4 +1,5 @@
 export * from './ConnectStatus';
+export * from './BillingCycleOptions';
 export * from './SubscriptionStatus';
 export * from './SubscriptionUsingStatus.enum';
 export * from './Subscription.dto';

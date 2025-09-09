@@ -28,12 +28,12 @@ interface SetRecurringGroupPanelProps {
 export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) => {
     const {selectedCodefCard} = props;
     const form = useFormContext<UpdateCodefCardParserRequestDto>();
-    const {isLoading, codefBillingHistories, search} = useSearchCodefBillingHistories();
+    const {ops = FindOperatorType.Like, fo, bo, value = ''} = form.getValues()?.resMemberStoreName || {};
+    const {isLoading, codefBillingHistories, search, refetch} = useSearchCodefBillingHistories(
+        {ops, fo, bo, value},
+        selectedCodefCard,
+    );
     const {isLoading: isGrouping, data: recurringGroups, run: setRecurringGroups} = useCodefBillingHistoriesGroup();
-
-    useEffect(() => {
-        fetchBeforeStepData();
-    }, []);
 
     useEffect(() => {
         const values = form.getValues();
@@ -71,7 +71,7 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
                         <div className="flex-1 pr-4">
                             <LoadableBox loadingType={2} isLoading={isLoading || isGrouping} noPadding>
                                 {recurringGroups.map((group, i) => (
-                                    <RecurringGroup key={i} group={group} index={i} />
+                                    <RecurringGroup key={i} group={group} index={i} reload={refetch} />
                                 ))}
                             </LoadableBox>
                         </div>

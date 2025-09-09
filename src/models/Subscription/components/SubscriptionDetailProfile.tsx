@@ -1,14 +1,13 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {yyyy_mm_dd} from '^utils/dateTime';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {NextImage} from '^components/NextImage';
 import {HelpCircle} from 'lucide-react';
-import {t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {currencyFormat} from '^utils/number';
 import {Avatar} from '^components/Avatar';
+import {SubscriptionBillingSummaryLine} from './SubscriptionBillingSummaryLine';
 
 interface SubscriptionDetailProfileProps {
     subscription: SubscriptionDto;
@@ -20,15 +19,7 @@ export const SubscriptionDetailProfile = memo((props: SubscriptionDetailProfileP
     const {subscription, imageClassName, tempImageSize} = props;
 
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
-    const {product, billingCycleType, bankAccount, creditCard, currentBillingAmount} = subscription;
-
-    const lastPaidAt = subscription.lastPaidAt ? yyyy_mm_dd(new Date(subscription.lastPaidAt)) : '-';
-
-    const creditCardCompany = creditCard?.company?.displayName;
-    const creditCardEndNumber = creditCard?.secretInfo?.number4;
-
-    const bankCompany = bankAccount?.bankName;
-    const bankEndNumber = bankAccount?.endNumber();
+    const {product, currentBillingAmount} = subscription;
 
     const symbol = getCurrencySymbol(displayCurrency);
     const billingAmount = currentBillingAmount?.amount ? currentBillingAmount.toDisplayPrice(displayCurrency) : 0;
@@ -61,21 +52,7 @@ export const SubscriptionDetailProfile = memo((props: SubscriptionDetailProfileP
                         )}
                     </section>
 
-                    <section className="flex gap-1 text-gray-500 text-14">
-                        {/* 결제 주기 */}
-                        <span>{t_SubscriptionBillingCycleType(billingCycleType, true)} |</span>
-
-                        {/* 마지막 결제일 */}
-                        <span>{lastPaidAt} |</span>
-
-                        {/* 결제수단 */}
-                        <div>
-                            <span>{creditCardCompany || bankCompany || '-'}</span>
-                            {(creditCardEndNumber || bankEndNumber) && (
-                                <span>{`${creditCardEndNumber || bankEndNumber}`}</span>
-                            )}
-                        </div>
-                    </section>
+                    <SubscriptionBillingSummaryLine subscription={subscription} />
                 </div>
             </div>
             <div className="font-semibold text-gray-900 whitespace-nowrap flex gap-1">

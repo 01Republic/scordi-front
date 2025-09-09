@@ -1,4 +1,6 @@
+export * from './SubscriptionBillingSummaryLine';
 export * from './SubscriptionProfile';
+export * from './SubscriptionDetailProfile';
 export * from './PayMethodSelect';
 export * from './MemberCount';
 export * from './SubscriptionUsingStatusTag';

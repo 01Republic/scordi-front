@@ -16,7 +16,7 @@ export const OrgDashboardPage = () => {
                         <QuickButtonGroup />
                     </div>
 
-                    {/* 이달의 지출 총액 */}
+                    {/* 월간 구독 현황 */}
                     <MonthlyTotalExpenseSection />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

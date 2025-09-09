@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
 import {toast} from 'react-hot-toast';
@@ -13,6 +13,9 @@ import {RemoveParserItem} from './RemoveParserItem';
 import {MakeBankAccountParserItem} from './MakeBankAccountParserItem';
 import {useCodefCardParserVersionsInFactory} from '^models/_codef/CodefCardParser/hooks/useCodefCardParserVersionsInFactory';
 import {ActivateButton} from '^admin/factories/codef-card-parsers/CodefCardParserEditPage/ActivateButton';
+import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {codefCardAdminApi} from '^models/CodefCard/api';
 
 interface CodefCardParserActionsProps {
     parser: CodefCardParserDto;
@@ -24,7 +27,30 @@ export const CodefCardParserActions = memo((props: CodefCardParserActionsProps) 
     const id = useIdParam('id');
     const router = useRouter();
     const [isVersionListModalOpened, setIsVersionModalOpened] = useState(false);
+    const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
     const parsersQuery = useCodefCardParserVersionsInFactory(parser?.productId);
+
+    const onClick = (slackMute = false) => {
+        if (isSyncRunning) return;
+
+        const check = () => {
+            return confirm2(
+                '이 파서를 수동 실행할까요?',
+                <div className="text-14">
+                    이 작업은 도중에 중단 할 수 없습니다.
+                    <br />
+                    지금 시작할까요? (슬랙실행: {slackMute ? 'Off' : 'On'})
+                </div>,
+            );
+        };
+
+        return confirmed(check())
+            .then(() => setIsSyncRunning(true))
+            .then(() => adminCodefCardParserApi.run(parser.id, {slackMute}))
+            .then(() => toast('파서 실행 완료'))
+            .catch(errorToast)
+            .finally(() => setIsSyncRunning(false));
+    };
 
     return (
         <div className={'flex gap-2 items-center'}>
@@ -59,6 +85,19 @@ export const CodefCardParserActions = memo((props: CodefCardParserActionsProps) 
                 }}
             >
                 이 버전 복제하기
+            </button>
+            <button
+                className={`btn bg-yellow-200 hover:bg-yellow-400 text-yellow-600 hover:text-yellow-900 transition-all rounded-[14px] border-none no-animation btn-animation ${
+                    isSyncRunning ? 'loading pointer-events-none opacity-30' : ''
+                }`}
+                onClick={() => onClick()}
+                onContextMenu={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return onClick(true);
+                }}
+            >
+                파서 수동 실행
             </button>
 
             <div className="ml-auto flex items-center justify-end">

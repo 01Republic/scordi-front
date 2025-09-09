@@ -1,27 +1,29 @@
 import React, {memo, useState} from 'react';
-import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
-import {hh_mm, yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
-import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
 import {Check, EyeOff} from 'lucide-react';
-import {currencyFormat, roundNumber} from '^utils/number';
+import {checkCodefBillingHistoryNeedToFixTimeZone, CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
+import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {BANK_ACCOUNT_STOP_WORDS} from '^models/CodefBillingHistory/types/bank-account-stop-words';
-import {format} from 'date-fns';
-import {ko} from 'date-fns/locale';
+import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
+import {currencyFormat, roundNumber} from '^utils/number';
+import {lpp} from '^utils/dateTime';
+import {codefBillingHistoriesAdminApi} from '^models/CodefBillingHistory/api';
+import {errorToast} from '^api/api';
+import Tippy from '@tippyjs/react';
 
 interface SearchedCodefBillingHistoryItemProps {
     data: CodefBillingHistoryDto;
     onSelect: (codefBankAccount?: CodefBankAccountDto) => any;
     preventHidden?: boolean;
+    reload?: () => any;
 }
 
 /** 계좌 / 수시입출금 내역 항목 */
 export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBillingHistoryItemProps) => {
-    const {data: codefBillingHistory, onSelect, preventHidden = false} = props;
+    const {data: codefBillingHistory, onSelect, preventHidden = false, reload} = props;
     const [isHidden, setIsHidden] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const codefBankBillingHistory = codefBillingHistory.asBankAccount;
-    const usedDate = codefBankBillingHistory.usedDate;
     const content = codefBankBillingHistory.content;
     const finalPrice = codefBankBillingHistory.amount;
     const currency = codefBillingHistory.resAccountCurrency || '';
@@ -41,20 +43,40 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
     if (hide) return <></>;
 
     return (
-        <div className={isHidden ? 'hidden' : 'flex items-center gap-1 5'}>
+        <div
+            className={
+                isHidden ? 'hidden' : `flex items-center gap-1 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`
+            }
+            onClick={() => console.log(codefBillingHistory)}
+        >
             <div className="flex-1">
                 <div className="grid grid-cols-12 text-12 h-[22px]">
-                    <div className="col-span-2 flex items-center gap-1">
-                        <span
-                            className="tooltip tooltip-primary"
-                            data-tip={`등록일: ${format(codefBillingHistory.createdAt, 'yyyy-MM-dd HH:mm', {
-                                locale: ko,
-                            })}`}
+                    <div
+                        className="col-span-3 flex items-center gap-1"
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            setIsLoading(true);
+                            codefBillingHistoriesAdminApi
+                                .fixTimeZone({where: {id: codefBillingHistory.id}})
+                                .then(() => reload && reload())
+                                .catch(errorToast)
+                                .finally(() => setIsLoading(false));
+                        }}
+                    >
+                        <Tippy
+                            content={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}
                         >
-                            {format(usedDate, 'yyyy-MM-dd', {locale: ko})}
-                        </span>
+                            <div
+                                className={`flex items-center w-full gap-1 ${
+                                    checkCodefBillingHistoryNeedToFixTimeZone(codefBillingHistory) ? 'text-red-500' : ''
+                                }`}
+                            >
+                                <div>{lpp(codefBillingHistory.usedAt, 'P')}</div>
+                                <small>{lpp(codefBillingHistory.usedAt, 'p')}</small>
+                            </div>
+                        </Tippy>
                     </div>
-                    <div className="flex items-center">{format(usedDate, 'HH:mm:ss', {locale: ko})}</div>
+
                     <div className="col-span-2 flex items-center">
                         <div>
                             <CodefBankAccountTagUI
@@ -64,10 +86,8 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
                             />
                         </div>
                     </div>
-                    <div
-                        className="col-span-5 flex items-center gap-3"
-                        onClick={() => console.log(codefBillingHistory)}
-                    >
+
+                    <div className="col-span-5 flex items-center gap-3">
                         <div className="w-full whitespace-nowrap overflow-scroll no-scrollbar">
                             <span>{content.trim()}</span>
                         </div>
@@ -80,6 +100,7 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
                             )}
                         </div>
                     </div>
+
                     <div
                         className={`col-span-2 flex items-center justify-end whitespace-nowrap ${
                             finalPrice < 0 ? 'text-red-500' : ''

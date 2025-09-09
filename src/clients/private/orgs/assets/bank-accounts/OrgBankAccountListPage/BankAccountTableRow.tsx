@@ -65,16 +65,16 @@ export const BankAccountTableRow = memo((props: BankAccountTableRowProps) => {
 
             {/* 구독 수 */}
             <td>
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
+                <div className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     <small>{bankAccount.subscriptionCount} Apps</small>
-                </p>
+                </div>
             </td>
 
             {/* 월 누적 결제금액 */}
             <td>
-                <p className="block text-14 font-normal group-hover:text-scordi-300 truncate">
+                <div className="block text-14 font-normal group-hover:text-scordi-300 truncate">
                     <MonthlyPaidAmount monthlyPaidAmount={bankAccount.monthlyPaidAmount} />
-                </p>
+                </div>
             </td>
 
             {/* 은행명 */}

@@ -31,19 +31,25 @@ export const createSubscription = (dto: CreateSubscriptionRequestDto) => {
 export const subscriptionApi = {
     index: (params?: FindAllSubscriptionsQuery) => {
         const url = `/${NAMESPACE}`;
-        return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+        return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
     },
 
     groupedByProduct: (params?: FindAllSubscriptionsGroupedByProductDto) => {
         const url = `/${NAMESPACE}/grouped-by-product`;
-        return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
+        return api.get(url, {params}).then(paginatedDtoOf(ProductDto));
     },
 
     // 구독 조회 - 결과 다운로드
-    download: (params?: FindAllSubscriptionsQuery, filename?: string) => {
-        const url = `/${NAMESPACE}/download/xlsx`;
+    download: (
+        isGroupMode: boolean,
+        params: FindAllSubscriptionsQuery | FindAllSubscriptionsGroupedByProductDto,
+        filename?: string,
+    ) => {
         return api
-            .get(url, {params, responseType: 'blob'})
+            .get(`/${NAMESPACE}/download/xlsx`, {
+                params: {...params, isGroupMode},
+                responseType: 'blob',
+            })
             .then(downloadBlobFromAxios(`${filename || '구독 조회 - 결과 다운로드'}.xls`));
     },
 

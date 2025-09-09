@@ -186,17 +186,19 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
                 </Dropdown>
             </td>
 
-            <ManualBillingHistoryModal
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                isLoading={isPending}
-                onUpdate={onUpdateBillingManual}
-                billingHistory={billingHistory}
-                creditCard={billingHistory?.creditCard || undefined}
-                bankAccount={billingHistory?.bankAccount || undefined}
-                subscription={billingHistory?.subscription}
-                readonly="구독"
-            />
+            {isOpen && (
+                <ManualBillingHistoryModal
+                    isOpen={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    isLoading={isPending}
+                    onUpdate={onUpdateBillingManual}
+                    billingHistory={billingHistory}
+                    creditCard={billingHistory?.creditCard || undefined}
+                    bankAccount={billingHistory?.bankAccount || undefined}
+                    subscription={billingHistory?.subscription}
+                    readonly="구독"
+                />
+            )}
         </tr>
     );
 });

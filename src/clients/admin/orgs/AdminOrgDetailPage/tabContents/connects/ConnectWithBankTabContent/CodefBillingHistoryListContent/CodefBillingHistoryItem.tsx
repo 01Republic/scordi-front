@@ -1,24 +1,30 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {Check} from 'lucide-react';
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 import {CardTableTR} from '^admin/share';
-import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
+import {checkCodefBillingHistoryNeedToFixTimeZone, CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {lpp} from '^utils/dateTime';
+import {useIdParam} from '^atoms/common';
+import Tippy from '@tippyjs/react';
+import {codefBillingHistoriesAdminApi} from '^models/CodefBillingHistory/api';
+import {errorToast} from '^api/api';
 
 interface CodefBillingHistoryItemProps {
     codefBillingHistory: CodefBillingHistoryDto;
     onAssetSelect: (codefAsset?: CodefBankAccountDto) => any;
+    reload: () => any;
 }
 
 export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps) => {
-    const {codefBillingHistory, onAssetSelect} = props;
+    const {codefBillingHistory, onAssetSelect, reload} = props;
+    const orgId = useIdParam('id');
+    const [isLoading, setIsLoading] = useState(false);
 
     const codefBankBillingHistory = codefBillingHistory.asBankAccount;
-    const usedDate = codefBankBillingHistory.usedDate;
     const content = codefBankBillingHistory.content;
     const finalPrice = codefBankBillingHistory.amount;
     const currency = codefBillingHistory.resAccountCurrency || '';
@@ -32,24 +38,40 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
         >
             {/* ID */}
             <div>
-                <span className="badge badge-xs">#{codefBillingHistory.id}</span>
+                <Tippy content={`등록일: ${lpp(codefBillingHistory.createdAt)}`}>
+                    <div>
+                        <span className="badge badge-xs">#{codefBillingHistory.id}</span>
+                    </div>
+                </Tippy>
             </div>
 
             {/* 결제일시 */}
-            <div className="col-span-2 flex items-center gap-1">
-                <span
-                    className="tooltip tooltip-primary"
-                    data-tip={`등록일: ${format(codefBillingHistory.createdAt, 'yyyy-MM-dd HH:mm', {locale: ko})}`}
-                >
-                    {lpp(usedDate, 'P')}
-                </span>
+            <div
+                className="col-span-2"
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    codefBillingHistoriesAdminApi
+                        .fixTimeZone({where: {id: codefBillingHistory.id}})
+                        .then(() => reload())
+                        .catch(errorToast)
+                        .finally(() => setIsLoading(false));
+                }}
+            >
+                <Tippy content={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}>
+                    <div>
+                        <div
+                            className={`flex items-center gap-1 ${
+                                checkCodefBillingHistoryNeedToFixTimeZone(codefBillingHistory) ? 'text-red-500' : ''
+                            }`}
+                        >
+                            <span>{lpp(codefBillingHistory.usedAt, 'P')}</span>
 
-                <span
-                    className="tooltip tooltip-primary"
-                    data-tip={`승인일시: ${codefBillingHistory.resUsedDate} ${codefBillingHistory.resUsedTime}`}
-                >
-                    {lpp(usedDate, 'HH:mm')}
-                </span>
+                            <span className="tooltip tooltip-primary text-10 font-light">
+                                {lpp(codefBillingHistory.usedAt, 'p')}
+                            </span>
+                        </div>
+                    </div>
+                </Tippy>
             </div>
 
             {/* 계좌 */}
