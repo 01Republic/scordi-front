@@ -1,7 +1,9 @@
-import {memo} from 'react';
-import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
+import {visibleColumnsState} from '../atom';
+import {allColumnIds, ColumnId} from '../tableColums';
 
 interface Props {
     sortVal: 'ASC' | 'DESC';
@@ -11,34 +13,22 @@ interface Props {
 export const GroupedByProductTableHeader = memo((props: Props) => {
     const {orderBy, sortVal} = props;
 
-    return (
-        <tr className="bg-slate-100">
-            <th />
+    const visible = useRecoilValue(visibleColumnsState);
+    const visibleSet = new Set(visible);
 
-            {/*<th className="bg-transparent"></th>*/}
+    const header: Record<ColumnId, React.ReactNode> = {
+        checkBox: <th />,
+        subscriptionName: (
             <SortableTH2 sortKey="[nameEn]" sortVal={sortVal} onClick={orderBy} colSpan={2} className="min-w-60">
                 서비스 명
             </SortableTH2>
-
-            {/* 팀 */}
-            <SortableTH>팀</SortableTH>
-
-            {/* [상태] : 유료, 무료, 해지, 미정 */}
-            <SortableTH>상태</SortableTH>
-
-            {/* [구독상태] subscription.status: SubscriptionStatus */}
-            {/*<SortableTH sortKey="[status]" onClick={orderBy}>*/}
-            {/*    <span className="pl-[8px]">상태</span>*/}
-            {/*</SortableTH>*/}
-
-            {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
-            <SortableTH>결제주기</SortableTH>
-
-            {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
-            {/*<SortableTH sortKey="[pricingModel]" onClick={orderBy}>*/}
-            {/*    과금방식*/}
-            {/*</SortableTH>*/}
-
+        ),
+        team: <th>팀</th>,
+        // isFreeTier:"유/무료",
+        status: <th>상태</th>,
+        billingCycle: <th>결제주기</th>,
+        // "payingType",
+        amount: (
             <SortableTH
                 // sortKey="[currentBillingAmount][dollarPrice]"
                 sortVal="DESC"
@@ -46,7 +36,8 @@ export const GroupedByProductTableHeader = memo((props: Props) => {
             >
                 결제금액
             </SortableTH>
-
+        ),
+        lastPaidAt: (
             <SortableTH
                 sortKey="[subscriptions][lastPaidAt]"
                 sortVal={sortVal}
@@ -55,21 +46,29 @@ export const GroupedByProductTableHeader = memo((props: Props) => {
             >
                 최근결제일
             </SortableTH>
-
-            <SortableTH>사용인원</SortableTH>
-
+        ),
+        memberCount: <th>사용인원</th>,
+        payMethod: (
             <SortableTH2 sortKey="[subscriptions][creditCard][name]" sortVal={sortVal} onClick={orderBy}>
                 결제수단
             </SortableTH2>
-
+        ),
+        master: (
             <SortableTH sortKey="[masterId]" sortVal={sortVal} onClick={orderBy}>
                 담당자
             </SortableTH>
+        ),
+        note: <th>비고</th>,
+        actions: <th />,
+    };
 
-            <SortableTH>비고</SortableTH>
-
-            {/* Actions */}
-            <th className="bg-transparent" />
+    return (
+        <tr className="bg-slate-100">
+            {allColumnIds
+                .filter((id) => visibleSet.has(id))
+                .map((id) => (
+                    <React.Fragment key={id}>{header[id]}</React.Fragment>
+                ))}
         </tr>
     );
 });
