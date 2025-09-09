@@ -36,7 +36,7 @@ import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/Bil
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {MasterSelect} from '^components/pages/v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 import {visibleColumnsState} from '../atom';
-import {allColumnIds, ColumnId} from '../tableColums';
+import {allColumnIds, ColumnId} from '../TableColumnsHandler/tableColumns';
 
 interface GroupedSubscriptionTableRowProps {
     subscription: SubscriptionDto;

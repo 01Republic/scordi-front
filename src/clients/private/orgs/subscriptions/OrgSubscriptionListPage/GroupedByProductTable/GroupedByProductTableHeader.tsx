@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 import {visibleColumnsState} from '../atom';
-import {allColumnIds, ColumnId} from '../tableColums';
+import {allColumnIds, ColumnId} from '../TableColumnsHandler/tableColumns';
 
 interface Props {
     sortVal: 'ASC' | 'DESC';

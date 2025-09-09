@@ -8,7 +8,7 @@ import {GroupedSubscriptionTableRow} from './GroupedSubscriptionTableRow';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {currencyFormat} from '^utils/number';
-import {allColumnIds, ColumnId} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/tableColums';
+import {allColumnIds, ColumnId} from '../TableColumnsHandler/tableColumns';
 
 interface GroupedByProductTableRowProps {
     product: ProductDto;

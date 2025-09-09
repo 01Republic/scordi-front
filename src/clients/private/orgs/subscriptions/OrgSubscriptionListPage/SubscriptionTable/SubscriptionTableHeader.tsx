@@ -3,7 +3,7 @@ import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {SortableTH2} from '^v3/share/table/columns/share/SortableTH2';
 import {useRecoilValue} from 'recoil';
 import {visibleColumnsState} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/atom';
-import {allColumnIds, ColumnId} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/tableColums';
+import {allColumnIds, ColumnId} from '../TableColumnsHandler/tableColumns';
 import React from 'react';
 
 interface SubscriptionTableHeaderProps {
