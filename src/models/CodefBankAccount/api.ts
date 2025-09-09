@@ -69,7 +69,7 @@ export const codefBankAccountAdminApi = {
     },
 
     // 계좌 내역 및 구독 동기화
-    sync(params: {orgId?: number; slackMute?: boolean}) {
+    sync(params: {orgId?: number; slackMute?: boolean; notificationMute?: boolean}) {
         const url = `/admin/codef-bank-accounts/sync`;
         return api.patch<void>(url, {}, {params});
     },
