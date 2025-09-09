@@ -82,7 +82,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             Buttons={() => (
                 <div className="flex gap-4">
                     <StepbyTutorialButton onClick={StepByTutorialSubscriptionList} />
-                    <ExcelDownLoadButton />
+                    <ExcelDownLoadButton isGroupMode={isGroupMode} query={queryResult.query} />
                     <AddSubscriptionButton />
                 </div>
             )}
