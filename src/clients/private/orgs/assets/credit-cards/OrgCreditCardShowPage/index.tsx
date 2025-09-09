@@ -1,5 +1,5 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useOrgIdParam} from '^atoms/common';
+import React, {memo, useMemo, useState} from 'react';
+import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
@@ -11,15 +11,46 @@ import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
 import {CreditCardPageFlashHandler} from './CreditCardPageFlashHandler';
 import {useCreditCardPageFlashForExcelUpload} from './CreditCardPageFlashHandler/atom';
-import {useCurrentCreditCard} from './atom';
+import { TabConfig, useQueryTab } from '^hooks/useQueryTab';
+
+const SubscriptionTabContent = (creditCardId: number, orgId: number) => (
+    <div className="grid grid-cols-10">
+    <div className="col-span-7 pr-4">
+        <SubscriptionListOfCreditCardTabContent />
+    </div>
+
+    <div className="col-span-3 border-l border-gray-300 text-14">
+        {creditCardId && (
+            <CardInformationPanel orgId={orgId} creditCardId={creditCardId} />
+        )}
+    </div>
+</div>
+);
+
+const PaymentTabContent = (setIsExcelUploadModalOpen: (isOpen: boolean) => void) => (
+    <BillingHistoryListOfCreditCardTabContent
+        excelUploadModalClose={() => setIsExcelUploadModalOpen(true)}
+    />
+);
+
+const createSubscriptionComponent = (creditCardId: number, orgId: number) => 
+    () => SubscriptionTabContent(creditCardId, orgId);
+
+const createPaymentComponent = (setIsExcelUploadModalOpen: (isOpen: boolean) => void) => 
+    () => PaymentTabContent(setIsExcelUploadModalOpen);
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useOrgIdParam();
-    const {currentCreditCard} = useCurrentCreditCard();
+    const creditCardId = useIdParam('creditCardId');
     const {setIsShowPageFlash} = useCreditCardPageFlashForExcelUpload();
     const [isExcelUploadModalOpen, setIsExcelUploadModalOpen] = useState(false);
     const [isExcelModalConfirmOpen, setIsExcelModalConfirmOpen] = useState(false);
-    const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+    const tabConfig: TabConfig[] = useMemo(() => [
+        { id: 'subscription', label: '구독', component: createSubscriptionComponent(creditCardId, orgId) },
+        { id: 'payment', label: '결제', component: createPaymentComponent(setIsExcelUploadModalOpen) },
+    ], [creditCardId]);
+    const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({tabs: tabConfig, paramKey: 'tab', defaultTab: 'subscription'});
 
     return (
         <ShowPage
@@ -46,7 +77,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제']}
+                        tabs={tabConfig.map((tab) => tab.label)}
                     />
 
                     {/* right side */}
@@ -55,24 +86,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                     </div>
                 </div>
 
-                {activeTabIndex == 0 && (
-                    <div className="grid grid-cols-10">
-                        <div className="col-span-7 pr-4">
-                            <SubscriptionListOfCreditCardTabContent />
-                        </div>
-
-                        <div className="col-span-3 border-l border-gray-300 text-14">
-                            {currentCreditCard && (
-                                <CardInformationPanel orgId={orgId} creditCardId={currentCreditCard.id} />
-                            )}
-                        </div>
-                    </div>
-                )}
-                {activeTabIndex == 1 && (
-                    <BillingHistoryListOfCreditCardTabContent
-                        excelUploadModalClose={() => setIsExcelUploadModalOpen(true)}
-                    />
-                )}
+                {activeTab.component && <activeTab.component />}
                 {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
 
                 {/* 결제내역 엑셀 업로드 모달 */}
