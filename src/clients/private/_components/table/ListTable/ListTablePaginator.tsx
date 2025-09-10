@@ -18,7 +18,7 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
     const currentPage = pagination.currentPage;
 
     return (
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
             <div className="flex gap-1">
                 <span className="hidden md:flex">전체</span>
 
