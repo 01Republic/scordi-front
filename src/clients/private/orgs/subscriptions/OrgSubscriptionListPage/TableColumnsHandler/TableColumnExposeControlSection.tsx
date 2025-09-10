@@ -35,14 +35,15 @@ const BaseTableColumnExposeControlSection = <T extends string | number>(
                     .filter((id) => !!labelMap[id]?.trim())
                     .map((id) => {
                         const disable = requiredIds?.includes(id);
-                        console.log(disable);
                         return (
                             <li key={id} className="cursor-default flex items-center  px-3 py-1">
                                 <span className="flex items-center gap-1 text-xs">{labelMap[id]}</span>
                                 {isIconType ? (
                                     <div className="flex items-center ml-auto">
                                         <button
-                                            className="cursor-pointer hover:bg-primaryColor-bg w-[20px] h-[20px] flex items-center justify-center rounded-sm "
+                                            className={` w-[20px] h-[20px] flex items-center justify-center rounded-sm ${
+                                                disable ? '' : 'cursor-pointer hover:bg-primaryColor-bg'
+                                            }`}
                                             onClick={() => itemOnClick(id)}
                                         >
                                             <Eye

@@ -10,26 +10,23 @@ import {SubscriptionInfoTab} from './SubscriptionInfoTab';
 import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './SubscriptionMemberTab';
 import {SubscriptionActionPanel} from './SubscriptionActionPanel';
-import {useQueryTab, TabConfig} from '^hooks/useQueryTab';
+import { useQueryTab, TabConfig } from '^hooks/useQueryTab';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useOrgIdParam();
     const id = useIdParam('subscriptionId');
 
     // useMemo로 tabConfig 메모이제이션
-    const tabConfig: TabConfig[] = useMemo(
-        () => [
-            {id: 'member', label: '멤버', component: SubscriptionMemberTab},
-            {id: 'payment', label: '결제', component: SubscriptionPaymentTab},
-            {id: 'setting', label: '설정', component: SubscriptionInfoTab},
-        ],
-        [],
-    );
+    const tabConfig: TabConfig[] = useMemo(() => [
+        { id: 'member', label: '멤버', component: SubscriptionMemberTab },
+        { id: 'payment', label: '결제', component: SubscriptionPaymentTab },
+        { id: 'setting', label: '설정', component: SubscriptionInfoTab }
+    ], []);
 
     const {activeTabIndex, setActiveTabIndex, activeTab} = useQueryTab({
         tabs: tabConfig,
         paramKey: 'tab',
-        defaultTab: 'member',
+        defaultTab: 'member'
     });
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 
@@ -54,7 +51,7 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={tabConfig.map((tab) => tab.label)}
+                        tabs={tabConfig.map(tab => tab.label)}
                     />
                 </div>
 
