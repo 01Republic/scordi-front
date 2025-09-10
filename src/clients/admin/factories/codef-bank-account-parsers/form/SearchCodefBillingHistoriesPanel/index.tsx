@@ -19,13 +19,9 @@ import {unitFormat} from '^utils/number';
 export const SearchCodefBillingHistoriesPanel = memo(() => {
     const form = useFormContext<UpdateCodefBankAccountParserRequestDto>();
     const [selectedCodefBankAccount, selectCodefBankAccount] = useState<CodefBankAccountDto>();
-    const {isLoading, codefBillingHistories, search} = useSearchCodefBillingHistories();
 
-    useEffect(() => {
-        const values = form.getValues();
-        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.computedAccountDesc || {};
-        search({ops, fo, bo, value});
-    }, []);
+    const {ops = FindOperatorType.Like, fo, bo, value = ''} = form.getValues()?.computedAccountDesc || {};
+    const {isLoading, codefBillingHistories, search, refetch} = useSearchCodefBillingHistories({ops, fo, bo, value});
 
     const onBankAccountSelect = (codefBankAccount?: CodefBankAccountDto) => {
         selectCodefBankAccount(codefBankAccount);
@@ -107,6 +103,7 @@ export const SearchCodefBillingHistoriesPanel = memo(() => {
                                             key={i}
                                             data={codefBillingHistory}
                                             onSelect={onBankAccountSelect}
+                                            reload={refetch}
                                         />
                                     ))}
                                 </LoadableBox>

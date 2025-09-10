@@ -1,4 +1,10 @@
 import React, {memo} from 'react';
+import toast from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
+import {MoreHorizontal} from 'lucide-react';
+import {debounce} from 'lodash';
+import {eventCut} from '^utils/event';
+import {errorToast} from '^api/api';
 import {OpenButtonColumn} from '^_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {
@@ -6,7 +12,6 @@ import {
     LastPaidAt,
     LatestPayAmount,
     MemberCount,
-    NextComputedBillingDateText,
     PayMethodSelect,
     PayMethodSelectType,
     SubscriptionProfile,
@@ -19,22 +24,19 @@ import {
     SubscriptionUsingStatusValues,
     UpdateSubscriptionRequestDto,
 } from '^models/Subscription/types';
-import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
+import {Dropdown} from '^v3/share/Dropdown';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {TeamTag} from '^models/Team/components/TeamTag';
+import {subscriptionApi} from '^models/Subscription/api';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {useRemoveSubscription} from '^models/Subscription/hook';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {BankAccountProfileCompact} from '^models/BankAccount/components';
+import {SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {Dropdown} from '^v3/share/Dropdown';
-import {MoreHorizontal} from 'lucide-react';
-import {eventCut} from '^utils/event';
-import {useRemoveSubscription} from '^models/Subscription/hook';
-import {confirm2, confirmed} from '^components/util/dialog';
-import toast from 'react-hot-toast';
-import {debounce} from 'lodash';
-import {errorToast} from '^api/api';
-import {subscriptionApi} from '^models/Subscription/api';
-import {TeamTag} from '^models/Team/components/TeamTag';
 import {MasterSelect} from '^components/pages/v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
+import {visibleColumnsState} from '../atom';
+import {allColumnIds, ColumnId} from '../TableColumnsHandler/tableColumns';
 
 interface GroupedSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -46,8 +48,10 @@ interface GroupedSubscriptionTableRowProps {
 export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTableRowProps) => {
     const {subscription, reload, isChecked, onCheck} = props;
     const {mutate: deleteSubscription} = useRemoveSubscription(subscription.id);
+    const visible = useRecoilValue(visibleColumnsState);
+    const visibleSet = new Set(visible);
 
-    const onDelete = (subscription: SubscriptionDto) => {
+    const onDelete = () => {
         const deleteConfirm = () => {
             return confirm2(
                 '구독을 삭제할까요?',
@@ -64,7 +68,6 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
         confirmed(deleteConfirm(), '삭제 취소')
             .then(() => deleteSubscription())
             .then(() => toast.success('구독을 삭제했어요.'))
-            // .then(() => reload())
             .catch(errorToast);
     };
 
@@ -79,10 +82,11 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
     const teams = (subscription.teamMembers || []).flatMap((member) => member.teams || []);
     const team = teams[0];
 
-    return (
-        <tr>
-            <td />
-            <td className="pr-1 pl-3" colSpan={2}>
+    const row: Record<ColumnId, () => React.ReactNode> = {
+        checkBox: () => <td />,
+
+        subscriptionName: () => (
+            <td colSpan={2}>
                 <div className="flex gap-3 items-center">
                     <label className={`flex justify-center items-center`}>
                         <input
@@ -101,23 +105,17 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     </OpenButtonColumn>
                 </div>
             </td>
+        ),
 
-            {/* 팀 */}
+        // 팀
+        team: () => (
             <td>
-                <div className="flex items-center">
-                    {/*{teams.map((team) => (*/}
-                    {/*    <TeamTag key={team.id} id={team.id} name={team.name} />*/}
-                    {/*))}*/}
-                    {team && <TeamTag id={team.id} name={team.name} />}
-                </div>
+                <div className="flex items-center">{team && <TeamTag id={team.id} name={team.name} />}</div>
             </td>
+        ),
 
-            {/* 유/무료 */}
-            {/*<td>*/}
-            {/*    <IsFreeTierColumn subscription={subscription} onChange={reload} />*/}
-            {/*</td>*/}
-
-            {/* 상태 */}
+        // 상태
+        status: () => (
             <td>
                 <SelectColumn
                     value={subscription.usingStatus}
@@ -132,8 +130,10 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     inputDisplay={false}
                 />
             </td>
+        ),
 
-            {/* 결제주기 */}
+        // 결제주기
+        billingCycle: () => (
             <td>
                 <SelectColumn
                     value={subscription.billingCycleType}
@@ -148,28 +148,36 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     inputDisplay={false}
                 />
             </td>
+        ),
 
-            {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
-            {/*<td className="">*/}
-            {/*    <PayingType subscription={subscription} onChange={reload} />*/}
-            {/*</td>*/}
+        // 유/무료
+        // "payingType : () =>  <td className="">
+        //           <PayingType subscription={subscription} onChange={reload} />
+        //       </td>,
 
-            {/* 결제금액 */}
+        // 결제금액
+        amount: () => (
             <td className="text-right">
                 <LatestPayAmount subscription={subscription} />
             </td>
+        ),
 
-            {/* 최근결제일 */}
+        // 최근결제일
+        lastPaidAt: () => (
             <td className="text-right">
                 <LastPaidAt subscription={subscription} />
             </td>
+        ),
 
-            {/* 사용인원 */}
+        // 사용인원
+        memberCount: () => (
             <td className="text-center">
                 <MemberCount subscription={subscription} />
             </td>
+        ),
 
-            {/* 결제수단 */}
+        // 결제수단
+        payMethod: () => (
             <td className="py-0 pl-3">
                 <PayMethodSelect
                     payMethodSelectType={PayMethodSelectType.BOTH}
@@ -187,13 +195,17 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     }}
                 />
             </td>
+        ),
 
-            {/* 담당자 */}
-            <td className="py-0 pl-5 w-40">
+        // 담당자
+        master: () => (
+            <td className="py-0 pl-3">
                 <MasterSelect subscription={subscription} onChange={reload} />
             </td>
+        ),
 
-            {/*비고*/}
+        // 비고
+        note: () => (
             <td>
                 <AirInputText
                     defaultValue={subscription.desc || undefined}
@@ -203,8 +215,10 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     }}
                 />
             </td>
+        ),
 
-            {/*Actions*/}
+        // actions
+        actions: () => (
             <td className="cursor-pointer">
                 <Dropdown placement="bottom-end" Trigger={() => <MoreHorizontal fontSize={20} />}>
                     {({hide}) => (
@@ -217,7 +231,7 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                                     className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 focus:bg-red-100 active:bg-red-100"
                                     onClick={() => {
                                         hide();
-                                        onDelete(subscription);
+                                        onDelete();
                                     }}
                                 >
                                     삭제하기
@@ -227,6 +241,16 @@ export const GroupedSubscriptionTableRow = memo((props: GroupedSubscriptionTable
                     )}
                 </Dropdown>
             </td>
+        ),
+    };
+
+    return (
+        <tr>
+            {allColumnIds
+                .filter((id) => visibleSet.has(id))
+                .map((id) => (
+                    <React.Fragment key={id}>{row[id]()}</React.Fragment>
+                ))}
         </tr>
     );
 });

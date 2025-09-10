@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {BasicModal} from '^components/modals/_shared/BasicModal';
 import {X} from 'lucide-react';
-import {LinkTo} from '^components/util/LinkTo';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
-import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
 import {useCurrentTeam} from '^models/Team/hook';
-import {SubscriptionDetailProfile} from '^models/Subscription/components/SubscriptionDetailProfile';
+import {BasicModal} from '^components/modals/_shared/BasicModal';
+import {LinkTo} from '^components/util/LinkTo';
+import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
+import {SubscriptionDetailProfile} from '^models/Subscription/components';
 
 interface TeamSubscriptionDetailModalProps {
     isOpened: boolean;
@@ -41,10 +41,16 @@ export const TeamSubscriptionDetailModal = memo((props: TeamSubscriptionDetailMo
                         />
                     </div>
                 </section>
+
                 <section className="flex flex-col w-full">
                     <div className="flex overflow-y-auto flex-col gap-4 py-3 w-full max-h-80 border-t border-gray-300">
                         <span>
-                            <b>{team?.name}</b>에서 총<b>{teamMembers.length}</b>명의 멤버가 쓰고 있어요.
+                            {team && (
+                                <span>
+                                    <b>{team.name}</b>에서
+                                </span>
+                            )}{' '}
+                            총<b>{teamMembers.length}</b>명의 멤버가 쓰고 있어요.
                         </span>
                     </div>
 
@@ -54,6 +60,7 @@ export const TeamSubscriptionDetailModal = memo((props: TeamSubscriptionDetailMo
                         ))}
                     </ul>
                 </section>
+
                 <LinkTo
                     href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
                     className="btn btn-md text-16 btn-scordi"

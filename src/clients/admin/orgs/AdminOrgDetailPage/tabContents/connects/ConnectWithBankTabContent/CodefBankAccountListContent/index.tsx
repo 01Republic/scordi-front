@@ -10,7 +10,7 @@ import {CardTablePanel, CardTableSortableColumn, CardTableTH, CardTableThLabel} 
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {selectedCodefAccountAtom, selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBankAccountItem} from './CodefBankAccountItem';
-import {OrgAllCodefBankAccountSyncButton} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithBankTabContent/CodefBankAccountListContent/OrgAllCodefBankAccountSyncButton';
+import {OrgAllCodefBankAccountSyncButton} from './OrgAllCodefBankAccountSyncButton';
 
 export const CodefBankAccountListContent = memo(function CodefBankAccountListContent(props: TabPaneProps) {
     const {moveTab = console.log} = props;

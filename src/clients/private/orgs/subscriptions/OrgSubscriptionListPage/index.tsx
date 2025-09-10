@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {Plus} from 'lucide-react';
+import {Plus, Settings2} from 'lucide-react';
 import {useOrgIdParam} from '^atoms/common';
 import {OrgSubscriptionConnectionPageRoute} from '^pages/orgs/[id]/subscriptions/connection';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -14,6 +14,7 @@ import {GroupedByProductScopeHandler} from './GroupedByProductScopeHandler';
 import {GroupedByProductTable} from './GroupedByProductTable';
 import {SubscriptionTable} from './SubscriptionTable';
 import {BottomAction} from './BottomAction';
+import {TableColumnsHandler} from './TableColumnsHandler';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
@@ -21,19 +22,15 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
 
     const subscriptionListQuery = useSubscriptionList(isGroupMode, {
         where: {organizationId: orgId},
-        relations: [
-            'master',
-            // 'teamMembers',
-            // 'teamMembers.teams',
-            'creditCard',
-            'bankAccount',
-        ],
+        relations: ['master', 'teamMembers', 'teamMembers.teams', 'creditCard', 'bankAccount'],
         order: {
             currentBillingAmount: {dollarPrice: 'DESC'},
             isFreeTier: 'ASC',
             id: 'DESC',
             product: {nameKo: 'ASC'},
         },
+        page: 1,
+        itemsPerPage: 30,
     });
 
     const subscriptionListGroupedByProductQuery = useSubscriptionListGroupedByProduct(isGroupMode, {
@@ -41,8 +38,8 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         relations: [
             'subscriptions',
             'subscriptions.master',
-            // 'subscriptions.teamMembers',
-            // 'subscriptions.teamMembers.teams',
+            'subscriptions.teamMembers',
+            'subscriptions.teamMembers.teams',
             // 'subscriptions.billingHistories',
             'subscriptions.creditCard',
             'subscriptions.bankAccount',
@@ -55,6 +52,8 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             },
             nameKo: 'ASC',
         },
+        page: 1,
+        itemsPerPage: 30,
     });
 
     const queryResult = isGroupMode ? subscriptionListGroupedByProductQuery : subscriptionListQuery;
@@ -88,7 +87,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             Buttons={() => (
                 <div className="flex gap-4">
                     <StepbyTutorialButton onClick={StepByTutorialSubscriptionList} />
-                    <ExcelDownLoadButton />
+                    <ExcelDownLoadButton isGroupMode={isGroupMode} query={queryResult.query} />
                     <AddSubscriptionButton />
                 </div>
             )}
@@ -114,16 +113,17 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 hideTopPaginator
             >
                 <div className="flex justify-between items-center mb-4">
-                    <div>
-                        {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
-                        <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
+                    {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
+                    <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
+                    <div className="flex items-center gap-2 justify-between">
+                        <TableColumnsHandler />
+                        <ListTablePaginator
+                            pagination={queryResult.result.pagination}
+                            movePage={queryResult.movePage}
+                            onChangePerPage={queryResult.changePageSize}
+                            unit="개"
+                        />
                     </div>
-                    <ListTablePaginator
-                        pagination={queryResult.result.pagination}
-                        movePage={queryResult.movePage}
-                        onChangePerPage={queryResult.changePageSize}
-                        unit="개"
-                    />
                 </div>
                 {isGroupMode ? (
                     <GroupedByProductTable query={subscriptionListGroupedByProductQuery} />

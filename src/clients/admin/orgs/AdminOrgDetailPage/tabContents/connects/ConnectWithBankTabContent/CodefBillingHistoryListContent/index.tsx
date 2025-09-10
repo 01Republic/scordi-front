@@ -1,26 +1,24 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {X} from 'lucide-react';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
+import {useIdParam} from '^atoms/common';
 import {useAdminCodefBillingHistories} from '^models/CodefBillingHistory/hook';
 import {LoadableBox} from '^components/util/loading';
-import {CardTablePanel, CardTableTH} from '^admin/share';
 import {PagePerSelect} from '^components/Paginator';
+import {CardTablePanel, CardTableTH} from '^admin/share';
 import {CodefBankAccountTagUI} from '^admin/factories/codef-bank-account-parsers/form/share/CodefBankAccountTagUI';
+import {FixCodefBillingHistoryTimeZoneButton} from '../../shared/FixCodefBillingHistoryTimeZoneButton';
 import {selectedCodefBankAccountAtom} from '../atoms';
 import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
-import {useIdParam} from '^atoms/common';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
-    const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefAsset, setSelectedCodefAsset] = useRecoilState(selectedCodefBankAccountAtom);
     const orgId = useIdParam('id');
     const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories(orgId);
 
     useEffect(() => {
-        if (!org) return;
+        if (!orgId) return;
 
-        const orgId = org.id;
         if (!selectedCodefAsset) {
             search({
                 relations: ['codefBankAccount', 'codefBankAccount.account'],
@@ -41,7 +39,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 order: {usedAt: 'DESC'},
             });
         }
-    }, [org, selectedCodefAsset]);
+    }, [orgId, selectedCodefAsset]);
 
     const {items, pagination} = result;
 
@@ -53,6 +51,8 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <FixCodefBillingHistoryTimeZoneButton query={query} result={result} reload={reload} />
+
                     <PagePerSelect
                         isLoading={isLoading}
                         className="select-sm"
@@ -96,6 +96,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                             key={i}
                             codefBillingHistory={codefBillingHistory}
                             onAssetSelect={setSelectedCodefAsset}
+                            reload={reload}
                         />
                     )}
                     pagination={pagination}

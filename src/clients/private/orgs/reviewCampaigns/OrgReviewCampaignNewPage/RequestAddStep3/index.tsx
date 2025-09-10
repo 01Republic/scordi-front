@@ -48,9 +48,9 @@ export const RequestAddStep3 = ({form, isLoading}: Props) => {
         >
             <StepCardBody>
                 <div className={'flex flex-col gap-2'}>
-                    <div className={'text-gray-500 text-14'} onClick={() => console.log(form.getValues())}>
-                        마감일은 추후 변경 가능합니다.
-                    </div>
+                    {/*<div className={'text-gray-500 text-14'} onClick={() => console.log(form.getValues())}>*/}
+                    {/*    마감일은 추후 변경 가능합니다.*/}
+                    {/*</div>*/}
                     <div className={'flex space-x-4 items-center'}>
                         <DatePicker date={finishAt} onSelect={setDate} disabled={{before: new Date()}} />
                         <TimePicker time={time} onSelect={setTime} />

@@ -1,8 +1,10 @@
 import {memo} from 'react';
 import {IntegrationSlackMemberDto} from '^models/integration/IntegrationSlackMember/type/IntegrationSlackMember.dto';
 import {SlackMemberProfile} from './SlackMemberProfile';
-import {TeamMemberConnectDropdown} from './TeamMemberConnectDropdown';
+import {SlackWorkspaceTeamMemberConnectDropdown} from './TeamMemberConnectDropdown';
 import {SlackWorkspaceMemberMoreDropdown} from './SlackWorkspaceMemberMoreDropdown';
+import { usePatchSlackMemberTeamMemberLink } from '^models/integration/IntegrationSlackMember/hooks';
+import { useOrgIdParam } from '^atoms/common';
 
 interface SlackWorkspaceMemberRowProps {
     item: IntegrationSlackMemberDto;
@@ -29,7 +31,7 @@ export const SlackWorkspaceMemberRow = memo((props: SlackWorkspaceMemberRowProps
                 </div>
 
                 <div className="min-w-[10rem] flex items-center justify-end mr-2">
-                    <TeamMemberConnectDropdown item={item} />
+                    <SlackWorkspaceTeamMemberConnectDropdown item={item} reload={reload} />
                 </div>
 
                 <div className="flex items-center">

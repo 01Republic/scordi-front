@@ -1,26 +1,24 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {useAdminCodefBillingHistories} from '^models/CodefBillingHistory/hook';
-import {LoadableBox} from '^components/util/loading';
-import {CardTablePanel, CardTableTH} from '^admin/share';
-import {PagePerSelect} from '^components/Paginator';
-import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {selectedCodefCardAtom} from '../atoms';
-import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
+import {memo, useEffect} from 'react';
+import {useRecoilState} from 'recoil';
 import {X} from 'lucide-react';
 import {useIdParam} from '^atoms/common';
+import {useAdminCodefBillingHistories} from '^models/CodefBillingHistory/hook';
+import {LoadableBox} from '^components/util/loading';
+import {PagePerSelect} from '^components/Paginator';
+import {CardTablePanel, CardTableTH} from '^admin/share';
+import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
+import {FixCodefBillingHistoryTimeZoneButton} from '../../shared/FixCodefBillingHistoryTimeZoneButton';
+import {selectedCodefCardAtom} from '../atoms';
+import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
-    const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefCard, setSelectedCodefCard] = useRecoilState(selectedCodefCardAtom);
     const orgId = useIdParam('id');
     const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories(orgId);
 
     useEffect(() => {
-        if (!org) return;
+        if (!orgId) return;
 
-        const orgId = org.id;
         if (!selectedCodefCard) {
             search({
                 relations: ['codefCard'],
@@ -41,7 +39,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 order: {usedAt: 'DESC'},
             });
         }
-    }, [org, selectedCodefCard]);
+    }, [orgId, selectedCodefCard]);
 
     const {items, pagination} = result;
 
@@ -53,6 +51,8 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <FixCodefBillingHistoryTimeZoneButton query={query} result={result} reload={reload} />
+
                     <PagePerSelect
                         isLoading={isLoading}
                         className="select-sm"
@@ -93,6 +93,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                             key={i}
                             codefBillingHistory={codefBillingHistory}
                             onCardSelect={setSelectedCodefCard}
+                            reload={reload}
                         />
                     )}
                     pagination={pagination}
