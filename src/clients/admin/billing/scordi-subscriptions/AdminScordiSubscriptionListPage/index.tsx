@@ -9,6 +9,7 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {ScordiPlanNextStrategy} from '^models/_scordi/ScordiPlan/type';
 import {Paginator} from '^components/Paginator';
 import {FilterItems, useListFilter} from '^admin/share/list-page/useListFilter';
+import {ListPageTitle} from '^admin/billing/_common/ListPageTitle';
 
 export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscriptionListPage() {
     const {data, params, search, clearQuery} = useAdminScordiSubscriptions({
@@ -22,7 +23,10 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
     const {items, pagination} = data;
 
     return (
-        <AdminListPageLayout title="구독 내역" breadcrumbs={[{text: '스코디 빌링관리'}, {text: '구독 내역'}]}>
+        <AdminListPageLayout
+            title={<ListPageTitle currentSubject="scordi-subscriptions" />}
+            breadcrumbs={[{text: '스코디 빌링관리'}, {text: '구독 내역'}]}
+        >
             <AdminPageContainer>
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-4">
