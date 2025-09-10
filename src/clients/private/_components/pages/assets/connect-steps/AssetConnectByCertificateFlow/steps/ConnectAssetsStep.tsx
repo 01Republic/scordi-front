@@ -30,12 +30,10 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
         strategy === ConnectAssetsStepStrategy.SyncSubscriptions
             ? useSyncCodefAssets(orgId, codefAssets)
             : useCreateAssets(orgId, codefAssets);
-    // const scordiAssets = results.map((result) => result.data).filter(isDefinedValue);
 
-    const scordiAssets = results.flatMap((r) => {
-        const d = r.data;
-        if (!d) return [];
-        return Array.isArray(d) ? d : [d];
+    const scordiAssets = results.flatMap((result) => {
+        if (!result.data) return [];
+        return Array.isArray(result.data) ? result.data : [result.data];
     });
 
     const totalCount = results.length;
