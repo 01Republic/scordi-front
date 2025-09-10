@@ -42,7 +42,9 @@ const BaseTableColumnExposeControlSection = <T extends string | number>(
                                 {isIconType ? (
                                     <div className="flex items-center ml-auto">
                                         <button
-                                            className="cursor-pointer hover:bg-primaryColor-bg w-[20px] h-[20px] flex items-center justify-center rounded-sm "
+                                            className={` w-[20px] h-[20px] flex items-center justify-center rounded-sm ${
+                                                disable ? '' : 'cursor-pointer hover:bg-primaryColor-bg'
+                                            }`}
                                             onClick={() => itemOnClick(id)}
                                         >
                                             <Eye
