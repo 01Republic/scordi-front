@@ -35,7 +35,6 @@ const BaseTableColumnExposeControlSection = <T extends string | number>(
                     .filter((id) => !!labelMap[id]?.trim())
                     .map((id) => {
                         const disable = requiredIds?.includes(id);
-                        console.log(disable);
                         return (
                             <li key={id} className="cursor-default flex items-center  px-3 py-1">
                                 <span className="flex items-center gap-1 text-xs">{labelMap[id]}</span>
