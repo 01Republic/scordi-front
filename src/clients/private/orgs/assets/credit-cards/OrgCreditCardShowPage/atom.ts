@@ -190,12 +190,12 @@ export const useCurrentCreditCardSync = () => {
         ]);
     };
 
-    const startSync = () => {
+    const startSync = (notificationType: 'payment' | 'subscription') => {
         if (!currentCreditCard) return;
         const {organizationId} = currentCreditCard;
 
         if (currentCodefCard) {
-            syncCardWithConfirm(organizationId, currentCodefCard).then(onFinish);
+            syncCardWithConfirm(organizationId, currentCodefCard, {notificationType}).then(onFinish);
         } else {
             toast('먼저 카드사를 연결해주세요');
         }

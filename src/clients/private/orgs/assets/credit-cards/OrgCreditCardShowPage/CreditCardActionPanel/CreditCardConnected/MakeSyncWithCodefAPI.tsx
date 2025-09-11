@@ -8,7 +8,12 @@ import {toast} from 'react-hot-toast';
 import {useCurrentCreditCardSync} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {Check, RotateCw} from 'lucide-react';
 
-export const MakeSyncWithCodefAPI = memo(() => {
+interface Props {
+    notificationType: 'payment' | 'subscription';
+}
+
+export const MakeSyncWithCodefAPI = memo((props: Props) => {
+    const {notificationType} = props;
     const [isHover, setIsHover] = useState(false);
     const {startSync, isSyncRunning, currentCodefCard} = useCurrentCreditCardSync();
 
@@ -18,7 +23,7 @@ export const MakeSyncWithCodefAPI = memo(() => {
 
     const onClick = () => {
         setIsHover(false);
-        startSync();
+        startSync(notificationType);
     };
 
     // (최신 상태인지 체크) 만약 이 카드의 싱크 범위가 어제 날짜에 도달했다면
