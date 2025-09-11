@@ -19,6 +19,6 @@ export const SyncWithCodefApi = memo(() => {
     if (errorData)
         return <RenewSyncWithCodefApi currentCodefCard={currentCodefCard} reload={refetch} isLoading={isFetching} />;
 
-    return <MakeSyncWithCodefAPI />;
+    return <MakeSyncWithCodefAPI notificationType="payment" />;
 });
 SyncWithCodefApi.displayName = 'SyncWithCodefApi';

@@ -25,7 +25,7 @@ export const AllCodefCardSyncButton = memo(() => {
 
         return confirmed(check())
             .then(() => setIsLoading(true))
-            .then(() => codefCardAdminApi.sync({slackMute}))
+            .then(() => codefCardAdminApi.sync({slackMute, notificationMute: true}))
             .then(() => toast('배치 실행 완료'))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
