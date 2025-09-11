@@ -120,3 +120,14 @@ export function t_planStepType(
     dic[ScordiPlanStepType.Year] ??= '연';
     return dic[stepType]!;
 }
+
+export function t_planNextStrategy(nextStrategy: ScordiPlanNextStrategy): string {
+    switch (nextStrategy) {
+        case ScordiPlanNextStrategy.BLOCK:
+            return '뒤 중단';
+        case ScordiPlanNextStrategy.RECURRING:
+            return '마다 갱신';
+        default:
+            return '';
+    }
+}

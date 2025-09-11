@@ -1,5 +1,7 @@
-import {ColumnDef, DefaultColDef} from '^lib/GyuridTable';
-import {CSSProperties} from 'react';
+import {useState} from 'react';
+import Tippy from '@tippyjs/react/headless';
+import {Column, ColumnDef, DefaultColDef} from '^lib/GyuridTable';
+import {HeaderColumnControl} from '^lib/GyuridTable/features/HeaderColumnControl';
 
 interface HeadColumnProps<T> {
     columnDef: ColumnDef<T>;
@@ -8,19 +10,42 @@ interface HeadColumnProps<T> {
 
 export function HeadColumn<T>(props: HeadColumnProps<T>) {
     const {columnDef, defaultColDef} = props;
+    const [isVisible, setIsVisible] = useState(false);
 
     const headerName = columnDef.headerName || String(columnDef.field);
-    const flexSize = columnDef.flex || defaultColDef?.flex || 1;
-    const className = `border-b border-gray-200 [border-image:linear-gradient(to right, #e0e0e0, #e0e0e0, transparent) 1] text-gray-500 font-[500] hover:bg-gray-100/70 select-none transition-all duration-[20ms] relative cursor-pointer h-[36px] py-[7.5px] px-[8px] whitespace-nowrap overflow-hidden text-ellipsis`;
-    const cellStyle: CSSProperties = {
-        flex: `${flexSize} ${flexSize} 0%`,
-        ...defaultColDef?.cellStyle,
-        ...columnDef.cellStyle,
-    };
 
     return (
-        <div className={className} style={cellStyle}>
-            <div>{headerName}</div>
-        </div>
+        <Tippy
+            visible={isVisible}
+            placement="bottom-start"
+            interactive
+            interactiveDebounce={100}
+            offset={[0, -2]}
+            onClickOutside={() => setIsVisible(false)}
+            render={(attrs, content, instance) => (
+                <HeaderColumnControl
+                    attrs={attrs}
+                    content={content}
+                    instance={instance}
+                    columnDef={columnDef}
+                    defaultColDef={defaultColDef}
+                    headerName={headerName}
+                    onClose={() => setIsVisible(false)}
+                />
+            )}
+        >
+            <div>
+                <Column
+                    columnDef={columnDef}
+                    defaultColDef={defaultColDef}
+                    className="text-gray-500 font-[500] hover:bg-gray-100/70 active:bg-gray-300/70 border-b-2 flex items-center"
+                    onClick={() => setIsVisible(true)}
+                >
+                    <div>{headerName}</div>
+
+                    <div></div>
+                </Column>
+            </div>
+        </Tippy>
     );
 }

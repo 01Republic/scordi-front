@@ -9,7 +9,7 @@ export function TableHeader<T>(props: TableHeaderProps<T>) {
     const {columnDefs, defaultColDef} = props;
 
     return (
-        <li className="flex min-h-[36px] items-center sticky top-0">
+        <li className="flex min-h-[36px] items-center bg-white sticky top-0 z-[1]">
             {columnDefs.map((columnDef, index) => (
                 <HeadColumn key={index} columnDef={columnDef} defaultColDef={defaultColDef} />
             ))}
