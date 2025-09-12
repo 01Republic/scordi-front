@@ -2,15 +2,17 @@ import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {TableHeader, TableRow} from '^lib/GyuridTable/row';
 import {ColumnDef, DefaultColDef} from './column';
 import {cn} from '^public/lib/utils';
-import {Dispatch, SetStateAction} from 'react';
+import {Dispatch, SetStateAction, useMemo} from 'react';
 import {SortedColumnInterface, SortStatusSection} from '^lib/GyuridTable/features/sortable';
 import {BulkActionSection} from '^lib/GyuridTable/features/bulk-actions';
 import {ViewButtonsSection} from '^lib/GyuridTable/views';
+import {useVisibleColumns} from '^lib/GyuridTable/features';
 
 interface GyuridTableConfig<T> {
     entries: T[];
     pagination?: PaginationMetaData;
     columnDefs: ColumnDef<T>[];
+    setColumnDefs: Dispatch<SetStateAction<ColumnDef<T>[]>>;
     defaultColDef?: DefaultColDef<T>;
     isLoading?: boolean;
     className?: string;
@@ -19,8 +21,11 @@ interface GyuridTableConfig<T> {
 }
 
 export function GyuridTable<T>(props: GyuridTableConfig<T>) {
-    const {entries, defaultColDef, columnDefs, isLoading = false, className = ''} = props;
+    const {entries, isLoading = false, className = ''} = props;
+    const {defaultColDef, columnDefs, setColumnDefs} = props;
     const {sortedColumns, setSortedColumns} = props;
+    const {getVisibles} = useVisibleColumns(columnDefs, setColumnDefs);
+    const visibleColumns = useMemo(() => getVisibles(columnDefs), [columnDefs]);
 
     const isSorting = !!sortedColumns?.length;
 
@@ -38,6 +43,7 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
                 <div className="flex items-center ml-auto">
                     <BulkActionSection
                         columnDefs={columnDefs}
+                        setColumnDefs={setColumnDefs}
                         sortedColumns={sortedColumns}
                         setSortedColumns={setSortedColumns}
                     />
@@ -77,9 +83,9 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
 
             {/* Table */}
             <ul className="overflow-x-auto w-full">
-                <TableHeader columnDefs={columnDefs} defaultColDef={defaultColDef} />
+                <TableHeader columnDefs={visibleColumns} setColumnDefs={setColumnDefs} defaultColDef={defaultColDef} />
                 {entries.map((entry, index) => (
-                    <TableRow key={index} entry={entry} columnDefs={columnDefs} defaultColDef={defaultColDef} />
+                    <TableRow key={index} entry={entry} columnDefs={visibleColumns} defaultColDef={defaultColDef} />
                 ))}
             </ul>
         </div>

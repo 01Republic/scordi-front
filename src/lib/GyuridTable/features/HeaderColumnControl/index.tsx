@@ -19,10 +19,11 @@ interface Props<T> extends WithChildren {
     defaultColDef?: DefaultColDef<T>;
     headerName: string;
     onClose: () => void;
+    onHide?: () => any;
 }
 
 export function HeaderColumnControl<T>(props: Props<T>) {
-    const {attrs, content, instance, children, onClose} = props;
+    const {attrs, content, instance, children, onClose, onHide} = props;
     const {columnDef, defaultColDef, headerName} = props;
     const [visibleIndex, setVisibleIndex] = useState(-1);
 
@@ -67,12 +68,18 @@ export function HeaderColumnControl<T>(props: Props<T>) {
                             <div>고정</div>
                         </MenuItem>
 
-                        <MenuItem isVisible={visibleIndex === 3} onMouseEnter={() => setVisibleIndex(3)}>
-                            <div>
-                                <EyeOff fontSize={16} />
-                            </div>
-                            <div>숨기기</div>
-                        </MenuItem>
+                        {onHide && (
+                            <MenuItem
+                                isVisible={visibleIndex === 3}
+                                onMouseEnter={() => setVisibleIndex(3)}
+                                onClick={onHide}
+                            >
+                                <div>
+                                    <EyeOff fontSize={16} />
+                                </div>
+                                <div>숨기기</div>
+                            </MenuItem>
+                        )}
                     </MenuList>
                 </div>
             )}

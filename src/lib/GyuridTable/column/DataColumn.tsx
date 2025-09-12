@@ -6,10 +6,11 @@ interface DataColumnProps<T> {
     entry: T;
     columnDef: ColumnDef<T>;
     defaultColDef?: DefaultColDef<T>;
+    className?: string;
 }
 
 export function DataColumn<T>(props: DataColumnProps<T>) {
-    const {entry, columnDef, defaultColDef} = props;
+    const {entry, columnDef, defaultColDef, className = ''} = props;
 
     const value = useMemo(() => {
         if (columnDef.valueGetter) return columnDef.valueGetter({data: entry});
@@ -19,8 +20,6 @@ export function DataColumn<T>(props: DataColumnProps<T>) {
 
         return (entry as any)?.[field] ?? '';
     }, [entry, columnDef]);
-
-    const className = `border-r last:border-r-0`;
 
     const cellColumnProps = {value, className, columnDef, defaultColDef};
 

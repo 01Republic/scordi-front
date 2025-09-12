@@ -9,8 +9,10 @@ export function UrlCellColumn<T>(props: CellColumnProps<T>) {
     const cellType = columnDef.cellType as UrlCellColumnType | undefined;
 
     return (
-        <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-            {value ?? ''}
-        </Column>
+        <div>
+            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                {value ?? ''}
+            </Column>
+        </div>
     );
 }

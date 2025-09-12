@@ -6,10 +6,11 @@ import {HeaderColumnControl} from '^lib/GyuridTable/features/HeaderColumnControl
 interface HeadColumnProps<T> {
     columnDef: ColumnDef<T>;
     defaultColDef?: DefaultColDef<T>;
+    onHide?: () => any;
 }
 
 export function HeadColumn<T>(props: HeadColumnProps<T>) {
-    const {columnDef, defaultColDef} = props;
+    const {columnDef, defaultColDef, onHide} = props;
     const [isVisible, setIsVisible] = useState(false);
 
     const headerName = columnDef.headerName || String(columnDef.field);
@@ -31,6 +32,14 @@ export function HeadColumn<T>(props: HeadColumnProps<T>) {
                     defaultColDef={defaultColDef}
                     headerName={headerName}
                     onClose={() => setIsVisible(false)}
+                    onHide={
+                        onHide
+                            ? () => {
+                                  onHide();
+                                  setIsVisible(false);
+                              }
+                            : undefined
+                    }
                 />
             )}
         >

@@ -1,7 +1,7 @@
+import {Dispatch, SetStateAction} from 'react';
+import {ArrowDown, ArrowUp, X} from 'lucide-react';
 import {ColumnDef} from '^lib/GyuridTable';
 import {SortedColumnInterface} from '^lib/GyuridTable/features/sortable';
-import {ArrowDown, ArrowUp, X} from 'lucide-react';
-import {Dispatch, SetStateAction} from 'react';
 
 interface Props<T> {
     sortedColumn: SortedColumnInterface;

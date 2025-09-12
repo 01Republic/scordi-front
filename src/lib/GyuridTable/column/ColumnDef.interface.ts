@@ -31,6 +31,7 @@ export interface ColumnDef<T> {
     cellStyle?: CSSProperties;
     valueGetter?: (state: {data: T}) => any;
     onSort?: (field: string, direct: 'ASC' | 'DESC') => any;
+    hide?: boolean;
 }
 
 export function useColumnDefs<T>(initialColumnDefs: ColumnDef<T>[] = []) {

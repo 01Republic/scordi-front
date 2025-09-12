@@ -7,7 +7,7 @@ interface UseSortColumnsOption {
 
 export function useSortColumns(initialStates: SortedColumnInterface[], option: UseSortColumnsOption) {
     const {onChange} = option;
-    const [sortedColumns, setSortedColumns] = useState<SortedColumnInterface[]>(initialStates);
+    const [sortedColumns, setSortedColumns] = useState(initialStates);
 
     useEffect(() => {
         onChange(sortedColumns[0] || initialStates[0]);

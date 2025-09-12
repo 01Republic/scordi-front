@@ -1,10 +1,12 @@
-import {ColumnDef, SortedColumnInterface} from '^lib/GyuridTable';
 import {Dispatch, SetStateAction} from 'react';
+import {ArrowUpDown, ListFilter, Search} from 'lucide-react';
+import {ColumnDef, SortedColumnInterface} from '^lib/GyuridTable';
+import {VisibleColumnListControl} from '^lib/GyuridTable/features/column-visibility';
 import {IconButton} from './IconButton';
-import {ArrowUpDown, ListFilter, Search, Settings2} from 'lucide-react';
 
 interface Props<T> {
     columnDefs: ColumnDef<T>[];
+    setColumnDefs: Dispatch<SetStateAction<ColumnDef<T>[]>>;
     sortedColumns?: SortedColumnInterface[];
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
 }
@@ -16,7 +18,7 @@ export function BulkActionSection<T>(props: Props<T>) {
                 <IconButton Icon={() => <ListFilter fontSize={14} />} name="필터" onClick={() => 1} />
                 <IconButton Icon={() => <ArrowUpDown fontSize={14} />} name="정렬" onClick={() => 1} />
                 <IconButton Icon={() => <Search fontSize={14} />} name="검색" onClick={() => 1} />
-                <IconButton Icon={() => <Settings2 fontSize={14} />} name="설정" onClick={() => 1} />
+                <VisibleColumnListControl {...props} />
             </div>
 
             <div>

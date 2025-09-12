@@ -13,8 +13,10 @@ export function DateCellColumn<T>(props: CellColumnProps<T>) {
     const formatStr = cellType?.format || 'P';
 
     return (
-        <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-            {lpp(value, formatStr)}
-        </Column>
+        <div>
+            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                {lpp(value, formatStr)}
+            </Column>
+        </div>
     );
 }

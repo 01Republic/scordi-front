@@ -3,10 +3,11 @@ import {WithChildren} from '^types/global.type';
 import Tippy from '@tippyjs/react/headless';
 import {ChevronRight} from 'lucide-react';
 import {Instance, Placement} from 'tippy.js';
+import {cn} from '^public/lib/utils';
 
 interface MenuItemProps extends WithChildren {
-    isVisible: boolean;
-    onMouseEnter: () => void;
+    isVisible?: boolean;
+    onMouseEnter?: () => void;
 
     render?: (props: {
         attrs: {
@@ -18,19 +19,23 @@ interface MenuItemProps extends WithChildren {
         instance?: Instance;
     }) => ReactNode;
 
+    className?: string;
     onClick?: () => any;
 }
 
 export const MenuItem = (props: MenuItemProps) => {
-    const {isVisible, onMouseEnter, children, render, onClick} = props;
+    const {isVisible = false, onMouseEnter, children, render, className = '', onClick} = props;
 
     if (!render) {
         return (
             <div className="w-full">
                 <div
-                    className={`text-14 cursor-pointer w-full rounded-[6px] px-2 flex items-center gap-2 transition-all duration-[20ms] min-h-[28px] ${
-                        isVisible ? 'bg-gray-200/40' : 'bg-white hover:bg-gray-200/40'
-                    }`}
+                    className={cn(
+                        `text-14 cursor-pointer w-full rounded-[6px] px-2 flex items-center gap-2 transition-all duration-[20ms] min-h-[28px] ${
+                            isVisible ? 'bg-gray-200/40' : 'bg-white hover:bg-gray-200/40'
+                        }`,
+                        className,
+                    )}
                     onMouseEnter={onMouseEnter}
                     onClick={onClick}
                 >

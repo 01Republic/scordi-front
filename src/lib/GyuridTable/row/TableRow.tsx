@@ -12,7 +12,13 @@ export function TableRow<T>(props: TableRowProps<T>) {
     return (
         <li className="flex min-h-[36px] items-center bg-white">
             {columnDefs.map((columnDef, index) => (
-                <DataColumn key={index} entry={entry} columnDef={columnDef} defaultColDef={defaultColDef} />
+                <DataColumn
+                    key={index}
+                    entry={entry}
+                    columnDef={columnDef}
+                    defaultColDef={defaultColDef}
+                    className={index === 0 ? '' : `border-l`}
+                />
             ))}
         </li>
     );

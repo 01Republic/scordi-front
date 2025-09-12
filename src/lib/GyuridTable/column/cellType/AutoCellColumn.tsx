@@ -14,40 +14,52 @@ export function AutoCellColumn<T>(props: CellColumnProps<T>) {
     if (typeof value === 'number') return <NumberCellColumn key={value} {...props} />;
     if (typeof value === 'undefined')
         return (
-            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                {value || ''}
-            </Column>
+            <div>
+                <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                    {value || ''}
+                </Column>
+            </div>
         );
     if (typeof value === 'function')
         return (
-            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                {value || ''}
-            </Column>
+            <div>
+                <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                    {value || ''}
+                </Column>
+            </div>
         );
     if (value === null)
         return (
-            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                {''}
-            </Column>
+            <div>
+                <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                    {''}
+                </Column>
+            </div>
         );
     if (typeof value === 'object') {
         if (Array.isArray(value))
             return (
-                <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                    {value.join(', ')}
-                </Column>
+                <div>
+                    <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                        {value.join(', ')}
+                    </Column>
+                </div>
             );
         if (value instanceof Date) return <DateCellColumn {...props} />;
         if (value instanceof File)
             return (
-                <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                    {value.name}
-                </Column>
+                <div>
+                    <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                        {value.name}
+                    </Column>
+                </div>
             );
         return (
-            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                {value || ''}
-            </Column>
+            <div>
+                <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                    {value || ''}
+                </Column>
+            </div>
         );
     }
 

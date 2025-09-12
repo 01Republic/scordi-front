@@ -13,10 +13,12 @@ export function MonoSelectCellColumn<T>(props: CellColumnProps<T>) {
     const colorClass = getColor(`${value}`.length, palette.notionColors);
 
     return (
-        <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-            <TagUI className={colorClass} noMargin>
-                {value}
-            </TagUI>
-        </Column>
+        <div>
+            <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
+                <TagUI className={colorClass} noMargin>
+                    {value}
+                </TagUI>
+            </Column>
+        </div>
     );
 }
