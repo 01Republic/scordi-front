@@ -10,8 +10,8 @@ import {
 export function AutoCellColumn<T>(props: CellColumnProps<T>) {
     const {value, className = '', columnDef, defaultColDef} = props;
 
-    if (typeof value === 'boolean') return <BooleanCellColumn {...props} />;
-    if (typeof value === 'number') return <NumberCellColumn {...props} />;
+    if (typeof value === 'boolean') return <BooleanCellColumn key={value ? 1 : 0} {...props} />;
+    if (typeof value === 'number') return <NumberCellColumn key={value} {...props} />;
     if (typeof value === 'undefined')
         return (
             <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>

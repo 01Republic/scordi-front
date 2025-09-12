@@ -32,9 +32,9 @@ export function DataColumn<T>(props: DataColumnProps<T>) {
         case 'text': // 텍스트
             return <TextCellColumn {...cellColumnProps} />;
         case 'number': // 숫자
-            return <NumberCellColumn {...cellColumnProps} />;
+            return <NumberCellColumn key={value} {...cellColumnProps} />;
         case 'boolean': // 체크박스
-            return <BooleanCellColumn {...cellColumnProps} />;
+            return <BooleanCellColumn key={value} {...cellColumnProps} />;
         case 'date': // 날짜
             return <DateCellColumn {...cellColumnProps} />;
         case 'mono-select': // 선택

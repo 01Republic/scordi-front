@@ -1,13 +1,12 @@
 import {memo, useEffect, useState} from 'react';
 import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {ListPageTitle} from '^admin/billing/_common/ListPageTitle';
-import {GyuridTable, useColumnDefs, useDefaultColDef} from '^lib/GyuridTable';
+import {GyuridTable, useColumnDefs, useDefaultColDef, useSortColumns} from '^lib/GyuridTable';
 import {ScordiPlanDto, ScordiPlanStepType, t_planNextStrategy, t_planStepType} from '^models/_scordi/ScordiPlan/type';
 import {useQuery} from '@tanstack/react-query';
 import {adminScordiPlansApi} from '^models/_scordi/ScordiPlan/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
-import {SortedColumnInterface} from '^lib/GyuridTable/features/sortable';
 
 export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
     const [params, setParams] = useState<FindAllQueryDto<ScordiPlanDto>>({
@@ -20,25 +19,14 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
         initialData: Paginated.init(),
     });
 
-    const [sortedColumns, setSortedColumns] = useState<SortedColumnInterface[]>([
-        {
-            field: 'id',
-            sortKey: 'id',
-            sortVal: 'DESC',
+    const {sortedColumns, setSortedColumns, onSort} = useSortColumns([{field: 'id', sortKey: 'id', sortVal: 'DESC'}], {
+        onChange: ({sortKey, sortVal}) => {
+            setParams((q) => ({
+                ...q,
+                order: {[sortKey]: sortVal},
+            }));
         },
-    ]);
-
-    useEffect(() => {
-        const [sortColumn] = sortedColumns;
-        const {sortKey, sortVal} = sortColumn || {
-            field: 'id',
-            sortKey: 'id',
-            sortVal: 'DESC',
-        };
-        setParams((q) => ({...q, order: {[sortKey]: sortVal}}));
-    }, [sortedColumns]);
-
-    const sortBy = (sortColumn: SortedColumnInterface) => setSortedColumns([sortColumn]);
+    });
 
     // const defaultColDef = useDefaultColDef({
     //     flex: 2,
@@ -85,55 +73,53 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
                         {
                             field: 'id',
                             headerName: 'Id',
-                            onSort: (direct) => sortBy({field: 'id', sortKey: 'id', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'name',
                             headerName: '플랜명',
                             width: 250,
-                            onSort: (direct) => sortBy({field: 'name', sortKey: 'name', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'priority',
                             headerName: '종류',
                             cellType: {name: 'number'},
-                            onSort: (direct) => sortBy({field: 'priority', sortKey: 'priority', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'regularPrice',
                             headerName: '정가',
                             cellType: {name: 'number', format: 'currency'},
-                            onSort: (direct) =>
-                                sortBy({field: 'regularPrice', sortKey: 'regularPrice', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'price',
                             headerName: '판매가',
-                            cellType: {name: 'number', format: 'thousand'},
-                            onSort: (direct) => sortBy({field: 'price', sortKey: 'price', sortVal: direct}),
+                            cellType: {name: 'number', format: 'currency'},
+                            onSort,
                         },
                         {
                             field: 'isPublic',
                             headerName: '공개노출',
-                            onSort: (direct) => sortBy({field: 'isPublic', sortKey: 'isPublic', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'isActive',
                             headerName: '활성상태',
-                            onSort: (direct) => sortBy({field: 'isActive', sortKey: 'isActive', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'isCustomInquired',
                             headerName: '도입문의',
                             cellType: {name: 'boolean'},
-                            onSort: (direct) =>
-                                sortBy({field: 'isCustomInquired', sortKey: 'isCustomInquired', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'stepSize',
                             headerName: '반복주기',
                             cellType: {name: 'number'},
-                            onSort: (direct) => sortBy({field: 'stepSize', sortKey: 'stepSize', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'stepType',
@@ -147,34 +133,34 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
                                     [ScordiPlanStepType.Month]: '개월',
                                     [ScordiPlanStepType.Year]: '년',
                                 }),
-                            onSort: (direct) => sortBy({field: 'stepSize', sortKey: 'stepSize', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'nextStrategy',
                             headerName: '만기유형',
                             cellType: {name: 'mono-select'},
                             valueGetter: (p) => t_planNextStrategy(p.data.nextStrategy),
-                            onSort: (direct) =>
-                                sortBy({field: 'nextStrategy', sortKey: 'nextStrategy', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'secretCode',
                             headerName: '코드',
                             width: 180,
-                            onSort: (direct) => sortBy({field: 'secretCode', sortKey: 'secretCode', sortVal: direct}),
+                            onSort,
                         },
                         // {field: 'extraData', headerName: '추가 데이터'},
                         {
                             field: 'createdAt',
                             headerName: '생성일시',
+                            width: 180,
                             cellType: {name: 'date'},
-                            onSort: (direct) => sortBy({field: 'createdAt', sortKey: 'createdAt', sortVal: direct}),
+                            onSort,
                         },
                         {
                             field: 'updatedAt',
                             headerName: '수정일시',
                             cellType: {name: 'date'},
-                            onSort: (direct) => sortBy({field: 'updatedAt', sortKey: 'updatedAt', sortVal: direct}),
+                            onSort,
                         },
                     ]}
                 />

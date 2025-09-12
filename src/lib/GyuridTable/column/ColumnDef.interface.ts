@@ -30,7 +30,7 @@ export interface ColumnDef<T> {
         | {name: 'reference'};
     cellStyle?: CSSProperties;
     valueGetter?: (state: {data: T}) => any;
-    onSort?: (direct: 'ASC' | 'DESC') => any;
+    onSort?: (field: string, direct: 'ASC' | 'DESC') => any;
 }
 
 export function useColumnDefs<T>(initialColumnDefs: ColumnDef<T>[] = []) {

@@ -54,7 +54,7 @@ export function HeaderColumnControl<T>(props: Props<T>) {
                                 isVisible={visibleIndex === 1}
                                 onMouseEnter={() => setVisibleIndex(1)}
                                 onSort={(direction) => {
-                                    columnDef.onSort?.(direction);
+                                    columnDef.onSort?.(String(columnDef.field), direction);
                                     close();
                                 }}
                             />
