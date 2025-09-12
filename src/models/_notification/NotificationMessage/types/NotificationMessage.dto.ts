@@ -1,3 +1,4 @@
+import {HTMLAttributeAnchorTarget} from 'react';
 import {TypeCast} from '^types/utils/class-transformer';
 import {MembershipDto} from '^models/Membership/types';
 import {NotificationTemplateDto} from '../../NotificationTemplate/types';
@@ -12,6 +13,7 @@ export class NotificationMessageDto {
     title: string; // 제목
     content: string | null; // 내용
     url: string; // 클릭시 이동할 주소
+    target: HTMLAttributeAnchorTarget; // a태그 target 속성
 
     @TypeCast(() => Date) willSendAt: Date | null; // 보낼 시각 (null 이면 즉시)
     @TypeCast(() => Date) sentAt: Date | null; // 보낸 시각

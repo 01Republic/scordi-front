@@ -32,7 +32,7 @@ export const NotificationMessageItem = memo((props: NotificationMessageItemProps
         <div onClick={onClick}>
             <LinkTo
                 href={item.url}
-                target={`${item.url}`.startsWith('http') ? '_blank' : undefined}
+                target={`${item.url}`.startsWith('http') ? item.target : undefined}
                 className="!outline-none group py-2.5 px-6 border-b border-gray-400/30 font-semibold cursor-pointer hover:bg-gray-50 transition-all flex items-center"
                 displayLoading={false}
             >

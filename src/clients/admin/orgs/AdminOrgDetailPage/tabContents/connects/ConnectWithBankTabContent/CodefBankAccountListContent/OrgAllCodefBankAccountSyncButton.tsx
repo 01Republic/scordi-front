@@ -35,7 +35,7 @@ export const OrgAllCodefBankAccountSyncButton = memo((props: Props) => {
 
         return confirmed(check())
             .then(() => setIsSyncRunning(true))
-            .then(() => codefBankAccountAdminApi.sync({orgId, slackMute}))
+            .then(() => codefBankAccountAdminApi.sync({orgId, slackMute, notificationMute: true}))
             .then(() => toast('배치 실행 완료'))
             .then(() => reload())
             .catch(errorToast)

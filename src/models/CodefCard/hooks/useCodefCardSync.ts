@@ -23,12 +23,17 @@ export function useCodefCardSync() {
     const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
     const queryClient = useQueryClient();
 
-    const syncCard = async (orgId: number, codefCard: CodefCardDto) => {
+    const syncCard = async (
+        orgId: number,
+        codefCard: CodefCardDto,
+        notificationMute = false,
+        notificationType?: 'payment' | 'subscription',
+    ) => {
         if (!orgId || isNaN(orgId)) return;
 
         setIsSyncRunning(true);
         return codefCardApi
-            .histories(orgId, codefCard.id, {sync: true})
+            .histories(orgId, codefCard.id, {sync: true, notificationMute, notificationType})
             .then((res) => {
                 toast.success(`${codefCard.number4} 동기화 완료!`);
                 return res;
@@ -48,6 +53,7 @@ export function useCodefCardSync() {
         option?: {
             onStart?: () => any;
             onError?: (e: Error) => any;
+            notificationType?: 'payment' | 'subscription';
         },
     ) => {
         const {onStart, onError} = option || {};
@@ -57,7 +63,7 @@ export function useCodefCardSync() {
                 if (!r.isConfirmed) throw new Error('카드 동기화를 취소했습니다');
             })
             .then(() => onStart && onStart())
-            .then(() => syncCard(orgId, codefCard))
+            .then(() => syncCard(orgId, codefCard, false, option?.notificationType))
             .catch(onError ? onError : (e) => console.log(e.message));
     };
 
