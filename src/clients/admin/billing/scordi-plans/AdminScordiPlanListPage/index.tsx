@@ -6,7 +6,7 @@ import {ScordiPlanDto, ScordiPlanStepType, t_planNextStrategy, t_planStepType} f
 import {useAdminScordiPlanList} from './useAdminScordiPlanList';
 
 export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
-    const {result, setParams, fetchNextPage, hasNextPage, onPageChange} = useAdminScordiPlanList({
+    const {result, isFetching, setParams, fetchNextPage, hasNextPage, onPageChange} = useAdminScordiPlanList({
         order: {id: 'DESC'},
         itemsPerPage: 10,
     });
@@ -27,12 +27,13 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
         >
             <AdminPageContainer>
                 <GyuridTable<ScordiPlanDto>
+                    isLoading={isFetching}
                     entries={result.items}
                     paging={{
                         pagination: result.pagination,
                         fetchNextPage,
                         onPageChange,
-                        perValues: [10, 50, 100, 250, 500, 1000, 2500, 5000],
+                        perValues: [10, 25, 50, 100, 250, 500, 1000, 2500, 5000],
                         allowAll: true,
                     }}
                     onSearch={(value: string) => setParams((q) => ({...q, where: {...q.where, name: value}, page: 1}))}
@@ -41,7 +42,7 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
                     defaultColDef={{width: 100, className: 'bg-white'}}
                     columnDefs={[
                         {field: 'id', headerName: 'Id', onSort},
-                        {field: 'name', headerName: '플랜명', onSort, width: 250},
+                        {field: 'name', headerName: '플랜명', onSort, width: 200},
                         {field: 'priority', headerName: '종류', onSort, cellType: {name: 'number'}},
                         {
                             field: 'regularPrice',

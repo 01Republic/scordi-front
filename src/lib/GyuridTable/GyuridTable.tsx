@@ -1,12 +1,13 @@
-import {PaginationMetaData} from '^types/utils/paginated.dto';
-import {TableFooter, TableFooterProps, TableHeader, TableRow} from '^lib/GyuridTable/row';
-import {ColumnDef, DefaultColDef, useColumnDefs, useDefaultColDef} from './column';
 import {cn} from '^public/lib/utils';
 import {Dispatch, SetStateAction, useMemo} from 'react';
+import {TableFooter, TableFooterProps, TableHeader, TableRow} from './row';
+import {ColumnDef, DefaultColDef, useColumnDefs, useDefaultColDef} from './column';
+import {ViewButtonsSection} from './views';
+import {useVisibleColumns} from './features';
 import {SortedColumnInterface, SortStatusSection} from '^lib/GyuridTable/features/sortable';
 import {BulkActionSection} from '^lib/GyuridTable/features/bulk-actions';
-import {ViewButtonsSection} from '^lib/GyuridTable/views';
-import {useVisibleColumns} from '^lib/GyuridTable/features';
+import {Button} from '^lib/GyuridTable/ui';
+import {LoadingStatus} from '^lib/GyuridTable/features/loading-state';
 
 interface GyuridTableConfig<T> {
     entries: T[];
@@ -47,6 +48,8 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
                 </div>
 
                 <div className="flex items-center ml-auto">
+                    <LoadingStatus isLoading={isLoading} />
+
                     <BulkActionSection
                         columnDefs={columnDefs}
                         setColumnDefs={setColumnDefs}
@@ -74,14 +77,9 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
 
                         <div className="flex items-center ml-auto">
                             {isSorting && (
-                                <div
-                                    className="btn btn-ghost no-animation btn-animation min-h-[28px] h-[28px] px-2 whitespace-nowrap rounded-[6px] text-14 text-gray-500"
-                                    onClick={() => {
-                                        setSortedColumns && setSortedColumns([]);
-                                    }}
-                                >
+                                <Button ghost onClick={() => setSortedColumns && setSortedColumns([])}>
                                     초기화
-                                </div>
+                                </Button>
                             )}
                         </div>
                     </div>

@@ -1,7 +1,6 @@
-import {PaginationMetaData} from '^types/utils/paginated.dto';
-import {PagePerSelect} from '^lib/GyuridTable/ui/PagePerSelect';
 import Tippy from '@tippyjs/react';
-import {RotateCw} from 'lucide-react';
+import {PaginationMetaData} from '^types/utils/paginated.dto';
+import {Button, PagePerSelect} from '^lib/GyuridTable/ui';
 
 export interface TableFooterProps<T> {
     // columnDefs: ColumnDef<T>[];
@@ -51,16 +50,9 @@ export function TableFooter<T>(props: TableFooterProps<T>) {
                             className="text-12"
                         >
                             <div>
-                                <button
-                                    type="button"
-                                    className={`select-none cursor-pointer inline-flex items-center h-[28px] rounded-[6px] py-[6px] px-[8px] bg-gray-150 hover:bg-gray-300 transition-all duration-[20ms] btn-animation ${
-                                        !hasNextPage ? 'opacity-50 pointer-events-none' : ''
-                                    }`}
-                                    onClick={fetchNextPage}
-                                    disabled={!hasNextPage}
-                                >
+                                <Button onClick={fetchNextPage} disabled={!hasNextPage}>
                                     더 불러오기
-                                </button>
+                                </Button>
                             </div>
                         </Tippy>
 
