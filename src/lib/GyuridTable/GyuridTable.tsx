@@ -18,13 +18,14 @@ interface GyuridTableConfig<T> {
     sortedColumns?: SortedColumnInterface[];
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
 
+    onSearch?: (value: string) => any;
     paging?: TableFooterProps<T>;
 }
 
 export function GyuridTable<T>(props: GyuridTableConfig<T>) {
     const {entries, isLoading = false, className = ''} = props;
     const {defaultColDef: _defaultColDef, columnDefs: _columnDefs, setColumnDefs: _setColumnDefs} = props;
-    const {paging = {}} = props;
+    const {paging = {}, onSearch} = props;
     const {sortedColumns, setSortedColumns} = props;
 
     const defaultColDef = useDefaultColDef(_defaultColDef);
@@ -51,6 +52,7 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
                         setColumnDefs={setColumnDefs}
                         sortedColumns={sortedColumns}
                         setSortedColumns={setSortedColumns}
+                        onSearch={onSearch}
                     />
                 </div>
             </div>

@@ -35,6 +35,7 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
                         perValues: [10, 50, 100, 250, 500, 1000, 2500, 5000],
                         allowAll: true,
                     }}
+                    onSearch={(value: string) => setParams((q) => ({...q, where: {...q.where, name: value}, page: 1}))}
                     sortedColumns={sortedColumns}
                     setSortedColumns={setSortedColumns}
                     defaultColDef={{width: 100, className: 'bg-white'}}
