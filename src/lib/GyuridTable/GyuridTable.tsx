@@ -1,6 +1,6 @@
 import {PaginationMetaData} from '^types/utils/paginated.dto';
-import {TableHeader, TableRow} from '^lib/GyuridTable/row';
-import {ColumnDef, DefaultColDef} from './column';
+import {TableFooter, TableFooterProps, TableHeader, TableRow} from '^lib/GyuridTable/row';
+import {ColumnDef, DefaultColDef, useColumnDefs, useDefaultColDef} from './column';
 import {cn} from '^public/lib/utils';
 import {Dispatch, SetStateAction, useMemo} from 'react';
 import {SortedColumnInterface, SortStatusSection} from '^lib/GyuridTable/features/sortable';
@@ -10,20 +10,25 @@ import {useVisibleColumns} from '^lib/GyuridTable/features';
 
 interface GyuridTableConfig<T> {
     entries: T[];
-    pagination?: PaginationMetaData;
     columnDefs: ColumnDef<T>[];
-    setColumnDefs: Dispatch<SetStateAction<ColumnDef<T>[]>>;
+    setColumnDefs?: Dispatch<SetStateAction<ColumnDef<T>[]>>;
     defaultColDef?: DefaultColDef<T>;
     isLoading?: boolean;
     className?: string;
     sortedColumns?: SortedColumnInterface[];
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
+
+    paging?: TableFooterProps<T>;
 }
 
 export function GyuridTable<T>(props: GyuridTableConfig<T>) {
     const {entries, isLoading = false, className = ''} = props;
-    const {defaultColDef, columnDefs, setColumnDefs} = props;
+    const {defaultColDef: _defaultColDef, columnDefs: _columnDefs, setColumnDefs: _setColumnDefs} = props;
+    const {paging = {}} = props;
     const {sortedColumns, setSortedColumns} = props;
+
+    const defaultColDef = useDefaultColDef(_defaultColDef);
+    const [columnDefs, setColumnDefs] = _setColumnDefs ? [_columnDefs, _setColumnDefs] : useColumnDefs(_columnDefs);
     const {getVisibles} = useVisibleColumns(columnDefs, setColumnDefs);
     const visibleColumns = useMemo(() => getVisibles(columnDefs), [columnDefs]);
 
@@ -88,6 +93,8 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
                     <TableRow key={index} entry={entry} columnDefs={visibleColumns} defaultColDef={defaultColDef} />
                 ))}
             </ul>
+
+            <TableFooter {...paging} />
         </div>
     );
 }
