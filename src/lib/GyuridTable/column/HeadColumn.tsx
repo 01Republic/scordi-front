@@ -1,16 +1,20 @@
-import {useState} from 'react';
+import {Dispatch, SetStateAction, useState} from 'react';
 import Tippy from '@tippyjs/react/headless';
 import {Column, ColumnDef, DefaultColDef} from '^lib/GyuridTable';
 import {HeaderColumnControl} from '^lib/GyuridTable/features/HeaderColumnControl';
+import {ColumnResizable} from '^lib/GyuridTable/features/column-resizable';
 
 interface HeadColumnProps<T> {
+    xIndex: number;
     columnDef: ColumnDef<T>;
+    columnDefs: ColumnDef<T>[];
+    setColumnDefs: Dispatch<SetStateAction<ColumnDef<T>[]>>;
     defaultColDef?: DefaultColDef<T>;
     onHide?: () => any;
 }
 
 export function HeadColumn<T>(props: HeadColumnProps<T>) {
-    const {columnDef, defaultColDef, onHide} = props;
+    const {xIndex, columnDef, columnDefs, setColumnDefs, defaultColDef, onHide} = props;
     const [isVisible, setIsVisible] = useState(false);
 
     const headerName = columnDef.headerName || String(columnDef.field);
@@ -44,16 +48,21 @@ export function HeadColumn<T>(props: HeadColumnProps<T>) {
             )}
         >
             <div>
-                <Column
+                <ColumnResizable
+                    xIndex={xIndex}
                     columnDef={columnDef}
+                    setColumnDefs={setColumnDefs}
                     defaultColDef={defaultColDef}
-                    className="text-gray-500 font-[500] hover:bg-gray-100/70 active:bg-gray-300/70 border-b-2 flex items-center"
-                    onClick={() => setIsVisible(true)}
                 >
-                    <div>{headerName}</div>
-
-                    <div></div>
-                </Column>
+                    <Column
+                        columnDef={columnDef}
+                        defaultColDef={defaultColDef}
+                        className="text-gray-500 font-[500] hover:bg-gray-100/70 active:bg-gray-300/70 border-b-2 flex items-center"
+                        onClick={() => setIsVisible(true)}
+                    >
+                        <div>{headerName}</div>
+                    </Column>
+                </ColumnResizable>
             </div>
         </Tippy>
     );

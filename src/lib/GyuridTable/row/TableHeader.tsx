@@ -16,7 +16,10 @@ export function TableHeader<T>(props: TableHeaderProps<T>) {
             {columnDefs.map((columnDef, index) => (
                 <HeadColumn
                     key={index}
+                    xIndex={index}
                     columnDef={columnDef}
+                    columnDefs={columnDefs}
+                    setColumnDefs={setColumnDefs}
                     defaultColDef={defaultColDef}
                     onHide={() => hideColumn(String(columnDef.field))}
                 />

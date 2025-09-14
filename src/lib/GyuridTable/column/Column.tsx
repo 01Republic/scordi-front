@@ -1,7 +1,8 @@
 import {cn} from '^public/lib/utils';
 import {WithChildren} from '^types/global.type';
-import {CSSProperties, MutableRefObject} from 'react';
+import {CSSProperties, MutableRefObject, useRef} from 'react';
 import {ColumnDef, DefaultColDef} from '^lib/GyuridTable';
+import {getMinPossibleWidth} from '^lib/GyuridTable/features/column-resizable';
 
 interface ColumnProps<T> extends WithChildren {
     ref?: MutableRefObject<any>;
@@ -12,7 +13,8 @@ interface ColumnProps<T> extends WithChildren {
 }
 
 export function Column<T>(props: ColumnProps<T>) {
-    const {ref, columnDef, defaultColDef, className = '', children, onClick} = props;
+    const {ref: _ref, columnDef, defaultColDef, className = '', children, onClick} = props;
+    const ref = _ref || useRef();
 
     const flexSize = columnDef.flex || defaultColDef?.flex || 1;
     const minWidth = columnDef.width || defaultColDef?.width || 0;
@@ -34,6 +36,7 @@ export function Column<T>(props: ColumnProps<T>) {
             )}
             style={cellStyle}
             onClick={onClick}
+            data-min-width={ref.current ? getMinPossibleWidth(ref.current) : 0}
         >
             {children}
         </div>
