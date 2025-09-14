@@ -1,11 +1,10 @@
 import {cn} from '^public/lib/utils';
 import {Dispatch, SetStateAction, useMemo} from 'react';
-import {TableFooter, TableFooterProps, TableHeader, TableRow} from './row';
+import {TableFooter, TableFooterProps, TableHeader, TableRow, WorkDesk} from './row';
 import {ColumnDef, DefaultColDef, useColumnDefs, useDefaultColDef} from './column';
 import {ViewButtonsSection} from './views';
-import {Button} from './ui';
 import {useVisibleColumns} from './features/column-visibility';
-import {SortedColumnInterface, SortStatusSection} from './features/sortable';
+import {SortedColumnInterface} from './features/sortable';
 import {BulkActionSection} from './features/bulk-actions';
 import {LoadingStatus} from './features/loading-state';
 
@@ -34,8 +33,6 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
     const {getVisibles} = useVisibleColumns(columnDefs, setColumnDefs);
     const visibleColumns = useMemo(() => getVisibles(columnDefs), [columnDefs]);
 
-    const isSorting = !!sortedColumns?.length;
-
     return (
         <div className={cn(`relative text-14 w-full`, className)}>
             <div className="flex items-center w-full mb-4">
@@ -60,31 +57,12 @@ export function GyuridTable<T>(props: GyuridTableConfig<T>) {
                 </div>
             </div>
 
-            {isSorting && (
-                <>
-                    <hr className="mt-4" />
-
-                    <div className="flex items-center w-full py-1">
-                        <div className="flex items-center w-full">
-                            {isSorting && (
-                                <SortStatusSection
-                                    columnDefs={columnDefs}
-                                    sortedColumns={sortedColumns}
-                                    setSortedColumns={setSortedColumns}
-                                />
-                            )}
-                        </div>
-
-                        <div className="flex items-center ml-auto">
-                            {isSorting && (
-                                <Button ghost onClick={() => setSortedColumns && setSortedColumns([])}>
-                                    초기화
-                                </Button>
-                            )}
-                        </div>
-                    </div>
-                </>
-            )}
+            <WorkDesk
+                columnDefs={columnDefs}
+                setColumnDefs={setColumnDefs}
+                sortedColumns={sortedColumns}
+                setSortedColumns={setSortedColumns}
+            />
 
             {/* Table */}
             <ul className="overflow-x-auto w-full">
