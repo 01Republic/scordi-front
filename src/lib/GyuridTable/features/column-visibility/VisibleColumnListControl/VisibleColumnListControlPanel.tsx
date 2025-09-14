@@ -1,11 +1,11 @@
-import {ColumnDef, DefaultColDef, useVisibleColumns} from '^lib/GyuridTable';
-import {Dispatch, ReactNode, SetStateAction, useMemo, useState} from 'react';
+import {Dispatch, ReactNode, SetStateAction, useMemo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {Instance, Placement} from 'tippy.js';
-import {Eye, EyeOff, ListFilter, Pin, X} from 'lucide-react';
-import {MenuContainer, MenuItem, MenuList} from '../../MenuDropdown';
-import {SortMenu} from '../../HeaderColumnControl/SortMenu';
-import {VisibleColumnItem} from '^lib/GyuridTable/features/column-visibility/VisibleColumnListControl/VisibleColumnItem';
+import {X} from 'lucide-react';
+import {ColumnDef} from '^lib/GyuridTable';
+import {MenuContainer, MenuItem, MenuList} from '^lib/GyuridTable/features/MenuDropdown';
+import {useVisibleColumns} from '^lib/GyuridTable/features/column-visibility';
+import {VisibleColumnItem} from './VisibleColumnItem';
 
 interface Props<T> extends WithChildren {
     attrs: {

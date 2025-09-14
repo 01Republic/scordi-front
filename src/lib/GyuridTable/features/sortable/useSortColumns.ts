@@ -2,11 +2,12 @@ import {useEffect, useState} from 'react';
 import {SortedColumnInterface} from './SortedColumn.interface';
 
 interface UseSortColumnsOption {
+    initialStates: SortedColumnInterface[];
     onChange: (column: SortedColumnInterface) => void;
 }
 
-export function useSortColumns(initialStates: SortedColumnInterface[], option: UseSortColumnsOption) {
-    const {onChange} = option;
+export function useSortColumns(option: UseSortColumnsOption) {
+    const {initialStates, onChange} = option;
     const [sortedColumns, setSortedColumns] = useState(initialStates);
 
     useEffect(() => {

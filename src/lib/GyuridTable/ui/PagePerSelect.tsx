@@ -14,7 +14,7 @@ export function PagePerSelect(props: PagePerSelectProps) {
         defaultValue,
         isLoading = false,
         changePageSize,
-        perValues = [10, 30, 50, 100],
+        perValues = [30, 50, 100, 500],
         allowAll = false,
         className = '',
     } = props;

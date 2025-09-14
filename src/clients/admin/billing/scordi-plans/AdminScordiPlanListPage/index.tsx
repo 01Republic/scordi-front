@@ -11,7 +11,8 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
         itemsPerPage: 10,
     });
 
-    const {sortedColumns, setSortedColumns, onSort} = useSortColumns([{field: 'id', sortKey: 'id', sortVal: 'DESC'}], {
+    const {sortedColumns, setSortedColumns, onSort} = useSortColumns({
+        initialStates: [{field: 'id', sortKey: 'id', sortVal: 'DESC'}],
         onChange: ({sortKey, sortVal}) => {
             setParams((q) => ({
                 ...q,

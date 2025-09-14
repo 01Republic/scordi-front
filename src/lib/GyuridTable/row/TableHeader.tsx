@@ -1,5 +1,6 @@
-import {ColumnDef, DefaultColDef, HeadColumn, useVisibleColumns} from '^lib/GyuridTable';
 import {Dispatch, SetStateAction} from 'react';
+import {ColumnDef, DefaultColDef, HeadColumn} from '^lib/GyuridTable';
+import {useVisibleColumns} from '^lib/GyuridTable/features/column-visibility';
 
 interface TableHeaderProps<T> {
     columnDefs: ColumnDef<T>[];

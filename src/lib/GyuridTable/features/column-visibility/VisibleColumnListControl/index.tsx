@@ -2,7 +2,7 @@ import {Dispatch, SetStateAction, useState} from 'react';
 import {Settings2} from 'lucide-react';
 import Tippy from '@tippyjs/react/headless';
 import {ColumnDef} from '^lib/GyuridTable';
-import {IconButton} from '^lib/GyuridTable/features/bulk-actions';
+import {IconButton} from '^lib/GyuridTable/ui';
 import {VisibleColumnListControlPanel} from './VisibleColumnListControlPanel';
 
 interface Props<T> {

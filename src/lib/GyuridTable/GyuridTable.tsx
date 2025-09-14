@@ -3,11 +3,11 @@ import {Dispatch, SetStateAction, useMemo} from 'react';
 import {TableFooter, TableFooterProps, TableHeader, TableRow} from './row';
 import {ColumnDef, DefaultColDef, useColumnDefs, useDefaultColDef} from './column';
 import {ViewButtonsSection} from './views';
-import {useVisibleColumns} from './features';
-import {SortedColumnInterface, SortStatusSection} from '^lib/GyuridTable/features/sortable';
-import {BulkActionSection} from '^lib/GyuridTable/features/bulk-actions';
-import {Button} from '^lib/GyuridTable/ui';
-import {LoadingStatus} from '^lib/GyuridTable/features/loading-state';
+import {Button} from './ui';
+import {useVisibleColumns} from './features/column-visibility';
+import {SortedColumnInterface, SortStatusSection} from './features/sortable';
+import {BulkActionSection} from './features/bulk-actions';
+import {LoadingStatus} from './features/loading-state';
 
 interface GyuridTableConfig<T> {
     entries: T[];

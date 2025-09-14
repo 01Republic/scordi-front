@@ -1,10 +1,10 @@
-import {ReactNode, useState} from 'react';
 import {WithChildren} from '^types/global.type';
+import {ReactNode, useState} from 'react';
 import {Instance, Placement} from 'tippy.js';
+import {ArrowDownUp, EyeOff, ListFilter, Pin} from 'lucide-react';
 import {ColumnDef, DefaultColDef} from '^lib/GyuridTable';
 import {MenuContainer, MenuList, MenuItem} from '../MenuDropdown';
-import {SortMenu} from '^lib/GyuridTable/features/HeaderColumnControl/SortMenu';
-import {ArrowDownUp, EyeOff, ListFilter, Pin} from 'lucide-react';
+import {SortMenu} from './SortMenu';
 
 interface Props<T> extends WithChildren {
     attrs: {

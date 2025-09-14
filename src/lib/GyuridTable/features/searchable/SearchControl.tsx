@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
 import {Search, X} from 'lucide-react';
-import {IconButton} from '^lib/GyuridTable';
 import {debounce} from 'lodash';
+import {IconButton} from '^lib/GyuridTable/ui';
 
 interface SearchControlProps {
     onSearch: (value: string) => any;

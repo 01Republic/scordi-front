@@ -4,7 +4,7 @@ import {ColumnDef, SortedColumnInterface} from '^lib/GyuridTable';
 import {VisibleColumnListControl} from '^lib/GyuridTable/features/column-visibility';
 import {SortableColumnListControl} from '^lib/GyuridTable/features/sortable';
 import {SearchControl} from '^lib/GyuridTable/features/searchable';
-import {IconButton} from './IconButton';
+import {IconButton} from '^lib/GyuridTable/ui';
 
 interface Props<T> {
     columnDefs: ColumnDef<T>[];

@@ -1,8 +1,9 @@
 import {Dispatch, SetStateAction, useState} from 'react';
 import {ArrowUpDown} from 'lucide-react';
 import Tippy from '@tippyjs/react/headless';
-import {ColumnDef, IconButton, SortedColumnInterface} from '^lib/GyuridTable';
+import {ColumnDef, SortedColumnInterface} from '^lib/GyuridTable';
 import {SortableColumnListControlPanel} from './SortableColumnListControlPanel';
+import {IconButton} from '^lib/GyuridTable/ui';
 
 interface Props<T> {
     columnDefs: ColumnDef<T>[];
