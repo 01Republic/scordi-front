@@ -48,7 +48,7 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
                         pagination: result.pagination,
                         fetchNextPage,
                         onPageChange,
-                        perValues: [10, 25, 50, 100, 250, 500, 1000, 2500, 5000],
+                        perValues: [10, 25, 50, 100, 250, 500, 1000, 2500],
                         allowAll: true,
                     }}
                     onSearch={(value: string) => setParams((q) => ({...q, where: {...q.where, name: value}, page: 1}))}
