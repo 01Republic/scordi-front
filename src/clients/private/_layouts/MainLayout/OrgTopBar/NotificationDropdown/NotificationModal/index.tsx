@@ -19,20 +19,20 @@ interface NotificationModalProps {
     open: boolean;
     onClose: () => void;
     unreadCount: number;
-    data: Paginated<NotificationMessageDto>;
+    items: NotificationMessageDto[];
     params: FindAllNotificationMessagesQueryDto;
     search: Dispatch<SetStateAction<FindAllNotificationMessagesQueryDto>>;
     reload: () => any;
 }
 
 export const NotificationModal = memo((props: NotificationModalProps) => {
-    const {open, onClose, unreadCount, data, params, search, reload} = props;
+    const {open, onClose, unreadCount, items, params, search, reload} = props;
     const orgId = useOrgIdParam();
     const setFlashMessages = useSetRecoilState(notificationFlashMessagesAtom);
 
     // const items = [];
     // const items = dummyItems;
-    const items = data.items;
+    // const items = data.items;
     // const {totalItemCount} = data.pagination;
     // const unreadItems = items.filter((item) => !item.readAt);
 
@@ -64,14 +64,7 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
                 <div className={'bg-white rounded-2xl shadow-xl overflow-hidden'}>
                     <header className="pt-4 px-6 pb-2.5 border-b border-gray-400/30">
                         <div className="flex items-center justify-between mb-2">
-                            <h4
-                                className="text-18 font-bold"
-                                onClick={() => notificationSessionApi.test(orgId)}
-                                onContextMenu={(e) => {
-                                    eventCut(e);
-                                    return notificationSessionApi.test(orgId, {isAppend: true});
-                                }}
-                            >
+                            <h4 className="text-18 font-bold" onClick={() => console.log(props)}>
                                 알림{' '}
                                 {unreadCount > 0 && (
                                     <span className="text-orange-600 ml-1">{unreadCount.toLocaleString()}</span>
@@ -121,4 +114,3 @@ export const NotificationModal = memo((props: NotificationModalProps) => {
         </AnimatedModal>
     );
 });
-NotificationModal.displayName = 'NotificationModal';

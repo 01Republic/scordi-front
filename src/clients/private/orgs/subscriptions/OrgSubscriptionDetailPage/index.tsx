@@ -15,7 +15,7 @@ import { useQueryTab, TabConfig } from '^hooks/useQueryTab';
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useOrgIdParam();
     const id = useIdParam('subscriptionId');
-    
+
     // useMemo로 tabConfig 메모이제이션
     const tabConfig: TabConfig[] = useMemo(() => [
         { id: 'member', label: '멤버', component: SubscriptionMemberTab },

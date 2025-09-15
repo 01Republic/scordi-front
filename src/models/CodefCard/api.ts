@@ -10,6 +10,7 @@ import {
 } from '^models/CodefCard/type/find-all.card.query.dto';
 import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
 import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
+import {PatchFinalCodefCardsHistoriesDto} from '^models/CodefCard/type/patch-final.codef-cards.histories.dto';
 
 /** [연동] Connect CODEF Cards API */
 export const codefCardApi = {
@@ -59,6 +60,12 @@ export const codefCardApi = {
     patchSubscriptions(orgId: number, codefCardId: number) {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/subscriptions`;
         return api.patch(url);
+    },
+
+    // 결제내역 조회(실행 완료 signal 및 나머지 동기화 처리)
+    patchFinalHistories(orgId: number, dto: PatchFinalCodefCardsHistoriesDto) {
+        const url = `/connect/organizations/${orgId}/codef/cards/histories/final`;
+        return api.patch(url, dto);
     },
 };
 
