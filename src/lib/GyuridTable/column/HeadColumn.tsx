@@ -13,6 +13,18 @@ interface HeadColumnProps<T> {
     onHide?: () => any;
 }
 
+/**
+ * 테이블 헤더 셀을 렌더링합니다. 헤더 클릭 시 컬럼 설정 팝오버(HeaderColumnControl)를 표시하며, 컬럼 크기 조절 기능을 포함합니다.
+ *
+ * 상세:
+ * - 표시되는 헤더 텍스트는 `columnDef.headerName`이 없으면 `String(columnDef.field)`를 사용합니다.
+ * - 클릭하면 headless Tippy 팝오버가 열리고, 외부 클릭 또는 컨트롤의 닫기 동작으로 닫힙니다.
+ * - `ColumnResizable`를 통해 컬럼 너비 조절이 가능하고, 내부 `HeaderColumnControl`에 `columnDef`와 `defaultColDef`를 전달합니다.
+ * - `onHide` prop이 전달되면 팝오버를 닫기 전에 해당 콜백을 호출합니다.
+ *
+ * @template T - 컬럼 정의에 사용되는 레코드 타입
+ * @returns 렌더된 헤더 셀 JSX 요소
+ */
 export function HeadColumn<T>(props: HeadColumnProps<T>) {
     const {xIndex, columnDef, columnDefs, setColumnDefs, defaultColDef, onHide} = props;
     const [isVisible, setIsVisible] = useState(false);

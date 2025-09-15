@@ -7,6 +7,15 @@ interface SearchControlProps {
     onSearch: (value: string) => any;
 }
 
+/**
+ * 검색 아이콘을 눌러 확장되는 입력 필드를 제공하고 입력값을 디바운스하여 콜백으로 전달하는 검색 컨트롤 컴포넌트입니다.
+ *
+ * 확장된 상태에서 입력한 값은 500ms 지연 후 onSearch에 전달됩니다. 검색 아이콘을 클릭하면 입력 필드가 확장되고 포커스가 이동하며,
+ * 우측의 닫기(X) 버튼을 누르면 입력값이 지워지고 필드가 접힙니다. 입력은 uncontrolled 방식으로 DOM 값을 직접 읽고 초기화합니다.
+ *
+ * @param onSearch - 사용자가 입력한 검색어를 수신하는 콜백 (디바운스 500ms 적용)
+ * @returns 검색 컨트롤의 React 요소
+ */
 export function SearchControl(props: SearchControlProps) {
     const {onSearch} = props;
     const [isActive, setIsActive] = useState(false);
