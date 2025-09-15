@@ -9,6 +9,25 @@ interface DataColumnProps<T> {
     className?: string;
 }
 
+/**
+ * 주어진 열 정의(columnDef)와 데이터 항목(entry)에 따라 적절한 셀 컴포넌트를 렌더링합니다.
+ *
+ * 상세:
+ * - columnDef.valueGetter가 있으면 그 결과를 값으로 사용하고, 없으면 columnDef.field를 문자열로 변환해 entry에서 해당 필드를 읽어옵니다. 필드가 없거나 값이 undefined이면 빈 문자열을 반환합니다.
+ * - 값은 useMemo로 메모이제이션되며 의존성은 entry와 columnDef입니다.
+ * - columnDef.cellType?.name에 따라 각 셀 타입에 맞는 CellColumn 컴포넌트를 선택해 렌더링합니다:
+ *   - 'email' -> EmailCellColumn
+ *   - 'url' -> UrlCellColumn
+ *   - 'text' -> TextCellColumn
+ *   - 'number' -> NumberCellColumn (컴포넌트에 key로 value 전달)
+ *   - 'boolean' -> BooleanCellColumn (컴포넌트에 key로 value 전달)
+ *   - 'date' -> DateCellColumn
+ *   - 'mono-select' -> MonoSelectCellColumn
+ *   - 'multi-select', 'file', 'function', 'profile', 'reference' -> TextCellColumn
+ *   - 그 외 -> AutoCellColumn
+ *
+ * @returns 렌더링된 셀용 JSX 엘리먼트
+ */
 export function DataColumn<T>(props: DataColumnProps<T>) {
     const {entry, columnDef, defaultColDef, className = ''} = props;
 

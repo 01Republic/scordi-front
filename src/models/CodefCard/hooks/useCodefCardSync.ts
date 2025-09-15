@@ -17,7 +17,35 @@ import {useQueryClient} from '@tanstack/react-query';
 // export const isCodefCardSyncRunningAtom = atom({
 //     key: 'isCodefCardSyncRunningAtom',
 //     default: false,
-// });
+/**
+ * Codef 카드 동기화 관련 훅을 제공합니다.
+ *
+ * 동기화 요청을 직접 실행하거나(동기 실행) 사용자 확인 후 실행하는 흐름을 지원하며,
+ * 동기화 중 상태 플래그(isSyncRunning)를 관리하고 동기화 완료 시 관련 쿼리를 무효화합니다.
+ *
+ * syncCard:
+ * - orgId가 유효하지 않으면 즉시 반환합니다.
+ * - 코드프 카드의 히스토리 동기화를 API에 요청하고, 성공 시 토스트를 표시하고 관련 쿼리를 무효화합니다.
+ * - notificationMute 및 notificationType을 API 호출에 전달하여 알림 동작을 제어할 수 있습니다.
+ *
+ * syncCardWithConfirm:
+ * - 사용자 확인 대화상자를 표시한 뒤 확인 시 syncCard를 호출합니다.
+ * - 사용자가 취소하면 거부(reject)됩니다(취소 에러).
+ *
+ * @param orgId - 동기화 대상 조직 ID
+ * @param codefCard - 동기화할 Codef 카드 엔티티
+ * @param notificationMute - API 호출 시 서버 알림 전송을 음소거할지 여부(기본 false)
+ * @param notificationType - 서버에 전달할 알림 유형(선택): 'payment' | 'subscription'
+ * @param option - syncCardWithConfirm에서 사용하는 옵션 객체
+ * @param option.onStart - 확인 후 동기화 시작 직전에 호출되는 콜백(선택)
+ * @param option.onError - 에러 발생 시 호출되는 콜백(선택)
+ * @param option.notificationType - 확인 흐름에서 syncCard로 전달할 알림 타입(선택)
+ * @returns 훅이 반환하는 객체:
+ * - syncCard: (orgId, codefCard, notificationMute?, notificationType?) => Promise<unknown> | undefined
+ * - syncCardWithConfirm: (orgId, codefCard, option?) => Promise<unknown>
+ * - isSyncRunning: boolean — 현재 동기화가 실행 중인지 여부
+ * - setIsSyncRunning: (v: boolean) => void — 동기화 상태 수동 설정 함수
+ */
 
 export function useCodefCardSync() {
     const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);

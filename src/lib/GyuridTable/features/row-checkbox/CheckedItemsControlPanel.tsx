@@ -33,6 +33,22 @@ interface Props<T> extends WithChildren {
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
 }
 
+/**
+ * 체크된 항목들에 대해 컨텍스트 액션 패널을 렌더링하는 제네릭 컴포넌트입니다.
+ *
+ * actions 배열이 비어있지 않으면 각 액션을 아이콘과 이름으로 나열하고,
+ * 액션 클릭 시 action.onClick(checkedEntries, onClose)를 호출합니다.
+ * actions가 없으면 "정의된 작업이 없습니다." 메시지와 닫기 버튼을 표시합니다.
+ *
+ * @template T - 체크된 항목의 항목 타입
+ * @param props - 컴포넌트 속성 객체. 주요 필드:
+ *   - attrs, content, instance: 팝업 라이브러리(tippy 등)에 전달되는 속성들
+ *   - onClose: 패널을 닫는 콜백
+ *   - checkedEntries: 현재 체크된 항목들의 배열 (액션에 전달됨)
+ *   - actions: CheckedAction<T>[] 형태의 액션 목록 (기본값: [])
+ *   - columnDefs, setColumnDefs, sortedColumns, setSortedColumns: 테이블 상태 통합을 위해 수신하지만 이 컴포넌트에서는 사용되지 않습니다
+ * @returns 렌더링된 JSX 요소
+ */
 export function CheckedItemsControlPanel<T>(props: Props<T>) {
     const {attrs, content, instance, onClose} = props;
     const {checkedEntries, actions = []} = props;
