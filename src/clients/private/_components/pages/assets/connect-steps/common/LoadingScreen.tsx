@@ -68,10 +68,11 @@ interface Props extends WithChildren {
     percentage?: number; // 0 ~ 100
     onFinish?: () => void;
     minTimeout?: number;
+    Button?: ReactNode;
 }
 
 export const LoadingScreen2 = (props: Props) => {
-    const {message = '조금만 기다려 주세요!', percentage = 0, onFinish, minTimeout = 0, children} = props;
+    const {message = '조금만 기다려 주세요!', percentage = 0, onFinish, minTimeout = 0, children, Button} = props;
     const [isWaited, setIsWaited] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
@@ -105,6 +106,7 @@ export const LoadingScreen2 = (props: Props) => {
                         <NumberFlow value={percentage} duration={800} />% 완료
                     </div>
                 )}
+                {Button && <div className="w-64 mt-2">{Button}</div>}
             </PureLayoutContainer>
         </PureLayout>
     );

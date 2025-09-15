@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {FormEvent, memo, useEffect, useState} from 'react';
 import {isDefinedValue} from '^utils/array';
 import {useOrgIdParam} from '^atoms/common';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
@@ -11,6 +11,12 @@ import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
 import {WithLoopText} from '^utils/TypeWritter';
 import {Typewriter} from 'react-simple-typewriter';
 import {ConnectAssetsStepStrategy} from '../../AssetConnectPageTemplate';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {confirm3} from '^components/util/dialog/confirm3';
+import {confirmed} from '^components/util/dialog';
+import {codefAccountApi} from '^models/CodefAccount/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 interface ConnectAssetsStepProps {
     strategy: ConnectAssetsStepStrategy;
@@ -25,6 +31,7 @@ interface ConnectAssetsStepProps {
 export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
     const {strategy, codefAssets, onNext, title = ''} = props;
     const orgId = useOrgIdParam();
+    const [isShowLeaveButton, setIsShowLeaveButton] = useState(false);
 
     const results =
         strategy === ConnectAssetsStepStrategy.SyncSubscriptions
@@ -39,6 +46,79 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
     const totalCount = results.length;
     const finishedCount = results.filter((result) => result.isFetched).length;
     const percentage = totalCount > 0 ? Math.ceil((finishedCount / totalCount) * 100) : 0;
+
+    const startedFetching = results.some((r) => r.isFetching);
+
+    const onDisconnect = async () => {
+        const leavePageConfirm = () =>
+            confirm3(
+                '페이지를 나갈까요?',
+                <span className="text-16 text-gray-800 font-normal">
+                    페이지를 나가도 동기화는 계속 진행됩니다.
+                    <br />
+                    완료되면 <b>알람</b>으로 알려드릴게요.
+                    <br />
+                    불러온 구독은 <b>구독탭 &gt; 구독리스트</b>에서 확인할 수 있습니다.
+                    <br />
+                </span>,
+            );
+
+        confirmed(leavePageConfirm())
+            // .then(() => codefAccountApi.destroy(orgId, accountId))
+            // .then(() => router.push())
+            .catch(errorToast);
+    };
+
+    useEffect(() => {
+        if (!startedFetching || isShowLeaveButton) return;
+        const timeout = setTimeout(() => setIsShowLeaveButton(true), 10 * 1000);
+        return () => clearTimeout(timeout);
+    }, [startedFetching, isShowLeaveButton]);
+
+    // 탭 닫는경우 api 요청
+    useEffect(() => {
+        let userIsLeaving = false;
+
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (results.some((r) => !r.isFetched || r.isLoading)) {
+                userIsLeaving = true;
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        };
+
+        const handleUnload = () => {
+            if (userIsLeaving) {
+                // useSyncCodefAssets가 하는 것과 동일한 요청을 새로 시작
+                const payload = JSON.stringify({
+                    orgId,
+                    codefAssets: codefAssets.map((asset) => ({
+                        id: asset.id,
+                        type: asset instanceof CodefBankAccountDto ? 'bank_account' : 'card',
+                        company: asset.company?.param,
+                    })),
+                    strategy,
+                });
+
+                // // 실제로는 useSyncCodefAssets와 동일한 엔드포인트로
+                // if (strategy === ConnectAssetsStepStrategy.SyncSubscriptions) {
+                //     // useSyncCodefAssets가 호출하는 API
+                //     navigator.sendBeacon('/api/codef/sync-assets', payload);
+                // } else {
+                //     // useCreateAssets가 호출하는 API
+                //     navigator.sendBeacon('/api/codef/create-assets', payload);
+                // }
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('pagehide', handleUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('pagehide', handleUnload);
+        };
+    }, [results, orgId, strategy, codefAssets]);
 
     /** 결제내역 불러오고 구독 파싱하는 중인 상태 */
     return (
@@ -88,9 +168,11 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
                                     </SequenceStep>
                                 ), // 10s
                                 (props) => (
-                                    <SequenceStep delay={20000} {...props}>
-                                        <Typewriter words={['최대 1분 정도 소요될 수 있어요']} />
-                                    </SequenceStep>
+                                    <div className="flex flex-col">
+                                        <SequenceStep delay={20000} {...props}>
+                                            <Typewriter words={['최대 3~5분 정도 소요될 수 있어요']} />
+                                        </SequenceStep>
+                                    </div>
                                 ), // 30s
                                 (props) => (
                                     <SequenceStep delay={70000} {...props}>
@@ -101,6 +183,13 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
                             loop
                         />
                     </div>
+                )
+            }
+            Button={
+                isShowLeaveButton && (
+                    <button onClick={() => onDisconnect()} className="btn btn-scordi btn-md btn-block flex-1">
+                        나가기
+                    </button>
                 )
             }
         />

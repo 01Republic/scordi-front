@@ -65,5 +65,6 @@ export function useSyncCodefAssets(orgId: number, codefAssets: (CodefBankAccount
             };
         }),
     });
+
     return results;
 }
