@@ -8,6 +8,7 @@ import {
 } from '^models/CodefBankAccount/type/find-all.bank-account.query.dto';
 import {RangeQueryDto} from '^models/CodefBankAccount/type/range.query.dto';
 import {PatchHistoriesQueryDto} from '^models/CodefCard/type/range.query.dto';
+import {PatchFinalCodefBankAccountHistoriesDto} from '^models/CodefBankAccount/type/patch-final.codef-bank-account.histories.dto';
 
 /** [연동] Connect CODEF BankAccount API */
 export const codefBankAccountApi = {
@@ -59,6 +60,12 @@ export const codefBankAccountApi = {
     patchSubscriptions(orgId: number, codefBankAccountId: number) {
         const url = `/connect/organizations/${orgId}/codef/bank-accounts/${codefBankAccountId}/subscriptions`;
         return api.patch(url);
+    },
+
+    // 결제내역 조회(실행 완료 signal 및 나머지 동기화 처리)
+    patchFinalHistories(orgId: number, dto: PatchFinalCodefBankAccountHistoriesDto) {
+        const url = `/connect/organizations/${orgId}/codef/bank-accounts/histories/final`;
+        return api.patch(url, dto);
     },
 };
 
