@@ -21,7 +21,7 @@ export function TableFooter<T>(props: TableFooterProps<T>) {
     const hasNextPage = nextPage <= totalPage;
 
     return (
-        <div className="flex min-h-[40px] items-center bg-white w-full px-2 sticky bottom-0 border-t">
+        <div className="flex min-h-[40px] items-center bg-white w-full px-2 sticky bottom-0 border-t z-[1]">
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1 text-gray-500">
                     <span>

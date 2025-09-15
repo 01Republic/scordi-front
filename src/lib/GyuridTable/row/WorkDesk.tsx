@@ -1,20 +1,24 @@
 import {Dispatch, SetStateAction} from 'react';
 import {ColumnDef, SortedColumnInterface, SortStatusSection} from '^lib/GyuridTable';
 import {Button} from '^lib/GyuridTable/ui';
+import {CheckedAction, CheckedItemsControl} from '^lib/GyuridTable/features/row-checkbox';
 
 interface Props<T> {
     columnDefs: ColumnDef<T>[];
     setColumnDefs: Dispatch<SetStateAction<ColumnDef<T>[]>>;
     sortedColumns?: SortedColumnInterface[];
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
+    checkedEntries?: T[];
+    actions?: CheckedAction<T>[];
 }
 
 export function WorkDesk<T>(props: Props<T>) {
-    const {columnDefs, sortedColumns = [], setSortedColumns} = props;
+    const {columnDefs, setColumnDefs, sortedColumns = [], setSortedColumns, checkedEntries = [], actions = []} = props;
 
-    const isSorting = !!sortedColumns?.length;
+    const isChecking = !!checkedEntries.length;
+    const isSorting = !!sortedColumns.length;
 
-    if (!isSorting) return <></>;
+    if (!isSorting && !isChecking) return <></>;
 
     return (
         <>
@@ -22,6 +26,17 @@ export function WorkDesk<T>(props: Props<T>) {
 
             <div className="flex items-center w-full py-1">
                 <div className="flex items-center w-full">
+                    {isChecking && (
+                        <CheckedItemsControl
+                            checkedEntries={checkedEntries}
+                            columnDefs={columnDefs}
+                            setColumnDefs={setColumnDefs}
+                            sortedColumns={sortedColumns}
+                            setSortedColumns={setSortedColumns}
+                            actions={actions}
+                        />
+                    )}
+
                     {isSorting && (
                         <SortStatusSection
                             columnDefs={columnDefs}

@@ -1,4 +1,5 @@
 import {Column} from '^lib/GyuridTable';
+import {Checkbox} from '^lib/GyuridTable/ui';
 import {CellColumnProps} from './CellColumn.interface';
 
 export interface BooleanCellColumnType {
@@ -12,12 +13,7 @@ export function BooleanCellColumn<T>(props: CellColumnProps<T>) {
     return (
         <div>
             <Column columnDef={columnDef} defaultColDef={defaultColDef} className={className}>
-                <input
-                    type="checkbox"
-                    className={`checkbox checkbox-xs checkbox-primary rounded-[4px] disabled:cursor-pointer disabled:opacity-100 disabled:border-gray-200 disabled:bg-gray-100 checked:disabled:!border-indigo-500 checked:disabled:!bg-indigo-500`}
-                    defaultChecked={!!value}
-                    disabled
-                />
+                <Checkbox defaultChecked={!!value} disabled />
             </Column>
         </div>
     );

@@ -24,7 +24,7 @@ export function ColumnResizable<T>(props: Props<T>) {
             e.preventDefault();
             e.stopPropagation();
 
-            const newWidth = getNewMinWidth(xIndex, ref.current, e.clientX);
+            const newWidth = getNewMinWidth(xIndex + 1, ref.current, e.clientX);
             setWidth(newWidth);
             setColumnDefs((columns) => {
                 const cols = [...columns];
@@ -72,7 +72,7 @@ export function ColumnResizable<T>(props: Props<T>) {
                     e.stopPropagation();
                     e.preventDefault();
 
-                    const newWidth = getNewMinWidth(xIndex, ref.current);
+                    const newWidth = getNewMinWidth(xIndex + 1, ref.current);
                     setWidth(newWidth);
                     setColumnDefs((columns) => {
                         const cols = [...columns];

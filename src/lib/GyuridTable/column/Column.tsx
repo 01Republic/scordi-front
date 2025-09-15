@@ -6,7 +6,7 @@ import {getMinPossibleWidth} from '^lib/GyuridTable/features/column-resizable';
 
 interface ColumnProps<T> extends WithChildren {
     ref?: MutableRefObject<any>;
-    columnDef: ColumnDef<T>;
+    columnDef?: ColumnDef<T>;
     defaultColDef?: DefaultColDef<T>;
     className?: string;
     onClick?: () => void;
@@ -16,12 +16,12 @@ export function Column<T>(props: ColumnProps<T>) {
     const {ref: _ref, columnDef, defaultColDef, className = '', children, onClick} = props;
     const ref = _ref || useRef();
 
-    const flexSize = columnDef.flex || defaultColDef?.flex || 1;
-    const minWidth = columnDef.width || defaultColDef?.width || 0;
+    const flexSize = columnDef?.flex || defaultColDef?.flex || 1;
+    const minWidth = columnDef?.width || defaultColDef?.width || 0;
     const cellStyle: CSSProperties = {
         flex: `${flexSize} ${flexSize} 0%`,
         ...defaultColDef?.cellStyle,
-        ...columnDef.cellStyle,
+        ...columnDef?.cellStyle,
         ...(minWidth ? {minWidth} : {}),
     };
 
@@ -29,7 +29,7 @@ export function Column<T>(props: ColumnProps<T>) {
         <div
             ref={ref}
             className={cn(
-                columnDef.className || '',
+                columnDef?.className || '',
                 defaultColDef?.className || '',
                 `border-b border-gray-200 [border-image:linear-gradient(to right, #e0e0e0, #e0e0e0, transparent) 1] select-none transition-all duration-[20ms] relative cursor-pointer h-[36px] py-[7.5px] px-[8px] whitespace-nowrap overflow-hidden text-ellipsis`,
                 className,

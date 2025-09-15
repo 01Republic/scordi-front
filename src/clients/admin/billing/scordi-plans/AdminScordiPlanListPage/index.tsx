@@ -4,6 +4,7 @@ import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {ListPageTitle} from '^admin/billing/_common/ListPageTitle';
 import {ScordiPlanDto, ScordiPlanStepType, t_planNextStrategy, t_planStepType} from '^models/_scordi/ScordiPlan/type';
 import {useAdminScordiPlanList} from './useAdminScordiPlanList';
+import {Trash} from 'lucide-react';
 
 export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
     const {result, isFetching, setParams, fetchNextPage, hasNextPage, onPageChange} = useAdminScordiPlanList({
@@ -28,6 +29,19 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
         >
             <AdminPageContainer>
                 <GyuridTable<ScordiPlanDto>
+                    checkbox
+                    actions={[
+                        {
+                            Icon: () => <Trash />,
+                            name: '삭제',
+                            onClick: async (checkedEntries, close) => {
+                                console.log('checkedEntries', checkedEntries);
+                                if (confirm(`${checkedEntries.length}개를 삭제합니다.`)) {
+                                    close();
+                                }
+                            },
+                        },
+                    ]}
                     isLoading={isFetching}
                     entries={result.items}
                     paging={{
@@ -40,7 +54,7 @@ export const AdminScordiPlanListPage = memo(function AdminScordiPlanListPage() {
                     onSearch={(value: string) => setParams((q) => ({...q, where: {...q.where, name: value}, page: 1}))}
                     sortedColumns={sortedColumns}
                     setSortedColumns={setSortedColumns}
-                    defaultColDef={{width: 100, className: 'bg-white'}}
+                    defaultColDef={{width: 100, className: 'bg-white group-hover/row:bg-gray-100'}}
                     columnDefs={[
                         {field: 'id', headerName: 'Id', onSort},
                         {field: 'name', headerName: '플랜명', onSort, width: 200},
