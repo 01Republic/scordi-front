@@ -1,6 +1,12 @@
 /**
- * div(텍스트 노드 1개)에서 줄을 계속 줄였을 때의 최소 가능 너비(px)를 측정 (컬럼에 ref.current 가 생길때 (= 컬럼이 랜더링 될 때) 실행)
- * - includeBox: true 면 padding/border 포함한 border-box 기준
+ * 단일 텍스트 노드를 가진 div에서 줄바꿈을 계속 줄였을 때의 최소 가능 너비(픽셀)를 측정한다.
+ *
+ * 복제된 요소를 문서 외부에 렌더링해 실제 브라우저의 줄바꿈 규칙을 반영한 상태에서 너비를 측정한다.
+ *
+ * @param div - 최소 너비를 측정할 대상 DOM Element (단일 텍스트 노드 포함된 div를 예상)
+ * @param includeBox - true이면 padding/border를 포함한 border-box 기준으로 측정, false면 content-box 기준(패딩/테두리 제거)
+ * @throws Error('Element required') - div가 DOM Element가 아닌 경우
+ * @returns 측정된 최소 너비를 픽셀 단위로 반올림한 정수
  */
 export function getMinPossibleWidth(div: Element, {includeBox = true} = {includeBox: true}): number {
     if (!(div instanceof Element)) throw new Error('Element required');
@@ -55,7 +61,17 @@ export function getMinPossibleWidth(div: Element, {includeBox = true} = {include
     return contentWidth;
 }
 
-// 업데이트 해야할 min-width 를 계산하여 반환합니다.
+/**
+ * 주어진 열 인덱스에 대해 적용해야 할 최소 너비(px)를 계산하여 반환합니다.
+ *
+ * 열의 모든 셀에서 `data-min-width` 값을 읽어 그 최댓값을 기본 최소 너비로 사용합니다.
+ * mousePosX가 제공되면(드래깅 중) triggerElem의 왼쪽 경계부터 mousePosX까지의 거리로 계산한 너비와 기본 최소 너비 중 큰 값을 반환하여 드래그로 인한 크기 변경이 최소값 아래로 내려가지 않도록 합니다.
+ *
+ * @param xIndex - 대상 열의 0 기반 인덱스
+ * @param triggerElem - 드래그 핸들(또는 너비 기준이 될 요소). 이 요소의 left 경계를 기준으로 마우스 위치를 계산합니다.
+ * @param mousePosX - (옵션) 드래깅 중인 마우스의 clientX. 제공되지 않으면 드래그가 아닌 상태로 간주하고 컬럼에 정의된 최소 너비만 반환합니다.
+ * @returns 계산된 최소 너비(px)
+ */
 export function getNewMinWidth(
     xIndex: number,
     triggerElem: HTMLElement,

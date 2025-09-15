@@ -9,6 +9,17 @@ interface Props<T> {
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
 }
 
+/**
+ * 정렬된 단일 컬럼을 '칩' 형태로 렌더링하고(필드 레이블 + ASC/DESC 아이콘) 사용자가 클릭하면 정렬 방향을 토글하거나(클릭), 제공된 경우 정렬을 제거(우측 X 버튼)합니다.
+ *
+ * 상세:
+ * - 표시: 해당 컬럼의 `headerName`(없으면 `field`)과 현재 `sortVal`에 맞는 화살표 아이콘을 보여줍니다.
+ * - 상호작용:
+ *   - 전체 칩 클릭: `setSortedColumns`가 제공되면 해당 컬럼만 남긴 채 `sortVal`을 ASC↔DESC로 토글합니다.
+ *   - 우측 X 클릭: 이벤트 전파를 중단하고 `setSortedColumns([])`를 호출하여 정렬을 제거합니다.
+ *
+ * @template T - 컬럼 정의의 제네릭 타입
+ */
 export function SortedColumnItem<T>(props: Props<T>) {
     const {sortedColumn, columnDefs, setSortedColumns} = props;
 

@@ -21,6 +21,20 @@ interface Props<T> extends WithChildren {
     onClose: () => void;
 }
 
+/**
+ * 테이블 열의 표시/숨김을 관리하는 드롭다운 제어 패널을 렌더링합니다.
+ *
+ * useVisibleColumns 훅을 사용해 현재 표시된 열과 숨겨진 열을 구분하고,
+ * 각 열 항목을 클릭해 개별 열을 보이거나 숨기거나, 상단의 링크로 모든 열을 한 번에 표시/숨김할 수 있습니다.
+ * 상단의 닫기 버튼은 전달된 onClose 콜백을 호출합니다.
+ *
+ * 제네릭 T는 columnDefs에 사용되는 행 타입을 나타냅니다.
+ *
+ * @param columnDefs - 렌더링 및 토글 대상이 되는 열 정의 배열
+ * @param setColumnDefs - columnDefs 상태를 갱신하기 위한 상태 세터
+ * @param onClose - 패널의 닫기 버튼이 클릭될 때 호출되는 콜백
+ * @returns 렌더된 제어 패널의 JSX 요소
+ */
 export function VisibleColumnListControlPanel<T>(props: Props<T>) {
     const {attrs, content, instance, children, onClose} = props;
     const {columnDefs, setColumnDefs} = props;

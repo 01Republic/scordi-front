@@ -13,6 +13,15 @@ interface Props<T> {
     setSortedColumns?: Dispatch<SetStateAction<SortedColumnInterface[]>>;
 }
 
+/**
+ * 선택된 항목 개수를 표시하고 클릭 시 상세 제어 패널을 여는 제네릭 컴포넌트.
+ *
+ * 내부 상태로 팝오버(CheckedItemsControlPanel)의 노출을 제어하며, 트리거(알약 모양)의 클릭으로 패널을 열고
+ * 패널의 onClose 또는 외부 클릭으로 닫습니다. 전달된 props는 패널에 그대로 전달되어 선택된 항목에 대한 작업, 컬럼 정의 및 정렬 상태를 조작할 수 있습니다.
+ *
+ * @template T - 리스트 항목의 타입
+ * @returns JSX 요소: 선택 요약 트리거와 팝오버 패널을 포함한 UI
+ */
 export function CheckedItemsControl<T>(props: Props<T>) {
     const {checkedEntries} = props;
     const [isVisible, setIsVisible] = useState(false);
