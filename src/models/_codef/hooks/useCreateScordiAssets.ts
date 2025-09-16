@@ -6,6 +6,8 @@ import {bankAccountApi} from '^models/BankAccount/api';
 import {NonNullableProp} from '^utils/type/required-prop';
 import {codefCardApi} from '^models/CodefCard/api';
 import {creditCardApi} from '^models/CreditCard/api';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {errorToast} from '^api/api';
 
 /**
  * 코드에프 자산으로부터 스코디 자산 등록
@@ -41,16 +43,66 @@ export async function createScordiAsset(orgId: number, codefAsset: CodefBankAcco
 
 /** 스코디 자산 등록만 실행 (거래내역 불러오기는 포함) */
 export function useCreateAssets(orgId: number, codefAssets: (CodefBankAccountDto | CodefCardDto)[]) {
-    return useQueries({
+    const bankIds = codefAssets
+        .filter((codefBankAccounts) => codefBankAccounts instanceof CodefBankAccountDto)
+        .map((codefBankAccount) => codefBankAccount.id);
+
+    const cardIds = codefAssets //
+        .filter((codefCards) => codefCards instanceof CodefCardDto)
+        .map((codefCard) => codefCard.id);
+
+    const [startedBankIds, setStartedBankIds] = useState<number[]>([]);
+    const [startedCardIds, setStartedCardIds] = useState<number[]>([]);
+    const [notStartedBankIds, setNotStartedBankIds] = useState<number[]>(bankIds);
+    const [notStartedCardIds, setNotStartedCardIds] = useState<number[]>(cardIds);
+
+    const results = useQueries({
         queries: codefAssets.map((codefAsset) => {
             const modelName = codefAsset instanceof CodefBankAccountDto ? 'CodefBankAccount' : 'CodefCard';
+            const codefAssetId = codefAsset.id;
 
             return {
-                queryKey: ['useCreateAssets', orgId, modelName, codefAsset.id],
-                queryFn: () => createScordiAsset(orgId, codefAsset),
+                queryKey: ['useCreateAssets', orgId, modelName, codefAssetId],
+                queryFn: async () => {
+                    if (codefAsset instanceof CodefBankAccountDto) {
+                        setStartedBankIds((prev) => [...prev, codefAssetId]);
+                        setNotStartedBankIds((prev) => prev.filter((id) => id !== codefAssetId));
+                    } else {
+                        setStartedCardIds((prev) => [...prev, codefAssetId]);
+                        setNotStartedCardIds((prev) => prev.filter((id) => id !== codefAssetId));
+                    }
+
+                    return createScordiAsset(orgId, codefAsset);
+                },
                 retry: 0,
                 enabled: !!orgId && !isNaN(orgId),
             };
         }),
     });
+
+    useEffect(() => {
+        if (bankIds.length === 0) return;
+        if (notStartedBankIds.length !== 0) return;
+        codefBankAccountApi
+            .patchFinalHistories(orgId, {})
+            .then(() => {
+                setNotStartedBankIds([]);
+                setStartedBankIds([]);
+            })
+            .catch(errorToast);
+    }, [bankIds]);
+
+    useEffect(() => {
+        if (cardIds.length === 0) return;
+        if (notStartedCardIds.length !== 0) return;
+        codefCardApi
+            .patchFinalHistories(orgId, {})
+            .then(() => {
+                setNotStartedCardIds([]);
+                setStartedCardIds([]);
+            })
+            .catch(errorToast);
+    }, [cardIds]);
+
+    return {results, notStartedBankIds, notStartedCardIds, startedBankIds, startedCardIds};
 }

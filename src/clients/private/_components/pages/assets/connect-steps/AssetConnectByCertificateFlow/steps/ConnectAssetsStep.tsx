@@ -1,5 +1,4 @@
-import React, {FormEvent, memo, useEffect, useState} from 'react';
-import {isDefinedValue} from '^utils/array';
+import React, {memo, useEffect, useState} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccount.dto';
@@ -11,12 +10,13 @@ import {Sequence, SequenceStep} from '^utils/TypeWritter/Sequence';
 import {WithLoopText} from '^utils/TypeWritter';
 import {Typewriter} from 'react-simple-typewriter';
 import {ConnectAssetsStepStrategy} from '../../AssetConnectPageTemplate';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {confirm3} from '^components/util/dialog/confirm3';
 import {confirmed} from '^components/util/dialog';
-import {codefAccountApi} from '^models/CodefAccount/api';
-import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
+import {useBankAccountFinalHistories} from '^models/CodefBankAccount/hook';
+import {useCardAccountFinalHistories} from '^models/CodefCard/hook';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {useRouter} from 'next/router';
 
 interface ConnectAssetsStepProps {
     strategy: ConnectAssetsStepStrategy;
@@ -30,13 +30,17 @@ interface ConnectAssetsStepProps {
  */
 export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
     const {strategy, codefAssets, onNext, title = ''} = props;
+    const router = useRouter();
     const orgId = useOrgIdParam();
     const [isShowLeaveButton, setIsShowLeaveButton] = useState(false);
 
-    const results =
+    const {results, notStartedBankIds, notStartedCardIds, startedBankIds, startedCardIds} =
         strategy === ConnectAssetsStepStrategy.SyncSubscriptions
             ? useSyncCodefAssets(orgId, codefAssets)
             : useCreateAssets(orgId, codefAssets);
+
+    const {mutateAsync: mutateBankAccountFinalHistory} = useBankAccountFinalHistories(orgId);
+    const {mutateAsync: mutateCardAccountFinalHistory} = useCardAccountFinalHistories(orgId);
 
     const scordiAssets = results.flatMap((result) => {
         if (!result.data) return [];
@@ -64,8 +68,19 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
             );
 
         confirmed(leavePageConfirm())
-            // .then(() => codefAccountApi.destroy(orgId, accountId))
-            // .then(() => router.push())
+            .then(() => {
+                mutateBankAccountFinalHistory({
+                    patchCodefBankAccountIds: notStartedBankIds,
+                    completeCodefBankAccountIds: startedBankIds,
+                    sync: true,
+                });
+                mutateCardAccountFinalHistory({
+                    patchCodefCardIds: notStartedCardIds,
+                    completeCodefCardIds: startedCardIds,
+                    sync: true,
+                });
+            })
+            .then(() => router.push(OrgMainPageRoute.path(orgId)))
             .catch(errorToast);
     };
 
@@ -89,25 +104,16 @@ export const ConnectAssetsStep = memo((props: ConnectAssetsStepProps) => {
 
         const handleUnload = () => {
             if (userIsLeaving) {
-                // useSyncCodefAssets가 하는 것과 동일한 요청을 새로 시작
-                const payload = JSON.stringify({
-                    orgId,
-                    codefAssets: codefAssets.map((asset) => ({
-                        id: asset.id,
-                        type: asset instanceof CodefBankAccountDto ? 'bank_account' : 'card',
-                        company: asset.company?.param,
-                    })),
-                    strategy,
+                mutateBankAccountFinalHistory({
+                    patchCodefBankAccountIds: notStartedBankIds,
+                    completeCodefBankAccountIds: startedBankIds,
+                    sync: true,
                 });
-
-                // // 실제로는 useSyncCodefAssets와 동일한 엔드포인트로
-                // if (strategy === ConnectAssetsStepStrategy.SyncSubscriptions) {
-                //     // useSyncCodefAssets가 호출하는 API
-                //     navigator.sendBeacon('/api/codef/sync-assets', payload);
-                // } else {
-                //     // useCreateAssets가 호출하는 API
-                //     navigator.sendBeacon('/api/codef/create-assets', payload);
-                // }
+                mutateCardAccountFinalHistory({
+                    patchCodefCardIds: notStartedCardIds,
+                    completeCodefCardIds: startedCardIds,
+                    sync: true,
+                });
             }
         };
 
