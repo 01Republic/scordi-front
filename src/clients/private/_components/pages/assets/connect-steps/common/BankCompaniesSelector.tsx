@@ -30,7 +30,6 @@ export const BankCompaniesSelector = memo((props: BankCompaniesSelectorProps) =>
 
     const clientType = form.getValues('clientType') || CodefCustomerType.Business;
     const codefAccounts = getBankAccounts(clientType);
-    console.log('BankCompaniesSelector', 'codefAccounts', codefAccounts);
 
     const companies = BankAccountsStaticData.findByClientType(clientType);
     const selectableCompanies = companies.filter((company) => {
