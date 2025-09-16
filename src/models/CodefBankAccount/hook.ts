@@ -12,6 +12,7 @@ import {CodefBankAccountDto} from '^models/CodefBankAccount/type/CodefBankAccoun
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {useState} from 'react';
+import {PatchFinalCodefBankAccountHistoriesDto} from '^models/CodefBankAccount/type/patch-final.codef-bank-account.histories.dto';
 
 /* 코드에프 계좌 조회 */
 export const useCodefBankAccount = () => {
@@ -125,6 +126,15 @@ export const useCodefBankAccountsByCompanies = (orgId: number, companies: BankAc
         errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
         allConnected: syncQuery.allConnected,
     };
+};
+
+/** 결제내역 조회 실행 완료 signal 및 나머지 동기화 처리 */
+
+export const useBankAccountFinalHistories = (orgId: number) => {
+    return useMutation({
+        mutationFn: (dto: PatchFinalCodefBankAccountHistoriesDto) =>
+            codefBankAccountApi.patchFinalHistories(orgId, dto),
+    });
 };
 
 /***

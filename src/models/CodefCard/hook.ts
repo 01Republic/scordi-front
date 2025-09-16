@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {RecoilState, useRecoilValue} from 'recoil';
-import {useQueries, useQuery} from '@tanstack/react-query';
+import {useMutation, useQueries, useQuery} from '@tanstack/react-query';
 import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {CodefCardDto} from './type/CodefCard.dto';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -19,6 +19,7 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {uniqBy} from 'lodash';
 import {useIdParam, useOrgIdParam} from '^atoms/common';
 import {pick} from '^types/utils/one-of-list.type';
+import {PatchFinalCodefCardsHistoriesDto} from '^models/CodefCard/type/patch-final.codef-cards.histories.dto';
 
 // 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 (신)
 export const useCodefCardsOfCreditCardShow2 = (creditCardId: number) => {
@@ -235,4 +236,12 @@ export const useCodefCardsByCompanies = (orgId: number, companies: CardAccountsS
         errors: syncQuery.isLoading ? dbQuery.errors : syncQuery.errors,
         allConnected: syncQuery.allConnected,
     };
+};
+
+/** 결제내역 조회 실행 완료 signal 및 나머지 동기화 처리 */
+
+export const useCardAccountFinalHistories = (orgId: number) => {
+    return useMutation({
+        mutationFn: (dto: PatchFinalCodefCardsHistoriesDto) => codefCardApi.patchFinalHistories(orgId, dto),
+    });
 };
