@@ -24,7 +24,7 @@ export const ScrollRightButton = memo((props: ScrollRightButtonProps) => {
         const parentSectionWidth = parentSection.clientWidth || 0;
 
         const {clientWidth = 0, scrollWidth = 0, scrollLeft = 0} = scrollContainer || {};
-        const isRightEnded = clientWidth + scrollLeft > scrollWidth;
+        const isRightEnded = clientWidth + scrollLeft >= scrollWidth;
 
         setIsVisible(() => {
             if (isRightEnded) return false;

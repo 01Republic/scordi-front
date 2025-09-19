@@ -28,7 +28,7 @@ export const MonthlyTotalExpenseSection = () => {
             showMoreTeam={showMoreTeam}
             setShowMoreTeam={setShowMoreTeam}
             Top={() => <BaseDateHandler baseDate={baseDate} onChange={setBaseDate} />}
-            Middle={() => (
+            Middle={
                 <section className="w-full flex flex-col gap-6 md:gap-8 lg:gap-10">
                     <TeamScopeButtonGroup
                         teams={teams?.items || []}
@@ -42,7 +42,7 @@ export const MonthlyTotalExpenseSection = () => {
 
                     <ExpenseStatusTabs summary={summary} currentStatusTab={currentStatusTab} onChange={changeTab} />
                 </section>
-            )}
+            }
         >
             <section className="w-full flex flex-col mt-6 md:mt-8 lg:mt-10">
                 <ExpenseStatusTabContent summary={summary} currentStatusTab={currentStatusTab} />

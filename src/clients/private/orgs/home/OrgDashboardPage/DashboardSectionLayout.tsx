@@ -5,7 +5,7 @@ import {Plus} from 'lucide-react';
 
 interface DashboardLayoutProps extends WithChildren {
     Top?: () => JSX.Element;
-    Middle?: () => JSX.Element;
+    Middle?: React.ReactNode;
     title: React.ReactNode;
     className?: string;
     subTitle?: string;
@@ -59,9 +59,8 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
                 {subTitle && <p className="font-semibold text-[22px]">{subTitle}</p>}
                 {Buttons && <Buttons />}
             </div>
-
+            {Middle && <>{Middle}</>}
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
-                {Middle && <Middle />}
                 <div
                     className="max-h-[630px] overflow-hidden  overflow-y-scroll"
                     style={{
