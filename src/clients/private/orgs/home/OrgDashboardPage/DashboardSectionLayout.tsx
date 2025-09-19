@@ -12,24 +12,10 @@ interface DashboardLayoutProps extends WithChildren {
     isLoading?: boolean;
     Buttons?: () => JSX.Element;
     plusButtonClick?: () => any;
-    showMoreTeam?: boolean;
-    setShowMoreTeam?: (val: boolean) => void;
 }
 
 export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
-    const {
-        Top,
-        Middle,
-        title,
-        className = '',
-        subTitle,
-        Buttons,
-        plusButtonClick,
-        isLoading = false,
-        children,
-        showMoreTeam,
-        setShowMoreTeam,
-    } = props;
+    const {Top, Middle, title, className = '', subTitle, Buttons, plusButtonClick, isLoading = false, children} = props;
 
     return (
         <section
@@ -40,11 +26,6 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
                 <div className="flex items-center gap-2 w-full">
                     <div className="w-full flex items-center justify-between">
                         <h6 className="font-semibold text-20">{title}</h6>
-                        {setShowMoreTeam && (
-                            <button onClick={() => setShowMoreTeam(!showMoreTeam)} className="text-12 link ">
-                                {showMoreTeam ? '접기' : '펼처보기'}
-                            </button>
-                        )}
                     </div>
 
                     {plusButtonClick && (

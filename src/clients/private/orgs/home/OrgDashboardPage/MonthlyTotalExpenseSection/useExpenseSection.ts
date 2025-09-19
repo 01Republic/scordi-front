@@ -10,7 +10,6 @@ export const useExpenseSection = () => {
     const [selectedTeam, _setTeam] = useState<TeamDto>();
     const [baseDate, setBaseDate] = useState(new Date());
     const [currentStatusTab, setCurrentStatusTab] = useState(BillingHistoryStatus.PaySuccess);
-    const [showMoreTeam, setShowMoreTeam] = useState(false);
 
     const {data: teams, isLoading: isTeamLoading} = useTeamListInDashboardExpenseSection(orgId);
     const {data: summary, isLoading: isSummaryLoading} = useDashboardSummarySection(orgId, {
@@ -35,7 +34,5 @@ export const useExpenseSection = () => {
         isLoading: isTeamLoading || isSummaryLoading,
         baseDate,
         setBaseDate,
-        showMoreTeam,
-        setShowMoreTeam,
     };
 };
