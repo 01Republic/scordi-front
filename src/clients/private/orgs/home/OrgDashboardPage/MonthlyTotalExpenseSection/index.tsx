@@ -4,7 +4,7 @@ import {ExpenseStatusTabContent} from './ExpenseStatusTabContent';
 import {BaseDateHandler} from './BaseDateHandler';
 import {ExpenseStatusTabs} from './ExpenseStatusTabs';
 import {ExpenseSectionSummary} from './ExpenseSectionSummary';
-import {TeamScopeButtonGroup} from '^clients/private/orgs/home/OrgDashboardPage/MonthlyTotalExpenseSection/TeamScopeButtonGroup';
+import {TeamScopeButtonGroup} from './TeamScopeButtonGroup';
 
 export const MonthlyTotalExpenseSection = () => {
     const {
