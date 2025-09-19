@@ -7,12 +7,10 @@ interface ScrollLeftButtonProps {
 
 export const ScrollLeftButton = memo((props: ScrollLeftButtonProps) => {
     const {scrollContainer} = props;
-    const {isVisible, handleScroll} = useHorizontalScroll({
-        targetElem: scrollContainer,
-        direct: 'left',
-    });
+    const {isScrollable, isLeftEnded, handleScroll} = useHorizontalScroll(scrollContainer);
 
-    if (!isVisible) return <></>;
+    if (!isScrollable) return <></>;
+    if (isLeftEnded) return <></>;
 
     return (
         <div className="absolute left-0 top-0 bottom-0 bg-white/70 pr-[6px] z-10">

@@ -1,4 +1,4 @@
-import React, {forwardRef, memo, useEffect, useImperativeHandle, useState} from 'react';
+import React, {forwardRef, memo, useEffect, useImperativeHandle, useRef, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {rangeToArr} from '^utils/range';
@@ -16,7 +16,7 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {CurrencyCode} from '^models/Money';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {WideMode} from '../../OrgBillingHistoryStatusPage';
-import {ChevronLeft, ChevronRight} from 'lucide-react';
+import {HorizontalScrollButtons} from './HorizontalScrollButtons';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
@@ -31,6 +31,7 @@ export const BillingHistoryMonthly = memo(
         const [histories, setHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
         const [stickyPos, setStickyPos] = useState(2);
+        const xScrollTargetRef = useRef<HTMLDivElement | null>(null);
 
         const {currentOrg} = useCurrentOrg2();
         const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
@@ -89,14 +90,7 @@ export const BillingHistoryMonthly = memo(
 
         return (
             <>
-                <div className="flex items-center justify-end pr-6 mb-[-2.8rem] gap-4 sticky top-[70px] z-10">
-                    <button className="btn btn-sm btn-white btn-square no-animation btn-animation">
-                        <ChevronLeft fontSize={20} />
-                    </button>
-                    <button className="btn btn-sm btn-white btn-square no-animation btn-animation">
-                        <ChevronRight fontSize={20} />
-                    </button>
-                </div>
+                <HorizontalScrollButtons xScrollTargetRef={xScrollTargetRef} />
 
                 <CardContainerTableLayout isLoading={isLoading}>
                     <div className="mb-4">
@@ -108,7 +102,11 @@ export const BillingHistoryMonthly = memo(
                     {/*</div>*/}
 
                     <div className="bg-white border border-gray-300 shadow rounded-lg relative">
-                        <div className="overflow-x-auto w-full hide-scrollbar">
+                        <div
+                            className="overflow-x-auto w-full hide-scrollbar"
+                            ref={xScrollTargetRef}
+                            style={{scrollBehavior: 'smooth'}}
+                        >
                             <table className="table w-full text-sm">
                                 <BillingHistoryMonthlyHeader
                                     focusYear={focusYear}

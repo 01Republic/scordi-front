@@ -3,17 +3,14 @@ import {useHorizontalScroll} from '^hooks/useHorizontalScroll';
 
 interface ScrollRightButtonProps {
     scrollContainer: HTMLDivElement;
-    deps?: any[];
 }
 
 export const ScrollRightButton = memo((props: ScrollRightButtonProps) => {
-    const {scrollContainer, deps = []} = props;
-    const {isVisible, handleScroll} = useHorizontalScroll({
-        targetElem: scrollContainer,
-        direct: 'right',
-    });
+    const {scrollContainer} = props;
+    const {isScrollable, isRightEnded, handleScroll} = useHorizontalScroll(scrollContainer);
 
-    if (!isVisible) return <></>;
+    if (!isScrollable) return <></>;
+    if (isRightEnded) return <></>;
 
     return (
         <div className="absolute right-0 top-0 bottom-0 bg-white/70 pl-[6px]">
