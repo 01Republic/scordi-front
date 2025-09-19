@@ -2,22 +2,41 @@ import {useExpenseSection} from './useExpenseSection';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {ExpenseStatusTabContent} from './ExpenseStatusTabContent';
 import {BaseDateHandler} from './BaseDateHandler';
-import {TeamScopeButtonGroup} from './TeamScopeButtonGroup';
 import {ExpenseStatusTabs} from './ExpenseStatusTabs';
 import {ExpenseSectionSummary} from './ExpenseSectionSummary';
+import {TeamScopeButtonGroup} from '^clients/private/orgs/home/OrgDashboardPage/MonthlyTotalExpenseSection/TeamScopeButtonGroup';
 
 export const MonthlyTotalExpenseSection = () => {
-    const {summary, selectedTeam, setTeam, teams, currentStatusTab, changeTab, isLoading, baseDate, setBaseDate} =
-        useExpenseSection();
+    const {
+        summary,
+        selectedTeam,
+        setTeam,
+        teams,
+        currentStatusTab,
+        changeTab,
+        isLoading,
+        baseDate,
+        setBaseDate,
+        showMoreTeam,
+        setShowMoreTeam,
+    } = useExpenseSection();
 
     return (
         <DashboardSectionLayout
             title="월간 구독 현황"
             isLoading={isLoading}
+            showMoreTeam={showMoreTeam}
+            setShowMoreTeam={setShowMoreTeam}
             Top={() => <BaseDateHandler baseDate={baseDate} onChange={setBaseDate} />}
             Middle={() => (
                 <section className="w-full flex flex-col gap-6 md:gap-8 lg:gap-10">
-                    <TeamScopeButtonGroup teams={teams?.items || []} selectedTeam={selectedTeam} onSelect={setTeam} />
+                    <TeamScopeButtonGroup
+                        teams={teams?.items || []}
+                        selectedTeam={selectedTeam}
+                        onSelect={setTeam}
+                        showMoreTeam={showMoreTeam}
+                        setShowMoreTeam={setShowMoreTeam}
+                    />
 
                     <ExpenseSectionSummary summaryOfState={summary?.total} />
 
