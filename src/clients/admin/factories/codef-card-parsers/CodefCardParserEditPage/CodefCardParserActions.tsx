@@ -1,21 +1,20 @@
-import React, {memo, useState} from 'react';
-import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
-import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
+import {memo, useState} from 'react';
 import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
-import {useIdParam} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {CodefCardParserListPageRoute} from '^pages/admin/factories/codef-card-parsers';
-import {CodefCardParserVersionListModal} from '^admin/factories/codef-card-parsers/CodefCardParserVersionListModal';
+import {useIdParam} from '^atoms/common';
+import {errorToast} from '^api/api';
 import {CodefCardParserEditPageRoute} from '^pages/admin/factories/codef-card-parsers/[id]/edit';
+import {CodefCardParserDto} from '^models/_codef/CodefCardParser/type';
+import {adminCodefCardParserApi} from '^models/_codef/CodefCardParser/api';
+import {useCodefCardParserVersionsInFactory} from '^models/_codef/CodefCardParser/hooks';
+import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
+import {codefCardAdminApi} from '^models/CodefCard/api';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
+import {confirm2, confirmed} from '^components/util/dialog';
+import {CodefCardParserVersionListModal} from '../CodefCardParserVersionListModal';
+import {ActivateButton} from './ActivateButton';
 import {RemoveParserItem} from './RemoveParserItem';
 import {MakeBankAccountParserItem} from './MakeBankAccountParserItem';
-import {useCodefCardParserVersionsInFactory} from '^models/_codef/CodefCardParser/hooks/useCodefCardParserVersionsInFactory';
-import {ActivateButton} from '^admin/factories/codef-card-parsers/CodefCardParserEditPage/ActivateButton';
-import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
-import {confirm2, confirmed} from '^components/util/dialog';
-import {codefCardAdminApi} from '^models/CodefCard/api';
 
 interface CodefCardParserActionsProps {
     parser: CodefCardParserDto;

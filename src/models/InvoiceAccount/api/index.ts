@@ -151,3 +151,5 @@ export const invoiceAccountApi = {
 };
 
 export * from './invoiceAccountGmailTestApi';
+export * from './invoiceAccountEmailItemsApi';
+export * from './invoiceAccountEmailItemsForAdminApi';

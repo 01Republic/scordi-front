@@ -1,18 +1,15 @@
 import React, {CSSProperties, FC, memo} from 'react';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {PreLoader, PreLoaderProps} from '^components/PreLoader';
 
 interface ContentPanelProps {
     bodyWrap?: boolean;
+    collapsible?: boolean;
 }
 
-export const ContentPanel: FC<WithChildren & Partial<ContentPanelHeadingProps> & ContentPanelProps> = ({
-    title,
-    desc = '',
-    bodyWrap = true,
-    children,
-    stickyHeader,
-}) => {
+export const ContentPanel: FC<WithChildren & Partial<ContentPanelHeadingProps> & ContentPanelProps> = (props) => {
+    const {title, desc = '', bodyWrap = true, children, stickyHeader, collapsible = false} = props;
+
     return (
         <div
             data-component="ContentPanel"
@@ -40,13 +37,14 @@ export const ContentPanelPreloader = memo((props: PreLoaderProps) => {
 });
 
 interface ContentPanelHeadingProps {
-    title?: string;
+    title?: ReactNodeElement;
     desc?: string;
     stickyHeader?: boolean;
+    collapsible?: boolean;
 }
 
 export function ContentPanelHeading(props: ContentPanelHeadingProps & WithChildren) {
-    const {title, desc = '', stickyHeader = false, children = ''} = props;
+    const {title, desc = '', stickyHeader = false, children = '', collapsible = false} = props;
 
     return (
         <div
@@ -60,6 +58,8 @@ export function ContentPanelHeading(props: ContentPanelHeadingProps & WithChildr
                     {desc && <p className="text-xs text-gray-600" dangerouslySetInnerHTML={{__html: desc}} />}
                 </div>
             )}
+
+            {collapsible && <div className="ml-auto"></div>}
             {children}
         </div>
     );

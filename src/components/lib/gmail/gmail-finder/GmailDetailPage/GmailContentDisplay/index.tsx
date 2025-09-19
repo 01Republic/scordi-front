@@ -1,5 +1,7 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo, useState} from 'react';
 import {GmailContentPayloadTextType, GmailContentReadableDto} from '^models/InvoiceAccount/type';
+import {cn} from '^public/lib/utils';
+import {api, errorToast} from '^api/api';
 
 interface GmailContentDisplayProps {
     isDataMode: boolean;
@@ -61,4 +63,47 @@ export const GmailContentDisplayByType = ({content, className = ''}: Props) => {
     }
 
     return <div className={`${className}`} dangerouslySetInnerHTML={{__html: data || ''}} />;
+};
+
+interface Props {
+    src?: string;
+    srcDoc?: string;
+    className?: string;
+}
+
+export const GmailContentDisplayByUrl = ({src, srcDoc, className = ''}: Props) => {
+    const [html, setHtml] = useState<string>();
+
+    useMemo(() => {
+        if (!src) return;
+
+        api.get('/proxy', {params: {url: encodeURIComponent(src)}})
+            .then((res) => res.data)
+            .then(setHtml)
+            .catch(errorToast);
+    }, [src]);
+
+    if (!srcDoc && !html) return <></>;
+
+    return (
+        <iframe
+            frameBorder="0"
+            srcDoc={html || srcDoc}
+            className={cn(`w-full h-full`, className)}
+            scrolling="no"
+            onLoad={(e) => {
+                const self = e.target as HTMLIFrameElement;
+                const innerHeight = self.contentWindow?.document?.body.scrollHeight;
+                if (innerHeight) {
+                    self.setAttribute(
+                        'style',
+                        `
+                            height: ${`${innerHeight}px`};
+                            overflow-y: auto;
+                            `,
+                    );
+                }
+            }}
+        />
+    );
 };
