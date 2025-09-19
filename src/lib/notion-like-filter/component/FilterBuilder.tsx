@@ -21,11 +21,21 @@ interface FilterBuilderProps extends WithChildren {
     onChange?: (query: FilterQuery) => any;
     onSubmit?: (query: FilterQuery) => any;
     isDirty?: boolean;
+    debuggable?: boolean;
 }
 
 // 필터 빌더 메인 컴포넌트
 export const FilterBuilder: React.FC<FilterBuilderProps> = (props) => {
-    const {filterQuery, onFilterChange, availableProperties = [], onChange, onSubmit, isDirty = true, children} = props;
+    const {
+        filterQuery,
+        onFilterChange,
+        availableProperties = [],
+        onChange,
+        onSubmit,
+        isDirty = true,
+        debuggable = false,
+        children,
+    } = props;
     const [showDebugPanel, setShowDebugPanel] = useState(false);
 
     const changeFilter = (query: FilterQuery) => {
@@ -83,7 +93,14 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = (props) => {
                                 <div className="flex gap-2 items-center" key={i}>
                                     <div className="min-w-[10%] flex items-center justify-end">
                                         {i === 0 ? (
-                                            ''
+                                            <select className="invisible border rounded text-14 py-1 px-2">
+                                                <option value={LogicalOperator.AND}>
+                                                    {t_logicalOperator(LogicalOperator.AND)}
+                                                </option>
+                                                <option value={LogicalOperator.OR}>
+                                                    {t_logicalOperator(LogicalOperator.OR)}
+                                                </option>
+                                            </select>
                                         ) : i === 1 ? (
                                             <select
                                                 value={filterQuery.rootGroup.operator}
@@ -140,15 +157,17 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = (props) => {
                             </button>
                         )}
 
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                onChange={(e) => setShowDebugPanel(e.target.checked)}
-                                className="checkbox checkbox-primary checkbox-sm"
-                            />
+                        {debuggable && (
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    onChange={(e) => setShowDebugPanel(e.target.checked)}
+                                    className="checkbox checkbox-primary checkbox-sm"
+                                />
 
-                            <span className="text-12">디버그 모드</span>
-                        </label>
+                                <span className="text-12">디버그 모드</span>
+                            </label>
+                        )}
 
                         {onSubmit && (
                             <button
@@ -168,39 +187,43 @@ export const FilterBuilder: React.FC<FilterBuilderProps> = (props) => {
             </div>
 
             {/* 디버그용 JSON 출력 */}
-            <div className="w-[40%] min-w-[400px]">
-                <div className="px-4 py-3 bg-gray-100 rounded">
-                    <div className="grid grid-cols-3">
-                        <div>
-                            <p>
-                                조건 상태:{' '}
-                                {isValid ? (
-                                    <b className="text-green-500">유효</b>
-                                ) : (
-                                    <b className="text-red-500">미완성</b>
-                                )}
-                            </p>
+            {debuggable && (
+                <div className="w-[40%] min-w-[400px]">
+                    <div className="px-4 py-3 bg-gray-100 rounded">
+                        <div className="grid grid-cols-3">
+                            <div>
+                                <p>
+                                    조건 상태:{' '}
+                                    {isValid ? (
+                                        <b className="text-green-500">유효</b>
+                                    ) : (
+                                        <b className="text-red-500">미완성</b>
+                                    )}
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    조회 결과: <b>0건</b>
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    대상 중복: <b>0건</b>
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <p>
-                                조회 결과: <b>0건</b>
-                            </p>
-                        </div>
-                        <div>
-                            <p>
-                                대상 중복: <b>0건</b>
-                            </p>
-                        </div>
-                    </div>
 
-                    {showDebugPanel && (
-                        <div className="mt-4">
-                            <h4 className="text-16 font-semibold mb-2">현재 필터 JSON:</h4>
-                            <pre className="text-sm overflow-auto">{JSON.stringify(filterQuery.toJSON(), null, 2)}</pre>
-                        </div>
-                    )}
+                        {showDebugPanel && (
+                            <div className="mt-4">
+                                <h4 className="text-16 font-semibold mb-2">현재 필터 JSON:</h4>
+                                <pre className="text-sm overflow-auto">
+                                    {JSON.stringify(filterQuery.toJSON(), null, 2)}
+                                </pre>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

@@ -15,10 +15,13 @@ import {GroupedByProductTable} from './GroupedByProductTable';
 import {SubscriptionTable} from './SubscriptionTable';
 import {BottomAction} from './BottomAction';
 import {TableColumnsHandler} from './TableColumnsHandler';
+import {ComplexFilter} from './ComplexFilter';
+import {TableFilterButton} from './ComplexFilter/TableFilterButton';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useOrgIdParam();
     const [isGroupMode, setIsGroupMode] = useState(true);
+    const [isFilterBoardOpened, setIsFilterBoardOpened] = useState(false);
 
     const subscriptionListQuery = useSubscriptionList(isGroupMode, {
         where: {organizationId: orgId},
@@ -114,8 +117,15 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             >
                 <div className="flex justify-between items-center mb-4">
                     {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
-                    <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
+                    <div className="flex items-center gap-2">
+                        <ViewModeSwitch value={isGroupMode} onChange={setIsGroupMode} />
+                    </div>
+
                     <div className="flex items-center gap-2 justify-between">
+                        <TableFilterButton
+                            isActive={isFilterBoardOpened}
+                            onClick={() => setIsFilterBoardOpened((v) => !v)}
+                        />
                         <TableColumnsHandler />
                         <ListTablePaginator
                             pagination={queryResult.result.pagination}
@@ -125,6 +135,13 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                         />
                     </div>
                 </div>
+
+                {isFilterBoardOpened && (
+                    <div className="flex items-center mb-4">
+                        <ComplexFilter />
+                    </div>
+                )}
+
                 {isGroupMode ? (
                     <GroupedByProductTable query={subscriptionListGroupedByProductQuery} />
                 ) : (

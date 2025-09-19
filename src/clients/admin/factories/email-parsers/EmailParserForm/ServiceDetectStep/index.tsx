@@ -86,6 +86,7 @@ export const ServiceDetectStep = memo((props: Props) => {
                             setQId((v) => v + 1);
                         }}
                         isDirty={isDirty}
+                        debuggable
                         // onSubmit={(query) => form.setValue('filterQuery', query.toUrlParams())}
                     >
                         <div className="ml-auto flex items-center gap-4">

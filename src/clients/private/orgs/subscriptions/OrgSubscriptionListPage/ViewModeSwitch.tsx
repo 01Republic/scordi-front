@@ -11,7 +11,7 @@ export const ViewModeSwitch = memo((props: ViewModeSwitchProps) => {
     return (
         <div className="flex justify-center">
             <div className="form-control">
-                <label className="cursor-pointer label gap-3 font-medium">
+                <label className="cursor-pointer label gap-3 font-medium px-0">
                     <span className="label-text">그룹으로 보기</span>
                     <input
                         type="checkbox"

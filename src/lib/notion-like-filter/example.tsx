@@ -24,6 +24,7 @@ export const ExampleApp: React.FC = () => {
                     new PropertyDefinition('createdAt', '생성일', FilterType.DATE),
                     new PropertyDefinition('isCompleted', '완료여부', FilterType.BOOLEAN),
                 ]}
+                debuggable={false}
             />
 
             <div className="mt-4">
