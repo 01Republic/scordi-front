@@ -16,7 +16,7 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {CurrencyCode} from '^models/Money';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {WideMode} from '../../OrgBillingHistoryStatusPage';
-import {HorizontalScrollButtons} from './HorizontalScrollButtons';
+import {HorizontalScrollButtons} from '../HorizontalScrollButtons';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
