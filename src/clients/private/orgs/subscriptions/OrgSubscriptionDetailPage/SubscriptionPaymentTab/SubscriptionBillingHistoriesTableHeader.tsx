@@ -5,6 +5,9 @@ interface SubscriptionBillingHistoriesTableHeaderProps {}
 export const SubscriptionBillingHistoriesTableHeader = memo((props: SubscriptionBillingHistoriesTableHeaderProps) => {
     return (
         <tr className="bg-slate-100">
+            {/* 체크박스 */}
+            <th />
+
             <th>일시</th>
 
             <th>상태</th>
