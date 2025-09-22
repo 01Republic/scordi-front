@@ -27,13 +27,15 @@ export const SplitBillingHistoryModal = memo((props: SplitSubscriptionModalProps
         return curDate > bestDate ? current : billingHistory;
     });
 
-    const creditCardName = creditCard?.profileName;
-    const creditCardLastNumber = creditCard?.numbers.number4;
+    const creditCardName = creditCard?.profileName || '-';
+    const creditCardLastNumber = creditCard?.numbers.number4 || '';
 
-    const bankName = bankAccount?.bankName || undefined;
-    const bankLastNumber = bankAccount?.endNumber(3);
+    const bankName = bankAccount?.bankName || '-';
+    const bankLastNumber = bankAccount?.endNumber(3) || '';
 
-    const lastPayment = `${creditCardName}(${creditCardLastNumber})` || `${bankName}(${bankLastNumber})` || '';
+    const lastPayment =
+        `${creditCardName}${creditCardLastNumber ? `(${creditCardLastNumber})` : ''}` ||
+        `${bankName} ${bankLastNumber ? `(${bankLastNumber})` : ''}`;
 
     return (
         <BasicModal open={isOpen} onClose={onClose}>
