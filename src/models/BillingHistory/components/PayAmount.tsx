@@ -3,11 +3,12 @@ import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/ty
 
 interface PayAmountProps {
     billingHistory: BillingHistoryDto;
+    className?: string;
 }
 
 // 결제금액
 export const PayAmount = memo((props: PayAmountProps) => {
-    const {billingHistory} = props;
+    const {billingHistory, className} = props;
     const {about, payAmount} = billingHistory;
 
     if (!payAmount) return <>-</>;
@@ -17,7 +18,7 @@ export const PayAmount = memo((props: PayAmountProps) => {
 
     return (
         <div
-            className={`flex items-center gap-1 justify-end ${
+            className={`flex items-center gap-1 justify-end ${className} ${
                 about === BillingHistoryStatus.PayFail ? 'text-red-400' : ''
             }`}
         >

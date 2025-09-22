@@ -18,8 +18,6 @@ export const TeamSubscriptionDetailModal = memo((props: TeamSubscriptionDetailMo
     const {isOpened, onClose, subscription} = props;
     const {team} = useCurrentTeam();
 
-    console.log(team);
-
     if (!subscription) return <></>;
 
     const {teamMembers} = subscription;
