@@ -14,11 +14,11 @@ import Tippy from '@tippyjs/react';
 
 interface BottomActionBarFieldProps {
     checkboxHandler: CheckboxHandler<BillingHistoryDto>;
-    billingHistory: BillingHistoryDto[];
+    billingHistoryTotalCount: number;
 }
 
 export const BottomActionBarField = memo((props: BottomActionBarFieldProps) => {
-    const {checkboxHandler: ch, billingHistory} = props;
+    const {checkboxHandler: ch, billingHistoryTotalCount} = props;
     const router = useRouter();
     const {currentSubscription: subscription} = useCurrentSubscription();
     const [isOpenModal, setIsOpenModal] = useState(false);
@@ -48,7 +48,7 @@ export const BottomActionBarField = memo((props: BottomActionBarFieldProps) => {
 
     return (
         <BottomActionBar itemCount={itemCount} onClear={onClear}>
-            {billingHistory.length === checkedItems.length ? (
+            {billingHistoryTotalCount === checkedItems.length ? (
                 <Tippy content="최소 1개의 결제 내역이 남아있어야 합니다">
                     <div className="flex gap-1 text-gray-400 bg-gray-200 btn btn-sm no-animation btn-animation hover:!bg-gray-150">
                         <Split />
