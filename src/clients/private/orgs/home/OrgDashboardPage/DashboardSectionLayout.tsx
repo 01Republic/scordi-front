@@ -23,7 +23,7 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
         >
             {Top && <Top />}
             <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-2 w-full">
+                <div className={`flex items-center  ${plusButtonClick ? 'gap-2 w-full' : ''}`}>
                     <div className="w-full flex items-center justify-between">
                         <h6 className="font-semibold text-20">{title}</h6>
                     </div>
