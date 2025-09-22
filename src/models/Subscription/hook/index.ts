@@ -31,6 +31,7 @@ import {
 import {ErrorResponse} from '^models/User/types';
 import {SUBSCRIPTION_HOOK_KEY} from '^models/Subscription/hook/key';
 import {MergeSubscriptionRequestDto} from '^models/Subscription/types/MergeSubscription.request.dto';
+import {SplitSubscriptionByBillingHistoriesRequestDto} from '^models/Subscription/types/SplitSubscriptionByBillingHistories.request.dto';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -316,5 +317,17 @@ export const useTeamSubscriptions2 = (orgId: number, teamId: number, params: Fin
         query,
         setQuery,
         queryResult,
+    });
+};
+
+export const useSplitByBillingHistories = (subscriptionId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: SplitSubscriptionByBillingHistoriesRequestDto) =>
+            subscriptionApi.splitByBillingHistories(subscriptionId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [SUBSCRIPTION_HOOK_KEY.detail]});
+        },
     });
 };

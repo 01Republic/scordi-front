@@ -21,6 +21,8 @@ import {MergeSubscriptionRequestDto} from '^models/Subscription/types/MergeSubsc
 import {TeamMemberDto} from '^models/TeamMember';
 import {FindAllSubscriptionsGroupedByProductDto} from '../types/find-all.subscriptions-grouped-by-product.query.dto';
 import {ProductDto} from '^models/Product/type';
+import {SplitSubscriptionByBillingHistoriesRequestDto} from '^models/Subscription/types/SplitSubscriptionByBillingHistories.request.dto';
+import {SplitSubscriptionBySeatsRequestDto} from '^models/Subscription/types/SplitSubscriptionBySeats.request.dto';
 
 const NAMESPACE = 'subscriptions';
 
@@ -86,6 +88,16 @@ export const subscriptionApi = {
 
     createByInvoice: (data: CreateSubscriptionByInvoicesRequestDto) => {
         const url = `/${NAMESPACE}/byInvoices`;
+        return api.post<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
+    },
+
+    splitByBillingHistories(id: number, data: SplitSubscriptionByBillingHistoriesRequestDto) {
+        const url = `/${NAMESPACE}/${id}/split/by-billing-histories`;
+        return api.post<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
+    },
+
+    splitBySeat(id: number, data: SplitSubscriptionBySeatsRequestDto) {
+        const url = `/${NAMESPACE}/${id}/split/by-seat`;
         return api.post<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
     },
 
