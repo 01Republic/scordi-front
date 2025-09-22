@@ -46,13 +46,10 @@ export const BottomActionBarField = memo((props: BottomActionBarFieldProps) => {
         ).then(() => toast.success('구독분리가 완료되었어요.'));
     };
 
-    const tippyMessage =
-        checkedItems.length <= 1 ? '두개 이상 선택 시 분리가 가능합니다' : '분리가 필요한 결제내역만 선택해주세요';
-
     return (
         <BottomActionBar itemCount={itemCount} onClear={onClear}>
-            {checkedItems.length <= 1 || billingHistory.length === checkedItems.length ? (
-                <Tippy content={tippyMessage}>
+            {billingHistory.length === checkedItems.length ? (
+                <Tippy content="최소 1개의 결제 내역이 남아있어야 합니다">
                     <div className="flex gap-1 text-gray-400 bg-gray-200 btn btn-sm no-animation btn-animation hover:!bg-gray-150">
                         <Split />
                         구독 분리
