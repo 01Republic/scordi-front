@@ -7,6 +7,7 @@ import {AlertCircle} from 'lucide-react';
 
 interface InvoiceAccountProfileProps {
     invoiceAccount: InvoiceAccountDto;
+    ellipsis?: boolean;
 }
 
 export const InvoiceAccountProfile = memo((props: InvoiceAccountProfileProps) => {
@@ -42,10 +43,10 @@ export const InvoiceAccountProfile = memo((props: InvoiceAccountProfileProps) =>
 InvoiceAccountProfile.displayName = 'InvoiceAccountProfile';
 
 export const InvoiceAccountProfileCompact = memo((props: InvoiceAccountProfileProps) => {
-    const {invoiceAccount} = props;
+    const {invoiceAccount, ellipsis = false} = props;
 
     if (invoiceAccount.isManuallyCreated) {
-        return <InvoiceAccountProfileCompactInManual invoiceAccount={invoiceAccount} />;
+        return <InvoiceAccountProfileCompactInManual invoiceAccount={invoiceAccount} ellipsis={ellipsis} />;
     }
 
     return (
@@ -54,9 +55,9 @@ export const InvoiceAccountProfileCompact = memo((props: InvoiceAccountProfilePr
                 src={invoiceAccount.image || ''}
                 className="w-[20px] h-[20px] outline outline-offset-1 outline-slate-100"
             />
-            <div className="flex-1">
+            <div className={`flex-1 ${ellipsis ? 'overflow-hidden' : ''}`}>
                 <div
-                    className={`leading-none text-14 ${
+                    className={`leading-none text-14 ${ellipsis ? 'overflow-hidden text-ellipsis' : ''} ${
                         invoiceAccount.googleTokenDataId ? '' : 'text-orange-400 font-medium'
                     }`}
                 >

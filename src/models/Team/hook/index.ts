@@ -3,7 +3,7 @@ import {toast} from 'react-hot-toast';
 import {orgIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {PagedResourceAtoms, usePagedResource, usePaginateUtils} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
-import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
+import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto, RangeQueryDto} from '../type';
 import {
     currentTeamAtom,
     isCurrentTeamLoadingAtom,
@@ -18,6 +18,7 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {TEAM_MEMBER_HOOK_KEY} from '^models/TeamMember/hook/key';
 import {Paginated} from '^types/utils/paginated.dto';
 import {TEAM_HOOK_KEY} from '^models/Team/hook/key';
+import {firstDayOfMonth, monthAfter} from '^utils/dateTime';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -104,6 +105,22 @@ export const useUpdateTeam = (orgId: number, id: number) => {
         mutationFn: (data: UpdateTeamDto) => teamApi.update(orgId, id, data).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.detail, orgId, id], exact: true});
+            queryClient.invalidateQueries({queryKey: [TEAM_HOOK_KEY.summaryByTeamPrice, orgId, id], exact: true});
         },
+    });
+};
+
+// 팀 상세p - 지출된 구독 비용
+export const useCurrentTeamSubscriptionPriceSummary = (orgId: number, teamId: number, params: RangeQueryDto) => {
+    params.startDate ||= firstDayOfMonth();
+    params.endDate ||= monthAfter(1, params.startDate);
+
+    return useQuery({
+        queryKey: [TEAM_HOOK_KEY.summaryByTeamPrice, orgId, teamId],
+        queryFn: () => teamApi.summaryByTeam(orgId, teamId, params).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId) && !!teamId,
+        retry: false,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     });
 };

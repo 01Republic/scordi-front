@@ -35,6 +35,7 @@ export const NumberTextInput = forwardRef((props: TextInputProps, ref: Forwarded
             //     'border-[#6454FF]': defaultValue,
             //     'border-red-500': isInvalid,
             // })}
+            autoComplete={type === 'password' ? 'new-password' : 'one-time-code'}
             className={`input input-md sm:input-md sm:h-10 input-bordered border-[#e5e7eb] focus-within:border-[#6454FF] ${
                 isInvalid ? 'border-red-500' : ''
             } focus-visible:outline-none px-2 w-full ${className}`}

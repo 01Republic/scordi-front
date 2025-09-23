@@ -96,22 +96,22 @@ export const useCurrentCreditCardEdit = () => {
 
         const data = plainToInstance(UnSignedCreditCardFormData, formData);
 
-        if (!data.name) {
-            toast.error('카드 별칭을 입력해주세요');
-            return;
-        }
-
-        if (!data.number1 || !data.number2 || !data.number3 || !data.number4) {
-            toast.error('카드 번호를 입력해주세요');
-            return;
-        }
+        // if (!data.name) {
+        //     toast.error('카드 별칭을 입력해주세요');
+        //     return;
+        // }
+        //
+        // if (!data.number1 || !data.number2 || !data.number3 || !data.number4) {
+        //     toast.error('카드 번호를 입력해주세요');
+        //     return;
+        // }
 
         const [year = '', month = ''] = expiryValues;
 
-        if ((year && !month) || (!year && month)) {
-            toast.error('유효기간의 년과 월을 모두 선택해주세요');
-            return;
-        }
+        // if ((year && !month) || (!year && month)) {
+        //     toast.error('유효기간의 년과 월을 모두 선택해주세요');
+        //     return;
+        // }
 
         if (year && month) {
             data.expiry = `${month}${year.slice(2, 4)}`;
@@ -190,12 +190,12 @@ export const useCurrentCreditCardSync = () => {
         ]);
     };
 
-    const startSync = () => {
+    const startSync = (notificationType: 'payment' | 'subscription') => {
         if (!currentCreditCard) return;
         const {organizationId} = currentCreditCard;
 
         if (currentCodefCard) {
-            syncCardWithConfirm(organizationId, currentCodefCard).then(onFinish);
+            syncCardWithConfirm(organizationId, currentCodefCard, {notificationType}).then(onFinish);
         } else {
             toast('먼저 카드사를 연결해주세요');
         }

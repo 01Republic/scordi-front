@@ -1,4 +1,4 @@
-import React, {forwardRef, memo, useEffect, useImperativeHandle, useState} from 'react';
+import React, {forwardRef, memo, useEffect, useImperativeHandle, useRef, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {rangeToArr} from '^utils/range';
@@ -16,6 +16,7 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {CurrencyCode} from '^models/Money';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {WideMode} from '../../OrgBillingHistoryStatusPage';
+import {HorizontalScrollButtons} from '../HorizontalScrollButtons';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
@@ -30,6 +31,7 @@ export const BillingHistoryMonthly = memo(
         const [histories, setHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
         const [stickyPos, setStickyPos] = useState(2);
+        const xScrollTargetRef = useRef<HTMLDivElement | null>(null);
 
         const {currentOrg} = useCurrentOrg2();
         const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
@@ -87,55 +89,67 @@ export const BillingHistoryMonthly = memo(
         }));
 
         return (
-            <CardContainerTableLayout isLoading={isLoading}>
-                {/*<div className={'flex justify-start pb-2'}>*/}
-                {/*    <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
-                {/*</div>*/}
+            <>
+                <HorizontalScrollButtons xScrollTargetRef={xScrollTargetRef} />
 
-                <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
-                    <div className="overflow-x-auto w-full hide-scrollbar">
-                        <table className="table w-full text-sm">
-                            <BillingHistoryMonthlyHeader
-                                focusYear={focusYear}
-                                months={months}
-                                wideMode={wideMode}
-                                stickyPos={stickyPos}
-                                setStickyPos={setStickyPos}
-                            />
-                            <tbody>
-                                {histories.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={5 + 12} className="text-center py-8">
-                                            <EmptyTable message="데이터가 없습니다." />
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    sortedHistories.map((history, i) => (
-                                        <BillingHistoryMonthlyRow
-                                            key={i}
-                                            wideMode={wideMode}
-                                            stickyPos={stickyPos}
-                                            data={history}
-                                            ratio={ratioOf(history.getCostSumToKRW(exchangeRate), totalAmount)}
-                                            exchangeRate={exchangeRate}
-                                            renderColumns={() => {
-                                                return months.map((month, i) => (
-                                                    <BillingHistoryMonthlyColumn
-                                                        key={i}
-                                                        currentData={history.findOfMonth(focusYear, month)}
-                                                        previousData={history.findOfMonth(focusYear, month - 1)}
-                                                        exchangeRate={exchangeRate}
-                                                    />
-                                                ));
-                                            }}
-                                        />
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                <CardContainerTableLayout isLoading={isLoading}>
+                    <div className="mb-4">
+                        <br />
                     </div>
-                </div>
-            </CardContainerTableLayout>
+
+                    {/*<div className={'flex justify-start pb-2'}>*/}
+                    {/*    <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
+                    {/*</div>*/}
+
+                    <div className="bg-white border border-gray-300 shadow rounded-lg relative">
+                        <div
+                            className="overflow-x-auto w-full hide-scrollbar"
+                            ref={xScrollTargetRef}
+                            style={{scrollBehavior: 'smooth'}}
+                        >
+                            <table className="table w-full text-sm">
+                                <BillingHistoryMonthlyHeader
+                                    focusYear={focusYear}
+                                    months={months}
+                                    wideMode={wideMode}
+                                    stickyPos={stickyPos}
+                                    setStickyPos={setStickyPos}
+                                />
+                                <tbody>
+                                    {histories.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={5 + 12} className="text-center py-8">
+                                                <EmptyTable message="데이터가 없습니다." />
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        sortedHistories.map((history, i) => (
+                                            <BillingHistoryMonthlyRow
+                                                key={i}
+                                                wideMode={wideMode}
+                                                stickyPos={stickyPos}
+                                                data={history}
+                                                ratio={ratioOf(history.getCostSumToKRW(exchangeRate), totalAmount)}
+                                                exchangeRate={exchangeRate}
+                                                renderColumns={() => {
+                                                    return months.map((month, i) => (
+                                                        <BillingHistoryMonthlyColumn
+                                                            key={i}
+                                                            currentData={history.findOfMonth(focusYear, month)}
+                                                            previousData={history.findOfMonth(focusYear, month - 1)}
+                                                            exchangeRate={exchangeRate}
+                                                        />
+                                                    ));
+                                                }}
+                                            />
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </CardContainerTableLayout>
+            </>
         );
     }),
 );

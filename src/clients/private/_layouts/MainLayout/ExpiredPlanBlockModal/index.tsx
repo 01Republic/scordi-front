@@ -49,9 +49,7 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
                         >
                             SaaS 관리는 스코디
                         </h1>
-                        <p className="mb-5 text-14 font-semibold text-gray-500">
-                            똑똑한 팀이 선택한 소프트웨어 구독 관리 서비스 스코디의 무료 체험 기간이 끝났어요.
-                        </p>
+                        <p className="mb-5 text-14 font-semibold text-gray-500">무료 체험 기간이 끝났어요.</p>
                         <br />
                         <img
                             src="/images/service/expired-plan-block-modal-rounded-image.png"

@@ -36,7 +36,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const loading = isUpdateLoading || isCurrentTeamLoading;
     return (
         <div className="bg-slate-100 rounded-lg p-2 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-1.5 md:mb-3">
                 <p className="text-12 text-gray-400">이 팀에 연결된 항목</p>
 
                 <RotateCw
@@ -47,9 +47,9 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                 />
             </div>
 
-            <div className="grid grid-cols-2 gap-1">
+            <div className="grid grid-cols-4 md:lg:grid-cols-2 gap-1">
                 <TeamStatCard
-                    Icon={() => <Users fontSize={15} className="text-yellow-600" />}
+                    Icon={() => <Users fontSize={15} className="text-yellow-600 hidden xs:flex" />}
                     title="구성원"
                     count={viewData ? viewData.teamMemberCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
@@ -57,7 +57,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     isLoading={loading}
                 />
                 <TeamStatCard
-                    Icon={() => <LayoutGrid fontSize={13} className="text-scordi-500" />}
+                    Icon={() => <LayoutGrid fontSize={13} className="text-scordi-500 hidden xs:flex" />}
                     title="구독"
                     count={viewData ? viewData.subscriptionCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
@@ -65,7 +65,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     isLoading={loading}
                 />
                 <TeamStatCard
-                    Icon={() => <CreditCard fontSize={14} className="text-green-600" />}
+                    Icon={() => <CreditCard fontSize={14} className="text-green-600 hidden xs:flex" />}
                     title="결제수단"
                     count={viewData ? viewData.creditCardCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
@@ -73,7 +73,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     isLoading={loading}
                 />
                 <TeamStatCard
-                    Icon={() => <Receipt fontSize={14} className="text-blue-600" />}
+                    Icon={() => <Receipt fontSize={14} className="text-blue-600 hidden xs:flex" />}
                     title="청구서"
                     count={viewData ? viewData.invoiceAccountCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}

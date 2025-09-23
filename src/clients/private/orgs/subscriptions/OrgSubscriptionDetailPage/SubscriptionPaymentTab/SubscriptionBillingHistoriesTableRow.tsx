@@ -26,10 +26,12 @@ import {AbroadPayAmount} from '^models/BillingHistory/components/AbroadPayAmount
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
     reload?: () => any;
+    isChecked?: boolean;
+    onCheck?: (checked: boolean) => any;
 }
 
 export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBillingHistoriesTableRowProps) => {
-    const {billingHistory, reload} = props;
+    const {billingHistory, reload, isChecked, onCheck} = props;
     const {organizationId} = billingHistory;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -79,6 +81,17 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
     return (
         <tr className="group" onClick={() => console.log(billingHistory)}>
+            {/* 체크박스 */}
+            <td className="pl-3 pr-1">
+                <label className={`flex items-center justify-center`}>
+                    <input
+                        type="checkbox"
+                        className="checkbox checkbox-primary checkbox-xs rounded bg-white"
+                        defaultChecked={isChecked}
+                        onChange={(e) => onCheck && onCheck(e.target.checked)}
+                    />
+                </label>
+            </td>
             {/* 카드 프로필 */}
             <td className={'text-14'}>{lpp(billingHistory.paidAt || billingHistory.issuedAt, 'P')}</td>
 

@@ -12,7 +12,7 @@ interface OutLinkProps {
     className?: string;
 }
 
-const isLinkString = (str: string) => {
+export const isLinkString = (str: string) => {
     const protocols = ['http', 'mailto'];
     const sentence = `${str}`.trim();
     return !!protocols.find((protocol) => sentence.startsWith(protocol));

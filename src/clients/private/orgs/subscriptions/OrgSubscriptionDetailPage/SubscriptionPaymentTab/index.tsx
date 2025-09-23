@@ -1,14 +1,17 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useOrgIdParam} from '^atoms/common';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentSubscription} from '../atom';
 import {useBillingHistoriesOfSubscription} from '../hooks';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {useCheckboxHandler} from '^hooks/useCheckboxHandler';
 import {SubscriptionBillingHistoriesTableHeader} from './SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from './SubscriptionBillingHistoriesTableRow';
 import {PaymentScopeHandler} from './PaymentScopeHandler';
 import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
-import {PencilLine} from 'lucide-react';
-import {BillingHistoryManualUpload} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/BillingHistoryManualUpload';
+import {BillingHistoryManualUpload} from '../SubscriptionPaymentTab/BillingHistoryManualUpload';
+import {BottomAction} from '^_components/BottomAction/BottomAction';
+import {BottomActionBarField} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/BottomActionSection/BottomActionBarField';
 
 /**
  * 구독 상세p > 결제탭
@@ -33,6 +36,12 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
         });
 
     if (!orgId || !subscription) return <></>;
+
+    const ch = useCheckboxHandler<BillingHistoryDto>([], (item) => item.id);
+
+    useEffect(() => {
+        ch.init(result.items);
+    }, [result.items]);
 
     return (
         <div className={'py-4 space-y-4'}>
@@ -59,9 +68,25 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <SubscriptionBillingHistoriesTableHeader />}
-                    Row={({item}) => <SubscriptionBillingHistoriesTableRow billingHistory={item} reload={reload} />}
+                    Row={({item}) => (
+                        <SubscriptionBillingHistoriesTableRow
+                            billingHistory={item}
+                            reload={reload}
+                            isChecked={ch.isChecked(item)}
+                            onCheck={(checked) => ch.checkOne(item, checked)}
+                        />
+                    )}
                 />
             </ListTableContainer>
+
+            {ch.checkedItems.length !== 0 && (
+                <BottomAction>
+                    <BottomActionBarField
+                        checkboxHandler={ch}
+                        billingHistoryTotalCount={result.pagination.totalItemCount}
+                    />
+                </BottomAction>
+            )}
         </div>
     );
 });

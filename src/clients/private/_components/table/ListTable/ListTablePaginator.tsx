@@ -8,10 +8,11 @@ interface ListTablePaginatorProps {
     movePage?: (page: number, append?: boolean) => any;
     onChangePerPage?: (val: number) => any;
     unit?: string;
+    options?: number[];
 }
 
 export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
-    const {pagination, movePage, onChangePerPage, unit = '개'} = props;
+    const {pagination, movePage, onChangePerPage, unit = '개', options} = props;
 
     const totalCount = pagination.totalItemCount;
     const currentCount = pagination.currentItemCount;
@@ -41,13 +42,13 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
                     <span className="hidden md:flex">최대 표시</span>
                     <select
                         className="select select-sm select-bordered"
-                        key={pagination.itemsPerPage}
+                        key={totalCount}
                         defaultValue={pagination.itemsPerPage}
                         onChange={(e) => {
                             return onChangePerPage(parseInt(e.target.value));
                         }}
                     >
-                        {[10, 30, 50, 100, 0].map((num, i) => (
+                        {(options || [10, 30, 50, 100, 0]).map((num, i) => (
                             <option value={num} key={i}>
                                 {num ? `${num}${unit}` : '전체'}
                             </option>

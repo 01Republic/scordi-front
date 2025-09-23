@@ -1,5 +1,7 @@
 import {memo, useState} from 'react';
+import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
+import {ArrowRight, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
 import {useCurrentUser} from '^models/User/hook';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {UserAvatar} from '^models/User/components/UserAvatar';
@@ -8,9 +10,9 @@ import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 import {ChannelTalk_Url} from '^config/constants';
 import {landingPageUrl} from '^config/environments';
-import {ArrowRight, HelpCircle, Home, Link, LogOut, Settings} from 'lucide-react';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
+    const router = useRouter();
     const {t} = useTranslation('profile');
     const {currentUser, logout} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
@@ -74,9 +76,13 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                             </li>
                             <li>
                                 <LinkTo
-                                    href={landingPageUrl}
+                                    // href={landingPageUrl}
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     displayLoading={false}
+                                    onClick={(e) => {
+                                        e.preventDefault?.();
+                                        window.location.assign(landingPageUrl);
+                                    }}
                                 >
                                     <Home />
                                     <span>{t('dropdown.goHomePage')}</span>

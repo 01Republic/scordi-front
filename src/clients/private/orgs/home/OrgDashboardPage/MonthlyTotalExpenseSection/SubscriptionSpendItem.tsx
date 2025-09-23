@@ -42,7 +42,9 @@ export const SubscriptionSpendItem = memo((props: SubscriptionSpendItemProps) =>
             </SubscriptionProfile>
 
             <div className="flex flex-col gap-0.5 items-end relative">
-                <p className="text-14 leading-none font-medium">{currencyFormat(roundNumber(spend.amount))}</p>
+                <p className="text-14 leading-none font-medium whitespace-nowrap">
+                    {currencyFormat(roundNumber(spend.amount))}
+                </p>
             </div>
         </LinkTo>
     );

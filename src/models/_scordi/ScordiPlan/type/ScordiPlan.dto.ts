@@ -106,6 +106,16 @@ interface StepTextOption {
     format?: string;
 }
 
+/**
+ * 요금제의 단계 타입(단위)을 한국어 문자열로 변환한다.
+ *
+ * 주로 UI에 표시할 단위 텍스트를 얻을 때 사용한다. 기본적으로 다음 매핑을 제공하며,
+ * 전달된 `dic`은 기본값을 덮어쓸 수 있다: NO -> '', DAY -> '일', WEEK -> '주', Month -> '월', Year -> '연'.
+ *
+ * @param stepType - 변환할 ScordiPlanStepType
+ * @param dic - (선택) 기본 매핑을 덮어쓸 커스텀 사전. 키는 ScordiPlanStepType이며 값은 해당 타입의 표시 문자열.
+ * @returns 해당 `stepType`에 대응하는 문자열 (존재하지 않으면 빈 문자열)
+ */
 export function t_planStepType(
     stepType: ScordiPlanStepType,
     dic: {[key in ScordiPlanStepType]?: string} = {
@@ -119,4 +129,21 @@ export function t_planStepType(
     dic[ScordiPlanStepType.Month] ??= '월';
     dic[ScordiPlanStepType.Year] ??= '연';
     return dic[stepType]!;
+}
+
+/**
+ * 결제 플랜의 다음 갱신 전략(ScordiPlanNextStrategy)을 한국어 설명 문자열로 변환합니다.
+ *
+ * @param nextStrategy - 변환할 다음 갱신 전략
+ * @returns '뒤 중단' (BLOCK), '마다 갱신' (RECURRING) 또는 매칭되는 값이 없을 경우 빈 문자열
+ */
+export function t_planNextStrategy(nextStrategy: ScordiPlanNextStrategy): string {
+    switch (nextStrategy) {
+        case ScordiPlanNextStrategy.BLOCK:
+            return '뒤 중단';
+        case ScordiPlanNextStrategy.RECURRING:
+            return '마다 갱신';
+        default:
+            return '';
+    }
 }
