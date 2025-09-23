@@ -5,6 +5,7 @@ import {AlertCircle} from 'lucide-react';
 
 interface InvoiceAccountProfileInManualProps {
     invoiceAccount: InvoiceAccountDto;
+    ellipsis?: boolean;
 }
 
 export const InvoiceAccountProfileInManual = memo((props: InvoiceAccountProfileInManualProps) => {
@@ -28,7 +29,7 @@ export const InvoiceAccountProfileInManual = memo((props: InvoiceAccountProfileI
 InvoiceAccountProfileInManual.displayName = 'InvoiceAccountProfileInManual';
 
 export const InvoiceAccountProfileCompactInManual = memo((props: InvoiceAccountProfileInManualProps) => {
-    const {invoiceAccount} = props;
+    const {invoiceAccount, ellipsis = false} = props;
 
     return (
         <div data-id={invoiceAccount.id} className="!w-auto gap-2 flex items-center">
@@ -36,8 +37,10 @@ export const InvoiceAccountProfileCompactInManual = memo((props: InvoiceAccountP
                 src={invoiceAccount.image || ''}
                 className="w-[20px] h-[20px] outline outline-offset-1 outline-slate-100"
             />
-            <div className="flex-1">
-                <p className="leading-none">{invoiceAccount.email}</p>
+            <div className={`flex-1 ${ellipsis ? 'overflow-hidden' : ''}`}>
+                <p className={`leading-none ${ellipsis ? 'overflow-hidden text-ellipsis' : ''}`}>
+                    {invoiceAccount.email}
+                </p>
             </div>
         </div>
     );

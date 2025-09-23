@@ -1,26 +1,32 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {FormProvider, useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
-import {LoadableBox} from '^components/util/loading';
 import {EmailParserListPageRoute} from '^pages/admin/factories/email-parsers';
-import {ContentForm} from '^layouts/ContentLayout';
-import {ProductDto} from '^models/Product/type';
-import {SetParserNamePanel} from '../../_common/form/SetParserNamePanel';
-import {SearchProductPanel} from '../../_common/form/SearchProductPanel';
+import {EmailParserEditPageRoute} from '^pages/admin/factories/email-parsers/[id]/edit';
+import {CreateEmailParserRequestDto} from '^models/EmailParser/types';
+import {gmailInvoiceParsersAdminApi} from '^models/EmailParser/api';
+import {EmailParserForm} from '../EmailParserForm';
 
 export const EmailParserNewPage = memo(function EmailParserNewPage() {
     const router = useRouter();
-    const form = useForm<any>();
+    const form = useForm<CreateEmailParserRequestDto>();
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState<ProductDto>();
 
-    useEffect(() => {
-        form.reset({});
-    }, []);
-
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: CreateEmailParserRequestDto) => {
         console.log('data', data);
+        data.isActive ??= false;
+        setIsLoading(true);
+        gmailInvoiceParsersAdminApi
+            .create(data)
+            .then((res) => {
+                toast.success('저장완료.');
+                return router.push(EmailParserEditPageRoute.path(res.data.id));
+            })
+            .catch(errorToast)
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -33,22 +39,9 @@ export const EmailParserNewPage = memo(function EmailParserNewPage() {
             ]}
         >
             <AdminPageContainer fluid>
-                <div></div>
-
-                <LoadableBox isLoading={isLoading} loadingType={2}>
-                    <FormProvider {...form}>
-                        <ContentForm onSubmit={form.handleSubmit(onSubmit)}>
-                            <SetParserNamePanel readOnly={isLoading} />
-                            <SearchProductPanel
-                                defaultValue={selectedProduct}
-                                onChange={(product) => {
-                                    setSelectedProduct(product);
-                                    form.setValue('productId', product?.id);
-                                }}
-                            />
-                        </ContentForm>
-                    </FormProvider>
-                </LoadableBox>
+                <FormProvider {...form}>
+                    <EmailParserForm onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading} />
+                </FormProvider>
             </AdminPageContainer>
         </AdminDetailPageLayout>
     );

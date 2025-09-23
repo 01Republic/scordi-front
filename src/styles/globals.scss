@@ -1268,3 +1268,11 @@ progress::-moz-progress-bar {
     display: flex;
     will-change: transform;
 }
+
+html.overscroll-x-contain body {
+    overscroll-behavior-x: contain;
+}
+
+html.overscroll-x-none body {
+    overscroll-behavior-x: none;
+}

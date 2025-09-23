@@ -3,20 +3,22 @@ import {BottomActionBar} from '^_components/BottomAction/BottomActionBar';
 import {CheckboxHandler} from '^hooks/useCheckboxHandler';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {BottomActionBarButton} from '^_components/BottomAction/BottomActionBarButton';
-import {Split} from 'lucide-react';
+import {Combine, Split} from 'lucide-react';
 import {SplitBillingHistoryModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/BottomActionSection/SplitBillingHistoryModal';
 import {useSplitByBillingHistories} from '^models/Subscription/hook';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useRouter} from 'next/router';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {toast} from 'react-hot-toast';
+import Tippy from '@tippyjs/react';
 
 interface BottomActionBarFieldProps {
     checkboxHandler: CheckboxHandler<BillingHistoryDto>;
+    billingHistoryTotalCount: number;
 }
 
 export const BottomActionBarField = memo((props: BottomActionBarFieldProps) => {
-    const {checkboxHandler: ch} = props;
+    const {checkboxHandler: ch, billingHistoryTotalCount} = props;
     const router = useRouter();
     const {currentSubscription: subscription} = useCurrentSubscription();
     const [isOpenModal, setIsOpenModal] = useState(false);
@@ -46,7 +48,16 @@ export const BottomActionBarField = memo((props: BottomActionBarFieldProps) => {
 
     return (
         <BottomActionBar itemCount={itemCount} onClear={onClear}>
-            <BottomActionBarButton Icon={<Split />} buttonText="구독 분리" onClick={() => setIsOpenModal(true)} />
+            {billingHistoryTotalCount === checkedItems.length ? (
+                <Tippy content="최소 1개의 결제 내역이 남아있어야 합니다">
+                    <div className="flex gap-1 text-gray-400 bg-gray-200 btn btn-sm no-animation btn-animation hover:!bg-gray-150">
+                        <Split />
+                        구독 분리
+                    </div>
+                </Tippy>
+            ) : (
+                <BottomActionBarButton Icon={<Split />} buttonText="구독 분리" onClick={() => setIsOpenModal(true)} />
+            )}
 
             {isOpenModal && (
                 <SplitBillingHistoryModal

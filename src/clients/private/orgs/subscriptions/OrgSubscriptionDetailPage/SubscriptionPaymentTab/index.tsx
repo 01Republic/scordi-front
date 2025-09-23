@@ -81,7 +81,10 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
 
             {ch.checkedItems.length !== 0 && (
                 <BottomAction>
-                    <BottomActionBarField checkboxHandler={ch} />
+                    <BottomActionBarField
+                        checkboxHandler={ch}
+                        billingHistoryTotalCount={result.pagination.totalItemCount}
+                    />
                 </BottomAction>
             )}
         </div>

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {debounce} from 'lodash';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, useOrgIdParam} from '^atoms/common';
 import {
     BillingHistoriesMonthlySumBySubscriptionDto,
     BillingHistoryDto,
@@ -10,7 +10,7 @@ import {
 } from '^models/BillingHistory/type';
 
 export const useBillingHistoryStatus = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [dateRange, setDateRange] = useState<BillingHistoryStatusDateRangeDto>();
     const [years, setYears] = useState<number[]>([]);
     const [focusYear, setFocusYear] = useState<number>();

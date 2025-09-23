@@ -1,7 +1,8 @@
 import {CodefCardParserDtoInFactory as CardParser} from '^models/_codef/CodefCardParser/type/CodefCardParser.dto';
 import {CodefBankAccountParserDtoInFactory as BankParser} from '^models/_codef/CodefBankAccountParser/type';
+import {EmailParserDtoInFactory as EmailParser} from '^models/EmailParser/types';
 
-export function getGroupByProduct<T extends CardParser | BankParser>(items: T[], searchValue: string) {
+export function getGroupByProduct<T extends CardParser | BankParser | EmailParser>(items: T[], searchValue: string) {
     const container: Record<number, T[]> = {};
     items.forEach((item) => {
         container[item.productId] ||= [];

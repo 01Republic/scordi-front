@@ -18,16 +18,17 @@ export const Paginator = memo((props: PaginatorProps) => {
 
     return (
         <div className={`btn-group ${className}`}>
-            <button className="btn" onClick={() => currentPage !== 1 && onClick(1)}>
+            <button className="btn" type="button" onClick={() => currentPage !== 1 && onClick(1)}>
                 <ChevronsLeft />
             </button>
-            <button className="btn" onClick={() => currentPage !== 1 && onClick(currentPage - 1)}>
+            <button className="btn" type="button" onClick={() => currentPage !== 1 && onClick(currentPage - 1)}>
                 <ChevronLeft />
             </button>
 
             {pageList.map((pageNum, i) => (
                 <button
                     key={i}
+                    type="button"
                     className={`btn ${pageNum === currentPage && 'btn-active'}`}
                     onClick={() => onClick(pageNum)}
                 >
@@ -35,10 +36,10 @@ export const Paginator = memo((props: PaginatorProps) => {
                 </button>
             ))}
 
-            <button className="btn" onClick={() => currentPage !== totalPage && onClick(currentPage + 1)}>
+            <button className="btn" type="button" onClick={() => currentPage !== totalPage && onClick(currentPage + 1)}>
                 <ChevronRight />
             </button>
-            <button className="btn" onClick={() => currentPage !== totalPage && onClick(totalPage)}>
+            <button className="btn" type="button" onClick={() => currentPage !== totalPage && onClick(totalPage)}>
                 <ChevronsRight />
             </button>
         </div>
