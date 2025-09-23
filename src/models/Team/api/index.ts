@@ -1,9 +1,8 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto} from '^models/Team/type';
+import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto, RangeQueryDto} from '^models/Team/type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
-import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
 
 export const teamApi = {

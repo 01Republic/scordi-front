@@ -37,3 +37,8 @@ export class UpdateTeamDto extends PartialType(CreateTeamDto) {
 export class FindAllTeamQueryDto extends FindAllQueryDto<TeamDto> {
     keyword?: string; // 키워드
 }
+
+export class RangeQueryDto {
+    startDate?: Date; // 조회시작일 (yyyy-mm-dd)
+    endDate?: Date; // 조회종료일 (yyyy-mm-dd)
+}
