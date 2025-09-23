@@ -80,7 +80,9 @@ export const ListPageMain = memo((props: ListPageProps) => {
                 </div>
 
                 {(onDownload || ScopeHandler || searchInputPosition === 'right-of-scopes') && (
-                    <div className={`flex items-center justify-between mb-8 ${scopeWrapperClass}`}>
+                    <div
+                        className={`flex flex-col gap-2 xs:flex-row xs:items-center xs:justify-between mb-8  ${scopeWrapperClass}`}
+                    >
                         {ScopeHandler ? ScopeHandler : <div />}
                         <div className={'flex space-x-2'}>
                             {onDownload && (

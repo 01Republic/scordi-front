@@ -31,7 +31,8 @@ module.exports = {
         },
         extend: {
             screens: {
-                xs: '450px',
+                xss: '450px',
+                xs: '560px',
             },
             colors: {
                 'brand-1': '#0066FF',
