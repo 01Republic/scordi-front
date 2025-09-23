@@ -26,9 +26,9 @@ export const TeamProfileSection = memo(() => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg p-4 gap-2 mb-2">
+        <div className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg p-4 gap-2 sm:h-full h-fit lg:h-fit">
             <div className="relative">
-                <TeamAvatar name={currentTeamData?.name || ''} className="w-20 h-20 text-3xl" />
+                <TeamAvatar name={currentTeamData?.name || ''} className="w-16 h-16 md:w-20 md:h-20 text-3xl" />
                 <div className="absolute bottom-0 right-0 btn btn-xs btn-scordi btn-square border shadow animate-none">
                     <Users />
                 </div>
@@ -38,7 +38,7 @@ export const TeamProfileSection = memo(() => {
                 className="group relative cursor-pointer rounded-lg px-3 hover:bg-slate-100 active:bg-slate-200 transition"
                 onClick={editTeamName}
             >
-                <h3 className="inline-block text-lg font-semibold">{currentTeamData?.name || '-'}</h3>
+                <h3 className="inline-block text-base md:text-lg font-semibold">{currentTeamData?.name || '-'}</h3>
                 <button className="opacity-0 group-hover:opacity-100 absolute top-0 bottom-[3px] right-[-15px] transition">
                     <Pen fontSize={10} />
                 </button>
