@@ -12,7 +12,7 @@ export const ListPageSearchInput = memo((props: ListPageSearchInputProps) => {
 
     return (
         <label
-            className="block relative min-w-[200px]"
+            className="block relative w-full xs:min-w-[200px]"
             onKeyUp={(e) => {
                 if (e.key === 'Enter') {
                     onSearch && onSearch(val);

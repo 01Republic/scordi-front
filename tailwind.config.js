@@ -152,6 +152,9 @@ module.exports = {
                 'slide-left-infinite': 'slide-left-infinite 20s linear infinite',
                 'infinite-scroll': 'infinite-scroll 20s linear infinite',
             },
+            screens: {
+                xs: '560px',
+            },
         },
         container: {
             center: true,
