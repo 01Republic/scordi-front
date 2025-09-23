@@ -10,6 +10,8 @@ import {TeamStatCardList} from './TeamStatCardList';
 import {OrgTeamDetailPageTabContent, TabName} from './OrgTeamDetailPageTabContent';
 import {useUnmount} from '^hooks/useUnmount';
 import {currentTeamAtom} from '^models/Team/atom';
+import {TeamSubscriptionPriceSummary} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/TeamSubscriptionPriceSummary';
+import {currencyFormat, roundNumber} from '^utils/number';
 
 export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
     const orgId = useOrgIdParam();
@@ -34,11 +36,15 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
                         {text: currentTeamData?.name || '', active: true},
                     ]}
                 />
-                <div className={'grid grid-cols-4 gap-4 mt-4'}>
-                    <div className={'col-span-1'}>
-                        <TeamProfileSection />
-
-                        <TeamStatCardList changeCurrentTab={(tabName) => setTab(tabName)} />
+                <div className="flex flex-col lg:grid lg:grid-cols-4 gap-7 lg:gap-4 mt-4">
+                    <div className="sm:grid sm:grid-cols-4 md:grid-cols-5 lg:block lg:col-span-1 space-y-2 sm:space-x-2 sm:space-y-0 lg:space-y-2 lg:space-x-0">
+                        <div className="h-fit sm:h-full sm:col-span-1 md:col-span-2 lg:h-fit">
+                            <TeamProfileSection />
+                        </div>
+                        <div className="sm:col-span-3 space-y-2">
+                            <TeamSubscriptionPriceSummary />
+                            <TeamStatCardList changeCurrentTab={(tabName) => setTab(tabName)} />
+                        </div>
                     </div>
 
                     <div className={'col-span-3'}>

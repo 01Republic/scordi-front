@@ -15,16 +15,16 @@ export const TeamStatCard = memo((props: TeamStatCardProps) => {
 
     return (
         <div
-            className={`rounded-lg text-sm bg-white py-2 px-3 cursor-pointer transition shadow-lg ${className}`}
+            className={`rounded-lg text-sm bg-white py-1 sm:py-2 px-3 cursor-pointer transition shadow-lg ${className}`}
             onClick={onClick}
         >
-            <div className="flex items-center gap-1.5 mb-2">
+            <div className="flex items-center mb-1 gap-1.5 md:mb-2">
                 <Icon />
-                <p className="text-12">{title}</p>
+                <p className="text-12 whitespace-nowrap">{title}</p>
             </div>
 
             <div className="flex items-end">
-                <span className="text-28 font-medium text-black leading-none">
+                <span className="text-24 md:text-28 font-medium text-black leading-none">
                     {count ? (
                         count.toLocaleString()
                     ) : isLoading ? (
