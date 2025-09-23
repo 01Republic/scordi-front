@@ -31,7 +31,8 @@ module.exports = {
         },
         extend: {
             screens: {
-                xs: '450px',
+                xss: '450px',
+                xs: '560px',
             },
             colors: {
                 'brand-1': '#0066FF',
@@ -154,9 +155,6 @@ module.exports = {
             animation: {
                 'slide-left-infinite': 'slide-left-infinite 20s linear infinite',
                 'infinite-scroll': 'infinite-scroll 20s linear infinite',
-            },
-            screens: {
-                xs: '560px',
             },
         },
         container: {
