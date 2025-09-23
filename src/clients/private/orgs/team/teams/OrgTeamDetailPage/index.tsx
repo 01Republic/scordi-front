@@ -42,6 +42,7 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
                             <TeamProfileSection />
                         </div>
                         <div className="sm:col-span-3 space-y-2">
+                            <TeamSubscriptionPriceSummary />
                             <TeamStatCardList changeCurrentTab={(tabName) => setTab(tabName)} />
                         </div>
                     </div>
