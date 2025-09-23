@@ -19,23 +19,27 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
     const currentPage = pagination.currentPage;
 
     return (
-        <div className="flex items-center gap-6">
-            <div>
-                전체{' '}
-                <span>
+        <div className="flex items-center gap-3 sm:gap-6">
+            <div className="flex gap-1">
+                <span className="hidden md:flex">전체</span>
+
+                <div className="flex">
                     <span>{totalCount.toLocaleString()}</span>
-                    {unit}
-                </span>{' '}
-                중{' '}
-                <span>
+                    <span className="hidden md:flex">{unit}</span>
+                </div>
+
+                <span className="hidden md:flex">중</span>
+                <span className="flex md:hidden">/</span>
+
+                <div className="flex">
                     <span>{currentCount.toLocaleString()}</span>
-                    {unit}
-                </span>
+                    <span className="hidden md:flex">{unit}</span>
+                </div>
             </div>
 
             {onChangePerPage && (
                 <div className="flex items-center gap-2">
-                    <div>최대 표시</div>
+                    <span className="hidden md:flex">최대 표시</span>
                     <select
                         className="select select-sm select-bordered"
                         key={totalCount}
@@ -57,14 +61,14 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
                 <div className="flex items-center gap-2">
                     <PageButton onClick={() => movePage(currentPage - 1)} disabled={pagination.currentPage <= 1}>
                         <ChevronLeft fontSize={14} />
-                        <span>이전</span>
+                        <span className="hidden md:flex">이전</span>
                     </PageButton>
 
                     <PageButton
                         onClick={() => movePage(currentPage + 1)}
                         disabled={pagination.totalPage <= pagination.currentPage}
                     >
-                        <span>다음</span>
+                        <span className="hidden md:flex">다음</span>
                         <ChevronRight fontSize={14} />
                     </PageButton>
                 </div>
