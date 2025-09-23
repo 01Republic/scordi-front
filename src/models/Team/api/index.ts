@@ -3,6 +3,8 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto} from '^models/Team/type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
+import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
+import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
 
 export const teamApi = {
     index(orgId: number, params?: FindAllTeamQueryDto) {
@@ -28,6 +30,11 @@ export const teamApi = {
     destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/teams/${id}`;
         return api.delete<TeamDto>(url);
+    },
+
+    summaryByTeam(orgId: number, id: number, params: RangeQueryDto) {
+        const url = `/organizations/${orgId}/teams/${id}/billing_histories/summary`;
+        return api.get<SummaryOfBillingHistoriesDto>(url, {params}).then(oneDtoOf(SummaryOfBillingHistoriesDto));
     },
 
     subscriptions: {
