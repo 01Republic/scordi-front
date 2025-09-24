@@ -4,7 +4,7 @@ import {TabName} from './OrgTeamDetailPageTabContent';
 import {TeamStatCard} from './TeamStatCard';
 import {useUnmount} from '^hooks/useUnmount';
 import {debounce} from 'lodash';
-import {CreditCard, LayoutGrid, Receipt, RotateCw, Users} from 'lucide-react';
+import {CircleDollarSign, CreditCard, LayoutGrid, Receipt, ReceiptText, RotateCw, Users} from 'lucide-react';
 import {teamIdParamState, useIdParam, useOrgIdParam} from '^atoms/common';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useQueryClient} from '@tanstack/react-query';
@@ -49,7 +49,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
 
             <div className="grid grid-cols-4 md:lg:grid-cols-2 gap-1">
                 <TeamStatCard
-                    Icon={() => <Users fontSize={15} className="text-yellow-600 hidden xss:flex" />}
+                    Icon={() => <Users fontSize={16} className="text-pink-400 hidden xss:flex" />}
                     title="구성원"
                     count={viewData ? viewData.teamMemberCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
@@ -57,7 +57,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     isLoading={loading}
                 />
                 <TeamStatCard
-                    Icon={() => <LayoutGrid fontSize={13} className="text-scordi-500 hidden xss:flex" />}
+                    Icon={() => <LayoutGrid fontSize={16} className="text-scordi-500 hidden xss:flex" />}
                     title="구독"
                     count={viewData ? viewData.subscriptionCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
@@ -65,7 +65,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     isLoading={loading}
                 />
                 <TeamStatCard
-                    Icon={() => <CreditCard fontSize={14} className="text-green-600 hidden xss:flex" />}
+                    Icon={() => <CircleDollarSign fontSize={16} className="text-green-400 hidden xss:flex" />}
                     title="결제수단"
                     count={viewData ? viewData.creditCardCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
@@ -73,7 +73,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     isLoading={loading}
                 />
                 <TeamStatCard
-                    Icon={() => <Receipt fontSize={14} className="text-blue-600 hidden xss:flex" />}
+                    Icon={() => <ReceiptText fontSize={16} className="text-cyan-400 hidden xss:flex -mx-[0.5px]" />}
                     title="청구서"
                     count={viewData ? viewData.invoiceAccountCount : 0}
                     className={`text-gray-500 ${loading ? 'animate-pulse' : ''}`}
